@@ -17,6 +17,8 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 import HomeIcon from "@material-ui/icons/Home";
 import VideocamIcon from "@material-ui/icons/Videocam";
+import NotInterestedIcon from "@material-ui/icons/NotInterested";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import {
   Button,
@@ -205,8 +207,30 @@ export default function Navigation() {
             className={classes.link}
             to="/stitching/violationLog"
           >
-            <VideocamIcon className={classes.icon} />
+            <NotInterestedIcon className={classes.icon} />
             Violation Log
+          </NavLink>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/stitching/videoWall"
+          >
+            <VideocamIcon className={classes.icon} />
+            Video Wall
+          </NavLink>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/stitching/setting"
+          >
+            <SettingsIcon className={classes.icon} />
+            Setting
           </NavLink>
         </ListItem>
         <Divider />

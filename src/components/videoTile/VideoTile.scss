@@ -1,0 +1,48 @@
+.videobox {
+  border-radius: 20px;
+  position: relative;
+  padding: 1rem;
+}
+.videobox .live {
+  position: absolute;
+  background-color: red;
+  top: 20%;
+  right: 5%;
+  color: white;
+  padding: 4px 8px;
+  font-size: 10px;
+}
+.videobox .live::before {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background-color: red;
+  content: "";
+  left: -50%;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: motion 0.5s infinite;
+}
+@keyframes motion {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: red;
+  }
+}
+
+.videoTitle {
+  background-color: #f68f1d;
+  color: white;
+  text-align: center;
+  padding: 10px 0px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.videobox img {
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

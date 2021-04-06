@@ -271,6 +271,7 @@ function DonutChart(props) {
             <h6
               style={{
                 color: "#406E92",
+                textAlign: "center",
               }}
             >
               {Math.round(
@@ -311,6 +312,7 @@ function DonutChart(props) {
             <h6
               style={{
                 color: "rgb(169 127 0)",
+                textAlign: "center",
               }}
             >
               {props.idleDueToWorkerUnavailable}
@@ -346,6 +348,7 @@ function DonutChart(props) {
             <h6
               style={{
                 color: "#F9B263",
+                textAlign: "center",
               }}
             >
               {props.feedUnavailibilityDuration}
@@ -381,6 +384,7 @@ function DonutChart(props) {
             <h6
               style={{
                 color: "#F16230",
+                textAlign: "center",
               }}
             >
               {props.other}

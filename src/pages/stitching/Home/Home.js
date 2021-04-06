@@ -20,6 +20,8 @@ import {
 } from "../../../services/api.service";
 import GraphData from "./GraphData";
 import TableData from "./TableData";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 function Home() {
   // State
@@ -371,6 +373,7 @@ function Home() {
           style={{ margin: "10px" }}
           onClick={dateFilter}
         >
+          <FilterListIcon />
           Filter
         </Button>
       </Grid>
@@ -388,15 +391,12 @@ function Home() {
           color="primary"
           // style={{ margin: "10px" }}
           // onClick={dateFilter}
-          // onClick={() => {
-          //   getWorkerData();
-          //   getFirstDay_LastDay();
-          //   loadData();
-          //   setLOAD(true);
-          //   setInputCTR([]);
-          //   setInputMACHINEid([]);
-          // }}
+          onClick={() => {
+            getFirstDay_LastDay();
+            loadData();
+          }}
         >
+          <RefreshIcon />
           Refresh
         </Button>
       </Grid>
