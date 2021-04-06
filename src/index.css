@@ -1,13 +1,35 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.MuiIconButton-colorInherit {
+  color: #0e4a7b !important;
+}
+.makeStyles-title-76 {
+  color: #0e4a7b !important;
+}
+.MuiAppBar-colorPrimary {
+  color: #0e4a7b !important;
+  background-color: #ffffff !important;
+}
+/* .MuiListItem-gutters {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+} */
+.MuiTableCell-root {
+  white-space: nowrap;
+}
+.MuiPaper-elevation2 {
+  width: 100%;
+}
+.MuiButtonBase-root.MuiTab-root.MuiTab-textColorInherit.Mui-selected {
+  background-color: #f68f1d !important;
+  color: white !important;
+  border-radius: 5px !important;
+}
+.PrivateTabIndicator-colorSecondary-165 {
+  background-color: #0e4a7b !important;
 }

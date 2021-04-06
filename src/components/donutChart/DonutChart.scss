@@ -1,0 +1,291 @@
+.donutCard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.donutCard .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.donutCard .top p {
+  font-size: 12px;
+}
+
+.donutCard .center-text {
+  /* display: flex; */
+  align-items: center;
+  margin: auto;
+  margin-bottom: 4px;
+  justify-content: space-between;
+}
+
+.donutCard .leftTile {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.donutCard .leftTile .chart {
+  margin: auto;
+}
+
+.donutCard .rightTile {
+  width: 50%;
+  height: fit-content;
+  margin: auto;
+}
+
+.donutCard .center-text p {
+  font-size: 12px;
+}
+
+.dots {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+
+.dotBlue {
+  background-color: #094573;
+}
+
+.dotYellow {
+  background-color: #ffce38;
+}
+
+.dotOrange {
+  background-color: #ffa643;
+}
+
+.dotRed {
+  background-color: #f16230;
+}
+
+#overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.808);
+  font-size: 24px;
+  z-index: 5;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 80vw;
+  border-radius: 20px;
+}
+
+.donutCardSimple {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.donutCardSimple::after {
+  content: "COMING SOON";
+  color: white;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(1, 1, 1, 0.75);
+}
+
+.donutCardSimple .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.donutCardSimple .top p {
+  font-size: 12px;
+}
+
+.GraphCardSimple .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.GraphCardSimple .top p {
+  font-size: 12px;
+}
+
+.GraphCardSimple .bottom {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  justify-content: space-between;
+}
+
+.GraphCardSimple .bottom p {
+  font-size: 12px;
+}
+
+#age-native-required {
+  font-size: 12px;
+}
+
+.donutCardSimple .center-text {
+  /* display: flex; */
+  align-items: center;
+  margin: auto;
+  margin-bottom: 8px;
+  justify-content: space-between;
+}
+
+.donutCardSimple .center-text p {
+  font-size: 12px;
+}
+
+.donutCardSimple .chart {
+  margin: auto;
+  width: 100%;
+}
+
+.mid {
+  padding: 0px 20px;
+}
+
+.cont1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.chart1 {
+  padding: 0px 50px !important;
+  width: 100%;
+}
+
+.legend {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.donBlue {
+  min-width: 10px;
+  min-height: 10px;
+  background-color: #094573;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 2px;
+}
+
+.legBlue {
+  background-color: rgba(9, 69, 115, 0.308);
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.legBlue1 {
+  background-color: rgba(9, 69, 115, 0.308);
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+  margin-left: 10px;
+  padding: 0px 10px;
+}
+
+.donYellow {
+  min-width: 10px;
+  min-height: 10px;
+  background-color: #ffce38;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 2px;
+}
+
+.legYellow {
+  background-color: rgba(255, 206, 56, 0.308);
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.donOrange {
+  min-width: 10px;
+  min-height: 10px;
+  background-color: #ffa643;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 2px;
+}
+
+.legOrange {
+  background-color: rgba(255, 166, 67, 0.308);
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.donRed {
+  min-width: 10px;
+  min-height: 10px;
+  background-color: #f16230;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 2px;
+}
+
+.legRed {
+  background-color: rgba(241, 98, 48, 0.308);
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.chartDate {
+  margin-left: 10px;
+  font-weight: 900;
+  background-color: #094573;
+  width: max-content;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+}
+@media only screen and (max-width: 425px) {
+  .donutCard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .donutCard .leftTile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .donutCard .leftTile .chart {
+    margin: auto;
+  }
+
+  .donutCard .rightTile {
+    width: 100%;
+    height: fit-content;
+    margin: auto;
+  }
+}
