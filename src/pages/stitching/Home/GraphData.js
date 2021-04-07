@@ -15,21 +15,17 @@ function GraphData({ workerUtilization, crowdingInstance }) {
       </Grid>
       <Grid container item xs={12} sm={6} lg={4}>
         <Paper style={{ width: "100%", padding: "8px" }} elevation={5}>
-          {workerUtilization ? (
-            <DonutChart
-              totalTime={workerUtilization.totalTime}
-              idleDueToWorkerUnavailable={
-                workerUtilization.idleDueToWorkerUnavailable
-              }
-              feedUnavailibilityDuration={
-                workerUtilization.feedUnavailibilityDuration
-              }
-              other={workerUtilization.other}
-              utilizationPercentage={workerUtilization.utilizationPercentage}
-            />
-          ) : (
-            <Loader />
-          )}
+          <DonutChart
+            totalTime={workerUtilization.totalTime}
+            idleDueToWorkerUnavailable={
+              workerUtilization.idleDueToWorkerUnavailable
+            }
+            feedUnavailibilityDuration={
+              workerUtilization.feedUnavailibilityDuration
+            }
+            other={workerUtilization.other}
+            utilizationPercentage={workerUtilization.utilizationPercentage}
+          />
         </Paper>
       </Grid>
       <Grid container item xs={12} sm={12} lg={5}>

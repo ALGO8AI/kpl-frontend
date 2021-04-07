@@ -2,6 +2,7 @@ import React from "react";
 import Home from "../Home/Home";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
+import ViolationDetails from "../violationDetails/ViolationDetails";
 import ViolationLog from "../violationLog/ViolationLog";
 import Navigation from "./Navigation";
 
@@ -15,7 +16,7 @@ function Stitching(props) {
     // settings: <Settings />,
     // videoWall: <VideoWall />,
     // yourData: <YourData />,
-    // violationDetails: <ViolationDetails id={props.match?.params?.id} />,
+    violationDetails: <ViolationDetails id={props.match.params.id} />,
   };
 
   const logout = () => {

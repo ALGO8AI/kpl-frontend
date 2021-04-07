@@ -10,7 +10,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-// import "./setting.css";
+import "./Setting.scss";
 import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 
@@ -92,7 +92,9 @@ function Setting() {
         <AlertAndNotification />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <div id="overlay">COMING SOONsss...</div>
+        <div className="overlay">
+          <Typography variant="h2">Coming Soon</Typography>
+        </div>
       </TabPanel>
     </Grid>
   );

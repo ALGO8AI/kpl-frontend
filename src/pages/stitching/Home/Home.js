@@ -234,7 +234,6 @@ function Home() {
       container
       alignItems="center"
       style={{ padding: "18px 6px 4px 6px" }}
-      spacing={2}
     >
       <Grid
         container
@@ -394,6 +393,8 @@ function Home() {
           onClick={() => {
             getFirstDay_LastDay();
             loadData();
+            setInputCTR([]);
+            setInputMACHINEid([]);
           }}
         >
           <RefreshIcon />
