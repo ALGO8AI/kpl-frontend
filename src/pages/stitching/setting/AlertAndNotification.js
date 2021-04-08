@@ -27,25 +27,44 @@ import ManageRoles from "./ManageRoles";
 
 function AlertAndNotification() {
   const [crowding, setCrowding] = useState({
-    alertCrowding: false,
+    alert: false,
     manager: "",
-    plantHead: "",
+    helper: "",
     supervisor: "",
     priority: "",
+    wingIncharge: "",
   });
   const [workerIdle, setWorkerIdle] = useState({
-    alertWorker: false,
+    alert: false,
     manager: "",
-    plantHead: "",
+    helper: "",
     supervisor: "",
     priority: "",
+    wingIncharge: "",
   });
   const [feed, setFeed] = useState({
-    alertFeed: false,
+    alert: false,
     manager: "",
-    plantHead: "",
+    helper: "",
     supervisor: "",
     priority: "",
+    wingIncharge: "",
+  });
+  const [machineBreak, setMachineBreak] = useState({
+    alert: false,
+    manager: "",
+    helper: "",
+    supervisor: "",
+    priority: "",
+    wingIncharge: "",
+  });
+  const [activeMonitor, setactiveMonitor] = useState({
+    alert: false,
+    manager: "",
+    helper: "",
+    supervisor: "",
+    priority: "",
+    wingIncharge: "",
   });
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
@@ -54,68 +73,119 @@ function AlertAndNotification() {
     // console.log(workerIdle);
     // console.log(feed);
     const DATA = {
-      crowding: {
-        instance: "crowding",
-        alertStatus: crowding.alertCrowding ? 1 : 0,
+      Crowding: {
+        instance: "Crowding",
+        alertStatus: crowding.alert ? 1 : 0,
         manager: Number(crowding.manager),
         supervisor: Number(crowding.supervisor),
-        plantHead: Number(crowding.plantHead),
+        helper: Number(crowding.helper),
         priority: crowding.priority,
+        wingIncharge: crowding.wingIncharge,
       },
-      feedUnavailability: {
-        instance: "feedUnavailability",
-        alertStatus: feed.alertFeed ? 1 : 0,
+      "Feed Availability": {
+        instance: "Feed Availability",
+        alertStatus: feed.alert ? 1 : 0,
         manager: Number(feed.manager),
         supervisor: Number(feed.supervisor),
-        plantHead: Number(feed.plantHead),
+        helper: Number(feed.helper),
         priority: feed.priority,
+        wingIncharge: feed.wingIncharge,
       },
-      workerIdle: {
-        instance: "workerIdle",
-        alertStatus: workerIdle.alertWorker ? 1 : 0,
+      "Worker Not Available": {
+        instance: "Worker Not Available",
+        alertStatus: workerIdle.alert ? 1 : 0,
         manager: Number(workerIdle.manager),
         supervisor: Number(workerIdle.supervisor),
-        plantHead: Number(workerIdle.plantHead),
+        helper: Number(workerIdle.helper),
         priority: workerIdle.priority,
+        wingIncharge: workerIdle.wingIncharge,
+      },
+      "Machine Breakdown": {
+        instance: "Machine Breakdown",
+        alertStatus: machineBreak.alert ? 1 : 0,
+        manager: Number(machineBreak.manager),
+        supervisor: Number(machineBreak.supervisor),
+        helper: Number(machineBreak.helper),
+        priority: machineBreak.priority,
+        wingIncharge: machineBreak.wingIncharge,
+      },
+
+      "Checker Active Monitoring": {
+        instance: "Checker Active Monitoring",
+        alertStatus: activeMonitor.alert ? 1 : 0,
+        manager: Number(activeMonitor.manager),
+        supervisor: Number(activeMonitor.supervisor),
+        helper: Number(activeMonitor.helper),
+        priority: activeMonitor.priority,
+        wingIncharge: activeMonitor.wingIncharge,
       },
     };
 
     // console.log(DATA);
-    await stitchingAlert(DATA).then((x) => {
+    try {
+      const x = await stitchingAlert(DATA);
       console.log(x);
       setMsg(x.msg);
       setOpen(true);
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
   const loadData = async () => {
     try {
       const x = await loadStitchingAlertData();
+      console.log(x);
       let CROWD = x.crowding[0];
       let IDLE = x.workerIdle[0];
       let FEED = x.feedUnavailability[0];
+      let BREAK = x.machineBreakdown[0];
+      let ACTIVE = x.checkerActiveMonitoring[0];
       setCrowding({
         ...crowding,
         manager: CROWD.manager,
-        plantHead: CROWD.plantHead,
+        helper: CROWD.helper,
         supervisor: CROWD.supervisor,
         priority: CROWD.priority,
-        alertCrowding: Boolean(CROWD.alertStatus) ? true : false,
+        wingIncharge: CROWD.wingIncharge,
+        alert: Boolean(CROWD.alertStatus) ? true : false,
       });
       setWorkerIdle({
         ...workerIdle,
         manager: IDLE.manager,
-        plantHead: IDLE.plantHead,
+        helper: IDLE.helper,
         supervisor: IDLE.supervisor,
         priority: IDLE.priority,
-        alertWorker: Boolean(IDLE.alertStatus) ? true : false,
+        wingIncharge: IDLE.wingIncharge,
+
+        alert: Boolean(IDLE.alertStatus) ? true : false,
       });
       setFeed({
         ...feed,
         manager: FEED.manager,
-        plantHead: FEED.plantHead,
+        helper: FEED.helper,
         supervisor: FEED.supervisor,
         priority: FEED.priority,
-        alertFeed: Boolean(FEED.alertStatus) ? true : false,
+        wingIncharge: FEED.wingIncharge,
+        alert: Boolean(FEED.alertStatus) ? true : false,
+      });
+
+      setMachineBreak({
+        ...machineBreak,
+        manager: BREAK.manager,
+        helper: BREAK.helper,
+        supervisor: BREAK.supervisor,
+        priority: BREAK.priority,
+        wingIncharge: BREAK.wingIncharge,
+        alert: Boolean(BREAK.alertStatus) ? true : false,
+      });
+      setactiveMonitor({
+        ...activeMonitor,
+        manager: ACTIVE.manager,
+        helper: ACTIVE.helper,
+        supervisor: ACTIVE.supervisor,
+        priority: ACTIVE.priority,
+        wingIncharge: ACTIVE.wingIncharge,
+        alert: Boolean(ACTIVE.alertStatus) ? true : false,
       });
     } catch (err) {
       console.log(err);
@@ -137,7 +207,7 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "unset", marginBottom: "12px" }}
         >
-          <Grid item xs={3}>
+          <Grid item xs={1}>
             <h4>
               <ReportProblemIcon />
             </h4>
@@ -149,7 +219,10 @@ function AlertAndNotification() {
             <h4>Manager</h4>
           </Grid>
           <Grid item xs={2}>
-            <h4>Plant Head</h4>
+            <h4>Wing Incharge</h4>
+          </Grid>
+          <Grid item xs={2}>
+            <h4>Helper</h4>
           </Grid>
           <Grid item xs={2}>
             <h4>Supervisor</h4>
@@ -166,20 +239,20 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={3}>
+          <Grid item xs={1}>
             Crowding
           </Grid>
           <Grid item xs={1}>
             <Checkbox
-              value={crowding.alertCrowding}
-              checked={crowding.alertCrowding}
+              value={crowding.alert}
+              checked={crowding.alert}
               name="alertCrowding"
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
                 setCrowding({
                   ...crowding,
-                  alertCrowding: e.target.checked,
+                  alert: e.target.checked,
                 })
               }
             />
@@ -206,9 +279,22 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) =>
-                setCrowding({ ...crowding, plantHead: e.target.value })
+                setCrowding({ ...crowding, wingIncharge: e.target.value })
               }
-              value={crowding.plantHead}
+              value={crowding.wingIncharge}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setCrowding({ ...crowding, helper: e.target.value })
+              }
+              value={crowding.helper}
             />
           </Grid>
 
@@ -253,20 +339,20 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={3}>
+          <Grid item xs={1}>
             Worker Idle
           </Grid>
           <Grid item xs={1}>
             <Checkbox
-              value={workerIdle.alertWorker}
-              checked={workerIdle.alertWorker}
+              value={workerIdle.alert}
+              checked={workerIdle.alert}
               name="alertCrowding"
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
                 setWorkerIdle({
                   ...workerIdle,
-                  alertWorker: e.target.checked,
+                  alert: e.target.checked,
                 })
               }
             />
@@ -293,9 +379,22 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) =>
-                setWorkerIdle({ ...workerIdle, plantHead: e.target.value })
+                setWorkerIdle({ ...workerIdle, wingIncharge: e.target.value })
               }
-              value={workerIdle.plantHead}
+              value={workerIdle.wingIncharge}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setWorkerIdle({ ...workerIdle, helper: e.target.value })
+              }
+              value={workerIdle.helper}
             />
           </Grid>
 
@@ -342,20 +441,20 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={3}>
+          <Grid item xs={1}>
             Feed Availability
           </Grid>
           <Grid item xs={1}>
             <Checkbox
-              value={feed.alertFeed}
-              checked={feed.alertFeed}
+              value={feed.alert}
+              checked={feed.alert}
               name="alertCrowding"
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
                 setFeed({
                   ...feed,
-                  alertFeed: e.target.checked,
+                  alert: e.target.checked,
                 })
               }
             />
@@ -379,8 +478,21 @@ function AlertAndNotification() {
               variant="outlined"
               placeholder="in Mins"
               inputProps={{ type: "number" }}
-              onChange={(e) => setFeed({ ...feed, plantHead: e.target.value })}
-              value={feed.plantHead}
+              onChange={(e) =>
+                setFeed({ ...feed, wingIncharge: e.target.value })
+              }
+              value={feed.wingIncharge}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) => setFeed({ ...feed, helper: e.target.value })}
+              value={feed.helper}
             />
           </Grid>
 
@@ -403,6 +515,216 @@ function AlertAndNotification() {
               <Select
                 onChange={(e) => setFeed({ ...feed, priority: e.target.value })}
                 value={feed.priority}
+                // label="Priority"
+              >
+                <MenuItem value={"low"}>Low</MenuItem>
+                <MenuItem value={"medium"}>Medium</MenuItem>
+                <MenuItem value={"high"}>High</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={1}
+          item
+          xs={12}
+          style={{ alignItems: "center", marginBottom: "12px" }}
+        >
+          <Grid item xs={1}>
+            Machine Breakdown
+          </Grid>
+          <Grid item xs={1}>
+            <Checkbox
+              value={machineBreak.alert}
+              checked={machineBreak.alert}
+              name="alertCrowding"
+              color="primary"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+              onChange={(e) =>
+                setMachineBreak({
+                  ...machineBreak,
+                  alert: e.target.checked,
+                })
+              }
+            />
+          </Grid>
+
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setMachineBreak({ ...machineBreak, manager: e.target.value })
+              }
+              value={machineBreak.manager}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setMachineBreak({
+                  ...machineBreak,
+                  wingIncharge: e.target.value,
+                })
+              }
+              value={machineBreak.wingIncharge}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setMachineBreak({ ...machineBreak, helper: e.target.value })
+              }
+              value={machineBreak.helper}
+            />
+          </Grid>
+
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setMachineBreak({ ...machineBreak, supervisor: e.target.value })
+              }
+              value={machineBreak.supervisor}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl variant="outlined" fullWidth>
+              {/* <InputLabel id="demo-simple-select-outlined-label">
+                  Priority
+                </InputLabel> */}
+              <Select
+                onChange={(e) =>
+                  setMachineBreak({ ...machineBreak, priority: e.target.value })
+                }
+                value={machineBreak.priority}
+                // label="Priority"
+              >
+                <MenuItem value={"low"}>Low</MenuItem>
+                <MenuItem value={"medium"}>Medium</MenuItem>
+                <MenuItem value={"high"}>High</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={1}
+          item
+          xs={12}
+          style={{ alignItems: "center", marginBottom: "12px" }}
+        >
+          <Grid item xs={1}>
+            Active Monitoring
+          </Grid>
+          <Grid item xs={1}>
+            <Checkbox
+              value={activeMonitor.alert}
+              checked={activeMonitor.alert}
+              name="alertCrowding"
+              color="primary"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+              onChange={(e) =>
+                setactiveMonitor({
+                  ...activeMonitor,
+                  alert: e.target.checked,
+                })
+              }
+            />
+          </Grid>
+
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setactiveMonitor({ ...activeMonitor, manager: e.target.value })
+              }
+              value={activeMonitor.manager}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setactiveMonitor({
+                  ...activeMonitor,
+                  wingIncharge: e.target.value,
+                })
+              }
+              value={activeMonitor.wingIncharge}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setactiveMonitor({ ...activeMonitor, helper: e.target.value })
+              }
+              value={activeMonitor.helper}
+            />
+          </Grid>
+
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-basic"
+              label="Duration"
+              variant="outlined"
+              placeholder="in Mins"
+              inputProps={{ type: "number" }}
+              onChange={(e) =>
+                setactiveMonitor({
+                  ...activeMonitor,
+                  supervisor: e.target.value,
+                })
+              }
+              value={activeMonitor.supervisor}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl variant="outlined" fullWidth>
+              {/* <InputLabel id="demo-simple-select-outlined-label">
+                  Priority
+                </InputLabel> */}
+              <Select
+                onChange={(e) =>
+                  setactiveMonitor({
+                    ...activeMonitor,
+                    priority: e.target.value,
+                  })
+                }
+                value={activeMonitor.priority}
                 // label="Priority"
               >
                 <MenuItem value={"low"}>Low</MenuItem>

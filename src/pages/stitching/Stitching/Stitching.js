@@ -1,5 +1,6 @@
 import React from "react";
 import Home from "../Home/Home";
+import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
 import ViolationDetails from "../violationDetails/ViolationDetails";
@@ -12,7 +13,7 @@ function Stitching(props) {
     violationLog: <ViolationLog />,
     videoWall: <VideoWall />,
     setting: <Setting />,
-    // layoutView: <LayoutView />,
+    layoutView: <LayoutView />,
     // settings: <Settings />,
     // videoWall: <VideoWall />,
     // yourData: <YourData />,

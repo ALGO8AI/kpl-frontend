@@ -4,6 +4,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   TextField,
 } from "@material-ui/core";
@@ -22,6 +23,10 @@ import GraphData from "./GraphData";
 import TableData from "./TableData";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import Loader from "../../../components/loader/Loader";
+import DonutChartSimple from "../../../components/donutChartSimple/DonutChartSimple";
+import DonutChart from "../../../components/donutChart/DonutChart";
+import AreaChart from "../../../components/areaChart/AreaChart";
 
 function Home() {
   // State
@@ -37,8 +42,14 @@ function Home() {
   const [homeDateTable, setHomeDateTable] = useState([]);
   const [homeMachineTable, setHomeMachineTable] = useState([]);
   const [homeCTRTable, setHomeCTRTable] = useState([]);
-  const [workerUtilization, setWorkerUtilization] = useState([]);
-  const [crowdingInstance, setCrowdingInstance] = useState([]);
+  const [workerUtilization, setWorkerUtilization] = useState({
+    data: [],
+    loading: true,
+  });
+  const [crowdingInstance, setCrowdingInstance] = useState({
+    data: [],
+    loading: true,
+  });
 
   // Functions
 
@@ -78,10 +89,10 @@ function Home() {
       const x = await homepageData();
 
       const y = await workerUtilizationData();
-      setWorkerUtilization(y.workerUtilization);
+      setWorkerUtilization({ data: y.workerUtilization, loading: false });
 
       const z = await crowdingInstanceData();
-      setCrowdingInstance(z.crowdingInstancesData);
+      setCrowdingInstance({ data: z.crowdingInstancesData, loading: false });
 
       const homeWorkerTable = await summaryByWorkerData();
       setHomeWorkerTable(homeWorkerTable.detailedSummaryByWorker);
@@ -135,10 +146,17 @@ function Home() {
         );
         // console.log(x);
 
-        setWorkerUtilization(x.workerUtilization);
+        setWorkerUtilization({
+          data: x.workerUtilization,
+          loading: false,
+        });
+
         const y = await crowdingInstanceData(FROM, TO);
         // console.log(`y ${y}`);
-        setCrowdingInstance(y.crowdingInstancesData);
+        setCrowdingInstance({
+          data: y.crowdingInstancesData,
+          loading: false,
+        });
 
         const homeWorkerTable = await summaryByWorkerData(
           FROM,
@@ -401,10 +419,67 @@ function Home() {
           Refresh
         </Button>
       </Grid>
-      <GraphData
+      {/* <GraphData
         workerUtilization={workerUtilization}
         crowdingInstance={crowdingInstance}
-      />
+      /> */}
+
+      <Grid container xs={12} spacing={2} style={{ padding: "12px 16px" }}>
+        <Grid container item xs={12} sm={6} lg={3}>
+          <Paper style={{ width: "100%", padding: "8px" }} elevation={5}>
+            <DonutChartSimple />
+          </Paper>
+        </Grid>
+        <Grid container item xs={12} sm={6} lg={4}>
+          <Paper
+            style={{
+              width: "100%",
+              padding: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            elevation={5}
+          >
+            {workerUtilization.loading ? (
+              <Loader />
+            ) : (
+              <DonutChart
+                totalTime={workerUtilization.data.totalTime}
+                idleDueToWorkerUnavailable={
+                  workerUtilization.data.idleDueToWorkerUnavailable
+                }
+                feedUnavailibilityDuration={
+                  workerUtilization.data.feedUnavailibilityDuration
+                }
+                other={workerUtilization.data.other}
+                utilizationPercentage={
+                  workerUtilization.data.utilizationPercentage
+                }
+              />
+            )}
+          </Paper>
+        </Grid>
+        <Grid container item xs={12} sm={12} lg={5}>
+          <Paper
+            elevation={5}
+            style={{
+              width: "100%",
+              padding: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {crowdingInstance.loading ? (
+              <Loader />
+            ) : (
+              <AreaChart data={crowdingInstance.data} />
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+
       <TableData
         homeWorkerTable={homeWorkerTable}
         homeDateTable={homeDateTable}

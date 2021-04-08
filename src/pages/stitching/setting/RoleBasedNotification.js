@@ -35,13 +35,18 @@ function RoleBasedNotification() {
     push: false,
   });
 
-  const [plantHead, setPlantHead] = useState({
+  const [helper, setHelper] = useState({
     mail: false,
     text: false,
     push: false,
   });
 
   const [supervisor, setSupervisor] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+  const [wingIncharge, setWingIncharge] = useState({
     mail: false,
     text: false,
     push: false,
@@ -55,31 +60,40 @@ function RoleBasedNotification() {
         sms: manager.text ? 1 : 0,
         push: manager.push ? 1 : 0,
       },
-      plantHead: {
-        mail: plantHead.mail ? 1 : 0,
-        sms: plantHead.text ? 1 : 0,
-        push: plantHead.push ? 1 : 0,
+      helper: {
+        mail: helper.mail ? 1 : 0,
+        sms: helper.text ? 1 : 0,
+        push: helper.push ? 1 : 0,
       },
       supervisor: {
         mail: supervisor.mail ? 1 : 0,
         sms: supervisor.text ? 1 : 0,
         push: supervisor.push ? 1 : 0,
       },
+      wingIncharge: {
+        mail: wingIncharge.mail ? 1 : 0,
+        sms: wingIncharge.text ? 1 : 0,
+        push: wingIncharge.push ? 1 : 0,
+      },
     };
 
-    await stitchingNotification(DATA).then((x) => {
+    try {
+      const x = await stitchingNotification(DATA);
       console.log(x);
       setMsg(x.msg);
       setOpen(true);
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
   const loadData = async () => {
     try {
       const x = await loadStitchingAlertData();
-      console.log(x.mode[2]);
+      console.log(x);
       let MANAGER = x.mode[2];
-      let PLANTHEAD = x.mode[0];
+      let HELPER = x.mode[3];
       let SUPERVISOR = x.mode[1];
+      let WINGINCHARGE = x.mode[0];
 
       setManager({
         ...manager,
@@ -88,11 +102,11 @@ function RoleBasedNotification() {
         push: Boolean(MANAGER.modeNotif) ? true : false,
       });
 
-      setPlantHead({
-        ...plantHead,
-        mail: Boolean(PLANTHEAD.modeMail) ? true : false,
-        text: Boolean(PLANTHEAD.modetext) ? true : false,
-        push: Boolean(PLANTHEAD.modeNotif) ? true : false,
+      setHelper({
+        ...helper,
+        mail: Boolean(HELPER.modeMail) ? true : false,
+        text: Boolean(HELPER.modetext) ? true : false,
+        push: Boolean(HELPER.modeNotif) ? true : false,
       });
 
       setSupervisor({
@@ -100,6 +114,13 @@ function RoleBasedNotification() {
         mail: Boolean(SUPERVISOR.modeMail) ? true : false,
         text: Boolean(SUPERVISOR.modetext) ? true : false,
         push: Boolean(SUPERVISOR.modeNotif) ? true : false,
+      });
+
+      setWingIncharge({
+        ...wingIncharge,
+        mail: Boolean(WINGINCHARGE.modeMail) ? true : false,
+        text: Boolean(WINGINCHARGE.modetext) ? true : false,
+        push: Boolean(WINGINCHARGE.modeNotif) ? true : false,
       });
     } catch (err) {
       console.log(err);
@@ -204,45 +225,46 @@ function RoleBasedNotification() {
           style={{ alignItems: "center" }}
         >
           <Grid item xs={3} className={Classes.box}>
-            Planthead
+            Wing Incharge
           </Grid>
           <Grid item xs={3} className={Classes.box}>
             <Checkbox
-              value={plantHead.mail}
-              checked={plantHead.mail}
+              value={wingIncharge.mail}
+              checked={wingIncharge.mail}
               name="alertCrowding"
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
-                setPlantHead({ ...plantHead, mail: e.target.checked })
+                setWingIncharge({ ...wingIncharge, mail: e.target.checked })
               }
             />
           </Grid>
           <Grid item xs={3} className={Classes.box}>
             <Checkbox
-              value={plantHead.text}
-              checked={plantHead.text}
+              value={wingIncharge.text}
+              checked={wingIncharge.text}
               name="alertCrowding"
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
-                setPlantHead({ ...plantHead, text: e.target.checked })
+                setWingIncharge({ ...wingIncharge, text: e.target.checked })
               }
             />
           </Grid>
           <Grid item xs={3} className={Classes.box}>
             <Checkbox
-              value={plantHead.push}
-              checked={plantHead.push}
+              value={wingIncharge.push}
+              checked={wingIncharge.push}
               name="alertCrowding"
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
-                setPlantHead({ ...plantHead, push: e.target.checked })
+                setWingIncharge({ ...wingIncharge, push: e.target.checked })
               }
             />
           </Grid>
         </Grid>
+
         <Grid
           item
           spacing={1}
@@ -291,6 +313,49 @@ function RoleBasedNotification() {
             />
           </Grid>
         </Grid>
+        <Grid
+          item
+          spacing={1}
+          container
+          xs={12}
+          md={12}
+          style={{ alignItems: "center" }}
+        >
+          <Grid item xs={3} className={Classes.box}>
+            Helper
+          </Grid>
+          <Grid item xs={3} className={Classes.box}>
+            <Checkbox
+              value={helper.mail}
+              checked={helper.mail}
+              name="alertCrowding"
+              color="primary"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+              onChange={(e) => setHelper({ ...helper, mail: e.target.checked })}
+            />
+          </Grid>
+          <Grid item xs={3} className={Classes.box}>
+            <Checkbox
+              value={helper.text}
+              checked={helper.text}
+              name="alertCrowding"
+              color="primary"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+              onChange={(e) => setHelper({ ...helper, text: e.target.checked })}
+            />
+          </Grid>
+          <Grid item xs={3} className={Classes.box}>
+            <Checkbox
+              value={helper.push}
+              checked={helper.push}
+              name="alertCrowding"
+              color="primary"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+              onChange={(e) => setHelper({ ...helper, push: e.target.checked })}
+            />
+          </Grid>
+        </Grid>
+
         <Grid item xs={6}>
           <Button
             variant="contained"

@@ -19,6 +19,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import SettingsIcon from "@material-ui/icons/Settings";
+import MapIcon from "@material-ui/icons/Map";
 
 import {
   Button,
@@ -220,6 +221,17 @@ export default function Navigation() {
           >
             <VideocamIcon className={classes.icon} />
             Video Wall
+          </NavLink>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/stitching/layoutView"
+          >
+            <MapIcon className={classes.icon} />
+            Layout View
           </NavLink>
         </ListItem>
         <Divider />
