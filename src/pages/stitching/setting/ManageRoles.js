@@ -128,7 +128,10 @@ function ManageRoles() {
           render: (x) => (
             <Button
               variant="contained"
-              color="primary"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+              }}
               onClick={() => {
                 handleClickOpen();
                 setData(x);
@@ -305,7 +308,10 @@ function ManageRoles() {
           </Button>
           <Button
             variant="contained"
-            color="primary"
+            style={{
+              backgroundColor: "#0e4a7b",
+              color: "#FFF",
+            }}
             onClick={() => {
               submitHandler(
                 data.uid,

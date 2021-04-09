@@ -24,6 +24,7 @@ import {
 import { Alert } from "@material-ui/lab";
 import RoleBasedNotification from "./RoleBasedNotification";
 import ManageRoles from "./ManageRoles";
+import AddUser from "./AddUser";
 
 function AlertAndNotification() {
   const [crowding, setCrowding] = useState({
@@ -762,6 +763,9 @@ function AlertAndNotification() {
       </Grid>
       <Grid container item xs={12} md={5} lg={3}>
         <RoleBasedNotification />
+      </Grid>
+      <Grid container item xs={4}>
+        <AddUser />
       </Grid>
       <Grid container item xs={12}>
         <ManageRoles />

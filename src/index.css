@@ -71,3 +71,6 @@
   background: linear-gradient(#3f51b5, #f68f1d);
   border-radius: 3px;
 }
+.MuiDialog-paperWidthSm {
+  max-width: 720px !important;
+}
