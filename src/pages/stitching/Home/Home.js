@@ -14,6 +14,7 @@ import {
   crowdingInstanceData,
   ctr_machineID,
   homepageData,
+  machineBreakdownData,
   machineData,
   summaryByViolationData,
   summaryByWorkerData,
@@ -47,6 +48,10 @@ function Home() {
     loading: true,
   });
   const [crowdingInstance, setCrowdingInstance] = useState({
+    data: [],
+    loading: true,
+  });
+  const [breakdownData, setBreakdownData] = useState({
     data: [],
     loading: true,
   });
@@ -86,7 +91,15 @@ function Home() {
   // load initial table data
   const loadData = async () => {
     try {
-      const x = await homepageData();
+      const x = await machineBreakdownData(
+        FROM,
+        TO,
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.machineID)
+      );
+      console.log(x);
+      setBreakdownData({ data: x.machineBreakdownData, loading: false });
 
       const y = await workerUtilizationData();
       setWorkerUtilization({ data: y.workerUtilization, loading: false });
@@ -425,9 +438,13 @@ function Home() {
       /> */}
 
       <Grid container xs={12} spacing={2} style={{ padding: "12px 16px" }}>
-        <Grid container item xs={12} sm={6} lg={3}>
+        <Grid container item xs={12} sm={6} lg={4}>
           <Paper style={{ width: "100%", padding: "8px" }} elevation={5}>
-            <DonutChartSimple />
+            {breakdownData.loading ? (
+              <Loader />
+            ) : (
+              <DonutChartSimple data={breakdownData.data} />
+            )}
           </Paper>
         </Grid>
         <Grid container item xs={12} sm={6} lg={4}>
@@ -435,9 +452,6 @@ function Home() {
             style={{
               width: "100%",
               padding: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
             }}
             elevation={5}
           >
@@ -460,15 +474,12 @@ function Home() {
             )}
           </Paper>
         </Grid>
-        <Grid container item xs={12} sm={12} lg={5}>
+        <Grid container item xs={12} sm={12} lg={4}>
           <Paper
             elevation={5}
             style={{
               width: "100%",
               padding: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
             }}
           >
             {crowdingInstance.loading ? (

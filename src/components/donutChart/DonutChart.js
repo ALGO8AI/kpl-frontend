@@ -8,6 +8,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   // formControl: {
@@ -73,26 +74,12 @@ function DonutChart(props) {
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
     labels: [
-      "Actual working hour %",
-      "Idle- Worker Unavailable %",
-      "Idle-feed unavailable %",
-      "Other %",
+      "Actual working hour",
+      "Idle- Worker Unavailable",
+      "Idle-feed unavailable",
+      "Other",
     ],
 
-    // title: {
-    //   text: "Worker Utilization",
-    //   align: "left",
-    //   margin: 10,
-    //   offsetX: 0,
-    //   offsetY: 0,
-    //   floating: false,
-    //   style: {
-    //     fontSize: "16px",
-    //     fontWeight: "bold",
-    //     fontFamily: undefined,
-    //     color: "#263238",
-    //   },
-    // },
     plotOptions: {
       pie: {
         donut: {
@@ -164,66 +151,57 @@ function DonutChart(props) {
   const SERIES2 = [100, 50, 25, 12.5];
 
   return (
-    <div className="donutCard">
-      <div className="leftTile">
-        <div className="top">
-          <p style={{ margin: "auto" }}> Worker Utilization </p>
-          {/* <FormControl required className={classes.formControl} disabled>
-            <Select
-              native
-              value={state.age}
-              onChange={handleChange}
-              name="age"
-              inputProps={{
-                id: "age-native-required",
-              }}
-            >
-              <option value={10}> Weekly </option>
-              <option value={20}> Monthly </option>
-              <option value={30}> Yearly </option>
-            </Select>
-          </FormControl> */}
-        </div>
-        <div className="chart">
-          <Chart
-            options={options}
-            series={[
-              Boolean(
-                Math.round(
-                  props.totalTime -
-                    (props.idleDueToWorkerUnavailable +
-                      props.feedUnavailibilityDuration +
-                      props.other)
-                )
-              )
-                ? Math.round(
+    <>
+      <div className="top">
+        <Typography
+          variant="h6"
+          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+        >
+          Worker Utilization
+        </Typography>
+      </div>
+      <div className="donutCard">
+        <div className="leftTile">
+          <div className="chart">
+            <Chart
+              options={options}
+              series={[
+                Boolean(
+                  Math.round(
                     props.totalTime -
                       (props.idleDueToWorkerUnavailable +
                         props.feedUnavailibilityDuration +
                         props.other)
                   )
-                : 0,
-              Boolean(props.idleDueToWorkerUnavailable)
-                ? props.idleDueToWorkerUnavailable
-                : 0,
-              Boolean(props.feedUnavailibilityDuration)
-                ? props.feedUnavailibilityDuration
-                : 0,
-              Boolean(props.other) ? props.other : 0,
+                )
+                  ? Math.round(
+                      props.totalTime -
+                        (props.idleDueToWorkerUnavailable +
+                          props.feedUnavailibilityDuration +
+                          props.other)
+                    )
+                  : 0,
+                Boolean(props.idleDueToWorkerUnavailable)
+                  ? props.idleDueToWorkerUnavailable
+                  : 0,
+                Boolean(props.feedUnavailibilityDuration)
+                  ? props.feedUnavailibilityDuration
+                  : 0,
+                Boolean(props.other) ? props.other : 0,
 
-              // Math.round(
-              //   props.totalTime -
-              //     (props.idleDueToWorkerUnavailable +
-              //       props.feedUnavailibilityDuration +
-              //       props.other)
-              // ),
-              // props.idleDueToWorkerUnavailable,
-              // props.feedUnavailibilityDuration,
-              // props.other,
-            ]}
-            type="donut"
-          />
-          {/* <p>
+                // Math.round(
+                //   props.totalTime -
+                //     (props.idleDueToWorkerUnavailable +
+                //       props.feedUnavailibilityDuration +
+                //       props.other)
+                // ),
+                // props.idleDueToWorkerUnavailable,
+                // props.feedUnavailibilityDuration,
+                // props.other,
+              ]}
+              type="donut"
+            />
+            {/* <p>
             % Actual Working Hour{" "}
             {Math.round(
               (props.totalTime -
@@ -239,165 +217,165 @@ function DonutChart(props) {
                   props.other)
             )}
           </p> */}
-        </div>
-      </div>
-      <div className="rightTile">
-        <div class="center-text">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="dots dotBlue"
-              style={{
-                display: "block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "4px",
-              }}
-            ></span>
-            <p> Actual Working Hour </p>
           </div>
-          <div
-            style={{
-              backgroundColor: "#E6ECF1",
-              width: "auto",
-              padding: "8px 0px",
-              borderRadius: "8px",
-            }}
-          >
-            <h6
+        </div>
+        <div className="rightTile">
+          <div class="center-text">
+            <div
               style={{
-                color: "#406E92",
-                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              {Math.round(
-                props.totalTime -
-                  (props.idleDueToWorkerUnavailable +
-                    props.feedUnavailibilityDuration +
-                    props.other)
-              )}
-            </h6>
-          </div>
-        </div>
-        <div class="center-text">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="dots dotYellow"
+              <span
+                className="dots dotBlue"
+                style={{
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                }}
+              ></span>
+              <p> Actual Working Hour </p>
+            </div>
+            <div
               style={{
-                display: "block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "4px",
-              }}
-            ></span>
-            <p> Idle - Worker N / A </p>
-          </div>
-          <div
-            style={{
-              backgroundColor: "#FFFAEB",
-              width: "auto",
-              padding: "8px 0px",
-              borderRadius: "8px",
-            }}
-          >
-            <h6
-              style={{
-                color: "rgb(169 127 0)",
-                textAlign: "center",
+                backgroundColor: "#E6ECF1",
+                width: "auto",
+                padding: "8px 0px",
+                borderRadius: "8px",
               }}
             >
-              {props.idleDueToWorkerUnavailable}
-            </h6>
+              <h6
+                style={{
+                  color: "#406E92",
+                  textAlign: "center",
+                }}
+              >
+                {Math.round(
+                  props.totalTime -
+                    (props.idleDueToWorkerUnavailable +
+                      props.feedUnavailibilityDuration +
+                      props.other)
+                )}
+              </h6>
+            </div>
           </div>
-        </div>
-        <div class="center-text">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="dots dotOrange"
+          <div class="center-text">
+            <div
               style={{
-                display: "block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "4px",
-              }}
-            ></span>
-            <p>Idle- Feed N/A</p>
-          </div>
-          <div
-            style={{
-              backgroundColor: "#FEF4E8",
-              width: "auto",
-              padding: "8px 0px",
-              borderRadius: "8px",
-            }}
-          >
-            <h6
-              style={{
-                color: "#F9B263",
-                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              {props.feedUnavailibilityDuration}
-            </h6>
-          </div>
-        </div>
-        <div class="center-text">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="dots dotRed"
+              <span
+                className="dots dotYellow"
+                style={{
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                }}
+              ></span>
+              <p> Idle - Worker N / A </p>
+            </div>
+            <div
               style={{
-                display: "block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "4px",
-              }}
-            ></span>
-            <p>Idle-Other</p>
-          </div>
-          <div
-            style={{
-              backgroundColor: "#FEEFEA",
-              width: "auto",
-              padding: "8px 0px",
-              borderRadius: "8px",
-            }}
-          >
-            <h6
-              style={{
-                color: "#F16230",
-                textAlign: "center",
+                backgroundColor: "#FFFAEB",
+                width: "auto",
+                padding: "8px 0px",
+                borderRadius: "8px",
               }}
             >
-              {props.other}
-            </h6>
+              <h6
+                style={{
+                  color: "rgb(169 127 0)",
+                  textAlign: "center",
+                }}
+              >
+                {props.idleDueToWorkerUnavailable}
+              </h6>
+            </div>
+          </div>
+          <div class="center-text">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                className="dots dotOrange"
+                style={{
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                }}
+              ></span>
+              <p>Idle- Feed N/A</p>
+            </div>
+            <div
+              style={{
+                backgroundColor: "#FEF4E8",
+                width: "auto",
+                padding: "8px 0px",
+                borderRadius: "8px",
+              }}
+            >
+              <h6
+                style={{
+                  color: "#F9B263",
+                  textAlign: "center",
+                }}
+              >
+                {props.feedUnavailibilityDuration}
+              </h6>
+            </div>
+          </div>
+          <div class="center-text">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                className="dots dotRed"
+                style={{
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                }}
+              ></span>
+              <p>Idle-Other</p>
+            </div>
+            <div
+              style={{
+                backgroundColor: "#FEEFEA",
+                width: "auto",
+                padding: "8px 0px",
+                borderRadius: "8px",
+              }}
+            >
+              <h6
+                style={{
+                  color: "#F16230",
+                  textAlign: "center",
+                }}
+              >
+                {props.other}
+              </h6>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* <div id="chart"> */}
-      {/* <div className='chartDate'> {
+        {/* <div id="chart"> */}
+        {/* <div className='chartDate'> {
             week?week:null
           }</div> */}
-      {/* <Chart options={options} series={series} type="donut" />
+        {/* <Chart options={options} series={series} type="donut" />
             <div style={{ marginLeft: "5px" }}>
               <div>
                 Utilization Percentage:
@@ -415,7 +393,7 @@ function DonutChart(props) {
             </div>
           </div>
           <div className="legend"> */}
-      {/* <div>
+        {/* <div>
             <FormControl required className={classes.formControl} disabled>
             <InputLabel >Duration</InputLabel>
             <Select
@@ -433,7 +411,7 @@ function DonutChart(props) {
             </Select>
           </FormControl>
             </div> */}
-      {/* <div style={{ marginTop: "10px" }}>
+        {/* <div style={{ marginTop: "10px" }}>
               <span className="donBlue"></span>Actual Working Hour
               <div className="legBlue">
                 {Math.round(
@@ -458,7 +436,8 @@ function DonutChart(props) {
               <div className="legRed">{props.other}</div>
             </div>
           </div> */}
-    </div>
+      </div>
+    </>
   );
 }
 

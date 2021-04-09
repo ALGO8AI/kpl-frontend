@@ -1,5 +1,5 @@
 // import classes from "*.module.css";
-import { FormControl, Select } from "@material-ui/core";
+import { FormControl, Select, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import "./AreaChart.scss";
@@ -127,58 +127,50 @@ function AreaChart(props) {
   };
 
   return (
-    <div className="GraphCardSimple">
+    <>
       <div className="top">
-        <p style={{ margin: "auto" }}> Crowding Instance </p>
-        {/* <FormControl required disabled>
-          <Select
-            native
-            value={state.age}
-            onChange={handleChange}
-            name="age"
-            inputProps={{
-              id: "age-native-required",
-            }}
-          >
-            <option value={10}> Weekly </option>
-            <option value={20}> Monthly </option>
-            <option value={30}> Yearly </option>
-          </Select>
-        </FormControl> */}
+        <Typography
+          variant="h6"
+          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+        >
+          Crowding Instance
+        </Typography>
       </div>
-      <div className="chart">
-        <Chart options={options} series={series} type="area" height={200} />
-      </div>
-      <div className="bottom">
-        <p>Total Crowding Instance:</p>
-        <h4>
-          {/* {props.data[0] ? props.data[0].crowdingInstances : "-"} */}
-          {Math.round(instance)}
-        </h4>
-      </div>
-      <div className="bottom">
-        <p>Crowding duration: </p>
-        <h4>{Math.round(duration)} Hrs. </h4>
-      </div>
-      {/* <div className='centerTitle'>Crowding Instance</div>
+      <div className="GraphCardSimple">
+        <div className="chart">
+          <Chart options={options} series={series} type="area" height={200} />
+        </div>
+        <div className="bottom">
+          <p>Total Crowding Instance:</p>
+          <h4>
+            {/* {props.data[0] ? props.data[0].crowdingInstances : "-"} */}
+            {Math.round(instance)}
+          </h4>
+        </div>
+        <div className="bottom">
+          <p>Crowding duration: </p>
+          <h4>{Math.round(duration)} Hrs. </h4>
+        </div>
+        {/* <div className='centerTitle'>Crowding Instance</div>
         <Chart options={options} series={series} type="area" height={200} />
         <div className='d1'>
             <div>
             Total Crowding Instance:
             </div> 
       {/* <div>{props.data[0]?props.data[0].crowdingInstances:"-"}</div> */}
-      {/* <div>{instance}</div> */}
+        {/* <div>{instance}</div> */}
 
-      {/* </div>
+        {/* </div>
             <div className='d1'>
             <div>
             Crowding duration: 
              </div> */}
-      {/* <div>{props.data[0]? props.data[0].crowdingDuration:"-"} Hrs.</div> */}
-      {/* <div>{duration.toFixed(2)} Hrs.</div>
+        {/* <div>{props.data[0]? props.data[0].crowdingDuration:"-"} Hrs.</div> */}
+        {/* <div>{duration.toFixed(2)} Hrs.</div>
 
             </div> */}
-    </div>
+      </div>
+    </>
   );
 }
 

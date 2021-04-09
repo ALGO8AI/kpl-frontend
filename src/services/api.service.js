@@ -417,6 +417,21 @@ const getStitchingNotification = async () => {
   );
 };
 
+const machineBreakdownData = async (fromDate, toDate, machine) => {
+  const data = {
+    machineId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/KPI/home/machineBreakdownData",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -459,4 +474,5 @@ export {
   loadTableId,
   removeNotification,
   crowdingInstanceCheckingData,
+  machineBreakdownData,
 };
