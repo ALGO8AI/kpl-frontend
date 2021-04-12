@@ -88,7 +88,7 @@ function Menu() {
             </Paper>
           </Link>
 
-          <Link className={Styles.Link}>
+          <Link className={Styles.Link} to="/checking/home">
             <Paper elevation={5} className={Styles.container}>
               <img src={check} alt="check" />
               <Typography variant="h4">Checking</Typography>
