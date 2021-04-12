@@ -153,29 +153,15 @@ function DonutChartSimple({ data }) {
             <Chart
               options={options}
               series={[
-                data[0].utilizationPercentage,
-                data[0].machineOffTime,
-                data[0].machineOnTime,
-                data[0].scheduleHours,
+                Boolean(data[0].utilizationPercentage)
+                  ? data[0].utilizationPercentage
+                  : 0,
+                Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0,
+                Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0,
+                Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0,
               ]}
               type="donut"
             />
-            {/* <p>
-            % Actual Working Hour{" "}
-            {Math.round(
-              (props.totalTime -
-                props.idleDueToWorkerUnavailable +
-                props.feedUnavailibilityDuration +
-                props.other) /
-                (props.totalTime -
-                  props.idleDueToWorkerUnavailable +
-                  props.feedUnavailibilityDuration +
-                  props.other +
-                  props.idleDueToWorkerUnavailable +
-                  props.feedUnavailibilityDuration +
-                  props.other)
-            )}
-          </p> */}
           </div>
         </div>
         <div className="rightTile">
@@ -211,7 +197,7 @@ function DonutChartSimple({ data }) {
                   textAlign: "center",
                 }}
               >
-                {data[0].machineOnTime}
+                {Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0}
               </h6>
             </div>
           </div>
@@ -247,46 +233,46 @@ function DonutChartSimple({ data }) {
                   textAlign: "center",
                 }}
               >
-                {data[0].machineOffTime}
+                {Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0}
               </h6>
             </div>
           </div>
-          {/* <div class="center-text">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="dots dotOrange"
+          <div class="center-text">
+            <div
               style={{
-                display: "block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "4px",
-              }}
-            ></span>
-            <p>Idle- Feed N/A</p>
-          </div>
-          <div
-            style={{
-              backgroundColor: "#FEF4E8",
-              width: "auto",
-              padding: "8px 0px",
-              borderRadius: "8px",
-            }}
-          >
-            <h6
-              style={{
-                color: "#F9B263",
-                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              {props.feedUnavailibilityDuration}
-            </h6>
+              <span
+                className="dots dotOrange"
+                style={{
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                }}
+              ></span>
+              <p>Scheduled hours</p>
+            </div>
+            <div
+              style={{
+                backgroundColor: "#FEF4E8",
+                width: "auto",
+                padding: "8px 0px",
+                borderRadius: "8px",
+              }}
+            >
+              <h6
+                style={{
+                  color: "#F9B263",
+                  textAlign: "center",
+                }}
+              >
+                {Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0}
+              </h6>
+            </div>
           </div>
-        </div> */}
           {/* <div class="center-text">
           <div
             style={{

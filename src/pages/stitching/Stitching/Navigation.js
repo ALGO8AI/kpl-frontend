@@ -20,6 +20,7 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MapIcon from "@material-ui/icons/Map";
+import PublishIcon from "@material-ui/icons/Publish";
 
 import {
   Button,
@@ -39,6 +40,7 @@ import {
   removeNotification,
 } from "../../../services/api.service";
 import ClpCtrDialog from "../../../components/clpCtrDialog/ClpCtrDialog";
+import { KPLContext } from "../../../context/ViolationContext";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -127,6 +129,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Navigation() {
+  const { dispatch } = React.useContext(KPLContext);
+
   // CUSTOM NOTIFICATION FUNCTION
   const [ctrDrop, setCtrDrop] = React.useState();
   const [open, setOpen] = React.useState(false);
@@ -246,6 +250,17 @@ export default function Navigation() {
           </NavLink>
         </ListItem>
         <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/stitching/yourData"
+          >
+            <PublishIcon className={classes.icon} />
+            Your Data
+          </NavLink>
+        </ListItem>
+        <Divider />
       </List>
     </div>
   );
@@ -271,6 +286,16 @@ export default function Navigation() {
   };
 
   const menuId = "primary-search-account-menu";
+  const logout = () => {
+    dispatch({ type: "ADD_ROLE", payload: "" });
+    localStorage.removeItem("ROLE");
+    dispatch({
+      type: "ADD_DESIGNATION",
+      payload: "",
+    });
+    localStorage.removeItem("DESIGNATION");
+    localStorage.removeItem("KPL Auth");
+  };
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -282,7 +307,7 @@ export default function Navigation() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
   const SupportButton = withStyles((theme) => ({
@@ -379,7 +404,9 @@ export default function Navigation() {
           >
             <MenuIcon />
           </IconButton>
-          <img src={logo} alt="logo" width="128px" />
+          <Link to="/menu">
+            <img src={logo} alt="logo" width="128px" />
+          </Link>
           <Typography className={classes.title} variant="h6" noWrap>
             Stitching
           </Typography>

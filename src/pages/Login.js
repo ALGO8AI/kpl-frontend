@@ -11,6 +11,7 @@ import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
 import { login } from "../services/api.service";
 import { Link, useHistory, Redirect } from "react-router-dom";
+import { KPLContext } from "../context/ViolationContext";
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -34,6 +35,8 @@ function Login() {
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState("");
 
+  const { state, dispatch } = React.useContext(KPLContext);
+
   // Snackbar close function
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -52,6 +55,13 @@ function Login() {
           if (x.msg) {
             if (x.msg.status === 201) {
               localStorage.setItem("KPL Auth", true);
+              dispatch({ type: "ADD_ROLE", payload: x.data.role });
+              localStorage.setItem("ROLE", x.data.role);
+              dispatch({
+                type: "ADD_DESIGNATION",
+                payload: x.data.designation,
+              });
+              localStorage.setItem("DESIGNATION", x.data.designation);
               history.push("/menu");
             } else {
               setMsg(`An error occured! Error code:${x.msg.status}`);

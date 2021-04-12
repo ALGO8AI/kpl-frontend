@@ -171,6 +171,16 @@ function Home() {
           loading: false,
         });
 
+        const z = await machineBreakdownData(
+          FROM,
+          TO,
+          inputMACHINEid.length > 0
+            ? inputMACHINEid
+            : machineID.map((item) => item.machineID)
+        );
+        console.log(z);
+        setBreakdownData({ data: z.machineBreakdownData, loading: false });
+
         const homeWorkerTable = await summaryByWorkerData(
           FROM,
           TO,

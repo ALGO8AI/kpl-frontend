@@ -5,6 +5,7 @@ import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
 import ViolationDetails from "../violationDetails/ViolationDetails";
 import ViolationLog from "../violationLog/ViolationLog";
+import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
 
 function Stitching(props) {
@@ -14,9 +15,7 @@ function Stitching(props) {
     videoWall: <VideoWall />,
     setting: <Setting />,
     layoutView: <LayoutView />,
-    // settings: <Settings />,
-    // videoWall: <VideoWall />,
-    // yourData: <YourData />,
+    yourData: <YourData />,
     violationDetails: <ViolationDetails id={props.match.params.id} />,
   };
 
