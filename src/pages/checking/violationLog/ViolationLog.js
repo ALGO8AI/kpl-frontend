@@ -311,7 +311,7 @@ function ViolationLog1() {
       if (worker.checkingWorkerUnavailableViolation === "no data") {
         setWORKER([]);
       } else {
-        setWORKER([worker.checkingWorkerUnavailableViolation]);
+        setWORKER(worker.checkingWorkerUnavailableViolation);
       }
 
       const by_worker = await violationByWorkerF(fromDate, toDate);
