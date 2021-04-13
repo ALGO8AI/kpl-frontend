@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import {
   ClpCtrData,
-  crowdingInstanceData,
+  crowdingInstanceCheckingData,
   ctr_machineID,
   homepageData,
   machineBreakdownData,
@@ -91,20 +91,14 @@ function Home() {
   // load initial table data
   const loadData = async () => {
     try {
-      const x = await machineBreakdownData(
-        FROM,
-        TO,
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
-      );
+      const x = await machineBreakdownData();
       console.log(x);
       setBreakdownData({ data: x.machineBreakdownData, loading: false });
 
       const y = await workerUtilizationData();
       setWorkerUtilization({ data: y.workerUtilization, loading: false });
 
-      const z = await crowdingInstanceData();
+      const z = await crowdingInstanceCheckingData();
       setCrowdingInstance({ data: z.crowdingInstancesData, loading: false });
 
       const homeWorkerTable = await summaryByWorkerData();
@@ -164,7 +158,7 @@ function Home() {
           loading: false,
         });
 
-        const y = await crowdingInstanceData(FROM, TO);
+        const y = await crowdingInstanceCheckingData(FROM, TO);
         // console.log(`y ${y}`);
         setCrowdingInstance({
           data: y.crowdingInstancesData,

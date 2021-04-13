@@ -27,7 +27,7 @@ function Alert(props) {
 }
 function VideoCard({ data, onClick }) {
   return (
-    <Link to={`/stitching/violationDetails/${data.Id}`}>
+    <Link to={`/checking/violationDetails/${data.Id}`}>
       <Grid
         container
         item

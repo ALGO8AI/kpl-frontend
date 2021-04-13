@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import VideoTile from "../../../components/videoTile/VideoTile";
-import { videoWallStitching } from "../../../services/api.service";
+import { videoWallChecking } from "../../../services/api.service";
 import Loader from "../../../components/loader/Loader";
 import { Alert } from "@material-ui/lab";
 
@@ -13,7 +13,7 @@ function VideoWall() {
   // CUSTOM FUNCTION
   const loadData = async () => {
     try {
-      const x = await videoWallStitching();
+      const x = await videoWallChecking();
       setVideos(x);
     } catch (err) {}
   };

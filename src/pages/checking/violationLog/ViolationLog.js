@@ -26,6 +26,9 @@ import {
   crowdingViolation,
   violationByWorkerF,
   ctr_machineID,
+  crowdingViolationChecking,
+  workerUnavailableViolationChecking,
+  loadTableId,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -132,52 +135,33 @@ function ViolationLog1() {
         : machineID.map((item) => item.machineID)
     );
     try {
-      const feed = await feedUnavailableViolation(
+      const crowd = await crowdingViolationChecking(
         fromDate,
         toDate,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.tableId)
       );
-      console.log(feed.feedUnavailableData);
-
-      if (feed.feedUnavailableData !== "no data") {
-        setFEEDUNAVAILABLE(feed.feedUnavailableData);
-      } else {
-        setFEEDUNAVAILABLE([]);
-      }
-
-      const crowd = await crowdingViolation(
-        fromDate,
-        toDate,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
-      );
-      console.log(crowd.crowdingData);
+      console.log(crowd.crowdingData.length);
 
       if (crowd.crowdingData !== "no data") {
         setCROWDING(crowd.crowdingData);
-      } else {
-        setCROWDING([]);
       }
 
-      const worker = await workerUnavailableViolation(
+      const worker = await workerUnavailableViolationChecking(
         fromDate,
         toDate,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.tableId)
       );
-      console.log(worker.workerUnavailableDurationData);
+      console.log(worker);
 
-      if (worker.workerUnavailableDurationData !== "no data") {
-        setWORKER(worker.workerUnavailableDurationData);
-      } else {
-        setWORKER([]);
+      if (worker.checkingWorkerUnavailableViolation !== "no data") {
+        // setWORKER(worker.workerUnavailableDurationData);
+        setWORKER(worker.checkingWorkerUnavailableViolation);
       }
 
       const by_worker = await violationByWorkerF(
@@ -188,13 +172,74 @@ function ViolationLog1() {
           ? inputMACHINEid
           : machineID.map((item) => item.machineID)
       );
-      console.log(by_worker.violationByWorkerData);
+      console.log(by_worker.violationByWorkerData.length);
 
       if (by_worker.violationByWorkerData !== "no data") {
         setBY_WORKER(by_worker.violationByWorkerData);
-      } else {
-        setBY_WORKER([]);
       }
+      // const feed = await feedUnavailableViolation(
+      //   fromDate,
+      //   toDate,
+      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+      //   inputMACHINEid.length > 0
+      //     ? inputMACHINEid
+      //     : machineID.map((item) => item.machineID)
+      // );
+      // console.log(feed.feedUnavailableData);
+
+      // if (feed.feedUnavailableData !== "no data") {
+      //   setFEEDUNAVAILABLE(feed.feedUnavailableData);
+      // } else {
+      //   setFEEDUNAVAILABLE([]);
+      // }
+
+      // const crowd = await crowdingViolation(
+      //   fromDate,
+      //   toDate,
+      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+      //   inputMACHINEid.length > 0
+      //     ? inputMACHINEid
+      //     : machineID.map((item) => item.machineID)
+      // );
+      // console.log(crowd.crowdingData);
+
+      // if (crowd.crowdingData !== "no data") {
+      //   setCROWDING(crowd.crowdingData);
+      // } else {
+      //   setCROWDING([]);
+      // }
+
+      // const worker = await workerUnavailableViolation(
+      //   fromDate,
+      //   toDate,
+      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+      //   inputMACHINEid.length > 0
+      //     ? inputMACHINEid
+      //     : machineID.map((item) => item.machineID)
+      // );
+      // console.log(worker.workerUnavailableDurationData);
+
+      // if (worker.workerUnavailableDurationData !== "no data") {
+      //   setWORKER(worker.workerUnavailableDurationData);
+      // } else {
+      //   setWORKER([]);
+      // }
+
+      // const by_worker = await violationByWorkerF(
+      //   fromDate,
+      //   toDate,
+      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+      //   inputMACHINEid.length > 0
+      //     ? inputMACHINEid
+      //     : machineID.map((item) => item.machineID)
+      // );
+      // console.log(by_worker.violationByWorkerData);
+
+      // if (by_worker.violationByWorkerData !== "no data") {
+      //   setBY_WORKER(by_worker.violationByWorkerData);
+      // } else {
+      //   setBY_WORKER([]);
+      // }
     } catch (err) {}
   };
 
@@ -208,32 +253,69 @@ function ViolationLog1() {
   const [WORKER, setWORKER] = useState([]);
   const [BY_WORKER, setBY_WORKER] = useState([]);
 
+  // const load_ctr_machine = async () => {
+  //   try {
+  //     const ctr = await ctr_machineID();
+  //     setClpCtr(ctr.clpctr);
+  //     setMachineID(ctr.machineID);
+
+  //     const feed = await feedUnavailableViolation(fromDate, toDate);
+  //     console.log(feed.feedUnavailableData);
+  //     setFEEDUNAVAILABLE(feed.feedUnavailableData);
+
+  //     const crowd = await crowdingViolation(fromDate, toDate);
+  //     if (crowd.crowdingData !== "no data") {
+  //       setCROWDING(crowd.crowdingData);
+  //     }
+
+  //     console.log(crowd.crowdingData);
+
+  //     const worker = await workerUnavailableViolation(fromDate, toDate);
+  //     console.log(worker.workerUnavailableDurationData);
+  //     if (worker.workerUnavailableDurationData !== "no data") {
+  //       setWORKER(worker.workerUnavailableDurationData);
+  //     }
+
+  //     const by_worker = await violationByWorkerF(fromDate, toDate);
+  //     // console.log(by_worker.violationByWorkerData.length);
+  //     console.log(by_worker.violationByWorkerData);
+
+  //     setBY_WORKER(by_worker.violationByWorkerData);
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // };
+
   const load_ctr_machine = async () => {
     try {
       const ctr = await ctr_machineID();
       setClpCtr(ctr.clpctr);
-      setMachineID(ctr.machineID);
+      // setMachineID(ctr.machineID);
 
-      const feed = await feedUnavailableViolation(fromDate, toDate);
-      console.log(feed.feedUnavailableData);
-      setFEEDUNAVAILABLE(feed.feedUnavailableData);
+      const tableID = await loadTableId();
+      console.log(tableID);
+      setMachineID(tableID.data);
 
-      const crowd = await crowdingViolation(fromDate, toDate);
-      if (crowd.crowdingData !== "no data") {
-        setCROWDING(crowd.crowdingData);
+      // const feed = await feedUnavailableViolation(fromDate, toDate);
+      // console.log(feed.feedUnavailableData.length);
+      // setFEEDUNAVAILABLE(feed.feedUnavailableData);
+
+      const crowd = await crowdingViolationChecking(fromDate, toDate);
+      // console.log(crowd.checkingCrowdingData.length);
+      if (crowd.checkingCrowdingData !== "no data") {
+        setCROWDING(crowd.checkingCrowdingData);
       }
 
-      console.log(crowd.crowdingData);
-
-      const worker = await workerUnavailableViolation(fromDate, toDate);
-      console.log(worker.workerUnavailableDurationData);
-      if (worker.workerUnavailableDurationData !== "no data") {
-        setWORKER(worker.workerUnavailableDurationData);
+      const worker = await workerUnavailableViolationChecking(fromDate, toDate);
+      console.log(worker);
+      if (worker.checkingWorkerUnavailableViolation === "no data") {
+        setWORKER([]);
+      } else {
+        setWORKER([worker.checkingWorkerUnavailableViolation]);
       }
 
       const by_worker = await violationByWorkerF(fromDate, toDate);
       // console.log(by_worker.violationByWorkerData.length);
-      console.log(by_worker.violationByWorkerData);
 
       setBY_WORKER(by_worker.violationByWorkerData);
     } catch (err) {
@@ -482,159 +564,22 @@ function ViolationLog1() {
               onChange={handleTabChange}
               aria-label="simple tabs example"
             >
-              <Tab label="Feed Unavailable" {...a11yProps(0)} />
-              <Tab label="Crowding Violation" {...a11yProps(1)} />
-              <Tab label="Worker Violation" {...a11yProps(2)} />
-              <Tab label="By Worker" {...a11yProps(3)} />
+              <Tab label="Crowding Violation" {...a11yProps(0)} />
+              <Tab label="Worker Violation" {...a11yProps(1)} />
+              <Tab label="By Worker" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
 
           <TabPanel value={tabValue} index={0}>
-            <ViolationTable
-              data={FEEDUNAVAILABLE}
-              rowClick={rowClick}
-              columns={[
-                {
-                  field: "view",
-                  title: "Details",
-                  render: (rowData) => (
-                    <Link
-                      to={`/stitching/violationDetails/${rowData.Id}`}
-                      className="Link-btn"
-                      onClick={localStorage.setItem(
-                        "VIOLATION",
-                        "feedUnavailable"
-                      )}
-                    >
-                      View
-                    </Link>
-                  ),
-                },
-                { title: "Violation ID", field: "Id" },
-                // {
-                //   title: "Status",
-                //   render: (rowData) => {
-                //     return rowData.status === 0 ? (
-                //       <p
-                //         style={{
-                //           color: "rgb(249, 54, 54)",
-                //           backgroundColor: "rgba(249, 54, 54,0.2)",
-                //           padding: "4px 8px",
-                //           borderRadius: "4px",
-                //         }}
-                //       >
-                //         Not Resolved
-                //       </p>
-                //     ) : (
-                //       <p
-                //         style={{
-                //           color: "rgb(74, 170, 22)",
-                //           backgroundColor: "rgba(74, 170, 22,0.2)",
-                //           padding: "4px 8px",
-                //           borderRadius: "4px",
-                //         }}
-                //       >
-                //         Resolved
-                //       </p>
-                //     );
-                //   },
-                // },
-                {
-                  title: "Status",
-                  field: "query",
-                  render: (rowData) => {
-                    return rowData.query === "Not Resolved" ? (
-                      <p
-                        style={{
-                          color: "rgb(249, 54, 54)",
-                          backgroundColor: "rgba(249, 54, 54,0.2)",
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        Not Resolved
-                      </p>
-                    ) : (
-                      <p
-                        style={{
-                          color: "rgb(74, 170, 22)",
-                          backgroundColor: "rgba(74, 170, 22,0.2)",
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        Resolved
-                      </p>
-                    );
-                  },
-                },
-                {
-                  title: "Date",
-                  field: "DateTime",
-                  render: (rowData) => {
-                    const NewDate = moment(new Date(rowData.DateTime))
-                      .format("DD/MM/YYYY")
-                      .toString();
-                    return NewDate;
-                  },
-                },
-                { title: "Worker Name", field: "workerName" },
-                { title: "Worker ID", field: "WorkerID" },
-
-                {
-                  title: "Unavailable (Min.)",
-                  field: "UnavailableDuration",
-                },
-                { title: "Start Time", field: "StartTime" },
-
-                { title: "End Time", field: "EndTime" },
-                { title: "Feed ID", field: "FeedID" },
-
-                { title: "Machine ID", field: "MachineID" },
-
-                { title: "Wing", field: "Wing" },
-              ]}
-            />
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={1}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={CROWDING}
                 rowClick={rowClick}
                 columns={[
                   { title: "Violation ID", field: "Id" },
-                  // {
-                  //   title: "Status",
-                  // render: (rowData) => {
-                  //   return rowData.status === 0 ? (
-                  //     <p
-                  //       style={{
-                  //         color: "rgb(249, 54, 54)",
-                  //         backgroundColor: "rgba(249, 54, 54,0.2)",
-                  //         padding: "4px 8px",
-                  //         borderRadius: "4px",
-                  //       }}
-                  //     >
-                  //       Not Resolved
-                  //     </p>
-                  //   ) : (
-                  //     <p
-                  //       style={{
-                  //         color: "rgb(74, 170, 22)",
-                  //         backgroundColor: "rgba(74, 170, 22,0.2)",
-                  //         padding: "4px 8px",
-                  //         borderRadius: "4px",
-                  //       }}
-                  //     >
-                  //       Resolved
-                  //     </p>
-                  //   );
-                  // },
-                  // },
                   {
                     title: "Status",
-                    // field: "query",
+                    field: "query",
                     render: (rowData) => {
                       return rowData.query === "Not Resolved" ? (
                         <p
@@ -661,8 +606,12 @@ function ViolationLog1() {
                       );
                     },
                   },
+                  { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Camera ID", field: "CamID" },
-
+                  {
+                    title: "Crowding Duration(Min.)",
+                    field: "CrowdingDuration",
+                  },
                   {
                     title: "Date",
                     field: "DateTime",
@@ -673,22 +622,18 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
-                  {
-                    title: "Crowding Duration(Min.)",
-                    field: "CrowdingDuration",
-                  },
                   { title: "Crowding Start Time", field: "crowdStartTime" },
                   { title: "Crowding End Time", field: "crowdEndTime" },
 
                   { title: "Person(Max)", field: "MaxPerson" },
-                  // { title: "Person(Min)", field: "MinPerson" },
-                  // { title: "Violation Reason", field: "ViolationReason" },
+                  { title: "Person(Min)", field: "MinPerson" },
+                  { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
                 ]}
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={tabValue} index={2}>
+          <TabPanel value={tabValue} index={1}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={WORKER}
@@ -699,43 +644,15 @@ function ViolationLog1() {
                     title: "Details",
                     render: (rowData) => (
                       <Link
-                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        to={`/checking/violationDetails/${rowData.Id}`}
                         className="Link-btn"
-                        onClick={localStorage.setItem("VIOLATION", "worker")}
                       >
                         View
                       </Link>
                     ),
                   },
                   { title: "Violation ID", field: "Id" },
-                  // {
-                  //   title: "Status",
-                  //   render: (rowData) => {
-                  //     return rowData.status === 0 ? (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(249, 54, 54)",
-                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Not Resolved
-                  //       </p>
-                  //     ) : (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(74, 170, 22)",
-                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Resolved
-                  //       </p>
-                  //     );
-                  //   },
-                  // },
+
                   {
                     title: "Status",
                     field: "query",
@@ -776,35 +693,34 @@ function ViolationLog1() {
                     },
                   },
                   { title: "Worker Name", field: "workerName" },
-                  { title: "Worker Id", field: "workerID" },
-                  { title: "Start Time", field: "startTime" },
-                  { title: "End Time", field: "endTime" },
-                  { title: "Machine ID", field: "machineId" },
-                  { title: "Wing", field: "wing" },
 
+                  { title: "Worker Id", field: "workerID" },
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
                   },
+
+                  { title: "Start Time", field: "startTime" },
+                  { title: "End Time", field: "endTime" },
+                  // { title: "Machine ID", field: "machineID" },
+                  { title: "Wing", field: "wing" },
                 ]}
               />
             </Grid>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={3}>
+          <TabPanel value={tabValue} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
-                // title=""
                 data={BY_WORKER}
                 rowClick={rowClick}
                 columns={[
-                  { title: "Worker Name", field: "workerName" },
                   { title: "Worker ID", field: "workerId" },
-
-                  // {
-                  //   title: "Machine ID",
-                  //   field: "machineId",
-                  // },
+                  { title: "Worker Name", field: "workerName" },
+                  {
+                    title: "Machine ID",
+                    field: "machineID",
+                  },
                   {
                     title: "Feed N/A Duration(Hrs.)",
                     field: "feedUnavailibilityDuration",

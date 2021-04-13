@@ -91,13 +91,7 @@ function Home() {
   // load initial table data
   const loadData = async () => {
     try {
-      const x = await machineBreakdownData(
-        FROM,
-        TO,
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
-      );
+      const x = await machineBreakdownData();
       console.log(x);
       setBreakdownData({ data: x.machineBreakdownData, loading: false });
 
