@@ -65,6 +65,24 @@ function DefectChart() {
         axisTicks: {
           show: false,
         },
+        title: {
+          text: "Top 5 Defects",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Count",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
       },
     },
   };

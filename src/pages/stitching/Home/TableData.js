@@ -81,8 +81,8 @@ function TableData({
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
-                { title: "Feed Unavailable", field: "feedUnav" },
-                { title: "Worker Unavailable", field: "workerUnav" },
+                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
+                { title: "Worker Unavailable Hrs.", field: "workerUnav" },
               ]}
             />
           </Grid>
@@ -103,11 +103,11 @@ function TableData({
                     return NewDate;
                   },
                 },
-                { title: "Scheduled Hours", field: "scheduledHours" },
+                { title: "Scheduled Hrs.", field: "scheduledHours" },
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
                 { title: "Feed Unavailable Hrs.", field: "feedUnav" },
-                { title: "Worker Unavailable", field: "workerUnav" },
+                { title: "Worker Unavailable Hrs.", field: "workerUnav" },
               ]}
             />
           </Grid>

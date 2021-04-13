@@ -118,8 +118,26 @@ function AreaChart(props) {
       type: "solid",
     },
     xaxis: {
-      type: "datetime",
+      type: "date",
       categories: week,
+      title: {
+        text: "Date",
+        style: {
+          color: "#0e4a7b",
+          fontSize: "12px",
+          fontWeight: 400,
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Count",
+        style: {
+          color: "#0e4a7b",
+          fontSize: "12px",
+          fontWeight: 400,
+        },
+      },
     },
     tooltip: {
       x: {},

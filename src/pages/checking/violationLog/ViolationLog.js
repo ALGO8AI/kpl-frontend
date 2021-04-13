@@ -628,7 +628,6 @@ function ViolationLog1() {
 
                   { title: "Person(Max)", field: "MaxPerson" },
                   { title: "Person(Min)", field: "MinPerson" },
-                  { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
                 ]}
               />
