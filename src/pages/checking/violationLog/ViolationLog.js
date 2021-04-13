@@ -607,12 +607,8 @@ function ViolationLog1() {
                       );
                     },
                   },
-                  { title: "Violation Reason", field: "ViolationReason" },
+                  // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Camera ID", field: "CamID" },
-                  {
-                    title: "Crowding Duration(Min.)",
-                    field: "CrowdingDuration",
-                  },
                   {
                     title: "Date",
                     field: "DateTime",
@@ -623,11 +619,17 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
+                  {
+                    title: "Crowding Duration(Min.)",
+                    field: "CrowdingDuration",
+                  },
+
                   { title: "Crowding Start Time", field: "crowdStartTime" },
                   { title: "Crowding End Time", field: "crowdEndTime" },
 
-                  { title: "Person(Max)", field: "MaxPerson" },
-                  { title: "Person(Min)", field: "MinPerson" },
+                  { title: "Number Of Person", field: "MaxPerson" },
+                  // { title: "Person(Min)", field: "MinPerson" },
+                  // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
                 ]}
               />
@@ -718,8 +720,8 @@ function ViolationLog1() {
                   { title: "Worker ID", field: "workerId" },
                   { title: "Worker Name", field: "workerName" },
                   {
-                    title: "Machine ID",
-                    field: "machineID",
+                    title: "Table ID",
+                    field: "machineId",
                   },
                   {
                     title: "Feed N/A Duration(Hrs.)",
@@ -743,8 +745,8 @@ function ViolationLog1() {
                   { title: "Worker ID", field: "workerId" },
                   { title: "Worker Name", field: "workerName" },
                   {
-                    title: "Machine ID",
-                    field: "machineID",
+                    title: "Table ID",
+                    field: "machineId",
                   },
                   {
                     title: "Feed N/A Duration(Hrs.)",

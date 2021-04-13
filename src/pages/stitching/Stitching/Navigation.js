@@ -41,6 +41,7 @@ import {
 } from "../../../services/api.service";
 import ClpCtrDialog from "../../../components/clpCtrDialog/ClpCtrDialog";
 import { KPLContext } from "../../../context/ViolationContext";
+import ProfileBox from "../../../components/profileBox/ProfileBox";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -143,6 +144,14 @@ export default function Navigation() {
     startTime: new Date().toLocaleTimeString().slice(0, 5),
   });
   const [notification, setNotification] = useState([]);
+  const [openProfile, setOpenProfile] = React.useState(false);
+
+  const handleClickOpenProfile = () => {
+    setOpenProfile(true);
+  };
+  const handleCloseProfile = () => {
+    setOpenProfile(false);
+  };
 
   const loadData = async () => {
     try {
@@ -293,6 +302,8 @@ export default function Navigation() {
       type: "ADD_DESIGNATION",
       payload: "",
     });
+    dispatch({ type: "ADD_PROFILE", payload: "" });
+    localStorage.removeItem("PROFILE");
     localStorage.removeItem("DESIGNATION");
     localStorage.removeItem("KPL Auth");
   };
@@ -306,7 +317,7 @@ export default function Navigation() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleClickOpenProfile}>Profile</MenuItem>
       <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
@@ -485,6 +496,11 @@ export default function Navigation() {
         ))}
       </Menu>
       <ClpCtrDialog open={open} handleCloseCTR={handleCloseCTR} />
+      <ProfileBox
+        openProfile={openProfile}
+        handleClickOpenProfile={handleClickOpenProfile}
+        handleCloseProfile={handleCloseProfile}
+      />
     </div>
   );
 }

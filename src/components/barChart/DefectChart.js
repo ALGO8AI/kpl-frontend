@@ -41,7 +41,7 @@ function DefectChart() {
           },
         },
       },
-      colors: ["#0e4a7b"],
+      colors: ["#f68f1d"],
       responsive: [
         {
           breakpoint: 480,

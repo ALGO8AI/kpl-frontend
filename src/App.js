@@ -21,6 +21,9 @@ function App(props) {
 
     const DESIGNATION = localStorage.getItem("DESIGNATION");
     DESIGNATION && dispatch({ type: "ADD_DESIGNATION", payload: DESIGNATION });
+
+    const PROFILE = localStorage.getItem("PROFILE");
+    PROFILE && dispatch({ type: "ADD_PROFILE", payload: JSON.parse(PROFILE) });
   }, []);
   return (
     <Router>

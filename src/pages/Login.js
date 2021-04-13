@@ -61,7 +61,13 @@ function Login() {
                 type: "ADD_DESIGNATION",
                 payload: x.data.designation,
               });
+              dispatch({
+                type: "ADD_PROFILE",
+                payload: x.data,
+              });
               localStorage.setItem("DESIGNATION", x.data.designation);
+              localStorage.setItem("PROFILE", JSON.stringify(x.data));
+
               history.push("/menu");
             } else {
               setMsg(`An error occured! Error code:${x.msg.status}`);
