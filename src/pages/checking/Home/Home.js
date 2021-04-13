@@ -28,6 +28,7 @@ import Loader from "../../../components/loader/Loader";
 import DonutChartSimple from "../../../components/donutChartSimple/DonutChartSimple";
 import DonutChart from "../../../components/donutChart/DonutChart";
 import AreaChart from "../../../components/areaChart/AreaChart";
+import DefectChart from "../../../components/barChart/DefectChart";
 
 function Home() {
   // State
@@ -320,7 +321,7 @@ function Home() {
           style={{ marginRight: "6px" }}
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Machine ID
+            Table ID
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -444,11 +445,12 @@ function Home() {
       <Grid container xs={12} spacing={2} style={{ padding: "12px 16px" }}>
         <Grid container item xs={12} sm={6} lg={4}>
           <Paper style={{ width: "100%", padding: "8px" }} elevation={5}>
-            {breakdownData.loading ? (
+            {/* {breakdownData.loading ? (
               <Loader />
             ) : (
               <DonutChartSimple data={breakdownData.data} />
-            )}
+            )} */}
+            <DefectChart />
           </Paper>
         </Grid>
         <Grid container item xs={12} sm={6} lg={4}>

@@ -61,7 +61,7 @@ function TableData({
           >
             <Tab label="By Worker" {...a11yProps(0)} />
             <Tab label="By Date" {...a11yProps(1)} />
-            <Tab label="By Machine" {...a11yProps(2)} />
+            <Tab label="By Table" {...a11yProps(2)} />
             <Tab label="By CLP-CTR" {...a11yProps(3)} />
           </Tabs>
         </AppBar>

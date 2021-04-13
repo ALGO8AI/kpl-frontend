@@ -567,6 +567,7 @@ function ViolationLog1() {
               <Tab label="Crowding Violation" {...a11yProps(0)} />
               <Tab label="Worker Violation" {...a11yProps(1)} />
               <Tab label="By Worker" {...a11yProps(2)} />
+              <Tab label="By Table" {...a11yProps(3)} />
             </Tabs>
           </AppBar>
 
@@ -710,6 +711,31 @@ function ViolationLog1() {
           </TabPanel>
 
           <TabPanel value={tabValue} index={2}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                data={BY_WORKER}
+                rowClick={rowClick}
+                columns={[
+                  { title: "Worker ID", field: "workerId" },
+                  { title: "Worker Name", field: "workerName" },
+                  {
+                    title: "Machine ID",
+                    field: "machineID",
+                  },
+                  {
+                    title: "Feed N/A Duration(Hrs.)",
+                    field: "feedUnavailibilityDuration",
+                  },
+                  {
+                    title: "Worker N/A Duration(Hrs.)",
+                    field: "workerUnavailableViolationDuration",
+                  },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={BY_WORKER}
