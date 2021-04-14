@@ -19,10 +19,6 @@ function Stitching(props) {
     violationDetails: <ViolationDetails id={props.match.params.id} />,
   };
 
-  const logout = () => {
-    localStorage.removeItem("isAuth");
-    // history.push("/login");
-  };
   const page = pages[props.match.params.page];
   return (
     <>
