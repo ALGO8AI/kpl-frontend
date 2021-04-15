@@ -210,7 +210,7 @@ function AddUser() {
                   </MenuItem>
                   <MenuItem value={"supervisor"}>Supervisor</MenuItem>
                   <MenuItem value={"manager"}>Manager</MenuItem>
-                  <MenuItem value={"wing incharge"}>wing Incharge</MenuItem>
+                  <MenuItem value={"wingIncharge"}>Wing Incharge</MenuItem>
                   <MenuItem value={"helper"}>Helper</MenuItem>
                 </Select>
               </FormControl>
@@ -286,7 +286,7 @@ function AddUser() {
               </Grid>
             )}
 
-            {data.designation === "wing incharge" && (
+            {data.designation === "wingIncharge" && (
               <Grid
                 item
                 xs={6}

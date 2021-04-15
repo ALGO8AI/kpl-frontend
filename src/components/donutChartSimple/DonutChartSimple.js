@@ -84,14 +84,16 @@ function DonutChartSimple({ data }) {
       pie: {
         donut: {
           labels: {
-            show: true,
+            show: false,
             name: {
               show: true,
               color: "#333",
+              fontSize: "14px",
             },
             value: {
               show: true,
               color: "#333",
+              fontSize: "14px",
             },
           },
         },

@@ -88,10 +88,12 @@ function DonutChart(props) {
             name: {
               show: true,
               color: "#333",
+              fontSize: "14px",
             },
             value: {
               show: true,
               color: "#333",
+              fontSize: "14px",
             },
           },
         },

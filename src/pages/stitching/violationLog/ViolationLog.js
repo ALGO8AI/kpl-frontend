@@ -412,10 +412,146 @@ function ViolationLog1() {
       </Grid>
 
       <Grid container>
+        <Grid xs={12} style={{ textAlign: "center" }}>
+          <Typography
+            variant="body2"
+            style={{ padding: "2px", color: "#f68f1d" }}
+          >
+            Select to view the violation video
+            <br />
+            Note: If The video is unable to play, it might be under Process.
+          </Typography>
+        </Grid>
+        <Grid container item xs={12} md={4} style={{ padding: "12px" }}>
+          {idLabel ? (
+            <Grid
+              xs={12}
+              style={{
+                // backgroundColor: "#f68f1d",
+                // color: "white",
+                fontWeight: "600",
+                fontSize: "16px",
+                textAlign: "center",
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography
+                variant="body1"
+                style={{ padding: "6px", color: "#f68f1d" }}
+              >
+                {" "}
+                Violation Id:{" "}
+                <span srtle={{ fontWeight: "bold" }}>{idLabel}</span>
+              </Typography>
+              {link ? (
+                <ReactPlayer
+                  key={link}
+                  url={link.replace(".avi", ".mp4")}
+                  controls={true}
+                  //  muted={true}
+                  //  playing={false}
+                  width="80%"
+                  height="auto"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                />
+              ) : (
+                <Grid
+                  xs={12}
+                  style={{
+                    backgroundColor: "black",
+                    color: "#fff",
+                    minHeight: "240px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <PlayCircleOutlineIcon />
+                  <Grid xs={12} md={6}>
+                    Select to view the violation video
+                  </Grid>
+                  <Typography
+                    variant="h6"
+                    style={{ color: "#0e4a7b", padding: "6px" }}
+                  >
+                    Note: If The video is unable to play, it might be under
+                    Process.
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          ) : null}
+        </Grid>
+
         <Grid
           container
           item
+          xs={12}
+          sm={6}
           md={4}
+          style={{
+            padding: "12px",
+            textAlign: "center",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          {img ? (
+            <>
+              {" "}
+              <Typography
+                variant="body1"
+                style={{ padding: "6px", color: "#f68f1d" }}
+              >
+                {" "}
+                Snapshot 1
+              </Typography>
+              <img src={img} style={{ width: "80%" }} alt="profile" />
+            </>
+          ) : null}
+        </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          style={{
+            padding: "12px",
+            textAlign: "center",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          {img ? (
+            <>
+              {" "}
+              <Typography
+                variant="body1"
+                style={{ padding: "6px", color: "#f68f1d" }}
+              >
+                {" "}
+                Snapshot 2
+              </Typography>{" "}
+              <img src={img} style={{ width: "80%" }} alt="profile" />
+            </>
+          ) : null}
+        </Grid>
+
+        {/* <Grid
+          container
+          item
+          md={12}
           xs={12}
           spacing={4}
           style={{ padding: "2rem" }}
@@ -424,6 +560,7 @@ function ViolationLog1() {
             {idLabel ? (
               <Grid
                 xs={12}
+                md={6}
                 style={{
                   backgroundColor: "#f68f1d",
                   color: "white",
@@ -432,50 +569,55 @@ function ViolationLog1() {
                 }}
               >
                 Violation Id:{idLabel}
+                {link ? (
+                  <ReactPlayer
+                    key={link}
+                    url={link.replace(".avi", ".mp4")}
+                    controls={true}
+                    //  muted={true}
+                    //  playing={false}
+                    width="100%"
+                    height="240px"
+                    style={{ postition: "fixed" }}
+                  />
+                ) : (
+                  <Grid
+                    xs={12}
+                    md={6}
+                    style={{
+                      backgroundColor: "black",
+                      color: "#fff",
+                      minHeight: "240px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <PlayCircleOutlineIcon />
+                    <Grid xs={12} md={6}>
+                      Select to view the violation video
+                    </Grid>
+                    <Typography
+                      variant="h6"
+                      style={{ color: "#0e4a7b", padding: "6px" }}
+                    >
+                      Note: If The video is unable to play, it might be under
+                      Process.
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             ) : null}
-            {link ? (
-              <ReactPlayer
-                key={link}
-                url={link.replace(".avi", ".mp4")}
-                controls={true}
-                //  muted={true}
-                //  playing={false}
-                width="100%"
-                height="240px"
-                style={{ postition: "fixed" }}
-              />
-            ) : (
-              <Grid
-                xs={12}
-                style={{
-                  backgroundColor: "black",
-                  color: "#fff",
-                  minHeight: "240px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <PlayCircleOutlineIcon />
-                <Grid xs={12}>Select to view the violation video</Grid>
-              </Grid>
-            )}
-            <Typography
-              variant="h6"
-              style={{ color: "#0e4a7b", padding: "6px" }}
-            >
-              Note: If The video is unable to play, it might be under Process.
-            </Typography>
+
             {img ? (
-              <Grid xs={12}>
+              <Grid xs={12} md={6}>
                 <img src={img} style={{ width: "100%" }} alt="profile" />
               </Grid>
             ) : null}
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={8} style={{ padding: "1rem" }}>
+        </Grid> */}
+        <Grid item xs={12} md={12} style={{ padding: "1rem" }}>
           <AppBar position="static" className="customTab">
             <Tabs
               value={tabValue}
