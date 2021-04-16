@@ -444,7 +444,10 @@ function Home() {
 
       <Grid container xs={12} spacing={2} style={{ padding: "12px 16px" }}>
         <Grid container item xs={12} sm={6} lg={4}>
-          <Paper style={{ width: "100%", padding: "8px" }} elevation={5}>
+          <Paper
+            style={{ width: "100%", padding: "8px", minHeight: "280px" }}
+            elevation={5}
+          >
             {/* {breakdownData.loading ? (
               <Loader />
             ) : (
@@ -458,6 +461,7 @@ function Home() {
             style={{
               width: "100%",
               padding: "8px",
+              minHeight: "280px",
             }}
             elevation={5}
           >
@@ -486,6 +490,7 @@ function Home() {
             style={{
               width: "100%",
               padding: "8px",
+              minHeight: "280px",
             }}
           >
             {crowdingInstance.loading ? (

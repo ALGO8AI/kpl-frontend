@@ -42,19 +42,19 @@ function DefectChart() {
         },
       },
       colors: ["#f68f1d"],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-            legend: {
-              position: "bottom",
-            },
-          },
-        },
-      ],
+      // responsive: [
+      //   {
+      //     breakpoint: 480,
+      //     options: {
+      //       chart: {
+      //         width: 200,
+      //       },
+      //       legend: {
+      //         position: "bottom",
+      //       },
+      //     },
+      //   },
+      // ],
 
       xaxis: {
         categories: ["Damage", "Fray", "Miss", "Baffle", "Juki"],

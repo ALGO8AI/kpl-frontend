@@ -27,7 +27,8 @@ function VideoWall() {
     <Grid container xs={12} spacing={2} style={{ margin: "12px 0px" }}>
       <Grid item xs={12}>
         <Alert severity="info">
-          If Video is not available, refresh the page!
+          If Video is not available, refresh the page! To view extended video,
+          Click on video.
         </Alert>
       </Grid>
       {videos ? (
