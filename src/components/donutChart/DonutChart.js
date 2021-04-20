@@ -84,7 +84,7 @@ function DonutChart(props) {
       pie: {
         donut: {
           labels: {
-            show: true,
+            show: false,
             name: {
               show: true,
               color: "#333",

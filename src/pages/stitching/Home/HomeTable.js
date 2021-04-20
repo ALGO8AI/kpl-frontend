@@ -22,7 +22,8 @@ function HomeTable({ data, columns }) {
           data={data}
           options={{
             exportButton: true,
-            pageSizeOptions: [5, 10, 20, data.length],
+            pageSizeOptions: [20, 50, 100, 200, data.length],
+            // pageSize: 20,
           }}
         />
       ) : (

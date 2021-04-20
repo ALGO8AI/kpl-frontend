@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { KPLProvider } from "./context/ViolationContext";
+import CombineContext from "./context/CombineContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <KPLProvider>
+    <CombineContext>
       <App />
-    </KPLProvider>
+    </CombineContext>
   </React.StrictMode>,
   document.getElementById("root")
 );

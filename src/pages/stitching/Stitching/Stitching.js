@@ -1,4 +1,5 @@
 import React from "react";
+import { StitchingProvider } from "../../../context/StitchingContext";
 import Home from "../Home/Home";
 import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
@@ -22,8 +23,10 @@ function Stitching(props) {
   const page = pages[props.match.params.page];
   return (
     <>
+      {/* <StitchingProvider> */}
       <Navigation />
       {page}
+      {/* </StitchingProvider> */}
     </>
   );
 }

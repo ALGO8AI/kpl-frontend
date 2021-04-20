@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import "./AreaChart.scss";
 function AreaChart(props) {
-  console.log(props);
+  // console.log(props);
   // const [days,setDays]=useState([]);
   // const [dayData,setDayData]=useState([]);
 
@@ -60,7 +60,6 @@ function AreaChart(props) {
         dur += d.crowdingDuration;
       });
     }
-    console.log(ins, dur);
     setSeries([
       {
         name: "crowding",
@@ -72,7 +71,7 @@ function AreaChart(props) {
   }
 
   useEffect(() => {
-    console.log("in Use Effect");
+    // console.log("in Use Effect");
     changeWeek();
     LoadData();
   }, [props]);

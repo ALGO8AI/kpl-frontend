@@ -288,7 +288,6 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
   };
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/home/detailedSummaryByWorker",
@@ -423,7 +422,6 @@ const machineBreakdownData = async (fromDate, toDate, machine) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
   };
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/home/machineBreakdownData",

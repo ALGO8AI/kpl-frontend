@@ -87,7 +87,9 @@ function Login() {
           setOpen(true);
         }
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

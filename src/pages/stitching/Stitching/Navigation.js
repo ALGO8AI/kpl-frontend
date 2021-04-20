@@ -156,10 +156,10 @@ export default function Navigation() {
   const loadData = async () => {
     try {
       const ctr = await ctrDropDown();
-      console.log(ctr);
+      // console.log(ctr);
       setCtrDrop(ctr);
       const notification = await getStitchingNotification();
-      console.log(notification.data);
+      // console.log(notification.data);
       setNotification(notification.data);
     } catch (err) {}
   };
