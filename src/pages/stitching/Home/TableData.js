@@ -16,7 +16,11 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{ marginTop: "8px" }}
+      style={{
+        marginTop: "8px",
+        maxHeight: "50vh",
+        overflow: "scroll",
+      }}
     >
       {value === index && (
         <Grid container item>

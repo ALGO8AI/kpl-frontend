@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
@@ -34,8 +31,6 @@ import clsx from "clsx";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../images/kpl-logo.png";
 import {
-  changeCTR,
-  ctrDropDown,
   getStitchingNotification,
   removeNotification,
 } from "../../../services/api.service";
@@ -133,16 +128,7 @@ export default function Navigation() {
   const { dispatch } = React.useContext(KPLContext);
 
   // CUSTOM NOTIFICATION FUNCTION
-  const [ctrDrop, setCtrDrop] = React.useState();
   const [open, setOpen] = React.useState(false);
-  const [CTR, setCTR] = React.useState({
-    currentCtr: "",
-    clpctr: "",
-    wing: "",
-    line: "",
-    resourceId: "",
-    startTime: new Date().toLocaleTimeString().slice(0, 5),
-  });
   const [notification, setNotification] = useState([]);
   const [openProfile, setOpenProfile] = React.useState(false);
 
@@ -155,11 +141,7 @@ export default function Navigation() {
 
   const loadData = async () => {
     try {
-      const ctr = await ctrDropDown();
-      // console.log(ctr);
-      setCtrDrop(ctr);
       const notification = await getStitchingNotification();
-      // console.log(notification.data);
       setNotification(notification.data);
     } catch (err) {}
   };
@@ -382,7 +364,7 @@ export default function Navigation() {
     </Menu>
   );
 
-  const [selectedIndex2, setSelectedIndex2] = React.useState(1);
+  // const [selectedIndex2, setSelectedIndex2] = React.useState(1);
   const [anchorE2, setAnchorE2] = React.useState(null);
   const handleClickListItem2 = (event) => {
     setAnchorE2(event.currentTarget);
@@ -392,7 +374,7 @@ export default function Navigation() {
     setAnchorE2(null);
   };
   const handleMenuItemClick2 = async (event, index) => {
-    setNotification(notification.filter((data) => data.id != index));
+    setNotification(notification.filter((data) => data.id !== index));
     try {
       const resp = await removeNotification(index);
       console.log(resp);
@@ -487,7 +469,7 @@ export default function Navigation() {
         {notification.map((option, index) => (
           <MenuItem
             key={index}
-            selected={index === selectedIndex2}
+            // selected={index === selectedIndex2}
             onClick={(event) => handleMenuItemClick2(event, option.id)}
             style={{ backgroundColor: "#FFCBE4" }}
           >

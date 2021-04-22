@@ -1,26 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
-// import "./home.css";
-import MaterialTable from "material-table";
 import ReactPlayer from "react-player";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-// import "./setting.css";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
+
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {
-  violationDateFilter,
   workerUnavailableViolation,
   feedUnavailableViolation,
   crowdingViolation,
@@ -48,7 +40,11 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{ marginTop: "8px" }}
+      style={{
+        marginTop: "8px",
+        maxHeight: "50vh",
+        overflow: "scroll",
+      }}
     >
       {value === index && (
         <Grid container item>
@@ -88,18 +84,10 @@ const useStyles = makeStyles((theme) => ({
 function ViolationLog1() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
-  const [crowdingData, setCrowdingData] = useState([]);
-  const [feedUnavailableData, setFeedUnavailableData] = useState([]);
-  const [workerViolation, setWorkerViolation] = useState([]);
-  const [violationByWorker, setViolationByWorker] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
-  const [value, setValue] = React.useState();
-  const [timePeriod, setTimePeriod] = React.useState("weekly");
-  const [zone, setZone] = React.useState("zone1");
   const [link, setLink] = React.useState("");
   const [img, setImg] = React.useState();
-  const [tableby, setTableBy] = React.useState("violation");
   const [profile, setProfile] = React.useState({
     name: "",
     wid: "",
@@ -278,11 +266,6 @@ function ViolationLog1() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
 
-  const [FEEDUNAVAILABLE, setFEEDUNAVAILABLE] = useState([]);
-  const [CROWDING, setCROWDING] = useState([]);
-  const [WORKER, setWORKER] = useState([]);
-  const [BY_WORKER, setBY_WORKER] = useState([]);
-
   const load_ctr_machine = async () => {
     try {
       const ctr = await ctr_machineID();
@@ -376,12 +359,12 @@ function ViolationLog1() {
     setTabValue(newValue);
   };
 
-  const rowClick = (event, rowData) => {
+  const rowClick = (evt, rowData) => {
     setLink(null);
     setLink(rowData.video);
     setImg(rowData.img);
     setIdLabel(rowData.Id);
-    setSelectedRow(rowData.tableData.id);
+    setSelectedRow(rowData.Id);
     if (tabValue === 3) {
       console.log(rowData);
       setProfile({
@@ -686,75 +669,6 @@ function ViolationLog1() {
           ) : null}
         </Grid>
 
-        {/* <Grid
-          container
-          item
-          md={12}
-          xs={12}
-          spacing={4}
-          style={{ padding: "2rem" }}
-        >
-          <Grid xs={12}>
-            {idLabel ? (
-              <Grid
-                xs={12}
-                md={6}
-                style={{
-                  backgroundColor: "#f68f1d",
-                  color: "white",
-                  fontWeight: "600",
-                  fontSize: "16px",
-                }}
-              >
-                Violation Id:{idLabel}
-                {link ? (
-                  <ReactPlayer
-                    key={link}
-                    url={link.replace(".avi", ".mp4")}
-                    controls={true}
-                    //  muted={true}
-                    //  playing={false}
-                    width="100%"
-                    height="240px"
-                    style={{ postition: "fixed" }}
-                  />
-                ) : (
-                  <Grid
-                    xs={12}
-                    md={6}
-                    style={{
-                      backgroundColor: "black",
-                      color: "#fff",
-                      minHeight: "240px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <PlayCircleOutlineIcon />
-                    <Grid xs={12} md={6}>
-                      Select to view the violation video
-                    </Grid>
-                    <Typography
-                      variant="h6"
-                      style={{ color: "#0e4a7b", padding: "6px" }}
-                    >
-                      Note: If The video is unable to play, it might be under
-                      Process.
-                    </Typography>
-                  </Grid>
-                )}
-              </Grid>
-            ) : null}
-
-            {img ? (
-              <Grid xs={12} md={6}>
-                <img src={img} style={{ width: "100%" }} alt="profile" />
-              </Grid>
-            ) : null}
-          </Grid>
-        </Grid> */}
         <Grid item xs={12} md={12} style={{ padding: "1rem" }}>
           <AppBar position="static" className="customTab">
             <Tabs
@@ -773,6 +687,7 @@ function ViolationLog1() {
             <ViolationTable
               data={state.feed.data}
               rowClick={rowClick}
+              selectedRow={selectedRow}
               columns={[
                 {
                   field: "view",
@@ -882,6 +797,7 @@ function ViolationLog1() {
               <ViolationTable
                 data={state.crowd.data}
                 rowClick={rowClick}
+                selectedRow={selectedRow}
                 columns={[
                   { title: "Violation ID", field: "Id" },
                   // {
@@ -973,6 +889,7 @@ function ViolationLog1() {
               <ViolationTable
                 data={state.worker.data}
                 rowClick={rowClick}
+                selectedRow={selectedRow}
                 columns={[
                   {
                     field: "view",

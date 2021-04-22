@@ -5,15 +5,15 @@ import {
   TextField,
   withStyles,
 } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as Styles from "./Login.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
 import { login } from "../services/api.service";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 
-const ColorButton = withStyles((theme) => ({
+const ColorButton = withStyles(() => ({
   root: {
     color: "white",
     backgroundColor: "#0e4a7b",
@@ -35,7 +35,7 @@ function Login() {
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState("");
 
-  const { state, dispatch } = React.useContext(KPLContext);
+  const { dispatch } = React.useContext(KPLContext);
 
   // Snackbar close function
   const handleClose = (event, reason) => {

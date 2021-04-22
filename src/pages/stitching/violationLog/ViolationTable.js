@@ -11,8 +11,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ViolationTable({ data, columns, rowClick }) {
+function ViolationTable({ data, columns, rowClick, selectedRow }) {
   const classes = useStyles();
+
   return (
     <>
       {data.length > 0 ? (
@@ -22,7 +23,11 @@ function ViolationTable({ data, columns, rowClick }) {
           data={data}
           options={{
             exportButton: true,
-            pageSizeOptions: [5, 10, 20, data.length],
+            pageSizeOptions: [20, 50, 100, 200, data.length],
+            pageSize: 20,
+            rowStyle: (rowData) => ({
+              backgroundColor: selectedRow === rowData.Id ? "#ffe2c1" : "white",
+            }),
           }}
           onRowClick={rowClick}
         />

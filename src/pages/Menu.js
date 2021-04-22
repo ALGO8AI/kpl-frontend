@@ -15,7 +15,7 @@ import Cutter from "../images/Cutter.svg";
 import check from "../images/check.svg";
 import sew from "../images/sew.svg";
 
-const SupportButton = withStyles((theme) => ({
+const SupportButton = withStyles(() => ({
   root: {
     color: "#0e4a7b",
     backgroundColor: "white",
