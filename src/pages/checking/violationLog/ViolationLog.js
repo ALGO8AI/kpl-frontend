@@ -36,6 +36,7 @@ import * as moment from "moment";
 // import { ViolationContext } from "../../context/ViolationContext";
 import { AppBar, InputLabel, Tab, Tabs } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
+import { CheckingContext } from "../../../context/CheckingContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,7 +51,11 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{ marginTop: "8px" }}
+      style={{
+        marginTop: "8px",
+        maxHeight: "50vh",
+        overflow: "scroll",
+      }}
     >
       {value === index && (
         <Grid container item>
@@ -88,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ViolationLog1() {
+  const { state, dispatch } = React.useContext(CheckingContext);
   const [crowdingData, setCrowdingData] = useState([]);
   const [feedUnavailableData, setFeedUnavailableData] = useState([]);
   const [workerViolation, setWorkerViolation] = useState([]);
@@ -340,7 +346,7 @@ function ViolationLog1() {
     getFirstDay_LastDay();
     load_ctr_machine();
   }, []);
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(state.violationTab);
 
   const handleTabChange = (event, newValue) => {
     // console.log(newValue);
@@ -352,7 +358,7 @@ function ViolationLog1() {
     setLink(rowData.video);
     setImg(rowData.img);
     setIdLabel(rowData.Id);
-    setSelectedRow(rowData.tableData.id);
+    setSelectedRow(rowData.Id);
     if (tabValue === 3) {
       console.log(rowData);
       setProfile({
@@ -711,6 +717,7 @@ function ViolationLog1() {
               <ViolationTable
                 data={CROWDING}
                 rowClick={rowClick}
+                selectedRow={selectedRow}
                 columns={[
                   { title: "Violation ID", field: "Id" },
                   {
@@ -775,6 +782,7 @@ function ViolationLog1() {
               <ViolationTable
                 data={WORKER}
                 rowClick={rowClick}
+                selectedRow={selectedRow}
                 columns={[
                   {
                     field: "view",
@@ -851,6 +859,7 @@ function ViolationLog1() {
               <ViolationTable
                 data={BY_WORKER}
                 rowClick={rowClick}
+                selectedRow={selectedRow}
                 columns={[
                   { title: "Worker ID", field: "workerId" },
                   { title: "Worker Name", field: "workerName" },
@@ -876,6 +885,7 @@ function ViolationLog1() {
               <ViolationTable
                 data={BY_WORKER}
                 rowClick={rowClick}
+                selectedRow={selectedRow}
                 columns={[
                   { title: "Worker ID", field: "workerId" },
                   { title: "Worker Name", field: "workerName" },

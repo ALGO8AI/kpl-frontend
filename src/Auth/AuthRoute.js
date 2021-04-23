@@ -6,12 +6,13 @@ function AuthRoute({ component, authed, ...rest }) {
   // const { state } = React.useContext(KPLContext);
   console.log(authed);
   const Component = component;
+  const [state, setState] = React.useState(localStorage.getItem("KPL Auth"));
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        !Boolean(authed) ? <Component {...props} /> : <Redirect to="/" />
+        state ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );

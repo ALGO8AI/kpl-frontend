@@ -28,28 +28,14 @@ function App(props) {
   return (
     <Router>
       <Switch>
-        {Boolean(state.role) ? (
-          <>
-            <Route exact path="/" component={Menu} />
-            <Route exact path="/menu" component={Menu} />
-            <Route exact path="/stitching/:page" component={Stitching} />
-            <Route exact path="/stitching/:page/:id" component={Stitching} />
-            <Route exact path="/checking/:page" component={Checking} />
-            <Route exact path="/checking/:page/:id" component={Checking} />
-            <Redirect from="/stitching" to="/stitching/home" />
-            <Redirect from="/checking" to="/checking/home" />
-          </>
-        ) : (
-          <>
-            <Route to="/" exact component={Login} />
-            <Redirect exact to="/" />
-          </>
-        )}
-
-        {/* <Redirect from="/checking" to="/checking/home" /> */}
-        {/* <Route path="/checking/:page" exact component={Checking} />
-        <Route path="/checking/:page/:id" exact component={Checking} /> */}
-        {/* <Redirect from="/cutting" to="/cutting/home" /> */}
+        <Route exact path="/" component={Login} />
+        <AuthRoute exact path="/menu" component={Menu} />
+        <AuthRoute exact path="/stitching/:page" component={Stitching} />
+        <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />
+        <AuthRoute exact path="/checking/:page" component={Checking} />
+        <AuthRoute exact path="/checking/:page/:id" component={Checking} />
+        <Redirect from="/stitching" to="/stitching/home" />
+        <Redirect from="/checking" to="/checking/home" />
       </Switch>
     </Router>
   );

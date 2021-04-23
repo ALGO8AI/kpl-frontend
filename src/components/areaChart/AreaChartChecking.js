@@ -3,10 +3,10 @@ import { FormControl, Select, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
-import { StitchingContext } from "../../context/StitchingContext";
+import { CheckingContext } from "../../context/CheckingContext";
 import "./AreaChart.scss";
-function AreaChart(props) {
-  const { dispatch } = React.useContext(StitchingContext);
+function AreaChartChecking(props) {
+  const { dispatch } = React.useContext(CheckingContext);
 
   const [series, setSeries] = useState([]);
   const [week, setWeek] = useState([]);
@@ -198,4 +198,4 @@ function AreaChart(props) {
   );
 }
 
-export default AreaChart;
+export default AreaChartChecking;

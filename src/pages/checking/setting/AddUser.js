@@ -29,7 +29,7 @@ function AddUser() {
     username: "",
     password: "",
     email: "",
-    designation: "",
+    designation: "supervisor",
     role: "",
     zone: "",
     wing: "",
@@ -385,7 +385,46 @@ function AddUser() {
                 onChange={(e) => setData({ ...data, wing: e.target.value })}
               />
             </Grid>
+            <Grid
+              item
+              xs={6}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                label="Worker Id"
+                variant="outlined"
+                value={data.workerID}
+                size="small"
+                onChange={(e) => setData({ ...data, workerID: e.target.value })}
+              />
+            </Grid>
 
+            <Grid
+              item
+              xs={6}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                label="Mobile"
+                type="number"
+                variant="outlined"
+                value={data.mobile}
+                size="small"
+                onChange={(e) => setData({ ...data, mobile: e.target.value })}
+              />
+            </Grid>
             <Grid
               item
               xs={4}
@@ -470,46 +509,6 @@ function AddUser() {
               />
             </Grid>
 
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Worker Id"
-                variant="outlined"
-                value={data.workerID}
-                size="small"
-                onChange={(e) => setData({ ...data, workerID: e.target.value })}
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Mobile"
-                type="number"
-                variant="outlined"
-                value={data.mobile}
-                size="small"
-                onChange={(e) => setData({ ...data, mobile: e.target.value })}
-              />
-            </Grid>
             <Grid
               item
               xs={12}

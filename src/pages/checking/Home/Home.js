@@ -29,36 +29,97 @@ import DonutChartSimple from "../../../components/donutChartSimple/DonutChartSim
 import DonutChart from "../../../components/donutChart/DonutChart";
 import AreaChart from "../../../components/areaChart/AreaChart";
 import DefectChart from "../../../components/barChart/DefectChart";
+import { CheckingContext } from "../../../context/CheckingContext";
+import DonutChartChecking from "../../../components/donutChart/DonutChartChecking";
+import AreaChartChecking from "../../../components/areaChart/AreaChartChecking";
 
-function Home() {
+export default function Home() {
+  // context
+  const { state, dispatch } = React.useContext(CheckingContext);
   // State
-  const [WEEK, setWEEK] = useState([]);
-  const [TO, setTO] = useState(null);
-  const [FROM, setFROM] = useState(null);
-  const [ctrDrop, setCtrDrop] = useState();
   const [clpCtr, setClpCtr] = useState([]);
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
-  const [homeWorkerTable, setHomeWorkerTable] = useState([]);
-  const [homeDateTable, setHomeDateTable] = useState([]);
-  const [homeMachineTable, setHomeMachineTable] = useState([]);
-  const [homeCTRTable, setHomeCTRTable] = useState([]);
-  const [workerUtilization, setWorkerUtilization] = useState({
-    data: [],
-    loading: true,
-  });
-  const [crowdingInstance, setCrowdingInstance] = useState({
-    data: [],
-    loading: true,
-  });
-  const [breakdownData, setBreakdownData] = useState({
-    data: [],
-    loading: true,
-  });
 
   // Functions
 
+  // refresh
+  const refreshData = async () => {
+    var curr = new Date(); // get current date
+    // console.log(new Date().toISOString().slice(0, 10));
+    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
+    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+
+    let week = [];
+    for (let i = 1; i <= 7; i++) {
+      let first = curr.getDate() - curr.getDay() + i;
+      let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+      week.push(day);
+    }
+    // console.log(week);
+
+    dispatch({ type: "FROM", payload: firstDay });
+
+    dispatch({
+      type: "TO",
+      payload: new Date().toISOString().slice(0, 10),
+    });
+
+    try {
+      const y = await workerUtilizationData();
+      dispatch({
+        type: "WORKER_UTILIZATION",
+        payload: { data: y.workerUtilization, loading: false },
+      });
+
+      const z = await crowdingInstanceCheckingData();
+      dispatch({
+        type: "CROWDING_INSTANCE",
+        payload: { data: z.crowdingInstancesData, loading: false },
+      });
+
+      const homeWorkerTable = await summaryByWorkerData();
+      dispatch({
+        type: "HOME_WORKER_TABLE",
+        payload: {
+          data: homeWorkerTable.detailedSummaryByWorker,
+          loading: false,
+        },
+      });
+
+      const homeDateTable = await summaryByViolationData();
+      dispatch({
+        type: "HOME_DATE_TABLE",
+        payload: {
+          data: homeDateTable.detailedSummaryByViolation.violationSummary,
+          loading: false,
+        },
+      });
+
+      const homeMachineTable = await machineData();
+      dispatch({
+        type: "HOME_MACHINE_TABLE",
+        payload: {
+          data:
+            homeMachineTable.detailedSummaryByMachineId
+              .violationSummaryByMachineId,
+          loading: false,
+        },
+      });
+
+      const homeCTRTable = await ClpCtrData();
+      dispatch({
+        type: "HOME_CTR_TABLE",
+        payload: {
+          data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+          loading: false,
+        },
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   // get week days function
   const getFirstDay_LastDay = async () => {
     var curr = new Date(); // get current date
@@ -73,9 +134,14 @@ function Home() {
       week.push(day);
     }
     // console.log(week);
-    setWEEK(week);
-    setTO(new Date().toISOString().slice(0, 10));
-    setFROM(firstDay);
+
+    if (Boolean(!state.from)) {
+      dispatch({ type: "FROM", payload: firstDay });
+    }
+
+    if (Boolean(!state.to)) {
+      dispatch({ type: "TO", payload: new Date().toISOString().slice(0, 10) });
+    }
   };
 
   // load ctr filter dropdown data
@@ -92,164 +158,178 @@ function Home() {
   // load initial table data
   const loadData = async () => {
     try {
-      const x = await machineBreakdownData();
-      console.log(x);
-      setBreakdownData({ data: x.machineBreakdownData, loading: false });
+      if (state.workerUtilization.loading) {
+        const y = await workerUtilizationData();
+        dispatch({
+          type: "WORKER_UTILIZATION",
+          payload: { data: y.workerUtilization, loading: false },
+        });
+      }
 
-      const y = await workerUtilizationData();
-      setWorkerUtilization({ data: y.workerUtilization, loading: false });
+      if (state.crowdingInstance.loading) {
+        const z = await crowdingInstanceCheckingData();
+        dispatch({
+          type: "CROWDING_INSTANCE",
+          payload: { data: z.crowdingInstancesData, loading: false },
+        });
+      }
 
-      const z = await crowdingInstanceCheckingData();
-      setCrowdingInstance({ data: z.crowdingInstancesData, loading: false });
+      if (state.homeWorkerTable.loading) {
+        const homeWorkerTable = await summaryByWorkerData();
+        dispatch({
+          type: "HOME_WORKER_TABLE",
+          payload: {
+            data: homeWorkerTable.detailedSummaryByWorker,
+            loading: false,
+          },
+        });
+      }
 
-      const homeWorkerTable = await summaryByWorkerData();
-      setHomeWorkerTable(homeWorkerTable.detailedSummaryByWorker);
-      console.log(homeWorkerTable.detailedSummaryByWorker.length);
+      if (state.homeDateTable.loading) {
+        const homeDateTable = await summaryByViolationData();
+        dispatch({
+          type: "HOME_DATE_TABLE",
+          payload: {
+            data: homeDateTable.detailedSummaryByViolation.violationSummary,
+            loading: false,
+          },
+        });
+      }
 
-      const homeDateTable = await summaryByViolationData();
-      setHomeDateTable(
-        homeDateTable.detailedSummaryByViolation.violationSummary
-      );
-      console.log(
-        homeDateTable.detailedSummaryByViolation.violationSummary.length
-      );
+      if (state.homeMachineTable.loading) {
+        const homeMachineTable = await machineData();
+        dispatch({
+          type: "HOME_MACHINE_TABLE",
+          payload: {
+            data:
+              homeMachineTable.detailedSummaryByMachineId
+                .violationSummaryByMachineId,
+            loading: false,
+          },
+        });
+      }
 
-      const homeMachineTable = await machineData();
-
-      setHomeMachineTable(
-        homeMachineTable.detailedSummaryByMachineId.violationSummaryByMachineId
-      );
-      console.log(
-        homeMachineTable.detailedSummaryByMachineId.violationSummaryByMachineId
-          .length
-      );
-
-      const homeCTRTable = await ClpCtrData();
-
-      setHomeCTRTable(
-        homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr
-      );
-
-      console.log(
-        homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr.length
-      );
+      if (state.homeCTRTable.loading) {
+        const homeCTRTable = await ClpCtrData();
+        dispatch({
+          type: "HOME_CTR_TABLE",
+          payload: {
+            data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+            loading: false,
+          },
+        });
+      }
     } catch (err) {
       console.log(err.message);
     }
   };
   // load filtered data
   const dateFilter = async () => {
-    if (!FROM) alert("From Date not Selected!");
-    else if (!TO) alert("To Date not Selected!");
+    if (!state.from) alert("From Date not Selected!");
+    else if (!state.to) alert("To Date not Selected!");
     else {
       try {
-        console.log("in try");
         const x = await workerUtilizationData(
-          FROM,
-          TO,
+          state.from,
+          state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
         );
-        // console.log(x);
-
-        setWorkerUtilization({
-          data: x.workerUtilization,
-          loading: false,
+        dispatch({
+          type: "WORKER_UTILIZATION",
+          payload: { data: x.workerUtilization, loading: false },
         });
 
-        const y = await crowdingInstanceCheckingData(FROM, TO);
-        // console.log(`y ${y}`);
-        setCrowdingInstance({
-          data: y.crowdingInstancesData,
-          loading: false,
+        const y = await crowdingInstanceCheckingData(state.from, state.to);
+        dispatch({
+          type: "CROWDING_INSTANCE",
+          payload: { data: y.crowdingInstancesData, loading: false },
         });
-
-        const z = await machineBreakdownData(
-          FROM,
-          TO,
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
-        );
-        console.log(z);
-        setBreakdownData({ data: z.machineBreakdownData, loading: false });
 
         const homeWorkerTable = await summaryByWorkerData(
-          FROM,
-          TO,
+          state.from,
+          state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
         );
-        console.log(homeWorkerTable.detailedSummaryByWorker.length);
-
         if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
-          setHomeWorkerTable(homeWorkerTable.detailedSummaryByWorker);
+          dispatch({
+            type: "HOME_WORKER_TABLE",
+            payload: {
+              data: homeWorkerTable.detailedSummaryByWorker,
+              loading: false,
+            },
+          });
         }
 
         const homeDateTable = await summaryByViolationData(
-          FROM,
-          TO,
+          state.from,
+          state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
-        );
-        console.log(
-          homeDateTable.detailedSummaryByViolation.violationSummary.length
         );
         if (
           homeDateTable.detailedSummaryByViolation.violationSummary !==
           "no data"
         ) {
-          setHomeDateTable(
-            homeDateTable.detailedSummaryByViolation.violationSummary
-          );
+          dispatch({
+            type: "HOME_DATE_TABLE",
+            payload: {
+              data: homeDateTable.detailedSummaryByViolation.violationSummary,
+              loading: false,
+            },
+          });
         }
 
         const homeMachineTable = await machineData(
-          FROM,
-          TO,
+          state.from,
+          state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
-        );
-        console.log(
-          homeMachineTable.detailedSummaryByMachineId
-            .violationSummaryByMachineId.length
         );
         if (
           homeMachineTable.detailedSummaryByMachineId
             .violationSummaryByMachineId !== "no data"
         ) {
-          setHomeMachineTable(
-            homeMachineTable.detailedSummaryByMachineId
-              .violationSummaryByMachineId
-          );
+          dispatch({
+            type: "HOME_MACHINE_TABLE",
+            payload: {
+              data:
+                homeMachineTable.detailedSummaryByMachineId
+                  .violationSummaryByMachineId,
+              loading: false,
+            },
+          });
         }
 
         const homeCTRTable = await ClpCtrData(
-          FROM,
-          TO,
+          state.from,
+          state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
         );
-        console.log(
-          homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr.length
-        );
         if (
           homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr !==
           "no data"
         ) {
-          setHomeCTRTable(
-            homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr
-          );
+          dispatch({
+            type: "HOME_CTR_TABLE",
+            payload: {
+              data:
+                homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+              loading: false,
+            },
+          });
         }
       } catch (err) {
         console.log(err.message);
@@ -357,14 +437,14 @@ function Home() {
           key="from"
           id="fromDate"
           label="From"
-          value={FROM}
+          value={state.from}
           type="date"
           style={{ marginRight: "6px" }}
           InputLabelProps={{
             shrink: true,
           }}
           variant="outlined"
-          onChange={(e) => setFROM(e.target.value)}
+          onChange={(e) => dispatch({ type: "FROM", payload: e.target.value })}
           fullWidth
         />
       </Grid>
@@ -382,13 +462,13 @@ function Home() {
           id="toDate"
           label="To"
           type="date"
-          value={TO}
+          value={state.to}
           style={{ marginRight: "6px" }}
           variant="outlined"
           InputLabelProps={{
             shrink: true,
           }}
-          onChange={(e) => setTO(e.target.value)}
+          onChange={(e) => dispatch({ type: "TO", payload: e.target.value })}
           fullWidth
         />
       </Grid>
@@ -427,8 +507,7 @@ function Home() {
           // style={{ margin: "10px" }}
           // onClick={dateFilter}
           onClick={() => {
-            getFirstDay_LastDay();
-            loadData();
+            refreshData();
             setInputCTR([]);
             setInputMACHINEid([]);
           }}
@@ -465,21 +544,23 @@ function Home() {
             }}
             elevation={5}
           >
-            {workerUtilization.loading ? (
+            {state.workerUtilization.loading ? (
               <Loader />
             ) : (
-              <DonutChart
-                totalTime={workerUtilization.data.totalTime}
+              <DonutChartChecking
+                totalTime={state.workerUtilization.data.totalTime}
                 idleDueToWorkerUnavailable={
-                  workerUtilization.data.idleDueToWorkerUnavailable
+                  state.workerUtilization.data.idleDueToWorkerUnavailable
                 }
                 feedUnavailibilityDuration={
-                  workerUtilization.data.feedUnavailibilityDuration
+                  state.workerUtilization.data.feedUnavailibilityDuration
                 }
-                other={workerUtilization.data.other}
+                other={state.workerUtilization.data.other}
                 utilizationPercentage={
-                  workerUtilization.data.utilizationPercentage
+                  state.workerUtilization.data.utilizationPercentage
                 }
+                payload_data={1}
+                link={"/checking/violationLog"}
               />
             )}
           </Paper>
@@ -493,23 +574,25 @@ function Home() {
               minHeight: "280px",
             }}
           >
-            {crowdingInstance.loading ? (
+            {state.crowdingInstance.loading ? (
               <Loader />
             ) : (
-              <AreaChart data={crowdingInstance.data} />
+              <AreaChartChecking
+                payload_data={0}
+                link={"/checking/violationLog"}
+                data={state.crowdingInstance.data}
+              />
             )}
           </Paper>
         </Grid>
       </Grid>
 
       <TableData
-        homeWorkerTable={homeWorkerTable}
-        homeDateTable={homeDateTable}
-        homeMachineTable={homeMachineTable}
-        homeCTRTable={homeCTRTable}
+        homeWorkerTable={state.homeWorkerTable.data}
+        homeDateTable={state.homeDateTable.data}
+        homeMachineTable={state.homeMachineTable.data}
+        homeCTRTable={state.homeCTRTable.data}
       />
     </Grid>
   );
 }
-
-export default Home;

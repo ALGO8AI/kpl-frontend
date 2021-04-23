@@ -277,6 +277,7 @@ function ViolationLog1() {
           state.violationFrom,
           state.violationTo
         );
+        console.log(feed.feedUnavailableData);
         dispatch({
           type: "FEED_VIO",
           payload: { data: feed.feedUnavailableData, loading: false },
@@ -352,7 +353,7 @@ function ViolationLog1() {
     getFirstDay_LastDay();
     load_ctr_machine();
   }, []);
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(state.violationTab);
 
   const handleTabChange = (event, newValue) => {
     // console.log(newValue);

@@ -32,7 +32,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import clsx from "clsx";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import logo from "../../../images/kpl-logo.png";
 import {
   changeCTR,
@@ -131,6 +131,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Navigation() {
+  const history = useHistory();
+
   const { dispatch } = React.useContext(KPLContext);
 
   // CUSTOM NOTIFICATION FUNCTION
@@ -316,6 +318,7 @@ export default function Navigation() {
     });
     localStorage.removeItem("DESIGNATION");
     localStorage.removeItem("KPL Auth");
+    history.push("/");
   };
   const renderMenu = (
     <Menu

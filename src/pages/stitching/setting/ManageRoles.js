@@ -135,7 +135,7 @@ function ManageRoles() {
                 setData(x);
               }}
             >
-              UPDATE
+              EDIT
             </Button>
           ),
         },
@@ -440,6 +440,48 @@ function ManageRoles() {
                 onChange={(e) => setData({ ...data, wing: e.target.value })}
               />
             </Grid>
+            <Grid
+              item
+              xs={6}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                label="Worker Id"
+                variant="outlined"
+                value={data.workerID}
+                size="small"
+                onChange={(e) => setData({ ...data, workerID: e.target.value })}
+              />
+            </Grid>
+
+            <Grid
+              item
+              xs={6}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                label="Mobile"
+                type="number"
+                variant="outlined"
+                value={data.mobileNumber}
+                size="small"
+                onChange={(e) =>
+                  setData({ ...data, mobileNumber: e.target.value })
+                }
+              />
+            </Grid>
 
             <Grid
               item
@@ -525,48 +567,6 @@ function ManageRoles() {
               />
             </Grid>
 
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Worker Id"
-                variant="outlined"
-                value={data.workerID}
-                size="small"
-                onChange={(e) => setData({ ...data, workerID: e.target.value })}
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Mobile"
-                type="number"
-                variant="outlined"
-                value={data.mobileNumber}
-                size="small"
-                onChange={(e) =>
-                  setData({ ...data, mobileNumber: e.target.value })
-                }
-              />
-            </Grid>
             <Grid
               item
               xs={12}

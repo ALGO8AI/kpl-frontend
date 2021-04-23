@@ -36,15 +36,11 @@ function Home() {
 
   // State
   const [WEEK, setWEEK] = useState([]);
-  const [ctrDrop, setCtrDrop] = useState();
+
   const [clpCtr, setClpCtr] = useState([]);
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
-  const [homeWorkerTable, setHomeWorkerTable] = useState([]);
-  const [homeDateTable, setHomeDateTable] = useState([]);
-  const [homeMachineTable, setHomeMachineTable] = useState([]);
-  const [homeCTRTable, setHomeCTRTable] = useState([]);
 
   // Functions
 
@@ -247,7 +243,6 @@ function Home() {
     else if (!state.to) alert("To Date not Selected!");
     else {
       try {
-        console.log("in try");
         const x = await workerUtilizationData(
           state.from,
           state.to,
@@ -276,7 +271,6 @@ function Home() {
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
         );
-        console.log(z);
 
         dispatch({
           type: "MACHINE_UTILIZATION",
@@ -542,7 +536,6 @@ function Home() {
           // style={{ margin: "10px" }}
           // onClick={dateFilter}
           onClick={() => {
-            getFirstDay_LastDay();
             refreshData();
             setInputCTR([]);
             setInputMACHINEid([]);
@@ -566,7 +559,11 @@ function Home() {
             {state.machineUtilization.loading ? (
               <Loader />
             ) : (
-              <DonutChartSimple data={state.machineUtilization.data} />
+              <DonutChartSimple
+                data={state.machineUtilization.data}
+                payload_data={0}
+                link={"/stitching/violationLog"}
+              />
             )}
           </Paper>
         </Grid>
@@ -594,6 +591,8 @@ function Home() {
                 utilizationPercentage={
                   state.workerUtilization.data.utilizationPercentage
                 }
+                payload_data={2}
+                link={"/stitching/violationLog"}
               />
             )}
           </Paper>
@@ -610,7 +609,11 @@ function Home() {
             {state.crowdingInstance.loading ? (
               <Loader />
             ) : (
-              <AreaChart data={state.crowdingInstance.data} />
+              <AreaChart
+                data={state.crowdingInstance.data}
+                payload_data={1}
+                link={"/stitching/violationLog"}
+              />
             )}
           </Paper>
         </Grid>

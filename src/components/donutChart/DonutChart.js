@@ -9,6 +9,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { StitchingContext } from "../../context/StitchingContext";
 
 const useStyles = makeStyles((theme) => ({
   // formControl: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DonutChart(props) {
   const classes = useStyles();
+  const { dispatch } = React.useContext(StitchingContext);
 
   const [state, setState] = React.useState({
     age: "",
@@ -154,10 +157,23 @@ function DonutChart(props) {
 
   return (
     <>
-      <div className="top">
+      <div className="top" style={{ display: "flex" }}>
         <Typography
           variant="h6"
-          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+          style={{
+            margin: "auto",
+            textAlign: "center",
+            backgroundColor: "#f68f1d",
+            color: "white",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            textDecoration: "none",
+          }}
+          component={Link}
+          to={props.link}
+          onClick={() =>
+            dispatch({ type: "VIOLATION_TAB", payload: props.payload_data })
+          }
         >
           Worker Utilization
         </Typography>

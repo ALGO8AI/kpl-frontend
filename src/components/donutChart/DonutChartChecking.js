@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import "../donutChart/DonutChart.scss";
+import "./DonutChart.scss";
 import { makeStyles } from "@material-ui/core/styles";
 
 import InputLabel from "@material-ui/core/InputLabel";
@@ -10,7 +10,8 @@ import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { StitchingContext } from "../../context/StitchingContext";
+import { CheckingContext } from "../../context/CheckingContext";
+
 const useStyles = makeStyles((theme) => ({
   // formControl: {
   //   margin: theme.spacing(1),
@@ -22,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DonutChartSimple({ data, payload_data, link }) {
-  const { dispatch } = React.useContext(StitchingContext);
-
+function DonutChartChecking(props) {
   const classes = useStyles();
+  const { dispatch } = React.useContext(CheckingContext);
 
   const [state, setState] = React.useState({
     age: "",
@@ -77,10 +77,10 @@ function DonutChartSimple({ data, payload_data, link }) {
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
     labels: [
-      "Utilization Percentage",
-      "Machine OffTime",
-      "Machine OnTime",
-      "Schedule Hours",
+      "Actual working hour",
+      "Idle- Worker Unavailable",
+      "Idle-feed unavailable",
+      "Other",
     ],
 
     plotOptions: {
@@ -142,6 +142,19 @@ function DonutChartSimple({ data, payload_data, link }) {
     // console.log(props);
   }, []);
 
+  const SERIES = [
+    Math.round(
+      props.totalTime -
+        (props.idleDueToWorkerUnavailable +
+          props.feedUnavailibilityDuration +
+          props.other)
+    ),
+    props.idleDueToWorkerUnavailable,
+    props.feedUnavailibilityDuration,
+    props.other,
+  ];
+  const SERIES2 = [100, 50, 25, 12.5];
+
   return (
     <>
       <div className="top" style={{ display: "flex" }}>
@@ -157,12 +170,12 @@ function DonutChartSimple({ data, payload_data, link }) {
             textDecoration: "none",
           }}
           component={Link}
-          to={link}
+          to={props.link}
           onClick={() =>
-            dispatch({ type: "VIOLATION_TAB", payload: payload_data })
+            dispatch({ type: "VIOLATION_TAB", payload: props.payload_data })
           }
         >
-          Machine Utilization
+          Worker Utilization
         </Typography>
       </div>
       <div className="donutCard">
@@ -171,15 +184,57 @@ function DonutChartSimple({ data, payload_data, link }) {
             <Chart
               options={options}
               series={[
-                Boolean(data[0].utilizationPercentage)
-                  ? data[0].utilizationPercentage
+                Boolean(
+                  Math.round(
+                    props.totalTime -
+                      (props.idleDueToWorkerUnavailable +
+                        props.feedUnavailibilityDuration +
+                        props.other)
+                  )
+                )
+                  ? Math.round(
+                      props.totalTime -
+                        (props.idleDueToWorkerUnavailable +
+                          props.feedUnavailibilityDuration +
+                          props.other)
+                    )
                   : 0,
-                Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0,
-                Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0,
-                Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0,
+                Boolean(props.idleDueToWorkerUnavailable)
+                  ? props.idleDueToWorkerUnavailable
+                  : 0,
+                Boolean(props.feedUnavailibilityDuration)
+                  ? props.feedUnavailibilityDuration
+                  : 0,
+                Boolean(props.other) ? props.other : 0,
+
+                // Math.round(
+                //   props.totalTime -
+                //     (props.idleDueToWorkerUnavailable +
+                //       props.feedUnavailibilityDuration +
+                //       props.other)
+                // ),
+                // props.idleDueToWorkerUnavailable,
+                // props.feedUnavailibilityDuration,
+                // props.other,
               ]}
               type="donut"
             />
+            {/* <p>
+            % Actual Working Hour{" "}
+            {Math.round(
+              (props.totalTime -
+                props.idleDueToWorkerUnavailable +
+                props.feedUnavailibilityDuration +
+                props.other) /
+                (props.totalTime -
+                  props.idleDueToWorkerUnavailable +
+                  props.feedUnavailibilityDuration +
+                  props.other +
+                  props.idleDueToWorkerUnavailable +
+                  props.feedUnavailibilityDuration +
+                  props.other)
+            )}
+          </p> */}
           </div>
         </div>
         <div className="rightTile">
@@ -199,7 +254,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Machine On Time </p>
+              <p> Actual Working Hour </p>
             </div>
             <div
               style={{
@@ -215,7 +270,12 @@ function DonutChartSimple({ data, payload_data, link }) {
                   textAlign: "center",
                 }}
               >
-                {Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0}
+                {Math.round(
+                  props.totalTime -
+                    (props.idleDueToWorkerUnavailable +
+                      props.feedUnavailibilityDuration +
+                      props.other)
+                )}
               </h6>
             </div>
           </div>
@@ -235,7 +295,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Machine Off Time </p>
+              <p> Idle - Worker N / A </p>
             </div>
             <div
               style={{
@@ -251,7 +311,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                   textAlign: "center",
                 }}
               >
-                {Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0}
+                {props.idleDueToWorkerUnavailable}
               </h6>
             </div>
           </div>
@@ -271,7 +331,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p>Scheduled hours</p>
+              <p>Idle- Feed N/A</p>
             </div>
             <div
               style={{
@@ -287,46 +347,46 @@ function DonutChartSimple({ data, payload_data, link }) {
                   textAlign: "center",
                 }}
               >
-                {Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0}
+                {props.feedUnavailibilityDuration}
               </h6>
             </div>
           </div>
-          {/* <div class="center-text">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="dots dotRed"
+          <div class="center-text">
+            <div
               style={{
-                display: "block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "4px",
-              }}
-            ></span>
-            <p>Idle-Other</p>
-          </div>
-          <div
-            style={{
-              backgroundColor: "#FEEFEA",
-              width: "auto",
-              padding: "8px 0px",
-              borderRadius: "8px",
-            }}
-          >
-            <h6
-              style={{
-                color: "#F16230",
-                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              {props.other}
-            </h6>
+              <span
+                className="dots dotRed"
+                style={{
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                }}
+              ></span>
+              <p>Idle-Other</p>
+            </div>
+            <div
+              style={{
+                backgroundColor: "#FEEFEA",
+                width: "auto",
+                padding: "8px 0px",
+                borderRadius: "8px",
+              }}
+            >
+              <h6
+                style={{
+                  color: "#F16230",
+                  textAlign: "center",
+                }}
+              >
+                {props.other}
+              </h6>
+            </div>
           </div>
-        </div> */}
         </div>
 
         {/* <div id="chart"> */}
@@ -399,4 +459,4 @@ function DonutChartSimple({ data, payload_data, link }) {
   );
 }
 
-export default DonutChartSimple;
+export default DonutChartChecking;

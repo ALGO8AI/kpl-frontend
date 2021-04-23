@@ -1,4 +1,5 @@
 import React from "react";
+import { CheckingProvider } from "./CheckingContext";
 import { StitchingProvider } from "./StitchingContext";
 import { KPLProvider } from "./ViolationContext";
 
@@ -6,7 +7,9 @@ function CombineContext({ children }) {
   return (
     <>
       <KPLProvider>
-        <StitchingProvider>{children}</StitchingProvider>
+        <CheckingProvider>
+          <StitchingProvider>{children}</StitchingProvider>
+        </CheckingProvider>
       </KPLProvider>
     </>
   );

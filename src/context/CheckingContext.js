@@ -1,10 +1,6 @@
 import React, { useReducer } from "react";
 
 const initialState = {
-  machineUtilization: {
-    data: [],
-    loading: true,
-  },
   workerUtilization: {
     data: [],
     loading: true,
@@ -51,12 +47,10 @@ const initialState = {
   },
   violationTab: 0,
 };
-const StitchingContext = React.createContext(initialState);
+const CheckingContext = React.createContext(initialState);
 
 let reducer = (state, action) => {
   switch (action.type) {
-    case "MACHINE_UTILIZATION":
-      return { ...state, machineUtilization: action.payload };
     case "WORKER_UTILIZATION":
       return { ...state, workerUtilization: action.payload };
     case "CROWDING_INSTANCE":
@@ -105,12 +99,12 @@ let reducer = (state, action) => {
   }
 };
 
-function StitchingProvider(props) {
+function CheckingProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <StitchingContext.Provider value={{ state, dispatch }}>
+    <CheckingContext.Provider value={{ state, dispatch }}>
       {props.children}
-    </StitchingContext.Provider>
+    </CheckingContext.Provider>
   );
 }
-export { StitchingContext, StitchingProvider };
+export { CheckingContext, CheckingProvider };
