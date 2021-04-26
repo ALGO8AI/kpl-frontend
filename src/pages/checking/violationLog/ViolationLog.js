@@ -94,18 +94,11 @@ const useStyles = makeStyles((theme) => ({
 
 function ViolationLog1() {
   const { state, dispatch } = React.useContext(CheckingContext);
-  const [crowdingData, setCrowdingData] = useState([]);
-  const [feedUnavailableData, setFeedUnavailableData] = useState([]);
-  const [workerViolation, setWorkerViolation] = useState([]);
-  const [violationByWorker, setViolationByWorker] = useState([]);
+
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
-  const [value, setValue] = React.useState();
-  const [timePeriod, setTimePeriod] = React.useState("weekly");
-  const [zone, setZone] = React.useState("zone1");
   const [link, setLink] = React.useState("");
   const [img, setImg] = React.useState();
-  const [tableby, setTableBy] = React.useState("violation");
   const [profile, setProfile] = React.useState({
     name: "",
     wid: "",
@@ -118,134 +111,113 @@ function ViolationLog1() {
     idealFu: "",
     others: "",
   });
-  const [column, setColumn] = React.useState([]);
-  const [data, setData] = React.useState([]);
-  const [toDate, setToDate] = useState(null);
-  const [fromDate, setFromDate] = useState(null);
+
   const classes = useStyles();
 
-  const handleDateChange = (e) => {
-    if (e.target.id === "fromDate") {
-      setFromDate(e.target.value);
-    } else if (e.target.id === "toDate") {
-      setToDate(e.target.value);
+  const refreshData = async () => {
+    var curr = new Date(); // get current date
+    // console.log(new Date().toISOString().slice(0, 10));
+    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
+    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+    dispatch({ type: "VIO_FROM", payload: firstDay });
+    dispatch({
+      type: "VIO_TO",
+      payload: new Date().toISOString().slice(0, 10),
+    });
+
+    const crowd = await crowdingViolationChecking();
+    console.log(crowd);
+    if (crowd.checkingCrowdingData !== "no data") {
+      dispatch({
+        type: "CROWD_VIO",
+        payload: { data: crowd.checkingCrowdingData, loading: false },
+      });
     }
+
+    const worker = await workerUnavailableViolationChecking();
+    if (worker.checkingWorkerUnavailableViolation === "no data") {
+      dispatch({
+        type: "WORKER_VIO",
+        payload: {
+          data: [],
+          loading: false,
+        },
+      });
+    } else {
+      dispatch({
+        type: "WORKER_VIO",
+        payload: {
+          data: worker.checkingWorkerUnavailableViolation,
+          loading: false,
+        },
+      });
+    }
+
+    const by_worker = await violationByWorkerF();
+    dispatch({
+      type: "BY_WORKER_VIO",
+      payload: {
+        data: by_worker.violationByWorkerData,
+        loading: false,
+      },
+    });
   };
+
   const dateFilter = async () => {
-    console.log(
-      inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs)
-    );
-    console.log(
-      inputMACHINEid.length > 0
-        ? inputMACHINEid
-        : machineID.map((item) => item.machineID)
-    );
     try {
       const crowd = await crowdingViolationChecking(
-        fromDate,
-        toDate,
+        state.violationFrom,
+        state.violationTo,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId)
       );
-      console.log(crowd.crowdingData.length);
-
+      console.log(crowd);
       if (crowd.crowdingData !== "no data") {
-        setCROWDING(crowd.crowdingData);
+        dispatch({
+          type: "CROWD_VIO",
+          payload: { data: crowd.crowdingData, loading: false },
+        });
       }
 
       const worker = await workerUnavailableViolationChecking(
-        fromDate,
-        toDate,
+        state.violationFrom,
+        state.violationTo,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId)
       );
-      console.log(worker);
-
+      console.log(worker.checkingWorkerUnavailableViolation);
       if (worker.checkingWorkerUnavailableViolation !== "no data") {
-        // setWORKER(worker.workerUnavailableDurationData);
-        setWORKER(worker.checkingWorkerUnavailableViolation);
+        dispatch({
+          type: "WORKER_VIO",
+          payload: {
+            data: worker.checkingWorkerUnavailableViolation,
+            loading: false,
+          },
+        });
       }
 
       const by_worker = await violationByWorkerF(
-        fromDate,
-        toDate,
+        state.violationFrom,
+        state.violationTo,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.machineID)
       );
-      console.log(by_worker.violationByWorkerData.length);
-
+      console.log(by_worker.violationByWorkerData);
       if (by_worker.violationByWorkerData !== "no data") {
-        setBY_WORKER(by_worker.violationByWorkerData);
+        dispatch({
+          type: "BY_WORKER_VIO",
+          payload: {
+            data: by_worker.violationByWorkerData,
+            loading: false,
+          },
+        });
       }
-      // const feed = await feedUnavailableViolation(
-      //   fromDate,
-      //   toDate,
-      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-      //   inputMACHINEid.length > 0
-      //     ? inputMACHINEid
-      //     : machineID.map((item) => item.machineID)
-      // );
-      // console.log(feed.feedUnavailableData);
-
-      // if (feed.feedUnavailableData !== "no data") {
-      //   setFEEDUNAVAILABLE(feed.feedUnavailableData);
-      // } else {
-      //   setFEEDUNAVAILABLE([]);
-      // }
-
-      // const crowd = await crowdingViolation(
-      //   fromDate,
-      //   toDate,
-      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-      //   inputMACHINEid.length > 0
-      //     ? inputMACHINEid
-      //     : machineID.map((item) => item.machineID)
-      // );
-      // console.log(crowd.crowdingData);
-
-      // if (crowd.crowdingData !== "no data") {
-      //   setCROWDING(crowd.crowdingData);
-      // } else {
-      //   setCROWDING([]);
-      // }
-
-      // const worker = await workerUnavailableViolation(
-      //   fromDate,
-      //   toDate,
-      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-      //   inputMACHINEid.length > 0
-      //     ? inputMACHINEid
-      //     : machineID.map((item) => item.machineID)
-      // );
-      // console.log(worker.workerUnavailableDurationData);
-
-      // if (worker.workerUnavailableDurationData !== "no data") {
-      //   setWORKER(worker.workerUnavailableDurationData);
-      // } else {
-      //   setWORKER([]);
-      // }
-
-      // const by_worker = await violationByWorkerF(
-      //   fromDate,
-      //   toDate,
-      //   inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-      //   inputMACHINEid.length > 0
-      //     ? inputMACHINEid
-      //     : machineID.map((item) => item.machineID)
-      // );
-      // console.log(by_worker.violationByWorkerData);
-
-      // if (by_worker.violationByWorkerData !== "no data") {
-      //   setBY_WORKER(by_worker.violationByWorkerData);
-      // } else {
-      //   setBY_WORKER([]);
-      // }
     } catch (err) {}
   };
 
@@ -253,44 +225,6 @@ function ViolationLog1() {
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
-
-  const [FEEDUNAVAILABLE, setFEEDUNAVAILABLE] = useState([]);
-  const [CROWDING, setCROWDING] = useState([]);
-  const [WORKER, setWORKER] = useState([]);
-  const [BY_WORKER, setBY_WORKER] = useState([]);
-
-  // const load_ctr_machine = async () => {
-  //   try {
-  //     const ctr = await ctr_machineID();
-  //     setClpCtr(ctr.clpctr);
-  //     setMachineID(ctr.machineID);
-
-  //     const feed = await feedUnavailableViolation(fromDate, toDate);
-  //     console.log(feed.feedUnavailableData);
-  //     setFEEDUNAVAILABLE(feed.feedUnavailableData);
-
-  //     const crowd = await crowdingViolation(fromDate, toDate);
-  //     if (crowd.crowdingData !== "no data") {
-  //       setCROWDING(crowd.crowdingData);
-  //     }
-
-  //     console.log(crowd.crowdingData);
-
-  //     const worker = await workerUnavailableViolation(fromDate, toDate);
-  //     console.log(worker.workerUnavailableDurationData);
-  //     if (worker.workerUnavailableDurationData !== "no data") {
-  //       setWORKER(worker.workerUnavailableDurationData);
-  //     }
-
-  //     const by_worker = await violationByWorkerF(fromDate, toDate);
-  //     // console.log(by_worker.violationByWorkerData.length);
-  //     console.log(by_worker.violationByWorkerData);
-
-  //     setBY_WORKER(by_worker.violationByWorkerData);
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
 
   const load_ctr_machine = async () => {
     try {
@@ -302,28 +236,48 @@ function ViolationLog1() {
       console.log(tableID);
       setMachineID(tableID.data);
 
-      // const feed = await feedUnavailableViolation(fromDate, toDate);
-      // console.log(feed.feedUnavailableData.length);
-      // setFEEDUNAVAILABLE(feed.feedUnavailableData);
-
-      const crowd = await crowdingViolationChecking(fromDate, toDate);
-      // console.log(crowd.checkingCrowdingData.length);
-      if (crowd.checkingCrowdingData !== "no data") {
-        setCROWDING(crowd.checkingCrowdingData);
+      if (state.crowd.loading) {
+        const crowd = await crowdingViolationChecking();
+        console.log(crowd);
+        if (crowd.checkingCrowdingData !== "no data") {
+          dispatch({
+            type: "CROWD_VIO",
+            payload: { data: crowd.checkingCrowdingData, loading: false },
+          });
+        }
       }
 
-      const worker = await workerUnavailableViolationChecking(fromDate, toDate);
-      console.log(worker);
-      if (worker.checkingWorkerUnavailableViolation === "no data") {
-        setWORKER([]);
-      } else {
-        setWORKER(worker.checkingWorkerUnavailableViolation);
+      if (state.worker.loading) {
+        const worker = await workerUnavailableViolationChecking();
+        if (worker.checkingWorkerUnavailableViolation === "no data") {
+          dispatch({
+            type: "WORKER_VIO",
+            payload: {
+              data: [],
+              loading: false,
+            },
+          });
+        } else {
+          dispatch({
+            type: "WORKER_VIO",
+            payload: {
+              data: worker.checkingWorkerUnavailableViolation,
+              loading: false,
+            },
+          });
+        }
       }
 
-      const by_worker = await violationByWorkerF(fromDate, toDate);
-      // console.log(by_worker.violationByWorkerData.length);
-
-      setBY_WORKER(by_worker.violationByWorkerData);
+      if (state.by_worker.loading) {
+        const by_worker = await violationByWorkerF();
+        dispatch({
+          type: "BY_WORKER_VIO",
+          payload: {
+            data: by_worker.violationByWorkerData,
+            loading: false,
+          },
+        });
+      }
     } catch (err) {
       console.log(err.message);
     }
@@ -331,15 +285,20 @@ function ViolationLog1() {
 
   const getFirstDay_LastDay = async () => {
     var curr = new Date(); // get current date
+    // console.log(new Date().toISOString().slice(0, 10));
     var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var last = first + 6; // last day is the first day + 6
+    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
 
-    var firstday = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-    var lastday = new Date(curr.setDate(last)).toISOString().slice(0, 10);
+    if (Boolean(!state.violationFrom)) {
+      dispatch({ type: "VIO_FROM", payload: firstDay });
+    }
 
-    setToDate(new Date().toISOString().slice(0, 10));
-    setFromDate(firstday);
-    // console.log(firstday, lastday);
+    if (Boolean(!state.violationTo)) {
+      dispatch({
+        type: "VIO_TO",
+        payload: new Date().toISOString().slice(0, 10),
+      });
+    }
   };
 
   useEffect(() => {
@@ -459,12 +418,14 @@ function ViolationLog1() {
               id="fromDate"
               label="From"
               type="date"
-              value={fromDate}
+              value={state.violationFrom}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={handleDateChange}
+              onChange={(e) =>
+                dispatch({ type: "VIO_FROM", payload: e.target.value })
+              }
               fullWidth
               variant="outlined"
             />
@@ -475,18 +436,26 @@ function ViolationLog1() {
               id="toDate"
               label="To"
               type="date"
-              value={toDate}
+              value={state.violationTo}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={handleDateChange}
+              onChange={(e) =>
+                dispatch({ type: "VIO_TO", payload: e.target.value })
+              }
               fullWidth
               variant="outlined"
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid
+            container
+            item
+            xs={12}
+            md={2}
+            style={{ justifyContent: "center" }}
+          >
             <Button
               variant="contained"
               color="primary"
@@ -494,6 +463,23 @@ function ViolationLog1() {
               onClick={dateFilter}
             >
               Filter
+            </Button>
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={12}
+            md={2}
+            style={{ justifyContent: "center" }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ margin: "10px" }}
+              onClick={refreshData}
+            >
+              Refresh
             </Button>
           </Grid>
         </Grid>
@@ -715,7 +701,7 @@ function ViolationLog1() {
           <TabPanel value={tabValue} index={0}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
-                data={CROWDING}
+                data={state.crowd.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
@@ -780,7 +766,7 @@ function ViolationLog1() {
           <TabPanel value={tabValue} index={1}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
-                data={WORKER}
+                data={state.worker.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
@@ -857,7 +843,7 @@ function ViolationLog1() {
           <TabPanel value={tabValue} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
-                data={BY_WORKER}
+                data={state.by_worker.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
@@ -883,7 +869,7 @@ function ViolationLog1() {
           <TabPanel value={tabValue} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
-                data={BY_WORKER}
+                data={state.by_worker.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[

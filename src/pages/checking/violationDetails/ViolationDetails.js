@@ -512,6 +512,25 @@ function ViolationDetails(props) {
               </Grid>
             ) : null}
           </Grid>
+          <Grid item xs={12} className="vd-white">
+            <Grid item xs={12} className="vd-d1 vd-d2">
+              Communicated To
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              className="vd-d1 vd-d2"
+              style={{ marginTop: "2px" }}
+            >
+              <TextField
+                placeholder="Communicated to"
+                fullWidth
+                // onChange={customAction}
+                // value={action1}
+              />
+            </Grid>
+          </Grid>
           <Grid
             container
             item

@@ -29,10 +29,6 @@ const initialState = {
   },
   violationFrom: null,
   violationTo: null,
-  feed: {
-    data: [],
-    loading: true,
-  },
   crowd: {
     data: [],
     loading: true,
@@ -78,9 +74,6 @@ let reducer = (state, action) => {
     }
     case "VIO_TO": {
       return { ...state, violationTo: action.payload };
-    }
-    case "FEED_VIO": {
-      return { ...state, feed: action.payload };
     }
     case "CROWD_VIO": {
       return { ...state, crowd: action.payload };

@@ -72,6 +72,7 @@ function Worker(props) {
   const loadData = async () => {
     try {
       const x = await getYourData();
+      console.log(x);
       setData(x.latestWorkerData);
     } catch (err) {}
   };

@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Cutter from "../images/Cutter.svg";
 import check from "../images/check.svg";
 import sew from "../images/sew.svg";
+import { KPLContext } from "../context/ViolationContext";
 
 const SupportButton = withStyles(() => ({
   root: {
@@ -29,14 +30,23 @@ const SupportButton = withStyles(() => ({
 }))(Button);
 
 function Menu() {
+  const { state } = React.useContext(KPLContext);
   return (
     <div className={Styles.MenuContainer}>
       <Paper className={Styles.top} elevation={5}>
         <div className={Styles.left}>
           <img src={logo} alt="logo" />
-          <h2>iVISION</h2>
+          <Typography variant="h3" className="ivision">
+            iVISION
+          </Typography>
         </div>
         <div className={Styles.right}>
+          <Typography
+            variant="h4"
+            style={{ margin: "4px 12px", color: "#f68f1d" }}
+          >
+            {state.profile.username}
+          </Typography>
           <SupportButton>
             <HeadsetMicIcon />
             SUPPORT

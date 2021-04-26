@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
+    margin: "1rem 12px",
   },
   search: {
     position: "relative",
@@ -133,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navigation() {
   const history = useHistory();
 
-  const { dispatch } = React.useContext(KPLContext);
+  const { state, dispatch } = React.useContext(KPLContext);
 
   // CUSTOM NOTIFICATION FUNCTION
   const [ctrDrop, setCtrDrop] = React.useState();
@@ -179,7 +180,7 @@ export default function Navigation() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [state, setState] = React.useState({
+  const [states, setState] = React.useState({
     top: false,
     left: false,
     bottom: false,
@@ -194,7 +195,7 @@ export default function Navigation() {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setState({ ...states, [anchor]: open });
   };
 
   const list = (anchor) => (
@@ -428,14 +429,27 @@ export default function Navigation() {
           >
             <MenuIcon />
           </IconButton>
+          <Typography
+            component={Link}
+            to="/menu"
+            className="ivision"
+            style={{ margin: "4px 1rem" }}
+            variant="h3"
+            noWrap
+          >
+            iVISION
+          </Typography>
           <Link to="/menu">
             <img src={logo} alt="logo" width="128px" />
           </Link>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h5" noWrap>
             Checking
           </Typography>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <div
+            className={classes.sectionDesktop}
+            style={{ alignItems: "center" }}
+          >
             {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -459,6 +473,14 @@ export default function Navigation() {
             >
               <AccountCircle />
             </IconButton>
+
+            <Typography
+              variant="h4"
+              style={{ margin: "4px 12px", color: "#f68f1d" }}
+            >
+              {" "}
+              {state.profile.username}
+            </Typography>
             <SupportButton onClick={handleClickOpenCTR}>
               Change CTR
             </SupportButton>
@@ -483,7 +505,7 @@ export default function Navigation() {
       </AppBar>
       <Drawer
         anchor={"left"}
-        open={state["left"]}
+        open={states["left"]}
         onClose={toggleDrawer("left", false)}
       >
         {list("left")}
