@@ -21,6 +21,7 @@ import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { FormControl, InputLabel, isWidthUp } from "@material-ui/core";
+import ImageDialog from "../../../components/imageDialog/ImageDialog";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

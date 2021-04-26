@@ -84,12 +84,12 @@ function ManageRoles() {
       setData(x.userData);
       setColumns([
         {
-          title: "Worker ID",
+          title: "User ID",
           field: "workerID",
         },
 
         {
-          title: "Worker Name",
+          title: "Username",
           field: "username",
         },
 

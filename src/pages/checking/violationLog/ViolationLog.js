@@ -37,6 +37,7 @@ import * as moment from "moment";
 import { AppBar, InputLabel, Tab, Tabs } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
 import { CheckingContext } from "../../../context/CheckingContext";
+import ImageDialog from "../../../components/imageDialog/ImageDialog";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -111,7 +112,20 @@ function ViolationLog1() {
     idealFu: "",
     others: "",
   });
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [linkDialog, setLinkDialog] = React.useState("");
 
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const getLink = (datas) => {
+    setLinkDialog(datas);
+    handleClickOpenDialog();
+  };
   const classes = useStyles();
 
   const refreshData = async () => {
@@ -339,6 +353,12 @@ function ViolationLog1() {
   };
   return (
     <>
+      <ImageDialog
+        open={openDialog}
+        handleClickOpen={handleClickOpenDialog}
+        handleClose={handleCloseDialog}
+        link={linkDialog}
+      />
       <Grid container>
         <Grid
           container
@@ -589,7 +609,12 @@ function ViolationLog1() {
                 {" "}
                 Snapshot 1
               </Typography>
-              <img src={img} style={{ width: "80%" }} alt="profile" />
+              <img
+                src={img}
+                onClick={() => getLink(img)}
+                style={{ width: "80%" }}
+                alt="profile"
+              />
             </>
           ) : null}
         </Grid>
@@ -617,7 +642,12 @@ function ViolationLog1() {
                 {" "}
                 Snapshot 2
               </Typography>{" "}
-              <img src={img} style={{ width: "80%" }} alt="profile" />
+              <img
+                src={img}
+                onClick={() => getLink(img)}
+                style={{ width: "80%" }}
+                alt="profile"
+              />
             </>
           ) : null}
         </Grid>
