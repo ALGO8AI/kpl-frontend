@@ -10,7 +10,7 @@ import * as Styles from "./Menu.module.scss";
 import logo from "../images/kpl-logo.png";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Cutter from "../images/Cutter.svg";
 import check from "../images/check.svg";
 import sew from "../images/sew.svg";
@@ -29,8 +29,37 @@ const SupportButton = withStyles(() => ({
   },
 }))(Button);
 
+const LogoutButton = withStyles(() => ({
+  root: {
+    color: "white",
+    backgroundColor: "#0e4a7b",
+    border: "2px solid #0e4a7b",
+    margin: "0 8px",
+    "&:hover": {
+      backgroundColor: "white",
+      color: "#0e4a7b",
+      border: "2px solid #0e4a7b",
+    },
+  },
+}))(Button);
+
 function Menu() {
-  const { state } = React.useContext(KPLContext);
+  const history = useHistory();
+
+  const { state, dispatch } = React.useContext(KPLContext);
+  const logout = () => {
+    dispatch({ type: "ADD_ROLE", payload: "" });
+    localStorage.removeItem("ROLE");
+    dispatch({
+      type: "ADD_DESIGNATION",
+      payload: "",
+    });
+    dispatch({ type: "ADD_PROFILE", payload: "" });
+    localStorage.removeItem("PROFILE");
+    localStorage.removeItem("DESIGNATION");
+    localStorage.removeItem("KPL Auth");
+    history.push("/");
+  };
   return (
     <div className={Styles.MenuContainer}>
       <Paper className={Styles.top} elevation={5}>
@@ -51,6 +80,7 @@ function Menu() {
             <HeadsetMicIcon />
             SUPPORT
           </SupportButton>
+          <LogoutButton onClick={logout}>LOGOUT</LogoutButton>
         </div>
       </Paper>
       <div className={Styles.bottom}>

@@ -96,15 +96,27 @@ function AreaChart(props) {
   const options = {
     chart: {
       height: 350,
-      type: "area",
+      type: "line",
+      dropShadow: {
+        enabled: true,
+        color: "#000",
+        top: 18,
+        left: 7,
+        blur: 10,
+        opacity: 0.2,
+      },
+      toolbar: {
+        show: true,
+      },
     },
+    colors: ["#f68f1d"],
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     stroke: {
       curve: "smooth",
-      colors: "#ff7b00",
     },
+
     fill: {
       colors: "#ec811c",
       opacity: 0.8,
@@ -124,7 +136,7 @@ function AreaChart(props) {
     },
     yaxis: {
       title: {
-        text: "Count",
+        text: "Crowding Instances",
         style: {
           color: "#0e4a7b",
           fontSize: "12px",
@@ -162,7 +174,7 @@ function AreaChart(props) {
       </div>
       <div className="GraphCardSimple">
         <div className="chart">
-          <Chart options={options} series={series} type="area" height={200} />
+          <Chart options={options} series={series} type="line" height={200} />
         </div>
         <div className="bottom">
           <p>Total Crowding Instance:</p>

@@ -80,3 +80,16 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+/* html {
+  zoom: 75%;
+} */
+
+.MuiAlert-standardSuccess {
+  color: white !important;
+  background-color: #f68f1d !important;
+  display: flex;
+  align-items: center;
+}
+.MuiAlert-standardSuccess .MuiAlert-icon {
+  color: #ffffff !important;
+}

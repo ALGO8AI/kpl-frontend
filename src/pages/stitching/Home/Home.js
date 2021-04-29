@@ -167,6 +167,7 @@ function Home() {
     try {
       if (state.machineUtilization.loading) {
         const x = await machineBreakdownData();
+        console.log(x);
         dispatch({
           type: "MACHINE_UTILIZATION",
           payload: { data: x.machineBreakdownData, loading: false },

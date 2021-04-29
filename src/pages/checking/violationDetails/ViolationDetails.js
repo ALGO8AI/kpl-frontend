@@ -99,20 +99,23 @@ function ViolationDetails(props) {
 
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
-    if (typeOfViolation == "feedUnavailable") {
-      await FEED_UnavailableViolation().then((x) => {
+    try {
+      if (typeOfViolation === "feedUnavailable") {
+        const x = await FEED_UnavailableViolation();
         setVIOLATION(x);
         console.log(x.length);
-      });
-    } else if (typeOfViolation == "worker") {
-      await WORKER_UnavailableViolation().then((x) => {
+      } else if (typeOfViolation === "worker") {
+        const x = await WORKER_UnavailableViolation();
         setVIOLATION(x);
         console.log(x.length);
-      });
+      }
+    } catch (err) {
+      console.log(err.message);
     }
   };
   const getData = async () => {
-    await getViolationDetailData(props.id).then((x) => {
+    try {
+      const x = await getViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
       setLink(x.volIdData[0].video);
@@ -158,7 +161,9 @@ function ViolationDetails(props) {
         setIncorrect("Add Comment");
         setIncorrect1(x.volIdData[0].incorrectViolationReason);
       }
-    });
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   useEffect(() => {

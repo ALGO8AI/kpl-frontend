@@ -121,7 +121,7 @@ function ManageRoles() {
           field: "mobileNumber",
         },
         {
-          title: "Update",
+          title: "",
           field: "uid",
           render: (x) => (
             <Button
