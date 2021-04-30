@@ -176,36 +176,25 @@ function AreaChartChecking(props) {
         <div className="chart">
           <Chart options={options} series={series} type="line" height={200} />
         </div>
-        <div className="bottom">
-          <p>Total Crowding Instance:</p>
-          <h4>
-            {/* {props.data[0] ? props.data[0].crowdingInstances : "-"} */}
-            {Math.round(instance)}
-          </h4>
-        </div>
-        <div className="bottom">
-          <p>Crowding duration: </p>
-          <h4>{Math.round(duration)} Hrs. </h4>
-        </div>
-        {/* <div className='centerTitle'>Crowding Instance</div>
-        <Chart options={options} series={series} type="area" height={200} />
-        <div className='d1'>
-            <div>
-            Total Crowding Instance:
-            </div> 
-      {/* <div>{props.data[0]?props.data[0].crowdingInstances:"-"}</div> */}
-        {/* <div>{instance}</div> */}
-
-        {/* </div>
-            <div className='d1'>
-            <div>
-            Crowding duration: 
-             </div> */}
-        {/* <div>{props.data[0]? props.data[0].crowdingDuration:"-"} Hrs.</div> */}
-        {/* <div>{duration.toFixed(2)} Hrs.</div>
-
-            </div> */}
       </div>
+      <Typography
+        variant="h6"
+        style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+      >
+        Total Crowding Instances:{" "}
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {Math.round(instance)}{" "}
+        </span>
+      </Typography>
+      <Typography
+        variant="h6"
+        style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+      >
+        Crowding Duration:{" "}
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {Math.round(duration)} Hrs.{" "}
+        </span>
+      </Typography>
     </>
   );
 }
