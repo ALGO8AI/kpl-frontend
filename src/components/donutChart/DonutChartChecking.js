@@ -407,15 +407,16 @@ function DonutChartChecking(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {(Math.round(
-              props.totalTime -
-                (props.idleDueToWorkerUnavailable +
-                  props.feedUnavailibilityDuration +
-                  props.other)
-            ) *
-              100) /
-              Math.round(props.totalTime) +
-              "%"}
+            {Math.round(
+              (Math.round(
+                props.totalTime -
+                  (props.idleDueToWorkerUnavailable +
+                    props.feedUnavailibilityDuration +
+                    props.other)
+              ) *
+                100) /
+                Math.round(props.totalTime)
+            ) + "%"}
           </span>
         </Typography>
       </div>

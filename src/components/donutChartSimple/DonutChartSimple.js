@@ -171,9 +171,9 @@ function DonutChartSimple({ data, payload_data, link }) {
             <Chart
               options={options}
               series={[
-                Boolean(data[0].utilizationPercentage)
-                  ? data[0].utilizationPercentage
-                  : 0,
+                // Boolean(data[0].utilizationPercentage)
+                //   ? data[0].utilizationPercentage
+                //   : 0,
                 Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0,
                 Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0,
                 Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0,
