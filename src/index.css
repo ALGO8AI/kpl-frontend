@@ -93,3 +93,6 @@
 .MuiAlert-standardSuccess .MuiAlert-icon {
   color: #ffffff !important;
 }
+.mb-8 {
+  margin-bottom: 8px !important;
+}

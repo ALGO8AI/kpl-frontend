@@ -388,72 +388,37 @@ function DonutChart(props) {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <Typography
+          variant="h6"
+          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+        >
+          Total Scheduled Hours{" "}
+          <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+            {Math.round(props.totalTime)}
+          </span>
+        </Typography>
 
-        {/* <div id="chart"> */}
-        {/* <div className='chartDate'> {
-            week?week:null
-          }</div> */}
-        {/* <Chart options={options} series={series} type="donut" />
-            <div style={{ marginLeft: "5px" }}>
-              <div>
-                Utilization Percentage:
-                {Math.round(
-                  ((props.totalTime -
-                    (props.idleDueToWorkerUnavailable +
-                      props.feedUnavailibilityDuration +
-                      props.other)) /
-                    props.totalTime) *
-                    100
-                )}
-                %
-              </div>
-              <div>Schedule Hour: {Math.round(props.totalTime)}</div>
-            </div>
-          </div>
-          <div className="legend"> */}
-        {/* <div>
-            <FormControl required className={classes.formControl} disabled>
-            <InputLabel >Duration</InputLabel>
-            <Select
-              native
-              value={state.age}
-              onChange={handleChange} 
-              name="age"
-              inputProps={{
-                id: 'age-native-required',
-              }}
-            >
-              <option value={10}>Weekly</option>
-              <option value={20}>Monthly</option>
-              <option value={30}>Yearly</option>
-            </Select>
-          </FormControl>
-            </div> */}
-        {/* <div style={{ marginTop: "10px" }}>
-              <span className="donBlue"></span>Actual Working Hour
-              <div className="legBlue">
-                {Math.round(
-                  props.totalTime -
-                    (props.idleDueToWorkerUnavailable +
-                      props.feedUnavailibilityDuration +
-                      props.other)
-                )}
-              </div>
-            </div>
-
-            <div>
-              <span className="donYellow"></span>Idle- Worker N/A
-              <div className="legYellow">{props.idleDueToWorkerUnavailable}</div>
-            </div>
-            <div>
-              <span className="donOrange"></span>Idle- Feed N/A
-              <div className="legOrange">{props.feedUnavailibilityDuration}</div>
-            </div>
-            <div>
-              <span className="donRed"></span>Idle-Other
-              <div className="legRed">{props.other}</div>
-            </div>
-          </div> */}
+        <Typography
+          variant="h6"
+          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+        >
+          % Utilization{" "}
+          <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+            {" "}
+            {Math.round(
+              (Math.round(
+                props.totalTime -
+                  (props.idleDueToWorkerUnavailable +
+                    props.feedUnavailibilityDuration +
+                    props.other)
+              ) *
+                100) /
+                Math.round(props.totalTime)
+            ) + "%"}
+          </span>
+        </Typography>
       </div>
     </>
   );

@@ -115,10 +115,11 @@ function DefectChart() {
         </div>
       </div>
       <Typography
-        variant="body2"
-        style={{ margin: "auto", textAlign: "center", color: "black" }}
+        variant="h6"
+        style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
       >
-        % Defective Bags <span style={{ fontWeight: "bold" }}>43%</span>
+        % Defective Bags{" "}
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>43%</span>
       </Typography>
     </>
   );

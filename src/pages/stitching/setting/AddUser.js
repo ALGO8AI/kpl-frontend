@@ -179,7 +179,7 @@ function AddUser() {
                 label="Email"
                 variant="outlined"
                 value={data.email}
-                size="small"
+                // size="small"
                 onChange={(e) => setData({ ...data, email: e.target.value })}
               />
             </Grid>
@@ -362,7 +362,6 @@ function AddUser() {
                 label="Line"
                 variant="outlined"
                 value={data.zone}
-                size="small"
                 onChange={(e) => setData({ ...data, zone: e.target.value })}
               />
             </Grid>
@@ -381,7 +380,6 @@ function AddUser() {
                 label="Wing"
                 variant="outlined"
                 value={data.wing}
-                size="small"
                 onChange={(e) => setData({ ...data, wing: e.target.value })}
               />
             </Grid>
@@ -400,7 +398,6 @@ function AddUser() {
                 label="Worker Id"
                 variant="outlined"
                 value={data.workerID}
-                size="small"
                 onChange={(e) => setData({ ...data, workerID: e.target.value })}
               />
             </Grid>
@@ -421,7 +418,6 @@ function AddUser() {
                 type="number"
                 variant="outlined"
                 value={data.mobile}
-                size="small"
                 onChange={(e) => setData({ ...data, mobile: e.target.value })}
               />
             </Grid>
