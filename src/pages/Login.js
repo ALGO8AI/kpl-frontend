@@ -3,6 +3,7 @@ import {
   Paper,
   Snackbar,
   TextField,
+  Typography,
   withStyles,
 } from "@material-ui/core";
 import React, { useState } from "react";
@@ -10,7 +11,7 @@ import * as Styles from "./Login.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
 import { login } from "../services/api.service";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 
 const ColorButton = withStyles(() => ({
@@ -120,6 +121,21 @@ function Login() {
             <ColorButton variant="contained" onClick={submit}>
               LOG IN
             </ColorButton>
+            <Typography
+              component={Link}
+              to="/signup"
+              style={{
+                margin: "12px 0",
+                textDecoration: "none",
+                color: "black",
+              }}
+              variant="h6"
+            >
+              Don't have an account,{" "}
+              <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+                Sign Up
+              </span>
+            </Typography>
           </div>
         </div>
       </Paper>
