@@ -13,6 +13,7 @@ import { Alert } from "@material-ui/lab";
 import { login } from "../services/api.service";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
+import Blank from "./Blank";
 
 const ColorButton = withStyles(() => ({
   root: {
@@ -94,57 +95,61 @@ function Login() {
   };
 
   return (
-    <div elevation={5} className={Styles.LoginContainer}>
-      <Paper className={Styles.LoginBox} elevation={5}>
-        <div className={Styles.left}></div>
-        <div className={Styles.right}>
-          <div className={Styles.logo}>
-            <img src={logo} alt="logo" />
+    <>
+      <Blank />
+
+      <div elevation={5} className={Styles.LoginContainer}>
+        <Paper className={Styles.LoginBox} elevation={5}>
+          <div className={Styles.left}></div>
+          <div className={Styles.right}>
+            <div className={Styles.logo}>
+              <img src={logo} alt="logo" />
+            </div>
+            <div className={Styles.form}>
+              <h3>Welcome to</h3>
+              <h2>iVision</h2>
+              <TextField
+                label="User ID"
+                variant="outlined"
+                name="userId"
+                className={Styles.text}
+                onChange={(e) => setUser({ ...user, userId: e.target.value })}
+              />
+              <TextField
+                label="Password"
+                variant="outlined"
+                name="password"
+                className={Styles.text}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+              />
+              <ColorButton variant="contained" onClick={submit}>
+                LOG IN
+              </ColorButton>
+              <Typography
+                component={Link}
+                to="/signup"
+                style={{
+                  margin: "12px 0",
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                variant="h6"
+              >
+                Don't have an account,{" "}
+                <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+                  Sign Up
+                </span>
+              </Typography>
+            </div>
           </div>
-          <div className={Styles.form}>
-            <h3>Welcome to</h3>
-            <h2>iVision</h2>
-            <TextField
-              label="User ID"
-              variant="outlined"
-              name="userId"
-              className={Styles.text}
-              onChange={(e) => setUser({ ...user, userId: e.target.value })}
-            />
-            <TextField
-              label="Password"
-              variant="outlined"
-              name="password"
-              className={Styles.text}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-            />
-            <ColorButton variant="contained" onClick={submit}>
-              LOG IN
-            </ColorButton>
-            <Typography
-              component={Link}
-              to="/signup"
-              style={{
-                margin: "12px 0",
-                textDecoration: "none",
-                color: "black",
-              }}
-              variant="h6"
-            >
-              Don't have an account,{" "}
-              <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-                Sign Up
-              </span>
-            </Typography>
-          </div>
-        </div>
-      </Paper>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
-          {msg}
-        </Alert>
-      </Snackbar>
-    </div>
+        </Paper>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error">
+            {msg}
+          </Alert>
+        </Snackbar>
+      </div>
+    </>
   );
 }
 
