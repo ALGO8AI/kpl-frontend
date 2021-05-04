@@ -296,7 +296,12 @@ function DonutChartSimple({ data, payload_data, link }) {
       <div>
         <Typography
           variant="h6"
-          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+          style={{
+            margin: "auto",
+            position: "relative",
+            left: "25%",
+            color: "#f68f1d",
+          }}
         >
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
@@ -306,7 +311,12 @@ function DonutChartSimple({ data, payload_data, link }) {
 
         <Typography
           variant="h6"
-          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+          style={{
+            margin: "auto",
+            position: "relative",
+            left: "25%",
+            color: "#f68f1d",
+          }}
         >
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>

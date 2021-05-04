@@ -723,7 +723,7 @@ function ViolationLog1() {
             >
               <Tab label="Crowding Violation" {...a11yProps(0)} />
               <Tab label="Worker Violation" {...a11yProps(1)} />
-              <Tab label="By Worker" {...a11yProps(2)} />
+              <Tab label="Worker Performance" {...a11yProps(2)} />
               <Tab label="By Table" {...a11yProps(3)} />
             </Tabs>
           </AppBar>

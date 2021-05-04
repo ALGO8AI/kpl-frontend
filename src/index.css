@@ -79,7 +79,7 @@
   border-radius: 3px;
 }
 .MuiDialog-paperWidthSm {
-  max-width: 720px !important;
+  max-width: 100% !important;
 }
 .ivision {
   background: linear-gradient(to right, rgb(14, 74, 123) 0%, #f68f1d 100%);

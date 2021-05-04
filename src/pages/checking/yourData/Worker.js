@@ -79,7 +79,7 @@ function Worker(props) {
     loadData();
   }, []);
   const [columns, setColumns] = useState([
-    { title: "ID", field: "id" },
+    { title: "Sl No.", field: "id" },
     { title: "Worker Name", field: "workerName" },
     { title: "Worker ID", field: "workerId" },
   ]);
