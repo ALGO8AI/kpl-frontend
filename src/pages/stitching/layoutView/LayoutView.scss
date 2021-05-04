@@ -1,0 +1,79 @@
+.main {
+    background: url(../../../Assets/images/0001.jpeg);
+    width: 4737px;
+    height: 2463px;
+}
+
+// https://codepen.io/danielyaa5/pen/eZvBMz
+.img-cntnr {
+    position: relative;
+    border: #f68f1d solid 10px;
+    width: 100%;
+    height: 500px;
+    overflow: scroll;
+}
+
+.viewdetails-img {
+    position: relative;
+    border: #f68f1d solid 10px;
+    width: 100%;
+    height: 500px;
+    overflow: scroll;
+    img{
+        width:100% !important
+    }
+}
+.layout-main{
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.arrow-icon {
+    font-size: 14px !important;
+}
+.heading {
+    color: black;
+}
+.form-group label {
+    text-transform: uppercase;
+    color: #747d8c;
+    font-family: "Open Sans";
+    display: flex;
+    font-size: 11px;
+    font-style: "SemiBold !important";
+    margin-bottom: 5px;
+    margin-top: 0px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+.form-control {
+    color: #17263f !important;
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-style: "Regular";
+    letter-spacing: 2px;
+    height: 50px;
+    padding: 10px;
+    opacity: 80%;
+    border: 1px solid #8692a6;
+}
+
+.MuiSnackbarContent-root {
+    background-color: white !important;
+    width: 450px !important;
+}
+
+.close {
+    margin-top: -230px !important;
+}
+// .TransformComponent-module_content__TZU5O{
+//     width:100% !important
+// }
+// .TransformComponent-module_container__3NwNd {
+//     width:100% !important
+// }
+.add-cam-btn{
+    line-height: 0px !important;
+    color: #0000008a !important;
+}
