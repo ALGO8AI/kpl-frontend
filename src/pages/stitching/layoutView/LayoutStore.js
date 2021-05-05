@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable} from "mobx";
 import { ApiService } from '../../../services/apiService'
 import { BaseStore } from '../../../components/common/BaseStore';
 import { showActionModalComponent } from '../../../components/common/snackbar/SnackbarContent';
@@ -53,8 +53,8 @@ export class LayoutStore extends BaseStore {
             response.FeedTags.map(id => {
                 appState.FeedTags.push(id.feedId)
             });
-            appState.DesignatedTag = response.DesignatedTags.map(id => {
-                appState.FeedTags.push(id.designatedAreaId)
+            response.DesignatedTags.map(id => {
+                appState.DesignatedTag.push(id.designatedAreaId)
             });;
             // showActionModalComponent({
             //     message: 'Save Success',

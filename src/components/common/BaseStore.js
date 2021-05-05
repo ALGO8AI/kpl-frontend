@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { observable } from 'mobx';
 
 
 export const StoreState = observable({
@@ -17,11 +17,6 @@ export const baseState = observable({
 
 export class BaseStore {
     api;
-
-    constructor() {
-
-    }
-
     errorMessage() {
         return baseState._errorMessage;
     }

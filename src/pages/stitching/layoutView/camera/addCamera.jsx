@@ -10,7 +10,7 @@ import { appState } from '../LayoutStore';
 
 export const AddCamera = observer((props) => {
     const [open, setOpen] = React.useState(false);
-
+    const [CamName, setCamName] = React.useState();
     const handleClick = () => {
         setOpen(true);
     };
@@ -23,13 +23,18 @@ export const AddCamera = observer((props) => {
         setOpen(false);
     };
 
-    const addCam = (e) => {
-        e.preventDefault();
+    const myChangeHandler = (event) => {
+        setCamName(event.target.value)
+    }
+
+    const addCamPostion = (e) => {
+        alert(e.target.elements)
         const camValue = {
-            cameraId: e.target.elements.id.value,
-            x: Number(e.target.elements.x.value),
-            y: Number(e.target.elements.y.value)
+            cameraId: CamName,
+            x: Number(props.x && props.x[0]),
+            y: Number(props.y && props.y[0])
         }
+        console.log(camValue)
         props.store.addCam(camValue)
     }
 
@@ -45,13 +50,13 @@ export const AddCamera = observer((props) => {
                 onClose={handleClose}
                 action={
                     <React.Fragment>
-                        <form>
+                        <form >
                             <h3 class="heading">Add Camera</h3><br />
                             <Grid container spacing={1} xs={12}>
                                 <Grid item xs={12}>
                                     <div class="form-group">
                                         <label >Camera Name:</label>
-                                        <input type="text" className="form-control" name="id" id="id" />
+                                        <input type="text" className="form-control" name="id" id="id" onChange={myChangeHandler} />
                                     </div>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -72,8 +77,8 @@ export const AddCamera = observer((props) => {
                                     </div>
                                 </Grid>
                             </Grid>
-                            <Button type="submit" color="primary" variant="contained" className="mt-5" click={addCam} >Add</Button>
                         </form>
+                            <Button color="primary" variant="contained" className="mt-5" onClick={addCamPostion}>Add</Button>
                         <IconButton size="small" aria-label="close" color="inherit" className="close" onClick={handleClose}>
                             <CloseIcon fontSize="small" />
                         </IconButton>

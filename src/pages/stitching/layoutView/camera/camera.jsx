@@ -19,6 +19,15 @@ const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             display: 'flex',
+
+        },
+        cam: {
+            boxShadow: '1px 1px 10px #170909',
+            opacity: 0.7,
+            "&:hover": {
+                backgroundColor: 'white',
+                opacity: 1,
+            }
         },
         paper: {
             marginRight: theme.spacing(2),
@@ -26,6 +35,9 @@ const useStyles = makeStyles((theme) =>
         details: {
             display: 'flex',
             flexDirection: 'column',
+        },
+        camtext: {
+            fontSize: '12px'
         },
         content: {
             flex: '1 0 auto',
@@ -46,20 +58,10 @@ export const Camera = observer((props) => {
     const { id, data, details, role } = props;
 
     const [videowall, setvideowall] = useState()
-
+    const [camDetails, setcamDetails] = useState()
 
     const theme = useTheme();
-    console.log(data);
-
-    // useEffect(() => {
-    //     data?.find(function (camera, index) {
-    //         if (camera.cameraId === props.id) {
-    //             setdetails(camera);
-    //             setvideowall(camera.route)
-    //         }
-    //     })
-
-    // }, [])
+    console.log(details);
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -69,7 +71,6 @@ export const Camera = observer((props) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
-
         setOpen(false);
     };
 
@@ -84,6 +85,13 @@ export const Camera = observer((props) => {
 
     const prevOpen = React.useRef(open);
     useEffect(() => {
+        details?.find(function (camera, index) {
+            if (camera.cameraId === props.id) {
+                setcamDetails(camera);
+                setvideowall(camera.route)
+            }
+        })
+
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
@@ -93,7 +101,7 @@ export const Camera = observer((props) => {
 
     return (
         <div className={classes.root}>
-            <div>
+            <div className={classes.cam}>
                 <Button
                     ref={anchorRef}
                     aria-controls={open ? 'menu-list-grow' : undefined}
@@ -113,14 +121,14 @@ export const Camera = observer((props) => {
                                     <Card className={classes.root}>
                                         <div className={classes.details}>
                                             <CardContent className={classes.content}>
-                                                <Typography variant="subtitle1" color="textSecondary">
-                                                    <span>CameraID</span> : 123  </Typography>
-                                                <Typography variant="subtitle1" color="textSecondary">
-                                                    <span>FeedID</span> : 1234</Typography>
-                                                <Typography variant="subtitle1" color="textSecondary">
-                                                    <span>Mechine ID</span> : 1234 </Typography>
-                                                <Typography variant="subtitle1" color="textSecondary">
-                                                    <span onClick={onViewDetails}>View Details</span></Typography>
+                                                <Typography variant="subtitle1" color="textSecondary" className={classes.camtext}>
+                                                    <span>CameraID</span> : {camDetails && camDetails.cameraId} </Typography>
+                                                <Typography variant="subtitle1" color="textSecondary" className={classes.camtext}>
+                                                    <span>FeedID</span> : {camDetails && camDetails.feedId}</Typography>
+                                                <Typography variant="subtitle1" color="textSecondary" className={classes.camtext}>
+                                                    <span>Mechine ID</span> : {camDetails && camDetails.machineId} </Typography>
+                                                <Typography variant="subtitle1" color="textSecondary" className={classes.camtext}>
+                                                    <a> <span onClick={onViewDetails}>View Details</span></a></Typography>
                                             </CardContent>
                                         </div>
                                         <CardMedia

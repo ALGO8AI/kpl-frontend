@@ -5,13 +5,13 @@ import './LayoutView.scss'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { LayoutStore } from './LayoutStore';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { AddCamera } from './camera/addCamera';
 import { Camera } from './camera/camera'
 import { observer } from 'mobx-react';
 import { appState } from './LayoutStore';
-import { Spinner } from './spinner';
+// import { Spinner } from './spinner';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -74,10 +74,10 @@ export const LayoutViewPage = observer((props) => {
         < div className="layout-main">
             <div className={classes.root}>
                 <Grid container spacing={1}>
-                    <Grid item xs={store.Role() == 'admin' ? 8 : 10}>
+                    <Grid item xs={store.Role() === 'admin' ? 8 : 10}>
                         <h1>Layout View</h1>
                     </Grid>
-                    {store.Role() == 'admin' ?
+                    {store.Role() === 'admin' ?
                         <Grid item xs={12} sm={2}>
                             <Paper className={classes.paper}> <AddCamera x={cood} y={cood} store={store} /></Paper>
                         </Grid> : null
@@ -104,9 +104,9 @@ export class LayoutView extends React.Component {
         this.store = new LayoutStore()
     }
     componentDidMount() {
-        alert('gey')
-        console.log('call')
+        alert('get layout');
         this.store.getCamera();
+        this.store.getCameraDetails();
     }
     render() {
         return (

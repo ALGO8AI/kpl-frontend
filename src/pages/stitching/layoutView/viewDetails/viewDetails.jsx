@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Stage, Layer, Image, Rect, Label, Text, Tag } from 'react-konva';
+import React from 'react'
+import { Stage, Layer, Image, Rect, Line, Label, Text, Tag } from 'react-konva';
 import useImage from 'use-image';
 import { useParams } from 'react-router-dom'
-import img from '../../../../Assets/images/viewdetails.png';
+// import img from '../../../../Assets/images/viewdetails.png';
 import { LayoutStore } from '../LayoutStore';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import '../LayoutView.scss'
@@ -14,7 +14,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { observer } from 'mobx-react';
 import { appState } from '../LayoutStore';
@@ -123,9 +122,9 @@ function createData(name, id) {
 }
 
 export const Viewimage = observer((props) => {
-    const { store } = props;
+
     console.log(appState.camearaValue.image)
-    const [image1, status] = useImage(appState.camearaValue.image)
+    const [image1] = useImage(appState.camearaValue.image)
     console.log(image1)
     return (
         <div>
@@ -165,6 +164,24 @@ export const Viewimage = observer((props) => {
                                     width={value && value.w}
                                     height={value && value.h}
                                     stroke="lightgreen"
+                                />
+                                <Line
+                                    x={323}
+                                    y={425}
+                                    points={[177,
+                                        323,
+                                        425,
+                                        201,
+                                        476,
+                                        435,
+                                        245,
+                                        7522]}
+                                    tension={0.5}
+                                    closed
+                                    stroke="yellow"
+                                // fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+                                // fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+                                // fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
                                 />
                             </React.Fragment>
                         ))
