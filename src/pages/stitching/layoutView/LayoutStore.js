@@ -7,7 +7,9 @@ export const appState = observable({
     cameraPosition: [],
     cameraDetails: [],
     FeedTags: [],
-    DesignatedTag: []
+    DesignatedTag: [],
+    camearaValue: {},
+    camearaPositions: []
 })
 
 export class LayoutStore extends BaseStore {
@@ -25,7 +27,7 @@ export class LayoutStore extends BaseStore {
         const response = await this.api.Get(`routes/cameraDetail/getCamPosition`);
         console.log(response)
         if (response) {
-            appState.cameraPosition = response
+            appState.cameraPosition = response.data
         }
     };
 
@@ -41,23 +43,24 @@ export class LayoutStore extends BaseStore {
         console.log(response)
         if (response) {
             appState.cameraDetails = response.FeedCords;
-            console.log(appState.cameraDetails)
         }
     }
 
     getTags = async () => {
-        console.log(this.setLoading())
         const response = await this.api.Get(`routes/annotation/stitching/allTags`);
         console.log(response)
         if (response) {
-            appState.FeedTags = response.FeedTags;
-            appState.DesignatedTag = response.DesignatedTags;
-            showActionModalComponent({
-                message: 'Save Success',
-                color: "success"
-            })
+            response.FeedTags.map(id => {
+                appState.FeedTags.push(id.feedId)
+            });
+            appState.DesignatedTag = response.DesignatedTags.map(id => {
+                appState.FeedTags.push(id.designatedAreaId)
+            });;
+            // showActionModalComponent({
+            //     message: 'Save Success',
+            //     color: "success"
+            // })
             console.log(appState.FeedTags)
-            console.log(this.setReady())
         }
     }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Stage, Layer, Image, Rect, Label, Text, Tag } from 'react-konva';
 import useImage from 'use-image';
 import { useParams } from 'react-router-dom'
-import img from '../../../../Assets/images/viewdetails.png'
+import img from '../../../../Assets/images/viewdetails.png';
 import { LayoutStore } from '../LayoutStore';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -40,31 +40,18 @@ const useStyles = makeStyles((theme) =>
 );
 
 export const ViewDetailsPage = observer((props) => {
-    const [details, setdetails] = useState(null);
-
     let { cameraid } = useParams();
-
-    const [url, seturl] = useState();
 
     const { store } = props;
 
     const classes = useStyles();
 
-    useEffect(() => {
-        appState.cameraDetails?.find(function (camera, index) {
-            if (camera.cameraId === cameraid) {
-                seturl(camera.image);
-                setdetails(camera)
-            }
-        })
-    }, [])
-
     const rows = [
-        createData('camera ID:', 159, 6.0, 24, 4.0),
-        createData('WingID :', details && details.wing),
-        createData('LineID :', details && details.lineID),
-        createData('FeedID', details && details.feedId),
-        createData('MachineID', details && details.machineId),
+        createData('camera ID:', appState.camearaValue.cameraId),
+        createData('WingID :', appState.camearaValue.wing),
+        createData('LineID :', appState.camearaValue.lineID),
+        createData('FeedID', appState.camearaValue.feedId),
+        createData('MachineID', appState.camearaValue.machineId),
     ];
 
     const renderFloor = () => {
@@ -136,77 +123,56 @@ function createData(name, id) {
 }
 
 export const Viewimage = observer((props) => {
-
-    const [details, setdetails] = useState(null);
-    const [pos, setpos] = useState([]);
     const { store } = props;
-
-    useEffect(() => {
-        appState.cameraDetails?.find(function (camera) {
-            if (camera.cameraId === props.id) {
-                let posV = {
-                    x: camera.x,
-                    y: camera.y,
-                    w: camera.w,
-                    h: camera.h
-                }
-                setpos(old => [...old, posV]);
-                setdetails(camera);
-            }
-        })
-    }, [])
-
-    const [image1, status] = useImage(details && details.image)
-
-
+    console.log(appState.camearaValue.image)
+    const [image1, status] = useImage(appState.camearaValue.image)
+    console.log(image1)
     return (
-        <div className="imageContainer">
-            {
-                status === "loaded" &&
-                <Stage
-                    width={1050}
-                    height={700}>
-                    <Layer>
-                        <Image
-                            image={image1} />
-                    </Layer>
-                    <Layer>
-                        {
-                            pos.map((value, index) => (
-                                <React.Fragment>
-                                    <Label
-                                        x={(value && value.x) - 10}
-                                        y={(value && value.y) - 10}>
-                                        <Tag fill="white"
-                                            scaleX={1.2}
-                                            scaleY={1.4}
-                                            pointerDirection={'down'}
-                                            pointerHeight={10}
-                                            pointerWidth={10}
-                                        />
-                                        <Text
-                                            text={details && details.machineId}
-                                            fontSize={14}
-                                            fill={"blue"}
-                                            lineCap={"round"}
-                                            offsetY={-3}
-                                            offsetX={-7}
-                                        />
-                                    </Label>
-                                    <Rect
-                                        x={value && value.x}
-                                        y={value && value.y}
-                                        width={value && value.w}
-                                        height={value && value.h}
-                                        stroke="lightgreen"
+        <div>
+            <Stage
+                width={1050}
+                height={700}>
+                <Layer>
+                    <Image
+                        image={image1} />
+                </Layer>
+                <Layer>
+                    {
+                        appState.camearaPositions?.map((value, index) => (
+                            <React.Fragment>
+                                <Label
+                                    x={(value && value.x) - 10}
+                                    y={(value && value.y) - 10}>
+                                    <Tag fill="white"
+                                        scaleX={1.2}
+                                        scaleY={1.4}
+                                        pointerDirection={'down'}
+                                        pointerHeight={10}
+                                        pointerWidth={10}
                                     />
-                                </React.Fragment>
-                            ))
-                        }
+                                    <Text
+                                        text={appState.camearaValue && appState.camearaValue.machineId}
+                                        fontSize={14}
+                                        fill={"blue"}
+                                        lineCap={"round"}
+                                        offsetY={-3}
+                                        offsetX={-7}
+                                    />
+                                </Label>
+                                <Rect
+                                    x={value && value.x}
+                                    y={value && value.y}
+                                    width={value && value.w}
+                                    height={value && value.h}
+                                    stroke="lightgreen"
+                                />
+                            </React.Fragment>
+                        ))
+                    }
 
-                    </Layer>
+                </Layer>
 
-                    {/* {   line.map((lines,index)=>(
+                {/* {   line.map((lines,index)=>(
                             <Line
                             key={index}
                             points={lines.points}
@@ -217,8 +183,7 @@ export const Viewimage = observer((props) => {
                             />
                         ))
                     } */}
-                </Stage>
-            }
+            </Stage>
         </div>
     )
 })
@@ -226,12 +191,24 @@ export const Viewimage = observer((props) => {
 
 export class ViewDetails extends React.Component {
     store;
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.store = new LayoutStore()
     }
-    componentDidMount() {
-        this.store.getCameraDetails();
+    async componentDidMount() {
+        await this.store.getCameraDetails();
+        appState.cameraDetails?.find(function (camera, index) {
+            if (camera.cameraId === 'FG2-S1') {
+                appState.camearaValue = camera;
+                let posV = {
+                    x: camera.x,
+                    y: camera.y,
+                    w: camera.w,
+                    h: camera.h
+                }
+                appState.camearaPositions.push(posV);
+            }
+        })
     }
     render() {
         return (

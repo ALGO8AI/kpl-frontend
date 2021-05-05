@@ -13,6 +13,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { observer } from 'mobx-react';
 import { appState } from '../LayoutStore';
+import { Spinner } from '../spinner';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -42,22 +43,23 @@ export const Camera = observer((props) => {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
-    const { id, store } = props;
+    const { id, data, details, role } = props;
 
     const [videowall, setvideowall] = useState()
-    const [details, setdetails] = useState(null);
+
 
     const theme = useTheme();
+    console.log(data);
 
-    useEffect(() => {
-        appState.cameraDetails?.find(function (camera, index) {
-            if (camera.cameraId === props.id) {
-                setdetails(camera);
-                setvideowall(camera.route)
-            }
-        })
+    // useEffect(() => {
+    //     data?.find(function (camera, index) {
+    //         if (camera.cameraId === props.id) {
+    //             setdetails(camera);
+    //             setvideowall(camera.route)
+    //         }
+    //     })
 
-    }, [])
+    // }, [])
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -72,10 +74,11 @@ export const Camera = observer((props) => {
     };
 
     const onViewDetails = () => {
-        if (store.Role == 'admin') {
-            history.push(`/annotation/${details.cameraId}`);
+        const path = window.location.pathname == '/stitching/layoutView';
+        if (role == 'admin' && !path) {
+            history.push(`/stitching/annotation/${id}`);
         } else {
-            history.push(`/viewdetails/${details.cameraId}`);
+            history.push(`/stitching/viewdetails/${id}`);
         }
     }
 
@@ -111,7 +114,7 @@ export const Camera = observer((props) => {
                                         <div className={classes.details}>
                                             <CardContent className={classes.content}>
                                                 <Typography variant="subtitle1" color="textSecondary">
-                                                    <span>CameraID</span> : 1234  </Typography>
+                                                    <span>CameraID</span> : 123  </Typography>
                                                 <Typography variant="subtitle1" color="textSecondary">
                                                     <span>FeedID</span> : 1234</Typography>
                                                 <Typography variant="subtitle1" color="textSecondary">

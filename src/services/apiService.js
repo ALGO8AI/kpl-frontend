@@ -4,7 +4,7 @@ import { observable, action, computed } from 'mobx';
 
 export  class ApiService {
     Isloading = false;
-    BaseUrl = "http://13.232.228.72:3000";
+    BaseUrl = "http://3.23.114.42:3000";
   
     constructor() {
      

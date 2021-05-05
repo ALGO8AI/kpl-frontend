@@ -11,6 +11,7 @@ import { AddCamera } from './camera/addCamera';
 import { Camera } from './camera/camera'
 import { observer } from 'mobx-react';
 import { appState } from './LayoutStore';
+import { Spinner } from './spinner';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -50,16 +51,18 @@ export const LayoutViewPage = observer((props) => {
                             }
                         }>
                             <div className="main" onClick={getPos}>
-                                <Camera id={value.cameraId} store={store} />
-                                {/* {
+                                {
                                     appState.cameraPosition?.map((value) => (
                                         <div className="localDiv" style={{ transform: `translate(${value.x}px,${value.y}px)` }}>
                                             <div className="contentBox" >
-                                                <Camera id={value.cameraId} store={store}/>
+                                                <Camera id={value.cameraId}
+                                                    data={appState.cameraPosition}
+                                                    details={appState.cameraDetails}
+                                                    role={store.Role()} />
                                             </div>
                                         </div>
                                     ))
-                                } */}
+                                }
                             </div>
                         </ReactCursorPosition>
                     </div>
@@ -88,7 +91,7 @@ export const LayoutViewPage = observer((props) => {
                 </Grid>
             </div>
             <div className="img-cntnr">
-                {renderFloor()}
+            { renderFloor()}
             </div>
         </div>
     )
@@ -101,7 +104,9 @@ export class LayoutView extends React.Component {
         this.store = new LayoutStore()
     }
     componentDidMount() {
-        this.store.getCamera()
+        alert('gey')
+        console.log('call')
+        this.store.getCamera();
     }
     render() {
         return (
