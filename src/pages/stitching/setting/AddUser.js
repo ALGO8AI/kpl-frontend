@@ -115,6 +115,7 @@ function AddUser() {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{ width: "900px", margin: "auto" }}
       >
         <DialogTitle id="alert-dialog-title">{"ADD USER"}</DialogTitle>
         <DialogContentText id="alert-dialog-description">

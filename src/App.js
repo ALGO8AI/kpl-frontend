@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import React, { useContext, useEffect } from "react";
 import { Portal } from 'mobx-portals';
@@ -14,8 +15,10 @@ import AuthRoute from "./Auth/AuthRoute";
 import Checking from "./pages/checking/Checking/Checking";
 import {ViewDetails} from './pages/stitching/layoutView/viewDetails/viewDetails';
 import SignUp from "./pages/SignUp";
+import Blank from "./pages/Blank";
 
 function App(props) {
+  console.log(props);
   const { state, dispatch } = useContext(KPLContext);
   useEffect(() => {
     const ROLE = localStorage.getItem("ROLE");

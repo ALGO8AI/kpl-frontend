@@ -179,7 +179,12 @@ function AreaChartChecking(props) {
       </div>
       <Typography
         variant="h6"
-        style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+        style={{
+          margin: "auto",
+          position: "relative",
+          left: "25%",
+          color: "#f68f1d",
+        }}
       >
         Total Crowding Instances:{" "}
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
@@ -188,7 +193,12 @@ function AreaChartChecking(props) {
       </Typography>
       <Typography
         variant="h6"
-        style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+        style={{
+          margin: "auto",
+          position: "relative",
+          left: "25%",
+          color: "#f68f1d",
+        }}
       >
         Crowding Duration:{" "}
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>

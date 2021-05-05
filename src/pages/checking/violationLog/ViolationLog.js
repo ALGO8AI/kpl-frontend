@@ -723,7 +723,7 @@ function ViolationLog1() {
             >
               <Tab label="Crowding Violation" {...a11yProps(0)} />
               <Tab label="Worker Violation" {...a11yProps(1)} />
-              <Tab label="By Worker" {...a11yProps(2)} />
+              <Tab label="Worker Performance" {...a11yProps(2)} />
               <Tab label="By Table" {...a11yProps(3)} />
             </Tabs>
           </AppBar>
@@ -806,7 +806,11 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/checking/violationDetails/${rowData.Id}`}
-                        className="Link-btn"
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
                       >
                         View
                       </Link>
@@ -814,35 +818,35 @@ function ViolationLog1() {
                   },
                   { title: "Violation ID", field: "Id" },
 
-                  {
-                    title: "Status",
-                    field: "query",
-                    render: (rowData) => {
-                      return rowData.query === "Not Resolved" ? (
-                        <p
-                          style={{
-                            color: "rgb(249, 54, 54)",
-                            backgroundColor: "rgba(249, 54, 54,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Not Resolved
-                        </p>
-                      ) : (
-                        <p
-                          style={{
-                            color: "rgb(74, 170, 22)",
-                            backgroundColor: "rgba(74, 170, 22,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Resolved
-                        </p>
-                      );
-                    },
-                  },
+                  // {
+                  //   title: "Status",
+                  //   field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
                   {
                     title: "Date",
                     field: "date",

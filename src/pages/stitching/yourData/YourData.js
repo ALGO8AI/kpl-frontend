@@ -72,7 +72,7 @@ function YourData() {
           aria-label="simple tabs example"
         >
           <Tab label="Worker Detail" {...a11yProps(0)} />
-          <Tab label=" Schedule" {...a11yProps(1)} />
+          <Tab label="Worker Schedule" {...a11yProps(1)} />
           <Tab label=" Layout" {...a11yProps(2)} />
         </Tabs>
       </AppBar>

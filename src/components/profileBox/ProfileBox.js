@@ -9,6 +9,15 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import { KPLContext } from "../../context/ViolationContext";
+import "./ProfileBox.scss";
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -61,14 +70,350 @@ export default function ProfileBox({
 }) {
   const { state } = React.useContext(KPLContext);
 
+  const [data, setData] = React.useState({
+    username: "",
+    userID: "",
+    designation: "",
+    role: "",
+    department: "",
+    wing: "",
+    zone: "",
+  });
+
   return (
     <div>
       <Dialog
         onClose={handleCloseProfile}
         aria-labelledby="customized-dialog-title"
         open={openProfile}
+        className="Profile-container"
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleCloseProfile}>
+        <Grid container className="box">
+          <Grid container item md={5} className="left">
+            <div className="section-1">
+              <div className="img-box"></div>
+              <Typography
+                variant="h4"
+                style={{ textAlign: "center", color: "#0e4a7b" }}
+              >
+                {state.profile.username}
+              </Typography>
+              <Button
+                autoFocus
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  margin: "auto",
+                }}
+                onClick={() => {
+                  setData({
+                    ...data,
+                    username: state.profile.username,
+                    userID: state.profile.workerID,
+                    designation: state.profile.designation,
+                    role: state.profile.role,
+                    department: state.profile.department,
+                    wing: state.profile.wing,
+                    zone: state.profile.zone,
+                  });
+                }}
+              >
+                Edit Profile
+              </Button>
+            </div>
+            <div className="section-2">
+              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
+                About
+              </Typography>
+              <div className="bar"></div>
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  User Id
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  {state.profile.workerID}
+                </Typography>
+              </div>
+
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-briefcase" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Designation
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  {state.profile.designation}
+                </Typography>
+              </div>
+
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-black-tie" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Role
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  {state.profile.role}
+                </Typography>
+              </div>
+
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-building" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Department
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  {state.profile.department}
+                </Typography>
+              </div>
+
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-window-restore" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Wing
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  {state.profile.wing}
+                </Typography>
+              </div>
+
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Zone
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  {state.profile.zone}
+                </Typography>
+              </div>
+            </div>
+            <div className="section-2">
+              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
+                Contacts
+              </Typography>
+              <div className="bar"></div>
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Email
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  Unavailable
+                </Typography>
+              </div>
+
+              <div className="row">
+                <span style={{ color: "#0e4a7b", width: "10%" }}>
+                  <i class="fa fa-phone-square" aria-hidden="true"></i>
+                </span>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#0e4a7b", width: "60%" }}
+                >
+                  Phone
+                </Typography>
+
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  Unavailable
+                </Typography>
+              </div>
+            </div>
+          </Grid>
+          <Grid container item md={7} className="right" spacing={2}>
+            <Grid container item md={6}>
+              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
+                About
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.username}
+                onChange={(e) => setData({ ...data, username: e.target.value })}
+                label="Username"
+              />
+
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.userID}
+                onChange={(e) => setData({ ...data, userID: e.target.value })}
+                label="User ID"
+                disabled
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.designation}
+                onChange={(e) =>
+                  setData({ ...data, designation: e.target.value })
+                }
+                label="Designation"
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.role}
+                onChange={(e) => setData({ ...data, role: e.target.value })}
+                label="Role"
+              />
+
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.department}
+                onChange={(e) =>
+                  setData({ ...data, department: e.target.value })
+                }
+                label="Department"
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.wing}
+                onChange={(e) => setData({ ...data, wing: e.target.value })}
+                label="Wing"
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={data.zone}
+                onChange={(e) => setData({ ...data, zone: e.target.value })}
+                label="Zone"
+              />
+            </Grid>
+            <Grid container item md={6} spacing={2}>
+              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
+                Contact
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                // value={CTR.line}
+                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                label="Phone Number"
+                type="number"
+              />
+
+              <TextField
+                variant="outlined"
+                fullWidth
+                // value={CTR.line}
+                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                label="Email ID"
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                // value={CTR.line}
+                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                label="Password"
+              />
+              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
+                Reset Password
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                // value={CTR.line}
+                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                label="New Password"
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                // value={CTR.line}
+                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                label="Confirm Password"
+              />
+              <Grid container item md={6}>
+                <Button
+                  autoFocus
+                  onClick={() => {
+                    handleCloseProfile();
+                    setData({
+                      ...data,
+                      username: "",
+                      userID: "",
+                      designation: "",
+                      role: "",
+                      department: "",
+                      wing: "",
+                      zone: "",
+                    });
+                  }}
+                  variant="contained"
+                  style={{
+                    backgroundColor: "red",
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                  }}
+                >
+                  CLOSE
+                </Button>
+              </Grid>
+              <Grid container item md={6}>
+                <Button
+                  autoFocus
+                  onClick={handleCloseProfile}
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#0e4a7b",
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                  }}
+                >
+                  SAVE
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/* <DialogTitle id="customized-dialog-title" onClose={handleCloseProfile}>
           <Typography variant="h4" style={{ color: "#f68f1d" }}>
             {state.profile.username}
           </Typography>
@@ -129,7 +474,7 @@ export default function ProfileBox({
           >
             CLOSE
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );

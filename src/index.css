@@ -44,15 +44,22 @@
   text-align: center !important;
   padding: 6px 8px !important;
 }
-.Link-btn {
+
+.Link-btn-red {
+  text-decoration: none;
+  color: rgb(249, 54, 54);
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  background-color: rgba(249, 54, 54, 0.2);
+  border-radius: 5px;
 }
 
-.Link-btn {
+.Link-btn-green {
   text-decoration: none;
-  color: white;
-  padding: 6px 8px !important;
+  color: rgb(74, 170, 22);
+  padding: 8px 12px !important;
   font-size: 12px !important;
-  background-color: #3f51b5;
+  background-color: rgba(74, 170, 22, 0.2);
   border-radius: 5px;
 }
 
@@ -72,7 +79,7 @@
   border-radius: 3px;
 }
 .MuiDialog-paperWidthSm {
-  max-width: 720px !important;
+  max-width: 100% !important;
 }
 .ivision {
   background: linear-gradient(to right, rgb(14, 74, 123) 0%, #f68f1d 100%);

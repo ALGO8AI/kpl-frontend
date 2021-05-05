@@ -28,9 +28,12 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
 
   const ChangeCTR = async () => {
     try {
-      const resp = await changeCTR(CTR);
-      console.log(resp.msg);
-      setCTRresp(resp.msg);
+      var txt = window.confirm("CTR will be changed, Do you want to proceed ?");
+      if (txt) {
+        const resp = await changeCTR(CTR);
+        console.log(resp.msg);
+        setCTRresp(resp.msg);
+      }
     } catch (err) {}
   };
 

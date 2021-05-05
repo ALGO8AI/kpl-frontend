@@ -124,11 +124,16 @@ function ManageRoles() {
           title: "",
           field: "uid",
           render: (x) => (
-            <Button
-              variant="contained"
+            <button
               style={{
-                backgroundColor: "#0e4a7b",
-                color: "#FFF",
+                color: "#0e4a7b",
+                textDecoration: "underline",
+                backgroundColor: "white",
+                padding: "8px 12px",
+                border: "none",
+                outline: "none",
+                cursor: "pointer",
+                fontSize: "1rem",
               }}
               onClick={() => {
                 handleClickOpen();
@@ -136,7 +141,7 @@ function ManageRoles() {
               }}
             >
               EDIT
-            </Button>
+            </button>
           ),
         },
       ]);
@@ -169,6 +174,7 @@ function ManageRoles() {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{ width: "900px", margin: "auto" }}
       >
         <DialogTitle id="alert-dialog-title">{"UPDATE USER DATA"}</DialogTitle>
         <DialogContentText id="alert-dialog-description">
@@ -233,7 +239,6 @@ function ManageRoles() {
                 label="Email"
                 variant="outlined"
                 value={data.email}
-                size="small"
                 disabled
               />
             </Grid>
@@ -417,7 +422,6 @@ function ManageRoles() {
                 label="Line"
                 variant="outlined"
                 value={data.zone}
-                size="small"
                 onChange={(e) => setData({ ...data, zone: e.target.value })}
               />
             </Grid>
@@ -436,7 +440,6 @@ function ManageRoles() {
                 label="Wing"
                 variant="outlined"
                 value={data.wing}
-                size="small"
                 onChange={(e) => setData({ ...data, wing: e.target.value })}
               />
             </Grid>
@@ -455,7 +458,6 @@ function ManageRoles() {
                 label="Worker Id"
                 variant="outlined"
                 value={data.workerID}
-                size="small"
                 onChange={(e) => setData({ ...data, workerID: e.target.value })}
               />
             </Grid>
@@ -476,7 +478,6 @@ function ManageRoles() {
                 type="number"
                 variant="outlined"
                 value={data.mobileNumber}
-                size="small"
                 onChange={(e) =>
                   setData({ ...data, mobileNumber: e.target.value })
                 }

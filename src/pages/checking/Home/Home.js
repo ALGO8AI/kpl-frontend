@@ -572,6 +572,7 @@ export default function Home() {
               width: "100%",
               padding: "8px",
               minHeight: "280px",
+              overflow: "hidden",
             }}
           >
             {state.crowdingInstance.loading ? (

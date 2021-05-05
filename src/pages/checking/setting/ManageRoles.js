@@ -124,11 +124,16 @@ function ManageRoles() {
           title: "Update",
           field: "uid",
           render: (x) => (
-            <Button
-              variant="contained"
+            <button
               style={{
-                backgroundColor: "#0e4a7b",
-                color: "#FFF",
+                color: "#0e4a7b",
+                textDecoration: "underline",
+                backgroundColor: "white",
+                padding: "8px 12px",
+                border: "none",
+                outline: "none",
+                cursor: "pointer",
+                fontSize: "1rem",
               }}
               onClick={() => {
                 handleClickOpen();
@@ -136,7 +141,7 @@ function ManageRoles() {
               }}
             >
               EDIT
-            </Button>
+            </button>
           ),
         },
       ]);

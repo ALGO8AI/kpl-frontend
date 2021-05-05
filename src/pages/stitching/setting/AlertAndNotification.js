@@ -764,11 +764,12 @@ function AlertAndNotification() {
       <Grid container item xs={12} md={5} lg={3}>
         <RoleBasedNotification />
       </Grid>
-      <Grid container item xs={4}>
-        <AddUser />
-      </Grid>
+
       <Grid container item xs={12}>
         <ManageRoles />
+      </Grid>
+      <Grid container item xs={4}>
+        <AddUser />
       </Grid>
     </Grid>
   );
