@@ -95,7 +95,7 @@ export const Camera = observer((props) => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
-
+         console.log(`http://3.23.114.42${videowall}`)
         prevOpen.current = open;
     }, [open]);
 

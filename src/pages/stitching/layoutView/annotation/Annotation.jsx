@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import { appState } from '../LayoutStore';
 import { LayoutStore } from '../LayoutStore';
 import { withRouter } from "react-router";
+import { Spinner } from '../spinner';
 
 export const AnnotationPage = observer((props) => {
     const history = useHistory();
@@ -51,8 +52,7 @@ export const AnnotationPage = observer((props) => {
         // form.append(data, obj);
         // props.store.saveAnnotation(obj, history)
     }
-    console.log(props.id);
-
+   console.log(appState.camearaValue.image)
     return (
         <div>
             <ReactImageAnnotate
@@ -113,14 +113,12 @@ export class _Annotation extends React.Component {
     constructor(props) {
         super(props)
         this.store = new LayoutStore()
-        console.log(props)
         this.id = props.match.params.id;
     }
 
     async componentDidMount() {
         await this.store.getTags();
         await this.store.getCameraDetails();
-        console.log(this.id)
         appState.cameraDetails?.find((camera, index) => {
             if (camera.cameraId === this.id) {
                 appState.camearaValue = camera;

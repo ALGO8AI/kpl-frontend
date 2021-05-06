@@ -17,6 +17,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { observer } from 'mobx-react';
 import { appState } from '../LayoutStore';
+import { Spinner } from '../spinner';
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -52,7 +54,7 @@ export const ViewDetailsPage = observer((props) => {
         createData('FeedID', appState.camearaValue.feedId),
         createData('MachineID', appState.camearaValue.machineId),
     ];
-
+    console.log(rows)
     const renderFloor = () => {
         return (
             <TransformWrapper>
@@ -98,18 +100,22 @@ export const ViewDetailsPage = observer((props) => {
                         <Paper className={classes.paper}>  <ArrowBackIosIcon className="arrow-icon" /></Paper>
                     </Grid>
                 </Grid>
-                <div className={classes.imgBox}>
-                    <Grid container spacing={1}>
-                        <Grid item xs={9}>
-                            <div className="viewdetails-img">
-                                {renderFloor()}
-                            </div>
-                        </Grid>
-                        <Grid item xs={3}>
-                            {renderLiveList()}
-                        </Grid>
-                    </Grid>
-                </div>
+                {
+                    appState.camearaPositions.length == 0 ? <div className="layput-spinner">
+                        <Spinner /></div> :
+
+                        <div className={classes.imgBox}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={9}>
+                                    <div className="viewdetails-img">
+                                        {renderFloor()}
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    {renderLiveList()}
+                                </Grid>
+                            </Grid>
+                        </div>}
             </div>
 
         </>
@@ -122,74 +128,56 @@ function createData(name, id) {
 }
 
 export const Viewimage = observer((props) => {
-
-    console.log(appState.camearaValue.image)
     const [image1] = useImage(appState.camearaValue.image)
-    console.log(image1)
     return (
         <div>
-            <Stage
-                width={1050}
-                height={700}>
-                <Layer>
-                    <Image
-                        image={image1} />
-                </Layer>
-                <Layer>
-                    {
-                        appState.camearaPositions?.map((value, index) => (
-                            <React.Fragment>
-                                <Label
-                                    x={(value && value.x) - 10}
-                                    y={(value && value.y) - 10}>
-                                    <Tag fill="white"
-                                        scaleX={1.2}
-                                        scaleY={1.4}
-                                        pointerDirection={'down'}
-                                        pointerHeight={10}
-                                        pointerWidth={10}
-                                    />
-                                    <Text
-                                        text={appState.camearaValue && appState.camearaValue.machineId}
-                                        fontSize={14}
-                                        fill={"blue"}
-                                        lineCap={"round"}
-                                        offsetY={-3}
-                                        offsetX={-7}
-                                    />
-                                </Label>
-                                <Rect
-                                    x={value && value.x}
-                                    y={value && value.y}
-                                    width={value && value.w}
-                                    height={value && value.h}
-                                    stroke="lightgreen"
-                                />
-                                <Line
-                                    x={323}
-                                    y={425}
-                                    points={[177,
-                                        323,
-                                        425,
-                                        201,
-                                        476,
-                                        435,
-                                        245,
-                                        7522]}
-                                    tension={0.5}
-                                    closed
-                                    stroke="yellow"
-                                // fillLinearGradientStartPoint={{ x: -50, y: -50 }}
-                                // fillLinearGradientEndPoint={{ x: 50, y: 50 }}
-                                // fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
-                                />
-                            </React.Fragment>
-                        ))
-                    }
+            { image1 == undefined ? <div >
+                <Spinner /></div> :
 
-                </Layer>
+                <Stage
+                    width={1050}
+                    height={700}>
+                    <Layer>
+                        <Image
+                            image={image1} />
+                    </Layer>
+                    <Layer>
+                        {
+                            appState.camearaPositions?.map((value, index) => (
+                                <React.Fragment>
+                                    <Label
+                                        x={(value && value.x) - 10}
+                                        y={(value && value.y) - 10}>
+                                        <Tag fill="white"
+                                            scaleX={1.2}
+                                            scaleY={1.4}
+                                            pointerDirection={'down'}
+                                            pointerHeight={10}
+                                            pointerWidth={10}
+                                        />
+                                        <Text
+                                            text={appState.camearaValue && appState.camearaValue.machineId}
+                                            fontSize={14}
+                                            fill={"blue"}
+                                            lineCap={"round"}
+                                            offsetY={-3}
+                                            offsetX={-7}
+                                        />
+                                    </Label>
+                                    <Rect
+                                        x={value && value.x}
+                                        y={value && value.y}
+                                        width={value && value.w}
+                                        height={value && value.h}
+                                        stroke="lightgreen"
+                                    />
+                                </React.Fragment>
+                            ))
+                        }
 
-                {/* {   line.map((lines,index)=>(
+                    </Layer>
+
+                    {/* {   line.map((lines,index)=>(
                             <Line
                             key={index}
                             points={lines.points}
@@ -200,22 +188,24 @@ export const Viewimage = observer((props) => {
                             />
                         ))
                     } */}
-            </Stage>
+                </Stage>}
         </div>
     )
 })
 
 
-export class ViewDetails extends React.Component {
+export class _ViewDetails extends React.Component {
     store;
+    id
     constructor(props) {
         super(props)
         this.store = new LayoutStore()
+        this.id = props.match.params.id;
     }
     async componentDidMount() {
         await this.store.getCameraDetails();
-        appState.cameraDetails?.find(function (camera, index) {
-            if (camera.cameraId === 'FG2-S1') {
+        appState.cameraDetails?.find((camera, index) => {
+            if (camera.cameraId === this.id) {
                 appState.camearaValue = camera;
                 let posV = {
                     x: camera.x,
@@ -234,3 +224,5 @@ export class ViewDetails extends React.Component {
     }
 
 }
+
+export const ViewDetails = withRouter(_ViewDetails)

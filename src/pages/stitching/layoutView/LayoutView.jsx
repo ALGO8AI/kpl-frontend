@@ -11,7 +11,7 @@ import { AddCamera } from './camera/addCamera';
 import { Camera } from './camera/camera'
 import { observer } from 'mobx-react';
 import { appState } from './LayoutStore';
-// import { Spinner } from './spinner';
+import { Spinner } from './spinner';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -90,9 +90,16 @@ export const LayoutViewPage = observer((props) => {
                     </Grid>
                 </Grid>
             </div>
-            <div className="img-cntnr">
-            { renderFloor()}
-            </div>
+
+
+            {
+                appState.cameraPosition.length == 0 ? <div className="layput-spinner">
+                    <Spinner />
+                </div> :
+
+                    <div className="img-cntnr">
+                        {renderFloor()}
+                    </div>}
         </div>
     )
 })
