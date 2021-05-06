@@ -13,7 +13,7 @@ import Stitching from "./pages/stitching/Stitching/Stitching";
 import { KPLContext } from "./context/ViolationContext";
 import AuthRoute from "./Auth/AuthRoute";
 import Checking from "./pages/checking/Checking/Checking";
-import {ViewDetails} from './pages/stitching/layoutView/viewDetails/viewDetails';
+import {LayoutView} from './pages/stitching/layoutView/LayoutView';
 import SignUp from "./pages/SignUp";
 import Blank from "./pages/Blank";
 
@@ -41,7 +41,7 @@ function App(props) {
         <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />
         <AuthRoute exact path="/checking/:page" component={Checking} />
         <AuthRoute exact path="/checking/:page/:id" component={Checking} />
-        {/* <AuthRoute path='/viewdetails/:cameraid' component={ViewDetails} /> */}
+        <AuthRoute exact path='/stitching/layoutView' component={LayoutView} />
         <Redirect from="/stitching" to="/stitching/home" />
         <Redirect from="/checking" to="/checking/home" />
       </Switch>

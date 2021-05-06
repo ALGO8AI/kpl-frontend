@@ -68,7 +68,7 @@ export class LayoutStore extends BaseStore {
                 message: 'Save Success',
                 color: "success"
             })
-           // history.push("/stitching/layoutView");
+           history.push("/stitching/setting");
         }
     }
 }

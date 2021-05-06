@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import '../LayoutView.scss'
+import '../LayoutView.scss';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';

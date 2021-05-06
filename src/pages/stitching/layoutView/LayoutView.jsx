@@ -115,6 +115,7 @@ export class LayoutView extends React.Component {
         this.store.getCamera();
         this.store.getCameraDetails();
     }
+   
     render() {
         return (
             <LayoutViewPage store={this.store} />
