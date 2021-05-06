@@ -55,14 +55,12 @@ export const Camera = observer((props) => {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
-    const { id, data, details, role } = props;
+    const { id, details, role } = props;
 
     const [videowall, setvideowall] = useState()
     const [camDetails, setcamDetails] = useState()
 
     const theme = useTheme();
-    console.log(details);
-
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -95,7 +93,7 @@ export const Camera = observer((props) => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
-         console.log(`http://3.23.114.42${videowall}`)
+
         prevOpen.current = open;
     }, [open]);
 

@@ -20,7 +20,7 @@ export const AnnotationPage = observer((props) => {
                     "y": Math.floor(obj.y * height),
                     "w": Math.floor(obj.w * width),
                     "h": Math.floor(obj.h * height),
-                    "feedId": obj.tags[0],
+                    "feedId": obj.tags? obj.tags[0] : "",
                     "type":obj.type,
                     "designatedAreaId": obj.cls
                 })
@@ -41,16 +41,15 @@ export const AnnotationPage = observer((props) => {
                         ...pointvalue,
                     },
                     "type":obj.type,
-                    "feedId": obj.tags[0],
+                    "feedId": obj.tags? obj.tags[0] : "",
                     "designatedAreaId": obj.cls
                 })
             }
         })
-        console.log(array)
-        // const form = new FormData();
-        // const obj = { data }
-        // form.append(data, obj);
-        // props.store.saveAnnotation(obj, history)
+         const body = {
+             'data':array
+         }
+        props.store.saveAnnotation(body, history)
     }
    console.log(appState.camearaValue.image)
     return (
@@ -72,7 +71,6 @@ export const AnnotationPage = observer((props) => {
                     let widthValue = value.images[0].pixelSize.w
                     let heightValue = value.images[0].pixelSize.h
                     const values = []
-                    console.log(value);
                     // if (value.images[0].regions[0].type === 'polygon') {
                     //     // let multipleBox = value.images[0].regions[0].points;
                     //     // multipleBox.map((value, index) => {

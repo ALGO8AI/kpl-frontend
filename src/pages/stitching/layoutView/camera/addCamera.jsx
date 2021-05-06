@@ -32,9 +32,8 @@ export const AddCamera = observer((props) => {
         const camValue = {
             cameraId: CamName,
             x: Number(props.x && props.x[0]),
-            y: Number(props.y && props.y[0])
+            y: Number(props.y && props.y[1])
         }
-        console.log(camValue)
         props.store.addCam(camValue)
     }
 

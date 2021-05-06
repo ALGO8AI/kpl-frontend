@@ -25,7 +25,6 @@ export class LayoutStore extends BaseStore {
 
     getCamera = async () => {
         const response = await this.api.Get(`routes/cameraDetail/getCamPosition`);
-        console.log(response)
         if (response) {
             appState.cameraPosition = response.data
         }
@@ -34,13 +33,12 @@ export class LayoutStore extends BaseStore {
     addCam = async (camValue) => {
         const response = await this.api.Post(`routes/cameraDetail/addCamPosition`, camValue);
         if (response) {
-            appState.cameraPosition = response
+            this.getCamera();
         }
     }
 
     getCameraDetails = async () => {
         const response = await this.api.Get(`routes/annotation/stitching/cameraDetails`);
-        console.log(response)
         if (response) {
             appState.cameraDetails = response.FeedCords;
         }
@@ -48,7 +46,6 @@ export class LayoutStore extends BaseStore {
 
     getTags = async () => {
         const response = await this.api.Get(`routes/annotation/stitching/allTags`);
-        console.log(response)
         if (response) {
             response.FeedTags.map(id => {
                 appState.FeedTags.push(id.feedId)
@@ -60,7 +57,6 @@ export class LayoutStore extends BaseStore {
             //     message: 'Save Success',
             //     color: "success"
             // })
-            console.log(appState.FeedTags)
         }
     }
 
@@ -72,7 +68,7 @@ export class LayoutStore extends BaseStore {
                 message: 'Save Success',
                 color: "success"
             })
-            history.push("/stitching/layoutView");
+           // history.push("/stitching/layoutView");
         }
     }
 }

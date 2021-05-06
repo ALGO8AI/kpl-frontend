@@ -54,7 +54,7 @@ export const ViewDetailsPage = observer((props) => {
         createData('FeedID', appState.camearaValue.feedId),
         createData('MachineID', appState.camearaValue.machineId),
     ];
-    console.log(rows)
+   
     const renderFloor = () => {
         return (
             <TransformWrapper>
@@ -129,6 +129,20 @@ function createData(name, id) {
 
 export const Viewimage = observer((props) => {
     const [image1] = useImage(appState.camearaValue.image)
+
+    const renderBox = () => {
+        return appState.camearaPositions?.map(obj => {
+            return (
+                <Rect
+                    x={obj && obj.x}
+                    y={obj && obj.y}
+                    width={obj && obj.w}
+                    height={obj && obj.h}
+                    stroke="lightgreen"
+                />
+            )
+        })
+    }
     return (
         <div>
             { image1 == undefined ? <div >
@@ -143,9 +157,9 @@ export const Viewimage = observer((props) => {
                     </Layer>
                     <Layer>
                         {
-                            appState.camearaPositions?.map((value, index) => (
+                            appState.camearaPositions?.map(value => (
                                 <React.Fragment>
-                                    <Label
+                                    {/* <Label
                                         x={(value && value.x) - 10}
                                         y={(value && value.y) - 10}>
                                         <Tag fill="white"
@@ -163,14 +177,8 @@ export const Viewimage = observer((props) => {
                                             offsetY={-3}
                                             offsetX={-7}
                                         />
-                                    </Label>
-                                    <Rect
-                                        x={value && value.x}
-                                        y={value && value.y}
-                                        width={value && value.w}
-                                        height={value && value.h}
-                                        stroke="lightgreen"
-                                    />
+                                    </Label> */}
+                                    {renderBox()}
                                 </React.Fragment>
                             ))
                         }
@@ -207,6 +215,7 @@ export class _ViewDetails extends React.Component {
         appState.cameraDetails?.find((camera, index) => {
             if (camera.cameraId === this.id) {
                 appState.camearaValue = camera;
+                console.log(camera)
                 let posV = {
                     x: camera.x,
                     y: camera.y,
@@ -214,6 +223,7 @@ export class _ViewDetails extends React.Component {
                     h: camera.h
                 }
                 appState.camearaPositions.push(posV);
+
             }
         })
     }
