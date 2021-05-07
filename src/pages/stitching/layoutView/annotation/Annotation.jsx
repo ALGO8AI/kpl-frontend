@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) =>
         table: {
             minWidth: 0,
         },
-        tool:{
-          marginTop:'20px'
+        tool: {
+            marginTop: '20px'
         },
-        heading:{
-            color:'#0e4a7b'
+        heading: {
+            color: '#0e4a7b'
         },
         imgBox: {
             marginTop: '30px'
@@ -53,7 +53,9 @@ export const AnnotationPage = observer((props) => {
                     "h": Math.floor(obj.h * height),
                     "feedId": obj.tags ? obj.tags[0] : "",
                     "type": obj.type,
-                    "designatedAreaId": obj.cls
+                    "designatedAreaId": obj.cls,
+                    "cameraId": props.id,
+                    "machineId": props.machineId
                 })
             } else {
                 const points = [];
@@ -71,7 +73,9 @@ export const AnnotationPage = observer((props) => {
                     points,
                     "type": obj.type,
                     "feedId": obj.tags ? obj.tags[0] : "",
-                    "designatedAreaId": obj.cls
+                    "designatedAreaId": obj.cls,
+                    "cameraId": props.id,
+                    "machineId": props.machineId
                 })
             }
         })
@@ -114,29 +118,29 @@ export const AnnotationPage = observer((props) => {
                 </Grid>
             </Grid>
             <div className={classes.tool}>
-            <ReactImageAnnotate
-                enabledTools={["create-box", "create-polygon"]}
-                labelImages
-                regionClsList={JSON.parse(localStorage.getItem("DesignatedTag"))}
-                regionTagList={JSON.parse(localStorage.getItem("feedTag"))}
-                images={[
-                    {
-                        src: localStorage.getItem('anImage'),
-                        name: props.id,
-                        regions: []
-                    }
+                <ReactImageAnnotate
+                    enabledTools={["create-box", "create-polygon"]}
+                    labelImages
+                    regionClsList={JSON.parse(localStorage.getItem("DesignatedTag"))}
+                    regionTagList={JSON.parse(localStorage.getItem("feedTag"))}
+                    images={[
+                        {
+                            src: localStorage.getItem('anImage'),
+                            name: props.id,
+                            regions: []
+                        }
 
-                ]}
-                onCommentInputClick={(value) => {
-                    console.log(value)
-                }}
-                onExit={(value) => {
-                    let widthValue = value.images[0].pixelSize.w
-                    let heightValue = value.images[0].pixelSize.h
-                    coordinates(value.images[0].regions, widthValue, heightValue);
-                }
-                }
-            />
+                    ]}
+                    onCommentInputClick={(value) => {
+                        console.log(value)
+                    }}
+                    onExit={(value) => {
+                        let widthValue = value.images[0].pixelSize.w
+                        let heightValue = value.images[0].pixelSize.h
+                        coordinates(value.images[0].regions, widthValue, heightValue);
+                    }
+                    }
+                />
             </div>
         </div>
     )
@@ -145,6 +149,7 @@ export const AnnotationPage = observer((props) => {
 export class _Annotation extends React.Component {
     store;
     id
+    machineId
     constructor(props) {
         super(props)
         this.store = new LayoutStore()
@@ -156,6 +161,7 @@ export class _Annotation extends React.Component {
         await this.store.getCameraDetails();
         appState.cameraDetails?.find((camera, index) => {
             if (camera.cameraId === this.id) {
+                this.machineId = camera.machineId
                 appState.camearaValue = camera;
                 localStorage.setItem('anImage', appState.camearaValue.image)
             }
@@ -163,7 +169,7 @@ export class _Annotation extends React.Component {
     }
     render() {
         return (
-            <AnnotationPage store={this.store} id={this.id} />
+            <AnnotationPage store={this.store} id={this.id} machineId={this.machineId} />
         )
     }
 

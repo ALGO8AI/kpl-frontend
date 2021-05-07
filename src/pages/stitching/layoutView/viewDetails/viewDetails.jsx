@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) =>
         imgBox: {
             marginTop: '30px'
         },
+        tablehead:{
+         textAlign:"center",
+         color: '#0e4a7b'
+        },
         heading: {
             color: '#0e4a7b'
         },
@@ -69,6 +73,7 @@ export const ViewDetailsPage = observer((props) => {
     const renderLiveList = () => {
         return (
             <TableContainer component={Paper}>
+                <h5 className={classes.tablehead}>Live Details</h5>
                 <Table className={classes.table} aria-label="simple table">
                     <TableBody>
                         {rows.map((row) => (
@@ -89,7 +94,7 @@ export const ViewDetailsPage = observer((props) => {
             <div className={classes.root}>
                 <Grid container spacing={1}>
                     <Grid item xs={8}>
-                        <h1 className={classes.heading}>Layout View</h1>
+                        <h1 className={classes.heading}>Zone {appState.camearaValue.cameraId}</h1>
                     </Grid>
                     <Grid item xs={12} sm={2}>
                         <Paper className={classes.paper}> view</Paper>
@@ -102,7 +107,7 @@ export const ViewDetailsPage = observer((props) => {
                     </Grid>
                 </Grid>
                 {
-                    appState.camearaPositions.length == 0 ? <div className="layput-spinner">
+                    appState.camearaValue.length == 0 ? <div className="layput-spinner">
                         <Spinner /></div> :
 
                         <div className={classes.imgBox}>
@@ -163,7 +168,7 @@ export const Viewimage = observer((props) => {
                         />
                         <Line
                             points={obj.points.split(',')}
-                            stroke={"lightblue"}
+                            stroke={"yellow"}
                             strokeWidth={3}
                             closed={true}
                         />

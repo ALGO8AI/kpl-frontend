@@ -18,8 +18,6 @@ export class LayoutStore extends BaseStore {
     constructor() {
         super()
         this.api = new ApiService();
-        this.getCamera();
-        this.getCameraDetails();
     }
 
     Role() {

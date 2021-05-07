@@ -7,7 +7,7 @@
 // https://codepen.io/danielyaa5/pen/eZvBMz
 .img-cntnr {
     position: relative;
-    border: #f68f1d solid 10px;
+    border: #f68f1d solid 5px;
     // width: 100%;
     // height: 500px;
     overflow: scroll;
@@ -15,7 +15,7 @@
 
 .viewdetails-img {
     position: relative;
-    border: #f68f1d solid 10px;
+    border: #f68f1d solid 5px;
     width: 100%;
     height: 500px;
     overflow: scroll;
@@ -82,7 +82,7 @@
     width: 80px;
     height: 80px;
     border: 15px solid;
-    border-color: #e6af2e #1b998b;
+    border-color: #f68f1d #0e4a7b ;
     border-radius: 50%;
     animation: spin 1.5s infinite;
 }
@@ -91,7 +91,9 @@
         transform: rotate(360deg);
     }
 }
-
+a{
+    cursor: pointer;
+}
 .layput-spinner {
     margin-top: 15%;
     margin-left: 45%;
