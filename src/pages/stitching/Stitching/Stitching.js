@@ -9,7 +9,7 @@ import ViolationDetails from "../violationDetails/ViolationDetails";
 import ViolationLog from "../violationLog/ViolationLog";
 import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
-import {Annotation} from '../layoutView/annotation/Annotations';
+import {Annotation} from '../layoutView/annotation/Annotation';
 
 function Stitching(props) {
   const pages = {

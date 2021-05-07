@@ -20,16 +20,16 @@ export const AnnotationPage = observer((props) => {
                     "y": Math.floor(obj.y * height),
                     "w": Math.floor(obj.w * width),
                     "h": Math.floor(obj.h * height),
-                    "feedId": obj.tags? obj.tags[0] : "",
-                    "type":obj.type,
+                    "feedId": obj.tags ? obj.tags[0] : "",
+                    "type": obj.type,
                     "designatedAreaId": obj.cls
                 })
             } else {
                 const pointvalue = [];
                 obj.points.map(point => {
                     pointvalue.push(
-                        Math.floor(point[0]),
-                        Math.floor(point[1]),
+                        point[0],
+                        point[1],
                     )
                 })
                 array.push({
@@ -40,33 +40,37 @@ export const AnnotationPage = observer((props) => {
                     "points": {
                         ...pointvalue,
                     },
-                    "type":obj.type,
-                    "feedId": obj.tags? obj.tags[0] : "",
+                    "type": obj.type,
+                    "feedId": obj.tags ? obj.tags[0] : "",
                     "designatedAreaId": obj.cls
                 })
             }
         })
-         const body = {
-             'data':array
-         }
-        props.store.saveAnnotation(body, history)
+        const body = {
+            'data': array
+        }
+        console.log(body)
+        // props.store.saveAnnotation(body, history)
     }
-   console.log(appState.camearaValue.image)
+    console.log(localStorage.getItem('anImage'))
     return (
         <div>
             <ReactImageAnnotate
                 enabledTools={["create-box", "create-polygon"]}
                 labelImages
-                regionClsList={appState.DesignatedTag}
-                regionTagList={appState.FeedTags}
+                regionClsList={JSON.parse(localStorage.getItem("DesignatedTag"))}
+                regionTagList={JSON.parse(localStorage.getItem("feedTag"))}
                 images={[
                     {
-                        src: appState.camearaValue.image,
+                        src: localStorage.getItem('anImage'),
                         name: props.id,
                         regions: []
                     }
 
                 ]}
+                onCommentInputClick={(value) => {
+                    console.log(value)
+                }}
                 onExit={(value) => {
                     let widthValue = value.images[0].pixelSize.w
                     let heightValue = value.images[0].pixelSize.h
@@ -115,11 +119,13 @@ export class _Annotation extends React.Component {
     }
 
     async componentDidMount() {
+        alert('anno')
         await this.store.getTags();
         await this.store.getCameraDetails();
         appState.cameraDetails?.find((camera, index) => {
             if (camera.cameraId === this.id) {
                 appState.camearaValue = camera;
+                localStorage.setItem('anImage', appState.camearaValue.image)
             }
         })
     }

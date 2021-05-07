@@ -1,4 +1,4 @@
-import { observable} from "mobx";
+import { observable } from "mobx";
 import { ApiService } from '../../../services/apiService'
 import { BaseStore } from '../../../components/common/BaseStore';
 import { showActionModalComponent } from '../../../components/common/snackbar/SnackbarContent';
@@ -6,6 +6,7 @@ import { showActionModalComponent } from '../../../components/common/snackbar/Sn
 export const appState = observable({
     cameraPosition: [],
     cameraDetails: [],
+    cameraWorkerUnavCords: [],
     FeedTags: [],
     DesignatedTag: [],
     camearaValue: {},
@@ -33,6 +34,10 @@ export class LayoutStore extends BaseStore {
     addCam = async (camValue) => {
         const response = await this.api.Post(`routes/cameraDetail/addCamPosition`, camValue);
         if (response) {
+            showActionModalComponent({
+                message: 'Add camera Success',
+                color: "success"
+            })
             this.getCamera();
         }
     }
@@ -41,6 +46,7 @@ export class LayoutStore extends BaseStore {
         const response = await this.api.Get(`routes/annotation/stitching/cameraDetails`);
         if (response) {
             appState.cameraDetails = response.FeedCords;
+            appState.cameraWorkerUnavCords = response.WorkerUnavCords;
         }
     }
 
@@ -49,9 +55,11 @@ export class LayoutStore extends BaseStore {
         if (response) {
             response.FeedTags.map(id => {
                 appState.FeedTags.push(id.feedId)
+                localStorage.setItem("feedTag", JSON.stringify(appState.FeedTags));
             });
             response.DesignatedTags.map(id => {
-                appState.DesignatedTag.push(id.designatedAreaId)
+                appState.DesignatedTag.push(id.designatedAreaId);
+                localStorage.setItem("DesignatedTag", JSON.stringify(appState.DesignatedTag));
             });;
             // showActionModalComponent({
             //     message: 'Save Success',
@@ -68,7 +76,7 @@ export class LayoutStore extends BaseStore {
                 message: 'Save Success',
                 color: "success"
             })
-           history.push("/stitching/setting");
+            history.push("/stitching/setting");
         }
     }
 }

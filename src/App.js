@@ -41,7 +41,6 @@ function App(props) {
         <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />
         <AuthRoute exact path="/checking/:page" component={Checking} />
         <AuthRoute exact path="/checking/:page/:id" component={Checking} />
-        <AuthRoute exact path='/stitching/layoutView' component={LayoutView} />
         <Redirect from="/stitching" to="/stitching/home" />
         <Redirect from="/checking" to="/checking/home" />
       </Switch>

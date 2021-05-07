@@ -83,10 +83,14 @@ export const Camera = observer((props) => {
 
     const prevOpen = React.useRef(open);
     useEffect(() => {
-        details?.find(function (camera, index) {
+        details?.find((camera, index) => {
+            console.log(camera.cameraId)
+           // console.log(props.id)
             if (camera.cameraId === props.id) {
                 setcamDetails(camera);
-                setvideowall(camera.route)
+                const url = `http://3.23.114.42${camera.route}`
+                setvideowall(url);
+                console.log(camDetails)
             }
         })
 
@@ -131,7 +135,7 @@ export const Camera = observer((props) => {
                                         </div>
                                         <CardMedia
                                             className={classes.cover}
-                                            image={`http://3.23.114.42${videowall}`}
+                                            image={videowall}
                                             title="live video"
                                         />
                                     </Card>

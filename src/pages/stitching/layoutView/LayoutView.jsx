@@ -40,6 +40,20 @@ export const LayoutViewPage = observer((props) => {
         setcood([value.position.x, value.position.y])
     }
 
+    const renderCamposition = () => {
+        return appState.cameraPosition?.map((value) => {
+            return (
+                < div className="localDiv" style={{ transform: `translate(${value.x}px,${value.y}px)` }}>
+                    <div className="contentBox" >
+                        <Camera id={value.cameraId}
+                            details={appState.cameraDetails}
+                            role={store.Role()} />
+                    </div>
+                </div >
+            )
+        })
+    }
+
     const renderFloor = () => {
         return (
             <TransformWrapper>
@@ -52,16 +66,7 @@ export const LayoutViewPage = observer((props) => {
                         }>
                             <div className="main" onClick={getPos}>
                                 {
-                                    appState.cameraPosition?.map((value) => (
-                                        <div className="localDiv" style={{ transform: `translate(${value.x}px,${value.y}px)` }}>
-                                            <div className="contentBox" >
-                                                <Camera id={value.cameraId}
-                                                    data={appState.cameraPosition}
-                                                    details={appState.cameraDetails}
-                                                    role={store.Role()} />
-                                            </div>
-                                        </div>
-                                    ))
+                                    renderCamposition()
                                 }
                             </div>
                         </ReactCursorPosition>
@@ -115,7 +120,7 @@ export class LayoutView extends React.Component {
         this.store.getCamera();
         this.store.getCameraDetails();
     }
-   
+
     render() {
         return (
             <LayoutViewPage store={this.store} />

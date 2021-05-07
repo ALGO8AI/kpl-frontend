@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 export const ViewDetailsPage = observer((props) => {
-    let { cameraid } = useParams();
 
     const { store } = props;
 
@@ -54,12 +53,12 @@ export const ViewDetailsPage = observer((props) => {
         createData('FeedID', appState.camearaValue.feedId),
         createData('MachineID', appState.camearaValue.machineId),
     ];
-   
+
     const renderFloor = () => {
         return (
             <TransformWrapper>
                 <TransformComponent>
-                    <Viewimage id={cameraid} store={store} />
+                    <Viewimage id={props.id} store={store} />
                 </TransformComponent>
             </TransformWrapper >
         )
@@ -131,18 +130,79 @@ export const Viewimage = observer((props) => {
     const [image1] = useImage(appState.camearaValue.image)
 
     const renderBox = () => {
-        return appState.camearaPositions?.map(obj => {
-            return (
-                <Rect
-                    x={obj && obj.x}
-                    y={obj && obj.y}
-                    width={obj && obj.w}
-                    height={obj && obj.h}
-                    stroke="lightgreen"
-                />
-            )
+        return appState.cameraDetails?.map(obj => {
+            if (obj.cameraId === props.id) {
+                return (
+                    <>
+                        <Label
+                            x={(obj && obj.x) - 10}
+                            y={(obj && obj.y) - 10}>
+                            <Tag fill="white"
+                                scaleX={1.2}
+                                scaleY={1.4}
+                                pointerDirection={'down'}
+                                pointerHeight={10}
+                                pointerWidth={10}
+                            />
+                            <Text
+                                text={obj.machineId + " ," + obj.feedId}
+                                fontSize={14}
+                                fill={"blue"}
+                                lineCap={"round"}
+                                offsetY={-3}
+                                offsetX={-7}
+                            />
+                        </Label>
+                        <Rect
+                            x={obj && obj.x}
+                            y={obj && obj.y}
+                            width={obj && obj.w}
+                            height={obj && obj.h}
+                            stroke="lightgreen"
+                        />
+                    </>
+                )
+            }
         })
     }
+
+    const renderworker = () => {
+        return appState.cameraWorkerUnavCords?.map(obj => {
+            if (obj.cameraId === props.id) {
+                return (
+                    <>
+                        <Label
+                            x={(obj && obj.x) - 10}
+                            y={(obj && obj.y) - 10}>
+                            <Tag fill="white"
+                                scaleX={1.2}
+                                scaleY={1.4}
+                                pointerDirection={'down'}
+                                pointerHeight={10}
+                                pointerWidth={10}
+                            />
+                            <Text
+                                text={obj.machineId + " ," + obj.designatedAreaId}
+                                fontSize={14}
+                                fill={"blue"}
+                                lineCap={"round"}
+                                offsetY={-3}
+                                offsetX={-7}
+                            />
+                        </Label>
+                        <Rect
+                            x={obj && obj.x}
+                            y={obj && obj.y}
+                            width={obj && obj.w}
+                            height={obj && obj.h}
+                            stroke="lightgreen"
+                        />
+                    </>
+                )
+            }
+        })
+    }
+
     return (
         <div>
             { image1 == undefined ? <div >
@@ -156,46 +216,20 @@ export const Viewimage = observer((props) => {
                             image={image1} />
                     </Layer>
                     <Layer>
-                        {
-                            appState.camearaPositions?.map(value => (
-                                <React.Fragment>
-                                    {/* <Label
-                                        x={(value && value.x) - 10}
-                                        y={(value && value.y) - 10}>
-                                        <Tag fill="white"
-                                            scaleX={1.2}
-                                            scaleY={1.4}
-                                            pointerDirection={'down'}
-                                            pointerHeight={10}
-                                            pointerWidth={10}
-                                        />
-                                        <Text
-                                            text={appState.camearaValue && appState.camearaValue.machineId}
-                                            fontSize={14}
-                                            fill={"blue"}
-                                            lineCap={"round"}
-                                            offsetY={-3}
-                                            offsetX={-7}
-                                        />
-                                    </Label> */}
-                                    {renderBox()}
-                                </React.Fragment>
-                            ))
-                        }
-
-                    </Layer>
-
-                    {/* {   line.map((lines,index)=>(
-                            <Line
-                            key={index}
-                            points={lines.points}
-                            stroke={"black"}
-                            strokeWidth={5}
+                        {renderBox()}
+                        {renderworker()}
+                        <Line
+                            x={20}
+                            y={200}
+                            points={[0.13, 0.32, 0.41, 0.22, 0.40, 0.53,0.22,0.62]}
                             tension={0.5}
-                            lineCap="round"
-                            />
-                        ))
-                    } */}
+                            closed
+                            stroke="yellow"
+                            // fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+                            // fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+                            // fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+                        />
+                    </Layer>
                 </Stage>}
         </div>
     )
@@ -229,7 +263,7 @@ export class _ViewDetails extends React.Component {
     }
     render() {
         return (
-            <ViewDetailsPage store={this.store} />
+            <ViewDetailsPage store={this.store} id={this.id} />
         )
     }
 
