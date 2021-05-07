@@ -1,7 +1,6 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Stage, Layer, Image, Rect, Line, Label, Text, Tag } from 'react-konva';
 import useImage from 'use-image';
-import { useParams } from 'react-router-dom'
 // import img from '../../../../Assets/images/viewdetails.png';
 import { LayoutStore } from '../LayoutStore';
 import Grid from '@material-ui/core/Grid';
@@ -36,7 +35,10 @@ const useStyles = makeStyles((theme) =>
         },
         imgBox: {
             marginTop: '30px'
-        }
+        },
+        heading: {
+            color: '#0e4a7b'
+        },
     }),
 );
 
@@ -45,7 +47,7 @@ export const ViewDetailsPage = observer((props) => {
     const { store } = props;
 
     const classes = useStyles();
-    
+
     const rows = [
         createData('camera ID:', appState.camearaValue.cameraId),
         createData('WingID :', appState.camearaValue.wing),
@@ -87,7 +89,7 @@ export const ViewDetailsPage = observer((props) => {
             <div className={classes.root}>
                 <Grid container spacing={1}>
                     <Grid item xs={8}>
-                        <h1>Layout View</h1>
+                        <h1 className={classes.heading}>Layout View</h1>
                     </Grid>
                     <Grid item xs={12} sm={2}>
                         <Paper className={classes.paper}> view</Paper>
@@ -128,7 +130,6 @@ function createData(name, id) {
 
 export const Viewimage = observer((props) => {
     const [image1] = useImage(appState.camearaValue.image)
-    const [pointArr, setpointArr] = useState([347,519,727,648,573,479,142,347]);
     const renderBox = () => {
         return appState.cameraDetails?.map(obj => {
             if (obj.cameraId === props.id) {
@@ -161,11 +162,11 @@ export const Viewimage = observer((props) => {
                             stroke="lightgreen"
                         />
                         <Line
-                            points={obj.points}
+                            points={obj.points.split(',')}
                             stroke={"lightblue"}
                             strokeWidth={3}
                             closed={true}
-                            />
+                        />
                     </>
                 )
             }
@@ -204,11 +205,11 @@ export const Viewimage = observer((props) => {
                             stroke="lightgreen"
                         />
                         <Line
-                            points={obj.points}
+                            points={obj.points.split(',')}
                             stroke={"lightblue"}
                             strokeWidth={3}
                             closed={true}
-                         />
+                        />
                     </>
                 )
             }
@@ -250,15 +251,6 @@ export class _ViewDetails extends React.Component {
         appState.cameraDetails?.find((camera, index) => {
             if (camera.cameraId === this.id) {
                 appState.camearaValue = camera;
-                console.log(camera)
-                let posV = {
-                    x: camera.x,
-                    y: camera.y,
-                    w: camera.w,
-                    h: camera.h
-                }
-                appState.camearaPositions.push(posV);
-
             }
         })
     }

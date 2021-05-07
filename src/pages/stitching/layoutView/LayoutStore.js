@@ -17,7 +17,9 @@ export class LayoutStore extends BaseStore {
     api;
     constructor() {
         super()
-        this.api = new ApiService()
+        this.api = new ApiService();
+        this.getCamera();
+        this.getCameraDetails();
     }
 
     Role() {
@@ -51,6 +53,8 @@ export class LayoutStore extends BaseStore {
     }
 
     getTags = async () => {
+        localStorage.removeItem('feedTag');
+        localStorage.removeItem('DesignatedTag')
         const response = await this.api.Get(`routes/annotation/stitching/allTags`);
         if (response) {
             response.FeedTags.map(id => {
@@ -61,22 +65,17 @@ export class LayoutStore extends BaseStore {
                 appState.DesignatedTag.push(id.designatedAreaId);
                 localStorage.setItem("DesignatedTag", JSON.stringify(appState.DesignatedTag));
             });;
-            // showActionModalComponent({
-            //     message: 'Save Success',
-            //     color: "success"
-            // })
         }
     }
 
     saveAnnotation = async (body, history) => {
         const response = await this.api.Post(`routes/annotation/stitching/addAnnotation`, body);
         if (response) {
-            appState.cameraPosition = response;
             showActionModalComponent({
                 message: 'Save Success',
                 color: "success"
             })
-            history.push("/stitching/setting");
+           history.push("/stitching/setting");
         }
     }
 }

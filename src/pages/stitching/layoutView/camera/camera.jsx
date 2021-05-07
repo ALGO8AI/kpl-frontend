@@ -9,10 +9,8 @@ import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/sty
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { observer } from 'mobx-react';
-import { appState } from '../LayoutStore';
 import { Spinner } from '../spinner';
 
 const useStyles = makeStyles((theme) =>
@@ -39,6 +37,10 @@ const useStyles = makeStyles((theme) =>
         camtext: {
             fontSize: '12px'
         },
+        spinner: {
+            marginTop: '5px',
+            padding: '20px'
+        },
         content: {
             flex: '1 0 auto',
         },
@@ -50,8 +52,10 @@ const useStyles = makeStyles((theme) =>
 
 export const Camera = observer((props) => {
     const classes = useStyles();
+
     const history = useHistory();
 
+    const [load, setload] = useState(true)
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
@@ -60,9 +64,9 @@ export const Camera = observer((props) => {
     const [videowall, setvideowall] = useState()
     const [camDetails, setcamDetails] = useState()
 
-    const theme = useTheme();
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
+        setload(true)
     };
 
     const handleClose = (event) => {
@@ -84,13 +88,9 @@ export const Camera = observer((props) => {
     const prevOpen = React.useRef(open);
     useEffect(() => {
         details?.find((camera, index) => {
-            console.log(camera.cameraId)
-           // console.log(props.id)
             if (camera.cameraId === props.id) {
                 setcamDetails(camera);
-                const url = `http://3.23.114.42${camera.route}`
-                setvideowall(url);
-                console.log(camDetails)
+                setvideowall(camera.route);
             }
         })
 
@@ -133,11 +133,11 @@ export const Camera = observer((props) => {
                                                     <a> <span onClick={onViewDetails}>View Details</span></a></Typography>
                                             </CardContent>
                                         </div>
-                                        <CardMedia
-                                            className={classes.cover}
-                                            image={videowall}
-                                            title="live video"
-                                        />
+                                        {load ? <div className={classes.spinner}><Spinner />
+                                        </div> : null}
+                                        <img src={`http://3.23.114.42${videowall}`} alt="camera picture" width={load ? '0px' : '260px'} height={load ? '0px' : '150px'}
+                                            onLoad={() => setload(false)} />
+
                                     </Card>
                                 </ClickAwayListener>
                             </Paper>
