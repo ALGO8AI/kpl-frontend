@@ -28,13 +28,13 @@ export const AnnotationPage = observer((props) => {
                 const pointvalue = [];
                 obj.points.map(point => {
                     pointvalue.push(
-                        point[0],
-                        point[1],
+                        Math.floor(point[0]*width),
+                        Math.floor(point[1]*height)
                     )
                 })
                 array.push({
-                    "x": Math.floor(pointvalue[0] * width),
-                    "y": Math.floor(pointvalue[1] * height),
+                    "x":pointvalue[0], 
+                    "y":pointvalue[1],
                     "w": Math.floor(0 * width),
                     "h": Math.floor(0 * height),
                     "points": {

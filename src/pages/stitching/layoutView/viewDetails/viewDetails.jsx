@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Stage, Layer, Image, Rect, Line, Label, Text, Tag } from 'react-konva';
 import useImage from 'use-image';
 import { useParams } from 'react-router-dom'
@@ -45,7 +45,7 @@ export const ViewDetailsPage = observer((props) => {
     const { store } = props;
 
     const classes = useStyles();
-
+    
     const rows = [
         createData('camera ID:', appState.camearaValue.cameraId),
         createData('WingID :', appState.camearaValue.wing),
@@ -128,7 +128,7 @@ function createData(name, id) {
 
 export const Viewimage = observer((props) => {
     const [image1] = useImage(appState.camearaValue.image)
-
+    const [pointArr, setpointArr] = useState([347,519,727,648,573,479,142,347]);
     const renderBox = () => {
         return appState.cameraDetails?.map(obj => {
             if (obj.cameraId === props.id) {
@@ -160,6 +160,12 @@ export const Viewimage = observer((props) => {
                             height={obj && obj.h}
                             stroke="lightgreen"
                         />
+                        <Line
+                            points={obj.points}
+                            stroke={"lightblue"}
+                            strokeWidth={3}
+                            closed={true}
+                            />
                     </>
                 )
             }
@@ -197,6 +203,12 @@ export const Viewimage = observer((props) => {
                             height={obj && obj.h}
                             stroke="lightgreen"
                         />
+                        <Line
+                            points={obj.points}
+                            stroke={"lightblue"}
+                            strokeWidth={3}
+                            closed={true}
+                         />
                     </>
                 )
             }
@@ -218,17 +230,6 @@ export const Viewimage = observer((props) => {
                     <Layer>
                         {renderBox()}
                         {renderworker()}
-                        <Line
-                            x={20}
-                            y={200}
-                            points={[0.13, 0.32, 0.41, 0.22, 0.40, 0.53,0.22,0.62]}
-                            tension={0.5}
-                            closed
-                            stroke="yellow"
-                            // fillLinearGradientStartPoint={{ x: -50, y: -50 }}
-                            // fillLinearGradientEndPoint={{ x: 50, y: 50 }}
-                            // fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
-                        />
                     </Layer>
                 </Stage>}
         </div>
