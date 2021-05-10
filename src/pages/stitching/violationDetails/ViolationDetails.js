@@ -20,7 +20,12 @@ import * as moment from "moment";
 import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { FormControl, InputLabel, isWidthUp } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  isWidthUp,
+  Typography,
+} from "@material-ui/core";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -291,6 +296,33 @@ function ViolationDetails(props) {
   return (
     <div>
       <Grid container>
+        <Grid container item md={12} style={{ padding: "12px 12px 4px 12px" }}>
+          {localStorage.getItem("VIOLATION-TYPE") && (
+            <>
+              <Typography
+                variant="h6"
+                style={{
+                  color: "#0e4a7b",
+                  borderBottom: "2px solid #0e4a7b",
+                  padding: "0 8px",
+                  marginRight: "12px",
+                }}
+              >
+                {localStorage.getItem("VIOLATION-TYPE")}
+              </Typography>
+              <Typography
+                variant="h6"
+                className={`${
+                  localStorage.getItem("VIOLATION-STATUS") === "Not Resolved"
+                    ? "Link-btn-red"
+                    : "Link-btn-green"
+                }`}
+              >
+                {localStorage.getItem("VIOLATION-STATUS")}
+              </Typography>
+            </>
+          )}
+        </Grid>
         <Grid
           container
           item
@@ -304,7 +336,9 @@ function ViolationDetails(props) {
               Violation Id:{props.id}{" "}
               <span style={{ marginLeft: "auto" }}>
                 {data &&
-                  moment(new Date(data.date)).format("DD/MM/YYYY").toString()}
+                  moment(new Date(data.date))
+                    .format("DD/MM/YYYY")
+                    .toString()}
               </span>
             </div>
             <div className="videoPlaceholder">

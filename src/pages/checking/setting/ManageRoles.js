@@ -173,6 +173,7 @@ function ManageRoles() {
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
+        style={{ width: "900px", margin: "auto" }}
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{"UPDATE USER DATA"}</DialogTitle>

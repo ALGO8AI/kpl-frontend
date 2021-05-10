@@ -247,7 +247,7 @@ function ViolationLog1() {
       // setMachineID(ctr.machineID);
 
       const tableID = await loadTableId();
-      console.log(tableID);
+      // console.log(tableID);
       setMachineID(tableID.data);
 
       if (state.crowd.loading) {
@@ -263,6 +263,7 @@ function ViolationLog1() {
 
       if (state.worker.loading) {
         const worker = await workerUnavailableViolationChecking();
+        console.log(worker);
         if (worker.checkingWorkerUnavailableViolation === "no data") {
           dispatch({
             type: "WORKER_VIO",
@@ -284,6 +285,8 @@ function ViolationLog1() {
 
       if (state.by_worker.loading) {
         const by_worker = await violationByWorkerF();
+        console.log(by_worker);
+
         dispatch({
           type: "BY_WORKER_VIO",
           payload: {
@@ -735,36 +738,63 @@ function ViolationLog1() {
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
-                  { title: "Violation ID", field: "Id" },
                   {
-                    title: "Status",
-                    field: "query",
-                    render: (rowData) => {
-                      return rowData.query === "Not Resolved" ? (
-                        <p
-                          style={{
-                            color: "rgb(249, 54, 54)",
-                            backgroundColor: "rgba(249, 54, 54,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Not Resolved
-                        </p>
-                      ) : (
-                        <p
-                          style={{
-                            color: "rgb(74, 170, 22)",
-                            backgroundColor: "rgba(74, 170, 22,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Resolved
-                        </p>
-                      );
-                    },
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Crowding Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
                   },
+                  { title: "Violation ID", field: "Id" },
+                  // {
+                  //   title: "Status",
+                  //   field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Camera ID", field: "CamID" },
                   {

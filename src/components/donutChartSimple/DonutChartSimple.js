@@ -75,13 +75,8 @@ function DonutChartSimple({ data, payload_data, link }) {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: [
-      "Utilization Percentage",
-      "Machine OffTime",
-      "Machine OnTime",
-      "Schedule Hours",
-    ],
+    colors: ["#094573", "#ffce38", "#ffa643"],
+    labels: ["Machine OnTime", "Machine OffTime", "Machine Breakdown Time"],
 
     plotOptions: {
       pie: {
@@ -106,7 +101,7 @@ function DonutChartSimple({ data, payload_data, link }) {
     legend: {
       show: false,
       labels: {
-        colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
+        colors: ["#094573", "#ffce38", "#ffa643"],
         useSeriesColors: false,
       },
     },
@@ -174,9 +169,14 @@ function DonutChartSimple({ data, payload_data, link }) {
                 // Boolean(data[0].utilizationPercentage)
                 //   ? data[0].utilizationPercentage
                 //   : 0,
-                Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0,
                 Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0,
-                Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0,
+                Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0,
+                Boolean(data[0].machineOnTime)
+                  ? Math.round(
+                      data[0].machineOnTime - data[0].machineOffTime,
+                      2
+                    )
+                  : 0,
               ]}
               type="donut"
             />
@@ -287,7 +287,9 @@ function DonutChartSimple({ data, payload_data, link }) {
                   textAlign: "center",
                 }}
               >
-                {Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0}
+                {Boolean(data[0].machineOnTime)
+                  ? (data[0].machineOnTime - data[0].machineOffTime).toFixed(2)
+                  : 0}
               </h6>
             </div>
           </div>

@@ -26,6 +26,7 @@ import * as moment from "moment";
 import { AppBar, InputLabel, Tab, Tabs } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
 import { StitchingContext } from "../../../context/StitchingContext";
+
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
 
 function TabPanel(props) {
@@ -85,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
 function ViolationLog1() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
+
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
   const [link, setLink] = React.useState("");
@@ -732,10 +734,14 @@ function ViolationLog1() {
                           ? "Link-btn-red"
                           : "Link-btn-green"
                       }`}
-                      onClick={localStorage.setItem(
-                        "VIOLATION",
-                        "feedUnavailable"
-                      )}
+                      onClick={() => {
+                        localStorage.setItem("VIOLATION", "feedUnavailable");
+                        localStorage.setItem(
+                          "VIOLATION-TYPE",
+                          "Feed Unavailable"
+                        );
+                        localStorage.setItem("VIOLATION-STATUS", rowData.query);
+                      }}
                     >
                       View
                     </Link>
@@ -807,6 +813,33 @@ function ViolationLog1() {
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Crowding Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
+                  },
                   { title: "Violation ID", field: "Id" },
                   // {
                   //   title: "Status",
@@ -910,7 +943,17 @@ function ViolationLog1() {
                             ? "Link-btn-red"
                             : "Link-btn-green"
                         }`}
-                        onClick={localStorage.setItem("VIOLATION", "worker")}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "worker");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Worker Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
                       >
                         View
                       </Link>

@@ -79,6 +79,8 @@ export default function ProfileBox({
     wing: "",
     zone: "",
   });
+  const [edit, setEdit] = React.useState(false);
+  const [editPassword, setEditPassword] = React.useState(false);
 
   return (
     <div>
@@ -89,7 +91,7 @@ export default function ProfileBox({
         className="Profile-container"
       >
         <Grid container className="box">
-          <Grid container item md={5} className="left">
+          <Grid container item className="left">
             <div className="section-1">
               <div className="img-box"></div>
               <Typography
@@ -118,6 +120,7 @@ export default function ProfileBox({
                     wing: state.profile.wing,
                     zone: state.profile.zone,
                   });
+                  setEdit(true);
                 }}
               >
                 Edit Profile
@@ -262,156 +265,209 @@ export default function ProfileBox({
               </div>
             </div>
           </Grid>
-          <Grid container item md={7} className="right" spacing={2}>
-            <Grid container item md={6}>
-              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
-                About
-              </Typography>
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.username}
-                onChange={(e) => setData({ ...data, username: e.target.value })}
-                label="Username"
-              />
-
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.userID}
-                onChange={(e) => setData({ ...data, userID: e.target.value })}
-                label="User ID"
-                disabled
-              />
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.designation}
-                onChange={(e) =>
-                  setData({ ...data, designation: e.target.value })
-                }
-                label="Designation"
-              />
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.role}
-                onChange={(e) => setData({ ...data, role: e.target.value })}
-                label="Role"
-              />
-
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.department}
-                onChange={(e) =>
-                  setData({ ...data, department: e.target.value })
-                }
-                label="Department"
-              />
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.wing}
-                onChange={(e) => setData({ ...data, wing: e.target.value })}
-                label="Wing"
-              />
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={data.zone}
-                onChange={(e) => setData({ ...data, zone: e.target.value })}
-                label="Zone"
-              />
-            </Grid>
-            <Grid container item md={6} spacing={2}>
-              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
-                Contact
-              </Typography>
-              <TextField
-                variant="outlined"
-                fullWidth
-                // value={CTR.line}
-                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                label="Phone Number"
-                type="number"
-              />
-
-              <TextField
-                variant="outlined"
-                fullWidth
-                // value={CTR.line}
-                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                label="Email ID"
-              />
-              <TextField
-                variant="outlined"
-                fullWidth
-                // value={CTR.line}
-                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                label="Password"
-              />
-              <Typography variant="h5" style={{ color: "#0e4a7b" }}>
-                Reset Password
-              </Typography>
-              <TextField
-                variant="outlined"
-                fullWidth
-                // value={CTR.line}
-                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                label="New Password"
-              />
-              <TextField
-                variant="outlined"
-                fullWidth
-                // value={CTR.line}
-                // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                label="Confirm Password"
-              />
-              <Grid container item md={6}>
-                <Button
-                  autoFocus
-                  onClick={() => {
-                    handleCloseProfile();
-                    setData({
-                      ...data,
-                      username: "",
-                      userID: "",
-                      designation: "",
-                      role: "",
-                      department: "",
-                      wing: "",
-                      zone: "",
-                    });
-                  }}
-                  variant="contained"
-                  style={{
-                    backgroundColor: "red",
-                    color: "#FFF",
-                    whiteSpace: "nowrap",
-                    width: "100%",
-                  }}
+          {edit ? (
+            <Grid container item className="right" spacing={2}>
+              <Grid
+                container
+                item
+                md={6}
+                spacing={2}
+                style={{ padding: "0 1rem", display: "block" }}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ color: "#0e4a7b", marginBottom: "8px" }}
                 >
-                  CLOSE
-                </Button>
+                  About
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.username}
+                  onChange={(e) =>
+                    setData({ ...data, username: e.target.value })
+                  }
+                  label="Username"
+                  style={{ marginBottom: "8px" }}
+                />
+
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.userID}
+                  onChange={(e) => setData({ ...data, userID: e.target.value })}
+                  label="User ID"
+                  disabled
+                  style={{ marginBottom: "8px" }}
+                />
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.designation}
+                  onChange={(e) =>
+                    setData({ ...data, designation: e.target.value })
+                  }
+                  style={{ marginBottom: "8px" }}
+                  label="Designation"
+                />
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.role}
+                  onChange={(e) => setData({ ...data, role: e.target.value })}
+                  style={{ marginBottom: "8px" }}
+                  label="Role"
+                />
+
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.department}
+                  onChange={(e) =>
+                    setData({ ...data, department: e.target.value })
+                  }
+                  style={{ marginBottom: "8px" }}
+                  label="Department"
+                />
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.wing}
+                  onChange={(e) => setData({ ...data, wing: e.target.value })}
+                  style={{ marginBottom: "8px" }}
+                  label="Wing"
+                />
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={data.zone}
+                  onChange={(e) => setData({ ...data, zone: e.target.value })}
+                  style={{ marginBottom: "8px" }}
+                  label="Zone"
+                />
               </Grid>
-              <Grid container item md={6}>
-                <Button
-                  autoFocus
-                  onClick={handleCloseProfile}
-                  variant="contained"
-                  style={{
-                    backgroundColor: "#0e4a7b",
-                    color: "#FFF",
-                    whiteSpace: "nowrap",
-                    width: "100%",
-                  }}
+              <Grid
+                container
+                item
+                md={6}
+                spacing={2}
+                style={{ padding: "0 1rem", display: "block" }}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ color: "#0e4a7b", marginBottom: "8px" }}
                 >
-                  SAVE
-                </Button>
+                  Contact
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  // value={CTR.line}
+                  // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                  label="Phone Number"
+                  style={{ marginBottom: "8px" }}
+                  type="number"
+                />
+
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  // value={CTR.line}
+                  // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                  style={{ marginBottom: "8px" }}
+                  label="Email ID"
+                />
+
+                <Typography
+                  variant="body1"
+                  style={{
+                    color: "#0e4a7b",
+                    cursor: "pointer",
+                    textAlign: "end",
+                  }}
+                  onClick={() => setEditPassword(!editPassword)}
+                >
+                  Reset Password
+                </Typography>
+                {editPassword ? (
+                  <>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      // value={CTR.line}
+                      // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                      style={{ marginBottom: "8px" }}
+                      label="Current Password"
+                    />
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      // value={CTR.line}
+                      // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                      style={{ marginBottom: "8px" }}
+                      label="New Password"
+                    />
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      // value={CTR.line}
+                      // onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                      style={{ marginBottom: "8px" }}
+                      label="Confirm Password"
+                    />
+                  </>
+                ) : null}
+                <Grid container item md={12} spacing={4}>
+                  <Grid container item md={6}>
+                    <Button
+                      autoFocus
+                      onClick={() => {
+                        setData({
+                          ...data,
+                          username: "",
+                          userID: "",
+                          designation: "",
+                          role: "",
+                          department: "",
+                          wing: "",
+                          zone: "",
+                        });
+                        setEdit(false);
+                      }}
+                      variant="contained"
+                      style={{
+                        backgroundColor: "white",
+                        color: "red",
+                        whiteSpace: "nowrap",
+                        width: "100%",
+                        border: "1px solid red",
+                        height: "fit-content",
+                      }}
+                    >
+                      CLOSE
+                    </Button>
+                  </Grid>
+                  <Grid container item md={6}>
+                    <Button
+                      autoFocus
+                      onClick={handleCloseProfile}
+                      variant="contained"
+                      style={{
+                        backgroundColor: "#0e4a7b",
+                        color: "#FFF",
+                        whiteSpace: "nowrap",
+                        width: "100%",
+                        height: "fit-content",
+                        border: "1px solid #0e4a7b",
+                      }}
+                    >
+                      SAVE
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          ) : null}
         </Grid>
         {/* <DialogTitle id="customized-dialog-title" onClose={handleCloseProfile}>
           <Typography variant="h4" style={{ color: "#f68f1d" }}>

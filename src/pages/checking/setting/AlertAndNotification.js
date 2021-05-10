@@ -228,9 +228,9 @@ function AlertAndNotification() {
           <Grid item xs={2}>
             <h4>Supervisor</h4>
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <h4>Priority</h4>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -312,25 +312,23 @@ function AlertAndNotification() {
               value={crowding.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+             
               <Select
                 value={crowding.priority}
                 onChange={(e) => {
                   setCrowding({ ...crowding, priority: e.target.value });
                 }}
 
-                // label="Priority"
+                
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -412,11 +410,9 @@ function AlertAndNotification() {
               value={workerIdle.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+             
               <Select
                 value={workerIdle.priority}
                 onChange={(e) => {
@@ -425,14 +421,14 @@ function AlertAndNotification() {
                     priority: e.target.value,
                   });
                 }}
-                // label="Priority"
+                
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -508,22 +504,20 @@ function AlertAndNotification() {
               value={feed.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+             
               <Select
                 onChange={(e) => setFeed({ ...feed, priority: e.target.value })}
                 value={feed.priority}
-                // label="Priority"
+                
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -608,24 +602,22 @@ function AlertAndNotification() {
               value={machineBreak.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+             
               <Select
                 onChange={(e) =>
                   setMachineBreak({ ...machineBreak, priority: e.target.value })
                 }
                 value={machineBreak.priority}
-                // label="Priority"
+                
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -713,11 +705,9 @@ function AlertAndNotification() {
               value={activeMonitor.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+             
               <Select
                 onChange={(e) =>
                   setactiveMonitor({
@@ -726,14 +716,14 @@ function AlertAndNotification() {
                   })
                 }
                 value={activeMonitor.priority}
-                // label="Priority"
+                
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid item xs={3}>
           <Button
@@ -765,12 +755,12 @@ function AlertAndNotification() {
         <RoleBasedNotification />
       </Grid>
 
-      <Grid container item xs={12}>
+      {/* <Grid container item xs={12}>
         <ManageRoles />
       </Grid>
       <Grid container item xs={4}>
         <AddUser />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

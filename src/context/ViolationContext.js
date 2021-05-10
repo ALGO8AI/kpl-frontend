@@ -1,6 +1,12 @@
 import React, { useReducer } from "react";
 
-const initialState = { role: "", designation: "", profile: "" };
+const initialState = {
+  role: "",
+  designation: "",
+  profile: "",
+  violation: "",
+  status: "",
+};
 const KPLContext = React.createContext(initialState);
 
 let reducer = (state, action) => {
@@ -12,6 +18,12 @@ let reducer = (state, action) => {
       return { ...state, designation: action.payload };
     case "ADD_PROFILE":
       return { ...state, profile: action.payload };
+    case "ADD-VIOLATION-STATUS":
+      return {
+        ...state,
+        violation: action.payload.violation,
+        status: action.payload.status,
+      };
     default:
       return;
   }
