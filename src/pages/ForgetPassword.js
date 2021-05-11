@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import * as Styles from "./Login.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
-import { login } from "../services/api.service";
+import { ResetPassword } from "../services/api.service";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 import Blank from "./Blank";
@@ -25,7 +25,7 @@ const ColorButton = withStyles(() => ({
   },
 }))(Button);
 
-function Login() {
+function ForgetPassword() {
   // Variables
   const history = useHistory();
 
@@ -51,44 +51,8 @@ function Login() {
   // login function
   const submit = async () => {
     try {
-      await login(user.userId, user.password).then((x) => {
-        if (x) {
-          console.log(x);
-          if (x.msg) {
-            if (x.msg.status === 201) {
-              localStorage.setItem("KPL Auth", true);
-              dispatch({ type: "ADD_ROLE", payload: x.data.role });
-              localStorage.setItem("ROLE", x.data.role);
-              dispatch({
-                type: "ADD_DESIGNATION",
-                payload: x.data.designation,
-              });
-              dispatch({
-                type: "ADD_PROFILE",
-                payload: x.data,
-              });
-              localStorage.setItem("DESIGNATION", x.data.designation);
-              localStorage.setItem("PROFILE", JSON.stringify(x.data));
-
-              history.push("/menu");
-            } else {
-              setMsg(`An error occured! Error code:${x.msg.status}`);
-              setOpen(true);
-            }
-          } else {
-            if (x.status === 204) {
-              setMsg("Invalid Credentials!");
-              setOpen(true);
-            } else {
-              setMsg(`An error occured! Error code:${x.status}`);
-              setOpen(true);
-            }
-          }
-        } else {
-          setMsg("Network Issue!");
-          setOpen(true);
-        }
-      });
+      const resp = await ResetPassword(user.password, user.password);
+      console.log(resp);
     } catch (err) {
       console.log(err);
     }
@@ -122,27 +86,12 @@ function Login() {
                 className={Styles.text}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
-              <Typography
-                component={Link}
-                to="/forget-password"
-                style={{
-                  margin: "12px 0",
-                  textDecoration: "none",
-                  color: "black",
-                  textAlign: "end",
-                }}
-                variant="body1"
-              >
-                <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-                  Forget Password
-                </span>
-              </Typography>
               <ColorButton variant="contained" onClick={submit}>
-                LOG IN
+                CHANGE PASSWORD
               </ColorButton>
               <Typography
                 component={Link}
-                to="/signup"
+                to="/"
                 style={{
                   margin: "12px 0",
                   textDecoration: "none",
@@ -150,9 +99,8 @@ function Login() {
                 }}
                 variant="h6"
               >
-                Don't have an account,{" "}
                 <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-                  Sign Up
+                  Sign In
                 </span>
               </Typography>
             </div>
@@ -168,4 +116,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgetPassword;

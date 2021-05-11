@@ -430,6 +430,45 @@ const machineBreakdownData = async (fromDate, toDate, machine) => {
   );
 };
 
+const generateBagIds = async (lotSize, tableNo) => {
+  const data = {
+    lotSize,
+    tableNo,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/bagId/generateBagIds",
+    true,
+    data
+  );
+};
+
+const getBagData = async (filterDateFrom, filterDateTo) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/checking/bagId/getUsedAndUnusedBagId",
+    true,
+    data
+  );
+};
+const ResetPassword = async (username, password) => {
+  const data = {
+    username,
+    password,
+  };
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/resetPass",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -473,4 +512,7 @@ export {
   removeNotification,
   crowdingInstanceCheckingData,
   machineBreakdownData,
+  generateBagIds,
+  getBagData,
+  ResetPassword,
 };

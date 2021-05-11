@@ -1,4 +1,5 @@
 import React from "react";
+import BagID from "../BagID/BagID";
 import Feedback from "../feedback/Feedback";
 import Home from "../Home/Home";
 import LayoutView from "../layoutView/LayoutView";
@@ -18,6 +19,7 @@ function Checking(props) {
     layoutView: <LayoutView />,
     yourData: <YourData />,
     violationDetails: <ViolationDetails id={props.match.params.id} />,
+    bagID: <BagID />,
     feedback: <Feedback />,
   };
 

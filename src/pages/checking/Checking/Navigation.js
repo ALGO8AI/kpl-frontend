@@ -22,6 +22,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import MapIcon from "@material-ui/icons/Map";
 import PublishIcon from "@material-ui/icons/Publish";
 import FeedbackIcon from "@material-ui/icons/Feedback";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
 
 import {
   Button,
@@ -271,6 +272,17 @@ export default function Navigation() {
           >
             <PublishIcon className={classes.icon} />
             Your Data
+          </NavLink>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/checking/bagID"
+          >
+            <LocalMallIcon className={classes.icon} />
+            Bag Id
           </NavLink>
         </ListItem>
         <Divider />

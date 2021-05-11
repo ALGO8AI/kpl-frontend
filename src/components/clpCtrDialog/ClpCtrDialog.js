@@ -18,11 +18,12 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
   const [ctrDrop, setCtrDrop] = React.useState();
   const [CTR, setCTR] = React.useState({
     currentCtr: "",
+    currentCtrInput: "",
     clpctr: "",
     wing: "",
     line: "",
     resourceId: "",
-    startTime: new Date().toLocaleTimeString().slice(0, 5),
+    startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
   });
   const [CTRresp, setCTRresp] = React.useState("");
 
@@ -30,9 +31,31 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
     try {
       var txt = window.confirm("CTR will be changed, Do you want to proceed ?");
       if (txt) {
-        const resp = await changeCTR(CTR);
-        console.log(resp.msg);
-        setCTRresp(resp.msg);
+        // const resp = await changeCTR({
+        //   currentCtr:
+        //     CTR.currentCtr === "enter manually"
+        //       ? CTR.currentCtrInput
+        //       : CTR.currentCtr,
+        //   clpctr: CTR.clpctr,
+        //   wing: CTR.wing,
+        //   line: CTR.line,
+        //   resourceId: CTR.resourceId,
+        //   startTime:CTR.startTime
+        // });
+        // console.log(resp.msg);
+        // setCTRresp(resp.msg);
+        const data = {
+          currentCtr:
+            CTR.currentCtr === "enter manually"
+              ? CTR.currentCtrInput
+              : CTR.currentCtr,
+          clpctr: CTR.clpctr,
+          wing: CTR.wing,
+          line: CTR.line,
+          resourceId: CTR.resourceId,
+          startTime: CTR.startTime,
+        };
+        console.log(data);
       }
     } catch (err) {}
   };
@@ -42,6 +65,13 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
       const ctr = await ctrDropDown();
       console.log(ctr);
       setCtrDrop(ctr);
+      setCTR({
+        ...CTR,
+        currentCtr: ctr.currentCLPCTR[0].clpCtr,
+        wing: ctr.data[0].wing,
+        clpctr: ctr.data[0].clpCtr,
+        resourceId: ctr.data[0].resourceId,
+      });
     } catch (err) {
       console.log(err.message);
     }
@@ -62,18 +92,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
           <DialogContentText id="alert-dialog-description">
             <Grid container spacing={1} style={{ width: "320px" }}>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  value={CTR.currentCtr}
-                  onChange={(e) =>
-                    setCTR({ ...CTR, currentCtr: e.target.value })
-                  }
-                  placeholder="Type Or Select From Dropdown Menu"
-                  label="Current CTR"
-                />
-              </Grid>
-              <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
                     Current CTR
@@ -87,6 +105,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                       setCTR({ ...CTR, currentCtr: e.target.value })
                     }
                   >
+                    <MenuItem value={"enter manually"}>Enter Manually</MenuItem>
                     {ctrDrop &&
                       ctrDrop.currentCLPCTR.map((item, i) => (
                         <MenuItem value={item.clpCtr} key={i}>
@@ -96,6 +115,20 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                   </Select>
                 </FormControl>
               </Grid>
+              {CTR.currentCtr === "enter manually" ? (
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    value={CTR.currentCtrInput}
+                    onChange={(e) =>
+                      setCTR({ ...CTR, currentCtrInput: e.target.value })
+                    }
+                    placeholder="Type Or Select From Dropdown Menu"
+                    label="Current CTR"
+                  />
+                </Grid>
+              ) : null}
               <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
@@ -108,20 +141,19 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     value={CTR.wing}
                     onChange={(e) => setCTR({ ...CTR, wing: e.target.value })}
                   >
-                    {
-                      ctrDrop &&
-                        [...new Set(ctrDrop.data.map((item) => item.wing))].map(
-                          (item, i) => (
-                            <MenuItem value={item} key={i}>
-                              {item}
-                            </MenuItem>
-                          )
+                    {ctrDrop &&
+                      [...new Set(ctrDrop.data.map((item) => item.wing))].map(
+                        (item, i) => (
+                          <MenuItem value={item} key={i}>
+                            {item}
+                          </MenuItem>
                         )
-                      // ctrDrop.data.map((item, i) => (
-                      //   <MenuItem value={item.wing} key={i}>
-                      //     {item.wing}
-                      //   </MenuItem>
-                      // ))
+                      )
+                    // ctrDrop.data.map((item, i) => (
+                    //   <MenuItem value={item.wing} key={i}>
+                    //     {item.wing}
+                    //   </MenuItem>
+                    // ))
                     }
                   </Select>
                 </FormControl>
@@ -165,22 +197,19 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     // value={ctrDrop && ctrDrop.data[0].resourceId}
                   >
                     <MenuItem value=""></MenuItem>
-                    {
-                      ctrDrop &&
-                        [
-                          ...new Set(
-                            ctrDrop.data.map((item) => item.resourceId)
-                          ),
-                        ].map((item, i) => (
-                          <MenuItem value={item} key={i}>
-                            {item}
-                          </MenuItem>
-                        ))
-                      // ctrDrop.data.map((item, i) => (
-                      //   <MenuItem value={item.resourceId} key={i}>
-                      //     {item.resourceId}
-                      //   </MenuItem>
-                      // ))
+                    {ctrDrop &&
+                      [
+                        ...new Set(ctrDrop.data.map((item) => item.resourceId)),
+                      ].map((item, i) => (
+                        <MenuItem value={item} key={i}>
+                          {item}
+                        </MenuItem>
+                      ))
+                    // ctrDrop.data.map((item, i) => (
+                    //   <MenuItem value={item.resourceId} key={i}>
+                    //     {item.resourceId}
+                    //   </MenuItem>
+                    // ))
                     }
                   </Select>
                 </FormControl>
@@ -209,7 +238,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                   inputProps={{
                     step: 300, // 5 min
                   }}
-                  defaultValue={CTR.startTime}
+                  // defaultValue={`${new Date().getHours()}:${new Date().getMinutes()}`}
                   value={CTR.startTime}
                   onChange={(e) =>
                     setCTR({ ...CTR, startTime: e.target.value })
@@ -228,16 +257,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
           <Button
             onClick={() => {
               handleCloseCTR();
-              setCTRresp("");
-              setCTR({
-                ...CTR,
-                clpctr: "",
-                currentCtr: "",
-                line: "",
-                resourceId: "",
-                startTime: new Date().toLocaleTimeString().slice(0, 5),
-                wing: "",
-              });
             }}
           >
             Close
@@ -255,7 +274,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                 currentCtr: "",
                 line: "",
                 resourceId: "",
-                startTime: new Date().toLocaleTimeString().slice(0, 5),
+                startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
                 wing: "",
               });
             }}

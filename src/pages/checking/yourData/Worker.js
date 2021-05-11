@@ -79,9 +79,18 @@ function Worker(props) {
     loadData();
   }, []);
   const [columns, setColumns] = useState([
-    { title: "Sl No.", field: "id" },
-    { title: "Worker Name", field: "workerName" },
     { title: "Worker ID", field: "workerId" },
+    {
+      title: "Image",
+      render: (rowData) => (
+        <img
+          style={{ width: "36px", height: "36px" }}
+          src={rowData.image}
+          alt={rowData.workerId}
+        />
+      ),
+    },
+    { title: "Worker Name", field: "workerName" },
   ]);
   const [data, setData] = useState([]);
   const [value, setValue] = React.useState(0);
