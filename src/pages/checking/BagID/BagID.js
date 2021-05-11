@@ -4,6 +4,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   Snackbar,
   TextField,
@@ -33,7 +34,7 @@ function BagID() {
       const resp = await generateBagIds(bagData.lotSize, bagData.tableNo);
       console.log(resp);
 
-      setBagData({ ...bagData, open: true });
+      setBagData({ ...bagData, open: true, respData: resp.data });
     } catch (err) {
       console.log(err.message);
     }
@@ -268,6 +269,29 @@ function BagID() {
         </>
       ) : (
         <CircularProgress />
+      )}
+      {bagData.respData && (
+        <Grid container item md={6} style={{ padding: "1rem" }}>
+          <MaterialTable
+            title="Bag Details"
+            columns={[
+              { title: "Bag ID", field: "bagId" },
+              {
+                field: "view",
+                title: "barcode",
+                render: (rowData) => (
+                  <img src={rowData.barcode} alt={rowData.bagId} />
+                ),
+              },
+              { title: "Date", field: "date" },
+            ]}
+            data={bagData.respData}
+            options={{
+              exportButton: true,
+              pageSizeOptions: [5, 10, 20],
+            }}
+          />
+        </Grid>
       )}
 
       <Snackbar

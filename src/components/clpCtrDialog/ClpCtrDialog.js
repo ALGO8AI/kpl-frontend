@@ -31,20 +31,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
     try {
       var txt = window.confirm("CTR will be changed, Do you want to proceed ?");
       if (txt) {
-        // const resp = await changeCTR({
-        //   currentCtr:
-        //     CTR.currentCtr === "enter manually"
-        //       ? CTR.currentCtrInput
-        //       : CTR.currentCtr,
-        //   clpctr: CTR.clpctr,
-        //   wing: CTR.wing,
-        //   line: CTR.line,
-        //   resourceId: CTR.resourceId,
-        //   startTime:CTR.startTime
-        // });
-        // console.log(resp.msg);
-        // setCTRresp(resp.msg);
-        const data = {
+        const resp = await changeCTR({
           currentCtr:
             CTR.currentCtr === "enter manually"
               ? CTR.currentCtrInput
@@ -54,8 +41,21 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
           line: CTR.line,
           resourceId: CTR.resourceId,
           startTime: CTR.startTime,
-        };
-        console.log(data);
+        });
+        console.log(resp.msg);
+        setCTRresp(resp.msg);
+        // const data = {
+        //   currentCtr:
+        //     CTR.currentCtr === "enter manually"
+        //       ? CTR.currentCtrInput
+        //       : CTR.currentCtr,
+        //   clpctr: CTR.clpctr,
+        //   wing: CTR.wing,
+        //   line: CTR.line,
+        //   resourceId: CTR.resourceId,
+        //   startTime: CTR.startTime,
+        // };
+        // console.log(data);
       }
     } catch (err) {}
   };

@@ -468,6 +468,10 @@ const ResetPassword = async (username, password) => {
     data
   );
 };
+const AddWorkerStitching = async (data) => {
+  console.log(data);
+  return await callBackend("POST", "routes/addWorkerStitching", true, data);
+};
 
 export {
   login,
@@ -515,4 +519,5 @@ export {
   generateBagIds,
   getBagData,
   ResetPassword,
+  AddWorkerStitching,
 };
