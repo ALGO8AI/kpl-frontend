@@ -18,50 +18,7 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
+import CreateIcon from "@material-ui/icons/Create";
 
 export default function ProfileBox({
   openProfile,
@@ -81,6 +38,27 @@ export default function ProfileBox({
   });
   const [edit, setEdit] = React.useState(false);
   const [editPassword, setEditPassword] = React.useState(false);
+  const [profiePhoto, setProfilePhoto] = React.useState("");
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setProfilePhoto(base64);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   return (
     <div>
@@ -93,7 +71,29 @@ export default function ProfileBox({
         <Grid container className="box">
           <Grid container item className="left">
             <div className="section-1">
-              <div className="img-box"></div>
+              <div className="img-box">
+                {profiePhoto && <img src={profiePhoto} alt="profile" />}
+                <label>
+                  <input
+                    type="file"
+                    accept=".jpg,.png,.jpeg"
+                    onChange={(e) => {
+                      uploadImage(e);
+                    }}
+                  />
+                  <span
+                    class="label"
+                    style={{
+                      border: "none !important",
+                      outlone: "none",
+                      color: "rgb(246, 143, 29)",
+                    }}
+                  >
+                    <CreateIcon />
+                  </span>
+                </label>
+              </div>
+
               <Typography
                 variant="h4"
                 style={{ textAlign: "center", color: "#0e4a7b" }}

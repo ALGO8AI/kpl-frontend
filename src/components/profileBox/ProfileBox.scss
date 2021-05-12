@@ -22,8 +22,29 @@
           width: 144px;
           height: 144px;
           border-radius: 72px;
-          background-color: #f68f1d;
+          background-color: rgb(14, 74, 123);
           margin: auto;
+          position: relative;
+          img {
+            height: 100%;
+            width: 100%;
+            border-radius: 72px;
+          }
+          label {
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+            border: 2px solid rgb(246, 143, 29);
+            outline: none;
+            border-radius: 6px;
+            input {
+              display: none;
+            }
+            .label {
+              border: none !important;
+              outline: none !important;
+            }
+          }
         }
       }
       .section-2 {

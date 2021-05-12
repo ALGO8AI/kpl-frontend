@@ -8,6 +8,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import StayPrimaryPortraitIcon from "@material-ui/icons/StayPrimaryPortrait";
 import MaterialTable from "material-table";
+
 import {
   FormControl,
   InputLabel,
@@ -20,6 +21,7 @@ import {
 import {
   loadStitchingAlertData,
   stitchingAlert,
+  stitchingNotification,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import RoleBasedNotification from "./RoleBasedNotification";
@@ -27,6 +29,28 @@ import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 
 function AlertAndNotification() {
+  const [manager, setManager] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+
+  const [helper, setHelper] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+
+  const [supervisor, setSupervisor] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+  const [wingIncharge, setWingIncharge] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
   const [crowding, setCrowding] = useState({
     alert: false,
     manager: "",
@@ -70,9 +94,6 @@ function AlertAndNotification() {
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
   const submitHandler = async () => {
-    // console.log(crowding);
-    // console.log(workerIdle);
-    // console.log(feed);
     const DATA = {
       Crowding: {
         instance: "Crowding",
@@ -122,10 +143,38 @@ function AlertAndNotification() {
       },
     };
 
+    const DATA_ROLE = {
+      manager: {
+        mail: manager.mail ? 1 : 0,
+        sms: manager.text ? 1 : 0,
+        push: manager.push ? 1 : 0,
+      },
+      helper: {
+        mail: helper.mail ? 1 : 0,
+        sms: helper.text ? 1 : 0,
+        push: helper.push ? 1 : 0,
+      },
+      supervisor: {
+        mail: supervisor.mail ? 1 : 0,
+        sms: supervisor.text ? 1 : 0,
+        push: supervisor.push ? 1 : 0,
+      },
+      wingIncharge: {
+        mail: wingIncharge.mail ? 1 : 0,
+        sms: wingIncharge.text ? 1 : 0,
+        push: wingIncharge.push ? 1 : 0,
+      },
+    };
+
     // console.log(DATA);
     try {
       const x = await stitchingAlert(DATA);
       console.log(x);
+      setMsg(x.msg);
+      setOpen(true);
+
+      const y = await stitchingNotification(DATA_ROLE);
+      console.log(y);
       setMsg(x.msg);
       setOpen(true);
     } catch (err) {
@@ -141,6 +190,39 @@ function AlertAndNotification() {
       let FEED = x.feedUnavailability[0];
       let BREAK = x.machineBreakdown[0];
       let ACTIVE = x.checkerActiveMonitoring[0];
+
+      let MANAGER = x.mode[2];
+      let HELPER = x.mode[3];
+      let SUPERVISOR = x.mode[1];
+      let WINGINCHARGE = x.mode[0];
+
+      setManager({
+        ...manager,
+        mail: Boolean(MANAGER.modeMail) ? true : false,
+        text: Boolean(MANAGER.modetext) ? true : false,
+        push: Boolean(MANAGER.modeNotif) ? true : false,
+      });
+
+      setHelper({
+        ...helper,
+        mail: Boolean(HELPER.modeMail) ? true : false,
+        text: Boolean(HELPER.modetext) ? true : false,
+        push: Boolean(HELPER.modeNotif) ? true : false,
+      });
+
+      setSupervisor({
+        ...supervisor,
+        mail: Boolean(SUPERVISOR.modeMail) ? true : false,
+        text: Boolean(SUPERVISOR.modetext) ? true : false,
+        push: Boolean(SUPERVISOR.modeNotif) ? true : false,
+      });
+
+      setWingIncharge({
+        ...wingIncharge,
+        mail: Boolean(WINGINCHARGE.modeMail) ? true : false,
+        text: Boolean(WINGINCHARGE.modetext) ? true : false,
+        push: Boolean(WINGINCHARGE.modeNotif) ? true : false,
+      });
       setCrowding({
         ...crowding,
         manager: CROWD.manager,
@@ -198,7 +280,7 @@ function AlertAndNotification() {
   }, []);
   return (
     <Grid container>
-      <Grid container item xs={12} md={12} lg={9} style={{ padding: "12px" }}>
+      <Grid container item xs={12} md={12} lg={12} style={{ padding: "12px" }}>
         <Grid item xs={12}>
           <h4 style={{ textAlign: "center" }}>Manage Alerts</h4>
         </Grid>
@@ -208,12 +290,12 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "unset", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <h4>
               <ReportProblemIcon />
             </h4>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <h4>Alert</h4>
           </Grid>
           <Grid item xs={2}>
@@ -240,10 +322,229 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
+            <h3>NOTIFICATION</h3>
+          </Grid>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={manager.mail}
+                    checked={manager.mail}
+                    onChange={(e) =>
+                      setManager({ ...manager, mail: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={manager.text}
+                    checked={manager.text}
+                    onChange={(e) =>
+                      setManager({ ...manager, text: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={manager.push}
+                    checked={manager.push}
+                    onChange={(e) =>
+                      setManager({ ...manager, push: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={wingIncharge.mail}
+                    checked={wingIncharge.mail}
+                    onChange={(e) =>
+                      setWingIncharge({
+                        ...wingIncharge,
+                        mail: e.target.checked,
+                      })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={wingIncharge.text}
+                    checked={wingIncharge.text}
+                    onChange={(e) =>
+                      setWingIncharge({
+                        ...wingIncharge,
+                        text: e.target.checked,
+                      })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={wingIncharge.push}
+                    checked={wingIncharge.push}
+                    onChange={(e) =>
+                      setWingIncharge({
+                        ...wingIncharge,
+                        push: e.target.checked,
+                      })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={helper.mail}
+                    checked={helper.mail}
+                    onChange={(e) =>
+                      setHelper({ ...helper, mail: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={helper.text}
+                    checked={helper.text}
+                    onChange={(e) =>
+                      setHelper({ ...helper, text: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={helper.push}
+                    checked={helper.push}
+                    onChange={(e) =>
+                      setHelper({ ...helper, push: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={supervisor.mail}
+                    checked={supervisor.mail}
+                    onChange={(e) =>
+                      setSupervisor({ ...supervisor, mail: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={supervisor.text}
+                    checked={supervisor.text}
+                    onChange={(e) =>
+                      setSupervisor({ ...supervisor, text: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid item xs={4}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={supervisor.push}
+                    checked={supervisor.push}
+                    onChange={(e) =>
+                      setSupervisor({ ...supervisor, push: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={1}
+          item
+          xs={12}
+          style={{ alignItems: "center", marginBottom: "12px" }}
+        >
+          <Grid container item xs={2}>
+            <Grid xs={12} item style={{ marginBottom: "12px" }}></Grid>
             Crowding
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={crowding.alert}
               checked={crowding.alert}
@@ -259,7 +560,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid container item xs={2}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -338,10 +639,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Worker Idle
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={workerIdle.alert}
               checked={workerIdle.alert}
@@ -438,10 +739,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Feed Availability
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={feed.alert}
               checked={feed.alert}
@@ -527,10 +828,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Machine Breakdown
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={machineBreak.alert}
               checked={machineBreak.alert}
@@ -627,10 +928,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Active Monitoring
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={activeMonitor.alert}
               checked={activeMonitor.alert}
@@ -751,9 +1052,9 @@ function AlertAndNotification() {
         </Grid>
         {/* end of left block */}
       </Grid>
-      <Grid container item xs={12} md={5} lg={3}>
+      {/* <Grid container item xs={12} md={5} lg={3}>
         <RoleBasedNotification />
-      </Grid>
+      </Grid> */}
 
       {/* <Grid container item xs={12}>
         <ManageRoles />
