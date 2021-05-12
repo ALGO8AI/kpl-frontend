@@ -190,9 +190,18 @@ export default function ProfileBox({
                   Department
                 </Typography>
 
-                <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  {state.profile.department}
-                </Typography>
+                {state.profile.department === "all" ? (
+                  <Typography
+                    variant="h6"
+                    style={{ color: "#f68f1d", whiteSpace: "nowrap" }}
+                  >
+                    Stitching, Checking, Cutting
+                  </Typography>
+                ) : (
+                  <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                    {state.profile.department}
+                  </Typography>
+                )}
               </div>
 
               <div className="row">

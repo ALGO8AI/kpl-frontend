@@ -472,6 +472,10 @@ const AddWorkerStitching = async (data) => {
   console.log(data);
   return await callBackend("POST", "routes/addWorkerStitching", true, data);
 };
+const AddWorkerChecking = async (data) => {
+  console.log(data);
+  return await callBackend("POST", "routes/addWorkerChecking", true, data);
+};
 
 export {
   login,
@@ -520,4 +524,5 @@ export {
   getBagData,
   ResetPassword,
   AddWorkerStitching,
+  AddWorkerChecking,
 };
