@@ -819,6 +819,7 @@ function ViolationLog1() {
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -925,6 +926,7 @@ function ViolationLog1() {
                     title: "Worker N/A Duration(Hrs.)",
                     field: "workerUnavailableViolationDuration",
                   },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>

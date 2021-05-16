@@ -96,7 +96,7 @@ function Worker(props) {
   const [userdata, setUserData] = useState({
     name: "",
     workerId: "",
-    image: "",
+    workerImage: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -104,7 +104,7 @@ function Worker(props) {
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
-    setUserData({ ...userdata, image: base64 });
+    setUserData({ ...userdata, workerImage: base64 });
   };
 
   const convertBase64 = (file) => {
@@ -126,6 +126,8 @@ function Worker(props) {
     try {
       const resp = await AddWorkerStitching(userdata);
       console.log(resp);
+      setMsg(resp.msg);
+      setOpen(true);
     } catch (e) {
       console.log(e.message);
     }
@@ -167,10 +169,10 @@ function Worker(props) {
             uploadImage(e);
           }}
         />
-        {userdata.image && (
+        {userdata.workerImage && (
           <img
             style={{ width: "100%", padding: "12px" }}
-            src={userdata.image}
+            src={userdata.workerImage}
             alt="User"
           />
         )}

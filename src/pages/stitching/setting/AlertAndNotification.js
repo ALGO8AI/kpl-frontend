@@ -291,24 +291,22 @@ function AlertAndNotification() {
           style={{ alignItems: "unset", marginBottom: "12px" }}
         >
           <Grid item xs={2}>
-            <h4>
-              <ReportProblemIcon />
-            </h4>
+            <h4>{/* <ReportProblemIcon /> */}</h4>
           </Grid>
           <Grid item xs={2}>
-            <h4>Alert</h4>
+            {/* <h4>Alert</h4> */}
           </Grid>
           <Grid item xs={2}>
-            <h4>Manager</h4>
+            <h4 style={{ textAlign: "center" }}>Manager</h4>
           </Grid>
           <Grid item xs={2}>
-            <h4>Wing Incharge</h4>
+            <h4 style={{ textAlign: "center" }}>Wing Incharge</h4>
           </Grid>
           <Grid item xs={2}>
-            <h4>Helper</h4>
+            <h4 style={{ textAlign: "center" }}>Helper</h4>
           </Grid>
           <Grid item xs={2}>
-            <h4>Supervisor</h4>
+            <h4 style={{ textAlign: "center" }}>Supervisor</h4>
           </Grid>
           {/* <Grid item xs={2}>
             <h4>Priority</h4>
@@ -323,12 +321,12 @@ function AlertAndNotification() {
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
           <Grid item xs={2}>
-            <h3>NOTIFICATION</h3>
+            {/* <h3>NOTIFICATION</h3> */}
           </Grid>
           <Grid item xs={2}></Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -343,7 +341,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -358,7 +356,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -377,7 +375,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -395,7 +393,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -413,7 +411,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -435,7 +433,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -450,7 +448,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -465,7 +463,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -484,7 +482,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -499,7 +497,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -514,7 +512,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -571,6 +569,7 @@ function AlertAndNotification() {
                 setCrowding({ ...crowding, manager: e.target.value })
               }
               value={crowding.manager}
+              fullWidth
             />
           </Grid>
           <Grid item xs={2}>
@@ -583,6 +582,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setCrowding({ ...crowding, wingIncharge: e.target.value })
               }
+              fullWidth
               value={crowding.wingIncharge}
             />
           </Grid>
@@ -596,6 +596,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setCrowding({ ...crowding, helper: e.target.value })
               }
+              fullWidth
               value={crowding.helper}
             />
           </Grid>
@@ -610,6 +611,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setCrowding({ ...crowding, supervisor: e.target.value })
               }
+              fullWidth
               value={crowding.supervisor}
             />
           </Grid>
@@ -668,6 +670,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, manager: e.target.value })
               }
+              fullWidth
               value={workerIdle.manager}
             />
           </Grid>
@@ -681,6 +684,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, wingIncharge: e.target.value })
               }
+              fullWidth
               value={workerIdle.wingIncharge}
             />
           </Grid>
@@ -694,6 +698,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, helper: e.target.value })
               }
+              fullWidth
               value={workerIdle.helper}
             />
           </Grid>
@@ -708,6 +713,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, supervisor: e.target.value })
               }
+              fullWidth
               value={workerIdle.supervisor}
             />
           </Grid>
@@ -766,6 +772,7 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) => setFeed({ ...feed, manager: e.target.value })}
+              fullWidth
               value={feed.manager}
             />
           </Grid>
@@ -779,6 +786,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setFeed({ ...feed, wingIncharge: e.target.value })
               }
+              fullWidth
               value={feed.wingIncharge}
             />
           </Grid>
@@ -790,6 +798,7 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) => setFeed({ ...feed, helper: e.target.value })}
+              fullWidth
               value={feed.helper}
             />
           </Grid>
@@ -802,6 +811,7 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) => setFeed({ ...feed, supervisor: e.target.value })}
+              fullWidth
               value={feed.supervisor}
             />
           </Grid>
@@ -857,6 +867,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setMachineBreak({ ...machineBreak, manager: e.target.value })
               }
+              fullWidth
               value={machineBreak.manager}
             />
           </Grid>
@@ -873,6 +884,7 @@ function AlertAndNotification() {
                   wingIncharge: e.target.value,
                 })
               }
+              fullWidth
               value={machineBreak.wingIncharge}
             />
           </Grid>
@@ -886,6 +898,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setMachineBreak({ ...machineBreak, helper: e.target.value })
               }
+              fullWidth
               value={machineBreak.helper}
             />
           </Grid>
@@ -900,6 +913,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setMachineBreak({ ...machineBreak, supervisor: e.target.value })
               }
+              fullWidth
               value={machineBreak.supervisor}
             />
           </Grid>
@@ -957,6 +971,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setactiveMonitor({ ...activeMonitor, manager: e.target.value })
               }
+              fullWidth
               value={activeMonitor.manager}
             />
           </Grid>
@@ -973,6 +988,7 @@ function AlertAndNotification() {
                   wingIncharge: e.target.value,
                 })
               }
+              fullWidth
               value={activeMonitor.wingIncharge}
             />
           </Grid>
@@ -986,6 +1002,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setactiveMonitor({ ...activeMonitor, helper: e.target.value })
               }
+              fullWidth
               value={activeMonitor.helper}
             />
           </Grid>
@@ -1003,6 +1020,7 @@ function AlertAndNotification() {
                   supervisor: e.target.value,
                 })
               }
+              fullWidth
               value={activeMonitor.supervisor}
             />
           </Grid>
@@ -1026,29 +1044,32 @@ function AlertAndNotification() {
             </FormControl>
           </Grid> */}
         </Grid>
-        <Grid item xs={3}>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#0e4a7b",
-              color: "#FFF",
-              marginTop: "12px",
-            }}
-            onClick={submitHandler}
-          >
-            Apply
-          </Button>
-          <Grid item xs={9}>
-            <Snackbar
-              open={open}
-              autoHideDuration={2000}
-              onClose={() => setOpen(false)}
+        <Grid container item xs={12}>
+          <Grid md={11}></Grid>
+          <Grid md={1}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+                marginTop: "12px",
+              }}
+              onClick={submitHandler}
             >
-              <Alert onClose={() => setOpen(false)} severity="success">
-                {msg}
-              </Alert>
-            </Snackbar>
+              Apply
+            </Button>
           </Grid>
+        </Grid>
+        <Grid item xs={9}>
+          <Snackbar
+            open={open}
+            autoHideDuration={2000}
+            onClose={() => setOpen(false)}
+          >
+            <Alert onClose={() => setOpen(false)} severity="success">
+              {msg}
+            </Alert>
+          </Snackbar>
         </Grid>
         {/* end of left block */}
       </Grid>

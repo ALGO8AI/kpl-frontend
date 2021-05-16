@@ -802,6 +802,7 @@ function ViolationLog1() {
                 { title: "Machine ID", field: "MachineID" },
 
                 { title: "Wing", field: "Wing" },
+                { title: "Shift", field: "shift" },
               ]}
             />
           </TabPanel>
@@ -869,35 +870,35 @@ function ViolationLog1() {
                   //   );
                   // },
                   // },
-                  {
-                    title: "Status",
-                    // field: "query",
-                    render: (rowData) => {
-                      return rowData.query === "Not Resolved" ? (
-                        <p
-                          style={{
-                            color: "rgb(249, 54, 54)",
-                            backgroundColor: "rgba(249, 54, 54,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Not Resolved
-                        </p>
-                      ) : (
-                        <p
-                          style={{
-                            color: "rgb(74, 170, 22)",
-                            backgroundColor: "rgba(74, 170, 22,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Resolved
-                        </p>
-                      );
-                    },
-                  },
+                  // {
+                  //   title: "Status",
+                  //   // field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
                   { title: "Camera ID", field: "CamID" },
 
                   {
@@ -921,6 +922,7 @@ function ViolationLog1() {
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -1032,12 +1034,13 @@ function ViolationLog1() {
                   { title: "Start Time", field: "startTime" },
                   { title: "End Time", field: "endTime" },
                   { title: "Machine ID", field: "machineId" },
-                  { title: "Wing", field: "wing" },
 
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
                   },
+                  { title: "Wing", field: "wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>

@@ -82,11 +82,13 @@ function TableData({
               columns={[
                 { title: "Worker ID", field: "workerId" },
                 { title: "Worker Name", field: "workerName" },
+                { title: "Total Working Hrs.", field: "totalWorkingHours" },
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
                 { title: "Feed Unavailable Hrs.", field: "feedUnav" },
                 { title: "Worker Unavailable Hrs.", field: "workerUnav" },
+                { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -112,6 +114,7 @@ function TableData({
                 { title: "Idle Hrs.", field: "idleHours" },
                 { title: "Feed Unavailable Hrs.", field: "feedUnav" },
                 { title: "Worker Unavailable Hrs.", field: "workerUnav" },
+                { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -123,6 +126,8 @@ function TableData({
               columns={[
                 { title: "Machine Id", field: "machineID" },
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
+                { title: "Machine Breakdown Hrs.", field: "scheduledHours" },
+
                 {
                   title: "% Utilization",
                   field: "utilizationPercentage",
@@ -136,6 +141,7 @@ function TableData({
                   title: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
                 },
+                { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -161,6 +167,7 @@ function TableData({
                   title: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
                 },
+                { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
