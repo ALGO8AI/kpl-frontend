@@ -18,6 +18,7 @@ import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MapIcon from "@material-ui/icons/Map";
 import PublishIcon from "@material-ui/icons/Publish";
+import PollIcon from "@material-ui/icons/Poll";
 
 import {
   Button,
@@ -254,6 +255,17 @@ export default function Navigation() {
           </NavLink>
         </ListItem>
         <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/stitching/analytics"
+          >
+            <PollIcon className={classes.icon} />
+            Analytics
+          </NavLink>
+        </ListItem>
+        <Divider />
       </List>
     </div>
   );
@@ -413,7 +425,12 @@ export default function Navigation() {
           <Link to="/menu">
             <img src={logo} alt="logo" width="128px" />
           </Link>
-          <Typography className={classes.title} variant="h5" noWrap>
+          <Typography
+            className={classes.title}
+            style={{ color: "#0e4a7b" }}
+            variant="h5"
+            noWrap
+          >
             Stitching
           </Typography>
           <div className={classes.grow} />

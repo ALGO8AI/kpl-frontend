@@ -2,6 +2,7 @@
   border-radius: 20px;
   position: relative;
   padding: 1rem;
+  overflow: hidden;
 }
 .videobox .live {
   position: absolute;
@@ -31,6 +32,30 @@
   to {
     background-color: red;
   }
+}
+
+.videobox .Details {
+  position: absolute;
+  margin: 4px 8px;
+  // padding: 8px;
+  width: 80%;
+  height: 0px;
+  background-color: rgba(0, 0, 0, 0.4);
+  bottom: 0px;
+  left: 0;
+  border-bottom-left-radius: 6px;
+  transition: 0.25s ease-in;
+  overflow: hidden;
+}
+.videobox .Details h4,
+h5,
+h6 {
+  color: white;
+  margin: 8px 12px;
+  font-weight: normal;
+}
+.videobox:hover .Details {
+  height: 96px;
 }
 
 .videoTitle {

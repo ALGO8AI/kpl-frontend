@@ -44,6 +44,11 @@ function VideoTile({ data }) {
         <div className="live">
           <p>LIVE</p>
         </div>
+        <div className="Details">
+          <h4>Current CTR : </h4>
+          <h5>Current Supervisor : </h5>
+          <h6>Stream Analysis : </h6>
+        </div>
         <div className="videoTitle" style={{ width: "100%" }}>
           <Grid container>
             <Grid item xs={6}>

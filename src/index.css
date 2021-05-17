@@ -34,7 +34,7 @@
   background-color: #0e4a7b !important;
 }
 .MuiBox-root {
-  max-width: 100vw;
+  max-width: 100%;
 }
 
 .MTableHeader-header-54 {
@@ -87,9 +87,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* html {
+html {
   zoom: 75%;
-} */
+}
 
 .MuiAlert-standardSuccess {
   color: white !important;

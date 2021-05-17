@@ -1,5 +1,6 @@
 import React from "react";
 import { StitchingProvider } from "../../../context/StitchingContext";
+import Analytics from "../Analytics/Analytics";
 import Home from "../Home/Home";
 import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
@@ -18,6 +19,7 @@ function Stitching(props) {
     layoutView: <LayoutView />,
     yourData: <YourData />,
     violationDetails: <ViolationDetails id={props.match.params.id} />,
+    analytics: <Analytics />,
   };
 
   const page = pages[props.match.params.page];
