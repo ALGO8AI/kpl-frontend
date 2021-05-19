@@ -476,7 +476,33 @@ const AddWorkerChecking = async (data) => {
   console.log(data);
   return await callBackend("POST", "routes/addWorkerChecking", true, data);
 };
+const getMachineViolation = async () => {
+  try {
+    const response = await axios.get(
+      "http://3.23.114.42:8081/routes/KPI/violation/mechineVoilation"
+    );
+    return response.data.data;
+  } catch {}
+};
+const postMachineViolation = async (fromDate, toDate) => {
+  try {
+    var config = {
+      method: "post",
+      url: "http://3.23.114.42:8081/routes/KPI/violation/mechineVoilation",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+      },
+    };
 
+    const response = await axios(config);
+    console.log(response);
+    return response.data.data;
+  } catch {}
+};
 export {
   login,
   getViolation,
@@ -525,4 +551,6 @@ export {
   ResetPassword,
   AddWorkerStitching,
   AddWorkerChecking,
+  getMachineViolation,
+  postMachineViolation,
 };

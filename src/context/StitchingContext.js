@@ -49,6 +49,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  machine: {
+    data: [],
+    loading: true,
+  },
   violationTab: 0,
 };
 const StitchingContext = React.createContext(initialState);
@@ -99,6 +103,9 @@ let reducer = (state, action) => {
     }
     case "VIOLATION_TAB": {
       return { ...state, violationTab: action.payload };
+    }
+    case "MACHINE_VIO": {
+      return { ...state, machine: action.payload };
     }
     default:
       return;

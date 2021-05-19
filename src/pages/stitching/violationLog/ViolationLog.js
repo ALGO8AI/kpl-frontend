@@ -18,6 +18,8 @@ import {
   crowdingViolation,
   violationByWorkerF,
   ctr_machineID,
+  getMachineViolation,
+  postMachineViolation,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -184,6 +186,14 @@ function ViolationLog1() {
 
   const dateFilter = async () => {
     try {
+      const machineViolation = await postMachineViolation(
+        state.violationFrom,
+        state.violationTo
+      );
+      dispatch({
+        type: "MACHINE_VIO",
+        payload: { data: machineViolation, loading: false },
+      });
       const feed = await feedUnavailableViolation(
         state.violationFrom,
         state.violationTo,
@@ -298,6 +308,13 @@ function ViolationLog1() {
         dispatch({
           type: "FEED_VIO",
           payload: { data: feed.feedUnavailableData, loading: false },
+        });
+      }
+      if (state.machine.loading) {
+        const machineVio = await getMachineViolation();
+        dispatch({
+          type: "MACHINE_VIO",
+          payload: { data: machineVio, loading: false },
         });
       }
 
@@ -714,6 +731,7 @@ function ViolationLog1() {
               <Tab label="Crowding Violation" {...a11yProps(1)} />
               <Tab label="Worker Violation" {...a11yProps(2)} />
               <Tab label="Worker Performance" {...a11yProps(3)} />
+              <Tab label="Machine Violation" {...a11yProps(4)} />
             </Tabs>
           </AppBar>
 
@@ -1067,6 +1085,87 @@ function ViolationLog1() {
                   {
                     title: "Worker N/A Duration(Hrs.)",
                     field: "workerUnavailableViolationDuration",
+                  },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+          <TabPanel value={tabValue} index={4}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                // title=""
+                data={state.machine.data}
+                rowClick={rowClick}
+                columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        className={"Link-btn-red"}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Feed Unavailable"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
+                  },
+                  {
+                    title: "Violation Id",
+                    field: "Id",
+                  },
+                  {
+                    title: "Machine Id",
+                    field: "machineId",
+                  },
+                  {
+                    title: "Date",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(new Date(rowData.DateTime))
+                        .format("DD/MM/YYYY")
+                        .toString();
+                      return NewDate;
+                    },
+                  },
+                  {
+                    title: "Off Duration (Mins.)",
+                    field: "offDuration",
+                    render: (rowData) => {
+                      return Math.round(rowData.offDuration / 60);
+                    },
+                  },
+                  {
+                    title: "On Duration (Mins.)",
+                    field: "onDuration",
+                    render: (rowData) => {
+                      return Math.round(rowData.onDuration / 60);
+                    },
+                  },
+                  {
+                    title: "Breakdown Duration (Mins.)",
+                    field: "machineBreakDown",
+                    render: (rowData) => {
+                      return Math.round(rowData.machineBreakDown / 60);
+                    },
+                  },
+                  {
+                    title: "Wing",
+                    field: "wing",
+                  },
+                  {
+                    title: "Shift",
+                    field: "shift",
                   },
                 ]}
               />

@@ -96,6 +96,47 @@ function Analytics() {
             elevation={4}
           >
             <Typography style={{ color: "#0e4a7b" }} variant="h4">
+              Description
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              y-Axis = Working amount of time.
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              x-Axis = Time interval.
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              Each line representing different machine id.
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid item container md={7} style={{ padding: "12px" }}>
+          <Grid
+            item
+            container
+            md={12}
+            style={{ padding: "12px" }}
+            component={Paper}
+            elevation={4}
+          >
+            <MachineLine />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item container md={12}>
+        <Grid item container md={5} style={{ padding: "12px" }}>
+          <Grid
+            item
+            container
+            md={12}
+            style={{
+              padding: "12px 16px 12px 32px",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}
+            component={Paper}
+            elevation={4}
+          >
+            <Typography style={{ color: "#0e4a7b" }} variant="h4">
               Lowest Utilisation
             </Typography>
             <Typography style={{ color: "#0e4a7b" }} variant="h5">
