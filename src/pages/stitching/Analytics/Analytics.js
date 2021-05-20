@@ -4,6 +4,7 @@ import ActiveViolation from "../../../components/analytics/ActiveViolation";
 import MachineLine from "../../../components/analytics/MachineLine";
 import MachineUtilisation from "../../../components/analytics/MachineUtilisation";
 import Unresolved from "../../../components/analytics/Unresolved";
+import ViolationType from "../../../components/analytics/ViolationType";
 import "./Analytics.scss";
 
 function Analytics() {
@@ -39,15 +40,22 @@ function Analytics() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item container md={12}>
+      <Grid
+        className="GraphContainer"
+        item
+        container
+        md={12}
+        component={Paper}
+        elevation={4}
+      >
         <Grid item container md={7} style={{ padding: "12px" }}>
           <Grid
             item
             container
             md={12}
             style={{ padding: "12px" }}
-            component={Paper}
-            elevation={4}
+            // component={Paper}
+            // elevation={4}
           >
             <MachineLine />
           </Grid>
@@ -62,26 +70,35 @@ function Analytics() {
               flexDirection: "column",
               justifyContent: "space-evenly",
             }}
-            component={Paper}
-            elevation={4}
+            // component={Paper}
+            // elevation={4}
           >
             <Typography style={{ color: "#0e4a7b" }} variant="h4">
               Maximum number of
             </Typography>
             <Typography style={{ color: "#0e4a7b" }} variant="h5">
-              Feed UA = <span style={{ fontWeight: "700" }}>23</span> at time.
+              Feed UA = <span style={{ fontWeight: "700" }}>23</span> at{" "}
+              {new Date().toLocaleTimeString()}.
             </Typography>
             <Typography style={{ color: "#0e4a7b" }} variant="h5">
-              Worker UA = <span style={{ fontWeight: "700" }}>15</span> at time.
+              Worker UA = <span style={{ fontWeight: "700" }}>15</span> at{" "}
+              {new Date().toLocaleTimeString()}.
             </Typography>
             <Typography style={{ color: "#0e4a7b" }} variant="h5">
-              Machine Down = <span style={{ fontWeight: "700" }}>37</span> at
-              time.
+              Machine Down = <span style={{ fontWeight: "700" }}>37</span> at{" "}
+              {new Date().toLocaleTimeString()}.
             </Typography>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item container md={12}>
+      <Grid
+        className="GraphContainer"
+        item
+        container
+        md={12}
+        component={Paper}
+        elevation={4}
+      >
         <Grid item container md={5} style={{ padding: "12px" }}>
           <Grid
             item
@@ -92,8 +109,8 @@ function Analytics() {
               flexDirection: "column",
               justifyContent: "space-evenly",
             }}
-            component={Paper}
-            elevation={4}
+            // component={Paper}
+            // elevation={4}
           >
             <Typography style={{ color: "#0e4a7b" }} variant="h4">
               Description
@@ -115,14 +132,33 @@ function Analytics() {
             container
             md={12}
             style={{ padding: "12px" }}
-            component={Paper}
-            elevation={4}
+            // component={Paper}
+            // elevation={4}
           >
             <MachineLine />
           </Grid>
         </Grid>
       </Grid>
-      <Grid item container md={12}>
+      <Grid
+        className="GraphContainer"
+        item
+        container
+        md={12}
+        component={Paper}
+        elevation={4}
+      >
+        <Grid item container md={7} style={{ padding: "12px" }}>
+          <Grid
+            item
+            container
+            md={12}
+            style={{ padding: "12px" }}
+            // component={Paper}
+            // elevation={4}
+          >
+            <MachineUtilisation />
+          </Grid>
+        </Grid>
         <Grid item container md={5} style={{ padding: "12px" }}>
           <Grid
             item
@@ -133,8 +169,8 @@ function Analytics() {
               flexDirection: "column",
               justifyContent: "space-evenly",
             }}
-            component={Paper}
-            elevation={4}
+            // component={Paper}
+            // elevation={4}
           >
             <Typography style={{ color: "#0e4a7b" }} variant="h4">
               Lowest Utilisation
@@ -145,16 +181,60 @@ function Analytics() {
             </Typography>
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid
+        className="GraphContainer"
+        item
+        container
+        md={12}
+        component={Paper}
+        elevation={4}
+      >
+        <Grid item container md={5} style={{ padding: "12px" }}>
+          <Grid
+            item
+            container
+            md={12}
+            style={{
+              padding: "12px 16px 12px 32px",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}
+            // component={Paper}
+            // elevation={4}
+          >
+            <Typography style={{ color: "#0e4a7b" }} variant="h4">
+              Most Number Of Violation For
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              Worker UA = <span style={{ fontWeight: "700" }}>23</span> on{" "}
+              {new Date().toLocaleDateString()}.
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              Feed UA = <span style={{ fontWeight: "700" }}>15</span> on{" "}
+              {new Date().toLocaleDateString()}.
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              Crowding = <span style={{ fontWeight: "700" }}>37</span> on{" "}
+              {new Date().toLocaleDateString()}.
+            </Typography>
+            <Typography style={{ color: "#0e4a7b" }} variant="h5">
+              Machine Downtime = <span style={{ fontWeight: "700" }}>37</span>{" "}
+              on {new Date().toLocaleDateString()}.
+            </Typography>
+          </Grid>
+        </Grid>
         <Grid item container md={7} style={{ padding: "12px" }}>
           <Grid
             item
             container
             md={12}
             style={{ padding: "12px" }}
-            component={Paper}
-            elevation={4}
+            // component={Paper}
+            // elevation={4}
           >
-            <MachineUtilisation />
+            <ViolationType />
           </Grid>
         </Grid>
       </Grid>

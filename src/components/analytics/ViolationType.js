@@ -2,7 +2,7 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function MachineLine() {
+function ViolationType() {
   const series = [
     {
       name: "Feed UA",
@@ -13,8 +13,12 @@ function MachineLine() {
       data: [12, 11, 14, 18, 17, 13, 13],
     },
     {
-      name: "Machine Breakdown",
+      name: "Machine Downtime",
       data: [16, 19, 11, 13, 12, 10, 14],
+    },
+    {
+      name: "Crowding",
+      data: [32, 32, 33, 12, 11, 14, 18],
     },
   ];
 
@@ -34,7 +38,7 @@ function MachineLine() {
         show: false,
       },
     },
-    colors: ["#77B6EA", "#545454", "#f16230"],
+    colors: ["#77B6EA", "#545454", "#f16230", "#f68f1d"],
     dataLabels: {
       enabled: true,
     },
@@ -42,7 +46,7 @@ function MachineLine() {
       curve: "smooth",
     },
     title: {
-      text: "Duration By Type Of Violation",
+      text: "Total violations by type.",
       style: {
         color: "#0e4a7b",
         fontSize: "24px",
@@ -106,4 +110,4 @@ function MachineLine() {
   );
 }
 
-export default MachineLine;
+export default ViolationType;

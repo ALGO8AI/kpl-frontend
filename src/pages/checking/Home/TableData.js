@@ -78,7 +78,7 @@ function TableData({
               columns={[
                 { title: "Worker ID", field: "workerId" },
                 { title: "Worker Name", field: "workerName" },
-                { title: "Total Working Hrs.", field: "totalWorkingHours" },
+                // { title: "Total Working Hrs.", field: "totalWorkingHours" },
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
