@@ -10,14 +10,14 @@ import {
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import {
-  ClpCtrData,
+  detailedSummaryByClpCtrChecking,
   crowdingInstanceCheckingData,
   ctr_machineID,
   homepageData,
   machineBreakdownData,
-  machineData,
+  detailedSummaryByTableChecking,
   summaryByViolationData,
-  summaryByWorkerData,
+  detailedSummaryByWorkerChecking,
   workerUtilizationData,
 } from "../../../services/api.service";
 import GraphData from "./GraphData";
@@ -79,11 +79,11 @@ export default function Home() {
         payload: { data: z.crowdingInstancesData, loading: false },
       });
 
-      const homeWorkerTable = await summaryByWorkerData();
+      const homeWorkerTable = await detailedSummaryByWorkerChecking();
       dispatch({
         type: "HOME_WORKER_TABLE",
         payload: {
-          data: homeWorkerTable.detailedSummaryByWorker,
+          data: homeWorkerTable,
           loading: false,
         },
       });
@@ -97,7 +97,7 @@ export default function Home() {
         },
       });
 
-      const homeMachineTable = await machineData();
+      const homeMachineTable = await detailedSummaryByTableChecking();
       dispatch({
         type: "HOME_MACHINE_TABLE",
         payload: {
@@ -108,11 +108,11 @@ export default function Home() {
         },
       });
 
-      const homeCTRTable = await ClpCtrData();
+      const homeCTRTable = await detailedSummaryByClpCtrChecking();
       dispatch({
         type: "HOME_CTR_TABLE",
         payload: {
-          data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+          data: homeCTRTable,
           loading: false,
         },
       });
@@ -175,11 +175,11 @@ export default function Home() {
       }
 
       if (state.homeWorkerTable.loading) {
-        const homeWorkerTable = await summaryByWorkerData();
+        const homeWorkerTable = await detailedSummaryByWorkerChecking();
         dispatch({
           type: "HOME_WORKER_TABLE",
           payload: {
-            data: homeWorkerTable.detailedSummaryByWorker,
+            data: homeWorkerTable,
             loading: false,
           },
         });
@@ -197,24 +197,22 @@ export default function Home() {
       }
 
       if (state.homeMachineTable.loading) {
-        const homeMachineTable = await machineData();
+        const homeMachineTable = await detailedSummaryByTableChecking();
         dispatch({
           type: "HOME_MACHINE_TABLE",
           payload: {
-            data:
-              homeMachineTable.detailedSummaryByMachineId
-                .violationSummaryByMachineId,
+            data: homeMachineTable,
             loading: false,
           },
         });
       }
 
       if (state.homeCTRTable.loading) {
-        const homeCTRTable = await ClpCtrData();
+        const homeCTRTable = await detailedSummaryByClpCtrChecking();
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
-            data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+            data: homeCTRTable,
             loading: false,
           },
         });
@@ -248,7 +246,7 @@ export default function Home() {
           payload: { data: y.crowdingInstancesData, loading: false },
         });
 
-        const homeWorkerTable = await summaryByWorkerData(
+        const homeWorkerTable = await detailedSummaryByWorkerChecking(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -256,11 +254,11 @@ export default function Home() {
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
         );
-        if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
+        if (homeWorkerTable !== "no data") {
           dispatch({
             type: "HOME_WORKER_TABLE",
             payload: {
-              data: homeWorkerTable.detailedSummaryByWorker,
+              data: homeWorkerTable,
               loading: false,
             },
           });
@@ -287,7 +285,7 @@ export default function Home() {
           });
         }
 
-        const homeMachineTable = await machineData(
+        const homeMachineTable = await detailedSummaryByTableChecking(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -310,7 +308,7 @@ export default function Home() {
           });
         }
 
-        const homeCTRTable = await ClpCtrData(
+        const homeCTRTable = await detailedSummaryByClpCtrChecking(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -318,15 +316,11 @@ export default function Home() {
             ? inputMACHINEid
             : machineID.map((item) => item.machineID)
         );
-        if (
-          homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr !==
-          "no data"
-        ) {
+        if (homeCTRTable !== "no data") {
           dispatch({
             type: "HOME_CTR_TABLE",
             payload: {
-              data:
-                homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+              data: homeCTRTable,
               loading: false,
             },
           });

@@ -18,8 +18,6 @@ function TabPanel(props) {
       {...other}
       style={{
         marginTop: "8px",
-        maxHeight: "50vh",
-        overflow: "scroll",
       }}
     >
       {value === index && (

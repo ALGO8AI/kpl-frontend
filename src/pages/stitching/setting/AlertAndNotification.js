@@ -17,6 +17,7 @@ import {
   Select,
   Snackbar,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import {
   loadStitchingAlertData,
@@ -282,7 +283,9 @@ function AlertAndNotification() {
     <Grid container>
       <Grid container item xs={12} md={12} lg={12} style={{ padding: "12px" }}>
         <Grid item xs={12}>
-          <h4 style={{ textAlign: "center" }}>Manage Alerts</h4>
+          <Typography variant="h4" style={{ textAlign: "Left" }}>
+            Manage Alerts
+          </Typography>
         </Grid>
         <Grid
           container
@@ -297,16 +300,36 @@ function AlertAndNotification() {
             {/* <h4>Alert</h4> */}
           </Grid>
           <Grid item xs={2}>
-            <h4 style={{ textAlign: "center" }}>Manager</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Manager
+            </Typography>
           </Grid>
           <Grid item xs={2}>
-            <h4 style={{ textAlign: "center" }}>Wing Incharge</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Wing Incharge
+            </Typography>
           </Grid>
           <Grid item xs={2}>
-            <h4 style={{ textAlign: "center" }}>Helper</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Helper
+            </Typography>
           </Grid>
           <Grid item xs={2}>
-            <h4 style={{ textAlign: "center" }}>Supervisor</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Supervisor
+            </Typography>
           </Grid>
           {/* <Grid item xs={2}>
             <h4>Priority</h4>
@@ -326,7 +349,7 @@ function AlertAndNotification() {
           <Grid item xs={2}></Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -341,7 +364,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -356,7 +379,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -375,7 +398,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -393,7 +416,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -411,7 +434,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -433,7 +456,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -448,7 +471,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -463,7 +486,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -482,7 +505,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2}>
             <Grid xs={12} item container style={{ marginBottom: "12px" }}>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -497,7 +520,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"
@@ -512,7 +535,7 @@ function AlertAndNotification() {
                   </span>
                 </label>
               </Grid>
-              <Grid item xs={2}>
+              <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
                     type="checkbox"

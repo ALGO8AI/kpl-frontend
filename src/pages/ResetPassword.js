@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import * as Styles from "./Login.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
-import { ResetPassword } from "../services/api.service";
+// import { ResetPassword } from "../services/api.service";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 import Blank from "./Blank";
@@ -26,14 +26,14 @@ const ColorButton = withStyles(() => ({
   },
 }))(Button);
 
-function ForgetPassword() {
+function ResetPassword() {
   // Variables
   const history = useHistory();
 
   // states
   const [user, setUser] = useState({
-    email: "",
     password: "",
+    password2: "",
   });
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState("");
@@ -74,11 +74,20 @@ function ForgetPassword() {
               <h3>Welcome to</h3>
               <h2>iVision</h2>
               <TextField
-                label="Email"
+                label="New Password"
                 variant="outlined"
-                name="userId"
+                name="password"
                 className={Styles.text}
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+              />
+              <TextField
+                label="Confirm Password"
+                variant="outlined"
+                name="password"
+                className={Styles.text}
+                onChange={(e) =>
+                  setUser({ ...user, password2: e.target.value })
+                }
               />
               {/* <TextField
                 label="Password"
@@ -88,9 +97,9 @@ function ForgetPassword() {
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               /> */}
               <ColorButton variant="contained" onClick={() => {}}>
-                Get Password Reset Link
+                Change Password
               </ColorButton>
-              <Typography
+              {/* <Typography
                 component={Link}
                 to="/"
                 style={{
@@ -103,7 +112,7 @@ function ForgetPassword() {
                 <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
                   Sign In
                 </span>
-              </Typography>
+              </Typography> */}
             </div>
           </div>
         </Paper>
@@ -117,4 +126,4 @@ function ForgetPassword() {
   );
 }
 
-export default ForgetPassword;
+export default ResetPassword;

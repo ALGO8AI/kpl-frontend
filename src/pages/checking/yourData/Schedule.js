@@ -52,7 +52,7 @@ function Schedule(props) {
     { title: "Worker ID", field: "workerId" },
     { title: "Shift", field: "shift" },
     { title: "Wing", field: "wing" },
-    { title: "Machine ID", field: "machineId" },
+    { title: "Table ID", field: "machineId" },
   ]);
 
   const [data, setData] = useState([]);

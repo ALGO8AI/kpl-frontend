@@ -83,7 +83,7 @@ function TableData({
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
                 { title: "Feed Unavailable Hrs.", field: "feedUnav" },
-                { title: "Worker Unavailable Hrs.", field: "workerUnav" },
+                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
                 { title: "Shift", field: "shift" },
               ]}
             />
@@ -120,7 +120,10 @@ function TableData({
             <HomeTable
               data={homeMachineTable}
               columns={[
-                { title: "Machine Id", field: "machineID" },
+                { title: "Table Id", field: "tableId" },
+                { title: "Worker Name", field: "workerName" },
+                { title: "Worker Id", field: "workerId" },
+
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 {
                   title: "% Utilization",
@@ -128,12 +131,12 @@ function TableData({
                 },
                 { title: "Idle Hrs.", field: "idleHours" },
                 {
-                  title: "Worker Unavailable Hrs.",
-                  field: "WorkerUnavailableHours",
+                  title: "Feed Unavailable Hrs.",
+                  field: "feedUnav",
                 },
                 {
                   title: "Feed Unavailable Hrs.",
-                  field: "feedUnavailableHours",
+                  field: "feedUnav",
                 },
                 { title: "Shift", field: "shift" },
               ]}

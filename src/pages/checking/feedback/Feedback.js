@@ -85,7 +85,7 @@ function Feedback() {
           <Grid item xs={12}>
             <TextField
               id="outlined-basic"
-              label="Machine Id"
+              label="Table Id"
               variant="outlined"
               fullWidth
               value={data.machineID}

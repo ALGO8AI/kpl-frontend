@@ -76,13 +76,7 @@ function DonutChartChecking(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: [
-      "Actual working hour",
-      "Idle- Worker Unavailable",
-      "Idle-feed unavailable",
-      "Other",
-    ],
-
+    labels: ["Total working hours", "Worker Unavailable", "feed unavailable"],
     plotOptions: {
       pie: {
         donut: {
@@ -254,7 +248,7 @@ function DonutChartChecking(props) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Actual Working Hour </p>
+              <p> Total Working Hour </p>
             </div>
             <div
               style={{
@@ -295,7 +289,7 @@ function DonutChartChecking(props) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Idle - Worker N / A </p>
+              <p> Worker Unavailable </p>
             </div>
             <div
               style={{
@@ -331,7 +325,7 @@ function DonutChartChecking(props) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p>Idle- Feed N/A</p>
+              <p>Feed Unavailable</p>
             </div>
             <div
               style={{
@@ -351,7 +345,7 @@ function DonutChartChecking(props) {
               </h6>
             </div>
           </div>
-          <div class="center-text">
+          {/* <div class="center-text">
             <div
               style={{
                 display: "flex",
@@ -386,7 +380,7 @@ function DonutChartChecking(props) {
                 {props.other}
               </h6>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div>

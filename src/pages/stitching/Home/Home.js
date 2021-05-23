@@ -13,6 +13,7 @@ import {
   ClpCtrData,
   crowdingInstanceData,
   ctr_machineID,
+  detailedSummaryByClpCtrChecking,
   homepageData,
   machineBreakdownData,
   machineData,
@@ -225,11 +226,12 @@ function Home() {
       }
 
       if (state.homeCTRTable.loading) {
-        const homeCTRTable = await ClpCtrData();
+        const homeCTRTable = await detailedSummaryByClpCtrChecking();
+        console.log(homeCTRTable);
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
-            data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+            data: homeCTRTable,
             loading: false,
           },
         });

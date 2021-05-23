@@ -454,7 +454,12 @@ export default function Navigation() {
           <Link to="/menu">
             <img src={logo} alt="logo" width="128px" />
           </Link>
-          <Typography className={classes.title} variant="h5" noWrap>
+          <Typography
+            className={classes.title}
+            style={{ color: "#0e4a7b" }}
+            variant="h5"
+            noWrap
+          >
             Checking
           </Typography>
           <div className={classes.grow} />

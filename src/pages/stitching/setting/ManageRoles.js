@@ -68,10 +68,12 @@ function ManageRoles() {
     };
     console.log(DATA);
     try {
-      const x = await UpdateStitchingUserData(DATA);
-      console.log(x);
-      alert(x.msg);
-      //   setOpenMsg(true);
+      var txt = window.confirm("User will be updated, continue?");
+      if (txt) {
+        const x = await UpdateStitchingUserData(DATA);
+        console.log(x);
+        alert(x.msg);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -121,7 +123,7 @@ function ManageRoles() {
           field: "mobileNumber",
         },
         {
-          title: "",
+          title: "Update",
           field: "uid",
           render: (x) => (
             <button
@@ -142,6 +144,30 @@ function ManageRoles() {
             >
               EDIT
             </button>
+          ),
+        },
+        {
+          title: "Revoke",
+          field: "uid",
+          render: (x) => (
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                padding: "8px 12px",
+                cursor: "pointer",
+                fontSize: "1rem",
+                color: "white",
+              }}
+              onClick={() => {
+                var txt = window.confirm(
+                  "Are you sure you want to revoke the access ?"
+                );
+                txt && alert("Access Revoked.");
+              }}
+            >
+              REVOKE
+            </Button>
           ),
         },
       ]);
@@ -455,7 +481,7 @@ function ManageRoles() {
               <TextField
                 fullWidth
                 id="outlined-basic"
-                label="Worker Id"
+                label="User Id"
                 variant="outlined"
                 value={data.workerID}
                 onChange={(e) => setData({ ...data, workerID: e.target.value })}
@@ -486,11 +512,11 @@ function ManageRoles() {
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -508,17 +534,17 @@ function ManageRoles() {
                   />
                 }
                 label="Accessibility Cutting"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -536,17 +562,17 @@ function ManageRoles() {
                   />
                 }
                 label="Accessibility Stitching"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -564,7 +590,7 @@ function ManageRoles() {
                   />
                 }
                 label="Accessibility Checking"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
@@ -583,11 +609,11 @@ function ManageRoles() {
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -605,17 +631,17 @@ function ManageRoles() {
                   />
                 }
                 label="Shift A"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -633,7 +659,7 @@ function ManageRoles() {
                   />
                 }
                 label="Shift B"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
             <Grid
@@ -651,11 +677,11 @@ function ManageRoles() {
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -673,17 +699,17 @@ function ManageRoles() {
                   />
                 }
                 label="Machine Breakdown"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -701,17 +727,17 @@ function ManageRoles() {
                   />
                 }
                 label="Feed Unavailability"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -729,17 +755,17 @@ function ManageRoles() {
                   />
                 }
                 label="Worker Not Available"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -757,17 +783,17 @@ function ManageRoles() {
                   />
                 }
                 label="Crowding"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -785,7 +811,7 @@ function ManageRoles() {
                   />
                 }
                 label="Checker Active Monitoring"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
           </Grid>

@@ -16,6 +16,7 @@ import Checking from "./pages/checking/Checking/Checking";
 import SignUp from "./pages/SignUp";
 import Blank from "./pages/Blank";
 import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App(props) {
   console.log(props);
@@ -36,6 +37,8 @@ function App(props) {
         <Route exact path="/" component={Login} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/forget-password" component={ForgetPassword} />
+        <Route exact path="/reset-password/:token" component={ResetPassword} />
+
         <AuthRoute exact path="/menu" component={Menu} />
         <AuthRoute exact path="/stitching/:page" component={Stitching} />
         <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />

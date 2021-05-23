@@ -87,9 +87,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-html {
+/* html {
   zoom: 75%;
-}
+} */
 
 .MuiAlert-standardSuccess {
   color: white !important;
@@ -102,4 +102,7 @@ html {
 }
 .mb-8 {
   margin-bottom: 8px !important;
+}
+.custom-checkbox {
+  margin: auto !important;
 }

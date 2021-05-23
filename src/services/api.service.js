@@ -320,7 +320,7 @@ const ClpCtrData = async (fromDate, toDate, ctr, machine) => {
 
   return await callBackend(
     "POST",
-    "routes/KPI/home/detailedSummaryByClpCtr",
+    "routes/KPI/home/detailedSummaryByClpCtrChecking",
     true,
     data
   );
@@ -503,6 +503,61 @@ const postMachineViolation = async (fromDate, toDate) => {
     return response.data.data;
   } catch {}
 };
+
+const detailedSummaryByWorkerChecking = async (fromDate, toDate) => {
+  try {
+    var config = {
+      method: "post",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByWorker",
+      headers: {},
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data.detailedSummaryByWorker;
+  } catch (e) {}
+};
+
+const detailedSummaryByClpCtrChecking = async (fromDate, toDate) => {
+  try {
+    var config = {
+      method: "post",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByClpCtr",
+      headers: {},
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data.detailedSummaryByClpCtr.detailedSummaryByClpCtr;
+  } catch (err) {}
+};
+
+const detailedSummaryByTableChecking = async (fromDate, toDate) => {
+  try {
+    var config = {
+      method: "post",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByTable",
+      headers: {},
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data.detailedSummaryByTable;
+  } catch (err) {}
+};
+
 export {
   login,
   getViolation,
@@ -553,4 +608,7 @@ export {
   AddWorkerChecking,
   getMachineViolation,
   postMachineViolation,
+  detailedSummaryByWorkerChecking,
+  detailedSummaryByClpCtrChecking,
+  detailedSummaryByTableChecking,
 };
