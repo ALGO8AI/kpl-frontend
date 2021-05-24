@@ -21,8 +21,10 @@ import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
+  revokeUserAccess,
   StitchingUserData,
   UpdateStitchingUserData,
+  UnrevokeUserAccess,
 } from "../../../services/api.service";
 
 function ManageRoles() {
@@ -41,6 +43,21 @@ function ManageRoles() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const revokeUser = async (name) => {
+    try {
+      const resp = await revokeUserAccess(name);
+      alert(resp.msg);
+    } catch (e) {}
+  };
+
+  const unRevokeUser = async (name) => {
+    try {
+      const resp = await UnrevokeUserAccess(name);
+      alert(resp.msg);
+    } catch (e) {}
+  };
+
   const submitHandler = async () => {
     const DATA = {
       username: data.username,
@@ -159,14 +176,28 @@ function ManageRoles() {
                 fontSize: "1rem",
                 color: "white",
               }}
-              onClick={() => {
-                var txt = window.confirm(
-                  "Are you sure you want to revoke the access ?"
-                );
-                txt && alert("Access Revoked.");
-              }}
+              onClick={() => revokeUser(x.username)}
             >
               REVOKE
+            </Button>
+          ),
+        },
+        {
+          title: "Unrevoke",
+          field: "uid",
+          render: (x) => (
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                padding: "8px 12px",
+                cursor: "pointer",
+                fontSize: "1rem",
+                color: "white",
+              }}
+              onClick={() => unRevokeUser(x.username)}
+            >
+              UNREVOKE
             </Button>
           ),
         },

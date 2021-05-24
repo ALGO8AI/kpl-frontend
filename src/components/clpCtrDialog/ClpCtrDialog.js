@@ -64,13 +64,15 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
     try {
       const ctr = await ctrDropDown();
       console.log(ctr);
+      console.log(ctr.data[0]);
+
       setCtrDrop(ctr);
       setCTR({
         ...CTR,
-        currentCtr: ctr.currentCLPCTR[0].clpCtr,
-        wing: ctr.data[0].wing,
-        clpctr: ctr.data[0].clpCtr,
-        resourceId: ctr.data[0].resourceId,
+        currentCtr: ctr?.currentCLPCTR[0]?.clpCtr,
+        wing: ctr?.data[0]?.wing,
+        clpctr: ctr?.data[0]?.clpCtr,
+        resourceId: ctr?.data[0]?.resourceId,
       });
     } catch (err) {
       console.log(err.message);
@@ -257,6 +259,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
           <Button
             onClick={() => {
               handleCloseCTR();
+              console.log(CTR);
             }}
           >
             Close

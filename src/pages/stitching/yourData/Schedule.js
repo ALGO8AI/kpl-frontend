@@ -3,11 +3,15 @@ import Grid from "@material-ui/core/Grid";
 import { DropzoneArea } from "material-ui-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MaterialTable from "material-table";
-import { scheduleUpload } from "../../../services/api.service";
+import {
+  copyScheduleStitching,
+  scheduleUpload,
+} from "../../../services/api.service";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getYourData } from "../../../services/api.service";
+import { Button } from "@material-ui/core";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,6 +40,15 @@ function Schedule(props) {
       return;
     }
     setOpen(false);
+  };
+
+  const copy = async () => {
+    try {
+      const response = await copyScheduleStitching();
+      setMsg(response.msg);
+      setSeverity("success");
+      setOpen(true);
+    } catch (e) {}
   };
 
   const [columns, setColumns] = useState([
@@ -135,6 +148,20 @@ function Schedule(props) {
           }}
           // style={{ marginLeft: "50px" }}
         />
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#0e4a7b",
+            color: "#FFF",
+            whiteSpace: "nowrap",
+            width: "100%",
+            height: "fit-content",
+            border: "1px solid #0e4a7b",
+          }}
+          onClick={copy}
+        >
+          COPY
+        </Button>
       </Grid>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity}>

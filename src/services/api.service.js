@@ -558,6 +558,39 @@ const detailedSummaryByTableChecking = async (fromDate, toDate) => {
   } catch (err) {}
 };
 
+const revokeUserAccess = async (username) => {
+  const data = {
+    username: username,
+  };
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/revokeAccess",
+    true,
+    data
+  );
+};
+
+const UnrevokeUserAccess = async (username) => {
+  const data = {
+    username: username,
+  };
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/UnRevokeAccess",
+    true,
+    data
+  );
+};
+
+const copyScheduleStitching = async () => {
+  return await callBackend(
+    "GET",
+    "routes/stitching/schedule/updateAllSchedule"
+  );
+};
+const copyScheduleChecking = async () => {
+  return await callBackend("GET", "routes/checking/schedule/updateAllSchedule");
+};
 export {
   login,
   getViolation,
@@ -611,4 +644,8 @@ export {
   detailedSummaryByWorkerChecking,
   detailedSummaryByClpCtrChecking,
   detailedSummaryByTableChecking,
+  revokeUserAccess,
+  UnrevokeUserAccess,
+  copyScheduleStitching,
+  copyScheduleChecking,
 };
