@@ -262,7 +262,8 @@ function BagID() {
               )}
               options={{
                 exportButton: true,
-                pageSizeOptions: [5, 10, 20],
+                pageSizeOptions: [20, 50, 100, 200],
+                pageSize: 20,
               }}
             />
           </Grid>
@@ -288,7 +289,8 @@ function BagID() {
             data={bagData.respData}
             options={{
               exportButton: true,
-              pageSizeOptions: [5, 10, 20],
+              pageSizeOptions: [20, 50, 100, 200],
+              pageSize: 20,
             }}
           />
         </Grid>

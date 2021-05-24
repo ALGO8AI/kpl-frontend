@@ -182,25 +182,25 @@ function ManageRoles() {
             </Button>
           ),
         },
-        {
-          title: "Unrevoke",
-          field: "uid",
-          render: (x) => (
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#0e4a7b",
-                padding: "8px 12px",
-                cursor: "pointer",
-                fontSize: "1rem",
-                color: "white",
-              }}
-              onClick={() => unRevokeUser(x.username)}
-            >
-              UNREVOKE
-            </Button>
-          ),
-        },
+        // {
+        //   title: "Unrevoke",
+        //   field: "uid",
+        //   render: (x) => (
+        //     <Button
+        //       variant="contained"
+        //       style={{
+        //         backgroundColor: "#0e4a7b",
+        //         padding: "8px 12px",
+        //         cursor: "pointer",
+        //         fontSize: "1rem",
+        //         color: "white",
+        //       }}
+        //       onClick={() => unRevokeUser(x.username)}
+        //     >
+        //       UNREVOKE
+        //     </Button>
+        //   ),
+        // },
       ]);
       console.log(x);
     } catch (err) {
@@ -223,6 +223,8 @@ function ManageRoles() {
             backgroundColor: "#0e4a7b",
             color: "#FFF",
           },
+          pageSizeOptions: [20, 50, 100, 200, data.length],
+          pageSize: 20,
         }}
         style={{ marginTop: "50px" }}
       />

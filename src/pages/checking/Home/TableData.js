@@ -83,8 +83,8 @@ function TableData({
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
                 { title: "Feed Unavailable Hrs.", field: "feedUnav" },
-                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
-                { title: "Shift", field: "shift" },
+                { title: "Worker Unavailable Hrs.", field: "workerUnav" },
+                // { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -110,7 +110,7 @@ function TableData({
                 { title: "Idle Hrs.", field: "idleHours" },
                 { title: "Feed Unavailable Hrs.", field: "feedUnav" },
                 { title: "Worker Unavailable Hrs.", field: "workerUnav" },
-                { title: "Shift", field: "shift" },
+                // { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -138,7 +138,7 @@ function TableData({
                   title: "Feed Unavailable Hrs.",
                   field: "feedUnav",
                 },
-                { title: "Shift", field: "shift" },
+                // { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -164,7 +164,7 @@ function TableData({
                   title: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
                 },
-                { title: "Shift", field: "shift" },
+                // { title: "Shift", field: "shift" },
               ]}
             />
           </Grid>

@@ -87,9 +87,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* html {
+html {
   zoom: 75%;
-} */
+}
 
 .MuiAlert-standardSuccess {
   color: white !important;

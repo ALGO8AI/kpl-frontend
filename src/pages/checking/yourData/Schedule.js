@@ -143,6 +143,8 @@ function Schedule(props) {
               backgroundColor: "#0e4a7b",
               color: "#FFF",
             },
+            pageSizeOptions: [20, 50, 100, 200],
+            pageSize: 20,
           }}
           // style={{ marginLeft: "50px" }}
         />
