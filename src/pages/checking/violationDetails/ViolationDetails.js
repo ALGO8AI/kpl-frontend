@@ -15,6 +15,7 @@ import {
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
   violationComment,
+  communicatedTo,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -227,6 +228,21 @@ function ViolationDetails(props) {
         history.push("/stitching/violationLog");
       }, 2000);
     });
+  };
+
+  const [communicated, setCommunicated] = useState("");
+
+  const submitCommunication = async () => {
+    try {
+      const resp = await communicatedTo(
+        communicated,
+        props.id,
+        reason === "Add Reason" ? reason1 : reason
+      );
+      console.log(resp);
+      setMsg(resp.msg);
+      setOpen1(true);
+    } catch (e) {}
   };
 
   // console.log("inside v details");
@@ -566,9 +582,18 @@ function ViolationDetails(props) {
               <TextField
                 placeholder="Communicated to"
                 fullWidth
-                // onChange={customAction}
-                // value={action1}
+                onChange={(e) => setCommunicated(e.target.value)}
+                value={communicated}
               />
+            </Grid>
+            <Grid container item xs={4}>
+              <Button
+                variant="contained"
+                style={{ marginTop: "8px" }}
+                onClick={submitCommunication}
+              >
+                SEND
+              </Button>
             </Grid>
           </Grid>
           <Grid

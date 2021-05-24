@@ -591,6 +591,21 @@ const copyScheduleStitching = async () => {
 const copyScheduleChecking = async () => {
   return await callBackend("GET", "routes/checking/schedule/updateAllSchedule");
 };
+
+const communicatedTo = async (to, id, reason) => {
+  const data = {
+    communicatedTo: to,
+    violationId: id,
+    violationReason: reason,
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/communicatedTo",
+    true,
+    data
+  );
+};
 export {
   login,
   getViolation,
@@ -648,4 +663,5 @@ export {
   UnrevokeUserAccess,
   copyScheduleStitching,
   copyScheduleChecking,
+  communicatedTo,
 };

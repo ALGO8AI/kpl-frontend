@@ -15,6 +15,7 @@ import {
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
   violationComment,
+  communicatedTo,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -100,6 +101,7 @@ function ViolationDetails(props) {
   const [isCorrect, setIsCorrect] = useState(false);
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [VIOLATION, setVIOLATION] = useState([]);
+  const [communicated, setCommunicated] = useState("");
 
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
@@ -226,6 +228,18 @@ function ViolationDetails(props) {
         history.push("/stitching/violationLog");
       }, 2000);
     });
+  };
+
+  const submitCommunication = async () => {
+    try {
+      const resp = await communicatedTo(
+        communicated,
+        props.id,
+        reason === "Add Reason" ? reason1 : reason
+      );
+      setMsg(resp.msg);
+      setOpen1(true);
+    } catch (e) {}
   };
 
   // console.log("inside v details");
@@ -558,6 +572,7 @@ function ViolationDetails(props) {
 
             <Grid
               item
+              container
               xs={12}
               className="vd-d1 vd-d2"
               style={{ marginTop: "2px" }}
@@ -565,9 +580,18 @@ function ViolationDetails(props) {
               <TextField
                 placeholder="Communicated to"
                 fullWidth
-                // onChange={customAction}
-                // value={action1}
+                onChange={(e) => setCommunicated(e.target.value)}
+                value={communicated}
               />
+            </Grid>
+            <Grid container item xs={4}>
+              <Button
+                variant="contained"
+                style={{ marginTop: "8px" }}
+                onClick={submitCommunication}
+              >
+                SEND
+              </Button>
             </Grid>
           </Grid>
           <Grid

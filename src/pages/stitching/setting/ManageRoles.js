@@ -46,8 +46,11 @@ function ManageRoles() {
 
   const revokeUser = async (name) => {
     try {
-      const resp = await revokeUserAccess(name);
-      alert(resp.msg);
+      var txt = window.confirm("User access will be revoked, continue?");
+      if (txt) {
+        const resp = await revokeUserAccess(name);
+        alert(resp.msg);
+      }
     } catch (e) {}
   };
 
