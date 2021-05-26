@@ -227,14 +227,15 @@ const violationComment = async (
   });
 };
 
-const workerUtilizationData = async (fromDate, toDate, ctr, machine) => {
+const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts: shift,
   };
-  // console.log(data);
+  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/home/workerUtilization",
@@ -416,11 +417,12 @@ const getStitchingNotification = async () => {
   );
 };
 
-const machineBreakdownData = async (fromDate, toDate, machine) => {
+const machineBreakdownData = async (fromDate, toDate, machine, shift) => {
   const data = {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts: shift,
   };
   return await callBackend(
     "POST",
@@ -598,7 +600,6 @@ const communicatedTo = async (to, id, reason) => {
     violationId: id,
     violationReason: reason,
   };
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/violation/communicatedTo",
@@ -606,6 +607,25 @@ const communicatedTo = async (to, id, reason) => {
     data
   );
 };
+
+const updateStitchingWorkerSchedule = async (datas) => {
+  const data = {
+    date: datas.date,
+    workerId: datas.workerId,
+    shift: datas.shift,
+    wing: datas.wing,
+    machineId: datas.machineId,
+    machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/stitchigSheduleSingleUpdate/update",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -664,4 +684,5 @@ export {
   copyScheduleStitching,
   copyScheduleChecking,
   communicatedTo,
+  updateStitchingWorkerSchedule,
 };

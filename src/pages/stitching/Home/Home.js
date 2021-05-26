@@ -42,6 +42,7 @@ function Home() {
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
+  const [inputSHIFT, setInputSHIFT] = useState([]);
 
   // Functions
 
@@ -252,7 +253,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         dispatch({
           type: "WORKER_UTILIZATION",
@@ -272,7 +274,8 @@ function Home() {
           state.to,
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
 
         dispatch({
@@ -508,10 +511,42 @@ function Home() {
       <Grid
         container
         item
+        xs={12}
+        sm={4}
+        lg={2}
+        style={{ justifyContent: "center" }}
+      >
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginRight: "6px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Shift</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            multiple
+            value={inputSHIFT}
+            onChange={(e) => setInputSHIFT(e.target.value)}
+            label="Shift"
+            // multiple
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="A">A</MenuItem>
+            <MenuItem value="B">B</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+
+      <Grid
+        container
+        item
         // sm={12}
         xs={6}
         sm={4}
-        lg={2}
+        lg={1}
         style={{ justifyContent: "center" }}
       >
         <Button
@@ -530,7 +565,7 @@ function Home() {
         // sm={12}
         xs={6}
         sm={4}
-        lg={2}
+        lg={1}
         style={{ justifyContent: "center" }}
       >
         <Button
