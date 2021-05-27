@@ -146,6 +146,15 @@ function ViolationLog1() {
         payload: { data: feed.feedUnavailableData, loading: false },
       });
 
+      const machineVio = await getMachineViolation();
+      dispatch({
+        type: "MACHINE_VIO",
+        payload: {
+          data: machineVio.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
+
       const crowd = await crowdingViolation();
       // state.violationFrom,
       // state.violationTo
@@ -187,13 +196,20 @@ function ViolationLog1() {
 
   const dateFilter = async () => {
     try {
-      const machineViolation = await postMachineViolation(
+      const machineViolation = await getMachineViolation(
         state.violationFrom,
-        state.violationTo
+        state.violationTo,
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       dispatch({
         type: "MACHINE_VIO",
-        payload: { data: machineViolation, loading: false },
+        payload: {
+          data: machineViolation.machineBreakdownViolationtable,
+          loading: false,
+        },
       });
       const feed = await feedUnavailableViolation(
         state.violationFrom,
@@ -201,7 +217,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (feed.feedUnavailableData !== "no data") {
         dispatch({
@@ -221,7 +238,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (crowd.crowdingData !== "no data") {
         dispatch({
@@ -241,7 +259,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (worker.workerUnavailableDurationData !== "no data") {
         dispatch({
@@ -267,7 +286,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (by_worker.violationByWorkerData !== "no data") {
         dispatch({
@@ -293,6 +313,7 @@ function ViolationLog1() {
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
+  const [inputSHIFT, setInputSHIFT] = useState([]);
 
   const load_ctr_machine = async () => {
     try {
@@ -315,7 +336,10 @@ function ViolationLog1() {
         const machineVio = await getMachineViolation();
         dispatch({
           type: "MACHINE_VIO",
-          payload: { data: machineVio, loading: false },
+          payload: {
+            data: machineVio.machineBreakdownViolationtable,
+            loading: false,
+          },
         });
       }
 
@@ -542,7 +566,41 @@ function ViolationLog1() {
             container
             item
             xs={12}
-            md={2}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+                // multiple
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="A">A</MenuItem>
+                <MenuItem value="B">B</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={12}
+            md={1}
             style={{ justifyContent: "center" }}
           >
             <Button
@@ -560,14 +618,19 @@ function ViolationLog1() {
             container
             item
             xs={12}
-            md={2}
+            md={1}
             style={{ justifyContent: "center" }}
           >
             <Button
               variant="contained"
               color="primary"
               style={{ margin: "10px" }}
-              onClick={refreshData}
+              onClick={() => {
+                refreshData();
+                setInputCTR([]);
+                setInputMACHINEid([]);
+                setInputSHIFT([]);
+              }}
             >
               <RefreshIcon />
               Refresh
@@ -948,7 +1011,7 @@ function ViolationLog1() {
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
-                  // { title: "Shift", field: "shift" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -1116,7 +1179,7 @@ function ViolationLog1() {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
                             "VIOLATION-TYPE",
-                            "Feed Unavailable"
+                            "Machine Violation"
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
@@ -1133,6 +1196,15 @@ function ViolationLog1() {
                     field: "Id",
                   },
                   {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
+                  {
+                    title: "Worker Id",
+                    field: "workerId",
+                  },
+
+                  {
                     title: "Machine Id",
                     field: "machineId",
                   },
@@ -1140,7 +1212,7 @@ function ViolationLog1() {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.DateTime))
+                      const NewDate = moment(new Date(rowData.Date_Hour))
                         .format("DD/MM/YYYY")
                         .toString();
                       return NewDate;
@@ -1148,25 +1220,9 @@ function ViolationLog1() {
                   },
                   {
                     title: "Off Duration (Mins.)",
-                    field: "offDuration",
-                    render: (rowData) => {
-                      return Math.round(rowData.offDuration / 60);
-                    },
+                    field: "OffMinutes",
                   },
-                  {
-                    title: "On Duration (Mins.)",
-                    field: "onDuration",
-                    render: (rowData) => {
-                      return Math.round(rowData.onDuration / 60);
-                    },
-                  },
-                  {
-                    title: "Breakdown Duration (Mins.)",
-                    field: "machineBreakDown",
-                    render: (rowData) => {
-                      return Math.round(rowData.machineBreakDown / 60);
-                    },
-                  },
+
                   {
                     title: "Wing",
                     field: "wing",

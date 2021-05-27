@@ -95,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ViolationDetails(props) {
+  console.log(props);
   const history = useHistory();
   const classes = useStyles();
   const [data, setData] = useState();
@@ -124,7 +125,7 @@ function ViolationDetails(props) {
       const x = await getViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
-      setLink(x.volIdData[0].video);
+      setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
         setReason(x.volIdData[0].violationReason);
       }
@@ -359,7 +360,7 @@ function ViolationDetails(props) {
               {/* video player here */}
               <ReactPlayer
                 key={link}
-                url={link.replace(".avi", ".mp4")}
+                url={link?.replace(".avi", ".mp4")}
                 controls={true}
                 //  muted={true}
                 //  playing={false}
@@ -401,6 +402,29 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.workerId}
             </Grid>
+
+            {data?.machineId && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Machine Status :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {data && data.status === 0 ? "Off" : "On"}
+                </Grid>
+              </>
+            )}
+
+            {data?.machineId && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Machine Id :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {data && data.machineId}
+                </Grid>
+              </>
+            )}
+
             <Grid item xs={6} className="vd-d3">
               CTR No. :
             </Grid>
@@ -412,6 +436,12 @@ function ViolationDetails(props) {
             </Grid>
             <Grid item xs={6} className="vd-d3">
               {data && data.wing}
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              Shift :
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              {data && data.shift}
             </Grid>
             <Grid item xs={6} className="vd-d3">
               Line :

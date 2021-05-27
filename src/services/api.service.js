@@ -73,12 +73,19 @@ const homeDateFilter = async (fromDate, toDate) => {
   // return data;
 };
 
-const workerUnavailableViolation = async (fromDate, toDate, ctr, machine) => {
+const workerUnavailableViolation = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -109,12 +116,19 @@ const workerUnavailableViolationChecking = async (
   );
 };
 
-const feedUnavailableViolation = async (fromDate, toDate, ctr, machine) => {
+const feedUnavailableViolation = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -124,12 +138,13 @@ const feedUnavailableViolation = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const crowdingViolation = async (fromDate, toDate, ctr, machine) => {
+const crowdingViolation = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -154,12 +169,13 @@ const crowdingViolationChecking = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const violationByWorkerF = async (fromDate, toDate, ctr, machine) => {
+const violationByWorkerF = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -267,12 +283,19 @@ const crowdingInstanceCheckingData = async (fromDate, toDate) => {
   );
 };
 
-const summaryByViolationData = async (fromDate, toDate, ctr, machine) => {
+const summaryByViolationData = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -282,12 +305,13 @@ const summaryByViolationData = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const summaryByWorkerData = async (fromDate, toDate, ctr, machine) => {
+const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -296,12 +320,13 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine) => {
     data
   );
 };
-const machineData = async (fromDate, toDate, ctr, machine) => {
+const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -311,12 +336,13 @@ const machineData = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const ClpCtrData = async (fromDate, toDate, ctr, machine) => {
+const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
 
   return await callBackend(
@@ -478,13 +504,24 @@ const AddWorkerChecking = async (data) => {
   console.log(data);
   return await callBackend("POST", "routes/addWorkerChecking", true, data);
 };
-const getMachineViolation = async () => {
-  try {
-    const response = await axios.get(
-      "http://3.23.114.42:8081/routes/KPI/violation/mechineVoilation"
-    );
-    return response.data.data;
-  } catch {}
+const getMachineViolation = async (
+  filterDateFrom,
+  filterDateTo,
+  machineId,
+  shifts
+) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+    machineId,
+    shifts,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/machineBreakdownViolationtable",
+    true,
+    data
+  );
 };
 const postMachineViolation = async (fromDate, toDate) => {
   try {
@@ -616,11 +653,36 @@ const updateStitchingWorkerSchedule = async (datas) => {
     wing: datas.wing,
     machineId: datas.machineId,
     machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
+    id: datas.id,
   };
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/stitchigSheduleSingleUpdate/update",
+    true,
+    data
+  );
+};
+
+const getCheckingWorkerData = async () => {
+  return await callBackend("GET", "routes/checking/worker/all");
+};
+
+const getCheckingSchedule = async () => {
+  return await callBackend("GET", "routes/checking/schedule/scheduleDetail");
+};
+
+const updateCheckingWorkerSchedule = async (datas) => {
+  const data = {
+    date: datas.date,
+    workerId: datas.workerId,
+    shift: datas.shift,
+    wing: datas.wing,
+    tableId: datas.tableId,
+    id: datas.id,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checkingSheduleSingleUpdate/update",
     true,
     data
   );
@@ -685,4 +747,7 @@ export {
   copyScheduleChecking,
   communicatedTo,
   updateStitchingWorkerSchedule,
+  getCheckingWorkerData,
+  getCheckingSchedule,
+  updateCheckingWorkerSchedule,
 };

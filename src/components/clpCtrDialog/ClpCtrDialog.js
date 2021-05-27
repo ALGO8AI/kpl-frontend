@@ -63,8 +63,8 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
   const loadData = async () => {
     try {
       const ctr = await ctrDropDown();
-      console.log(ctr);
-      console.log(ctr.data[0]);
+      // console.log(ctr);
+      // console.log(ctr.data[0]);
 
       setCtrDrop(ctr);
       setCTR({

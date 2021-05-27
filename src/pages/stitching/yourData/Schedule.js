@@ -71,6 +71,8 @@ function Schedule(props) {
         return dd[1] + "/" + dd[0] + "/" + dd[2];
       },
     },
+    { title: "ID", field: "id" },
+
     { title: "Worker ID", field: "workerId" },
     { title: "Shift", field: "shift" },
     { title: "Wing", field: "wing" },
@@ -94,7 +96,7 @@ function Schedule(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            setOpenDialog(true);
+            handleClickOpenDialog();
             setScheduleData({
               date: new Date(x.Date).toISOString().slice(0, 10),
               workerId: x.workerId,
@@ -102,6 +104,7 @@ function Schedule(props) {
               wing: x.wing,
               machineId: x.machineId,
               machineOnOffStatus: Boolean(x.machineOnOffStatus),
+              id: x.id,
             });
           }}
         >
@@ -148,6 +151,8 @@ function Schedule(props) {
       setMsg(resp.msg);
       setSeverity("success");
       setOpen(true);
+      loadData();
+      setOpenDialog(false);
     } catch (e) {
       console.log(e.message);
     }

@@ -19,6 +19,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import {
   AddWorkerChecking,
   AddWorkerStitching,
+  getCheckingWorkerData,
   getYourData,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
@@ -75,9 +76,9 @@ function Worker(props) {
 
   const loadData = async () => {
     try {
-      const x = await getYourData();
+      const x = await getCheckingWorkerData();
       console.log(x);
-      setWorkerData(x.latestWorkerData);
+      setWorkerData(x.data);
     } catch (err) {}
   };
   useEffect(() => {
@@ -132,6 +133,7 @@ function Worker(props) {
       console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
+      loadData();
     } catch (e) {
       console.log(e.message);
     }

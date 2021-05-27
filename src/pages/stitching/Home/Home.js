@@ -256,6 +256,7 @@ function Home() {
             : machineID.map((item) => item.machineID),
           inputSHIFT
         );
+        console.log(x);
         dispatch({
           type: "WORKER_UTILIZATION",
           payload: { data: x.workerUtilization, loading: false },
@@ -289,7 +290,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
           dispatch({
@@ -307,7 +309,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeDateTable.detailedSummaryByViolation.violationSummary !==
@@ -328,7 +331,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeMachineTable.detailedSummaryByMachineId
@@ -351,7 +355,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr !==
@@ -577,6 +582,7 @@ function Home() {
             refreshData();
             setInputCTR([]);
             setInputMACHINEid([]);
+            setInputSHIFT([]);
           }}
         >
           <RefreshIcon />

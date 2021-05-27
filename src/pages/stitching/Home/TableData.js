@@ -126,10 +126,12 @@ function TableData({
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 // { title: "Machine Breakdown Hrs.", field: "scheduledHours" },
 
-                // {
-                //   title: "% Utilization",
-                //   field: "utilizationPercentage",
-                // },
+                {
+                  title: "% Utilization",
+                  field: "utilizationPercentage",
+                  render: (rowData) =>
+                    `${Math.round(rowData.utilizationPercentage)} %`,
+                },
                 { title: "Idle Hrs.", field: "idleHours" },
                 {
                   title: "Worker Unavailable Hrs.",

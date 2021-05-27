@@ -19,7 +19,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 
 function App(props) {
-  console.log(props);
+  // console.log(props);
   const { state, dispatch } = useContext(KPLContext);
   useEffect(() => {
     const ROLE = localStorage.getItem("ROLE");

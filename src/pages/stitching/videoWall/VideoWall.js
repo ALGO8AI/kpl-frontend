@@ -36,6 +36,7 @@ function VideoWall() {
   const loadData = async () => {
     try {
       const x = await videoWallStitching();
+      console.log(x);
       setVideos(x);
     } catch (err) {}
   };
@@ -100,8 +101,15 @@ function VideoWall() {
         </Alert>
       </Grid>
       {videos ? (
-        videos.map((x, index) => {
-          return <VideoTile data={x} key={index} />;
+        videos.data.map((x, index) => {
+          return (
+            <VideoTile
+              data={x}
+              key={index}
+              ctr={videos.currentCLPCTR}
+              supervisor={videos.supervisor}
+            />
+          );
         })
       ) : (
         <Loader />
