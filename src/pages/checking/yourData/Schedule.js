@@ -214,6 +214,20 @@ function Schedule(props) {
         </div>
       </Grid>
       <Grid item md={9} xs={12}>
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#0e4a7b",
+            color: "#FFF",
+            whiteSpace: "nowrap",
+            width: "100%",
+            height: "fit-content",
+            border: "1px solid #0e4a7b",
+          }}
+          onClick={copy}
+        >
+          COPY TABLE
+        </Button>
         <MaterialTable
           title="Schedule Information"
           columns={columns}
@@ -229,20 +243,6 @@ function Schedule(props) {
           }}
           style={{ width: "100%" }}
         />
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "#0e4a7b",
-            color: "#FFF",
-            whiteSpace: "nowrap",
-            width: "100%",
-            height: "fit-content",
-            border: "1px solid #0e4a7b",
-          }}
-          onClick={copy}
-        >
-          COPY
-        </Button>
       </Grid>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity}>

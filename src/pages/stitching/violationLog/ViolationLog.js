@@ -1220,6 +1220,16 @@ function ViolationLog1() {
                     },
                   },
                   {
+                    title: "Time",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(rowData.Date_Hour).format(
+                        "hh:mm a"
+                      );
+                      return NewDate;
+                    },
+                  },
+                  {
                     title: "Off Duration (Mins.)",
                     field: "OffMinutes",
                   },
