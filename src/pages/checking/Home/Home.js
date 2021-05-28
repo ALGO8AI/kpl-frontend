@@ -161,6 +161,7 @@ export default function Home() {
     try {
       if (state.workerUtilization.loading) {
         const y = await workerUtilizationData();
+        console.log(y);
         dispatch({
           type: "WORKER_UTILIZATION",
           payload: { data: y.workerUtilization, loading: false },
@@ -169,6 +170,7 @@ export default function Home() {
 
       if (state.crowdingInstance.loading) {
         const z = await crowdingInstanceCheckingData();
+        console.log(z);
         dispatch({
           type: "CROWDING_INSTANCE",
           payload: { data: z.crowdingInstancesData, loading: false },
@@ -177,6 +179,7 @@ export default function Home() {
 
       if (state.homeWorkerTable.loading) {
         const homeWorkerTable = await detailedSummaryByWorkerChecking();
+        console.log(homeWorkerTable);
         dispatch({
           type: "HOME_WORKER_TABLE",
           payload: {
@@ -188,6 +191,7 @@ export default function Home() {
 
       if (state.homeDateTable.loading) {
         const homeDateTable = await summaryByViolationData();
+        console.log(homeDateTable);
         dispatch({
           type: "HOME_DATE_TABLE",
           payload: {
@@ -199,6 +203,7 @@ export default function Home() {
 
       if (state.homeMachineTable.loading) {
         const homeMachineTable = await detailedSummaryByTableChecking();
+        console.log(homeMachineTable);
         dispatch({
           type: "HOME_MACHINE_TABLE",
           payload: {
@@ -210,6 +215,7 @@ export default function Home() {
 
       if (state.homeCTRTable.loading) {
         const homeCTRTable = await detailedSummaryByClpCtrChecking();
+        console.log(homeCTRTable);
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
@@ -254,8 +260,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
-          inputSHIFT
+            : machineID.map((item) => item.machineID)
+          // inputSHIFT
         );
         if (homeWorkerTable !== "no data") {
           dispatch({
@@ -273,8 +279,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
-          inputSHIFT
+            : machineID.map((item) => item.machineID)
+          // inputSHIFT
         );
         if (
           homeDateTable.detailedSummaryByViolation.violationSummary !==
@@ -295,8 +301,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
-          inputSHIFT
+            : machineID.map((item) => item.machineID)
+          // inputSHIFT
         );
         if (
           homeMachineTable.detailedSummaryByMachineId
@@ -319,8 +325,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
-          inputSHIFT
+            : machineID.map((item) => item.machineID)
+          // inputSHIFT
         );
         if (homeCTRTable !== "no data") {
           dispatch({

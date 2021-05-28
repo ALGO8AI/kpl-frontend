@@ -82,7 +82,7 @@ function TableData({
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
-                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
+                // { title: "Feed Unavailable Hrs.", field: "feedUnav" },
                 { title: "Worker Unavailable Hrs.", field: "workerUnav" },
                 // { title: "Shift", field: "shift" },
               ]}
@@ -108,7 +108,7 @@ function TableData({
                 { title: "Scheduled Hrs.", field: "scheduledHours" },
                 { title: "% Utilization", field: "utilizationPercentage" },
                 { title: "Idle Hrs.", field: "idleHours" },
-                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
+                // { title: "Feed Unavailable Hrs.", field: "feedUnav" },
                 { title: "Worker Unavailable Hrs.", field: "workerUnav" },
                 // { title: "Shift", field: "shift" },
               ]}
@@ -130,13 +130,13 @@ function TableData({
                   field: "utilizationPercentage",
                 },
                 { title: "Idle Hrs.", field: "idleHours" },
+                // {
+                //   title: "Feed Unavailable Hrs.",
+                //   field: "feedUnav",
+                // },
                 {
-                  title: "Feed Unavailable Hrs.",
-                  field: "feedUnav",
-                },
-                {
-                  title: "Feed Unavailable Hrs.",
-                  field: "feedUnav",
+                  title: "Worker Unavailable Hrs.",
+                  field: "workerUnav",
                 },
                 // { title: "Shift", field: "shift" },
               ]}
@@ -160,10 +160,10 @@ function TableData({
                   title: "Worker Unavailable Hrs.",
                   field: "WorkerUnavailableHours",
                 },
-                {
-                  title: "Feed Unavailable Hrs.",
-                  field: "feedUnavailableHours",
-                },
+                // {
+                //   title: "Feed Unavailable Hrs.",
+                //   field: "feedUnavailableHours",
+                // },
                 // { title: "Shift", field: "shift" },
               ]}
             />

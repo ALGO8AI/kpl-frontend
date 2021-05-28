@@ -287,15 +287,15 @@ const summaryByViolationData = async (
   fromDate,
   toDate,
   ctr,
-  machine,
-  shifts
+  machine
+  // shifts
 ) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    // shifts,
   };
   return await callBackend(
     "POST",
@@ -558,8 +558,8 @@ const detailedSummaryByWorkerChecking = async (
       data: {
         filterDateFrom: fromDate,
         filterDateTo: toDate,
-        tableId,
-        shifts,
+        // tableId,
+        // shifts,
       },
     };
 
@@ -583,8 +583,8 @@ const detailedSummaryByClpCtrChecking = async (
       data: {
         filterDateFrom: fromDate,
         filterDateTo: toDate,
-        tableId,
-        shifts,
+        // tableId,
+        // shifts,
       },
     };
 
@@ -608,8 +608,8 @@ const detailedSummaryByTableChecking = async (
       data: {
         filterDateFrom: fromDate,
         filterDateTo: toDate,
-        tableId,
-        shifts,
+        // tableId,
+        // shifts,
       },
     };
 
