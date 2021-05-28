@@ -543,7 +543,12 @@ const postMachineViolation = async (fromDate, toDate) => {
   } catch {}
 };
 
-const detailedSummaryByWorkerChecking = async (fromDate, toDate) => {
+const detailedSummaryByWorkerChecking = async (
+  fromDate,
+  toDate,
+  tableId,
+  shifts
+) => {
   try {
     var config = {
       method: "post",
@@ -553,6 +558,8 @@ const detailedSummaryByWorkerChecking = async (fromDate, toDate) => {
       data: {
         filterDateFrom: fromDate,
         filterDateTo: toDate,
+        tableId,
+        shifts,
       },
     };
 
@@ -561,7 +568,12 @@ const detailedSummaryByWorkerChecking = async (fromDate, toDate) => {
   } catch (e) {}
 };
 
-const detailedSummaryByClpCtrChecking = async (fromDate, toDate) => {
+const detailedSummaryByClpCtrChecking = async (
+  fromDate,
+  toDate,
+  tableId,
+  shifts
+) => {
   try {
     var config = {
       method: "post",
@@ -571,6 +583,8 @@ const detailedSummaryByClpCtrChecking = async (fromDate, toDate) => {
       data: {
         filterDateFrom: fromDate,
         filterDateTo: toDate,
+        tableId,
+        shifts,
       },
     };
 
@@ -579,7 +593,12 @@ const detailedSummaryByClpCtrChecking = async (fromDate, toDate) => {
   } catch (err) {}
 };
 
-const detailedSummaryByTableChecking = async (fromDate, toDate) => {
+const detailedSummaryByTableChecking = async (
+  fromDate,
+  toDate,
+  tableId,
+  shifts
+) => {
   try {
     var config = {
       method: "post",
@@ -589,6 +608,8 @@ const detailedSummaryByTableChecking = async (fromDate, toDate) => {
       data: {
         filterDateFrom: fromDate,
         filterDateTo: toDate,
+        tableId,
+        shifts,
       },
     };
 

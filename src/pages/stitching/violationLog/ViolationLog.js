@@ -334,6 +334,7 @@ function ViolationLog1() {
       }
       if (state.machine.loading) {
         const machineVio = await getMachineViolation();
+        console.log(machineVio);
         dispatch({
           type: "MACHINE_VIO",
           payload: {
@@ -562,7 +563,7 @@ function ViolationLog1() {
             />
           </Grid>
 
-          <Grid
+          {/* <Grid
             container
             item
             xs={12}
@@ -594,7 +595,7 @@ function ViolationLog1() {
                 <MenuItem value="B">B</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
 
           <Grid
             container

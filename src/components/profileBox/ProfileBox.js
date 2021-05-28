@@ -48,7 +48,7 @@ export default function ProfileBox({
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+      file && fileReader.readAsDataURL(file);
 
       fileReader.onload = () => {
         resolve(fileReader.result);
