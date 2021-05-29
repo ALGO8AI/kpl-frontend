@@ -162,7 +162,7 @@ function BagID() {
           </Button>
         </Grid>
         <Grid container item md={1}>
-          {bagData.respData && (
+          {!state.bagDataPrint.loading && (
             <Button
               variant="contained"
               style={{
