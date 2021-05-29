@@ -49,6 +49,10 @@ const initialState = {
     loading: true,
   },
   violationTab: 0,
+  bagDataPrint: {
+    data: [],
+    loading: true,
+  },
 };
 const CheckingContext = React.createContext(initialState);
 
@@ -102,6 +106,15 @@ let reducer = (state, action) => {
     }
     case "BAG-DATA": {
       return { ...state, bagData: action.payload };
+    }
+    case "BAG-DATA-PRINT": {
+      return {
+        ...state,
+        bagDataPrint: {
+          data: action.payload,
+          loading: false,
+        },
+      };
     }
     default:
       return;

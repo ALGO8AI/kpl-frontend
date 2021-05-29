@@ -1,5 +1,6 @@
 import React from "react";
 import BagID from "../BagID/BagID";
+import BarCodePrint from "../BagID/BarCodePrint";
 import Feedback from "../feedback/Feedback";
 import Home from "../Home/Home";
 import LayoutView from "../layoutView/LayoutView";
@@ -21,6 +22,7 @@ function Checking(props) {
     violationDetails: <ViolationDetails id={props.match.params.id} />,
     bagID: <BagID />,
     feedback: <Feedback />,
+    print: <BarCodePrint />,
   };
 
   const logout = () => {

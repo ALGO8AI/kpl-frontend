@@ -17,9 +17,11 @@ import React from "react";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { generateBagIds, getBagData } from "../../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import { useHistory } from "react-router-dom";
 
 function BagID() {
   const { state, dispatch } = React.useContext(CheckingContext);
+  const history = useHistory();
 
   const [bagData, setBagData] = React.useState({
     open: false,
@@ -33,6 +35,7 @@ function BagID() {
     try {
       const resp = await generateBagIds(bagData.lotSize, bagData.tableNo);
       console.log(resp);
+      dispatch({ type: "BAG-DATA-PRINT", payload: resp.data });
 
       setBagData({ ...bagData, open: true, respData: resp.data });
     } catch (err) {
@@ -158,6 +161,25 @@ function BagID() {
             ADD NEW
           </Button>
         </Grid>
+        <Grid container item md={1}>
+          {bagData.respData && (
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                width: "100%",
+                height: "fit-content",
+                border: "1px solid #0e4a7b",
+              }}
+              // onClick={() => window.print()}
+              onClick={() => history.push("/checking/print")}
+            >
+              PRINT
+            </Button>
+          )}
+        </Grid>
       </Grid>
       {state.bagData.loading ? (
         <>
@@ -271,7 +293,7 @@ function BagID() {
       ) : (
         <CircularProgress />
       )}
-      {bagData.respData && (
+      {!state.bagDataPrint.loading && (
         <Grid container item md={6} style={{ padding: "1rem" }}>
           <MaterialTable
             title="Bag Details"
@@ -286,7 +308,7 @@ function BagID() {
               },
               { title: "Date", field: "date" },
             ]}
-            data={bagData.respData}
+            data={state.bagDataPrint.data}
             options={{
               exportButton: true,
               pageSizeOptions: [20, 50, 100, 200],
