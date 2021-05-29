@@ -22,7 +22,7 @@ function Checking(props) {
     violationDetails: <ViolationDetails id={props.match.params.id} />,
     bagID: <BagID />,
     feedback: <Feedback />,
-    print: <BarCodePrint />,
+    // print: <BarCodePrint />,
   };
 
   const logout = () => {

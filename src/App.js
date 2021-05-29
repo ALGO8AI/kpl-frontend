@@ -17,6 +17,7 @@ import SignUp from "./pages/SignUp";
 import Blank from "./pages/Blank";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 
 function App(props) {
   // console.log(props);
@@ -44,6 +45,8 @@ function App(props) {
         <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />
         <AuthRoute exact path="/checking/:page" component={Checking} />
         <AuthRoute exact path="/checking/:page/:id" component={Checking} />
+        <AuthRoute exact path="/print" component={BarCodePrint} />
+
         <Redirect from="/stitching" to="/stitching/home" />
         <Redirect from="/checking" to="/checking/home" />
       </Switch>

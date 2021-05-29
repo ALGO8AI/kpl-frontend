@@ -1,6 +1,7 @@
 import { Button, Grid } from "@material-ui/core";
 import React from "react";
 import { CheckingContext } from "../../../context/CheckingContext";
+import "./BarCode.scss";
 
 function BarCodePrint() {
   const { state, dispatch } = React.useContext(CheckingContext);
@@ -55,8 +56,9 @@ function BarCodePrint() {
             height: "fit-content",
             border: "1px solid #0e4a7b",
           }}
-          //   onClick={() => window.print()}
-          onClick={() => printDiv("printBarCode")}
+          id="no-print"
+          onClick={() => window.print()}
+          //   onClick={() => printDiv("printBarCode")}
           //   onClick={() => history.push("/checking/print")}
         >
           PRINT

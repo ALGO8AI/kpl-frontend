@@ -174,7 +174,7 @@ function BagID() {
                 border: "1px solid #0e4a7b",
               }}
               // onClick={() => window.print()}
-              onClick={() => history.push("/checking/print")}
+              onClick={() => history.push("/print")}
             >
               PRINT
             </Button>
