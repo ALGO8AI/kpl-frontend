@@ -15,6 +15,7 @@ import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
+import { LayoutView } from '../layoutView/LayoutView';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -34,6 +35,9 @@ function TabPanel(props) {
       )}
     </div>
   );
+}
+const getRole = () => {
+  return localStorage.getItem('ROLE')
 }
 
 TabPanel.propTypes = {
@@ -90,6 +94,7 @@ function Setting() {
           <Tab label="Manage Roles" {...a11yProps(1)} />
 
           <Tab label=" Configurations" {...a11yProps(2)} />
+          {getRole() == 'admin' ? < Tab label=" Configurations" {...a11yProps(1)} />:null}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -104,6 +109,10 @@ function Setting() {
           <Typography variant="h2">Coming Soon</Typography>
         </div>
       </TabPanel>
+      {getRole() == 'admin' ?
+        <TabPanel value={value} index={1}>
+          <LayoutView />
+        </TabPanel> : null}
     </Grid>
   );
 }

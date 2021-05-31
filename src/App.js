@@ -6,13 +6,14 @@ import {
   useHistory,
 } from "react-router-dom";
 import React, { useContext, useEffect } from "react";
-
+import { Portal } from 'mobx-portals';
 import Login from "./pages/Login";
 import Menu from "./pages/Menu";
 import Stitching from "./pages/stitching/Stitching/Stitching";
 import { KPLContext } from "./context/ViolationContext";
 import AuthRoute from "./Auth/AuthRoute";
 import Checking from "./pages/checking/Checking/Checking";
+import {ViewDetails} from './pages/stitching/layoutView/viewDetails/viewDetails';
 import SignUp from "./pages/SignUp";
 import Blank from "./pages/Blank";
 import ForgetPassword from "./pages/ForgetPassword";
@@ -33,6 +34,7 @@ function App(props) {
     PROFILE && dispatch({ type: "ADD_PROFILE", payload: JSON.parse(PROFILE) });
   }, []);
   return (
+    <>
     <Router>
       <Switch>
         <Route exact path="/" component={Login} />
@@ -47,10 +49,13 @@ function App(props) {
         <AuthRoute exact path="/checking/:page/:id" component={Checking} />
         <AuthRoute exact path="/print" component={BarCodePrint} />
 
+        <AuthRoute path='/viewdetails/:cameraid' component={ViewDetails} />
         <Redirect from="/stitching" to="/stitching/home" />
         <Redirect from="/checking" to="/checking/home" />
       </Switch>
     </Router>
+     <Portal />
+     </>
   );
 }
 
