@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import * as Styles from "./Login.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
-import { ResetPassword } from "../services/api.service";
+import { getForgetPasswordLink, ResetPassword } from "../services/api.service";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 import Blank from "./Blank";
@@ -33,10 +33,11 @@ function ForgetPassword() {
   // states
   const [user, setUser] = useState({
     email: "",
-    password: "",
+    username: "",
   });
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState("");
+  const [severity, setSeverity] = useState("");
 
   const { dispatch } = React.useContext(KPLContext);
 
@@ -49,15 +50,22 @@ function ForgetPassword() {
     setOpen(false);
   };
 
-  // login function
-  // const submit = async () => {
-  //   try {
-  //     const resp = await ResetPassword(user.password, user.password);
-  //     console.log(resp);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const getLink = async (data) => {
+    try {
+      const resp = await getForgetPasswordLink(data);
+      console.log(resp);
+      setOpen(true);
+      setMsg(resp.data.msg);
+      setSeverity("success");
+      setTimeout(() => {
+        history.push("/");
+      }, 2500);
+    } catch (e) {
+      setOpen(true);
+      setMsg(e.message);
+      setSeverity("error");
+    }
+  };
 
   return (
     <>
@@ -76,18 +84,21 @@ function ForgetPassword() {
               <TextField
                 label="Email"
                 variant="outlined"
-                name="userId"
                 className={Styles.text}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
               />
-              {/* <TextField
-                label="Password"
+              <TextField
+                label="Username"
                 variant="outlined"
-                name="password"
                 className={Styles.text}
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
-              /> */}
-              <ColorButton variant="contained" onClick={() => {}}>
+                onChange={(e) => setUser({ ...user, username: e.target.value })}
+              />
+              <ColorButton
+                variant="contained"
+                onClick={() => {
+                  getLink(user);
+                }}
+              >
                 Get Password Reset Link
               </ColorButton>
               <Typography
@@ -108,7 +119,7 @@ function ForgetPassword() {
           </div>
         </Paper>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
+          <Alert onClose={handleClose} severity={severity}>
             {msg}
           </Alert>
         </Snackbar>

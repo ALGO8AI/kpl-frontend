@@ -573,6 +573,7 @@ function AlertAndNotification() {
               color="primary"
               inputProps={{ "aria-label": "secondary checkbox" }}
               onChange={(e) =>
+                // console.log(object)
                 setCrowding({
                   ...crowding,
                   alert: e.target.checked,

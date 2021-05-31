@@ -227,7 +227,12 @@ function BagID() {
                   fullWidth
                 />
               </Grid>
-              <Grid container item md={3} style={{ alignItems: "center" }}>
+              <Grid
+                container
+                item
+                md={3}
+                style={{ alignItems: "center", height: "min-content" }}
+              >
                 <Button
                   variant="contained"
                   style={{
