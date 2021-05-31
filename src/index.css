@@ -106,3 +106,16 @@ html {
 .custom-checkbox {
   margin: auto !important;
 }
+.MuiDataGrid-root .MuiDataGrid-columnsContainer {
+  background-color: #0e4a7b !important;
+  color: white !important;
+}
+/* .MuiSvgIcon-root {
+  fill: white !important;
+} */
+.MuiDataGrid-menuIcon button {
+  color: white !important;
+}
+.MuiDataGrid-iconButtonContainer button {
+  color: white !important;
+}
