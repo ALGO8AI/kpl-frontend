@@ -218,13 +218,40 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
               </Grid>
 
               <Grid item xs={12}>
-                <TextField
+                {/* <TextField
                   variant="outlined"
                   fullWidth
                   value={CTR.line}
                   onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
                   label="Line"
-                />
+                /> */}
+
+                <FormControl variant="outlined" fullWidth>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Line
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    label="Line"
+                    value={CTR.line}
+                    onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
+                    // value={ctrDrop && ctrDrop.data[0].resourceId}
+                  >
+                    <MenuItem value=""></MenuItem>
+                    {["U+1", "U+2", "Baffle"].map((item, i) => (
+                      <MenuItem value={item} key={i}>
+                        {item}
+                      </MenuItem>
+                    ))
+                    // ctrDrop.data.map((item, i) => (
+                    //   <MenuItem value={item.resourceId} key={i}>
+                    //     {item.resourceId}
+                    //   </MenuItem>
+                    // ))
+                    }
+                  </Select>
+                </FormControl>
               </Grid>
 
               <Grid item xs={12}>

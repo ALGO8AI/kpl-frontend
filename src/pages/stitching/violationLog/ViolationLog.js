@@ -47,7 +47,7 @@ function TabPanel(props) {
       {...other}
       style={{
         // marginTop: "8px",
-        maxHeight: "50vh",
+        maxHeight: "90vh",
         overflow: "scroll",
       }}
     >

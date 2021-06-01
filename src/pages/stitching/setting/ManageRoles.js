@@ -216,6 +216,8 @@ function ManageRoles() {
 
   return (
     <>
+      {/* <Grid container> */}
+      {/* <Grid container item md={12}> */}
       <MaterialTable
         title="Manage Roles"
         columns={columns}
@@ -229,8 +231,9 @@ function ManageRoles() {
           pageSizeOptions: [20, 50, 100, 200],
           pageSize: 20,
         }}
-        style={{ marginTop: "50px" }}
+        style={{ marginTop: "50px", width: "100%" }}
       />
+      {/* </Grid> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -887,6 +890,7 @@ function ManageRoles() {
           </Alert>
         </Snackbar>
       </Grid> */}
+      {/* </Grid> */}
     </>
   );
 }

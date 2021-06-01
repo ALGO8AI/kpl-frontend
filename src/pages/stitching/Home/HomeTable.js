@@ -29,7 +29,7 @@ function HomeTable({ data, column }) {
         //   }}
         // />
 
-        <div style={{ width: "100%", height: "500px" }}>
+        <div style={{ width: "100%", minHeight: "900px" }}>
           <DataGrid
             components={{
               Toolbar: GridToolbar,

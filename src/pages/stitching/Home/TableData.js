@@ -79,10 +79,6 @@ function TableData({
               data={homeWorkerTable.map((row, i) => {
                 const { workerId, ...rest } = row;
                 return { id: workerId, ...rest };
-                // return {
-                //   id: 1,
-                //   ...row,
-                // };
               })}
               column={[
                 { field: "id", headerName: "Worker ID", width: 210 },
