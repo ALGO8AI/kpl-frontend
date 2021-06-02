@@ -75,13 +75,13 @@ export const Camera = observer((props) => {
     setOpen(false);
   };
 
-  // const onViewDetails = () => {
-  //     if (store.Role == 'admin') {
-  //         history.push(`/annotation/${details.cameraId}`);
-  //     } else {
-  //         history.push(`/viewdetails/${details.cameraId}`);
-  //     }
-  // }
+  const onViewDetails = () => {
+    if (store.Role == "admin") {
+      history.push(`/annotation/${details.cameraId}`);
+    } else {
+      history.push(`/viewdetails/${details.cameraId}`);
+    }
+  };
 
   const prevOpen = React.useRef(open);
   useEffect(() => {
@@ -133,11 +133,7 @@ export const Camera = observer((props) => {
                           <span>Mechine ID</span> : 1234{" "}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                          <span
-                          //   onClick={onViewDetails}
-                          >
-                            View Details
-                          </span>
+                          <span onClick={onViewDetails}>View Details</span>
                         </Typography>
                       </CardContent>
                     </div>

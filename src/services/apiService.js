@@ -3,7 +3,7 @@ import { observable, action, computed } from "mobx";
 
 export class ApiService {
   Isloading = false;
-  BaseUrl = "http://3.23.114.42:3002";
+  BaseUrl = "http://3.23.114.42:3000";
 
   constructor() {}
 

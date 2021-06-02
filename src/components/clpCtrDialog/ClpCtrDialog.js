@@ -239,7 +239,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     // value={ctrDrop && ctrDrop.data[0].resourceId}
                   >
                     <MenuItem value=""></MenuItem>
-                    {["U+1", "U+2", "Baffle"].map((item, i) => (
+                    {["U+2", "Baffle", "Circular", "Two Row"].map((item, i) => (
                       <MenuItem value={item} key={i}>
                         {item}
                       </MenuItem>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import "./alertAndNotification.scss";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import EmailIcon from "@material-ui/icons/Email";
@@ -565,7 +566,7 @@ function AlertAndNotification() {
             <Grid xs={12} item style={{ marginBottom: "12px" }}></Grid>
             Crowding
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <Checkbox
               value={crowding.alert}
               checked={crowding.alert}
@@ -580,6 +581,25 @@ function AlertAndNotification() {
                 })
               }
             />
+          </Grid> */}
+          <Grid className="custom-checkbox" item xs={2}>
+            <label className="NotificationBadge">
+              <input
+                type="checkbox"
+                value={crowding.alert}
+                checked={crowding.alert}
+                onChange={(e) =>
+                  // console.log(object)
+                  setCrowding({
+                    ...crowding,
+                    alert: e.target.checked,
+                  })
+                }
+              />
+              <span class="label">
+                <NotificationsActiveIcon />
+              </span>
+            </label>
           </Grid>
 
           <Grid container item xs={2}>
@@ -668,7 +688,7 @@ function AlertAndNotification() {
           <Grid item xs={2}>
             Worker Idle
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <Checkbox
               value={workerIdle.alert}
               checked={workerIdle.alert}
@@ -682,6 +702,25 @@ function AlertAndNotification() {
                 })
               }
             />
+          </Grid> */}
+          <Grid className="custom-checkbox" item xs={2}>
+            <label className="NotificationBadge">
+              <input
+                type="checkbox"
+                value={workerIdle.alert}
+                checked={workerIdle.alert}
+                name="alertCrowding"
+                onChange={(e) =>
+                  setWorkerIdle({
+                    ...workerIdle,
+                    alert: e.target.checked,
+                  })
+                }
+              />
+              <span class="label">
+                <NotificationsActiveIcon />
+              </span>
+            </label>
           </Grid>
 
           <Grid item xs={2}>
@@ -772,7 +811,7 @@ function AlertAndNotification() {
           <Grid item xs={2}>
             Feed Availability
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <Checkbox
               value={feed.alert}
               checked={feed.alert}
@@ -786,6 +825,26 @@ function AlertAndNotification() {
                 })
               }
             />
+          </Grid> */}
+
+          <Grid className="custom-checkbox" item xs={2}>
+            <label className="NotificationBadge">
+              <input
+                type="checkbox"
+                value={feed.alert}
+                checked={feed.alert}
+                name="alertCrowding"
+                onChange={(e) =>
+                  setFeed({
+                    ...feed,
+                    alert: e.target.checked,
+                  })
+                }
+              />
+              <span class="label">
+                <NotificationsActiveIcon />
+              </span>
+            </label>
           </Grid>
 
           <Grid item xs={2}>
@@ -865,7 +924,7 @@ function AlertAndNotification() {
           <Grid item xs={2}>
             Machine Breakdown
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <Checkbox
               value={machineBreak.alert}
               checked={machineBreak.alert}
@@ -879,6 +938,26 @@ function AlertAndNotification() {
                 })
               }
             />
+          </Grid> */}
+
+          <Grid className="custom-checkbox" item xs={2}>
+            <label className="NotificationBadge">
+              <input
+                type="checkbox"
+                value={machineBreak.alert}
+                checked={machineBreak.alert}
+                name="alertCrowding"
+                onChange={(e) =>
+                  setMachineBreak({
+                    ...machineBreak,
+                    alert: e.target.checked,
+                  })
+                }
+              />
+              <span class="label">
+                <NotificationsActiveIcon />
+              </span>
+            </label>
           </Grid>
 
           <Grid item xs={2}>
@@ -969,7 +1048,7 @@ function AlertAndNotification() {
           <Grid item xs={2}>
             Active Monitoring
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <Checkbox
               value={activeMonitor.alert}
               checked={activeMonitor.alert}
@@ -983,6 +1062,25 @@ function AlertAndNotification() {
                 })
               }
             />
+          </Grid> */}
+          <Grid className="custom-checkbox" item xs={2}>
+            <label className="NotificationBadge">
+              <input
+                type="checkbox"
+                value={activeMonitor.alert}
+                checked={activeMonitor.alert}
+                name="alertCrowding"
+                onChange={(e) =>
+                  setactiveMonitor({
+                    ...activeMonitor,
+                    alert: e.target.checked,
+                  })
+                }
+              />
+              <span class="label">
+                <NotificationsActiveIcon />
+              </span>
+            </label>
           </Grid>
 
           <Grid item xs={2}>
