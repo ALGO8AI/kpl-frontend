@@ -20,32 +20,8 @@ function BarCodePrint() {
   };
 
   return (
-    <Grid container style={{ padding: "24px" }}>
-      <Grid
-        container
-        item
-        md={4}
-        id="printBarCode"
-        ref={print}
-        style={{ display: "flex", flexDirection: "column", width: "192px" }}
-      >
-        {state.bagDataPrint.data.map((item) => (
-          <div
-            style={{ width: "377px", height: "188px", marginBottom: "24px" }}
-          >
-            <img
-              style={{ width: "100%", height: "100%" }}
-              key={item.bagId}
-              src={item.barcode}
-              alt={item.bagId}
-            />
-          </div>
-        ))}
-      </Grid>
-      <Grid
-        container
-        item
-        md={4}
+    <div container style={{ padding: "24px" }}>
+      <div
         style={{ display: "flex", flexDirection: "column", padding: "1.5rem" }}
       >
         <Button
@@ -65,8 +41,32 @@ function BarCodePrint() {
         >
           PRINT
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+      <div
+        container
+        item
+        id="printBarCode"
+        ref={print}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "377px",
+          height: "188px",
+        }}
+      >
+        {state.bagDataPrint.data.map((item) => (
+          <div style={{ width: "377px", height: "auto", marginBottom: "32px" }}>
+            <img
+              style={{ width: "100%", height: "188px" }}
+              key={item.bagId}
+              src={item.barcode}
+              alt={item.bagId}
+            />
+            <p style={{ pageBreakBefore: "always" }}></p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
