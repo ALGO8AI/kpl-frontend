@@ -390,7 +390,8 @@ function DonutChart(props) {
           style={{
             margin: "auto",
             position: "relative",
-            left: "25%",
+            textAlign: "center",
+
             color: "#f68f1d",
           }}
         >
@@ -405,7 +406,8 @@ function DonutChart(props) {
           style={{
             margin: "auto",
             position: "relative",
-            left: "25%",
+            textAlign: "center",
+
             color: "#f68f1d",
           }}
         >

@@ -397,7 +397,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
           variant="outlined"
@@ -433,7 +433,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
           variant="outlined"
@@ -471,7 +471,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <TextField
           key="from"
@@ -495,7 +495,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <TextField
           key="to"
@@ -519,7 +519,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
           variant="outlined"
@@ -552,7 +552,7 @@ function Home() {
         xs={6}
         sm={4}
         lg={1}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
           variant="contained"
@@ -571,7 +571,7 @@ function Home() {
         xs={6}
         sm={4}
         lg={1}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
           variant="contained"

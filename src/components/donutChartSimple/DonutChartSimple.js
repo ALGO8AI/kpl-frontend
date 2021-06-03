@@ -301,8 +301,9 @@ function DonutChartSimple({ data, payload_data, link }) {
           style={{
             margin: "auto",
             position: "relative",
-            left: "25%",
+            // left: "25%",
             color: "#f68f1d",
+            textAlign: "center",
           }}
         >
           Total Scheduled Hours{" "}
@@ -316,7 +317,8 @@ function DonutChartSimple({ data, payload_data, link }) {
           style={{
             margin: "auto",
             position: "relative",
-            left: "25%",
+            // left: "25%",
+            textAlign: "center",
             color: "#f68f1d",
           }}
         >

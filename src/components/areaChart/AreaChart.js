@@ -193,7 +193,8 @@ function AreaChart(props) {
         style={{
           margin: "auto",
           position: "relative",
-          left: "25%",
+          textAlign: "center",
+
           color: "#f68f1d",
         }}
       >
@@ -207,7 +208,8 @@ function AreaChart(props) {
         style={{
           margin: "auto",
           position: "relative",
-          left: "25%",
+          textAlign: "center",
+
           color: "#f68f1d",
         }}
       >

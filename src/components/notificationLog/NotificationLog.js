@@ -4,9 +4,21 @@ import MaterialTable from "material-table";
 import moment from "moment";
 import React from "react";
 import { getNotificationLog } from "../../services/api.service";
+import { LinearProgress, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 function NotificationLog() {
-  const [data, setData] = React.useState();
+  const classes = useStyles();
+
+  const [data, setData] = React.useState([]);
 
   const getLogs = async () => {
     try {
@@ -39,8 +51,8 @@ function NotificationLog() {
 
   return (
     <Grid container>
-      {data && (
-        <Grid containe item xs={12} style={{ height: "700px", width: "100%" }}>
+      {data.length > 0 ? (
+        <Grid container item xs={12} style={{ height: "700px", width: "100%" }}>
           <DataGrid
             components={{
               Toolbar: GridToolbar,
@@ -60,6 +72,16 @@ function NotificationLog() {
             style={{ width: "100%" }}
           />
         </Grid>
+      ) : (
+        <div
+          container
+          item
+          xs={12}
+          style={{ width: "100%", padding: "12px", margin: "12px 0" }}
+          className={classes.root}
+        >
+          <LinearProgress />
+        </div>
       )}
     </Grid>
   );
