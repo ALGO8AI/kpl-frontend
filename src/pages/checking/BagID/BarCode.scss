@@ -2,4 +2,22 @@
   #no-print {
     display: none;
   }
+
+  @page {
+    size: 10cm 5cm;
+    // size: landscape;
+  }
+  .page-break {
+    display: block;
+    page-break-before: always;
+    clear: both;
+  }
 }
+@media all {
+  .page-break {
+    display: none;
+  }
+}
+
+// @media print {
+// }

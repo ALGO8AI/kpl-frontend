@@ -551,7 +551,8 @@ const detailedSummaryByWorkerChecking = async (
   try {
     var config = {
       method: "post",
-      url: "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByWorker",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByWorker",
       headers: {},
       data: {
         filterDateFrom: fromDate,
@@ -575,7 +576,8 @@ const detailedSummaryByClpCtrChecking = async (
   try {
     var config = {
       method: "post",
-      url: "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByClpCtr",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByClpCtr",
       headers: {},
       data: {
         filterDateFrom: fromDate,
@@ -599,7 +601,8 @@ const detailedSummaryByTableChecking = async (
   try {
     var config = {
       method: "post",
-      url: "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByTable",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByTable",
       headers: {},
       data: {
         filterDateFrom: fromDate,
@@ -718,6 +721,16 @@ const getForgetPasswordLink = async (data) => {
   return await axios(config);
 };
 
+const getNotificationLog = async () => {
+  var config = {
+    method: "post",
+    url: "http://3.23.114.42:8081/routes/yourData/notificationLog",
+    headers: {},
+  };
+
+  return await axios(config);
+};
+
 export {
   login,
   getViolation,
@@ -781,6 +794,5 @@ export {
   getCheckingSchedule,
   updateCheckingWorkerSchedule,
   getForgetPasswordLink,
+  getNotificationLog,
 };
-
-

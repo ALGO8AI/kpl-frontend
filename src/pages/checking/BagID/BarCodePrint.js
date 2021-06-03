@@ -56,6 +56,8 @@ function BarCodePrint() {
       >
         {state.bagDataPrint.data.map((item) => (
           <div style={{ width: "377px", height: "auto", marginBottom: "32px" }}>
+            <p style={{ pageBreakBefore: "always" }}></p>
+
             <img
               style={{ width: "100%", height: "188px" }}
               key={item.bagId}
