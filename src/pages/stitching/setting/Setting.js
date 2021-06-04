@@ -13,30 +13,35 @@ import Box from "@material-ui/core/Box";
 import "./Setting.scss";
 import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
-import { LayoutView } from '../layoutView/LayoutView';
+import ManageRoles from "./ManageRoles";
+import AddUser from "./AddUser";
+import { LayoutView } from "../layoutView/LayoutView";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Grid
+      container
+      item
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      // style={{ width: "100%" }}
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Grid container item>
+          {children}
+        </Grid>
       )}
-    </div>
+    </Grid>
   );
 }
 const getRole = () => {
-  return localStorage.getItem('ROLE')
-}
+  return localStorage.getItem("ROLE");
+};
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -81,7 +86,7 @@ function Setting() {
     setZone(event.target.value);
   };
   return (
-    <Grid xs={12} container style={{ padding: "1rem" }}>
+    <Grid xs={12} md={12} item style={{ padding: "1rem" }}>
       <AppBar position="static" className="customTab">
         <Tabs
           value={value}
@@ -89,16 +94,32 @@ function Setting() {
           aria-label="simple tabs example"
         >
           <Tab label="Alert and Notification" {...a11yProps(0)} />
-          {getRole() == 'admin' ? < Tab label=" Configurations" {...a11yProps(1)} />:null}
+          <Tab label="Manage Roles" {...a11yProps(1)} />
+
+          <Tab label=" Configurations" {...a11yProps(2)} />
+          {/* {getRole() == "admin" ? (
+            <Tab label=" Configurations" {...a11yProps(1)} />
+          ) : null} */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <AlertAndNotification />
       </TabPanel>
-      {getRole() == 'admin' ?
-        <TabPanel value={value} index={1}>
-          <LayoutView />
-        </TabPanel> : null}
+      <TabPanel value={value} index={1}>
+        <Grid container item xs={12}>
+          <ManageRoles />
+        </Grid>
+        <AddUser />
+      </TabPanel>
+      {/* <TabPanel value={value} index={2}>
+        <div className="overlay">
+          <Typography variant="h2">Coming Soon</Typography>
+        </div>
+      </TabPanel> */}
+
+      <TabPanel value={value} index={2}>
+        <LayoutView />
+      </TabPanel>
     </Grid>
   );
 }

@@ -80,9 +80,12 @@ function AddUser() {
     };
     try {
       console.log(DATA);
-      const x = await AddNewUser(DATA);
-      console.log(x);
-      alert(x.message);
+      var txt = window.confirm("User will be added, continue?");
+      if (txt) {
+        const x = await AddNewUser(DATA);
+        console.log(x);
+        alert(x.message);
+      }
     } catch (err) {
       console.log(err.message);
     }
@@ -180,7 +183,6 @@ function AddUser() {
                 label="Email"
                 variant="outlined"
                 value={data.email}
-                // size="small"
                 onChange={(e) => setData({ ...data, email: e.target.value })}
               />
             </Grid>
@@ -424,11 +426,11 @@ function AddUser() {
             </Grid>
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -446,17 +448,17 @@ function AddUser() {
                   />
                 }
                 label="Accessibility Cutting"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -474,17 +476,17 @@ function AddUser() {
                   />
                 }
                 label="Accessibility Stitching"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -502,7 +504,7 @@ function AddUser() {
                   />
                 }
                 label="Accessibility Checking"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
@@ -521,11 +523,11 @@ function AddUser() {
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -543,17 +545,17 @@ function AddUser() {
                   />
                 }
                 label="Shift A"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={4}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -571,7 +573,7 @@ function AddUser() {
                   />
                 }
                 label="Shift B"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
             <Grid
@@ -589,11 +591,11 @@ function AddUser() {
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -611,17 +613,17 @@ function AddUser() {
                   />
                 }
                 label="Machine Breakdown"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -639,17 +641,17 @@ function AddUser() {
                   />
                 }
                 label="Feed Unavailability"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -667,17 +669,17 @@ function AddUser() {
                   />
                 }
                 label="Worker Not Available"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -695,17 +697,17 @@ function AddUser() {
                   />
                 }
                 label="Crowding"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
 
             <Grid
               item
-              xs={6}
+              xs={12}
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                // justifyContent: "center",
               }}
             >
               <FormControlLabel
@@ -723,7 +725,7 @@ function AddUser() {
                   />
                 }
                 label="Checker Active Monitoring"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </Grid>
           </Grid>

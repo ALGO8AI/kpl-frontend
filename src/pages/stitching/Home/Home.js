@@ -13,6 +13,7 @@ import {
   ClpCtrData,
   crowdingInstanceData,
   ctr_machineID,
+  detailedSummaryByClpCtrChecking,
   homepageData,
   machineBreakdownData,
   machineData,
@@ -41,6 +42,7 @@ function Home() {
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
+  const [inputSHIFT, setInputSHIFT] = useState([]);
 
   // Functions
 
@@ -225,11 +227,12 @@ function Home() {
       }
 
       if (state.homeCTRTable.loading) {
-        const homeCTRTable = await ClpCtrData();
+        const homeCTRTable = await detailedSummaryByClpCtrChecking();
+        console.log(homeCTRTable);
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
-            data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+            data: homeCTRTable,
             loading: false,
           },
         });
@@ -250,8 +253,10 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
+        console.log(x);
         dispatch({
           type: "WORKER_UTILIZATION",
           payload: { data: x.workerUtilization, loading: false },
@@ -270,7 +275,8 @@ function Home() {
           state.to,
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
 
         dispatch({
@@ -284,7 +290,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
           dispatch({
@@ -302,7 +309,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeDateTable.detailedSummaryByViolation.violationSummary !==
@@ -323,7 +331,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeMachineTable.detailedSummaryByMachineId
@@ -346,7 +355,8 @@ function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr !==
@@ -387,7 +397,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
           variant="outlined"
@@ -423,7 +433,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
           variant="outlined"
@@ -461,7 +471,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <TextField
           key="from"
@@ -485,7 +495,7 @@ function Home() {
         xs={12}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <TextField
           key="to"
@@ -506,11 +516,43 @@ function Home() {
       <Grid
         container
         item
+        xs={12}
+        sm={4}
+        lg={2}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
+      >
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginRight: "6px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Shift</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            multiple
+            value={inputSHIFT}
+            onChange={(e) => setInputSHIFT(e.target.value)}
+            label="Shift"
+            // multiple
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="A">A</MenuItem>
+            <MenuItem value="B">B</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+
+      <Grid
+        container
+        item
         // sm={12}
         xs={6}
         sm={4}
-        lg={2}
-        style={{ justifyContent: "center" }}
+        lg={1}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
           variant="contained"
@@ -528,8 +570,8 @@ function Home() {
         // sm={12}
         xs={6}
         sm={4}
-        lg={2}
-        style={{ justifyContent: "center" }}
+        lg={1}
+        style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
           variant="contained"
@@ -540,6 +582,7 @@ function Home() {
             refreshData();
             setInputCTR([]);
             setInputMACHINEid([]);
+            setInputSHIFT([]);
           }}
         >
           <RefreshIcon />
@@ -561,8 +604,8 @@ function Home() {
               <Loader />
             ) : (
               <DonutChartSimple
-                data={state.machineUtilization.data}
-                payload_data={0}
+                data={state.machineUtilization?.data}
+                payload_data={4}
                 link={"/stitching/violationLog"}
               />
             )}

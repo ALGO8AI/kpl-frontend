@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
-
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import Typography from "@material-ui/core/Typography";
 
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -18,6 +19,8 @@ import {
   crowdingViolation,
   violationByWorkerF,
   ctr_machineID,
+  getMachineViolation,
+  postMachineViolation,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -26,6 +29,7 @@ import * as moment from "moment";
 import { AppBar, InputLabel, Tab, Tabs } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
 import { StitchingContext } from "../../../context/StitchingContext";
+
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
 
 function TabPanel(props) {
@@ -33,7 +37,7 @@ function TabPanel(props) {
 
   return (
     <Grid
-      spacing={2}
+      // spacing={2}
       container
       item
       role="tabpanel"
@@ -42,8 +46,8 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
       style={{
-        marginTop: "8px",
-        maxHeight: "50vh",
+        // marginTop: "8px",
+        maxHeight: "90vh",
         overflow: "scroll",
       }}
     >
@@ -85,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 function ViolationLog1() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
+
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
   const [link, setLink] = React.useState("");
@@ -141,6 +146,15 @@ function ViolationLog1() {
         payload: { data: feed.feedUnavailableData, loading: false },
       });
 
+      const machineVio = await getMachineViolation();
+      dispatch({
+        type: "MACHINE_VIO",
+        payload: {
+          data: machineVio.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
+
       const crowd = await crowdingViolation();
       // state.violationFrom,
       // state.violationTo
@@ -182,13 +196,29 @@ function ViolationLog1() {
 
   const dateFilter = async () => {
     try {
+      const machineViolation = await getMachineViolation(
+        state.violationFrom,
+        state.violationTo,
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
+      );
+      dispatch({
+        type: "MACHINE_VIO",
+        payload: {
+          data: machineViolation.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
       const feed = await feedUnavailableViolation(
         state.violationFrom,
         state.violationTo,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (feed.feedUnavailableData !== "no data") {
         dispatch({
@@ -208,7 +238,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (crowd.crowdingData !== "no data") {
         dispatch({
@@ -228,7 +259,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (worker.workerUnavailableDurationData !== "no data") {
         dispatch({
@@ -254,7 +286,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
       );
       if (by_worker.violationByWorkerData !== "no data") {
         dispatch({
@@ -280,6 +313,7 @@ function ViolationLog1() {
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
+  const [inputSHIFT, setInputSHIFT] = useState([]);
 
   const load_ctr_machine = async () => {
     try {
@@ -296,6 +330,17 @@ function ViolationLog1() {
         dispatch({
           type: "FEED_VIO",
           payload: { data: feed.feedUnavailableData, loading: false },
+        });
+      }
+      if (state.machine.loading) {
+        const machineVio = await getMachineViolation();
+        console.log(machineVio);
+        dispatch({
+          type: "MACHINE_VIO",
+          payload: {
+            data: machineVio.machineBreakdownViolationtable,
+            loading: false,
+          },
         });
       }
 
@@ -522,7 +567,41 @@ function ViolationLog1() {
             container
             item
             xs={12}
-            md={2}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+                // multiple
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="A">A</MenuItem>
+                <MenuItem value="B">B</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={12}
+            md={1}
             style={{ justifyContent: "center" }}
           >
             <Button
@@ -531,6 +610,7 @@ function ViolationLog1() {
               style={{ margin: "10px" }}
               onClick={dateFilter}
             >
+              <FilterListIcon />
               Filter
             </Button>
           </Grid>
@@ -539,15 +619,21 @@ function ViolationLog1() {
             container
             item
             xs={12}
-            md={2}
+            md={1}
             style={{ justifyContent: "center" }}
           >
             <Button
               variant="contained"
               color="primary"
               style={{ margin: "10px" }}
-              onClick={refreshData}
+              onClick={() => {
+                refreshData();
+                setInputCTR([]);
+                setInputMACHINEid([]);
+                setInputSHIFT([]);
+              }}
             >
+              <RefreshIcon />
               Refresh
             </Button>
           </Grid>
@@ -712,92 +798,103 @@ function ViolationLog1() {
               <Tab label="Crowding Violation" {...a11yProps(1)} />
               <Tab label="Worker Violation" {...a11yProps(2)} />
               <Tab label="Worker Performance" {...a11yProps(3)} />
+              <Tab label="Machine Violation" {...a11yProps(4)} />
             </Tabs>
           </AppBar>
 
           <TabPanel value={tabValue} index={0}>
-            <ViolationTable
-              data={state.feed.data}
-              rowClick={rowClick}
-              selectedRow={selectedRow}
-              columns={[
-                {
-                  field: "view",
-                  title: "Details",
-                  render: (rowData) => (
-                    <Link
-                      to={`/stitching/violationDetails/${rowData.Id}`}
-                      className={`${
-                        rowData.query === "Not Resolved"
-                          ? "Link-btn-red"
-                          : "Link-btn-green"
-                      }`}
-                      onClick={localStorage.setItem(
-                        "VIOLATION",
-                        "feedUnavailable"
-                      )}
-                    >
-                      View
-                    </Link>
-                  ),
-                },
-                { title: "Violation ID", field: "Id" },
-                // {
-                //   title: "Status",
-                //   field: "query",
-                //   render: (rowData) => {
-                //     return rowData.query === "Not Resolved" ? (
-                //       <p
-                //         style={{
-                //           color: "rgb(249, 54, 54)",
-                //           backgroundColor: "rgba(249, 54, 54,0.2)",
-                //           padding: "4px 8px",
-                //           borderRadius: "4px",
-                //         }}
-                //       >
-                //         Not Resolved
-                //       </p>
-                //     ) : (
-                //       <p
-                //         style={{
-                //           color: "rgb(74, 170, 22)",
-                //           backgroundColor: "rgba(74, 170, 22,0.2)",
-                //           padding: "4px 8px",
-                //           borderRadius: "4px",
-                //         }}
-                //       >
-                //         Resolved
-                //       </p>
-                //     );
-                //   },
-                // },
-                {
-                  title: "Date",
-                  field: "DateTime",
-                  render: (rowData) => {
-                    const NewDate = moment(new Date(rowData.DateTime))
-                      .format("DD/MM/YYYY")
-                      .toString();
-                    return NewDate;
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                data={state.feed.data}
+                rowClick={rowClick}
+                selectedRow={selectedRow}
+                columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Feed Unavailable"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
                   },
-                },
-                { title: "Worker Name", field: "workerName" },
-                { title: "Worker ID", field: "WorkerID" },
+                  { title: "Violation ID", field: "Id" },
+                  // {
+                  //   title: "Status",
+                  //   field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
+                  {
+                    title: "Date",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(new Date(rowData.DateTime))
+                        .format("DD/MM/YYYY")
+                        .toString();
+                      return NewDate;
+                    },
+                  },
+                  { title: "Worker Name", field: "workerName" },
+                  { title: "Worker ID", field: "WorkerID" },
 
-                {
-                  title: "Unavailable (Min.)",
-                  field: "UnavailableDuration",
-                },
-                { title: "Start Time", field: "StartTime" },
+                  {
+                    title: "Unavailable (Min.)",
+                    field: "UnavailableDuration",
+                  },
+                  { title: "Start Time", field: "StartTime" },
 
-                { title: "End Time", field: "EndTime" },
-                { title: "Feed ID", field: "FeedID" },
+                  { title: "End Time", field: "EndTime" },
+                  { title: "Feed ID", field: "FeedID" },
 
-                { title: "Machine ID", field: "MachineID" },
+                  { title: "Machine ID", field: "MachineID" },
 
-                { title: "Wing", field: "Wing" },
-              ]}
-            />
+                  { title: "Wing", field: "Wing" },
+                  { title: "Shift", field: "shift" },
+                ]}
+              />
+            </Grid>
           </TabPanel>
 
           <TabPanel value={tabValue} index={1}>
@@ -807,6 +904,33 @@ function ViolationLog1() {
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Crowding Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
+                  },
                   { title: "Violation ID", field: "Id" },
                   // {
                   //   title: "Status",
@@ -836,35 +960,35 @@ function ViolationLog1() {
                   //   );
                   // },
                   // },
-                  {
-                    title: "Status",
-                    // field: "query",
-                    render: (rowData) => {
-                      return rowData.query === "Not Resolved" ? (
-                        <p
-                          style={{
-                            color: "rgb(249, 54, 54)",
-                            backgroundColor: "rgba(249, 54, 54,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Not Resolved
-                        </p>
-                      ) : (
-                        <p
-                          style={{
-                            color: "rgb(74, 170, 22)",
-                            backgroundColor: "rgba(74, 170, 22,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Resolved
-                        </p>
-                      );
-                    },
-                  },
+                  // {
+                  //   title: "Status",
+                  //   // field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
                   { title: "Camera ID", field: "CamID" },
 
                   {
@@ -888,6 +1012,7 @@ function ViolationLog1() {
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -910,7 +1035,17 @@ function ViolationLog1() {
                             ? "Link-btn-red"
                             : "Link-btn-green"
                         }`}
-                        onClick={localStorage.setItem("VIOLATION", "worker")}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "worker");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Worker Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
                       >
                         View
                       </Link>
@@ -989,12 +1124,13 @@ function ViolationLog1() {
                   { title: "Start Time", field: "startTime" },
                   { title: "End Time", field: "endTime" },
                   { title: "Machine ID", field: "machineId" },
-                  { title: "Wing", field: "wing" },
 
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
                   },
+                  { title: "Wing", field: "wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -1021,6 +1157,90 @@ function ViolationLog1() {
                   {
                     title: "Worker N/A Duration(Hrs.)",
                     field: "workerUnavailableViolationDuration",
+                  },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+          <TabPanel value={tabValue} index={4}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                // title=""
+                data={state.machine.data}
+                rowClick={rowClick}
+                columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.Id}`}
+                        className={"Link-btn-red"}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Machine Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
+                  },
+                  {
+                    title: "Violation Id",
+                    field: "Id",
+                  },
+                  {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
+                  {
+                    title: "Worker Id",
+                    field: "workerId",
+                  },
+
+                  {
+                    title: "Machine Id",
+                    field: "machineId",
+                  },
+                  {
+                    title: "Date",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(new Date(rowData.Date_Hour))
+                        .format("DD/MM/YYYY")
+                        .toString();
+                      return NewDate;
+                    },
+                  },
+                  {
+                    title: "Time",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(rowData.Date_Hour).format(
+                        "hh:mm a"
+                      );
+                      return NewDate;
+                    },
+                  },
+                  {
+                    title: "Off Duration (Mins.)",
+                    field: "OffMinutes",
+                  },
+
+                  {
+                    title: "Wing",
+                    field: "wing",
+                  },
+                  {
+                    title: "Shift",
+                    field: "shift",
                   },
                 ]}
               />

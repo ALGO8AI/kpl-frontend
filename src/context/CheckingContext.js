@@ -29,6 +29,13 @@ const initialState = {
   },
   violationFrom: null,
   violationTo: null,
+  bagIdFrom: null,
+  bagIdTo: null,
+
+  bagData: {
+    data: "",
+    loading: false,
+  },
   crowd: {
     data: [],
     loading: true,
@@ -42,6 +49,10 @@ const initialState = {
     loading: true,
   },
   violationTab: 0,
+  bagDataPrint: {
+    data: [],
+    loading: true,
+  },
 };
 const CheckingContext = React.createContext(initialState);
 
@@ -86,6 +97,24 @@ let reducer = (state, action) => {
     }
     case "VIOLATION_TAB": {
       return { ...state, violationTab: action.payload };
+    }
+    case "BAG_FROM": {
+      return { ...state, bagIdFrom: action.payload };
+    }
+    case "BAG_TO": {
+      return { ...state, bagIdTo: action.payload };
+    }
+    case "BAG-DATA": {
+      return { ...state, bagData: action.payload };
+    }
+    case "BAG-DATA-PRINT": {
+      return {
+        ...state,
+        bagDataPrint: {
+          data: action.payload,
+          loading: false,
+        },
+      };
     }
     default:
       return;

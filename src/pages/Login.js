@@ -122,6 +122,21 @@ function Login() {
                 className={Styles.text}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
+              <Typography
+                component={Link}
+                to="/forget-password"
+                style={{
+                  margin: "12px 0",
+                  textDecoration: "none",
+                  color: "black",
+                  textAlign: "end",
+                }}
+                variant="body1"
+              >
+                <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+                  Forget Password
+                </span>
+              </Typography>
               <ColorButton variant="contained" onClick={submit}>
                 LOG IN
               </ColorButton>

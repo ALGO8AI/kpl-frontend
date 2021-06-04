@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import cam from '../../../../Assets/images/cam.svg'
+import React, { useState, useEffect, useRef } from "react";
+import cam from "../../../../Assets/images/cam.svg";
 import { useHistory } from "react-router-dom";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -98,8 +98,8 @@ export const Camera = observer((props) => {
             anchorRef.current.focus();
         }
 
-        prevOpen.current = open;
-    }, [open]);
+    prevOpen.current = open;
+  }, [open]);
 
     return (
         <div className={classes.root}>

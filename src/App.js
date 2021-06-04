@@ -16,9 +16,12 @@ import Checking from "./pages/checking/Checking/Checking";
 import {LayoutView} from './pages/stitching/layoutView/LayoutView';
 import SignUp from "./pages/SignUp";
 import Blank from "./pages/Blank";
-
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
+import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
+import {ViewDetails} from './pages/stitching/layoutView/viewDetails/viewDetails'
 function App(props) {
-  console.log(props);
+  // console.log(props);
   const { state, dispatch } = useContext(KPLContext);
   useEffect(() => {
     const ROLE = localStorage.getItem("ROLE");
@@ -36,11 +39,17 @@ function App(props) {
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/forget-password" component={ForgetPassword} />
+        <Route exact path="/reset-password/:token" component={ResetPassword} />
+
         <AuthRoute exact path="/menu" component={Menu} />
         <AuthRoute exact path="/stitching/:page" component={Stitching} />
         <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />
         <AuthRoute exact path="/checking/:page" component={Checking} />
         <AuthRoute exact path="/checking/:page/:id" component={Checking} />
+        <AuthRoute exact path="/print" component={BarCodePrint} />
+
+        <AuthRoute path='/viewdetails/:cameraid' component={ViewDetails} />
         <Redirect from="/stitching" to="/stitching/home" />
         <Redirect from="/checking" to="/checking/home" />
       </Switch>

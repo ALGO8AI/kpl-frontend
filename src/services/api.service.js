@@ -72,12 +72,19 @@ const homeDateFilter = async (fromDate, toDate) => {
   // return data;
 };
 
-const workerUnavailableViolation = async (fromDate, toDate, ctr, machine) => {
+const workerUnavailableViolation = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -108,12 +115,19 @@ const workerUnavailableViolationChecking = async (
   );
 };
 
-const feedUnavailableViolation = async (fromDate, toDate, ctr, machine) => {
+const feedUnavailableViolation = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -123,12 +137,13 @@ const feedUnavailableViolation = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const crowdingViolation = async (fromDate, toDate, ctr, machine) => {
+const crowdingViolation = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -153,12 +168,13 @@ const crowdingViolationChecking = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const violationByWorkerF = async (fromDate, toDate, ctr, machine) => {
+const violationByWorkerF = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -226,14 +242,15 @@ const violationComment = async (
   });
 };
 
-const workerUtilizationData = async (fromDate, toDate, ctr, machine) => {
+const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts: shift,
   };
-  // console.log(data);
+  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/home/workerUtilization",
@@ -265,12 +282,19 @@ const crowdingInstanceCheckingData = async (fromDate, toDate) => {
   );
 };
 
-const summaryByViolationData = async (fromDate, toDate, ctr, machine) => {
+const summaryByViolationData = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine
+  // shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    // shifts,
   };
   return await callBackend(
     "POST",
@@ -280,12 +304,13 @@ const summaryByViolationData = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const summaryByWorkerData = async (fromDate, toDate, ctr, machine) => {
+const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -294,12 +319,13 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine) => {
     data
   );
 };
-const machineData = async (fromDate, toDate, ctr, machine) => {
+const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
   return await callBackend(
     "POST",
@@ -309,17 +335,18 @@ const machineData = async (fromDate, toDate, ctr, machine) => {
   );
 };
 
-const ClpCtrData = async (fromDate, toDate, ctr, machine) => {
+const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
   };
 
   return await callBackend(
     "POST",
-    "routes/KPI/home/detailedSummaryByClpCtr",
+    "routes/KPI/home/detailedSummaryByClpCtrChecking",
     true,
     data
   );
@@ -415,11 +442,12 @@ const getStitchingNotification = async () => {
   );
 };
 
-const machineBreakdownData = async (fromDate, toDate, machine) => {
+const machineBreakdownData = async (fromDate, toDate, machine, shift) => {
   const data = {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts: shift,
   };
   return await callBackend(
     "POST",
@@ -427,6 +455,280 @@ const machineBreakdownData = async (fromDate, toDate, machine) => {
     true,
     data
   );
+};
+
+const generateBagIds = async (lotSize, tableNo) => {
+  const data = {
+    lotSize,
+    tableNo,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/bagId/generateBagIds",
+    true,
+    data
+  );
+};
+
+const getBagData = async (filterDateFrom, filterDateTo) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/checking/bagId/getUsedAndUnusedBagId",
+    true,
+    data
+  );
+};
+const ResetPassword = async (username, password) => {
+  const data = {
+    username,
+    password,
+  };
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/resetPass",
+    true,
+    data
+  );
+};
+const AddWorkerStitching = async (data) => {
+  console.log(data);
+  return await callBackend("POST", "routes/addWorkerStitching", true, data);
+};
+const AddWorkerChecking = async (data) => {
+  console.log(data);
+  return await callBackend("POST", "routes/addWorkerChecking", true, data);
+};
+const getMachineViolation = async (
+  filterDateFrom,
+  filterDateTo,
+  machineId,
+  shifts
+) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+    machineId,
+    shifts,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/machineBreakdownViolationtable",
+    true,
+    data
+  );
+};
+const postMachineViolation = async (fromDate, toDate) => {
+  try {
+    var config = {
+      method: "post",
+      url: "http://3.23.114.42:8081/routes/KPI/violation/mechineVoilation",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+      },
+    };
+
+    const response = await axios(config);
+    console.log(response);
+    return response.data.data;
+  } catch {}
+};
+
+const detailedSummaryByWorkerChecking = async (
+  fromDate,
+  toDate,
+  tableId,
+  shifts
+) => {
+  try {
+    var config = {
+      method: "post",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByWorker",
+      headers: {},
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+        // tableId,
+        // shifts,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data.detailedSummaryByWorker;
+  } catch (e) {}
+};
+
+const detailedSummaryByClpCtrChecking = async (
+  fromDate,
+  toDate,
+  tableId,
+  shifts
+) => {
+  try {
+    var config = {
+      method: "post",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByClpCtr",
+      headers: {},
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+        // tableId,
+        // shifts,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data.detailedSummaryByClpCtr.detailedSummaryByClpCtr;
+  } catch (err) {}
+};
+
+const detailedSummaryByTableChecking = async (
+  fromDate,
+  toDate,
+  tableId,
+  shifts
+) => {
+  try {
+    var config = {
+      method: "post",
+      url:
+        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByTable",
+      headers: {},
+      data: {
+        filterDateFrom: fromDate,
+        filterDateTo: toDate,
+        // tableId,
+        // shifts,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data.detailedSummaryByTable;
+  } catch (err) {}
+};
+
+const revokeUserAccess = async (username) => {
+  const data = {
+    username: username,
+  };
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/revokeAccess",
+    true,
+    data
+  );
+};
+
+const UnrevokeUserAccess = async (username) => {
+  const data = {
+    username: username,
+  };
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/UnRevokeAccess",
+    true,
+    data
+  );
+};
+
+const copyScheduleStitching = async () => {
+  return await callBackend(
+    "GET",
+    "routes/stitching/schedule/updateAllSchedule"
+  );
+};
+const copyScheduleChecking = async () => {
+  return await callBackend("GET", "routes/checking/schedule/updateAllSchedule");
+};
+
+const communicatedTo = async (to, id, reason) => {
+  const data = {
+    communicatedTo: to,
+    violationId: id,
+    violationReason: reason,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/communicatedTo",
+    true,
+    data
+  );
+};
+
+const updateStitchingWorkerSchedule = async (datas) => {
+  const data = {
+    date: datas.date,
+    workerId: datas.workerId,
+    shift: datas.shift,
+    wing: datas.wing,
+    machineId: datas.machineId,
+    machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
+    id: datas.id,
+  };
+  return await callBackend(
+    "POST",
+    "routes/stitchigSheduleSingleUpdate/update",
+    true,
+    data
+  );
+};
+
+const getCheckingWorkerData = async () => {
+  return await callBackend("GET", "routes/checking/worker/all");
+};
+
+const getCheckingSchedule = async () => {
+  return await callBackend("GET", "routes/checking/schedule/scheduleDetail");
+};
+
+const updateCheckingWorkerSchedule = async (datas) => {
+  const data = {
+    date: datas.date,
+    workerId: datas.workerId,
+    shift: datas.shift,
+    wing: datas.wing,
+    tableId: datas.tableId,
+    id: datas.id,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checkingSheduleSingleUpdate/update",
+    true,
+    data
+  );
+};
+
+const getForgetPasswordLink = async (data) => {
+  var config = {
+    method: "post",
+    url: "http://3.23.114.42:8081/routes/auth",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  return await axios(config);
+};
+
+const getNotificationLog = async () => {
+  var config = {
+    method: "post",
+    url: "http://3.23.114.42:8081/routes/yourData/notificationLog",
+    headers: {},
+  };
+
+  return await axios(config);
 };
 
 export {
@@ -472,6 +774,25 @@ export {
   removeNotification,
   crowdingInstanceCheckingData,
   machineBreakdownData,
+  generateBagIds,
+  getBagData,
+  ResetPassword,
+  AddWorkerStitching,
+  AddWorkerChecking,
+  getMachineViolation,
+  postMachineViolation,
+  detailedSummaryByWorkerChecking,
+  detailedSummaryByClpCtrChecking,
+  detailedSummaryByTableChecking,
+  revokeUserAccess,
+  UnrevokeUserAccess,
+  copyScheduleStitching,
+  copyScheduleChecking,
+  communicatedTo,
+  updateStitchingWorkerSchedule,
+  getCheckingWorkerData,
+  getCheckingSchedule,
+  updateCheckingWorkerSchedule,
+  getForgetPasswordLink,
+  getNotificationLog,
 };
-
-

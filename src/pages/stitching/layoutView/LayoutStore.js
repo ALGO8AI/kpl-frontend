@@ -20,9 +20,9 @@ export class LayoutStore extends BaseStore {
         this.api = new ApiService();
     }
 
-    Role() {
-        return localStorage.getItem('ROLE')
-    }
+  Role() {
+    return localStorage.getItem("ROLE");
+  }
 
     getCamera = async () => {
         const response = await this.api.Get(`routes/cameraDetail/getCamPosition`);

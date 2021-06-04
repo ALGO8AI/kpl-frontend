@@ -15,12 +15,18 @@ import {
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
   violationComment,
+  communicatedTo,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { FormControl, InputLabel, isWidthUp } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  isWidthUp,
+  Typography,
+} from "@material-ui/core";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
 
 function Alert(props) {
@@ -224,6 +230,21 @@ function ViolationDetails(props) {
     });
   };
 
+  const [communicated, setCommunicated] = useState("");
+
+  const submitCommunication = async () => {
+    try {
+      const resp = await communicatedTo(
+        communicated,
+        props.id,
+        reason === "Add Reason" ? reason1 : reason
+      );
+      console.log(resp);
+      setMsg(resp.msg);
+      setOpen1(true);
+    } catch (e) {}
+  };
+
   // console.log("inside v details");
   // console.log(props.id);
   const [reason, setReason] = useState("");
@@ -292,6 +313,33 @@ function ViolationDetails(props) {
   return (
     <div>
       <Grid container>
+        <Grid container item md={12} style={{ padding: "12px 12px 4px 12px" }}>
+          {localStorage.getItem("VIOLATION-TYPE") && (
+            <>
+              <Typography
+                variant="h6"
+                style={{
+                  color: "#0e4a7b",
+                  borderBottom: "2px solid #0e4a7b",
+                  padding: "0 8px",
+                  marginRight: "12px",
+                }}
+              >
+                {localStorage.getItem("VIOLATION-TYPE")}
+              </Typography>
+              <Typography
+                variant="h6"
+                className={`${
+                  localStorage.getItem("VIOLATION-STATUS") === "Not Resolved"
+                    ? "Link-btn-red"
+                    : "Link-btn-green"
+                }`}
+              >
+                {localStorage.getItem("VIOLATION-STATUS")}
+              </Typography>
+            </>
+          )}
+        </Grid>
         <Grid
           container
           item
@@ -305,7 +353,9 @@ function ViolationDetails(props) {
               Violation Id:{props.id}{" "}
               <span style={{ marginLeft: "auto" }}>
                 {data &&
-                  moment(new Date(data.date)).format("DD/MM/YYYY").toString()}
+                  moment(new Date(data.date))
+                    .format("DD/MM/YYYY")
+                    .toString()}
               </span>
             </div>
             <div className="videoPlaceholder">
@@ -532,9 +582,18 @@ function ViolationDetails(props) {
               <TextField
                 placeholder="Communicated to"
                 fullWidth
-                // onChange={customAction}
-                // value={action1}
+                onChange={(e) => setCommunicated(e.target.value)}
+                value={communicated}
               />
+            </Grid>
+            <Grid container item xs={4}>
+              <Button
+                variant="contained"
+                style={{ marginTop: "8px" }}
+                onClick={submitCommunication}
+              >
+                SEND
+              </Button>
             </Grid>
           </Grid>
           <Grid

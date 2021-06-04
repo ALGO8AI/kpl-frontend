@@ -8,6 +8,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import StayPrimaryPortraitIcon from "@material-ui/icons/StayPrimaryPortrait";
 import MaterialTable from "material-table";
+
 import {
   FormControl,
   InputLabel,
@@ -16,10 +17,12 @@ import {
   Select,
   Snackbar,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import {
   loadStitchingAlertData,
   stitchingAlert,
+  stitchingNotification,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import RoleBasedNotification from "./RoleBasedNotification";
@@ -27,6 +30,28 @@ import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 
 function AlertAndNotification() {
+  const [manager, setManager] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+
+  const [helper, setHelper] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+
+  const [supervisor, setSupervisor] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
+  const [wingIncharge, setWingIncharge] = useState({
+    mail: false,
+    text: false,
+    push: false,
+  });
   const [crowding, setCrowding] = useState({
     alert: false,
     manager: "",
@@ -70,9 +95,6 @@ function AlertAndNotification() {
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
   const submitHandler = async () => {
-    // console.log(crowding);
-    // console.log(workerIdle);
-    // console.log(feed);
     const DATA = {
       Crowding: {
         instance: "Crowding",
@@ -122,10 +144,38 @@ function AlertAndNotification() {
       },
     };
 
+    const DATA_ROLE = {
+      manager: {
+        mail: manager.mail ? 1 : 0,
+        sms: manager.text ? 1 : 0,
+        push: manager.push ? 1 : 0,
+      },
+      helper: {
+        mail: helper.mail ? 1 : 0,
+        sms: helper.text ? 1 : 0,
+        push: helper.push ? 1 : 0,
+      },
+      supervisor: {
+        mail: supervisor.mail ? 1 : 0,
+        sms: supervisor.text ? 1 : 0,
+        push: supervisor.push ? 1 : 0,
+      },
+      wingIncharge: {
+        mail: wingIncharge.mail ? 1 : 0,
+        sms: wingIncharge.text ? 1 : 0,
+        push: wingIncharge.push ? 1 : 0,
+      },
+    };
+
     // console.log(DATA);
     try {
       const x = await stitchingAlert(DATA);
       console.log(x);
+      setMsg(x.msg);
+      setOpen(true);
+
+      const y = await stitchingNotification(DATA_ROLE);
+      console.log(y);
       setMsg(x.msg);
       setOpen(true);
     } catch (err) {
@@ -141,6 +191,39 @@ function AlertAndNotification() {
       let FEED = x.feedUnavailability[0];
       let BREAK = x.machineBreakdown[0];
       let ACTIVE = x.checkerActiveMonitoring[0];
+
+      let MANAGER = x.mode[2];
+      let HELPER = x.mode[3];
+      let SUPERVISOR = x.mode[1];
+      let WINGINCHARGE = x.mode[0];
+
+      setManager({
+        ...manager,
+        mail: Boolean(MANAGER.modeMail) ? true : false,
+        text: Boolean(MANAGER.modetext) ? true : false,
+        push: Boolean(MANAGER.modeNotif) ? true : false,
+      });
+
+      setHelper({
+        ...helper,
+        mail: Boolean(HELPER.modeMail) ? true : false,
+        text: Boolean(HELPER.modetext) ? true : false,
+        push: Boolean(HELPER.modeNotif) ? true : false,
+      });
+
+      setSupervisor({
+        ...supervisor,
+        mail: Boolean(SUPERVISOR.modeMail) ? true : false,
+        text: Boolean(SUPERVISOR.modetext) ? true : false,
+        push: Boolean(SUPERVISOR.modeNotif) ? true : false,
+      });
+
+      setWingIncharge({
+        ...wingIncharge,
+        mail: Boolean(WINGINCHARGE.modeMail) ? true : false,
+        text: Boolean(WINGINCHARGE.modetext) ? true : false,
+        push: Boolean(WINGINCHARGE.modeNotif) ? true : false,
+      });
       setCrowding({
         ...crowding,
         manager: CROWD.manager,
@@ -198,9 +281,11 @@ function AlertAndNotification() {
   }, []);
   return (
     <Grid container>
-      <Grid container item xs={12} md={12} lg={9} style={{ padding: "12px" }}>
+      <Grid container item xs={12} md={12} lg={12} style={{ padding: "12px" }}>
         <Grid item xs={12}>
-          <h4 style={{ textAlign: "center" }}>Manage Alerts</h4>
+          <Typography variant="h4" style={{ textAlign: "Left" }}>
+            Manage Alerts
+          </Typography>
         </Grid>
         <Grid
           container
@@ -208,28 +293,264 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "unset", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
-            <h4>
-              <ReportProblemIcon />
-            </h4>
-          </Grid>
-          <Grid item xs={1}>
-            <h4>Alert</h4>
+          <Grid item xs={2}>
+            <h4>{/* <ReportProblemIcon /> */}</h4>
           </Grid>
           <Grid item xs={2}>
-            <h4>Manager</h4>
+            {/* <h4>Alert</h4> */}
           </Grid>
           <Grid item xs={2}>
-            <h4>Wing Incharge</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Manager
+            </Typography>
           </Grid>
           <Grid item xs={2}>
-            <h4>Helper</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Wing Incharge
+            </Typography>
           </Grid>
           <Grid item xs={2}>
-            <h4>Supervisor</h4>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Helper
+            </Typography>
           </Grid>
           <Grid item xs={2}>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", color: "#3f51b5" }}
+            >
+              Supervisor
+            </Typography>
+          </Grid>
+          {/* <Grid item xs={2}>
             <h4>Priority</h4>
+          </Grid> */}
+        </Grid>
+
+        <Grid
+          container
+          spacing={1}
+          item
+          xs={12}
+          style={{ alignItems: "center", marginBottom: "12px" }}
+        >
+          <Grid item xs={2}>
+            {/* <h3>NOTIFICATION</h3> */}
+          </Grid>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={manager.mail}
+                    checked={manager.mail}
+                    onChange={(e) =>
+                      setManager({ ...manager, mail: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={manager.text}
+                    checked={manager.text}
+                    onChange={(e) =>
+                      setManager({ ...manager, text: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={manager.push}
+                    checked={manager.push}
+                    onChange={(e) =>
+                      setManager({ ...manager, push: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={wingIncharge.mail}
+                    checked={wingIncharge.mail}
+                    onChange={(e) =>
+                      setWingIncharge({
+                        ...wingIncharge,
+                        mail: e.target.checked,
+                      })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={wingIncharge.text}
+                    checked={wingIncharge.text}
+                    onChange={(e) =>
+                      setWingIncharge({
+                        ...wingIncharge,
+                        text: e.target.checked,
+                      })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={wingIncharge.push}
+                    checked={wingIncharge.push}
+                    onChange={(e) =>
+                      setWingIncharge({
+                        ...wingIncharge,
+                        push: e.target.checked,
+                      })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={helper.mail}
+                    checked={helper.mail}
+                    onChange={(e) =>
+                      setHelper({ ...helper, mail: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={helper.text}
+                    checked={helper.text}
+                    onChange={(e) =>
+                      setHelper({ ...helper, text: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={helper.push}
+                    checked={helper.push}
+                    onChange={(e) =>
+                      setHelper({ ...helper, push: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid xs={12} item container style={{ marginBottom: "12px" }}>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={supervisor.mail}
+                    checked={supervisor.mail}
+                    onChange={(e) =>
+                      setSupervisor({ ...supervisor, mail: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <EmailIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={supervisor.text}
+                    checked={supervisor.text}
+                    onChange={(e) =>
+                      setSupervisor({ ...supervisor, text: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <ChatBubbleIcon />
+                  </span>
+                </label>
+              </Grid>
+              <Grid className="custom-checkbox" item xs={2}>
+                <label className="NotificationBadge">
+                  <input
+                    type="checkbox"
+                    value={supervisor.push}
+                    checked={supervisor.push}
+                    onChange={(e) =>
+                      setSupervisor({ ...supervisor, push: e.target.checked })
+                    }
+                  />
+                  <span class="label">
+                    <StayPrimaryPortraitIcon />
+                  </span>
+                </label>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -240,10 +561,11 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid container item xs={2}>
+            <Grid xs={12} item style={{ marginBottom: "12px" }}></Grid>
             Crowding
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={crowding.alert}
               checked={crowding.alert}
@@ -259,7 +581,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid container item xs={2}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -270,6 +592,7 @@ function AlertAndNotification() {
                 setCrowding({ ...crowding, manager: e.target.value })
               }
               value={crowding.manager}
+              fullWidth
             />
           </Grid>
           <Grid item xs={2}>
@@ -282,6 +605,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setCrowding({ ...crowding, wingIncharge: e.target.value })
               }
+              fullWidth
               value={crowding.wingIncharge}
             />
           </Grid>
@@ -295,6 +619,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setCrowding({ ...crowding, helper: e.target.value })
               }
+              fullWidth
               value={crowding.helper}
             />
           </Grid>
@@ -309,28 +634,27 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setCrowding({ ...crowding, supervisor: e.target.value })
               }
+              fullWidth
               value={crowding.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+
               <Select
                 value={crowding.priority}
                 onChange={(e) => {
                   setCrowding({ ...crowding, priority: e.target.value });
                 }}
 
-                // label="Priority"
+
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -340,10 +664,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Worker Idle
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={workerIdle.alert}
               checked={workerIdle.alert}
@@ -369,6 +693,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, manager: e.target.value })
               }
+              fullWidth
               value={workerIdle.manager}
             />
           </Grid>
@@ -382,6 +707,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, wingIncharge: e.target.value })
               }
+              fullWidth
               value={workerIdle.wingIncharge}
             />
           </Grid>
@@ -395,6 +721,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, helper: e.target.value })
               }
+              fullWidth
               value={workerIdle.helper}
             />
           </Grid>
@@ -409,14 +736,13 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setWorkerIdle({ ...workerIdle, supervisor: e.target.value })
               }
+              fullWidth
               value={workerIdle.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+
               <Select
                 value={workerIdle.priority}
                 onChange={(e) => {
@@ -425,14 +751,14 @@ function AlertAndNotification() {
                     priority: e.target.value,
                   });
                 }}
-                // label="Priority"
+       
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -442,10 +768,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Feed Availability
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={feed.alert}
               checked={feed.alert}
@@ -469,6 +795,7 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) => setFeed({ ...feed, manager: e.target.value })}
+              fullWidth
               value={feed.manager}
             />
           </Grid>
@@ -482,6 +809,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setFeed({ ...feed, wingIncharge: e.target.value })
               }
+              fullWidth
               value={feed.wingIncharge}
             />
           </Grid>
@@ -493,6 +821,7 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) => setFeed({ ...feed, helper: e.target.value })}
+              fullWidth
               value={feed.helper}
             />
           </Grid>
@@ -505,25 +834,24 @@ function AlertAndNotification() {
               placeholder="in Mins"
               inputProps={{ type: "number" }}
               onChange={(e) => setFeed({ ...feed, supervisor: e.target.value })}
+              fullWidth
               value={feed.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+ 
               <Select
                 onChange={(e) => setFeed({ ...feed, priority: e.target.value })}
                 value={feed.priority}
-                // label="Priority"
+        
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -533,10 +861,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Machine Breakdown
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={machineBreak.alert}
               checked={machineBreak.alert}
@@ -562,6 +890,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setMachineBreak({ ...machineBreak, manager: e.target.value })
               }
+              fullWidth
               value={machineBreak.manager}
             />
           </Grid>
@@ -578,6 +907,7 @@ function AlertAndNotification() {
                   wingIncharge: e.target.value,
                 })
               }
+              fullWidth
               value={machineBreak.wingIncharge}
             />
           </Grid>
@@ -591,6 +921,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setMachineBreak({ ...machineBreak, helper: e.target.value })
               }
+              fullWidth
               value={machineBreak.helper}
             />
           </Grid>
@@ -605,27 +936,26 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setMachineBreak({ ...machineBreak, supervisor: e.target.value })
               }
+              fullWidth
               value={machineBreak.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+
               <Select
                 onChange={(e) =>
                   setMachineBreak({ ...machineBreak, priority: e.target.value })
                 }
                 value={machineBreak.priority}
-                // label="Priority"
+             
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
@@ -635,10 +965,10 @@ function AlertAndNotification() {
           xs={12}
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             Active Monitoring
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Checkbox
               value={activeMonitor.alert}
               checked={activeMonitor.alert}
@@ -664,6 +994,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setactiveMonitor({ ...activeMonitor, manager: e.target.value })
               }
+              fullWidth
               value={activeMonitor.manager}
             />
           </Grid>
@@ -680,6 +1011,7 @@ function AlertAndNotification() {
                   wingIncharge: e.target.value,
                 })
               }
+              fullWidth
               value={activeMonitor.wingIncharge}
             />
           </Grid>
@@ -693,6 +1025,7 @@ function AlertAndNotification() {
               onChange={(e) =>
                 setactiveMonitor({ ...activeMonitor, helper: e.target.value })
               }
+              fullWidth
               value={activeMonitor.helper}
             />
           </Grid>
@@ -710,14 +1043,13 @@ function AlertAndNotification() {
                   supervisor: e.target.value,
                 })
               }
+              fullWidth
               value={activeMonitor.supervisor}
             />
           </Grid>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
-              {/* <InputLabel id="demo-simple-select-outlined-label">
-                  Priority
-                </InputLabel> */}
+       
               <Select
                 onChange={(e) =>
                   setactiveMonitor({
@@ -726,51 +1058,54 @@ function AlertAndNotification() {
                   })
                 }
                 value={activeMonitor.priority}
-                // label="Priority"
+              
               >
                 <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
+          </Grid> */}
+        </Grid>
+        <Grid container item xs={12}>
+          <Grid md={11}></Grid>
+          <Grid md={1}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+                marginTop: "12px",
+              }}
+              onClick={submitHandler}
+            >
+              Apply
+            </Button>
           </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#0e4a7b",
-              color: "#FFF",
-              marginTop: "12px",
-            }}
-            onClick={submitHandler}
+        <Grid item xs={9}>
+          <Snackbar
+            open={open}
+            autoHideDuration={2000}
+            onClose={() => setOpen(false)}
           >
-            Apply
-          </Button>
-          <Grid item xs={9}>
-            <Snackbar
-              open={open}
-              autoHideDuration={2000}
-              onClose={() => setOpen(false)}
-            >
-              <Alert onClose={() => setOpen(false)} severity="success">
-                {msg}
-              </Alert>
-            </Snackbar>
-          </Grid>
+            <Alert onClose={() => setOpen(false)} severity="success">
+              {msg}
+            </Alert>
+          </Snackbar>
         </Grid>
         {/* end of left block */}
       </Grid>
-      <Grid container item xs={12} md={5} lg={3}>
+      {/* <Grid container item xs={12} md={5} lg={3}>
         <RoleBasedNotification />
-      </Grid>
+      </Grid> */}
 
-      <Grid container item xs={12}>
+      {/* <Grid container item xs={12}>
         <ManageRoles />
       </Grid>
       <Grid container item xs={4}>
         <AddUser />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

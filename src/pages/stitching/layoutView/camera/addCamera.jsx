@@ -1,12 +1,12 @@
 import React from "react";
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Grid from '@material-ui/core/Grid';
-import '../LayoutView.scss'
-import { observer } from 'mobx-react';
-import { appState } from '../LayoutStore';
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Grid from "@material-ui/core/Grid";
+import "../LayoutView.scss";
+import { observer } from "mobx-react";
+import { appState } from "../LayoutStore";
 
 export const AddCamera = observer((props) => {
     const [open, setOpen] = React.useState(false);
@@ -15,13 +15,23 @@ export const AddCamera = observer((props) => {
         setOpen(true);
     };
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-        setOpen(false);
+    setOpen(false);
+  };
+
+  const addCams = (e) => {
+    // e.preventDefault();
+    const camValue = {
+      cameraId: e.target.elements.id.value,
+      x: Number(e.target.elements.x.value),
+      y: Number(e.target.elements.y.value),
     };
+    props.store.addCam(camValue);
+  };
 
     const myChangeHandler = (event) => {
         setCamName(event.target.value)

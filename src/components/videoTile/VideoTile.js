@@ -4,7 +4,8 @@ import { videoWall } from "../../services/http.service";
 import ImageDialog from "../imageDialog/ImageDialog";
 import "./VideoTile.scss";
 
-function VideoTile({ data }) {
+function VideoTile({ data, ctr, supervisor }) {
+  console.log(data);
   const [open, setOpen] = React.useState(false);
   const [link, setLink] = React.useState("");
 
@@ -43,6 +44,11 @@ function VideoTile({ data }) {
       >
         <div className="live">
           <p>LIVE</p>
+        </div>
+        <div className="Details">
+          <h4>Current CTR : {ctr}</h4>
+          <h5>Current Supervisor : {supervisor}</h5>
+          <h6>Stream Analysis : {data?.streams}</h6>
         </div>
         <div className="videoTitle" style={{ width: "100%" }}>
           <Grid container>

@@ -101,7 +101,14 @@ function VideoWall() {
       </Grid>
       {videos ? (
         videos.map((x, index) => {
-          return <VideoTile data={x} key={index} />;
+          return (
+            <VideoTile
+              data={x}
+              key={index}
+              ctr={videos.currentCLPCTR}
+              supervisor={videos.supervisor}
+            />
+          );
         })
       ) : (
         <Loader />

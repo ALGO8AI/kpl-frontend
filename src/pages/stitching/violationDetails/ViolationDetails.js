@@ -15,12 +15,18 @@ import {
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
   violationComment,
+  communicatedTo,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { FormControl, InputLabel, isWidthUp } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  isWidthUp,
+  Typography,
+} from "@material-ui/core";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -89,12 +95,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ViolationDetails(props) {
+  console.log(props);
   const history = useHistory();
   const classes = useStyles();
   const [data, setData] = useState();
   const [isCorrect, setIsCorrect] = useState(false);
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [VIOLATION, setVIOLATION] = useState([]);
+  const [communicated, setCommunicated] = useState("");
 
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
@@ -117,7 +125,7 @@ function ViolationDetails(props) {
       const x = await getViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
-      setLink(x.volIdData[0].video);
+      setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
         setReason(x.volIdData[0].violationReason);
       }
@@ -212,15 +220,35 @@ function ViolationDetails(props) {
       inc = incorrect;
     }
 
-    await violationComment(props.id, "", "", false, true, inc).then((x) => {
-      console.log(x);
-      setMsg(x.msg);
+    try {
+      var txt = window.confirm(
+        "Are you want to mark this violation incorrect ?"
+      );
+      if (txt) {
+        const x = await violationComment(props.id, "", "", false, true, inc);
+        console.log(x);
+        setMsg(x.msg);
+        setOpen1(true);
+        setOpen(false);
+        setTimeout(() => {
+          history.push("/stitching/violationLog");
+        }, 2000);
+      } else {
+        setOpen(false);
+      }
+    } catch (e) {}
+  };
+
+  const submitCommunication = async () => {
+    try {
+      const resp = await communicatedTo(
+        communicated,
+        props.id,
+        reason === "Add Reason" ? reason1 : reason
+      );
+      setMsg(resp.msg);
       setOpen1(true);
-      setOpen(false);
-      setTimeout(() => {
-        history.push("/stitching/violationLog");
-      }, 2000);
-    });
+    } catch (e) {}
   };
 
   // console.log("inside v details");
@@ -288,9 +316,144 @@ function ViolationDetails(props) {
     // );
   };
 
+  const [SelectDropdowndata, setSelectDropdowndata] = useState([]);
+
+  const setDrop = () => {
+    localStorage.getItem("VIOLATION-TYPE") === "Feed Unavailable" &&
+      setSelectDropdowndata(
+        [
+          "Zuki broke",
+          "Herakle broke",
+          "Safety broke",
+          "Top broke",
+          "Orsan Broke",
+          "502 broke",
+          "802 broke",
+          "Mc Heatcutter Problem",
+          "Checker Heatcutter Problem",
+          "Orsan Pressure Down",
+          "Power Cut",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Crowding Violation" &&
+      setSelectDropdowndata(
+        [
+          "Supervisor Follow up",
+          "Regular work follow up",
+          "Quality issue follow up",
+          "Worker No work",
+          "Helper distributing material",
+          "Production counting/Matching",
+          "General meeting",
+          "Negligence",
+          "Worker M/c breakdown",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Worker Violation" &&
+      setSelectDropdowndata(
+        [
+          "Late start",
+          "Left Early",
+          "Tailor used as Helper",
+          "Tailor used in repairing",
+          "Trainee tailor",
+          "Tailor Left to the machine without information",
+          "Tailor Left to collect webbing",
+          "Tailor left for Water/Toilet break",
+          "Cell Closed due to Other Manpower",
+          "Material loading helper absent",
+          "Material loading helper not available",
+          "Material loading helper short",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Machine Violation" &&
+      setSelectDropdowndata(
+        [
+          "High GSM setting issue",
+          "PP thread setting issue",
+          "Machine Oil issue",
+          "Electrical Issue",
+          "Heat cutter Issue",
+          "Other Chukka Issue",
+          "Needle Setting",
+          "Looper Setting",
+          "Cross Looper Setting",
+          "Spreader Setting",
+          "Spreader lever Setting",
+          "Feeddog Setting",
+          "Upper Feeddog Setting",
+          "Lower Feeddog Setting",
+          "Throat plate Setting",
+          "Pressure foot Setting",
+          "Needle holder Setting",
+          "Needle gaurd Setting",
+          "Ball Stud Setting",
+          "Big Ball Stud Setting",
+          "Small Ball Stud Setting",
+          "Screw Setting",
+          "Connecting rod setting",
+          "CAM Setting",
+          "Other Part setting issue",
+          "Needle breakdown",
+          "Looper breakdown",
+          "Cross Looper breakdown",
+          "Spreader breakdown",
+          "Spreader lever breakdown",
+          "Feeddog breakdown",
+          "Upper Feeddog breakdown",
+          "Lower Feeddog breakdown",
+          "Throat plate breakdown",
+          "Pressure foot breakdown",
+          "Needle holder breakdown",
+          "Needle gaurd breakdown",
+          "Ball Stud breakdown",
+          "Big Ball Stud breakdown",
+          "Small Ball Stud breakdown",
+          "Screw breakdown",
+          "Connecting rod breakdown",
+          "CAM breakdown",
+          "Other breakdown",
+        ].sort()
+      );
+  };
+
+  useEffect(() => {
+    setDrop();
+  }, []);
+
   return (
     <div>
       <Grid container>
+        <Grid container item md={12} style={{ padding: "12px 12px 4px 12px" }}>
+          {localStorage.getItem("VIOLATION-TYPE") && (
+            <>
+              <Typography
+                variant="h6"
+                style={{
+                  color: "#0e4a7b",
+                  borderBottom: "2px solid #0e4a7b",
+                  padding: "0 8px",
+                  marginRight: "12px",
+                }}
+              >
+                {localStorage.getItem("VIOLATION-TYPE")}
+              </Typography>
+              <Typography
+                variant="h6"
+                className={`${
+                  localStorage.getItem("VIOLATION-STATUS") === "Not Resolved"
+                    ? "Link-btn-red"
+                    : "Link-btn-green"
+                }`}
+              >
+                {localStorage.getItem("VIOLATION-STATUS")}
+              </Typography>
+            </>
+          )}
+        </Grid>
         <Grid
           container
           item
@@ -304,14 +467,16 @@ function ViolationDetails(props) {
               Violation Id:{props.id}{" "}
               <span style={{ marginLeft: "auto" }}>
                 {data &&
-                  moment(new Date(data.date)).format("DD/MM/YYYY").toString()}
+                  moment(new Date(data.date))
+                    .format("DD/MM/YYYY")
+                    .toString()}
               </span>
             </div>
             <div className="videoPlaceholder">
               {/* video player here */}
               <ReactPlayer
                 key={link}
-                url={link.replace(".avi", ".mp4")}
+                url={link?.replace(".avi", ".mp4")}
                 controls={true}
                 //  muted={true}
                 //  playing={false}
@@ -353,6 +518,29 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.workerId}
             </Grid>
+
+            {data?.machineId && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Machine Status :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {data && data.status === 0 ? "Off" : "On"}
+                </Grid>
+              </>
+            )}
+
+            {data?.machineId && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Machine Id :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {data && data.machineId}
+                </Grid>
+              </>
+            )}
+
             <Grid item xs={6} className="vd-d3">
               CTR No. :
             </Grid>
@@ -364,6 +552,12 @@ function ViolationDetails(props) {
             </Grid>
             <Grid item xs={6} className="vd-d3">
               {data && data.wing}
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              Shift :
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              {data && data.shift}
             </Grid>
             <Grid item xs={6} className="vd-d3">
               Line :
@@ -394,7 +588,7 @@ function ViolationDetails(props) {
               className="vd-d1 vd-d2"
               style={{ marginTop: "10%" }}
             >
-              <FormControl
+              {/* <FormControl
                 variant="outlined"
                 className={classes.formControl}
                 fullWidth="true"
@@ -408,7 +602,60 @@ function ViolationDetails(props) {
                   <option value="CTR Change">CTR Change</option>
                   <option value="Add Reason">Add Reason</option>
                 </Select>
+              </FormControl> */}
+
+              {/* {localStorage.getItem("VIOLATION-TYPE") === "Feed Unavailable" && ( */}
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                fullWidth="true"
+              >
+                <InputLabel htmlFor="outlined-age-native-simple">
+                  Choose Reason
+                </InputLabel>
+                <Select native value={reason} onChange={handleReasonChange}>
+                  {SelectDropdowndata.length > 0 &&
+                    SelectDropdowndata.map((item, i) => (
+                      <option key={i} value={item}>
+                        {item}
+                      </option>
+                    ))}
+
+                  <option value="Repeated Violation">Repeated Violation</option>
+                  <option value="Add Reason">Add Reason</option>
+                </Select>
               </FormControl>
+
+              {/* {localStorage.getItem("VIOLATION-TYPE") ===
+                "Crowding Violation" && (
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControl}
+                  fullWidth="true"
+                >
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Choose Reason
+                  </InputLabel>
+                  <Select native value={reason} onChange={handleReasonChange}>
+                    {[
+                      "Supervisor Follow up",
+                      "Regular work follow up",
+                      "Quality issue follow up",
+                      "Worker No work",
+                      "Helper distributing material",
+                      "Production counting/Matching",
+                      "General meeting",
+                      "Negligence",
+                      "Worker M/c breakdown",
+                    ].map((item, i) => (
+                      <option key={i} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                    <option value="Add Reason">Add Reason</option>
+                  </Select>
+                </FormControl>
+              )} */}
               {/* <Select
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
@@ -524,6 +771,7 @@ function ViolationDetails(props) {
 
             <Grid
               item
+              container
               xs={12}
               className="vd-d1 vd-d2"
               style={{ marginTop: "2px" }}
@@ -531,9 +779,18 @@ function ViolationDetails(props) {
               <TextField
                 placeholder="Communicated to"
                 fullWidth
-                // onChange={customAction}
-                // value={action1}
+                onChange={(e) => setCommunicated(e.target.value)}
+                value={communicated}
               />
+            </Grid>
+            <Grid container item xs={4}>
+              <Button
+                variant="contained"
+                style={{ marginTop: "8px" }}
+                onClick={submitCommunication}
+              >
+                SEND
+              </Button>
             </Grid>
           </Grid>
           <Grid

@@ -9,12 +9,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Worker from "./Worker";
 import Schedule from "./Schedule";
+import { LayoutView } from "../layoutView/LayoutView";
+import NotificationLog from "../../../components/notificationLog/NotificationLog";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Grid
+      container
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -22,11 +25,11 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Grid container item xs={12} style={{ padding: "18px" }}>
+          {children}
+        </Grid>
       )}
-    </div>
+    </Grid>
   );
 }
 
@@ -74,6 +77,7 @@ function YourData() {
           <Tab label="Worker Detail" {...a11yProps(0)} />
           <Tab label="Worker Schedule" {...a11yProps(1)} />
           <Tab label=" Layout" {...a11yProps(2)} />
+          <Tab label="Notification Log" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -83,7 +87,10 @@ function YourData() {
         <Schedule />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <div id="overlay">COMING SOON...</div>
+        <LayoutView />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <NotificationLog />
       </TabPanel>
     </Grid>
   );

@@ -18,8 +18,6 @@ function TabPanel(props) {
       {...other}
       style={{
         marginTop: "8px",
-        maxHeight: "50vh",
-        overflow: "scroll",
       }}
     >
       {value === index && (
@@ -78,15 +76,37 @@ function TableData({
             style={{ padding: "12px", width: "100%" }}
           >
             <HomeTable
-              data={homeWorkerTable}
-              columns={[
-                { title: "Worker ID", field: "workerId" },
-                { title: "Worker Name", field: "workerName" },
-                { title: "Scheduled Hrs.", field: "scheduledHours" },
-                { title: "% Utilization", field: "utilizationPercentage" },
-                { title: "Idle Hrs.", field: "idleHours" },
-                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
-                { title: "Worker Unavailable Hrs.", field: "workerUnav" },
+              data={homeWorkerTable.map((row, i) => {
+                const { workerId, ...rest } = row;
+                return { id: workerId, ...rest };
+              })}
+              column={[
+                { field: "id", headerName: "Worker ID", width: 210 },
+                // { headerName: "Worker ID", field: "workerId" },
+                { headerName: "Worker Name", field: "workerName", width: 210 },
+                // { headerName: "Total Working Hrs.", field: "totalWorkingHours" },
+                {
+                  headerName: "Scheduled Hrs.",
+                  field: "scheduledHours",
+                  width: 210,
+                },
+                {
+                  headerName: "% Utilization",
+                  field: "utilizationPercentage",
+                  width: 210,
+                },
+                { headerName: "Idle Hrs.", field: "idleHours", width: 210 },
+                {
+                  headerName: "Feed Unavailable Hrs.",
+                  field: "feedUnav",
+                  width: 210,
+                },
+                {
+                  headerName: "Worker Unavailable Hrs.",
+                  field: "workerUnav",
+                  width: 210,
+                },
+                // { headerName: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -95,10 +115,27 @@ function TableData({
         <TabPanel value={tabValue} index={1}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
-              data={homeDateTable}
-              columns={[
+              // data={homeDateTable}
+              data={homeDateTable.map((row, i) => {
+                const { date, ...rest } = row;
+                return {
+                  id: i,
+                  date: moment(new Date(date))
+                    .format("DD/MM/YYYY")
+                    .toString(),
+                  ...rest,
+                };
+              })}
+              column={[
                 {
-                  title: "Date",
+                  field: "id",
+                  headerName: "DataTableID",
+                  hide: true,
+                  width: 240,
+                },
+
+                {
+                  headerName: "Date",
                   field: "date",
                   render: (rowData) => {
                     const NewDate = moment(new Date(rowData.date))
@@ -106,12 +143,30 @@ function TableData({
                       .toString();
                     return NewDate;
                   },
+                  width: 240,
                 },
-                { title: "Scheduled Hrs.", field: "scheduledHours" },
-                { title: "% Utilization", field: "utilizationPercentage" },
-                { title: "Idle Hrs.", field: "idleHours" },
-                { title: "Feed Unavailable Hrs.", field: "feedUnav" },
-                { title: "Worker Unavailable Hrs.", field: "workerUnav" },
+                {
+                  headerName: "Scheduled Hrs.",
+                  field: "scheduledHours",
+                  width: 240,
+                },
+                {
+                  headerName: "% Utilization",
+                  field: "utilizationPercentage",
+                  width: 240,
+                },
+                { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
+                {
+                  headerName: "Feed Unavailable Hrs.",
+                  field: "feedUnav",
+                  width: 240,
+                },
+                {
+                  headerName: "Worker Unavailable Hrs.",
+                  field: "workerUnav",
+                  width: 240,
+                },
+                // { headerName: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -119,23 +174,49 @@ function TableData({
         <TabPanel value={tabValue} index={2}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
-              data={homeMachineTable}
-              columns={[
-                { title: "Machine Id", field: "machineID" },
-                { title: "Scheduled Hrs.", field: "scheduledHours" },
+              // data={homeMachineTable}
+              data={homeMachineTable.map((row, i) => {
+                const { utilizationPercentage, ...rest } = row;
+                return {
+                  id: i,
+                  utilizationPercentage: `${Math.round(
+                    utilizationPercentage
+                  )} %`,
+                  ...rest,
+                };
+              })}
+              column={[
                 {
-                  title: "% Utilization",
+                  field: "id",
+                  headerName: "DataTableID",
+                  hide: true,
+                  width: 240,
+                },
+                { headerName: "Machine Id", field: "machineID", width: 240 },
+                {
+                  headerName: "Scheduled Hrs.",
+                  field: "scheduledHours",
+                  width: 240,
+                },
+                // { headerName: "Machine Breakdown Hrs.", field: "scheduledHours" },
+
+                {
+                  headerName: "% Utilization",
                   field: "utilizationPercentage",
+                  width: 240,
                 },
-                { title: "Idle Hrs.", field: "idleHours" },
+                { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
                 {
-                  title: "Worker Unavailable Hrs.",
+                  headerName: "Worker Unavailable Hrs.",
                   field: "WorkerUnavailableHours",
+                  width: 240,
                 },
                 {
-                  title: "Feed Unavailable Hrs.",
+                  headerName: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
+                  width: 240,
                 },
+                // { headerName: "Shift", field: "shift" },
               ]}
             />
           </Grid>
@@ -144,23 +225,45 @@ function TableData({
         <TabPanel value={tabValue} index={3}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
-              data={homeCTRTable}
-              columns={[
-                { title: "CLPCTR", field: "CLPCTR" },
-                { title: "Scheduled Hrs.", field: "scheduledHours" },
+              // data={homeCTRTable}
+              data={homeCTRTable.map((row, i) => {
+                const { CLPCTR, ...rest } = row;
+                return {
+                  id: i,
+                  clp: CLPCTR,
+                  ...rest,
+                };
+              })}
+              column={[
                 {
-                  title: "% Utilization",
+                  field: "id",
+                  headerName: "DataTableID",
+                  hide: true,
+                  width: 240,
+                },
+                { headerName: "CLPCTR", field: "clp", width: 240 },
+                {
+                  headerName: "Scheduled Hrs.",
+                  field: "scheduledHours",
+                  width: 240,
+                },
+                {
+                  headerName: "% Utilization",
                   field: "utilizationPercentage",
+                  width: 240,
                 },
-                { title: "Idle Hrs.", field: "idleHours" },
+                { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
                 {
-                  title: "Worker Unavailable Hrs.",
+                  headerName: "Worker Unavailable Hrs.",
                   field: "WorkerUnavailableHours",
+                  width: 240,
                 },
                 {
-                  title: "Feed Unavailable Hrs.",
+                  headerName: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
+                  width: 240,
                 },
+                // { headerName: "Shift", field: "shift" },
               ]}
             />
           </Grid>

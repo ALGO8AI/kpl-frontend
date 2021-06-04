@@ -34,7 +34,7 @@
   background-color: #0e4a7b !important;
 }
 .MuiBox-root {
-  max-width: 100vw;
+  max-width: 100%;
 }
 
 .MTableHeader-header-54 {
@@ -87,9 +87,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* html {
+html {
   zoom: 75%;
-} */
+}
 
 .MuiAlert-standardSuccess {
   color: white !important;
@@ -102,4 +102,20 @@
 }
 .mb-8 {
   margin-bottom: 8px !important;
+}
+.custom-checkbox {
+  margin: auto !important;
+}
+.MuiDataGrid-root .MuiDataGrid-columnsContainer {
+  background-color: #0e4a7b !important;
+  color: white !important;
+}
+/* .MuiSvgIcon-root {
+  fill: white !important;
+} */
+.MuiDataGrid-menuIcon button {
+  color: white !important;
+}
+.MuiDataGrid-iconButtonContainer button {
+  color: white !important;
 }

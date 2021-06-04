@@ -19,6 +19,8 @@ import FormLabel from "@material-ui/core/FormLabel";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import {
   violationDateFilter,
   workerUnavailableViolation,
@@ -247,7 +249,7 @@ function ViolationLog1() {
       // setMachineID(ctr.machineID);
 
       const tableID = await loadTableId();
-      console.log(tableID);
+      // console.log(tableID);
       setMachineID(tableID.data);
 
       if (state.crowd.loading) {
@@ -263,6 +265,7 @@ function ViolationLog1() {
 
       if (state.worker.loading) {
         const worker = await workerUnavailableViolationChecking();
+        console.log(worker);
         if (worker.checkingWorkerUnavailableViolation === "no data") {
           dispatch({
             type: "WORKER_VIO",
@@ -284,6 +287,8 @@ function ViolationLog1() {
 
       if (state.by_worker.loading) {
         const by_worker = await violationByWorkerF();
+        console.log(by_worker);
+
         dispatch({
           type: "BY_WORKER_VIO",
           payload: {
@@ -409,7 +414,7 @@ function ViolationLog1() {
               fullWidth
             >
               <InputLabel id="demo-simple-select-outlined-label">
-                Machine ID
+                Table ID
               </InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
@@ -417,7 +422,7 @@ function ViolationLog1() {
                 multiple
                 value={inputMACHINEid}
                 onChange={(e) => setInputMACHINEid(e.target.value)}
-                label="Machine ID"
+                label="Table ID"
                 // multiple
               >
                 <MenuItem value="">
@@ -425,8 +430,8 @@ function ViolationLog1() {
                 </MenuItem>
                 {machineID &&
                   machineID.map((item, index) => (
-                    <MenuItem value={item.machineID} key={index}>
-                      {item.machineID}
+                    <MenuItem value={item.tableId} key={index}>
+                      {item.tableId}
                     </MenuItem>
                   ))}
               </Select>
@@ -482,6 +487,7 @@ function ViolationLog1() {
               style={{ margin: "10px" }}
               onClick={dateFilter}
             >
+              <FilterListIcon />
               Filter
             </Button>
           </Grid>
@@ -499,6 +505,7 @@ function ViolationLog1() {
               style={{ margin: "10px" }}
               onClick={refreshData}
             >
+              <RefreshIcon />
               Refresh
             </Button>
           </Grid>
@@ -724,7 +731,7 @@ function ViolationLog1() {
               <Tab label="Crowding Violation" {...a11yProps(0)} />
               <Tab label="Worker Violation" {...a11yProps(1)} />
               <Tab label="Worker Performance" {...a11yProps(2)} />
-              <Tab label="By Table" {...a11yProps(3)} />
+              {/* <Tab label="By Table" {...a11yProps(3)} /> */}
             </Tabs>
           </AppBar>
 
@@ -735,36 +742,63 @@ function ViolationLog1() {
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
-                  { title: "Violation ID", field: "Id" },
                   {
-                    title: "Status",
-                    field: "query",
-                    render: (rowData) => {
-                      return rowData.query === "Not Resolved" ? (
-                        <p
-                          style={{
-                            color: "rgb(249, 54, 54)",
-                            backgroundColor: "rgba(249, 54, 54,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Not Resolved
-                        </p>
-                      ) : (
-                        <p
-                          style={{
-                            color: "rgb(74, 170, 22)",
-                            backgroundColor: "rgba(74, 170, 22,0.2)",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          Resolved
-                        </p>
-                      );
-                    },
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/checking/violationDetails/${rowData.Id}`}
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Crowding Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
                   },
+                  { title: "Violation ID", field: "Id" },
+                  // {
+                  //   title: "Status",
+                  //   field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Camera ID", field: "CamID" },
                   {
@@ -789,6 +823,7 @@ function ViolationLog1() {
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -811,6 +846,17 @@ function ViolationLog1() {
                             ? "Link-btn-red"
                             : "Link-btn-green"
                         }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Worker Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
                       >
                         View
                       </Link>
@@ -869,6 +915,7 @@ function ViolationLog1() {
                   { title: "End Time", field: "endTime" },
                   // { title: "Machine ID", field: "machineID" },
                   { title: "Wing", field: "wing" },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
@@ -895,12 +942,13 @@ function ViolationLog1() {
                     title: "Worker N/A Duration(Hrs.)",
                     field: "workerUnavailableViolationDuration",
                   },
+                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={3}>
+          {/* <TabPanel value={tabValue} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.by_worker.data}
@@ -924,7 +972,7 @@ function ViolationLog1() {
                 ]}
               />
             </Grid>
-          </TabPanel>
+          </TabPanel> */}
         </Grid>
       </Grid>
     </>
