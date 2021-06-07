@@ -310,6 +310,114 @@ function ViolationDetails(props) {
     // );
   };
 
+  const [SelectDropdowndata, setSelectDropdowndata] = useState([]);
+
+  const setDrop = () => {
+    localStorage.getItem("VIOLATION-TYPE") === "Feed Unavailable" &&
+      setSelectDropdowndata(
+        [
+          "Zuki broke",
+          "Herakle broke",
+          "Safety broke",
+          "Top broke",
+          "Orsan Broke",
+          "502 broke",
+          "802 broke",
+          "Mc Heatcutter Problem",
+          "Checker Heatcutter Problem",
+          "Orsan Pressure Down",
+          "Power Cut",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Crowding Violation" &&
+      setSelectDropdowndata(
+        [
+          "Supervisor Follow up",
+          "Regular work follow up",
+          "Quality issue follow up",
+          "Worker No work",
+          "Helper distributing material",
+          "Production counting/Matching",
+          "General meeting",
+          "Negligence",
+          "Worker M/c breakdown",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Worker Violation" &&
+      setSelectDropdowndata(
+        [
+          "Late start",
+          "Left Early",
+          "Tailor used as Helper",
+          "Tailor used in repairing",
+          "Trainee tailor",
+          "Tailor Left to the machine without information",
+          "Tailor Left to collect webbing",
+          "Tailor left for Water/Toilet break",
+          "Cell Closed due to Other Manpower",
+          "Material loading helper absent",
+          "Material loading helper not available",
+          "Material loading helper short",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Machine Violation" &&
+      setSelectDropdowndata(
+        [
+          "High GSM setting issue",
+          "PP thread setting issue",
+          "Machine Oil issue",
+          "Electrical Issue",
+          "Heat cutter Issue",
+          "Other Chukka Issue",
+          "Needle Setting",
+          "Looper Setting",
+          "Cross Looper Setting",
+          "Spreader Setting",
+          "Spreader lever Setting",
+          "Feeddog Setting",
+          "Upper Feeddog Setting",
+          "Lower Feeddog Setting",
+          "Throat plate Setting",
+          "Pressure foot Setting",
+          "Needle holder Setting",
+          "Needle gaurd Setting",
+          "Ball Stud Setting",
+          "Big Ball Stud Setting",
+          "Small Ball Stud Setting",
+          "Screw Setting",
+          "Connecting rod setting",
+          "CAM Setting",
+          "Other Part setting issue",
+          "Needle breakdown",
+          "Looper breakdown",
+          "Cross Looper breakdown",
+          "Spreader breakdown",
+          "Spreader lever breakdown",
+          "Feeddog breakdown",
+          "Upper Feeddog breakdown",
+          "Lower Feeddog breakdown",
+          "Throat plate breakdown",
+          "Pressure foot breakdown",
+          "Needle holder breakdown",
+          "Needle gaurd breakdown",
+          "Ball Stud breakdown",
+          "Big Ball Stud breakdown",
+          "Small Ball Stud breakdown",
+          "Screw breakdown",
+          "Connecting rod breakdown",
+          "CAM breakdown",
+          "Other breakdown",
+        ].sort()
+      );
+  };
+
+  useEffect(() => {
+    setDrop();
+  }, []);
+
   return (
     <div>
       <Grid container>
@@ -362,7 +470,7 @@ function ViolationDetails(props) {
               {/* video player here */}
               <ReactPlayer
                 key={link}
-                url={link.replace(".avi", ".mp4")}
+                url={link?.replace(".avi", ".mp4")}
                 controls={true}
                 //  muted={true}
                 //  playing={false}
@@ -454,9 +562,14 @@ function ViolationDetails(props) {
                   Choose Reason
                 </InputLabel>
                 <Select native value={reason} onChange={handleReasonChange}>
-                  <option aria-label="None" value="" />
-                  <option value="Machine Breakdown">Machine Breakdown</option>
-                  <option value="CTR Change">CTR Change</option>
+                  {SelectDropdowndata.length > 0 &&
+                    SelectDropdowndata.map((item, i) => (
+                      <option key={i} value={item}>
+                        {item}
+                      </option>
+                    ))}
+
+                  <option value="Repeated Violation">Repeated Violation</option>
                   <option value="Add Reason">Add Reason</option>
                 </Select>
               </FormControl>

@@ -76,19 +76,19 @@
 @media only screen and (max-width: 425px) {
   .LoginContainer {
     width: 100%;
-    height: 100vh;
+    height: auto;
 
     .LoginBox {
       width: 96%;
-      height: 95%;
+      height: auto;
       flex-direction: column;
       .left {
         width: 100%;
-        height: 30%;
+        height: 300px;
       }
       .right {
         width: 100%;
-        height: 70%;
+        height: auto;
 
         flex-direction: column;
         padding: 8px;

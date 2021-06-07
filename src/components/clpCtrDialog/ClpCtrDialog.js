@@ -109,7 +109,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                   >
                     <MenuItem value={"enter manually"}>Enter Manually</MenuItem>
                     {ctrDrop &&
-                      ctrDrop.currentCLPCTR.map((item, i) => (
+                      ctrDrop?.currentCLPCTR?.map((item, i) => (
                         <MenuItem value={item.clpCtr} key={i}>
                           {item.clpCtr}
                         </MenuItem>
@@ -144,7 +144,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     onChange={(e) => setCTR({ ...CTR, wing: e.target.value })}
                   >
                     {ctrDrop &&
-                      [...new Set(ctrDrop.data.map((item) => item.wing))].map(
+                      [...new Set(ctrDrop?.data?.map((item) => item.wing))].map(
                         (item, i) => (
                           <MenuItem value={item} key={i}>
                             {item}
@@ -175,7 +175,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                   >
                     <MenuItem value=""></MenuItem>
                     {ctrDrop &&
-                      ctrDrop.data.map((item, i) => (
+                      ctrDrop?.data?.map((item, i) => (
                         <MenuItem value={item.clpCtr} key={i}>
                           {item.clpCtr}
                         </MenuItem>
@@ -201,7 +201,9 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     <MenuItem value=""></MenuItem>
                     {ctrDrop &&
                       [
-                        ...new Set(ctrDrop.data.map((item) => item.resourceId)),
+                        ...new Set(
+                          ctrDrop?.data?.map((item) => item.resourceId)
+                        ),
                       ].map((item, i) => (
                         <MenuItem value={item} key={i}>
                           {item}

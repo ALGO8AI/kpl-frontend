@@ -73,29 +73,34 @@
   }
 }
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 426px) {
   .LoginContainer {
     width: 100%;
-    height: 100vh;
+    height: auto;
 
     .LoginBox {
-      width: 96%;
-      height: 95%;
+      width: 90%;
+      height: auto;
+      display: flex;
       flex-direction: column;
       .left {
         width: 100%;
-        height: 30%;
+        height: 300px;
+        background-image: url(../images/loginImage.svg);
+        background-size: cover;
       }
       .right {
         width: 100%;
-        height: 70%;
-
+        height: 500px;
+        display: flex;
         flex-direction: column;
         padding: 8px;
         .logo {
-          width: 50%;
-          align-self: center;
-          padding: 12px;
+          width: 40%;
+          align-self: flex-end;
+          img {
+            width: 100%;
+          }
         }
         .form {
           align-self: center;
@@ -123,4 +128,53 @@
       }
     }
   }
+  // .LoginContainer {
+  //   width: 100%;
+  //   min-height: 100vh;
+
+  //   .LoginBox {
+  //     width: 96%;
+  //     height: 95%;
+  //     flex-direction: column;
+  //     .left {
+  //       width: 100%;
+  //       height: auto;
+  //     }
+  //     .right {
+  //       width: 100%;
+  //       height: 70%;
+
+  //       flex-direction: column;
+  //       padding: 8px;
+  //       .logo {
+  //         width: 50%;
+  //         align-self: center;
+  //         padding: 12px;
+  //       }
+  //       .form {
+  //         align-self: center;
+  //         width: 80%;
+  //         display: flex;
+  //         flex-direction: column;
+  //         position: relative;
+  //         top: 50%;
+  //         transform: translateY(-70%);
+  //         h3 {
+  //           color: black;
+  //           font-weight: 300;
+  //           margin-bottom: 0.5rem;
+  //         }
+  //         h2 {
+  //           color: black;
+  //           font-size: 32px;
+  //           font-weight: 400;
+  //           margin-bottom: 0.5rem;
+  //         }
+  //         .text {
+  //           margin-bottom: 0.75rem;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }

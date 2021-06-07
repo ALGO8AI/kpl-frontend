@@ -17,7 +17,7 @@ function HomeTable({ data, column }) {
 
   return (
     <>
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         // <MaterialTable
         //   title="Detail Summary"
         //   columns={columns}
