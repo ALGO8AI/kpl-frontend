@@ -233,9 +233,20 @@ const violationComment = async (
   action,
   isCorrect,
   isIncorrect,
-  incorrect
+  incorrect,
+  actual,
+  reassigned
 ) => {
-  // console.log(id+''+reason+''+action+''+isCorrect+''+isIncorrect+''+incorrect)
+  console.log(
+    id,
+    reason,
+    action,
+    isCorrect,
+    isIncorrect,
+    incorrect,
+    actual,
+    reassigned
+  );
   return await callBackend("POST", "routes/KPI/violation/addComment", true, {
     violationId: id,
     violationReason: reason,
@@ -243,6 +254,8 @@ const violationComment = async (
     confirmStatus: isCorrect,
     incorrectStatus: isIncorrect,
     incorrectViolationReason: incorrect,
+    actualSupervisor: actual,
+    reassignedSupervisor: reassigned,
   });
 };
 

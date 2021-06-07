@@ -187,6 +187,7 @@ function ViolationDetails(props) {
     };
   }, [props.id]);
 
+  const [reassigned, setReassigned] = React.useState("");
   const submitConfirmViolation = async () => {
     setIsCorrect(true);
     let res;
@@ -202,14 +203,26 @@ function ViolationDetails(props) {
       act = action;
     }
 
-    await violationComment(props.id, res, act, true, false, "").then((x) => {
+    try {
+      const x = await violationComment(
+        props.id,
+        res,
+        act,
+        true,
+        false,
+        "",
+        data?.actualSupervisor,
+        reassigned
+      );
       console.log(x);
       setMsg(x.msg);
       setOpen1(true);
       setTimeout(() => {
         history.push("/stitching/violationLog");
       }, 2000);
-    });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const submitIncorrectViolation = async () => {
@@ -577,6 +590,18 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.supervisor}
             </Grid>
+            <Grid item xs={6} className="vd-d3">
+              Actual Supervisor :
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              {(data && data?.actualSupervisor) || "Not Available"}
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              Reassigned Supervisor :
+            </Grid>
+            <Grid item xs={6} className="vd-d3">
+              {(data && data?.reassignedSupervisor) || "Not Available"}
+            </Grid>
           </Grid>
           <Grid item xs={12} className="vd-white">
             <Grid item xs={12} className="vd-d1 vd-d2">
@@ -763,6 +788,26 @@ function ViolationDetails(props) {
                 />
               </Grid>
             ) : null}
+          </Grid>
+          <Grid item xs={12} className="vd-white">
+            <Grid item xs={12} className="vd-d1 vd-d2">
+              Reassign Supervisor
+            </Grid>
+
+            <Grid
+              item
+              container
+              xs={12}
+              className="vd-d1 vd-d2"
+              style={{ marginTop: "2px" }}
+            >
+              <TextField
+                placeholder="Reassigned Supervisor"
+                fullWidth
+                onChange={(e) => setReassigned(e.target.value)}
+                value={reassigned}
+              />
+            </Grid>
           </Grid>
           <Grid item xs={12} className="vd-white">
             <Grid item xs={12} className="vd-d1 vd-d2">
