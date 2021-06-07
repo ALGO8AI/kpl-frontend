@@ -1,132 +1,178 @@
-import React, { useState, useEffect } from "react"
-import pointDistancePrecision from 'react-image-annotate'
+import React, { useEffect, useState } from "react"
 import ReactImageAnnotate from "react-image-annotate";
-import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
+import img from '../../../../Assets/images/viewdetails.png';
 import { observer } from 'mobx-react';
 import { appState } from '../LayoutStore';
 import { LayoutStore } from '../LayoutStore';
+import { withRouter } from "react-router";
+import { Spinner } from '../spinner';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+
+const useStyles = makeStyles((theme) =>
+    createStyles({
+        root: {
+            flexGrow: 1,
+            padding: '25px',
+        },
+        paper: {
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+        },
+        table: {
+            minWidth: 0,
+        },
+        tool: {
+            marginTop: '20px'
+        },
+        heading: {
+            color: '#0e4a7b'
+        },
+        imgBox: {
+            marginTop: '30px'
+        }
+    }),
+);
+
 
 export const AnnotationPage = observer((props) => {
-    var tags = [];
     const history = useHistory();
-
-    const [tag, settagName] = useState("")
-
-    let { cameraid } = useParams();
-
-    const [details, setDetails] = useState();
-    const [desgID, setdesgID] = useState();
-    const [url, seturl] = useState()
-
-    useEffect(() => {
-        let result = appState.FeedTags?.map(value => value.feedId)
-        let designatedId = appState.DesignatedTag.map(value => value.designatedAreaId)
-        setDetails(result);
-        setdesgID(designatedId);
-
-        appState.cameraDetails?.find(function (camera, index) {
-            if (camera.cameraId === cameraid) {
-                seturl(camera.image);
+    const classes = useStyles();
+    const coordinates = (data, width, height) => {
+        const array = []
+        data.map(obj => {
+            if (obj.type === 'box') {
+                array.push({
+                    "x": Math.floor(obj.x * width),
+                    "y": Math.floor(obj.y * height),
+                    "w": Math.floor(obj.w * width),
+                    "h": Math.floor(obj.h * height),
+                    "feedId": obj.tags ? obj.tags[0] : "",
+                    "type": obj.type,
+                    "designatedAreaId": obj.cls,
+                    "cameraId": props.id,
+                    "machineId": props.machineId
+                })
+            } else {
+                const points = [];
+                obj.points.map(point => {
+                    points.push(
+                        Math.floor(point[0] * width),
+                        Math.floor(point[1] * height)
+                    )
+                })
+                array.push({
+                    "x": points[0],
+                    "y": points[1],
+                    "w": Math.floor(0 * width),
+                    "h": Math.floor(0 * height),
+                    points,
+                    "type": obj.type,
+                    "feedId": obj.tags ? obj.tags[0] : "",
+                    "designatedAreaId": obj.cls,
+                    "cameraId": props.id,
+                    "machineId": props.machineId
+                })
             }
         })
-    }, [])
-
-    const coordinates = (data) => {
-        const form = new FormData();
-        const obj = { data }
-        form.append(data, obj);
-        props.store.saveAnnotation(obj, history)
+        const body = {
+            'data': array
+        }
+        props.store.saveAnnotation(body, history)
     }
+    // const getFeedTag = (tagId) => {
+    //     let FeedTag = '';
+    //     FeedTag = JSON.parse(localStorage.getItem("feedTag")).filter(id => {
+    //         return id === tagId
 
-    function getValue(e) {
-        settagName(e.target.value);
-    }
+    //     })[0]
+    //     return FeedTag == undefined ? '' : FeedTag
+    // }
 
-    function createTag() {
-        setDetails(details.concat(tag));
-        console.log(details)
+    // const getWorkerTag = (tagId) => {
+    //     let workerTag = '';
+    //     workerTag = JSON.parse(localStorage.getItem("DesignatedTag")).filter(id => {
+    //         return id === tagId
 
-    }
-
+    //     })[0]
+    //     return workerTag == undefined ? '' : workerTag
+    // }
     return (
-        <div>
-            <div className="maingrid">
-                <div className="annotatebox">
-                    {
-                        console.log(details)
+        <div className={classes.root}>
+            <Grid container spacing={1}>
+                <Grid item xs={8}>
+                    <h1 className={classes.heading}>Annotation Tool</h1>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                    <Paper className={classes.paper}> view</Paper>
+                </Grid>
+                <Grid item xs={12} sm={1}>
+                    <Paper className={classes.paper}>Floor</Paper>
+                </Grid>
+                <Grid item xs={6} sm={1}>
+                    <Paper className={classes.paper}>  <ArrowBackIosIcon className="arrow-icon" /></Paper>
+                </Grid>
+            </Grid>
+            <div className={classes.tool}>
+                <ReactImageAnnotate
+                    enabledTools={["create-box", "create-polygon"]}
+                    labelImages
+                    regionClsList={JSON.parse(localStorage.getItem("DesignatedTag"))}
+                    regionTagList={JSON.parse(localStorage.getItem("feedTag"))}
+                    images={[
+                        {
+                            src: localStorage.getItem('anImage'),
+                            name: props.id,
+                            regions: []
+                        }
+
+                    ]}
+                    onCommentInputClick={(value) => {
+                        console.log(value)
+                    }}
+                    onExit={(value) => {
+                        let widthValue = value.images[0].pixelSize.w
+                        let heightValue = value.images[0].pixelSize.h
+                        coordinates(value.images[0].regions, widthValue, heightValue);
                     }
-                    {details && details.length > 0 && desgID && desgID.length > 0 && url &&
-
-                        <ReactImageAnnotate
-                            enabledTools={["create-box", "create-polygon"]}
-                            labelImages
-                            regionClsList={desgID}
-                            regionTagList={tags.concat(details)}
-                            images={[
-                                {
-                                    src: url,
-                                    name: details.cameraId,
-                                    regions: []
-                                }
-
-                            ]}
-                            onExit={(value) => {
-                                let widthValue = value.images[0].pixelSize.w
-                                let heightValue = value.images[0].pixelSize.h
-                                const values = []
-                                console.log(value);
-                                if (value.images[0].regions[0].type === 'polygon') {
-                                    let multipleBox = value.images[0].regions[0].points;
-                                    let dataCollection = multipleBox.map(function (value, index) {
-                                        let value1 = {
-                                            "x": Math.floor(value[0] * widthValue),
-                                            "y": Math.floor(value[1] * heightValue)
-                                        }
-                                        values.push(value1);
-                                    })
-
-                                }
-                                else {
-                                    let multipleBox = value.images[0].regions
-                                    let dataCollection = multipleBox.map(function (value, index) {
-                                        let value1 = {
-                                            "x": Math.floor(value.x * widthValue),
-                                            "y": Math.floor(value.y * heightValue),
-                                            "w": Math.floor(value.w * widthValue),
-                                            "h": Math.floor(value.h * heightValue),
-                                            "feedId": value.tags[0],
-                                            "designatedAreaId": value.cls
-                                        }
-                                        values.push(value1);
-                                    })
-                                }
-                                console.log(values);
-                                coordinates(values);
-                            }
-                            }
-                        />
                     }
-                </div>
+                />
             </div>
         </div>
-
     )
 })
 
-export class Annotation extends React.Component {
+export class _Annotation extends React.Component {
     store;
-    constructor() {
-        super()
+    id
+    machineId
+    constructor(props) {
+        super(props)
         this.store = new LayoutStore()
+        this.id = props.match.params.id;
     }
-    componentDidMount() {
-        this.store.getTags();
+
+    async componentDidMount() {
+        await this.store.getTags();
+        await this.store.getCameraDetails();
+        appState.cameraDetails?.find((camera, index) => {
+            if (camera.cameraId === this.id) {
+                this.machineId = camera.machineId
+                appState.camearaValue = camera;
+                localStorage.setItem('anImage', appState.camearaValue.image)
+            }
+        })
     }
     render() {
         return (
-            <AnnotationPage store={this.store} />
+            <AnnotationPage store={this.store} id={this.id} machineId={this.machineId} />
         )
     }
 
 }
+
+export const Annotation = withRouter(_Annotation);

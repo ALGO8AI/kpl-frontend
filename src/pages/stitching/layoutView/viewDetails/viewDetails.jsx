@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { Stage, Layer, Image, Rect, Label, Text, Tag } from 'react-konva';
+import React, { useState } from 'react'
+import { Stage, Layer, Image, Rect, Line, Label, Text, Tag } from 'react-konva';
 import useImage from 'use-image';
-import { useParams } from 'react-router-dom'
-import img from '../../../../Assets/images/viewdetails.png'
+// import img from '../../../../Assets/images/viewdetails.png';
 import { LayoutStore } from '../LayoutStore';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import '../LayoutView.scss'
+import '../LayoutView.scss';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { observer } from 'mobx-react';
 import { appState } from '../LayoutStore';
+import { Spinner } from '../spinner';
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -35,43 +35,36 @@ const useStyles = makeStyles((theme) =>
         },
         imgBox: {
             marginTop: '30px'
-        }
+        },
+        tablehead:{
+         textAlign:"center",
+         color: '#0e4a7b'
+        },
+        heading: {
+            color: '#0e4a7b'
+        },
     }),
 );
 
 export const ViewDetailsPage = observer((props) => {
-    const [details, setdetails] = useState(null);
-
-    let { cameraid } = useParams();
-
-    const [url, seturl] = useState();
 
     const { store } = props;
 
     const classes = useStyles();
 
-    useEffect(() => {
-        appState.cameraDetails?.find(function (camera, index) {
-            if (camera.cameraId === cameraid) {
-                seturl(camera.image);
-                setdetails(camera)
-            }
-        })
-    }, [])
-
     const rows = [
-        createData('camera ID:', 159, 6.0, 24, 4.0),
-        createData('WingID :', details && details.wing),
-        createData('LineID :', details && details.lineID),
-        createData('FeedID', details && details.feedId),
-        createData('MachineID', details && details.machineId),
+        createData('camera ID:', appState.camearaValue.cameraId),
+        createData('WingID :', appState.camearaValue.wing),
+        createData('LineID :', appState.camearaValue.lineID),
+        createData('FeedID', appState.camearaValue.feedId),
+        createData('MachineID', appState.camearaValue.machineId),
     ];
 
     const renderFloor = () => {
         return (
             <TransformWrapper>
                 <TransformComponent>
-                    <Viewimage id={cameraid} store={store} />
+                    <Viewimage id={props.id} store={store} />
                 </TransformComponent>
             </TransformWrapper >
         )
@@ -80,6 +73,7 @@ export const ViewDetailsPage = observer((props) => {
     const renderLiveList = () => {
         return (
             <TableContainer component={Paper}>
+                <h5 className={classes.tablehead}>Live Details</h5>
                 <Table className={classes.table} aria-label="simple table">
                     <TableBody>
                         {rows.map((row) => (
@@ -100,7 +94,7 @@ export const ViewDetailsPage = observer((props) => {
             <div className={classes.root}>
                 <Grid container spacing={1}>
                     <Grid item xs={8}>
-                        <h1>Layout View</h1>
+                        <h1 className={classes.heading}>Zone {appState.camearaValue.cameraId}</h1>
                     </Grid>
                     <Grid item xs={12} sm={2}>
                         <Paper className={classes.paper}> view</Paper>
@@ -112,18 +106,22 @@ export const ViewDetailsPage = observer((props) => {
                         <Paper className={classes.paper}>  <ArrowBackIosIcon className="arrow-icon" /></Paper>
                     </Grid>
                 </Grid>
-                <div className={classes.imgBox}>
-                    <Grid container spacing={1}>
-                        <Grid item xs={9}>
-                            <div className="viewdetails-img">
-                                {renderFloor()}
-                            </div>
-                        </Grid>
-                        <Grid item xs={3}>
-                            {renderLiveList()}
-                        </Grid>
-                    </Grid>
-                </div>
+                {
+                    appState.camearaValue.length == 0 ? <div className="layput-spinner">
+                        <Spinner /></div> :
+
+                        <div className={classes.imgBox}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={9}>
+                                    <div className="viewdetails-img">
+                                        {renderFloor()}
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    {renderLiveList()}
+                                </Grid>
+                            </Grid>
+                        </div>}
             </div>
 
         </>
@@ -136,33 +134,98 @@ function createData(name, id) {
 }
 
 export const Viewimage = observer((props) => {
-
-    const [details, setdetails] = useState(null);
-    const [pos, setpos] = useState([]);
-    const { store } = props;
-
-    useEffect(() => {
-        appState.cameraDetails?.find(function (camera) {
-            if (camera.cameraId === props.id) {
-                let posV = {
-                    x: camera.x,
-                    y: camera.y,
-                    w: camera.w,
-                    h: camera.h
-                }
-                setpos(old => [...old, posV]);
-                setdetails(camera);
+    const [image1] = useImage(appState.camearaValue.image)
+    const renderBox = () => {
+        return appState.cameraDetails?.map(obj => {
+            if (obj.cameraId === props.id) {
+                return (
+                    <>
+                        <Label
+                            x={(obj && obj.x) - 10}
+                            y={(obj && obj.y) - 10}>
+                            <Tag fill="white"
+                                scaleX={1.2}
+                                scaleY={1.4}
+                                pointerDirection={'down'}
+                                pointerHeight={10}
+                                pointerWidth={10}
+                            />
+                            <Text
+                                text={obj.machineId + " ," + obj.feedId}
+                                fontSize={14}
+                                fill={"blue"}
+                                lineCap={"round"}
+                                offsetY={-3}
+                                offsetX={-7}
+                            />
+                        </Label>
+                        <Rect
+                            x={obj && obj.x}
+                            y={obj && obj.y}
+                            width={obj && obj.w}
+                            height={obj && obj.h}
+                            stroke="lightgreen"
+                        />
+                        <Line
+                            points={obj.points.split(',')}
+                            stroke={"yellow"}
+                            strokeWidth={3}
+                            closed={true}
+                        />
+                    </>
+                )
             }
         })
-    }, [])
+    }
 
-    const [image1, status] = useImage(details && details.image)
-
+    const renderworker = () => {
+        return appState.cameraWorkerUnavCords?.map(obj => {
+            if (obj.cameraId === props.id) {
+                return (
+                    <>
+                        <Label
+                            x={(obj && obj.x) - 10}
+                            y={(obj && obj.y) - 10}>
+                            <Tag fill="white"
+                                scaleX={1.2}
+                                scaleY={1.4}
+                                pointerDirection={'down'}
+                                pointerHeight={10}
+                                pointerWidth={10}
+                            />
+                            <Text
+                                text={obj.machineId + " ," + obj.designatedAreaId}
+                                fontSize={14}
+                                fill={"blue"}
+                                lineCap={"round"}
+                                offsetY={-3}
+                                offsetX={-7}
+                            />
+                        </Label>
+                        <Rect
+                            x={obj && obj.x}
+                            y={obj && obj.y}
+                            width={obj && obj.w}
+                            height={obj && obj.h}
+                            stroke="lightgreen"
+                        />
+                        <Line
+                            points={obj.points.split(',')}
+                            stroke={"lightblue"}
+                            strokeWidth={3}
+                            closed={true}
+                        />
+                    </>
+                )
+            }
+        })
+    }
 
     return (
-        <div className="imageContainer">
-            {
-                status === "loaded" &&
+        <div>
+            { image1 == undefined ? <div >
+                <Spinner /></div> :
+
                 <Stage
                     width={1050}
                     height={700}>
@@ -171,72 +234,37 @@ export const Viewimage = observer((props) => {
                             image={image1} />
                     </Layer>
                     <Layer>
-                        {
-                            pos.map((value, index) => (
-                                <React.Fragment>
-                                    <Label
-                                        x={(value && value.x) - 10}
-                                        y={(value && value.y) - 10}>
-                                        <Tag fill="white"
-                                            scaleX={1.2}
-                                            scaleY={1.4}
-                                            pointerDirection={'down'}
-                                            pointerHeight={10}
-                                            pointerWidth={10}
-                                        />
-                                        <Text
-                                            text={details && details.machineId}
-                                            fontSize={14}
-                                            fill={"blue"}
-                                            lineCap={"round"}
-                                            offsetY={-3}
-                                            offsetX={-7}
-                                        />
-                                    </Label>
-                                    <Rect
-                                        x={value && value.x}
-                                        y={value && value.y}
-                                        width={value && value.w}
-                                        height={value && value.h}
-                                        stroke="lightgreen"
-                                    />
-                                </React.Fragment>
-                            ))
-                        }
-
+                        {renderBox()}
+                        {renderworker()}
                     </Layer>
-
-                    {/* {   line.map((lines,index)=>(
-                            <Line
-                            key={index}
-                            points={lines.points}
-                            stroke={"black"}
-                            strokeWidth={5}
-                            tension={0.5}
-                            lineCap="round"
-                            />
-                        ))
-                    } */}
-                </Stage>
-            }
+                </Stage>}
         </div>
     )
 })
 
 
-export class ViewDetails extends React.Component {
+export class _ViewDetails extends React.Component {
     store;
-    constructor() {
-        super()
+    id
+    constructor(props) {
+        super(props)
         this.store = new LayoutStore()
+        this.id = props.match.params.id;
     }
-    componentDidMount() {
-        this.store.getCameraDetails();
+    async componentDidMount() {
+        await this.store.getCameraDetails();
+        appState.cameraDetails?.find((camera, index) => {
+            if (camera.cameraId === this.id) {
+                appState.camearaValue = camera;
+            }
+        })
     }
     render() {
         return (
-            <ViewDetailsPage store={this.store} />
+            <ViewDetailsPage store={this.store} id={this.id} />
         )
     }
 
 }
+
+export const ViewDetails = withRouter(_ViewDetails)

@@ -13,13 +13,13 @@ import Stitching from "./pages/stitching/Stitching/Stitching";
 import { KPLContext } from "./context/ViolationContext";
 import AuthRoute from "./Auth/AuthRoute";
 import Checking from "./pages/checking/Checking/Checking";
-import {ViewDetails} from './pages/stitching/layoutView/viewDetails/viewDetails';
+import {LayoutView} from './pages/stitching/layoutView/LayoutView';
 import SignUp from "./pages/SignUp";
 import Blank from "./pages/Blank";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
-
+import {ViewDetails} from './pages/stitching/layoutView/viewDetails/viewDetails'
 function App(props) {
   // console.log(props);
   const { state, dispatch } = useContext(KPLContext);

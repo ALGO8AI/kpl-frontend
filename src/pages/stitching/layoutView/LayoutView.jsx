@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import ReactCursorPosition from 'react-cursor-position';
 import './LayoutView.scss'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { LayoutStore } from './LayoutStore';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { AddCamera } from './camera/addCamera';
+import Button from '@material-ui/core/Button';
 import { Camera } from './camera/camera'
 import { observer } from 'mobx-react';
 import { appState } from './LayoutStore';
+import { Spinner } from './spinner';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -23,6 +25,9 @@ const useStyles = makeStyles((theme) =>
             padding: theme.spacing(1),
             textAlign: 'center',
             color: theme.palette.text.secondary,
+        },
+        heading: {
+            color: '#0e4a7b'
         },
     }),
 );
@@ -39,46 +44,63 @@ export const LayoutViewPage = observer((props) => {
         setcood([value.position.x, value.position.y])
     }
 
+    const renderCamposition = () => {
+        return appState.cameraPosition?.map((value) => {
+            return (
+                < div className="localDiv" style={{ transform: `translate(${value.x}px,${value.y}px)` }}>
+                    <div className="contentBox" >
+                        <Camera id={value.cameraId}
+                            details={appState.cameraDetails}
+                            role={store.Role()} />
+                    </div>
+                </div >
+            )
+        })
+    }
+
     const renderFloor = () => {
         return (
             <TransformWrapper>
-                <TransformComponent>
-                    <div className="nested">
-                        <ReactCursorPosition {...
-                            {
-                                onPositionChanged: props => setvalue(props)
-                            }
-                        }>
-                            <div className="main" onClick={getPos}>
-                                <Camera id={value.cameraId} store={store} />
-                                {/* {
-                                    appState.cameraPosition?.map((value) => (
-                                        <div className="localDiv" style={{ transform: `translate(${value.x}px,${value.y}px)` }}>
-                                            <div className="contentBox" >
-                                                <Camera id={value.cameraId} store={store}/>
-                                            </div>
-                                        </div>
-                                    ))
-                                } */}
+                {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                    <React.Fragment>
+                        <div className="tools">
+                            <Button variant="contained" color="primary" onClick={zoomIn}> + </Button>
+                            <Button variant="contained" color="primary" onClick={zoomOut}> - </Button>
+                            <Button variant="contained" color="primary" onClick={resetTransform}> x </Button>
+                        </div>
+                        <TransformComponent>
+                            <div className="nested">
+                                <ReactCursorPosition {...
+                                    {
+                                        onPositionChanged: props => setvalue(props)
+                                    }
+                                }>
+                                    <div className="main" onClick={getPos}>
+                                        {
+                                            renderCamposition()
+                                        }
+                                    </div>
+                                </ReactCursorPosition>
                             </div>
-                        </ReactCursorPosition>
-                    </div>
-                </TransformComponent>
+                        </TransformComponent>
+                    </React.Fragment>
+                )}
             </TransformWrapper>
         )
     }
     return (
-        < div className="layout-main">
+        <div className="layout-main">
             <div className={classes.root}>
                 <Grid container spacing={1}>
-                    <Grid item xs={store.Role() == 'admin' ? 8 : 10}>
-                        <h1>Layout View</h1>
+                    <Grid item xs={10}>
+                        <h1 className={classes.heading}>Layout View</h1>
                     </Grid>
-                    {store.Role() == 'admin' ?
+                    {/* {store.Role() === 'admin' ?
                         <Grid item xs={12} sm={2}>
                             <Paper className={classes.paper}> <AddCamera x={cood} y={cood} store={store} /></Paper>
                         </Grid> : null
-                    }
+                    } */}
+
                     <Grid item xs={12} sm={1}>
                         <Paper className={classes.paper}>Floor</Paper>
                     </Grid>
@@ -87,12 +109,20 @@ export const LayoutViewPage = observer((props) => {
                     </Grid>
                 </Grid>
             </div>
-            <div className="img-cntnr">
-                {renderFloor()}
-            </div>
+
+
+            {
+                appState.cameraPosition.length == 0 ? <div className="layput-spinner">
+                    <Spinner />
+                </div> :
+
+                    <div className="img-cntnr">
+                        {renderFloor()}
+                    </div>}
         </div>
     )
 })
+
 
 export class LayoutView extends React.Component {
     store;
@@ -101,7 +131,8 @@ export class LayoutView extends React.Component {
         this.store = new LayoutStore()
     }
     componentDidMount() {
-        this.store.getCamera()
+        this.store.getCamera();
+        this.store.getCameraDetails();
     }
     render() {
         return (
