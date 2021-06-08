@@ -5,66 +5,45 @@ import "./BarCode.scss";
 
 function BarCodePrint() {
   const { state, dispatch } = React.useContext(CheckingContext);
-  const print = React.useRef(null);
 
-  const printDiv = () => {
-    var printContents = document.getElementById(print.current.id).innerHTML;
-    console.log(printContents);
+  const printDiv = (divName) => {
+    var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;
-
     document.body.innerHTML = printContents;
-
     window.print();
-
     document.body.innerHTML = originalContents;
   };
 
-  return (
-    <div container style={{ padding: "24px" }}>
-      <div
-        style={{ display: "flex", flexDirection: "column", padding: "1.5rem" }}
-      >
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "#0e4a7b",
-            color: "#FFF",
-            whiteSpace: "nowrap",
-            width: "100%",
-            height: "fit-content",
-            border: "1px solid #0e4a7b",
-          }}
-          id="no-print"
-          onClick={() => window.print()}
-          //   onClick={() => printDiv("printBarCode")}
-          //   onClick={() => history.push("/checking/print")}
-        >
-          PRINT
-        </Button>
-      </div>
-      <div
-        container
-        item
-        id="printBarCode"
-        ref={print}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "377px",
-          height: "188px",
-        }}
-      >
-        {state.bagDataPrint.data.map((item) => (
-          <div style={{ width: "auto", height: "auto", marginBottom: "24px" }}>
-            {/* <p style={{ pageBreakBefore: "always" }}></p> */}
+  const btn_style = {
+    backgroundColor: "#0e4a7b",
+    color: "#FFF",
+    whiteSpace: "nowrap",
+    width: "100%",
+    height: "fit-content",
+    border: "1px solid #0e4a7b",
+  };
+  const BarCodeStyle = {
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "center",
+    margin: "20px",
+    padding: "20px",
+  };
 
-            <img
-              style={{ width: "377px", height: "188px" }}
-              key={item.bagId}
-              src={item.barcode}
-              alt={item.bagId}
-            />
-            <p style={{ pageBreakBefore: "always" }}></p>
+  return (
+    <div className="print_page">
+      <Button
+        variant="contained"
+        style={btn_style}
+        id="no-print"
+        onClick={() => printDiv("printBarCode")}
+      >
+        PRINT
+      </Button>
+      <div id="printBarCode" style={BarCodeStyle}>
+        {state.bagDataPrint.data.map((item, key) => (
+          <div className="page_printBreack" key={key}>
+            <img key={item.bagId} src={item.barcode} alt={item.bagId} />
           </div>
         ))}
       </div>

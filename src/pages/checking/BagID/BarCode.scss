@@ -3,15 +3,14 @@
     display: none;
   }
 
-  // @page {
-  //   size: 139mm 215mm;
-  //   height: 215mm;
-  //   width: 139mm;
-  // }
+  @page {
+    // size: 10cm 5cm;
+    // size: landscape;
+  }
   .page-break {
     display: block;
     page-break-before: always;
-    // clear: both;
+    clear: both;
   }
 }
 @media all {
@@ -20,5 +19,16 @@
   }
 }
 
-// @media print {
-// }
+@media print {
+}
+
+img {
+  font-weight: bold;
+  page-break-after: avoid;
+  page-break-inside: avoid;
+}
+
+@page {
+  size: 10cm 5cm;
+  // size: landscape;
+}
