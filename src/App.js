@@ -6,6 +6,7 @@ import {
   useHistory,
 } from "react-router-dom";
 import React, { useContext, useEffect } from "react";
+import axios from "axios";
 import { Portal } from 'mobx-portals';
 import Login from "./pages/Login";
 import Menu from "./pages/Menu";
@@ -21,8 +22,8 @@ import ResetPassword from "./pages/ResetPassword";
 import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 import { ViewDetails } from './pages/stitching/layoutView/viewDetails/viewDetails';
 import socketIOClient from "socket.io-client";
+
 const ENDPOINT = "http://localhost:8081";
-// const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
 const socket = socketIOClient(ENDPOINT);
 
 function App(props) {
@@ -48,13 +49,51 @@ function App(props) {
             navigator.serviceWorker.register(swUrl)
               .then(async (worker) => {
                 worker.showNotification(resp.Message);
-              });
+                if (resp.Message == 'active') {
+                  const body = {
+                    username: ''
+                  }
+                  await axios.post(`http://localhost:8081/routes/notification/subscribeMachineAlert`,body)
+                    .then(response => {
+                      if (response.status == 200) {
+                        console.log(response.data.message)
+                        worker.showNotification(response.data.message);
+                      }
+                    });
+                }
+              })
           }
-        });
-      }
+        })
+      };
+    })
 
-    });
-
+    ///getBellNotifi
+    socket.on('realTime-notification', (resp) => {
+      console.log(resp)
+      if (window.Notification) {
+        Notification.requestPermission(() => {
+          if (Notification.permission === 'granted') {
+            const swUrl = `${process.env.PUBLIC_URL}/serviceWorker.js`
+            navigator.serviceWorker.register(swUrl)
+              .then(async (worker) => {
+                worker.showNotification(resp.Message);
+                if (resp.Message == 'active') {
+                  const body = {
+                    username: ''
+                  }
+                  await axios.post(`http://localhost:8081/routes/notification/subscribe`, body)
+                    .then(response => {
+                      if (response.status == 200) {
+                        console.log(response.data.message)
+                        worker.showNotification(response.data.message);
+                      }
+                    });
+                }
+              })
+          }
+        })
+      };
+    })
   }, []);
 
   // setInterval(() => {
