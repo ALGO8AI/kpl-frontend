@@ -335,56 +335,6 @@ function ViolationDetails(props) {
     localStorage.getItem("VIOLATION-TYPE") === "Feed Unavailable" &&
       setSelectDropdowndata(
         [
-          "Zuki broke",
-          "Herakle broke",
-          "Safety broke",
-          "Top broke",
-          "Orsan Broke",
-          "502 broke",
-          "802 broke",
-          "Mc Heatcutter Problem",
-          "Checker Heatcutter Problem",
-          "Orsan Pressure Down",
-          "Power Cut",
-        ].sort()
-      );
-
-    localStorage.getItem("VIOLATION-TYPE") === "Crowding Violation" &&
-      setSelectDropdowndata(
-        [
-          "Supervisor Follow up",
-          "Regular work follow up",
-          "Quality issue follow up",
-          "Worker No work",
-          "Helper distributing material",
-          "Production counting/Matching",
-          "General meeting",
-          "Negligence",
-          "Worker M/c breakdown",
-        ].sort()
-      );
-
-    localStorage.getItem("VIOLATION-TYPE") === "Worker Violation" &&
-      setSelectDropdowndata(
-        [
-          "Late start",
-          "Left Early",
-          "Tailor used as Helper",
-          "Tailor used in repairing",
-          "Trainee tailor",
-          "Tailor Left to the machine without information",
-          "Tailor Left to collect webbing",
-          "Tailor left for Water/Toilet break",
-          "Cell Closed due to Other Manpower",
-          "Material loading helper absent",
-          "Material loading helper not available",
-          "Material loading helper short",
-        ].sort()
-      );
-
-    localStorage.getItem("VIOLATION-TYPE") === "Machine Violation" &&
-      setSelectDropdowndata(
-        [
           "High GSM setting issue",
           "PP thread setting issue",
           "Machine Oil issue",
@@ -429,6 +379,56 @@ function ViolationDetails(props) {
           "Connecting rod breakdown",
           "CAM breakdown",
           "Other breakdown",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Crowding Violation" &&
+      setSelectDropdowndata(
+        [
+          "Supervisor Follow up",
+          "Regular work follow up",
+          "Quality issue follow up",
+          "Worker No work",
+          "Helper distributing material",
+          "Production counting/Matching",
+          "General meeting",
+          "Negligence",
+          "Worker M/c breakdown",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Worker Violation" &&
+      setSelectDropdowndata(
+        [
+          "Late start",
+          "Left Early",
+          "Tailor used as Helper",
+          "Tailor used in repairing",
+          "Trainee tailor",
+          "Tailor Left to the machine without information",
+          "Tailor Left to collect webbing",
+          "Tailor left for Water/Toilet break",
+          "Cell Closed due to Other Manpower",
+          "Material loading helper absent",
+          "Material loading helper not available",
+          "Material loading helper short",
+        ].sort()
+      );
+
+    localStorage.getItem("VIOLATION-TYPE") === "Machine Violation" &&
+      setSelectDropdowndata(
+        [
+          "Zuki broke",
+          "Herakle broke",
+          "Safety broke",
+          "Top broke",
+          "Orsan Broke",
+          "502 broke",
+          "802 broke",
+          "Mc Heatcutter Problem",
+          "Checker Heatcutter Problem",
+          "Orsan Pressure Down",
+          "Power Cut",
         ].sort()
       );
   };

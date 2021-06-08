@@ -414,11 +414,11 @@ function ViolationLog1() {
     getFirstDay_LastDay();
     load_ctr_machine();
   }, []);
-  const [tabValue, setTabValue] = React.useState(state.violationTab);
+  // const [state.violationTab, setTabValue] = React.useState(state.violationTab);
 
   const handleTabChange = (event, newValue) => {
-    // console.log(newValue);
-    setTabValue(newValue);
+    dispatch({ type: "VIOLATION_TAB", payload: newValue });
+    // setTabValue(newValue);
   };
 
   const rowClick = (evt, rowData) => {
@@ -427,7 +427,7 @@ function ViolationLog1() {
     setImg(rowData.img);
     setIdLabel(rowData.Id);
     setSelectedRow(rowData.Id);
-    if (tabValue === 3) {
+    if (state.violationTab === 3) {
       console.log(rowData);
       setProfile({
         name: rowData.name,
@@ -466,7 +466,7 @@ function ViolationLog1() {
             alignItems: "center",
           }}
         >
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -497,7 +497,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -528,7 +528,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <TextField
               id="fromDate"
               label="From"
@@ -546,7 +546,7 @@ function ViolationLog1() {
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <TextField
               id="toDate"
               label="To"
@@ -568,7 +568,7 @@ function ViolationLog1() {
             container
             item
             xs={12}
-            sm={4}
+            sm={6}
             lg={2}
             style={{ justifyContent: "center" }}
           >
@@ -601,8 +601,9 @@ function ViolationLog1() {
           <Grid
             container
             item
-            xs={12}
+            xs={6}
             md={1}
+            sm={6}
             style={{ justifyContent: "center" }}
           >
             <Button
@@ -619,8 +620,9 @@ function ViolationLog1() {
           <Grid
             container
             item
-            xs={12}
+            xs={6}
             md={1}
+            sm={6}
             style={{ justifyContent: "center" }}
           >
             <Button
@@ -791,7 +793,7 @@ function ViolationLog1() {
         <Grid item xs={12} md={12} style={{ padding: "1rem" }}>
           <AppBar position="static" className="customTab">
             <Tabs
-              value={tabValue}
+              value={state.violationTab}
               onChange={handleTabChange}
               aria-label="simple tabs example"
             >
@@ -803,7 +805,7 @@ function ViolationLog1() {
             </Tabs>
           </AppBar>
 
-          <TabPanel value={tabValue} index={0}>
+          <TabPanel value={state.violationTab} index={0}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.feed.data}
@@ -898,7 +900,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel value={state.violationTab} index={1}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.crowd.data}
@@ -1018,7 +1020,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={tabValue} index={2}>
+          <TabPanel value={state.violationTab} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.worker.data}
@@ -1137,7 +1139,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={3}>
+          <TabPanel value={state.violationTab} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 // title=""
@@ -1163,7 +1165,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={tabValue} index={4}>
+          <TabPanel value={state.violationTab} index={4}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 // title=""
