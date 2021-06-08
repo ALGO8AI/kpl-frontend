@@ -19,5 +19,16 @@
   }
 }
 
-// @media print {
-// }
+@media print {
+}
+
+img{
+  font-weight: bold;
+  page-break-after: avoid;
+  page-break-inside:avoid;
+}
+
+@page {
+      size: 10cm 5cm;
+      // size: landscape;
+    }
