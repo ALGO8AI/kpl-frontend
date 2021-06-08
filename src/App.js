@@ -57,19 +57,19 @@ function App(props) {
 
   }, []);
 
-  setInterval(() => {
-    console.log('Interval triggered');
-    if (window.Notification) {
-      Notification.requestPermission(() => {
-        if (Notification.permission === 'granted') {
-          navigator.serviceWorker.register('./worker.js')
-            .then((worker) => {
-              worker.showNotification('Hello world!');
-            });
-        }
-      });
-    }
-  }, 50000);
+  // setInterval(() => {
+  //   console.log('Interval triggered');
+  //   if (window.Notification) {
+  //     Notification.requestPermission(() => {
+  //       if (Notification.permission === 'granted') {
+  //         navigator.serviceWorker.register('./worker.js')
+  //           .then((worker) => {
+  //             worker.showNotification('Hello world!');
+  //           });
+  //       }
+  //     });
+  //   }
+  // }, 50000);
 
   // if (window.Notification) {
   //   Notification.requestPermission(() => {
