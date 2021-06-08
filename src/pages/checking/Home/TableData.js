@@ -75,7 +75,7 @@ function TableData({
           >
             <HomeTable
               // data={homeWorkerTable}
-              data={homeWorkerTable.map((row, i) => {
+              data={homeWorkerTable?.map((row, i) => {
                 const { workerId, ...rest } = row;
                 return { id: workerId, ...rest };
               })}

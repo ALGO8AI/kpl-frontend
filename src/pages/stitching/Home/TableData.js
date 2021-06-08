@@ -48,10 +48,13 @@ function TableData({
   homeCTRTable,
 }) {
   const [tabValue, setTabValue] = React.useState(0);
+  const table1 = React.useRef(null);
 
   const handleTabChange = (event, newValue) => {
+    console.log();
     setTabValue(newValue);
   };
+
   return (
     <>
       <Grid container item xs={12} style={{ padding: "12px" }}>
@@ -74,6 +77,7 @@ function TableData({
             item
             xs={12}
             style={{ padding: "12px", width: "100%" }}
+            ref={table1}
           >
             <HomeTable
               data={homeWorkerTable?.map((row, i) => {
@@ -81,30 +85,63 @@ function TableData({
                 return { id: workerId, ...rest };
               })}
               column={[
-                { field: "id", headerName: "Worker ID", width: 210 },
+                {
+                  field: "id",
+                  headerName: "Worker ID",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                },
                 // { headerName: "Worker ID", field: "workerId" },
-                { headerName: "Worker Name", field: "workerName", width: 210 },
+                {
+                  headerName: "Worker Name",
+                  field: "workerName",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                },
                 // { headerName: "Total Working Hrs.", field: "totalWorkingHours" },
                 {
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
-                  width: 210,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
                 },
                 {
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
-                  width: 210,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
                 },
-                { headerName: "Idle Hrs.", field: "idleHours", width: 210 },
+                {
+                  headerName: "Idle Hrs.",
+                  field: "idleHours",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                },
                 {
                   headerName: "Feed Unavailable Hrs.",
                   field: "feedUnav",
-                  width: 210,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
                 },
                 {
                   headerName: "Worker Unavailable Hrs.",
                   field: "workerUnav",
-                  width: 210,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
                 },
                 // { headerName: "Shift", field: "shift" },
               ]}
