@@ -3,14 +3,15 @@
     display: none;
   }
 
-  @page {
-    // size: 10cm 5cm;
-    // size: landscape;
-  }
+  // @page {
+  //   size: 139mm 215mm;
+  //   height: 215mm;
+  //   width: 139mm;
+  // }
   .page-break {
     display: block;
     page-break-before: always;
-    clear: both;
+    // clear: both;
   }
 }
 @media all {
