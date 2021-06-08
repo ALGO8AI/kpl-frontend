@@ -14,6 +14,7 @@ import { Alert } from "@material-ui/lab";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 import Blank from "./Blank";
+import { updatePassword } from "../services/api.service";
 
 const ColorButton = withStyles(() => ({
   root: {
@@ -26,7 +27,7 @@ const ColorButton = withStyles(() => ({
   },
 }))(Button);
 
-function ResetPassword() {
+function ResetPassword(props) {
   // Variables
   const history = useHistory();
 
@@ -58,6 +59,25 @@ function ResetPassword() {
   //     console.log(err);
   //   }
   // };
+
+  const passWordReset = async () => {
+    try {
+      if (user.password !== user.password2) {
+        setMsg(`Password mismatched`);
+        setOpen(true);
+        // alert(props.match.params.token);
+      } else {
+        const data = {
+          tokenNumber: props.match.params.token,
+          password: user.password,
+        };
+        // const response =
+        const response = await updatePassword(data);
+        setMsg(`${response.data.msg}`);
+        setOpen(true);
+      }
+    } catch (e) {}
+  };
 
   return (
     <>
@@ -96,7 +116,7 @@ function ResetPassword() {
                 className={Styles.text}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               /> */}
-              <ColorButton variant="contained" onClick={() => {}}>
+              <ColorButton variant="contained" onClick={passWordReset}>
                 Change Password
               </ColorButton>
               {/* <Typography

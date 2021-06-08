@@ -16,7 +16,7 @@ function ViolationTable({ data, columns, rowClick, selectedRow }) {
 
   return (
     <>
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         <MaterialTable
           title={"Violation Details"}
           columns={columns}

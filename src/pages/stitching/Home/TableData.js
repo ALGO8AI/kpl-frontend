@@ -76,7 +76,7 @@ function TableData({
             style={{ padding: "12px", width: "100%" }}
           >
             <HomeTable
-              data={homeWorkerTable.map((row, i) => {
+              data={homeWorkerTable?.map((row, i) => {
                 const { workerId, ...rest } = row;
                 return { id: workerId, ...rest };
               })}

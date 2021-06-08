@@ -473,7 +473,7 @@ export default function Navigation() {
               </Badge>
             </IconButton> */}
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={notification.length} color="secondary">
+              <Badge badgeContent={notification?.length} color="secondary">
                 <NotificationsIcon
                   onClick={handleClickListItem2}
                   style={{ cursor: "pointer" }}

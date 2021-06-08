@@ -204,6 +204,7 @@ function ViolationLog1() {
           : machineID.map((item) => item.machineID),
         inputSHIFT
       );
+      console.log(machineViolation);
       dispatch({
         type: "MACHINE_VIO",
         payload: {

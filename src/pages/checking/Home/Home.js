@@ -587,16 +587,16 @@ export default function Home() {
               <Loader />
             ) : (
               <DonutChartChecking
-                totalTime={state.workerUtilization.data.totalTime}
+                totalTime={state?.workerUtilization?.data?.totalTime}
                 idleDueToWorkerUnavailable={
-                  state.workerUtilization.data.idleDueToWorkerUnavailable
+                  state?.workerUtilization?.data?.idleDueToWorkerUnavailable
                 }
                 feedUnavailibilityDuration={
-                  state.workerUtilization.data.feedUnavailibilityDuration
+                  state?.workerUtilization?.data?.feedUnavailibilityDuration
                 }
-                other={state.workerUtilization.data.other}
+                other={state?.workerUtilization?.data?.other}
                 utilizationPercentage={
-                  state.workerUtilization.data.utilizationPercentage
+                  state?.workerUtilization?.data?.utilizationPercentage
                 }
                 payload_data={1}
                 link={"/checking/violationLog"}

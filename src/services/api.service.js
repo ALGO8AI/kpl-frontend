@@ -84,7 +84,8 @@ const workerUnavailableViolation = async (
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -127,7 +128,8 @@ const feedUnavailableViolation = async (
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -143,7 +145,8 @@ const crowdingViolation = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -174,7 +177,8 @@ const violationByWorkerF = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -229,9 +233,20 @@ const violationComment = async (
   action,
   isCorrect,
   isIncorrect,
-  incorrect
+  incorrect,
+  actual,
+  reassigned
 ) => {
-  // console.log(id+''+reason+''+action+''+isCorrect+''+isIncorrect+''+incorrect)
+  console.log(
+    id,
+    reason,
+    action,
+    isCorrect,
+    isIncorrect,
+    incorrect,
+    actual,
+    reassigned
+  );
   return await callBackend("POST", "routes/KPI/violation/addComment", true, {
     violationId: id,
     violationReason: reason,
@@ -239,6 +254,8 @@ const violationComment = async (
     confirmStatus: isCorrect,
     incorrectStatus: isIncorrect,
     incorrectViolationReason: incorrect,
+    actualSupervisor: actual,
+    reassignedSupervisor: reassigned,
   });
 };
 
@@ -248,7 +265,7 @@ const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: shift,
+    shifts: [],
   };
   console.log(data);
   return await callBackend(
@@ -310,7 +327,7 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
   };
   return await callBackend(
     "POST",
@@ -325,7 +342,7 @@ const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
   };
   return await callBackend(
     "POST",
@@ -341,7 +358,7 @@ const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts,
+    shifts: [],
   };
 
   return await callBackend(
@@ -513,7 +530,8 @@ const getMachineViolation = async (
     filterDateFrom,
     filterDateTo,
     machineId,
-    shifts,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -526,7 +544,7 @@ const postMachineViolation = async (fromDate, toDate) => {
   try {
     var config = {
       method: "post",
-      url: "http://3.23.114.42:8081/routes/KPI/violation/mechineVoilation",
+      url: "http://3.23.114.42:3000/routes/KPI/violation/mechineVoilation",
       headers: {
         "Content-Type": "application/json",
       },
@@ -552,7 +570,7 @@ const detailedSummaryByWorkerChecking = async (
     var config = {
       method: "post",
       url:
-        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByWorker",
+        "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByWorker",
       headers: {},
       data: {
         filterDateFrom: fromDate,
@@ -577,7 +595,7 @@ const detailedSummaryByClpCtrChecking = async (
     var config = {
       method: "post",
       url:
-        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByClpCtr",
+        "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByClpCtr",
       headers: {},
       data: {
         filterDateFrom: fromDate,
@@ -602,7 +620,7 @@ const detailedSummaryByTableChecking = async (
     var config = {
       method: "post",
       url:
-        "http://3.23.114.42:8081/routes/checking/KPI/home/detailedSummaryByTable",
+        "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByTable",
       headers: {},
       data: {
         filterDateFrom: fromDate,
@@ -669,7 +687,7 @@ const updateStitchingWorkerSchedule = async (datas) => {
   const data = {
     date: datas.date,
     workerId: datas.workerId,
-    shift: datas.shift,
+    shift: [],
     wing: datas.wing,
     machineId: datas.machineId,
     machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
@@ -695,7 +713,7 @@ const updateCheckingWorkerSchedule = async (datas) => {
   const data = {
     date: datas.date,
     workerId: datas.workerId,
-    shift: datas.shift,
+    shift: [],
     wing: datas.wing,
     tableId: datas.tableId,
     id: datas.id,
@@ -711,7 +729,7 @@ const updateCheckingWorkerSchedule = async (datas) => {
 const getForgetPasswordLink = async (data) => {
   var config = {
     method: "post",
-    url: "http://3.23.114.42:8081/routes/auth",
+    url: "http://3.23.114.42:3000/routes/auth",
     headers: {
       "Content-Type": "application/json",
     },
@@ -724,11 +742,86 @@ const getForgetPasswordLink = async (data) => {
 const getNotificationLog = async () => {
   var config = {
     method: "post",
-    url: "http://3.23.114.42:8081/routes/yourData/notificationLog",
+    url: "http://3.23.114.42:3000/routes/yourData/notificationLog",
     headers: {},
   };
 
   return await axios(config);
+};
+
+const updatePassword = async (data) => {
+  var config = {
+    method: "post",
+    url: "http://3.23.114.42:3000/routes/auth/updatePassword",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  return await axios(config);
+};
+
+const getStitchingSupervisorSchedule = async () => {
+  return await callBackend("GET", "routes/stitching/supervisorSchedule/all");
+};
+
+const getStitchingSupervisorCopy = async () => {
+  return await callBackend(
+    "GET",
+    "routes/stitchingSupervisorSchedule/updateAllSchedule"
+  );
+};
+
+const addStitchingSupervisorSingle = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/stitchingSupervisorSchedule/addSingle",
+    true,
+    data
+  );
+};
+
+const updateStitchingSupervisorSingle = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/stitchingSupervisorSchedule/updateSingle",
+    true,
+    data
+  );
+};
+
+const getCheckingSupervisorSchedule = async () => {
+  return await callBackend("GET", "routes/checking/supervisorSchedule/all");
+};
+
+const getCheckingSupervisorCopy = async () => {
+  return await callBackend(
+    "GET",
+    "routes/CheckingSupervisorSchedule/updateAllSchedule"
+  );
+};
+
+const addCheckingSupervisorSingle = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/checkingSupervisorSchedule/addSingle",
+    true,
+    data
+  );
+};
+
+const updateCheckingSupervisorSingle = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/checkingSupervisorSchedule/updateSingle",
+    true,
+    data
+  );
 };
 
 export {
@@ -795,4 +888,13 @@ export {
   updateCheckingWorkerSchedule,
   getForgetPasswordLink,
   getNotificationLog,
+  updatePassword,
+  getStitchingSupervisorSchedule,
+  getStitchingSupervisorCopy,
+  addStitchingSupervisorSingle,
+  updateStitchingSupervisorSingle,
+  getCheckingSupervisorSchedule,
+  getCheckingSupervisorCopy,
+  addCheckingSupervisorSingle,
+  updateCheckingSupervisorSingle,
 };
