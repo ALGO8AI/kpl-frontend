@@ -450,8 +450,17 @@ function ViolationDetails(props) {
                   borderBottom: "2px solid #0e4a7b",
                   padding: "0 8px",
                   marginRight: "12px",
+                  cursor: "pointer",
                 }}
+                onClick={() => history.push("/stitching/violationLog")}
               >
+                <span>
+                  <i
+                    class="fa fa-arrow-left"
+                    aria-hidden="true"
+                    style={{ marginRight: "8px" }}
+                  ></i>
+                </span>
                 {localStorage.getItem("VIOLATION-TYPE")}
               </Typography>
               <Typography

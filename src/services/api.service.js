@@ -824,6 +824,46 @@ const updateCheckingSupervisorSingle = async (datas) => {
   );
 };
 
+const workerUpdateChecking = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/addWorkerChecking/update",
+    true,
+    data
+  );
+};
+const workerDeleteChecking = async (datas) => {
+  const data = datas;
+  console.log(datas);
+  return await callBackend(
+    "POST",
+    "routes/addWorkerChecking/delete",
+    true,
+    data
+  );
+};
+
+const workerUpdateStitching = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/addWorkerStitching/update",
+    true,
+    data
+  );
+};
+const workerDeleteStitching = async (datas) => {
+  const data = datas;
+  console.log(datas);
+  return await callBackend(
+    "POST",
+    "routes/addWorkerStitching/delete",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -897,4 +937,8 @@ export {
   getCheckingSupervisorCopy,
   addCheckingSupervisorSingle,
   updateCheckingSupervisorSingle,
+  workerUpdateChecking,
+  workerDeleteChecking,
+  workerUpdateStitching,
+  workerDeleteStitching,
 };

@@ -15,7 +15,8 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Grid
+      container
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -23,11 +24,11 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Grid container item xs={12} style={{ padding: "18px" }}>
+          {children}
+        </Grid>
       )}
-    </div>
+    </Grid>
   );
 }
 

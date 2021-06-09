@@ -16,7 +16,12 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
-import { AddWorkerStitching, getYourData } from "../../../services/api.service";
+import {
+  AddWorkerStitching,
+  getYourData,
+  workerUpdateStitching,
+  workerDeleteStitching,
+} from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 
 function TabPanel(props) {
@@ -68,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 function Worker(props) {
   const [workerData, setWorkerData] = useState();
   const classes = useStyles();
+  const [edit, setEdit] = useState(false);
 
   const loadData = async () => {
     try {
@@ -92,6 +98,34 @@ function Worker(props) {
       ),
     },
     { title: "Worker Name", field: "workerName" },
+    {
+      title: "Edit",
+      render: (x) => (
+        <button
+          style={{
+            color: "#0e4a7b",
+            textDecoration: "underline",
+            backgroundColor: "white",
+            padding: "8px 16px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+          onClick={() => {
+            setEdit(true);
+            setUserData({
+              ...userdata,
+              name: x.workerName,
+              workerId: x.workerId,
+              workerImage: x.image,
+            });
+          }}
+        >
+          EDIT
+        </button>
+      ),
+    },
   ];
   const [userdata, setUserData] = useState({
     name: "",
@@ -127,6 +161,33 @@ function Worker(props) {
       const resp = await AddWorkerStitching(userdata);
       console.log(resp);
       setMsg(resp.msg);
+      setOpen(true);
+      setUserData({ name: "", workerId: "", workerImage: "" });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const updateImageDetails = async () => {
+    try {
+      const resp = await workerUpdateStitching(userdata);
+      console.log(resp);
+      setMsg(resp.msg);
+      setOpen(true);
+      loadData();
+      setUserData({ name: "", workerId: "", workerImage: "" });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const deleteImageDetails = async () => {
+    try {
+      const resp = await workerDeleteStitching({ workerId: userdata.workerId });
+      loadData();
+      setUserData({ name: "", workerId: "", workerImage: "" });
+      console.log(resp);
+      setMsg("Deleted");
       setOpen(true);
     } catch (e) {
       console.log(e.message);
@@ -176,21 +237,87 @@ function Worker(props) {
             alt="User"
           />
         )}
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "#0e4a7b",
-            color: "#FFF",
-            whiteSpace: "nowrap",
-            width: "100%",
-            height: "fit-content",
-            border: "1px solid #0e4a7b",
-          }}
-          onClick={submitImageDetails}
-        >
-          {/* <FilterListIcon /> */}
-          SAVE
-        </Button>
+        {edit ? (
+          <Grid container xs={12}>
+            <Grid container item xs={6} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#fff",
+                  color: "#0e4a7b",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                }}
+                onClick={() => {
+                  setEdit(false);
+                  setUserData({
+                    ...userdata,
+                    supervisorName: "",
+                    supervisorId: "",
+                    date: "",
+                    shift: "",
+                    wing: "",
+                    line: "",
+                  });
+                }}
+              >
+                CANCEL
+              </Button>
+            </Grid>
+            <Grid container item xs={6} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                }}
+                onClick={updateImageDetails}
+              >
+                UPDATE
+              </Button>
+            </Grid>
+            <Grid container item xs={12} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#b53f3f",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #b53f3f",
+                }}
+                onClick={deleteImageDetails}
+              >
+                DELETE
+              </Button>
+            </Grid>
+          </Grid>
+        ) : (
+          <Grid container item xs={12} style={{ padding: "6px" }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                width: "100%",
+                height: "fit-content",
+                border: "1px solid #0e4a7b",
+              }}
+              onClick={submitImageDetails}
+            >
+              {/* <FilterListIcon /> */}
+              SAVE
+            </Button>
+          </Grid>
+        )}
       </Grid>
       <Grid item xs={12} md={8}>
         <MaterialTable

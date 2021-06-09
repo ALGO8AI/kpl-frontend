@@ -206,7 +206,7 @@ function ViolationDetails(props) {
       setMsg(x.msg);
       setOpen1(true);
       setTimeout(() => {
-        history.push("/stitching/violationLog");
+        history.push("/checking/violationLog");
       }, 2000);
     });
   };
@@ -225,7 +225,7 @@ function ViolationDetails(props) {
       setOpen1(true);
       setOpen(false);
       setTimeout(() => {
-        history.push("/stitching/violationLog");
+        history.push("/checking/violationLog");
       }, 2000);
     });
   };
@@ -304,7 +304,7 @@ function ViolationDetails(props) {
 
   const openPopUpWindow = (id) => {
     // window.open(
-    //   `/stitching/violationDetails/${id}`,
+    //   `/checking/violationDetails/${id}`,
     //   "window",
     //   "menubar=no,screenX=0,screenY=0,top=0,left=0,location=no,status=no,toolbar=no,scrollbars=yes,resizable=no"
     // );
@@ -431,8 +431,17 @@ function ViolationDetails(props) {
                   borderBottom: "2px solid #0e4a7b",
                   padding: "0 8px",
                   marginRight: "12px",
+                  cursor: "pointer",
                 }}
+                onClick={() => history.push("/checking/violationLog")}
               >
+                <span>
+                  <i
+                    class="fa fa-arrow-left"
+                    aria-hidden="true"
+                    style={{ marginRight: "8px" }}
+                  ></i>
+                </span>
                 {localStorage.getItem("VIOLATION-TYPE")}
               </Typography>
               <Typography
