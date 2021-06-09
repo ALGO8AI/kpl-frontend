@@ -74,6 +74,8 @@ function YourData() {
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
         >
           <Tab label="Worker Detail" {...a11yProps(0)} />
           <Tab label="Worker Schedule" {...a11yProps(1)} />

@@ -84,7 +84,7 @@ function BarCodePrint() {
 
     setTimeout(function() {
       printWindow.print();
-      printWindow.close();
+      // printWindow.close();
     }, 500);
 
     return false;

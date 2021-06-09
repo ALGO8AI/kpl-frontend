@@ -796,6 +796,8 @@ function ViolationLog1() {
               value={state.violationTab}
               onChange={handleTabChange}
               aria-label="simple tabs example"
+              variant="scrollable"
+              scrollButtons="auto"
             >
               <Tab label="Feed Unavailable" {...a11yProps(0)} />
               <Tab label="Crowding Violation" {...a11yProps(1)} />

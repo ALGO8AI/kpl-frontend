@@ -92,6 +92,8 @@ function Setting() {
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
         >
           <Tab label="Alert and Notification" {...a11yProps(0)} />
           <Tab label="Manage Roles" {...a11yProps(1)} />

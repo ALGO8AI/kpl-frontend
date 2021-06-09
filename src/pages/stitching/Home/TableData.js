@@ -63,6 +63,8 @@ function TableData({
             value={tabValue}
             onChange={handleTabChange}
             aria-label="simple tabs example"
+            variant="scrollable"
+            scrollButtons="auto"
           >
             <Tab label="By Worker" {...a11yProps(0)} />
             <Tab label="By Date" {...a11yProps(1)} />
