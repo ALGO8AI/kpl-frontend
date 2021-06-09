@@ -327,7 +327,7 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: ["A", "B"],
   };
   return await callBackend(
     "POST",
@@ -342,7 +342,7 @@ const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: ["A", "B"],
   };
   return await callBackend(
     "POST",

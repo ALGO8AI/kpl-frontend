@@ -139,7 +139,7 @@ function DonutChartSimple({ data, payload_data, link }) {
 
   return (
     <>
-      <div className="top" style={{ display: "flex" }}>
+      <div className="top" style={{ display: "flex", marginBottom: "12px" }}>
         <Typography
           variant="h6"
           style={{
@@ -183,7 +183,7 @@ function DonutChartSimple({ data, payload_data, link }) {
           </div>
         </div>
         <div className="rightTile">
-          <div class="center-text">
+          <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -199,7 +199,16 @@ function DonutChartSimple({ data, payload_data, link }) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Machine On Time </p>
+              <p
+                style={{
+                  color: "#406E92",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                {" "}
+                Machine On Time{" "}
+              </p>
             </div>
             <div
               style={{
@@ -213,13 +222,15 @@ function DonutChartSimple({ data, payload_data, link }) {
                 style={{
                   color: "#406E92",
                   textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
                 }}
               >
                 {Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0}
               </h6>
             </div>
           </div>
-          <div class="center-text">
+          <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -235,7 +246,16 @@ function DonutChartSimple({ data, payload_data, link }) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Machine Off Time </p>
+              <p
+                style={{
+                  color: "rgb(169 127 0)",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                {" "}
+                Machine Off Time{" "}
+              </p>
             </div>
             <div
               style={{
@@ -249,13 +269,15 @@ function DonutChartSimple({ data, payload_data, link }) {
                 style={{
                   color: "rgb(169 127 0)",
                   textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
                 }}
               >
                 {Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0}
               </h6>
             </div>
           </div>
-          <div class="center-text">
+          <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -271,7 +293,15 @@ function DonutChartSimple({ data, payload_data, link }) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p>Machine Breakdown Time</p>
+              <p
+                style={{
+                  color: "#F9B263",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                Machine Breakdown Time
+              </p>
             </div>
             <div
               style={{
@@ -283,8 +313,10 @@ function DonutChartSimple({ data, payload_data, link }) {
             >
               <h6
                 style={{
-                  color: "#F9B263",
                   textAlign: "center",
+                  color: "#F9B263",
+                  fontWeight: "bold",
+                  fontSize: "14px",
                 }}
               >
                 {Boolean(data[0].machineOnTime)

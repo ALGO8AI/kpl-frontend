@@ -47,18 +47,18 @@
 
 .Link-btn-red {
   text-decoration: none;
-  color: rgb(249, 54, 54);
   padding: 8px 12px !important;
   font-size: 12px !important;
+  color: rgb(249, 54, 54);
   background-color: rgba(249, 54, 54, 0.2);
   border-radius: 5px;
 }
 
 .Link-btn-green {
   text-decoration: none;
-  color: rgb(74, 170, 22);
   padding: 8px 12px !important;
   font-size: 12px !important;
+  color: rgb(74, 170, 22);
   background-color: rgba(74, 170, 22, 0.2);
   border-radius: 5px;
 }
@@ -87,9 +87,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-html {
+/* html {
   zoom: 75%;
-}
+} */
 
 .MuiAlert-standardSuccess {
   color: white !important;
@@ -118,4 +118,12 @@ html {
 }
 .MuiDataGrid-iconButtonContainer button {
   color: white !important;
+}
+.positive {
+  color: rgb(74, 170, 22) !important;
+  background-color: rgba(74, 170, 22, 0.2) !important;
+}
+.negative {
+  color: rgb(249, 54, 54) !important;
+  background-color: rgba(249, 54, 54, 0.2) !important;
 }

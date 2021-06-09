@@ -539,7 +539,7 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.line}
             </Grid>
-            <Grid item xs={6} className="vd-d3">
+            {/* <Grid item xs={6} className="vd-d3">
               Zone :
             </Grid>
             <Grid item xs={6} className="vd-d3">
@@ -550,7 +550,7 @@ function ViolationDetails(props) {
             </Grid>
             <Grid item xs={6} className="vd-d3">
               {data && data.supervisor}
-            </Grid>
+            </Grid> */}
           </Grid>
           <Grid item xs={12} className="vd-white">
             <Grid item xs={12} className="vd-d1 vd-d2">

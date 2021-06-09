@@ -587,18 +587,18 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.line}
             </Grid>
-            <Grid item xs={6} className="vd-d3">
+            {/* <Grid item xs={6} className="vd-d3">
               Zone :
             </Grid>
             <Grid item xs={6} className="vd-d3">
               {data && data.zone}
-            </Grid>
-            <Grid item xs={6} className="vd-d3">
+            </Grid> */}
+            {/* <Grid item xs={6} className="vd-d3">
               Supervisor :
             </Grid>
             <Grid item xs={6} className="vd-d3">
               {data && data.supervisor}
-            </Grid>
+            </Grid> */}
             <Grid item xs={6} className="vd-d3">
               Actual Supervisor :
             </Grid>

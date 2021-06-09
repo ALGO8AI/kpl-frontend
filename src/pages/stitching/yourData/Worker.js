@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Worker(props) {
-  const [workerData, setWorkerData] = useState();
+  const [workerData, setWorkerData] = useState([]);
   const classes = useStyles();
   const [edit, setEdit] = useState(false);
 
@@ -116,9 +116,9 @@ function Worker(props) {
             setEdit(true);
             setUserData({
               ...userdata,
-              name: x.workerName,
+              workerName: x.workerName,
               workerId: x.workerId,
-              workerImage: x.image,
+              image: x.image,
             });
           }}
         >
@@ -128,9 +128,9 @@ function Worker(props) {
     },
   ];
   const [userdata, setUserData] = useState({
-    name: "",
+    workerName: "",
     workerId: "",
-    workerImage: "",
+    image: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -138,7 +138,7 @@ function Worker(props) {
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
-    setUserData({ ...userdata, workerImage: base64 });
+    setUserData({ ...userdata, image: base64 });
   };
 
   const convertBase64 = (file) => {
@@ -159,10 +159,11 @@ function Worker(props) {
   const submitImageDetails = async () => {
     try {
       const resp = await AddWorkerStitching(userdata);
-      console.log(resp);
+      setWorkerData([...workerData, userdata]);
       setMsg(resp.msg);
       setOpen(true);
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      loadData();
+      setUserData({ workerName: "", workerId: "", image: "" });
     } catch (e) {
       console.log(e.message);
     }
@@ -171,27 +172,24 @@ function Worker(props) {
   const updateImageDetails = async () => {
     try {
       const resp = await workerUpdateStitching(userdata);
-      console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
-    } catch (e) {
-      console.log(e.message);
-    }
+      setUserData({ workerName: "", workerId: "", image: "" });
+    } catch (e) {}
   };
 
   const deleteImageDetails = async () => {
     try {
       const resp = await workerDeleteStitching({ workerId: userdata.workerId });
-      loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
-      console.log(resp);
+      setWorkerData(
+        workerData.filter((item) => item.workerId !== userdata.workerId)
+      );
       setMsg("Deleted");
       setOpen(true);
-    } catch (e) {
-      console.log(e.message);
-    }
+      loadData();
+      setUserData({ workerName: "", workerId: "", image: "" });
+    } catch (e) {}
   };
 
   return (
@@ -202,9 +200,11 @@ function Worker(props) {
           label="Name"
           variant="outlined"
           style={{ marginBottom: "12px" }}
-          value={userdata.name}
+          value={userdata.workerName}
           fullWidth
-          onChange={(e) => setUserData({ ...userdata, name: e.target.value })}
+          onChange={(e) =>
+            setUserData({ ...userdata, workerName: e.target.value })
+          }
         />
         <TextField
           id="outlined-basic"
@@ -230,10 +230,10 @@ function Worker(props) {
             uploadImage(e);
           }}
         />
-        {userdata.workerImage && (
+        {userdata.image && (
           <img
             style={{ width: "100%", padding: "12px" }}
-            src={userdata.workerImage}
+            src={userdata.image}
             alt="User"
           />
         )}
@@ -252,15 +252,15 @@ function Worker(props) {
                 }}
                 onClick={() => {
                   setEdit(false);
-                  setUserData({
-                    ...userdata,
-                    supervisorName: "",
-                    supervisorId: "",
-                    date: "",
-                    shift: "",
-                    wing: "",
-                    line: "",
-                  });
+                  // setUserData({
+                  //   ...userdata,
+                  //   supervisorName: "",
+                  //   supervisorId: "",
+                  //   date: "",
+                  //   shift: "",
+                  //   wing: "",
+                  //   line: "",
+                  // });
                 }}
               >
                 CANCEL

@@ -290,6 +290,9 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
               handleCloseCTR();
               console.log(CTR);
             }}
+            style={{
+              border: "1px solid #0e4a7b",
+            }}
           >
             Close
           </Button>

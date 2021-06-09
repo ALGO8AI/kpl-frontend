@@ -89,10 +89,19 @@ function DefectChart() {
 
   return (
     <>
-      <div className="top">
+      <div className="top" style={{ marginBottom: "12px" }}>
         <Typography
           variant="h6"
-          style={{ margin: "auto", textAlign: "center", color: "#f68f1d" }}
+          style={{
+            margin: "auto",
+            textAlign: "center",
+            backgroundColor: "#f68f1d",
+            color: "white",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            textDecoration: "none",
+            width: "fit-content",
+          }}
         >
           Defects %
         </Typography>

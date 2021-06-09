@@ -222,7 +222,7 @@ export default function ProfileBox({
                   variant="h6"
                   style={{ color: "#0e4a7b", width: "60%" }}
                 >
-                  Zone
+                  Line
                 </Typography>
 
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>

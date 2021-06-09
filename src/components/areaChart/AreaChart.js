@@ -151,7 +151,7 @@ function AreaChart(props) {
 
   return (
     <>
-      <div className="top" style={{ display: "flex" }}>
+      <div className="top" style={{ display: "flex", marginBottom: "18px" }}>
         <Typography
           variant="h6"
           style={{

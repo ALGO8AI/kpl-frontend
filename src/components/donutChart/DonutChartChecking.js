@@ -151,7 +151,7 @@ function DonutChartChecking(props) {
 
   return (
     <>
-      <div className="top" style={{ display: "flex" }}>
+      <div className="top" style={{ display: "flex", marginBottom: "12px" }}>
         <Typography
           variant="h6"
           style={{
@@ -232,7 +232,7 @@ function DonutChartChecking(props) {
           </div>
         </div>
         <div className="rightTile">
-          <div class="center-text">
+          <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -248,7 +248,16 @@ function DonutChartChecking(props) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Total Working Hour </p>
+              <p
+                style={{
+                  color: "#406E92",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                {" "}
+                Total Working Hour{" "}
+              </p>
             </div>
             <div
               style={{
@@ -262,6 +271,8 @@ function DonutChartChecking(props) {
                 style={{
                   color: "#406E92",
                   textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
                 }}
               >
                 {Math.round(
@@ -273,7 +284,7 @@ function DonutChartChecking(props) {
               </h6>
             </div>
           </div>
-          <div class="center-text">
+          <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -289,7 +300,16 @@ function DonutChartChecking(props) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p> Worker Unavailable </p>
+              <p
+                style={{
+                  color: "rgb(169 127 0)",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                {" "}
+                Worker Unavailable{" "}
+              </p>
             </div>
             <div
               style={{
@@ -303,13 +323,15 @@ function DonutChartChecking(props) {
                 style={{
                   color: "rgb(169 127 0)",
                   textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
                 }}
               >
                 {props.idleDueToWorkerUnavailable}
               </h6>
             </div>
           </div>
-          <div class="center-text">
+          <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -325,7 +347,15 @@ function DonutChartChecking(props) {
                   borderRadius: "4px",
                 }}
               ></span>
-              <p>Feed Unavailable</p>
+              <p
+                style={{
+                  color: "#F9B263",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                Feed Unavailable
+              </p>
             </div>
             <div
               style={{
@@ -339,13 +369,15 @@ function DonutChartChecking(props) {
                 style={{
                   color: "#F9B263",
                   textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
                 }}
               >
                 {props.feedUnavailibilityDuration}
               </h6>
             </div>
           </div>
-          {/* <div class="center-text">
+          {/* <div class="center-text" style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
