@@ -881,6 +881,7 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
+                  { title: "Supervisor Name", field: "supervisorName" },
                   { title: "Worker Name", field: "workerName" },
                   { title: "Worker ID", field: "WorkerID" },
 

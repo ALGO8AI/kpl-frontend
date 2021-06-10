@@ -602,7 +602,7 @@ function AlertAndNotification() {
             </label>
           </Grid>
 
-          <Grid container item xs={2}>
+          <Grid container item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -616,7 +616,7 @@ function AlertAndNotification() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -630,7 +630,7 @@ function AlertAndNotification() {
               value={crowding.wingIncharge}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -645,7 +645,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -723,7 +723,7 @@ function AlertAndNotification() {
             </label>
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -737,7 +737,7 @@ function AlertAndNotification() {
               value={workerIdle.manager}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -751,7 +751,7 @@ function AlertAndNotification() {
               value={workerIdle.wingIncharge}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -766,7 +766,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -847,7 +847,7 @@ function AlertAndNotification() {
             </label>
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -859,7 +859,7 @@ function AlertAndNotification() {
               value={feed.manager}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -873,7 +873,7 @@ function AlertAndNotification() {
               value={feed.wingIncharge}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -886,7 +886,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -960,7 +960,7 @@ function AlertAndNotification() {
             </label>
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -974,7 +974,7 @@ function AlertAndNotification() {
               value={machineBreak.manager}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -991,7 +991,7 @@ function AlertAndNotification() {
               value={machineBreak.wingIncharge}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -1006,7 +1006,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -1083,7 +1083,7 @@ function AlertAndNotification() {
             </label>
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -1097,7 +1097,7 @@ function AlertAndNotification() {
               value={activeMonitor.manager}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -1114,7 +1114,7 @@ function AlertAndNotification() {
               value={activeMonitor.wingIncharge}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"
@@ -1129,7 +1129,7 @@ function AlertAndNotification() {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
               label="Duration"

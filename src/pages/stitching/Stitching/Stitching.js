@@ -2,15 +2,15 @@ import React from "react";
 import { StitchingProvider } from "../../../context/StitchingContext";
 import Analytics from "../Analytics/Analytics";
 import Home from "../Home/Home";
-import {LayoutView} from '../layoutView/LayoutView';
-import {ViewDetails} from '../layoutView/viewDetails/viewDetails';
+import { LayoutView } from "../layoutView/LayoutView";
+import { ViewDetails } from "../layoutView/viewDetails/viewDetails";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
 import ViolationDetails from "../violationDetails/ViolationDetails";
 import ViolationLog from "../violationLog/ViolationLog";
 import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
-import {Annotation} from '../layoutView/annotation/Annotation';
+import { Annotation } from "../layoutView/annotation/Annotation";
 
 function Stitching(props) {
   const pages = {
@@ -18,7 +18,7 @@ function Stitching(props) {
     violationLog: <ViolationLog />,
     videoWall: <VideoWall />,
     setting: <Setting />,
-    viewdetails: <ViewDetails/>,
+    viewdetails: <ViewDetails />,
     layoutView: <LayoutView />,
     annotation: <Annotation />,
     yourData: <YourData />,
@@ -31,7 +31,7 @@ function Stitching(props) {
     <>
       {/* <StitchingProvider> */}
       <Navigation />
-      {page}
+      <div className="Stitching_Container">{page}</div>
       {/* </StitchingProvider> */}
     </>
   );

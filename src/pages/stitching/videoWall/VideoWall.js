@@ -29,7 +29,7 @@ const CustomButton = withStyles(() => ({
 
 function VideoWall() {
   // STATE
-  const [videos, setVideos] = useState();
+  const [videos, setVideos] = useState([]);
   // const [open, setOpen] = useState(true);
 
   // CUSTOM FUNCTION
@@ -100,8 +100,8 @@ function VideoWall() {
           Click on video.
         </Alert>
       </Grid>
-      {videos ? (
-        videos.data.map((x, index) => {
+      {videos.length > 1 ? (
+        videos?.data?.map((x, index) => {
           return (
             <VideoTile
               data={x}

@@ -127,3 +127,24 @@
   color: rgb(249, 54, 54) !important;
   background-color: rgba(249, 54, 54, 0.2) !important;
 }
+
+.Stitching_Container {
+  padding: 12px;
+}
+@media screen and (max-width: 426px) {
+  html {
+    zoom: 75%;
+  }
+  .Stitching_Container {
+    padding: 4px;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  html {
+    zoom: 75%;
+  }
+  .Stitching_Container {
+    padding: 6px;
+  }
+}
