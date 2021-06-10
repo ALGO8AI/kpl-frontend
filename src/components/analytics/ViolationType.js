@@ -10,33 +10,34 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 function ViolationType({ chartData }) {
-  const [data, setData] = React.useState({
-    feedUnavailableData: [],
-    crowdingData: [],
-    workerUnavailableData: [],
-  });
-
   const [series, setSeries] = React.useState([]);
   const [week, setWeek] = React.useState([]);
 
   React.useEffect(() => {
-    // console.log(chartData);
-    // setData({
-    //   ...data,
-    //   crowdingData:
-    //     chartData?.crowdingData?.length > 0 &&
-    //     chartData?.crowdingData.map((item) => item.id),
-    // });
     if (chartData) {
       var CROWD = chartData?.crowdingData?.map((item) => item?.id);
       var FEED = chartData?.feedUnavailableData?.map((item) => item?.id);
       var WORKER = chartData?.workerUnavailableData?.map((item) => item?.id);
 
+      const nums = [CROWD.length, FEED.length, WORKER.length];
+
+      const ary = [
+        "crowdingData",
+        "feedUnavailableData",
+        "workerUnavailableData",
+      ];
+      const max = Math.max(...nums);
+
+      var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map((item) =>
+        new Date(item?.date).toISOString().slice(0, 10)
+      );
+      // console.log(WEEK2);
+
       var WEEK = chartData?.crowdingData?.map((item) =>
         new Date(item?.date).toISOString().slice(0, 10)
       );
 
-      setWeek(WEEK);
+      setWeek(WEEK2);
       setSeries([
         {
           name: "Crowding Data",
@@ -86,7 +87,7 @@ function ViolationType({ chartData }) {
         opacity: 0.2,
       },
       toolbar: {
-        show: false,
+        show: true,
       },
     },
     colors: ["#77B6EA", "#545454", "#f16230", "#f68f1d"],

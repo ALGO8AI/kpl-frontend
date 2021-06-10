@@ -9,21 +9,82 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function MachineUtilisation() {
-  const series = [
-    {
-      name: "% Feed UA",
-      data: [44, 55, 41, 64, 22, 43, 21],
-    },
-    {
-      name: "% Worker UA",
-      data: [53, 32, 33, 52, 13, 44, 32],
-    },
-    {
-      name: "% Machine Breakdown",
-      data: [16, 19, 11, 13, 12, 10, 14],
-    },
-  ];
+function MachineUtilisation({ chartData }) {
+  const [series, setSeries] = React.useState([]);
+  const [category, setCategory] = React.useState([]);
+  React.useEffect(() => {
+    if (chartData) {
+      setSeries([
+        {
+          name: "Scheduled (Hrs.)",
+
+          data: [
+            chartData[0].scheduledHours,
+            chartData[1].scheduledHours,
+            chartData[2].scheduledHours,
+            chartData[3].scheduledHours,
+            chartData[4].scheduledHours,
+          ],
+        },
+        {
+          name: "Worker UA (Hrs.)",
+
+          data: [
+            chartData[0].WorkerUnavailableHours,
+            chartData[1].WorkerUnavailableHours,
+            chartData[2].WorkerUnavailableHours,
+            chartData[3].WorkerUnavailableHours,
+            chartData[4].WorkerUnavailableHours,
+          ],
+        },
+        {
+          name: "Feed UA (Hrs.)",
+
+          data: [
+            chartData[0].feedUnavailableHours,
+            chartData[1].feedUnavailableHours,
+            chartData[2].feedUnavailableHours,
+            chartData[3].feedUnavailableHours,
+            chartData[4].feedUnavailableHours,
+          ],
+        },
+        {
+          name: "Machine Off (Hrs.)",
+
+          data: [
+            chartData[0].machineOffTime,
+            chartData[1].machineOffTime,
+            chartData[2].machineOffTime,
+            chartData[3].machineOffTime,
+            chartData[4].machineOffTime,
+          ],
+        },
+      ]);
+
+      setCategory([
+        chartData[0].machineID,
+        chartData[1].machineID,
+        chartData[2].machineID,
+        chartData[3].machineID,
+        chartData[4].machineID,
+      ]);
+    }
+  }, [chartData]);
+
+  // const series = [
+  //   {
+  //     name: "% Feed UA",
+  //     data: [44, 55, 41, 64, 22, 43, 21],
+  //   },
+  //   {
+  //     name: "% Worker UA",
+  //     data: [53, 32, 33, 52, 13, 44, 32],
+  //   },
+  //   {
+  //     name: "% Machine Breakdown",
+  //     data: [16, 19, 11, 13, 12, 10, 14],
+  //   },
+  // ];
   const options = {
     chart: {
       type: "bar",
@@ -41,9 +102,10 @@ function MachineUtilisation() {
     dataLabels: {
       enabled: true,
       offsetX: 0,
+      offsetY: -20,
       style: {
-        fontSize: "12px",
-        colors: ["#fff"],
+        fontSize: "14px",
+        colors: ["#000"],
       },
     },
     stroke: {
@@ -65,7 +127,7 @@ function MachineUtilisation() {
       intersect: false,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5, 6, 7],
+      categories: category,
       title: {
         text: "Machine ID",
         style: {
@@ -77,7 +139,7 @@ function MachineUtilisation() {
     },
     yaxis: {
       title: {
-        text: "% Of Violation",
+        text: "Duration Of Violation",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",

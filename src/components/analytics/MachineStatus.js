@@ -9,21 +9,80 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function MachineStatus() {
-  const series = [
-    {
-      name: "On",
-      data: [28, 29, 33, 36, 32, 32, 33],
-    },
-    {
-      name: "Off",
-      data: [12, 11, 14, 18, 17, 13, 13],
-    },
-    {
-      name: "Machine Breakdown",
-      data: [16, 19, 11, 13, 12, 10, 14],
-    },
-  ];
+function MachineStatus({ chartData }) {
+  const [series, setSeries] = React.useState([]);
+  const [week, setWeek] = React.useState([1, 2, 3, 4, 5, 6, 7]);
+
+  React.useEffect(() => {
+    if (chartData) {
+      var Orsan6 = chartData
+        ?.filter((item) => item?.machineId === "FG2/U+2/Orsan6")
+        .map((item) => item?.timeDuration);
+      var Orsan5 = chartData
+        ?.filter((item) => item?.machineId === "FG2/U+2/Orsan5")
+        .map((item) => item?.timeDuration);
+      var Orsan4 = chartData
+        ?.filter((item) => item?.machineId === "FG2/U+2/Orsan4")
+        .map((item) => item?.timeDuration);
+      var Top3 = chartData
+        ?.filter((item) => item?.machineId === "FG2/U+2/Top3")
+        .map((item) => item?.timeDuration);
+
+      const nums = [Orsan6.length, Orsan5.length, Orsan4.length, Top3.length];
+
+      const ary = [
+        "FG2/U+2/Orsan6",
+        "FG2/U+2/Orsan5",
+        "FG2/U+2/Orsan4",
+        "FG2/U+2/Top3",
+      ];
+      const max = Math.max(...nums);
+      // var WEEK = ary[nums.indexOf(max)]?.map((item) =>
+      //   new Date(item?.timeInterval).toISOString().slice(0, 10)
+      // );
+      var WEEK1 = chartData
+        ?.filter((item) => item?.machineId === ary[nums.indexOf(max)])
+        .map((item) => new Date(item?.timeInterval).toISOString().slice(0, 10));
+
+      // console.log(WEEK1);
+
+      setWeek(WEEK1);
+      // console.log(Orsan6, Orsan5, Orsan4, Top3);
+      setSeries([
+        {
+          name: "Orsan6",
+          data: Orsan6,
+        },
+        {
+          name: "Orsan5",
+          data: Orsan5,
+        },
+        {
+          name: "Orsan4",
+          data: Orsan4,
+        },
+        {
+          name: "Top3",
+          data: Top3,
+        },
+      ]);
+    }
+  }, [chartData]);
+
+  // const series = [
+  //   {
+  //     name: "On",
+  //     data: [28, 29, 33, 36, 32, 32, 33],
+  //   },
+  //   {
+  //     name: "Off",
+  //     data: [12, 11, 14, 18, 17, 13, 13],
+  //   },
+  //   {
+  //     name: "Machine Breakdown",
+  //     data: [16, 19, 11, 13, 12, 10, 14],
+  //   },
+  // ];
 
   const options = {
     chart: {
@@ -41,7 +100,7 @@ function MachineStatus() {
         show: false,
       },
     },
-    colors: ["#77B6EA", "#545454", "#f16230"],
+    colors: ["#77B6EA", "#545454", "#f16230", "#ffce38"],
     dataLabels: {
       enabled: true,
     },
@@ -68,7 +127,8 @@ function MachineStatus() {
       size: 1,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5, 6, 7, 8],
+      type: "date",
+      categories: week,
       title: {
         text: "Time Hourly",
         style: {

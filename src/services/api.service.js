@@ -985,6 +985,150 @@ const analyticsTotalViolationByType = async (
   );
 };
 
+const analyticsMaxVioCount = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/maxViolationCounts",
+    true,
+    data
+  );
+};
+
+const analyticsDurationOfViolationType = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/durationOfViolationByType",
+    true,
+    data
+  );
+};
+
+const analyticsMachineStatus = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/machineStatus",
+    true,
+    data
+  );
+};
+
+const analyticsMachineStatusByDuration = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/machineStatusByDuration",
+    true,
+    data
+  );
+};
+
+const analyticsMachineStatusByDurationAndMachineID = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/machineStatusByDurationAndMachineId",
+    true,
+    data
+  );
+};
+
+const analyticsMachineStatusByOperation = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/machineStatusByDurationAndMachineIdUtilization",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1067,4 +1211,10 @@ export {
   analyticsMostUnresolvedlViolation,
   analyticsMostUnresolvedlViolationInstance,
   analyticsTotalViolationByType,
+  analyticsMaxVioCount,
+  analyticsDurationOfViolationType,
+  analyticsMachineStatus,
+  analyticsMachineStatusByDuration,
+  analyticsMachineStatusByDurationAndMachineID,
+  analyticsMachineStatusByOperation,
 };

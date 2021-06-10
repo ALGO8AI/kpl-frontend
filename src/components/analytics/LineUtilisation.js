@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import "./Analytics.scss";
 
 function LineUtilisation() {
   const series = [
@@ -95,7 +96,13 @@ function LineUtilisation() {
   };
   return (
     <>
-      <Grid container item xs={12} style={{ alignItems: "center" }}>
+      <Grid
+        container
+        item
+        xs={12}
+        style={{ alignItems: "center" }}
+        className={"LineUtil"}
+      >
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
           <Typography variant="h6"> LINE UTILISATION</Typography>
         </Grid>

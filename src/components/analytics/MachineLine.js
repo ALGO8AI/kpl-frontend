@@ -9,36 +9,82 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function MachineLine() {
-  const series = [
-    {
-      name: "Feed UA",
-      data: [28, 29, 33, 36, 32, 32, 33],
-    },
-    {
-      name: "Worker UA",
-      data: [12, 11, 14, 18, 17, 13, 13],
-    },
-    {
-      name: "Machine Breakdown",
-      data: [16, 19, 11, 13, 12, 10, 14],
-    },
-  ];
+function MachineLine({ chartData }) {
+  const [series, setSeries] = React.useState([]);
+  const [week, setWeek] = React.useState([]);
+
+  React.useEffect(() => {
+    if (chartData) {
+      var CROWD = chartData?.crowdingData?.map((item) => item?.duration);
+      var FEED = chartData?.feedUnavailableData?.map((item) => item?.duration);
+      var WORKER = chartData?.workerUnavailableData?.map(
+        (item) => item?.duration
+      );
+
+      const nums = [CROWD.length, FEED.length, WORKER.length];
+
+      const ary = [
+        "crowdingData",
+        "feedUnavailableData",
+        "workerUnavailableData",
+      ];
+      const max = Math.max(...nums);
+
+      var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map((item) =>
+        new Date(item?.timeInterval).toISOString().slice(0, 10)
+      );
+
+      var WEEK = chartData?.crowdingData?.map((item) =>
+        new Date(item?.timeInterval).toISOString().slice(0, 10)
+      );
+
+      setWeek(WEEK2);
+      setSeries([
+        {
+          name: "Crowding Data",
+          data: CROWD,
+        },
+        {
+          name: "Feed Unavailable",
+          data: FEED,
+        },
+        {
+          name: "WorkerUnavailable",
+          data: WORKER,
+        },
+      ]);
+    }
+  }, [chartData]);
+
+  // const series = [
+  //   {
+  //     name: "Feed UA",
+  //     data: [28, 29, 33, 36, 32, 32, 33],
+  //   },
+  //   {
+  //     name: "Worker UA",
+  //     data: [12, 11, 14, 18, 17, 13, 13],
+  //   },
+  //   {
+  //     name: "Machine Breakdown",
+  //     data: [16, 19, 11, 13, 12, 10, 14],
+  //   },
+  // ];
 
   const options = {
     chart: {
-      height: 350,
+      height: 360,
       type: "line",
       dropShadow: {
-        enabled: true,
+        enabled: false,
         color: "#000",
         top: 18,
         left: 7,
         blur: 10,
-        opacity: 0.2,
+        opacity: true,
       },
       toolbar: {
-        show: false,
+        show: true,
       },
     },
     colors: ["#77B6EA", "#545454", "#f16230"],
@@ -68,7 +114,8 @@ function MachineLine() {
       size: 1,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5, 6, 7, 8],
+      type: "date",
+      categories: week,
       title: {
         text: "Time Interval",
         style: {
@@ -87,8 +134,8 @@ function MachineLine() {
           fontWeight: 400,
         },
       },
-      min: 5,
-      max: 40,
+      min: 0,
+      max: 400,
     },
     legend: {
       // position: "top",
