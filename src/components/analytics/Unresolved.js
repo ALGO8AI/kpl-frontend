@@ -9,15 +9,23 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function Unresolved() {
-  const series = [44, 55, 41, 17];
+function Unresolved({ chartData }) {
+  const series = [
+    chartData?.length > 0 ? chartData[0]?.count : 0,
+    chartData?.length > 0 ? chartData[1]?.count : 0,
+    chartData?.length > 0 ? chartData[2]?.count : 0,
+  ];
 
   const options = {
     chart: {
       width: 380,
       type: "donut",
     },
-    labels: ["Worker UA", "Feed UA", "Crowding", "Maching Breakdown"],
+    labels: [
+      chartData?.length > 0 ? chartData[0]?.instance : "",
+      chartData?.length > 0 ? chartData[1]?.instance : "",
+      chartData?.length > 0 ? chartData[2]?.instance : "",
+    ],
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
     plotOptions: {
       pie: {
@@ -54,7 +62,7 @@ function Unresolved() {
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
         <Grid container item xs={6}>
-          <Typography variant="h6"> MOST RESOLVED VIOLATIONS</Typography>
+          <Typography variant="h6"> MOST UNRESOLVED VIOLATIONS</Typography>
         </Grid>
         <Grid container item xs={6}>
           <FormControl

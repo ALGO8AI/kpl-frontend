@@ -9,10 +9,14 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function ActiveViolation() {
+function ActiveViolation({ chartData }) {
   const series = [
     {
-      data: [400, 430, 448],
+      data: [
+        chartData?.length > 0 ? chartData[0]?.count : 0,
+        chartData?.length > 0 ? chartData[1]?.count : 0,
+        chartData?.length > 0 ? chartData[0]?.count + chartData[1]?.count : 0,
+      ],
     },
   ];
 

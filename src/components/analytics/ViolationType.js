@@ -9,25 +9,69 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function ViolationType() {
-  const series = [
-    {
-      name: "Feed UA",
-      data: [28, 29, 33, 36, 32, 32, 33],
-    },
-    {
-      name: "Worker UA",
-      data: [12, 11, 14, 18, 17, 13, 13],
-    },
-    {
-      name: "Machine Downtime",
-      data: [16, 19, 11, 13, 12, 10, 14],
-    },
-    {
-      name: "Crowding",
-      data: [32, 32, 33, 12, 11, 14, 18],
-    },
-  ];
+function ViolationType({ chartData }) {
+  const [data, setData] = React.useState({
+    feedUnavailableData: [],
+    crowdingData: [],
+    workerUnavailableData: [],
+  });
+
+  const [series, setSeries] = React.useState([]);
+  const [week, setWeek] = React.useState([]);
+
+  React.useEffect(() => {
+    // console.log(chartData);
+    // setData({
+    //   ...data,
+    //   crowdingData:
+    //     chartData?.crowdingData?.length > 0 &&
+    //     chartData?.crowdingData.map((item) => item.id),
+    // });
+    if (chartData) {
+      var CROWD = chartData?.crowdingData?.map((item) => item?.id);
+      var FEED = chartData?.feedUnavailableData?.map((item) => item?.id);
+      var WORKER = chartData?.workerUnavailableData?.map((item) => item?.id);
+
+      var WEEK = chartData?.crowdingData?.map((item) =>
+        new Date(item?.date).toISOString().slice(0, 10)
+      );
+
+      setWeek(WEEK);
+      setSeries([
+        {
+          name: "Crowding Data",
+          data: CROWD,
+        },
+        {
+          name: "Feed Unavailable",
+          data: FEED,
+        },
+        {
+          name: "WorkerUnavailable",
+          data: WORKER,
+        },
+      ]);
+    }
+  }, [chartData]);
+
+  // const series = [
+  //   {
+  //     name: "Feed UA",
+  //     data: data?.crowdingData,
+  //   },
+  //   // {
+  //   //   name: "Worker UA",
+  //   //   data: [12, 11, 14, 18, 17, 13, 13],
+  //   // },
+  //   // {
+  //   //   name: "Machine Downtime",
+  //   //   data: [16, 19, 11, 13, 12, 10, 14],
+  //   // },
+  //   // {
+  //   //   name: "Crowding",
+  //   //   data: [32, 32, 33, 12, 11, 14, 18],
+  //   // },
+  // ];
 
   const options = {
     chart: {
@@ -72,7 +116,8 @@ function ViolationType() {
       size: 1,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5, 6, 7, 8],
+      type: "date",
+      categories: week,
       title: {
         text: "Date",
         style: {
@@ -83,6 +128,7 @@ function ViolationType() {
       },
     },
     yaxis: {
+      forceNiceScale: false,
       title: {
         text: "Number Of Violation Instances",
         style: {
@@ -91,13 +137,13 @@ function ViolationType() {
           fontWeight: 400,
         },
       },
-      min: 5,
-      max: 40,
+      min: 0,
+      max: 150,
     },
     legend: {
       //
       horizontalAlign: "center",
-      position: "top",
+      position: "bottom",
 
       // offsetX: 40,
     },

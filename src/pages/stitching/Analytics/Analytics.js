@@ -1,4 +1,5 @@
 import { Grid, Paper, Typography } from "@material-ui/core";
+import CountUp from "react-countup";
 import React from "react";
 import ActiveViolation from "../../../components/analytics/ActiveViolation";
 import LineUtilisation from "../../../components/analytics/LineUtilisation";
@@ -7,9 +8,53 @@ import MachineStatus from "../../../components/analytics/MachineStatus";
 import MachineUtilisation from "../../../components/analytics/MachineUtilisation";
 import Unresolved from "../../../components/analytics/Unresolved";
 import ViolationType from "../../../components/analytics/ViolationType";
+import {
+  analyticsTotalViolation,
+  analyticsTotaUnresolvedlViolation,
+  analyticsMostUnresolvedlViolation,
+  analyticsMostUnresolvedlViolationInstance,
+  analyticsTotalViolationByType,
+} from "../../../services/api.service";
 import "./Analytics.scss";
 
 function Analytics() {
+  const [totalVio, setTotalVio] = React.useState();
+  const [totalUnresolvedVio, setTotalUnresolvedVio] = React.useState();
+  const [mostUnresolvedVio, setMostUnresolvedVio] = React.useState();
+  const [mostUnresolvedVioIns, setMostUnresolvedVioIns] = React.useState();
+  const [totalVioByType, setTotalVioByType] = React.useState();
+
+  const loadData = async () => {
+    try {
+      // total violation
+      const TOTAL_VIO = await analyticsTotalViolation();
+      setTotalVio(TOTAL_VIO.data);
+
+      // total unresolved
+      const TOTAL_UNRESOLVED = await analyticsTotaUnresolvedlViolation();
+      setTotalUnresolvedVio(TOTAL_UNRESOLVED.data);
+
+      // most unresolved
+      const MOST_UNRESOLVED = await analyticsMostUnresolvedlViolation();
+      setMostUnresolvedVio(MOST_UNRESOLVED.data);
+
+      // most unresolved by instance
+      const MOST_UNRESOLVED_INSTANCE = await analyticsMostUnresolvedlViolationInstance();
+      setMostUnresolvedVioIns(MOST_UNRESOLVED_INSTANCE.data);
+
+      // total violation by type
+      const TOTAL_VIO_TYPE = await analyticsTotalViolationByType();
+      console.log(TOTAL_VIO_TYPE);
+      setTotalVioByType(TOTAL_VIO_TYPE);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  React.useEffect(() => {
+    loadData();
+  }, []);
+
   return (
     <Grid container className="Analytics_Container">
       <Grid container item md={5} className={"Grid_Padding"}>
@@ -21,7 +66,7 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <ActiveViolation />
+          <ActiveViolation chartData={totalVio} />
         </Grid>
       </Grid>
       <Grid container item md={2} className={"Grid_Padding"}>
@@ -35,7 +80,11 @@ function Analytics() {
         >
           <Grid container item md={12} style={{ flexDirection: "column" }}>
             <Typography variant="h5">TOTAL UNRESOLVED VIOLATION</Typography>
-            <Typography variant="h4">10</Typography>
+            <Typography variant="h4">
+              {totalUnresolvedVio && (
+                <CountUp end={totalUnresolvedVio[0]?.count} duration={4} />
+              )}
+            </Typography>
           </Grid>
         </Grid>
         <Grid
@@ -48,8 +97,14 @@ function Analytics() {
         >
           <Grid container item md={12} style={{ flexDirection: "column" }}>
             <Typography variant="h5">MOST UNRESOLVED VIOLATION</Typography>
-            <Typography variant="h4">10</Typography>
-            <Typography variant="h6">Worker Unavailable</Typography>
+            <Typography variant="h4">
+              {mostUnresolvedVio && (
+                <CountUp end={mostUnresolvedVio[0]?.count} duration={4} />
+              )}
+            </Typography>
+            <Typography variant="h6">
+              {mostUnresolvedVio && mostUnresolvedVio[0]?.instance}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -62,7 +117,7 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <Unresolved />
+          <Unresolved chartData={mostUnresolvedVioIns} />
         </Grid>
       </Grid>
       {/* SECTION 2 */}
@@ -75,7 +130,7 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <ViolationType />
+          <ViolationType chartData={totalVioByType} />
         </Grid>
       </Grid>
       <Grid container item md={2} className={"Grid_Padding"}>

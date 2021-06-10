@@ -865,6 +865,126 @@ const workerDeleteStitching = async (datas) => {
   );
 };
 
+const analyticsTotalViolation = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/totalViolations",
+    true,
+    data
+  );
+};
+
+const analyticsTotaUnresolvedlViolation = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/totalUnresolvedViolations",
+    true,
+    data
+  );
+};
+
+const analyticsMostUnresolvedlViolation = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/mostUnresolvedViolations",
+    true,
+    data
+  );
+};
+
+const analyticsMostUnresolvedlViolationInstance = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/mostUnresolvedViolationByInstance",
+    true,
+    data
+  );
+};
+
+const analyticsTotalViolationByType = async (
+  filterDateTo,
+  filterDateFrom,
+  wing,
+  line,
+  shift,
+  supervisor
+) => {
+  const data = {
+    filterDateTo,
+    filterDateFrom,
+    wing,
+    line,
+    shift,
+    supervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/analytics/totalViolationByType",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -942,4 +1062,9 @@ export {
   workerDeleteChecking,
   workerUpdateStitching,
   workerDeleteStitching,
+  analyticsTotalViolation,
+  analyticsTotaUnresolvedlViolation,
+  analyticsMostUnresolvedlViolation,
+  analyticsMostUnresolvedlViolationInstance,
+  analyticsTotalViolationByType,
 };
