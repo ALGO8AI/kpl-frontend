@@ -1,6 +1,7 @@
 import { Grid, Paper, Typography } from "@material-ui/core";
 import React from "react";
 import ActiveViolation from "../../../components/analytics/ActiveViolation";
+import LineUtilisation from "../../../components/analytics/LineUtilisation";
 import MachineLine from "../../../components/analytics/MachineLine";
 import MachineStatus from "../../../components/analytics/MachineStatus";
 import MachineUtilisation from "../../../components/analytics/MachineUtilisation";
@@ -311,6 +312,49 @@ function Analytics() {
           <MachineUtilisation />
         </Grid>
       </Grid>
+      {/* SECTION 6 */}
+      <Grid container item md={8} className={"Grid_Padding"}>
+        <Grid
+          container
+          item
+          md={12}
+          component={Paper}
+          elevation={4}
+          className={"Grid_Container"}
+        >
+          <LineUtilisation />
+        </Grid>
+      </Grid>
+
+      <Grid container item md={2} className={"Grid_Padding"}>
+        <Grid
+          container
+          item
+          md={12}
+          className={"Grid_Container Data"}
+          component={Paper}
+          elevation={4}
+        >
+          <Grid container item md={12} style={{ flexDirection: "column" }}>
+            <Typography variant="h5">HIGHEST LINE MACHINE</Typography>
+            <Typography variant="h4">5</Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          item
+          md={12}
+          className={"Grid_Container Data"}
+          component={Paper}
+          elevation={4}
+        >
+          <Grid container item md={12} style={{ flexDirection: "column" }}>
+            <Typography variant="h5">LOWEST LINE MACHINE</Typography>
+            <Typography variant="h4">2</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid container item md={2} className={"Grid_Padding"}></Grid>
     </Grid>
     // <Grid container className="Analytics_Container">
     //   <Grid item container md={6} style={{ padding: "12px" }}>

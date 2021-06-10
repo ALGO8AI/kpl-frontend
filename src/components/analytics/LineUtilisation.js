@@ -15,14 +15,6 @@ function LineUtilisation() {
       name: "% Feed UA",
       data: [44, 55, 41, 64, 22, 43, 21],
     },
-    {
-      name: "% Worker UA",
-      data: [53, 32, 33, 52, 13, 44, 32],
-    },
-    {
-      name: "% Machine Breakdown",
-      data: [16, 19, 11, 13, 12, 10, 14],
-    },
   ];
   const options = {
     chart: {
@@ -65,7 +57,15 @@ function LineUtilisation() {
       intersect: false,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5],
+      categories: [
+        "Line 1",
+        "Line 2",
+        "Line 3",
+        "Line 4",
+        "Line 5",
+        "Line 6",
+        "Line 7",
+      ],
       title: {
         text: "Line",
         style: {
@@ -77,7 +77,7 @@ function LineUtilisation() {
     },
     yaxis: {
       title: {
-        text: "% Of Violation",
+        text: "% Of Utilisation",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -97,7 +97,7 @@ function LineUtilisation() {
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
-          <Typography variant="h6"> MACHINE UTILISATION</Typography>
+          <Typography variant="h6"> LINE UTILISATION</Typography>
         </Grid>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
           <FormControl

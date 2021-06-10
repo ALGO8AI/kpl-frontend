@@ -65,7 +65,7 @@ function MachineUtilisation() {
       intersect: false,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5],
+      categories: [1, 2, 3, 4, 5, 6, 7],
       title: {
         text: "Machine ID",
         style: {
