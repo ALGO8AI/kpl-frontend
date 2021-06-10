@@ -15,6 +15,7 @@
     }
     .Data {
       position: relative;
+      height: 240px;
       &::before {
         position: absolute;
         width: 4px;
@@ -46,5 +47,37 @@
   .apexcharts-legend-text {
     font-size: 18px !important;
     font-weight: 500 !important;
+  }
+}
+@media screen and (max-width: 769px) {
+  .Analytics_Container {
+    margin-top: 12px;
+    padding: 12px;
+    // border: 2px solid red;
+    background-color: rgba(140, 140, 255, 0.1);
+    .Grid_Padding {
+      padding: 12px;
+      margin-bottom: 1.5rem;
+      .Grid_Container {
+        padding: 16px;
+        // border: 2px solid rgb(6, 255, 19);
+        background-color: white;
+        margin-bottom: 12px;
+      }
+      .Data {
+        position: relative;
+        height: auto;
+        &::before {
+          position: absolute;
+          width: 4px;
+          height: 100%;
+          background-color: $primary-blue;
+          content: "";
+          left: 0;
+          top: 0;
+          border-radius: 6px 0 0 6px;
+        }
+      }
+    }
   }
 }

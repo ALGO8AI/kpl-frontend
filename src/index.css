@@ -100,8 +100,8 @@
 } */
 
 .MuiAlert-standardSuccess {
-  color: white !important;
-  background-color: #009607 !important;
+  color: rgb(0, 0, 0) !important;
+  background-color: rgb(206, 206, 206) !important;
   display: flex;
   align-items: center;
 }

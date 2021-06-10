@@ -463,9 +463,11 @@ function ViolationLog1() {
       case "Incorrect Violation":
         return "Incorrect";
       case "OPEN":
-        return "Open";
-      default:
+        return "Unresolved";
+      case "Confirmed Violation":
         return "Resolved";
+      default:
+        return "Unresolved";
     }
   };
 
@@ -825,8 +827,8 @@ function ViolationLog1() {
               <Tab label="Feed Unavailable" {...a11yProps(0)} />
               <Tab label="Crowding Violation" {...a11yProps(1)} />
               <Tab label="Worker Violation" {...a11yProps(2)} />
-              <Tab label="Worker Performance" {...a11yProps(3)} />
-              <Tab label="Machine Violation" {...a11yProps(4)} />
+              <Tab label="Machine Violation" {...a11yProps(3)} />
+              <Tab label="Worker Performance" {...a11yProps(4)} />
             </Tabs>
           </AppBar>
 
@@ -843,7 +845,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={returnClassName(rowData.actionStatus)}
+                        className={"Link-btn-grey"}
                         // className={`${
                         //   rowData.query === "Not Resolved"
                         //     ? "Link-btn-red"
@@ -909,7 +911,7 @@ function ViolationLog1() {
                   { title: "Worker ID", field: "WorkerID" },
 
                   {
-                    title: "Unavailable (Min.)",
+                    title: "Violation Duration(Min.)",
                     field: "UnavailableDuration",
                   },
                   { title: "Start Time", field: "StartTime" },
@@ -942,7 +944,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={returnClassName(rowData.actionStatus)}
+                        className={"Link-btn-grey"}
                         // className={`${
                         //   rowData.query === "Not Resolved"
                         //     ? "Link-btn-red"
@@ -1035,7 +1037,7 @@ function ViolationLog1() {
                     },
                   },
                   {
-                    title: "Crowding Duration(Min.)",
+                    title: "Violation Duration(Min.)",
                     field: "CrowdingDuration",
                   },
                   { title: "Crowding Start Time", field: "crowdStartTime" },
@@ -1072,7 +1074,7 @@ function ViolationLog1() {
                         //     ? "Link-btn-red"
                         //     : "Link-btn-green"
                         // }`}
-                        className={returnClassName(rowData.actionStatus)}
+                        className={"Link-btn-grey"}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "worker");
                           localStorage.setItem(
@@ -1159,14 +1161,14 @@ function ViolationLog1() {
                   },
                   { title: "Worker Name", field: "workerName" },
                   { title: "Worker Id", field: "workerID" },
-                  { title: "Start Time", field: "startTime" },
-                  { title: "End Time", field: "endTime" },
-                  { title: "Machine ID", field: "machineId" },
-
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
                   },
+                  { title: "Start Time", field: "startTime" },
+                  { title: "End Time", field: "endTime" },
+                  { title: "Machine ID", field: "machineId" },
+
                   { title: "Wing", field: "wing" },
                   { title: "Shift", field: "shift" },
                   // { title: "Violation Reason", field: "violationReason" },
@@ -1178,7 +1180,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={state.violationTab} index={3}>
+          <TabPanel value={state.violationTab} index={4}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 // title=""
@@ -1204,7 +1206,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={state.violationTab} index={4}>
+          <TabPanel value={state.violationTab} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 // title=""
@@ -1218,7 +1220,7 @@ function ViolationLog1() {
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
                         // className={"Link-btn-red"}
-                        className={returnClassName(rowData.actionStatus)}
+                        className={"Link-btn-grey"}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -1240,19 +1242,6 @@ function ViolationLog1() {
                     field: "Id",
                   },
                   {
-                    title: "Worker Name",
-                    field: "workerName",
-                  },
-                  {
-                    title: "Worker Id",
-                    field: "workerId",
-                  },
-
-                  {
-                    title: "Machine Id",
-                    field: "machineId",
-                  },
-                  {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
@@ -1263,6 +1252,23 @@ function ViolationLog1() {
                     },
                   },
                   {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
+                  {
+                    title: "Worker Id",
+                    field: "workerId",
+                  },
+                  {
+                    title: "Off Duration (Mins.)",
+                    field: "OffMinutes",
+                  },
+                  {
+                    title: "Machine Id",
+                    field: "machineId",
+                  },
+
+                  {
                     title: "Time",
                     field: "DateTime",
                     render: (rowData) => {
@@ -1271,10 +1277,6 @@ function ViolationLog1() {
                       );
                       return NewDate;
                     },
-                  },
-                  {
-                    title: "Off Duration (Mins.)",
-                    field: "OffMinutes",
                   },
 
                   {
