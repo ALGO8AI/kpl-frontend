@@ -322,71 +322,71 @@ function ViolationLog1() {
       setClpCtr(ctr.clpctr);
       setMachineID(ctr.machineID);
 
-      if (state.feed.loading) {
-        const feed = await feedUnavailableViolation(
-          state.violationFrom,
-          state.violationTo
-        );
-        console.log(feed.feedUnavailableData);
+      // if (state.feed.loading) {
+      const feed = await feedUnavailableViolation(
+        state.violationFrom,
+        state.violationTo
+      );
+      console.log(feed.feedUnavailableData);
+      dispatch({
+        type: "FEED_VIO",
+        payload: { data: feed.feedUnavailableData, loading: false },
+      });
+      // }
+      // if (state.machine.loading) {
+      const machineVio = await getMachineViolation();
+      console.log(machineVio);
+      dispatch({
+        type: "MACHINE_VIO",
+        payload: {
+          data: machineVio.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
+      // }
+
+      // if (state.crowd.loading) {
+      const crowd = await crowdingViolation(
+        state.violationFrom,
+        state.violationTo
+      );
+      if (crowd.crowdingData !== "no data") {
         dispatch({
-          type: "FEED_VIO",
-          payload: { data: feed.feedUnavailableData, loading: false },
+          type: "CROWD_VIO",
+          payload: { data: crowd.crowdingData, loading: false },
         });
       }
-      if (state.machine.loading) {
-        const machineVio = await getMachineViolation();
-        console.log(machineVio);
+      // }
+
+      // if (state.worker.loading) {
+      const worker = await workerUnavailableViolation(
+        state.violationFrom,
+        state.violationTo
+      );
+      if (worker.workerUnavailableDurationData !== "no data") {
         dispatch({
-          type: "MACHINE_VIO",
+          type: "WORKER_VIO",
           payload: {
-            data: machineVio.machineBreakdownViolationtable,
+            data: worker.workerUnavailableDurationData,
             loading: false,
           },
         });
       }
+      // }
 
-      if (state.crowd.loading) {
-        const crowd = await crowdingViolation(
-          state.violationFrom,
-          state.violationTo
-        );
-        if (crowd.crowdingData !== "no data") {
-          dispatch({
-            type: "CROWD_VIO",
-            payload: { data: crowd.crowdingData, loading: false },
-          });
-        }
-      }
-
-      if (state.worker.loading) {
-        const worker = await workerUnavailableViolation(
-          state.violationFrom,
-          state.violationTo
-        );
-        if (worker.workerUnavailableDurationData !== "no data") {
-          dispatch({
-            type: "WORKER_VIO",
-            payload: {
-              data: worker.workerUnavailableDurationData,
-              loading: false,
-            },
-          });
-        }
-      }
-
-      if (state.by_worker.loading) {
-        const by_worker = await violationByWorkerF(
-          state.violationFrom,
-          state.violationTo
-        );
-        dispatch({
-          type: "BY_WORKER_VIO",
-          payload: {
-            data: by_worker.violationByWorkerData,
-            loading: false,
-          },
-        });
-      }
+      // if (state.by_worker.loading) {
+      const by_worker = await violationByWorkerF(
+        state.violationFrom,
+        state.violationTo
+      );
+      dispatch({
+        type: "BY_WORKER_VIO",
+        payload: {
+          data: by_worker.violationByWorkerData,
+          loading: false,
+        },
+      });
+      // }
     } catch (err) {
       console.log(err.message);
     }
@@ -446,6 +446,29 @@ function ViolationLog1() {
       }, 2000);
     }
   };
+
+  const returnClassName = (type) => {
+    switch (type) {
+      case "Incorrect Violation":
+        return "Link-btn-grey";
+      case "OPEN":
+        return "Link-btn-red";
+      default:
+        return "Link-btn-green";
+    }
+  };
+
+  const returnStatus = (type) => {
+    switch (type) {
+      case "Incorrect Violation":
+        return "Incorrect";
+      case "OPEN":
+        return "Open";
+      default:
+        return "Resolved";
+    }
+  };
+
   return (
     <>
       <ImageDialog
@@ -820,11 +843,12 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={`${
-                          rowData.query === "Not Resolved"
-                            ? "Link-btn-red"
-                            : "Link-btn-green"
-                        }`}
+                        className={returnClassName(rowData.actionStatus)}
+                        // className={`${
+                        //   rowData.query === "Not Resolved"
+                        //     ? "Link-btn-red"
+                        //     : "Link-btn-green"
+                        // }`}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -837,7 +861,7 @@ function ViolationLog1() {
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -881,7 +905,6 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
-                  { title: "Supervisor Name", field: "supervisorName" },
                   { title: "Worker Name", field: "workerName" },
                   { title: "Worker ID", field: "WorkerID" },
 
@@ -898,6 +921,9 @@ function ViolationLog1() {
 
                   { title: "Wing", field: "Wing" },
                   { title: "Shift", field: "shift" },
+                  // { title: "Violation Reason", field: "violationReason" },
+                  // { title: "Action", field: "actionStatus" },
+                  { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />
             </Grid>
@@ -916,11 +942,12 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={`${
-                          rowData.query === "Not Resolved"
-                            ? "Link-btn-red"
-                            : "Link-btn-green"
-                        }`}
+                        className={returnClassName(rowData.actionStatus)}
+                        // className={`${
+                        //   rowData.query === "Not Resolved"
+                        //     ? "Link-btn-red"
+                        //     : "Link-btn-green"
+                        // }`}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -933,7 +960,7 @@ function ViolationLog1() {
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -1016,9 +1043,13 @@ function ViolationLog1() {
 
                   { title: "Person(Max)", field: "MaxPerson" },
                   // { title: "Person(Min)", field: "MinPerson" },
-                  // { title: "Violation Reason", field: "ViolationReason" },
+                  { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
                   { title: "Shift", field: "shift" },
+                  // { title: "Violation Reason", field: "violationReason" },
+                  // { title: "Action", field: "actionStatus" },
+
+                  { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />
             </Grid>
@@ -1036,11 +1067,12 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={`${
-                          rowData.query === "Not Resolved"
-                            ? "Link-btn-red"
-                            : "Link-btn-green"
-                        }`}
+                        // className={`${
+                        //   rowData.query === "Not Resolved"
+                        //     ? "Link-btn-red"
+                        //     : "Link-btn-green"
+                        // }`}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "worker");
                           localStorage.setItem(
@@ -1053,7 +1085,7 @@ function ViolationLog1() {
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -1137,6 +1169,10 @@ function ViolationLog1() {
                   },
                   { title: "Wing", field: "wing" },
                   { title: "Shift", field: "shift" },
+                  // { title: "Violation Reason", field: "violationReason" },
+                  // { title: "Action", field: "actionStatus" },
+
+                  { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />
             </Grid>
@@ -1181,7 +1217,8 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={"Link-btn-red"}
+                        // className={"Link-btn-red"}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -1194,7 +1231,7 @@ function ViolationLog1() {
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -1248,6 +1285,10 @@ function ViolationLog1() {
                     title: "Shift",
                     field: "shift",
                   },
+                  // { title: "Violation Reason", field: "violationReason" },
+                  // { title: "Action", field: "actionStatus" },
+
+                  { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />
             </Grid>

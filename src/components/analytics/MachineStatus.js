@@ -9,14 +9,14 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function MachineLine() {
+function MachineStatus() {
   const series = [
     {
-      name: "Feed UA",
+      name: "On",
       data: [28, 29, 33, 36, 32, 32, 33],
     },
     {
-      name: "Worker UA",
+      name: "Off",
       data: [12, 11, 14, 18, 17, 13, 13],
     },
     {
@@ -70,7 +70,7 @@ function MachineLine() {
     xaxis: {
       categories: [1, 2, 3, 4, 5, 6, 7, 8],
       title: {
-        text: "Time Interval",
+        text: "Time Hourly",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -80,7 +80,7 @@ function MachineLine() {
     },
     yaxis: {
       title: {
-        text: "Duration (Mins)",
+        text: "Time Duration",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -105,7 +105,7 @@ function MachineLine() {
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
-          <Typography variant="h6"> DURATION OF VIOLATIONS BY TYPE</Typography>
+          <Typography variant="h6"> MACHINE STATUS</Typography>
         </Grid>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
           <FormControl
@@ -159,4 +159,4 @@ function MachineLine() {
   );
 }
 
-export default MachineLine;
+export default MachineStatus;

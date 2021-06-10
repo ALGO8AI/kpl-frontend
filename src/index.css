@@ -62,6 +62,14 @@
   background-color: rgba(74, 170, 22, 0.2);
   border-radius: 5px;
 }
+.Link-btn-grey {
+  text-decoration: none;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  color: rgb(0, 0, 0);
+  background-color: rgb(206, 206, 206);
+  border-radius: 5px;
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -93,7 +101,7 @@
 
 .MuiAlert-standardSuccess {
   color: white !important;
-  background-color: #f68f1d !important;
+  background-color: #009607 !important;
   display: flex;
   align-items: center;
 }

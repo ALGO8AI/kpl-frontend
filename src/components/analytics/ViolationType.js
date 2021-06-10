@@ -1,4 +1,11 @@
-import { Grid } from "@material-ui/core";
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
@@ -45,15 +52,15 @@ function ViolationType() {
     stroke: {
       curve: "smooth",
     },
-    title: {
-      text: "Total violations by type.",
-      style: {
-        color: "#0e4a7b",
-        fontSize: "24px",
-        fontWeight: 600,
-      },
-      align: "left",
-    },
+    // title: {
+    //   text: "Total violations by type.",
+    //   style: {
+    //     color: "#0e4a7b",
+    //     fontSize: "24px",
+    //     fontWeight: 600,
+    //   },
+    //   align: "left",
+    // },
     grid: {
       borderColor: "#e7e7e7",
       row: {
@@ -67,20 +74,20 @@ function ViolationType() {
     xaxis: {
       categories: [1, 2, 3, 4, 5, 6, 7, 8],
       title: {
-        text: "Time Interval",
+        text: "Date",
         style: {
           color: "#0e4a7b",
-          fontSize: "12px",
+          fontSize: "14px",
           fontWeight: 400,
         },
       },
     },
     yaxis: {
       title: {
-        text: "Amount Of Time",
+        text: "Number Of Violation Instances",
         style: {
           color: "#0e4a7b",
-          fontSize: "12px",
+          fontSize: "14px",
           fontWeight: 400,
         },
       },
@@ -88,25 +95,69 @@ function ViolationType() {
       max: 40,
     },
     legend: {
+      //
+      horizontalAlign: "center",
       position: "top",
-      horizontalAlign: "right",
-      floating: true,
-      offsetY: -25,
-      offsetX: -5,
+
+      // offsetX: 40,
     },
   };
 
   return (
     <>
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="line"
-        height={350}
-        width={"100%"}
-        style={{ margin: "auto", width: "100%" }}
-      />
+      <Grid container item xs={12} style={{ alignItems: "center" }}>
+        <Grid container item xs={6} style={{ marginBottom: "16px" }}>
+          <Typography variant="h6"> TOTAL VIOLATIONS BY TYPE</Typography>
+        </Grid>
+        <Grid container item xs={6} style={{ marginBottom: "16px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            // style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Machine ID
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // multiple
+              // value={inputMACHINEid}
+              // onChange={(e) => setInputMACHINEid(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {["Machine 1", "Machine 2", "Machine 3"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="line"
+          height={360}
+          width={"100%"}
+          style={{ margin: "auto", width: "100%" }}
+        />
+      </Grid>
     </>
+    // <>
+    // <ReactApexChart
+    //   options={options}
+    //   series={series}
+    //   type="line"
+    //   height={350}
+    //   width={"100%"}
+    //   style={{ margin: "auto", width: "100%" }}
+    // />
+    // </>
   );
 }
 

@@ -73,6 +73,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
         wing: ctr?.data[0]?.wing,
         clpctr: ctr?.data[0]?.clpCtr,
         resourceId: ctr?.data[0]?.resourceId,
+        line: "U+2",
       });
     } catch (err) {
       console.log(err.message);

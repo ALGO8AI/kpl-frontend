@@ -99,6 +99,9 @@ function Supervisor(props) {
     },
     { title: "Supervisor Id", field: "supervisorId" },
     { title: "Supervisor Name", field: "supervisorName" },
+    { title: "Kit Supervisor", field: "kitSupervisor" },
+    { title: "Line Supervisor", field: "lineSupervisor" },
+
     { title: "Line", field: "line" },
     { title: "Wing", field: "wing" },
     { title: "Shift", field: "shift" },
@@ -126,6 +129,8 @@ function Supervisor(props) {
               shift: x.shift,
               wing: x.wing,
               line: x.line,
+              kitSupervisor: x.kitSupervisor,
+              lineSupervisor: x.lineSupervisor,
             });
           }}
         >
@@ -141,6 +146,8 @@ function Supervisor(props) {
     shift: "",
     wing: "",
     line: "",
+    kitSupervisor: "",
+    lineSupervisor: "",
   });
 
   const onInputChange = (e) => {
@@ -196,16 +203,41 @@ function Supervisor(props) {
   const addSupervisor = async (data) => {
     try {
       const resp = await addStitchingSupervisorSingle(data);
-      setMsg(resp.msg);
+      // console.log(resp);
+      setMsg("Added");
       setOpen(true);
+      loadData();
+      setUserData({
+        supervisorName: "",
+        supervisorId: "",
+        date: "",
+        shift: "",
+        wing: "",
+        line: "",
+        kitSupervisor: "",
+        lineSupervisor: "",
+      });
     } catch (err) {}
   };
 
   const updateSupervisor = async (data) => {
     try {
       const resp = await updateStitchingSupervisorSingle(data);
-      setMsg(resp.msg);
+      console.log(resp);
+
+      setMsg("Updated");
       setOpen(true);
+      loadData();
+      setUserData({
+        supervisorName: "",
+        supervisorId: "",
+        date: "",
+        shift: "",
+        wing: "",
+        line: "",
+        kitSupervisor: "",
+        lineSupervisor: "",
+      });
     } catch (err) {}
   };
 
@@ -229,6 +261,26 @@ function Supervisor(props) {
           style={{ marginBottom: "12px" }}
           value={userdata.supervisorId}
           name="supervisorId"
+          fullWidth
+          onChange={onInputChange}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Kit Supervisor"
+          variant="outlined"
+          style={{ marginBottom: "12px" }}
+          value={userdata.kitSupervisor}
+          name="kitSupervisor"
+          fullWidth
+          onChange={onInputChange}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Line Supervisor"
+          variant="outlined"
+          style={{ marginBottom: "12px" }}
+          value={userdata.lineSupervisor}
+          name="lineSupervisor"
           fullWidth
           onChange={onInputChange}
         />

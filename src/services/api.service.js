@@ -131,6 +131,7 @@ const feedUnavailableViolation = async (
     shifts: [],
     username: localStorage.getItem("kpl_username"),
   };
+  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/violation/feedUnavailable",
@@ -327,7 +328,7 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: ["A", "B"],
+    shifts: [],
   };
   return await callBackend(
     "POST",
@@ -342,7 +343,7 @@ const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: ["A", "B"],
+    shifts: [],
   };
   return await callBackend(
     "POST",

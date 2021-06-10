@@ -9,47 +9,50 @@ import {
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function MachineLine() {
+function LineUtilisation() {
   const series = [
     {
-      name: "Feed UA",
-      data: [28, 29, 33, 36, 32, 32, 33],
+      name: "% Feed UA",
+      data: [44, 55, 41, 64, 22, 43, 21],
     },
     {
-      name: "Worker UA",
-      data: [12, 11, 14, 18, 17, 13, 13],
+      name: "% Worker UA",
+      data: [53, 32, 33, 52, 13, 44, 32],
     },
     {
-      name: "Machine Breakdown",
+      name: "% Machine Breakdown",
       data: [16, 19, 11, 13, 12, 10, 14],
     },
   ];
-
   const options = {
     chart: {
-      height: 350,
-      type: "line",
-      dropShadow: {
-        enabled: true,
-        color: "#000",
-        top: 18,
-        left: 7,
-        blur: 10,
-        opacity: 0.2,
-      },
-      toolbar: {
-        show: false,
-      },
+      type: "bar",
+      height: 430,
     },
     colors: ["#77B6EA", "#545454", "#f16230"],
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        dataLabels: {
+          position: "top",
+        },
+      },
+    },
     dataLabels: {
       enabled: true,
+      offsetX: 0,
+      style: {
+        fontSize: "12px",
+        colors: ["#fff"],
+      },
     },
     stroke: {
-      curve: "smooth",
+      show: true,
+      width: 1,
+      colors: ["#fff"],
     },
     // title: {
-    //   text: "Duration By Type Of Violation",
+    //   text: "Machine Utilisation",
     //   style: {
     //     color: "#0e4a7b",
     //     fontSize: "24px",
@@ -57,20 +60,14 @@ function MachineLine() {
     //   },
     //   align: "left",
     // },
-    grid: {
-      borderColor: "#e7e7e7",
-      row: {
-        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5,
-      },
-    },
-    markers: {
-      size: 1,
+    tooltip: {
+      shared: false,
+      intersect: false,
     },
     xaxis: {
-      categories: [1, 2, 3, 4, 5, 6, 7, 8],
+      categories: [1, 2, 3, 4, 5],
       title: {
-        text: "Time Interval",
+        text: "Line",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -80,32 +77,27 @@ function MachineLine() {
     },
     yaxis: {
       title: {
-        text: "Duration (Mins)",
+        text: "% Of Violation",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
           fontWeight: 400,
         },
       },
-      min: 5,
-      max: 40,
     },
     legend: {
-      // position: "top",
-      // horizontalAlign: "right",
-      // floating: true,
-      // offsetY: -25,
-      // offsetX: -5,
+      //
       horizontalAlign: "center",
       position: "top",
+
+      // offsetX: 40,
     },
   };
-
   return (
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
-          <Typography variant="h6"> DURATION OF VIOLATIONS BY TYPE</Typography>
+          <Typography variant="h6"> MACHINE UTILISATION</Typography>
         </Grid>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
           <FormControl
@@ -139,7 +131,7 @@ function MachineLine() {
         <ReactApexChart
           options={options}
           series={series}
-          type="line"
+          type="bar"
           height={360}
           width={"100%"}
           style={{ margin: "auto", width: "100%" }}
@@ -150,8 +142,8 @@ function MachineLine() {
     // <ReactApexChart
     //   options={options}
     //   series={series}
-    //   type="line"
-    //   height={350}
+    //   type="bar"
+    //   height={360}
     //   width={"100%"}
     //   style={{ margin: "auto", width: "100%" }}
     // />
@@ -159,4 +151,4 @@ function MachineLine() {
   );
 }
 
-export default MachineLine;
+export default LineUtilisation;

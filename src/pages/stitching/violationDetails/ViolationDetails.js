@@ -575,12 +575,16 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.wing}
             </Grid>
-            <Grid item xs={6} className="vd-d3">
-              Shift :
-            </Grid>
-            <Grid item xs={6} className="vd-d3">
-              {data && data.shift}
-            </Grid>
+            {data?.shift && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Shift :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {data && data.shift}
+                </Grid>
+              </>
+            )}
             <Grid item xs={6} className="vd-d3">
               Line :
             </Grid>
@@ -593,24 +597,32 @@ function ViolationDetails(props) {
             <Grid item xs={6} className="vd-d3">
               {data && data.zone}
             </Grid> */}
-            {/* <Grid item xs={6} className="vd-d3">
+            <Grid item xs={6} className="vd-d3">
               Supervisor :
             </Grid>
             <Grid item xs={6} className="vd-d3">
               {data && data.supervisor}
-            </Grid> */}
-            <Grid item xs={6} className="vd-d3">
-              Actual Supervisor :
             </Grid>
-            <Grid item xs={6} className="vd-d3">
-              {(data && data?.actualSupervisor) || "Not Available"}
-            </Grid>
-            <Grid item xs={6} className="vd-d3">
-              Reassigned Supervisor :
-            </Grid>
-            <Grid item xs={6} className="vd-d3">
-              {(data && data?.reassignedSupervisor) || "Not Available"}
-            </Grid>
+            {data?.actualSupervisor && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Actual Supervisor :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {(data && data?.actualSupervisor) || "Not Available"}
+                </Grid>
+              </>
+            )}
+            {data?.reassignedSupervisor && (
+              <>
+                <Grid item xs={6} className="vd-d3">
+                  Reassigned Supervisor :
+                </Grid>
+                <Grid item xs={6} className="vd-d3">
+                  {(data && data?.reassignedSupervisor) || "Not Available"}
+                </Grid>
+              </>
+            )}
           </Grid>
           <Grid item xs={12} className="vd-white">
             <Grid item xs={12} className="vd-d1 vd-d2">

@@ -130,7 +130,7 @@ export const LayoutViewPage = observer((props) => {
         </Grid>
       </div>
 
-      {appState.cameraPosition.length == 0 ? (
+      {appState?.cameraPosition?.length == 0 ? (
         <div className="layput-spinner">
           <Spinner />
         </div>

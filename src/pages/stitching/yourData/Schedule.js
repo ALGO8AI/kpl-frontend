@@ -200,7 +200,7 @@ function Schedule(props) {
   };
   return (
     <Grid container spacing={4} md={12}>
-      <Grid item md={3} xs={12} style={{ backgroundColor: "#FFF" }}>
+      <Grid item md={4} xs={12} style={{ backgroundColor: "#FFF" }}>
         <DropzoneArea
           onChange={handleFileChange}
           dropzoneText={"Drag and drop files or click here"}
@@ -216,7 +216,7 @@ function Schedule(props) {
           &nbsp;Upload Schedule
         </div>
       </Grid>
-      <Grid item md={9} xs={12}>
+      <Grid item md={8} xs={12}>
         <Button
           variant="contained"
           style={{

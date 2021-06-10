@@ -1,6 +1,32 @@
+@import "../../../index.scss";
 .Analytics_Container {
   margin-top: 12px;
-  padding: 1rem;
+  padding: 12px;
+  // border: 2px solid red;
+  background-color: rgba(140, 140, 255, 0.1);
+  .Grid_Padding {
+    padding: 12px;
+    margin-bottom: 1.5rem;
+    .Grid_Container {
+      padding: 16px;
+      // border: 2px solid rgb(6, 255, 19);
+      background-color: white;
+      margin-bottom: 12px;
+    }
+    .Data {
+      position: relative;
+      &::before {
+        position: absolute;
+        width: 4px;
+        height: 100%;
+        background-color: $primary-blue;
+        content: "";
+        left: 0;
+        top: 0;
+        border-radius: 6px 0 0 6px;
+      }
+    }
+  }
 }
 
 .Analytics_Paper {
@@ -8,4 +34,17 @@
 }
 .GraphContainer {
   margin: 2rem auto !important;
+}
+.MuiTypography-h6 {
+  color: $primary-blue !important;
+}
+.MuiTypography-h5 {
+  color: $primary-blue !important;
+}
+.apexcharts-legend-series {
+  margin-bottom: 24px !important;
+  .apexcharts-legend-text {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
 }

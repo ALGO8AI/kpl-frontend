@@ -21,7 +21,7 @@ import ResetPassword from "./pages/ResetPassword";
 import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetails";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:8081";
+const ENDPOINT = "http://3.23.114.42:3000";
 // const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
 const socket = socketIOClient(ENDPOINT);
 
@@ -42,6 +42,7 @@ function App(props) {
 
     //socket
     socket.on("machineAlert", (resp) => {
+      console.log("Socket On");
       console.log(resp);
       if (window.Notification) {
         Notification.requestPermission(() => {
