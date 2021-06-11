@@ -954,7 +954,7 @@ function ViolationLog1() {
                         //     : "Link-btn-green"
                         // }`}
                         onClick={() => {
-                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem("VIOLATION", "crowding");
                           localStorage.setItem(
                             "VIOLATION-TYPE",
                             "Crowding Violation"
@@ -1225,7 +1225,7 @@ function ViolationLog1() {
                         // className={"Link-btn-red"}
                         className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
-                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem("VIOLATION", "mechineViolation");
                           localStorage.setItem(
                             "VIOLATION-TYPE",
                             "Machine Violation"

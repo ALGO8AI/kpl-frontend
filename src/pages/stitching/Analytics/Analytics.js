@@ -797,14 +797,14 @@ function Analytics() {
             <Typography variant="h6">
               {machineStatusDurationID && (
                 <CountUp
-                  end={
+                  end={Math.round(
                     machineStatusDurationID?.machineBreakdownMaxTimeAndIdData[0]
-                      ?.timeDuration
-                  }
+                      ?.utilizationPercentage
+                  )}
                   duration={4}
                 />
               )}
-              (mins.)
+              (%)
             </Typography>
           </Grid>
         </Grid>
@@ -826,14 +826,14 @@ function Analytics() {
             <Typography variant="h6">
               {machineStatusDurationID && (
                 <CountUp
-                  end={
+                  end={Math.round(
                     machineStatusDurationID?.machineBreakdownMinTimeAndIdData[0]
-                      ?.timeDuration
-                  }
+                      ?.utilizationPercentage
+                  )}
                   duration={4}
                 />
               )}
-              (mins.)
+              (%)
             </Typography>
           </Grid>
         </Grid>

@@ -124,16 +124,30 @@ function ManageRoles() {
         {
           title: "Shift A",
           field: "shiftA",
-          render: (rowData) => {
-            return Boolean(rowData.shiftA) ? <p>Allowed</p> : <p>Denied</p>;
-          },
+          render: (rowData) =>
+            Boolean(rowData.shiftA) ? (
+              <p style={{ color: "rgb(74, 170, 22)" }}>
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </p>
+            ) : (
+              <p style={{ color: "rgb(249, 54, 54)" }}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </p>
+            ),
         },
         {
           title: "Shift B",
           field: "shiftB",
-          render: (rowData) => {
-            return Boolean(rowData.shiftB) ? <p>Allowed</p> : <p>Denied</p>;
-          },
+          render: (rowData) =>
+            Boolean(rowData.shiftB) ? (
+              <p style={{ color: "rgb(74, 170, 22)" }}>
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </p>
+            ) : (
+              <p style={{ color: "rgb(249, 54, 54)" }}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </p>
+            ),
         },
 
         {

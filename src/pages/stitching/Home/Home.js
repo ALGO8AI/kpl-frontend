@@ -605,7 +605,7 @@ function Home() {
             ) : (
               <DonutChartSimple
                 data={state.machineUtilization?.data}
-                payload_data={4}
+                payload_data={3}
                 link={"/stitching/violationLog"}
               />
             )}

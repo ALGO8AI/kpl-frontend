@@ -144,7 +144,7 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
       type: "category",
       categories: week,
       title: {
-        text: "Time Hourly",
+        text: "Time (Hrs.)",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -154,7 +154,7 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
     },
     yaxis: {
       title: {
-        text: "Time Duration (Mins.)",
+        text: "Time Duration (Min.)",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",

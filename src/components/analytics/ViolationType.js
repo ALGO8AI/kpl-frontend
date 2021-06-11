@@ -78,7 +78,7 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
 
   const options = {
     chart: {
-      height: 350,
+      // height: 480,
       type: "line",
       dropShadow: {
         enabled: true,
@@ -146,7 +146,7 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
     legend: {
       //
       horizontalAlign: "center",
-      position: "bottom",
+      position: "top",
 
       // offsetX: 40,
     },
@@ -199,8 +199,8 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
           options={options}
           series={series}
           type="line"
-          height={360}
           width={"100%"}
+          height={360}
           style={{ margin: "auto", width: "100%" }}
         />
       </Grid>

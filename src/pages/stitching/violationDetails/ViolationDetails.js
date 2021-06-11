@@ -898,28 +898,31 @@ function ViolationDetails(props) {
             </Grid> */}
           </Grid>
         </Grid>
-        <Grid
-          container
-          item
-          sm={3}
-          xs={12}
-          className="vd-outer-box grey-outline vd-d1"
-          style={{ padding: "12px" }}
-        >
-          <Grid item xs={12} className="vd-white">
-            <Grid item xs={12} className="vd-d1 vd-d2">
-              Recent Violations
+        {localStorage.getItem("VIOLATION") === "feedUnavailable" ||
+        localStorage.getItem("VIOLATION") === "worker" ? (
+          <Grid
+            container
+            item
+            sm={3}
+            xs={12}
+            className="vd-outer-box grey-outline vd-d1"
+            style={{ padding: "12px" }}
+          >
+            <Grid item xs={12} className="vd-white">
+              <Grid item xs={12} className="vd-d1 vd-d2">
+                Recent Violations
+              </Grid>
+              {VIOLATION &&
+                VIOLATION.map((item, i) => (
+                  <VideoCard
+                    onClick={() => openPopUpWindow(item.Id)}
+                    key={i}
+                    data={item}
+                  />
+                ))}
             </Grid>
-            {VIOLATION &&
-              VIOLATION.map((item, i) => (
-                <VideoCard
-                  onClick={() => openPopUpWindow(item.Id)}
-                  key={i}
-                  data={item}
-                />
-              ))}
           </Grid>
-        </Grid>
+        ) : null}
 
         {/* <Grid container item xs={4} className="vd-outer-box">
           <Grid container item xs={12} className="vd-white">

@@ -105,6 +105,9 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
       enabled: true,
       offsetX: 0,
       offsetY: -20,
+      formatter: function(val, opts) {
+        return val + "%";
+      },
       style: {
         fontSize: "14px",
         colors: ["#000"],
@@ -141,13 +144,15 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
     },
     yaxis: {
       title: {
-        text: "Violation Count",
+        text: "% Violation",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
           fontWeight: 400,
         },
       },
+      min: 0,
+      max: 100,
     },
     legend: {
       //
@@ -161,7 +166,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
-          <Typography variant="h6"> MACHINE UTILISATION</Typography>
+          <Typography variant="h6"> MACHINE UTILISATION %</Typography>
         </Grid>
         <Grid container item xs={4} style={{ marginBottom: "16px" }}>
           <FormControl
@@ -207,7 +212,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
           options={options}
           series={series}
           type="bar"
-          height={360}
+          height={350}
           width={"100%"}
           style={{ margin: "auto", width: "100%" }}
         />

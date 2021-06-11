@@ -43,11 +43,14 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
           ).getSeconds()}`
       );
 
-      var WEEK = chartData?.crowdingData?.map((item) =>
-        new Date(item?.timeInterval).toISOString().slice(0, 10)
+      var WEEK = chartData?.[ary[nums.indexOf(max)]]?.map(
+        (item) =>
+          ` ${new Date(item?.timeInterval).toLocaleDateString()}-${new Date(
+            item?.timeInterval
+          ).toLocaleTimeString()}`
       );
 
-      setWeek(WEEK2);
+      setWeek(WEEK);
       setSeries([
         {
           name: "Crowding Data",
@@ -82,7 +85,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
 
   const options = {
     chart: {
-      height: 360,
+      // height: 360,
       type: "line",
       dropShadow: {
         enabled: false,
@@ -124,12 +127,12 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
     },
     xaxis: {
       labels: {
-        rotate: -90,
+        rotate: 0,
       },
       type: "category",
       categories: week,
       title: {
-        text: "Time Interval",
+        text: "Time (Hrs.)",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -139,7 +142,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
     },
     yaxis: {
       title: {
-        text: "Duration (Mins)",
+        text: "Duration (Min.)",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
@@ -207,7 +210,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
           options={options}
           series={series}
           type="area"
-          height={360}
+          height={420}
           width={"100%"}
           style={{ margin: "auto", width: "100%" }}
         />
