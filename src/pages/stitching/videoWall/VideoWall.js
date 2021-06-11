@@ -102,7 +102,7 @@ function VideoWall() {
         </Alert>
       </Grid>
       <Grid container item xs={12} sm={2}>
-        <CustomButton onClick={loadData()}>
+        <CustomButton onClick={loadData}>
           <RefreshIcon />
           Refresh
         </CustomButton>
