@@ -81,6 +81,7 @@ function Analytics() {
 
       // most unresolved by instance
       const MOST_UNRESOLVED_INSTANCE = await analyticsMostUnresolvedlViolationInstance();
+      console.log(MOST_UNRESOLVED_INSTANCE);
       setMostUnresolvedVioIns(MOST_UNRESOLVED_INSTANCE.data);
 
       // total violation by type
@@ -165,6 +166,7 @@ function Analytics() {
         shift,
         supervisor
       );
+      console.log(MOST_UNRESOLVED_INSTANCE);
       setMostUnresolvedVioIns(MOST_UNRESOLVED_INSTANCE?.data);
 
       // total violation by type

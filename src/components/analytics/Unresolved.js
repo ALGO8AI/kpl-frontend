@@ -12,22 +12,29 @@ import ReactApexChart from "react-apexcharts";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 function Unresolved({ chartData, value, onChange, filter }) {
-  const series = [
-    chartData?.length > 0 ? chartData[0]?.count : 0,
-    chartData?.length > 0 ? chartData[1]?.count : 0,
-    chartData?.length > 0 ? chartData[2]?.count : 0,
-  ];
+  const [series, setSeries] = React.useState([]);
+  const [labels, setLabel] = React.useState([]);
+
+  React.useEffect(() => {
+    if (chartData) {
+      setSeries(
+        //       [
+        //   chartData?.length > 0 ? chartData[0]?.count : 0,
+        //   chartData?.length > 0 ? chartData[1]?.count : 0,
+        //   chartData?.length > 0 ? chartData[2]?.count : 0,
+        // ]
+        chartData?.map((item) => item?.count)
+      );
+      setLabel(chartData?.map((item) => item.instance));
+    }
+  }, [chartData]);
 
   const options = {
     chart: {
       width: 380,
       type: "donut",
     },
-    labels: [
-      chartData?.length > 0 ? chartData[0]?.instance : "",
-      chartData?.length > 0 ? chartData[1]?.instance : "",
-      chartData?.length > 0 ? chartData[2]?.instance : "",
-    ],
+    labels: labels,
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
     plotOptions: {
       pie: {
