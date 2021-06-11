@@ -54,8 +54,8 @@ function NotificationLog() {
       width: 210,
       cellClassName: (params) =>
         clsx({
-          negative: params.value === "True",
-          positive: params.value === "False",
+          negative: params.value === "False",
+          positive: params.value === "True",
         }),
     },
     {
@@ -64,8 +64,8 @@ function NotificationLog() {
       width: 210,
       cellClassName: (params) =>
         clsx({
-          negative: params.value === "True",
-          positive: params.value === "False",
+          negative: params.value === "False",
+          positive: params.value === "True",
         }),
     },
     {
@@ -74,8 +74,8 @@ function NotificationLog() {
       width: 210,
       cellClassName: (params) =>
         clsx({
-          negative: params.value === "True",
-          positive: params.value === "False",
+          negative: params.value === "False",
+          positive: params.value === "True",
         }),
     },
     {
@@ -84,8 +84,8 @@ function NotificationLog() {
       width: 210,
       cellClassName: (params) =>
         clsx({
-          negative: params.value === "True",
-          positive: params.value === "False",
+          negative: params.value === "False",
+          positive: params.value === "True",
         }),
     },
   ];

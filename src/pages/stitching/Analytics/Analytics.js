@@ -52,6 +52,7 @@ function Analytics() {
   const [machineID, setMachineID] = useState();
 
   // input states
+  const [currentDate, setCurrentDate] = useState();
   const [filterDateTo, setFilterDateTo] = useState();
   const [filterDateFrom, setFilterDateFrom] = useState();
   const [wing, setWing] = useState();
@@ -190,8 +191,7 @@ function Analytics() {
 
       // total violation by time
       const TOTAL_VIO_DURATION = await analyticsDurationOfViolationType(
-        filterDateTo,
-        filterDateFrom,
+        currentDate,
         wing,
         line,
         shift,
@@ -201,8 +201,7 @@ function Analytics() {
 
       // machine status
       const MACHINE_STATUS = await analyticsMachineStatus(
-        filterDateTo,
-        filterDateFrom,
+        currentDate,
         wing,
         line,
         shift,
@@ -687,8 +686,12 @@ function Analytics() {
             chartData={totalVioByTime}
             value={machineId}
             onChange={(e) => setMachineId(e.target.value)}
+            shiftValue={shift}
+            setShiftValue={(e) => setShift(e.target.value)}
             machineID={machineID}
             filter={FilterData}
+            currentDate={currentDate}
+            setCurrentDate={(e) => setCurrentDate(e.target.value)}
           />
         </Grid>
       </Grid>
@@ -708,6 +711,10 @@ function Analytics() {
             onChange={(e) => setMachineId(e.target.value)}
             machineID={machineID}
             filter={FilterData}
+            shiftValue={shift}
+            setShiftValue={(e) => setShift(e.target.value)}
+            currentDate={currentDate}
+            setCurrentDate={(e) => setCurrentDate(e.target.value)}
           />
         </Grid>
       </Grid>

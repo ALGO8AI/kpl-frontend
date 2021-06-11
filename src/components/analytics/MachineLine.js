@@ -5,13 +5,24 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-function MachineLine({ chartData, value, onChange, machineID, filter }) {
+function MachineLine({
+  chartData,
+  value,
+  onChange,
+  machineID,
+  filter,
+  currentDate,
+  setCurrentDate,
+  shiftValue,
+  setShiftValue,
+}) {
   const [series, setSeries] = React.useState([]);
   const [week, setWeek] = React.useState([]);
 
@@ -44,10 +55,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
       );
 
       var WEEK = chartData?.[ary[nums.indexOf(max)]]?.map(
-        (item) =>
-          ` ${new Date(item?.timeInterval).toLocaleDateString()}-${new Date(
-            item?.timeInterval
-          ).toLocaleTimeString()}`
+        (item) => item?.timeInterval
       );
 
       setWeek(WEEK);
@@ -129,7 +137,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
       labels: {
         rotate: 0,
       },
-      type: "category",
+      type: "time",
       categories: week,
       title: {
         text: "Time (Hrs.)",
@@ -166,14 +174,14 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
   return (
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
-        <Grid container item xs={6} style={{ marginBottom: "16px" }}>
+        <Grid container item xs={12} md={4} style={{ marginBottom: "16px" }}>
           <Typography variant="h6"> DURATION OF VIOLATIONS BY TYPE</Typography>
         </Grid>
-        <Grid container item xs={4} style={{ marginBottom: "16px" }}>
+        <Grid container item xs={6} md={2} style={{ marginBottom: "16px" }}>
           <FormControl
             variant="outlined"
             fullWidth
-            // style={{ marginRight: "6px" }}
+            style={{ margin: "0px 10px" }}
           >
             <InputLabel id="demo-simple-select-outlined-label">
               Machine ID
@@ -196,11 +204,55 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
             </Select>
           </FormControl>
         </Grid>
-        <Grid container item className={"Grid_Padding"} md={2}>
+
+        <Grid container item xs={6} md={2} style={{ marginBottom: "16px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ margin: "0px 10px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={shiftValue}
+              onChange={setShiftValue}
+              label="Shift"
+              // multiple
+            >
+              {["A", "B"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid container item style={{ marginBottom: "16px" }} xs={6} md={2}>
+          <TextField
+            key="from"
+            id="fromDate"
+            label="Current Date"
+            value={currentDate}
+            type="date"
+            style={{ margin: "0px 10px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            onChange={setCurrentDate}
+            fullWidth
+          />
+        </Grid>
+        <Grid container item style={{ marginBottom: "16px" }} xs={6} md={2}>
           <Button
             variant="contained"
             color="primary"
-            style={{ margin: "10px" }}
+            style={{ margin: "0 10px" }}
             onClick={filter}
           >
             <FilterListIcon />

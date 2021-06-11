@@ -5,18 +5,30 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-function MachineStatus({ chartData, value, onChange, machineID, filter }) {
+function MachineStatus({
+  chartData,
+  value,
+  onChange,
+  machineID,
+  filter,
+  currentDate,
+  setCurrentDate,
+  shiftValue,
+  setShiftValue,
+}) {
   const [series, setSeries] = React.useState([]);
   const [week, setWeek] = React.useState([1, 2, 3, 4, 5, 6, 7]);
 
   React.useEffect(() => {
     if (chartData) {
+      console.log(chartData);
       var Orsan6 = chartData
         ?.filter((item) => item?.machineId === "FG2/U+2/Orsan6")
         .map((item) => item?.timeDuration);
@@ -44,16 +56,7 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
       // );
       var WEEK1 = chartData
         ?.filter((item) => item?.machineId === ary[nums.indexOf(max)])
-        .map(
-          (item) =>
-            `${new Date(item?.timeInterval).getDate()}-${new Date(
-              item?.timeInterval
-            ).getMonth() + 1} ${new Date(
-              item?.timeInterval
-            ).getHours()}:${new Date(
-              item?.timeInterval
-            ).getMinutes()}:${new Date(item?.timeInterval).getSeconds()}`
-        );
+        .map((item) => item.timeInterval);
 
       // console.log(WEEK1);
 
@@ -178,10 +181,10 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
   return (
     <>
       <Grid container item xs={12} style={{ alignItems: "center" }}>
-        <Grid container item xs={6} style={{ marginBottom: "16px" }}>
+        <Grid container item xs={12} md={4} style={{ marginBottom: "16px" }}>
           <Typography variant="h6"> MACHINE STATUS</Typography>
         </Grid>
-        <Grid container item xs={4} style={{ marginBottom: "16px" }}>
+        <Grid container item xs={6} md={2} style={{ marginBottom: "16px" }}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -211,7 +214,51 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
             </Select>
           </FormControl>
         </Grid>
-        <Grid container item className={"Grid_Padding"} md={2}>
+
+        <Grid container item xs={6} md={2} style={{ marginBottom: "16px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ margin: "0px 10px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={shiftValue}
+              onChange={setShiftValue}
+              label="Shift"
+              // multiple
+            >
+              {["A", "B"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid container item style={{ marginBottom: "16px" }} xs={6} md={2}>
+          <TextField
+            key="from"
+            id="fromDate"
+            label="Current Date"
+            value={currentDate}
+            type="date"
+            style={{ margin: "0px 10px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            onChange={setCurrentDate}
+            fullWidth
+          />
+        </Grid>
+        <Grid container item className={"Grid_Padding"} xs={6} md={2}>
           <Button
             variant="contained"
             color="primary"

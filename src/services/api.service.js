@@ -1010,16 +1010,14 @@ const analyticsMaxVioCount = async (
 };
 
 const analyticsDurationOfViolationType = async (
-  filterDateTo,
-  filterDateFrom,
+  currentDate,
   wing,
   line,
   shift,
   supervisor
 ) => {
   const data = {
-    filterDateTo,
-    filterDateFrom,
+    currentDate,
     wing,
     line,
     shift,
@@ -1034,8 +1032,7 @@ const analyticsDurationOfViolationType = async (
 };
 
 const analyticsMachineStatus = async (
-  filterDateTo,
-  filterDateFrom,
+  currentDate,
   wing,
   line,
   shift,
@@ -1043,14 +1040,15 @@ const analyticsMachineStatus = async (
   machineId
 ) => {
   const data = {
-    filterDateTo,
-    filterDateFrom,
+    currentDate,
     wing,
     line,
     shift,
     supervisor,
     machineId,
   };
+  console.log(data);
+
   return await callBackend(
     "POST",
     "routes/KPI/analytics/machineStatus",
