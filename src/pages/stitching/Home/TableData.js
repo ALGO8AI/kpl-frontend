@@ -277,11 +277,11 @@ function TableData({
                   field: "machineOnOffStatus",
                   width: 180,
                 },
-                {
-                  headerName: "Shift",
-                  field: "shift",
-                  width: 180,
-                },
+                // {
+                //   headerName: "Shift",
+                //   field: "shift",
+                //   width: 180,
+                // },
               ]}
             />
           </Grid>
