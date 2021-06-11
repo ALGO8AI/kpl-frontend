@@ -255,7 +255,21 @@ function TableData({
                   field: "feedUnavailableHours",
                   width: 240,
                 },
-                // { headerName: "Shift", field: "shift" },
+                {
+                  headerName: "Off Time (Hrs.)",
+                  field: "machineOffTime",
+                  width: 240,
+                },
+                {
+                  headerName: "On Time (Hrs.)",
+                  field: "machineOnTime",
+                  width: 240,
+                },
+                {
+                  headerName: "Shift",
+                  field: "shift",
+                  width: 180,
+                },
               ]}
             />
           </Grid>

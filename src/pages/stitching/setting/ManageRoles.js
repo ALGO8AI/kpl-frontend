@@ -125,22 +125,14 @@ function ManageRoles() {
           title: "Shift A",
           field: "shiftA",
           render: (rowData) => {
-            return Boolean(rowData.shiftA) ? (
-              <p className="Link-btn-green ">True</p>
-            ) : (
-              <p className="Link-btn-red">False</p>
-            );
+            return Boolean(rowData.shiftA) ? <p>Allowed</p> : <p>Denied</p>;
           },
         },
         {
           title: "Shift B",
           field: "shiftB",
           render: (rowData) => {
-            return Boolean(rowData.shiftB) ? (
-              <p className="Link-btn-green ">True</p>
-            ) : (
-              <p className="Link-btn-red">False</p>
-            );
+            return Boolean(rowData.shiftB) ? <p>Allowed</p> : <p>Denied</p>;
           },
         },
 

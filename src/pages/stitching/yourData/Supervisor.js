@@ -102,8 +102,35 @@ function Supervisor(props) {
     },
     { title: "Supervisor Id", field: "supervisorId" },
     { title: "Supervisor Name", field: "supervisorName" },
-    { title: "Kit Supervisor", field: "kitSupervisor" },
-    { title: "Line Supervisor", field: "lineSupervisor" },
+    {
+      title: "Kit Supervisor",
+      field: "kitSupervisor",
+      render: (x) =>
+        x.kitSupervisor === "true" ? (
+          <p style={{ color: "rgb(74, 170, 22)" }}>
+            <i class="fa fa-check" aria-hidden="true"></i>
+          </p>
+        ) : (
+          <p style={{ color: "rgb(249, 54, 54)" }}>
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </p>
+        ),
+    },
+
+    {
+      title: "Line Supervisor",
+      field: "lineSupervisor",
+      render: (x) =>
+        x.lineSupervisor === "true" ? (
+          <p style={{ color: "rgb(74, 170, 22)" }}>
+            <i class="fa fa-check" aria-hidden="true"></i>
+          </p>
+        ) : (
+          <p style={{ color: "rgb(249, 54, 54)" }}>
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </p>
+        ),
+    },
 
     { title: "Line", field: "line" },
     { title: "Wing", field: "wing" },
@@ -133,8 +160,8 @@ function Supervisor(props) {
               shift: x.shift,
               wing: x.wing,
               line: x.line,
-              kitSupervisor: x.kitSupervisor,
-              lineSupervisor: x.lineSupervisor,
+              kitSupervisor: x.kitSupervisor === "true" ? true : false,
+              lineSupervisor: x.lineSupervisor === "true" ? true : false,
             });
           }}
         >
@@ -464,6 +491,8 @@ function Supervisor(props) {
                     shift: "",
                     wing: "",
                     line: "",
+                    lineSupervisor: false,
+                    kitSupervisor: false,
                   });
                 }}
               >
