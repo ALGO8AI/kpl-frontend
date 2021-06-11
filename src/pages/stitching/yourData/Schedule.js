@@ -57,6 +57,7 @@ function Schedule(props) {
       setMsg(response.msg);
       setSeverity("success");
       setOpen(true);
+      loadData();
     } catch (e) {}
   };
 

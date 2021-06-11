@@ -116,7 +116,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
       size: 1,
     },
     xaxis: {
-      type: "date",
+      type: "datetime",
       categories: week,
       title: {
         text: "Time Interval",
@@ -196,7 +196,7 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
         <ReactApexChart
           options={options}
           series={series}
-          type="line"
+          type="area"
           height={360}
           width={"100%"}
           style={{ margin: "auto", width: "100%" }}

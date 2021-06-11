@@ -9,10 +9,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {
   FormControl,
+  FormControlLabel,
   Input,
   InputLabel,
   Select,
   Snackbar,
+  Switch,
 } from "@material-ui/core";
 import "./Worker.scss";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -98,6 +100,8 @@ function Supervisor(props) {
     },
     { title: "Supervisor Id", field: "supervisorId" },
     { title: "Supervisor Name", field: "supervisorName" },
+    { title: "Kit Supervisor", field: "kitSupervisor" },
+    { title: "Line Supervisor", field: "lineSupervisor" },
     { title: "Line", field: "line" },
     { title: "Wing", field: "wing" },
     { title: "Shift", field: "shift" },
@@ -119,12 +123,15 @@ function Supervisor(props) {
             setEdit(true);
             setUserData({
               ...userdata,
+              id: x.id,
               supervisorName: x.supervisorName,
               supervisorId: x.supervisorId,
               date: new Date(x.date).toISOString().slice(0, 10),
               shift: x.shift,
               wing: x.wing,
               line: x.line,
+              kitSupervisor: x.kitSupervisor,
+              lineSupervisor: x.lineSupervisor,
             });
           }}
         >
@@ -134,12 +141,15 @@ function Supervisor(props) {
     },
   ];
   const [userdata, setUserData] = useState({
+    id: "",
     supervisorName: "",
     supervisorId: "",
     date: "",
     shift: "",
     wing: "",
     line: "",
+    kitSupervisor: false,
+    lineSupervisor: false,
   });
 
   const onInputChange = (e) => {
@@ -187,6 +197,7 @@ function Supervisor(props) {
       console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
+      loadData();
     } catch (e) {
       console.log(e);
     }
@@ -197,6 +208,18 @@ function Supervisor(props) {
       const resp = await addCheckingSupervisorSingle(data);
       setMsg(resp.msg);
       setOpen(true);
+      loadData();
+      setUserData({
+        id: "",
+        supervisorName: "",
+        supervisorId: "",
+        date: "",
+        shift: "",
+        wing: "",
+        line: "",
+        kitSupervisor: false,
+        lineSupervisor: false,
+      });
     } catch (err) {}
   };
 
@@ -205,6 +228,18 @@ function Supervisor(props) {
       const resp = await updateCheckingSupervisorSingle(data);
       setMsg(resp.msg);
       setOpen(true);
+      loadData();
+      setUserData({
+        id: "",
+        supervisorName: "",
+        supervisorId: "",
+        date: "",
+        shift: "",
+        wing: "",
+        line: "",
+        kitSupervisor: false,
+        lineSupervisor: false,
+      });
     } catch (err) {}
   };
 
@@ -230,6 +265,42 @@ function Supervisor(props) {
           name="supervisorId"
           fullWidth
           onChange={onInputChange}
+        />
+
+        <FormControlLabel
+          style={{ marginBottom: "12px" }}
+          fullWidth
+          control={
+            <Switch
+              value={userdata.kitSupervisor}
+              checked={userdata.kitSupervisor}
+              onChange={(e) =>
+                setUserData({ ...userdata, kitSupervisor: e.target.checked })
+              }
+              name="checkedB"
+              color="primary"
+              fullWidth
+            />
+          }
+          label="Kit Supervisor"
+        />
+
+        <FormControlLabel
+          style={{ marginBottom: "12px" }}
+          fullWidth
+          control={
+            <Switch
+              value={userdata.lineSupervisor}
+              checked={userdata.lineSupervisor}
+              onChange={(e) =>
+                setUserData({ ...userdata, lineSupervisor: e.target.checked })
+              }
+              name="checkedB"
+              color="primary"
+              fullWidth
+            />
+          }
+          label="Line Supervisor"
         />
 
         <TextField

@@ -530,6 +530,7 @@ function Analytics() {
                   duration={4}
                 />
               )}
+              (mins.)
               <span style={{ fontSize: "16px", color: "#0e4a7b" }}>
                 on (
                 {maxVioCount &&
@@ -558,6 +559,7 @@ function Analytics() {
                   duration={4}
                 />
               )}
+              (mins.)
               <span style={{ fontSize: "16px", color: "#0e4a7b" }}>
                 on (
                 {maxVioCount &&
@@ -585,6 +587,7 @@ function Analytics() {
               {maxVioCount && (
                 <CountUp end={maxVioCount?.crowdingData[0]?.id} duration={4} />
               )}
+              (mins.)
               <span style={{ fontSize: "16px", color: "#0e4a7b" }}>
                 on (
                 {maxVioCount &&
@@ -738,6 +741,7 @@ function Analytics() {
                   duration={4}
                 />
               )}
+              (mins.)
             </Typography>
           </Grid>
         </Grid>
@@ -768,6 +772,7 @@ function Analytics() {
                   duration={4}
                 />
               )}
+              (mins.)
             </Typography>
           </Grid>
         </Grid>
@@ -801,6 +806,7 @@ function Analytics() {
                   duration={4}
                 />
               )}
+              (mins.)
             </Typography>
           </Grid>
         </Grid>
@@ -829,6 +835,7 @@ function Analytics() {
                   duration={4}
                 />
               )}
+              (mins.)
             </Typography>
           </Grid>
         </Grid>

@@ -99,7 +99,7 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
         opacity: 0.2,
       },
       toolbar: {
-        show: false,
+        show: true,
       },
     },
     colors: ["#77B6EA", "#545454", "#f16230", "#ffce38"],
@@ -129,7 +129,7 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
       size: 1,
     },
     xaxis: {
-      type: "date",
+      type: "datetime",
       categories: week,
       title: {
         text: "Time Hourly",
@@ -142,7 +142,7 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
     },
     yaxis: {
       title: {
-        text: "Time Duration",
+        text: "Time Duration (Mins.)",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",

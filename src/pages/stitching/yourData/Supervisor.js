@@ -9,10 +9,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {
   FormControl,
+  FormControlLabel,
   Input,
   InputLabel,
   Select,
   Snackbar,
+  Switch,
 } from "@material-ui/core";
 import "./Worker.scss";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -30,6 +32,7 @@ import {
   updateStitchingSupervisorSingle,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
+// import { Switch } from "react-router";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -123,6 +126,7 @@ function Supervisor(props) {
             setEdit(true);
             setUserData({
               ...userdata,
+              id: x.id,
               supervisorName: x.supervisorName,
               supervisorId: x.supervisorId,
               date: new Date(x.date).toISOString().slice(0, 10),
@@ -140,14 +144,15 @@ function Supervisor(props) {
     },
   ];
   const [userdata, setUserData] = useState({
+    id: "",
     supervisorName: "",
     supervisorId: "",
     date: "",
     shift: "",
     wing: "",
     line: "",
-    kitSupervisor: "",
-    lineSupervisor: "",
+    kitSupervisor: false,
+    lineSupervisor: false,
   });
 
   const onInputChange = (e) => {
@@ -195,6 +200,7 @@ function Supervisor(props) {
       console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
+      loadData();
     } catch (e) {
       console.log(e);
     }
@@ -208,35 +214,37 @@ function Supervisor(props) {
       setOpen(true);
       loadData();
       setUserData({
+        id: "",
         supervisorName: "",
         supervisorId: "",
         date: "",
         shift: "",
         wing: "",
         line: "",
-        kitSupervisor: "",
-        lineSupervisor: "",
+        kitSupervisor: false,
+        lineSupervisor: false,
       });
     } catch (err) {}
   };
 
-  const updateSupervisor = async (data) => {
+  const updateSupervisor = async () => {
     try {
-      const resp = await updateStitchingSupervisorSingle(data);
+      const resp = await updateStitchingSupervisorSingle(userdata);
       console.log(resp);
 
       setMsg("Updated");
       setOpen(true);
       loadData();
       setUserData({
+        id: "",
         supervisorName: "",
         supervisorId: "",
         date: "",
         shift: "",
         wing: "",
         line: "",
-        kitSupervisor: "",
-        lineSupervisor: "",
+        kitSupervisor: false,
+        lineSupervisor: false,
       });
     } catch (err) {}
   };
@@ -264,7 +272,7 @@ function Supervisor(props) {
           fullWidth
           onChange={onInputChange}
         />
-        <TextField
+        {/* <TextField
           id="outlined-basic"
           label="Kit Supervisor"
           variant="outlined"
@@ -273,8 +281,44 @@ function Supervisor(props) {
           name="kitSupervisor"
           fullWidth
           onChange={onInputChange}
+        /> */}
+        <FormControlLabel
+          style={{ marginBottom: "12px" }}
+          fullWidth
+          control={
+            <Switch
+              value={userdata.kitSupervisor}
+              checked={userdata.kitSupervisor}
+              onChange={(e) =>
+                setUserData({ ...userdata, kitSupervisor: e.target.checked })
+              }
+              name="checkedB"
+              color="primary"
+              fullWidth
+            />
+          }
+          label="Kit Supervisor"
         />
-        <TextField
+
+        <FormControlLabel
+          style={{ marginBottom: "12px" }}
+          fullWidth
+          control={
+            <Switch
+              value={userdata.lineSupervisor}
+              checked={userdata.lineSupervisor}
+              onChange={(e) =>
+                setUserData({ ...userdata, lineSupervisor: e.target.checked })
+              }
+              name="checkedB"
+              color="primary"
+              fullWidth
+            />
+          }
+          label="Line Supervisor"
+        />
+
+        {/* <TextField
           id="outlined-basic"
           label="Line Supervisor"
           variant="outlined"
@@ -283,7 +327,7 @@ function Supervisor(props) {
           name="lineSupervisor"
           fullWidth
           onChange={onInputChange}
-        />
+        /> */}
 
         <TextField
           key="from"
@@ -437,7 +481,7 @@ function Supervisor(props) {
                   height: "fit-content",
                   border: "1px solid #0e4a7b",
                 }}
-                onClick={() => updateSupervisor(userdata)}
+                onClick={updateSupervisor}
               >
                 UPDATE
               </Button>

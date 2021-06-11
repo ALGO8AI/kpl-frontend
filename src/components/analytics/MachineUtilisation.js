@@ -17,17 +17,17 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
   React.useEffect(() => {
     if (chartData) {
       setSeries([
-        {
-          name: "Scheduled (Hrs.)",
+        // {
+        //   name: "Scheduled (Hrs.)",
 
-          data: [
-            chartData[0]?.scheduledHours,
-            chartData[1]?.scheduledHours,
-            chartData[2]?.scheduledHours,
-            chartData[3]?.scheduledHours,
-            chartData[4]?.scheduledHours,
-          ],
-        },
+        //   data: [
+        //     chartData[0]?.scheduledHours,
+        //     chartData[1]?.scheduledHours,
+        //     chartData[2]?.scheduledHours,
+        //     chartData[3]?.scheduledHours,
+        //     chartData[4]?.scheduledHours,
+        //   ],
+        // },
         {
           name: "Worker UA (Hrs.)",
 
@@ -141,7 +141,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
     },
     yaxis: {
       title: {
-        text: "Duration Of Violation",
+        text: "% Of Violation",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",
