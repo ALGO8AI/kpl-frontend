@@ -507,7 +507,7 @@ export default function Navigation() {
         open={Boolean(anchorE2)}
         onClose={handleClose2}
       >
-        {notification.length > 0 &&
+        {notification?.length > 0 &&
           notification?.map((option, index) => (
             <MenuItem
               key={index}

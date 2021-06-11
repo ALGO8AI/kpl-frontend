@@ -16,6 +16,7 @@ import { Spinner } from "./spinner";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 export const LayoutViewPage = observer((props) => {
+  const history = useHistory();
   const [value, setvalue] = useState(0);
   const [cood, setcood] = useState([]);
 
@@ -110,7 +112,20 @@ export const LayoutViewPage = observer((props) => {
       <div className={classes.root}>
         <Grid container spacing={1}>
           <Grid item xs={10}>
-            <h1 className={classes.heading}>Layout View</h1>
+            <h1
+              className={classes.heading}
+              style={{ cursor: "pointer" }}
+              onClick={() => history.push("/stitching/")}
+            >
+              <span>
+                <i
+                  class="fa fa-arrow-left"
+                  aria-hidden="true"
+                  style={{ marginRight: "8px" }}
+                ></i>
+              </span>
+              Layout View
+            </h1>
           </Grid>
           {/* {store.Role() === 'admin' ?
                         <Grid item xs={12} sm={2}>

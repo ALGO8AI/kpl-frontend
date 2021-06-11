@@ -1263,7 +1263,7 @@ function ViolationLog1() {
                     field: "workerId",
                   },
                   {
-                    title: "Off Duration (Mins.)",
+                    title: "Breakdown (Mins.)",
                     field: "OffMinutes",
                   },
                   {

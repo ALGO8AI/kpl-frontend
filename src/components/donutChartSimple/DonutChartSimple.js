@@ -134,8 +134,17 @@ function DonutChartSimple({ data, payload_data, link }) {
     var endDate = (st1[1] + "/" + st1[0] + "/" + st1[2]).split(",");
 
     setWeek(startDate[0] + "-" + endDate[0]);
+    if (data?.length) {
+      setSeries([
+        Boolean(data[0]?.machineOnTime) ? data[0]?.machineOnTime : 0,
+        Boolean(data[0]?.machineOffTime) ? data[0]?.machineOffTime : 0,
+        Boolean(data[0]?.machineOnTime)
+          ? Math.round(data[0]?.machineOnTime - data[0]?.machineOffTime, 2)
+          : 0,
+      ]);
+    }
     // console.log(props);
-  }, []);
+  }, [data]);
 
   return (
     <>
@@ -168,12 +177,13 @@ function DonutChartSimple({ data, payload_data, link }) {
             <Chart
               options={options}
               series={[
-                // Boolean(data[0].utilizationPercentage)
-                //   ? data[0].utilizationPercentage
-                //   : 0,
-                Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0,
-                Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0,
-                Boolean(data[0].machineOnTime)
+                data.length && Boolean(data[0].machineOnTime)
+                  ? data[0].machineOnTime
+                  : 0,
+                data.length && Boolean(data[0].machineOffTime)
+                  ? data[0].machineOffTime
+                  : 0,
+                data.length && Boolean(data[0].machineOnTime)
                   ? Math.round(
                       data[0].machineOnTime - data[0].machineOffTime,
                       2
@@ -228,7 +238,9 @@ function DonutChartSimple({ data, payload_data, link }) {
                   fontSize: "14px",
                 }}
               >
-                {Boolean(data[0].machineOnTime) ? data[0].machineOnTime : 0}
+                {data?.length > 0 && Boolean(data[0].machineOnTime)
+                  ? data[0].machineOnTime
+                  : 0}
               </h6>
             </div>
           </div>
@@ -275,7 +287,9 @@ function DonutChartSimple({ data, payload_data, link }) {
                   fontSize: "14px",
                 }}
               >
-                {Boolean(data[0].machineOffTime) ? data[0].machineOffTime : 0}
+                {data?.length > 0 && Boolean(data[0].machineOffTime)
+                  ? data[0].machineOffTime
+                  : 0}
               </h6>
             </div>
           </div>
@@ -321,7 +335,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                   fontSize: "14px",
                 }}
               >
-                {Boolean(data[0].machineOnTime)
+                {data?.length > 0 && Boolean(data[0].machineOnTime)
                   ? (data[0].machineOnTime - data[0].machineOffTime).toFixed(2)
                   : 0}
               </h6>
@@ -342,7 +356,9 @@ function DonutChartSimple({ data, payload_data, link }) {
         >
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {Boolean(data[0].scheduleHours) ? data[0].scheduleHours : 0}
+            {data?.length > 0 && Boolean(data[0].scheduleHours)
+              ? data[0].scheduleHours
+              : 0}
           </span>
         </Typography>
 
@@ -358,7 +374,7 @@ function DonutChartSimple({ data, payload_data, link }) {
         >
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {Boolean(data[0].utilizationPercentage)
+            {data?.length > 0 && Boolean(data[0].utilizationPercentage)
               ? data[0].utilizationPercentage + "%"
               : 0}
           </span>

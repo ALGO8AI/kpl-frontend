@@ -17,7 +17,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { observer } from "mobx-react";
 import { appState } from "../LayoutStore";
 import { Spinner } from "../spinner";
-import { withRouter } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) =>
@@ -48,6 +48,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 export const ViewDetailsPage = observer((props) => {
+  const history = useHistory();
+
   const { store } = props;
 
   const classes = useStyles();
@@ -98,7 +100,18 @@ export const ViewDetailsPage = observer((props) => {
       <div className={classes.root}>
         <Grid container spacing={1}>
           <Grid item xs={8}>
-            <h1 className={classes.heading}>
+            <h1
+              className={classes.heading}
+              style={{ cursor: "pointer" }}
+              onClick={() => history.push("/stitching/")}
+            >
+              <span>
+                <i
+                  class="fa fa-arrow-left"
+                  aria-hidden="true"
+                  style={{ marginRight: "8px" }}
+                ></i>
+              </span>
               Zone {appState.camearaValue.cameraId}
             </h1>
           </Grid>
