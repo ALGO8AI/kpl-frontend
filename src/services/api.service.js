@@ -740,14 +740,24 @@ const getForgetPasswordLink = async (data) => {
   return await axios(config);
 };
 
-const getNotificationLog = async () => {
-  var config = {
-    method: "post",
-    url: "http://3.23.114.42:3000/routes/yourData/notificationLog",
-    headers: {},
-  };
+const getNotificationLog = async (filterDateFrom, filterDateTo) => {
+  // var config = {
+  //   method: "post",
+  //   url: "http://3.23.114.42:3000/routes/yourData/notificationLog",
+  //   headers: {},
+  // };
 
-  return await axios(config);
+  // return await axios(config);
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+  };
+  return await callBackend(
+    "POST",
+    "routes/yourData/notificationLog",
+    true,
+    data
+  );
 };
 
 const updatePassword = async (data) => {

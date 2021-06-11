@@ -1,4 +1,4 @@
-import { AppBar, Grid, Tab, Tabs } from "@material-ui/core";
+import { AppBar, Button, Grid, Tab, Tabs, TextField } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
@@ -8,6 +8,7 @@ import moment from "moment";
 import React from "react";
 import { getNotificationLog } from "../../services/api.service";
 import { LinearProgress, makeStyles } from "@material-ui/core";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,78 +62,84 @@ function NotificationLog() {
   const classes = useStyles();
 
   const [data, setData] = React.useState();
+  const [filterDateFrom, setFilterDateFrom] = React.useState();
+  const [filterDateTo, setFilterDateTo] = React.useState();
 
   const getLogs = async () => {
     try {
       const resp = await getNotificationLog();
-      console.log(resp.data);
-      setData(resp.data);
+      // console.log(resp);
+      setData(resp);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
+  };
+
+  const getFirstDay_LastDay = async () => {
+    var curr = new Date();
+    var first = curr.getDate() - curr.getDay() + 1;
+    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+    setFilterDateFrom(firstDay);
+    setFilterDateTo(new Date().toISOString().slice(0, 10));
   };
 
   React.useEffect(() => {
     getLogs();
+    getFirstDay_LastDay();
   }, []);
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 150 },
-    { field: "instance", headerName: "Violation", width: 210 },
-    { field: "startTime", headerName: "Start Time", width: 150 },
-    { field: "endTime", headerName: "End Time", width: 150 },
-    { field: "machineId", headerName: "Machine ID", width: 150 },
-    { field: "workerId", headerName: "Worker ID", width: 150 },
-
-    { field: "date", headerName: "Date", width: 150 },
-    { field: "wing", headerName: "Wing", width: 120 },
-    { field: "zone", headerName: "Line", width: 120 },
-    { field: "shift", headerName: "Shift", width: 120 },
-    { field: "clpCtr", headerName: "CLP-CTR", width: 150 },
-    {
-      field: "helperSentStatus",
-      headerName: "Helper Status",
-      width: 210,
-      cellClassName: (params) =>
-        clsx({
-          negative: params.value === "False",
-          positive: params.value === "True",
-        }),
-    },
-    {
-      field: "managerSentStatus",
-      headerName: "Manager Status",
-      width: 210,
-      cellClassName: (params) =>
-        clsx({
-          negative: params.value === "False",
-          positive: params.value === "True",
-        }),
-    },
-    {
-      field: "supervisorSentStatus",
-      headerName: "Supervisor Status",
-      width: 210,
-      cellClassName: (params) =>
-        clsx({
-          negative: params.value === "False",
-          positive: params.value === "True",
-        }),
-    },
-    {
-      field: "wingInchargeSentStatus",
-      headerName: "Wing Incharge Status",
-      width: 210,
-      cellClassName: (params) =>
-        clsx({
-          negative: params.value === "False",
-          positive: params.value === "True",
-        }),
-    },
-  ];
-
+  const filterLogs = async () => {
+    try {
+      const resp = await getNotificationLog(filterDateFrom, filterDateTo);
+      // console.log(resp);
+      setData(resp);
+    } catch (err) {
+      // console.log(err);
+    }
+  };
   return (
     <Grid container>
+      <Grid container item xs={12}>
+        <Grid container item xs={6} md={2}>
+          <TextField
+            label="From"
+            value={filterDateFrom}
+            type="date"
+            style={{ marginRight: "6px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            onChange={(e) => setFilterDateFrom(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid container item xs={6} md={2}>
+          <TextField
+            label="To"
+            value={filterDateTo}
+            type="date"
+            style={{ marginRight: "6px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            onChange={(e) => setFilterDateTo(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+        <Grid container item xs={12} md={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={filterLogs}
+          >
+            <FilterListIcon />
+            Filter
+          </Button>
+        </Grid>
+      </Grid>
       <Grid xs={12} container style={{ padding: "1rem" }}>
         <AppBar position="static" className="customTab">
           <Tabs
