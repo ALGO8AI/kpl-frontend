@@ -1039,7 +1039,8 @@ const analyticsMachineStatus = async (
   wing,
   line,
   shift,
-  supervisor
+  supervisor,
+  machineId
 ) => {
   const data = {
     filterDateTo,
@@ -1048,6 +1049,7 @@ const analyticsMachineStatus = async (
     line,
     shift,
     supervisor,
+    machineId,
   };
   return await callBackend(
     "POST",
@@ -1063,7 +1065,8 @@ const analyticsMachineStatusByDuration = async (
   wing,
   line,
   shift,
-  supervisor
+  supervisor,
+  machineId
 ) => {
   const data = {
     filterDateTo,
@@ -1072,6 +1075,7 @@ const analyticsMachineStatusByDuration = async (
     line,
     shift,
     supervisor,
+    machineId,
   };
   return await callBackend(
     "POST",
@@ -1087,7 +1091,8 @@ const analyticsMachineStatusByDurationAndMachineID = async (
   wing,
   line,
   shift,
-  supervisor
+  supervisor,
+  machineId
 ) => {
   const data = {
     filterDateTo,
@@ -1096,6 +1101,7 @@ const analyticsMachineStatusByDurationAndMachineID = async (
     line,
     shift,
     supervisor,
+    machineId,
   };
   return await callBackend(
     "POST",
@@ -1111,7 +1117,8 @@ const analyticsMachineStatusByOperation = async (
   wing,
   line,
   shift,
-  supervisor
+  supervisor,
+  machineId
 ) => {
   const data = {
     filterDateTo,
@@ -1120,6 +1127,7 @@ const analyticsMachineStatusByOperation = async (
     line,
     shift,
     supervisor,
+    machineId,
   };
   return await callBackend(
     "POST",

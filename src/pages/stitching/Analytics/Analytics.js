@@ -1,4 +1,16 @@
-import { Grid, Paper, Typography } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import CountUp from "react-countup";
 import React, { useState, useEffect } from "react";
 import ActiveViolation from "../../../components/analytics/ActiveViolation";
@@ -20,10 +32,12 @@ import {
   analyticsMachineStatusByDuration,
   analyticsMachineStatusByDurationAndMachineID,
   analyticsMachineStatusByOperation,
+  ctr_machineID,
 } from "../../../services/api.service";
 import "./Analytics.scss";
 
 function Analytics() {
+  // data states
   const [totalVio, setTotalVio] = useState();
   const [totalUnresolvedVio, setTotalUnresolvedVio] = useState();
   const [mostUnresolvedVio, setMostUnresolvedVio] = useState();
@@ -35,9 +49,23 @@ function Analytics() {
   const [machineStatusDuration, setMachineStatusDuration] = useState();
   const [machineStatusDurationID, setMachineStatusDurationID] = useState();
   const [machineStatusOperation, setMachineStatusOperation] = useState();
+  const [machineID, setMachineID] = useState();
+
+  // input states
+  const [filterDateTo, setFilterDateTo] = useState();
+  const [filterDateFrom, setFilterDateFrom] = useState();
+  const [wing, setWing] = useState();
+  const [line, setLine] = useState();
+  const [shift, setShift] = useState([]);
+  const [supervisor, setSupervisor] = useState([]);
+  const [machineId, setMachineId] = useState([]);
 
   const loadData = async () => {
     try {
+      // FILTERS
+      const ctr = await ctr_machineID();
+      setMachineID(ctr.machineID);
+
       // total violation
       const TOTAL_VIO = await analyticsTotalViolation();
       setTotalVio(TOTAL_VIO.data);
@@ -80,7 +108,6 @@ function Analytics() {
 
       // machine status by operation
       const MACHINE_OPERATION = await analyticsMachineStatusByOperation();
-      console.log(MACHINE_OPERATION);
       setMachineStatusOperation(
         MACHINE_OPERATION.machineBreakdownMaxTimeAndIdData
       );
@@ -93,8 +120,316 @@ function Analytics() {
     loadData();
   }, []);
 
+  const FilterData = async () => {
+    try {
+      // total violation
+      const TOTAL_VIO = await analyticsTotalViolation(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setTotalVio(TOTAL_VIO.data);
+
+      // total unresolved
+      const TOTAL_UNRESOLVED = await analyticsTotaUnresolvedlViolation(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setTotalUnresolvedVio(TOTAL_UNRESOLVED.data);
+
+      // most unresolved
+      const MOST_UNRESOLVED = await analyticsMostUnresolvedlViolation(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setMostUnresolvedVio(MOST_UNRESOLVED.data);
+
+      // most unresolved by instance
+      const MOST_UNRESOLVED_INSTANCE = await analyticsMostUnresolvedlViolationInstance(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setMostUnresolvedVioIns(MOST_UNRESOLVED_INSTANCE.data);
+
+      // total violation by type
+      const TOTAL_VIO_TYPE = await analyticsTotalViolationByType(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setTotalVioByType(TOTAL_VIO_TYPE);
+
+      // maximum violation counts
+      const MAX_VIO_COUNT = await analyticsMaxVioCount(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setMaxVioCount(MAX_VIO_COUNT);
+
+      // total violation by time
+      const TOTAL_VIO_DURATION = await analyticsDurationOfViolationType(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor
+      );
+      setTotalVioByTime(TOTAL_VIO_DURATION);
+
+      // machine status
+      const MACHINE_STATUS = await analyticsMachineStatus(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor,
+        machineId
+      );
+      setMachineStatus(MACHINE_STATUS.machineBreakdownData);
+
+      // machine status by duration
+      const MACHINE_STATUS_DURATION = await analyticsMachineStatusByDuration(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor,
+        machineId
+      );
+      setMachineStatusDuration(MACHINE_STATUS_DURATION);
+
+      // machine status by duration & ID
+      const MACHINE_DURATION_ID = await analyticsMachineStatusByDurationAndMachineID(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor,
+        machineId
+      );
+      setMachineStatusDurationID(MACHINE_DURATION_ID);
+
+      // machine status by operation
+      const MACHINE_OPERATION = await analyticsMachineStatusByOperation(
+        filterDateTo,
+        filterDateFrom,
+        wing,
+        line,
+        shift,
+        supervisor,
+        machineId
+      );
+      setMachineStatusOperation(
+        MACHINE_OPERATION.machineBreakdownMaxTimeAndIdData
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Grid container className="Analytics_Container">
+      <Grid container item xs={12}>
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <TextField
+            key="from"
+            id="fromDate"
+            label="From"
+            value={filterDateFrom}
+            type="date"
+            style={{ marginRight: "6px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            onChange={(e) => setFilterDateFrom(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <TextField
+            key="from"
+            id="fromDate"
+            label="To"
+            value={filterDateTo}
+            type="date"
+            style={{ marginRight: "6px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            onChange={(e) => setFilterDateTo(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Supervisor
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={supervisor}
+              onChange={(e) => setSupervisor(e.target.value)}
+              label="Supervisor"
+              // multiple
+            >
+              {/* <MenuItem value="">
+                <em>None</em>
+              </MenuItem> */}
+              {["Sanjay Dassamanta", "RP Yadav"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={shift}
+              onChange={(e) => setShift(e.target.value)}
+              label="Shift"
+              // multiple
+            >
+              {/* <MenuItem value="">
+                <em>None</em>
+              </MenuItem> */}
+              {["A", "B"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid container item className={"Grid_Padding"} md={1}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // multiple
+              value={line}
+              onChange={(e) => setLine(e.target.value)}
+              label="Line"
+              // multiple
+            >
+              {/* <MenuItem value="">
+                <em>None</em>
+              </MenuItem> */}
+              {["U+2", "Baffle", "Circular", "Two Row"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid container item className={"Grid_Padding"} md={1}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // multiple
+              value={wing}
+              onChange={(e) => setWing(e.target.value)}
+              label="Wing"
+              // multiple
+            >
+              {/* <MenuItem value="">
+                <em>None</em>
+              </MenuItem> */}
+              {["FG2"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid container item className={"Grid_Padding"} md={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={FilterData}
+          >
+            <FilterListIcon />
+            Filter
+          </Button>
+        </Grid>
+
+        <Grid container item className={"Grid_Padding"} md={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={loadData}
+          >
+            <RefreshIcon />
+            Refresh
+          </Button>
+        </Grid>
+      </Grid>
+
       <Grid container item md={5} className={"Grid_Padding"}>
         <Grid
           container
@@ -168,7 +503,13 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <ViolationType chartData={totalVioByType} />
+          <ViolationType
+            chartData={totalVioByType}
+            value={machineId}
+            onChange={(e) => setMachineId(e.target.value)}
+            machineID={machineID}
+            filter={FilterData}
+          />
         </Grid>
       </Grid>
       <Grid container item md={2} className={"Grid_Padding"}>
@@ -341,7 +682,13 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <MachineLine chartData={totalVioByTime} />
+          <MachineLine
+            chartData={totalVioByTime}
+            value={machineId}
+            onChange={(e) => setMachineId(e.target.value)}
+            machineID={machineID}
+            filter={FilterData}
+          />
         </Grid>
       </Grid>
       {/* SECTION 4 */}
@@ -354,7 +701,13 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <MachineStatus chartData={machineStatus} />
+          <MachineStatus
+            chartData={machineStatus}
+            value={machineId}
+            onChange={(e) => setMachineId(e.target.value)}
+            machineID={machineID}
+            filter={FilterData}
+          />
         </Grid>
       </Grid>
       <Grid container item md={2} className={"Grid_Padding"}>
@@ -489,7 +842,13 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <MachineUtilisation chartData={machineStatusOperation} />
+          <MachineUtilisation
+            chartData={machineStatusOperation}
+            value={machineId}
+            onChange={(e) => setMachineId(e.target.value)}
+            machineID={machineID}
+            filter={FilterData}
+          />
         </Grid>
       </Grid>
       {/* SECTION 6 */}

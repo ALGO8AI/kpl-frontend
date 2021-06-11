@@ -154,7 +154,7 @@ function DonutChart(props) {
     <>
       <div className="top" style={{ display: "flex", marginBottom: "12px" }}>
         <Typography
-          variant="h6"
+          // variant="h5"
           style={{
             margin: "auto",
             textAlign: "center",
@@ -163,6 +163,8 @@ function DonutChart(props) {
             padding: "4px 8px",
             borderRadius: "4px",
             textDecoration: "none",
+            fontSize: "20px",
+            fontWeight: "500",
           }}
           component={Link}
           to={props.link}

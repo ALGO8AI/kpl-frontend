@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -8,8 +9,9 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
-function MachineUtilisation({ chartData }) {
+function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
   const [series, setSeries] = React.useState([]);
   const [category, setCategory] = React.useState([]);
   React.useEffect(() => {
@@ -19,54 +21,54 @@ function MachineUtilisation({ chartData }) {
           name: "Scheduled (Hrs.)",
 
           data: [
-            chartData[0].scheduledHours,
-            chartData[1].scheduledHours,
-            chartData[2].scheduledHours,
-            chartData[3].scheduledHours,
-            chartData[4].scheduledHours,
+            chartData[0]?.scheduledHours,
+            chartData[1]?.scheduledHours,
+            chartData[2]?.scheduledHours,
+            chartData[3]?.scheduledHours,
+            chartData[4]?.scheduledHours,
           ],
         },
         {
           name: "Worker UA (Hrs.)",
 
           data: [
-            chartData[0].WorkerUnavailableHours,
-            chartData[1].WorkerUnavailableHours,
-            chartData[2].WorkerUnavailableHours,
-            chartData[3].WorkerUnavailableHours,
-            chartData[4].WorkerUnavailableHours,
+            chartData[0]?.WorkerUnavailableHours,
+            chartData[1]?.WorkerUnavailableHours,
+            chartData[2]?.WorkerUnavailableHours,
+            chartData[3]?.WorkerUnavailableHours,
+            chartData[4]?.WorkerUnavailableHours,
           ],
         },
         {
           name: "Feed UA (Hrs.)",
 
           data: [
-            chartData[0].feedUnavailableHours,
-            chartData[1].feedUnavailableHours,
-            chartData[2].feedUnavailableHours,
-            chartData[3].feedUnavailableHours,
-            chartData[4].feedUnavailableHours,
+            chartData[0]?.feedUnavailableHours,
+            chartData[1]?.feedUnavailableHours,
+            chartData[2]?.feedUnavailableHours,
+            chartData[3]?.feedUnavailableHours,
+            chartData[4]?.feedUnavailableHours,
           ],
         },
         {
           name: "Machine Off (Hrs.)",
 
           data: [
-            chartData[0].machineOffTime,
-            chartData[1].machineOffTime,
-            chartData[2].machineOffTime,
-            chartData[3].machineOffTime,
-            chartData[4].machineOffTime,
+            chartData[0]?.machineOffTime,
+            chartData[1]?.machineOffTime,
+            chartData[2]?.machineOffTime,
+            chartData[3]?.machineOffTime,
+            chartData[4]?.machineOffTime,
           ],
         },
       ]);
 
       setCategory([
-        chartData[0].machineID,
-        chartData[1].machineID,
-        chartData[2].machineID,
-        chartData[3].machineID,
-        chartData[4].machineID,
+        chartData[0]?.machineID,
+        chartData[1]?.machineID,
+        chartData[2]?.machineID,
+        chartData[3]?.machineID,
+        chartData[4]?.machineID,
       ]);
     }
   }, [chartData]);
@@ -161,7 +163,7 @@ function MachineUtilisation({ chartData }) {
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
           <Typography variant="h6"> MACHINE UTILISATION</Typography>
         </Grid>
-        <Grid container item xs={6} style={{ marginBottom: "16px" }}>
+        <Grid container item xs={4} style={{ marginBottom: "16px" }}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -173,22 +175,33 @@ function MachineUtilisation({ chartData }) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // multiple
-              // value={inputMACHINEid}
-              // onChange={(e) => setInputMACHINEid(e.target.value)}
+              multiple
+              value={value}
+              onChange={onChange}
               label="Machine ID"
               // multiple
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {["Machine 1", "Machine 2", "Machine 3"].map((item, index) => (
-                <MenuItem value={item} key={index}>
-                  {item}
-                </MenuItem>
-              ))}
+              {machineID?.length > 0 &&
+                machineID.map((item, index) => (
+                  <MenuItem value={item.machineID} key={index}>
+                    {item.machineID}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
+        </Grid>
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={filter}
+          >
+            <FilterListIcon />
+          </Button>
         </Grid>
         <ReactApexChart
           options={options}

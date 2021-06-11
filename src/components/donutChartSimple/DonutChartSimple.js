@@ -141,7 +141,7 @@ function DonutChartSimple({ data, payload_data, link }) {
     <>
       <div className="top" style={{ display: "flex", marginBottom: "12px" }}>
         <Typography
-          variant="h6"
+          // variant="h6"
           style={{
             margin: "auto",
             textAlign: "center",
@@ -150,6 +150,8 @@ function DonutChartSimple({ data, payload_data, link }) {
             padding: "4px 8px",
             borderRadius: "4px",
             textDecoration: "none",
+            fontSize: "20px",
+            fontWeight: "500",
           }}
           component={Link}
           to={link}

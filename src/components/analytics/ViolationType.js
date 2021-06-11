@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -8,8 +9,9 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
-function ViolationType({ chartData }) {
+function ViolationType({ chartData, value, onChange, machineID, filter }) {
   const [series, setSeries] = React.useState([]);
   const [week, setWeek] = React.useState([]);
 
@@ -156,7 +158,7 @@ function ViolationType({ chartData }) {
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
           <Typography variant="h6"> TOTAL VIOLATIONS BY TYPE</Typography>
         </Grid>
-        <Grid container item xs={6} style={{ marginBottom: "16px" }}>
+        <Grid container item xs={4} style={{ marginBottom: "16px" }}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -168,22 +170,30 @@ function ViolationType({ chartData }) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // multiple
-              // value={inputMACHINEid}
-              // onChange={(e) => setInputMACHINEid(e.target.value)}
+              multiple
+              value={value}
+              onChange={onChange}
               label="Machine ID"
               // multiple
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {["Machine 1", "Machine 2", "Machine 3"].map((item, index) => (
-                <MenuItem value={item} key={index}>
-                  {item}
-                </MenuItem>
-              ))}
+              {machineID?.length > 0 &&
+                machineID.map((item, index) => (
+                  <MenuItem value={item.machineID} key={index}>
+                    {item.machineID}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
+        </Grid>
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={filter}
+          >
+            <FilterListIcon />
+          </Button>
         </Grid>
         <ReactApexChart
           options={options}

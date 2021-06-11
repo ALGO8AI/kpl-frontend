@@ -103,6 +103,7 @@ function ManageRoles() {
     console.log("loaddata");
     try {
       const x = await StitchingUserData();
+      console.log(x);
       setData(x.userData);
       setColumns([
         {
@@ -121,8 +122,26 @@ function ManageRoles() {
         },
 
         {
-          title: "Shift",
-          field: "shift",
+          title: "Shift A",
+          field: "shiftA",
+          render: (rowData) => {
+            return Boolean(rowData.shiftA) ? (
+              <p className="Link-btn-green ">True</p>
+            ) : (
+              <p className="Link-btn-red">False</p>
+            );
+          },
+        },
+        {
+          title: "Shift B",
+          field: "shiftB",
+          render: (rowData) => {
+            return Boolean(rowData.shiftB) ? (
+              <p className="Link-btn-green ">True</p>
+            ) : (
+              <p className="Link-btn-red">False</p>
+            );
+          },
         },
 
         {

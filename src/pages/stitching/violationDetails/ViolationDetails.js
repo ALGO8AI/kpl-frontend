@@ -465,11 +465,11 @@ function ViolationDetails(props) {
               </Typography>
               <Typography
                 variant="h6"
-                className={`${
-                  localStorage.getItem("VIOLATION-STATUS") === "Not Resolved"
-                    ? "Link-btn-red"
-                    : "Link-btn-green"
-                }`}
+                // className={`${
+                //   localStorage.getItem("VIOLATION-STATUS") === "Not Resolved"
+                //     ? "Link-btn-red"
+                //     : "Link-btn-green"
+                // }`}
               >
                 {localStorage.getItem("VIOLATION-STATUS")}
               </Typography>
@@ -660,6 +660,7 @@ function ViolationDetails(props) {
                   Choose Reason
                 </InputLabel>
                 <Select native value={reason} onChange={handleReasonChange}>
+                  <option aria-label="None" value="" />
                   {SelectDropdowndata.length > 0 &&
                     SelectDropdowndata.map((item, i) => (
                       <option key={i} value={item}>

@@ -31,6 +31,7 @@ import ViolationTable from "./ViolationTable";
 import { StitchingContext } from "../../../context/StitchingContext";
 
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
+import WorkerPerformanceTable from "./WorkerPerformanceTable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -449,22 +450,24 @@ function ViolationLog1() {
 
   const returnClassName = (type) => {
     switch (type) {
-      case "Incorrect Violation":
+      case "INCORRECT VIOLATION":
         return "Link-btn-grey";
       case "OPEN":
         return "Link-btn-red";
-      default:
+      case "CLOSED":
         return "Link-btn-green";
+      default:
+        return "Link-btn-red";
     }
   };
 
   const returnStatus = (type) => {
     switch (type) {
-      case "Incorrect Violation":
+      case "INCORRECT VIOLATION":
         return "Incorrect";
       case "OPEN":
         return "Unresolved";
-      case "Confirmed Violation":
+      case "CLOSED":
         return "Resolved";
       default:
         return "Unresolved";
@@ -845,7 +848,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={"Link-btn-grey"}
+                        className={returnClassName(rowData.actionStatus)}
                         // className={`${
                         //   rowData.query === "Not Resolved"
                         //     ? "Link-btn-red"
@@ -859,7 +862,7 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
@@ -944,7 +947,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
-                        className={"Link-btn-grey"}
+                        className={returnClassName(rowData.actionStatus)}
                         // className={`${
                         //   rowData.query === "Not Resolved"
                         //     ? "Link-btn-red"
@@ -958,7 +961,7 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
@@ -1040,8 +1043,8 @@ function ViolationLog1() {
                     title: "Violation Duration(Min.)",
                     field: "CrowdingDuration",
                   },
-                  { title: "Crowding Start Time", field: "crowdStartTime" },
-                  { title: "Crowding End Time", field: "crowdEndTime" },
+                  { title: "Start Time", field: "crowdStartTime" },
+                  { title: "End Time", field: "crowdEndTime" },
 
                   { title: "Person(Max)", field: "MaxPerson" },
                   // { title: "Person(Min)", field: "MinPerson" },
@@ -1074,7 +1077,7 @@ function ViolationLog1() {
                         //     ? "Link-btn-red"
                         //     : "Link-btn-green"
                         // }`}
-                        className={"Link-btn-grey"}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "worker");
                           localStorage.setItem(
@@ -1083,7 +1086,7 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
@@ -1182,10 +1185,10 @@ function ViolationLog1() {
 
           <TabPanel value={state.violationTab} index={4}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
-              <ViolationTable
+              <WorkerPerformanceTable
                 // title=""
                 data={state.by_worker.data}
-                rowClick={rowClick}
+                // rowClick={rowClick}
                 columns={[
                   { title: "Worker Name", field: "workerName" },
                   { title: "Worker ID", field: "workerId" },
@@ -1220,7 +1223,7 @@ function ViolationLog1() {
                       <Link
                         to={`/stitching/violationDetails/${rowData.Id}`}
                         // className={"Link-btn-red"}
-                        className={"Link-btn-grey"}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -1229,7 +1232,7 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
