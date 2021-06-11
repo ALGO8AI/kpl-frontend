@@ -13,6 +13,7 @@ import { videoWallStitching } from "../../../services/api.service";
 import Loader from "../../../components/loader/Loader";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Alert } from "@material-ui/lab";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const CustomButton = withStyles(() => ({
   root: {
@@ -74,7 +75,7 @@ function VideoWall() {
         </FormControl>
       </Grid>
 
-      <Grid container item xs={12} sm={2}>
+      <Grid container item xs={12} sm={1}>
         <FormControl variant="outlined" fullWidth>
           <InputLabel id="demo-simple-select-outlined-label">
             Supervisor
@@ -94,11 +95,17 @@ function VideoWall() {
           Filter
         </CustomButton>
       </Grid>
-      <Grid container item xs={12} sm={6}>
+      <Grid container item xs={12} sm={5}>
         <Alert>
           If Video is not available, refresh the page! To view extended video,
           Click on video.
         </Alert>
+      </Grid>
+      <Grid container item xs={12} sm={2}>
+        <CustomButton onClick={loadData()}>
+          <RefreshIcon />
+          Refresh
+        </CustomButton>
       </Grid>
       {videos ? (
         videos?.data?.map((x, index) => {

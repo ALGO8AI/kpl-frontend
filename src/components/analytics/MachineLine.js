@@ -32,8 +32,15 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
       ];
       const max = Math.max(...nums);
 
-      var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map((item) =>
-        new Date(item?.timeInterval).toISOString().slice(0, 10)
+      var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map(
+        (item) =>
+          `${new Date(item?.timeInterval).getDate()}-${new Date(
+            item?.timeInterval
+          ).getMonth() + 1} ${new Date(
+            item?.timeInterval
+          ).getHours()}:${new Date(item?.timeInterval).getMinutes()}:${new Date(
+            item?.timeInterval
+          ).getSeconds()}`
       );
 
       var WEEK = chartData?.crowdingData?.map((item) =>
@@ -116,7 +123,10 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
       size: 1,
     },
     xaxis: {
-      type: "datetime",
+      labels: {
+        rotate: -90,
+      },
+      type: "category",
       categories: week,
       title: {
         text: "Time Interval",
@@ -136,8 +146,8 @@ function MachineLine({ chartData, value, onChange, machineID, filter }) {
           fontWeight: 400,
         },
       },
-      min: 0,
-      max: 400,
+      // min: 0,
+      // max: 1000,
     },
     legend: {
       // position: "top",

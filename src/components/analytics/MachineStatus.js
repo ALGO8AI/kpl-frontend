@@ -44,7 +44,16 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
       // );
       var WEEK1 = chartData
         ?.filter((item) => item?.machineId === ary[nums.indexOf(max)])
-        .map((item) => new Date(item?.timeInterval).toISOString().slice(0, 10));
+        .map(
+          (item) =>
+            `${new Date(item?.timeInterval).getDate()}-${new Date(
+              item?.timeInterval
+            ).getMonth() + 1} ${new Date(
+              item?.timeInterval
+            ).getHours()}:${new Date(
+              item?.timeInterval
+            ).getMinutes()}:${new Date(item?.timeInterval).getSeconds()}`
+        );
 
       // console.log(WEEK1);
 
@@ -129,7 +138,10 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
       size: 1,
     },
     xaxis: {
-      type: "datetime",
+      labels: {
+        rotate: -90,
+      },
+      type: "category",
       categories: week,
       title: {
         text: "Time Hourly",
@@ -149,8 +161,8 @@ function MachineStatus({ chartData, value, onChange, machineID, filter }) {
           fontWeight: 400,
         },
       },
-      min: 5,
-      max: 40,
+      // min: 0,
+      // max: 500,
     },
     legend: {
       // position: "top",

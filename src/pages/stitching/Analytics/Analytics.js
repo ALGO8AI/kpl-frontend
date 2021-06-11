@@ -153,7 +153,7 @@ function Analytics() {
         shift,
         supervisor
       );
-      setMostUnresolvedVio(MOST_UNRESOLVED.data);
+      setMostUnresolvedVio(MOST_UNRESOLVED?.data);
 
       // most unresolved by instance
       const MOST_UNRESOLVED_INSTANCE = await analyticsMostUnresolvedlViolationInstance(
@@ -164,7 +164,7 @@ function Analytics() {
         shift,
         supervisor
       );
-      setMostUnresolvedVioIns(MOST_UNRESOLVED_INSTANCE.data);
+      setMostUnresolvedVioIns(MOST_UNRESOLVED_INSTANCE?.data);
 
       // total violation by type
       const TOTAL_VIO_TYPE = await analyticsTotalViolationByType(
@@ -209,7 +209,7 @@ function Analytics() {
         supervisor,
         machineId
       );
-      setMachineStatus(MACHINE_STATUS.machineBreakdownData);
+      setMachineStatus(MACHINE_STATUS?.machineBreakdownData);
 
       // machine status by duration
       const MACHINE_STATUS_DURATION = await analyticsMachineStatusByDuration(
@@ -246,7 +246,7 @@ function Analytics() {
         machineId
       );
       setMachineStatusOperation(
-        MACHINE_OPERATION.machineBreakdownMaxTimeAndIdData
+        MACHINE_OPERATION?.machineBreakdownMaxTimeAndIdData
       );
     } catch (e) {
       console.log(e);
@@ -290,7 +290,7 @@ function Analytics() {
           />
         </Grid>
 
-        <Grid container item className={"Grid_Padding"} md={2}>
+        {/* <Grid container item className={"Grid_Padding"} md={2}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -306,11 +306,9 @@ function Analytics() {
               value={supervisor}
               onChange={(e) => setSupervisor(e.target.value)}
               label="Supervisor"
-              // multiple
+           
             >
-              {/* <MenuItem value="">
-                <em>None</em>
-              </MenuItem> */}
+  
               {["Sanjay Dassamanta", "RP Yadav"].map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -318,7 +316,7 @@ function Analytics() {
               ))}
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid container item className={"Grid_Padding"} md={2}>
           <FormControl
@@ -336,11 +334,7 @@ function Analytics() {
               value={shift}
               onChange={(e) => setShift(e.target.value)}
               label="Shift"
-              // multiple
             >
-              {/* <MenuItem value="">
-                <em>None</em>
-              </MenuItem> */}
               {["A", "B"].map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -350,7 +344,7 @@ function Analytics() {
           </FormControl>
         </Grid>
 
-        <Grid container item className={"Grid_Padding"} md={1}>
+        {/* <Grid container item className={"Grid_Padding"} md={1}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -366,9 +360,7 @@ function Analytics() {
               label="Line"
               // multiple
             >
-              {/* <MenuItem value="">
-                <em>None</em>
-              </MenuItem> */}
+  
               {["U+2", "Baffle", "Circular", "Two Row"].map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -376,7 +368,7 @@ function Analytics() {
               ))}
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid container item className={"Grid_Padding"} md={1}>
           <FormControl
@@ -392,11 +384,7 @@ function Analytics() {
               value={wing}
               onChange={(e) => setWing(e.target.value)}
               label="Wing"
-              // multiple
             >
-              {/* <MenuItem value="">
-                <em>None</em>
-              </MenuItem> */}
               {["FG2"].map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -439,7 +427,12 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <ActiveViolation chartData={totalVio} />
+          <ActiveViolation
+            chartData={totalVio}
+            value={supervisor}
+            onChange={(e) => setSupervisor(e.target.value)}
+            filter={FilterData}
+          />
         </Grid>
       </Grid>
       <Grid container item md={2} className={"Grid_Padding"}>
@@ -490,7 +483,12 @@ function Analytics() {
           elevation={4}
           className={"Grid_Container"}
         >
-          <Unresolved chartData={mostUnresolvedVioIns} />
+          <Unresolved
+            chartData={mostUnresolvedVioIns}
+            value={supervisor}
+            onChange={(e) => setSupervisor(e.target.value)}
+            filter={FilterData}
+          />
         </Grid>
       </Grid>
       {/* SECTION 2 */}
@@ -531,14 +529,14 @@ function Analytics() {
                 />
               )}
               (mins.)
-              <span style={{ fontSize: "16px", color: "#0e4a7b" }}>
-                on (
-                {maxVioCount &&
-                  new Date(
-                    maxVioCount?.workerUnavailableData[0]?.date
-                  ).toDateString()}
-                )
-              </span>
+            </Typography>
+            <Typography variant="h6">
+              on (
+              {maxVioCount &&
+                new Date(
+                  maxVioCount?.workerUnavailableData[0]?.date
+                ).toDateString()}
+              )
             </Typography>
           </Grid>
         </Grid>
@@ -560,14 +558,14 @@ function Analytics() {
                 />
               )}
               (mins.)
-              <span style={{ fontSize: "16px", color: "#0e4a7b" }}>
-                on (
-                {maxVioCount &&
-                  new Date(
-                    maxVioCount?.feedUnavailableData[0]?.date
-                  ).toDateString()}
-                )
-              </span>
+            </Typography>
+            <Typography variant="h6">
+              on (
+              {maxVioCount &&
+                new Date(
+                  maxVioCount?.feedUnavailableData[0]?.date
+                ).toDateString()}
+              )
             </Typography>
           </Grid>
         </Grid>
@@ -588,12 +586,12 @@ function Analytics() {
                 <CountUp end={maxVioCount?.crowdingData[0]?.id} duration={4} />
               )}
               (mins.)
-              <span style={{ fontSize: "16px", color: "#0e4a7b" }}>
-                on (
-                {maxVioCount &&
-                  new Date(maxVioCount?.crowdingData[0]?.date).toDateString()}
-                )
-              </span>
+            </Typography>
+            <Typography variant="h6">
+              on (
+              {maxVioCount &&
+                new Date(maxVioCount?.crowdingData[0]?.date).toDateString()}
+              )
             </Typography>
           </Grid>
         </Grid>
@@ -617,8 +615,8 @@ function Analytics() {
         </Grid> */}
       </Grid>
       {/* SECTION 3 */}
-      <Grid container item md={2} className={"Grid_Padding"}>
-        {/* <Grid
+      {/* <Grid container item md={2} className={"Grid_Padding"}>
+        <Grid
           container
           item
           md={12}
@@ -635,11 +633,11 @@ function Analytics() {
               </span>
             </Typography>
           </Grid>
-        </Grid> */}
-      </Grid>
+        </Grid>
+      </Grid> */}
 
-      <Grid container item md={2} className={"Grid_Padding"}>
-        {/* <Grid
+      {/* <Grid container item md={2} className={"Grid_Padding"}> */}
+      {/* <Grid
           container
           item
           md={12}
@@ -657,7 +655,7 @@ function Analytics() {
             </Typography>
           </Grid>
         </Grid> */}
-        {/* <Grid
+      {/* <Grid
           container
           item
           md={12}
@@ -675,8 +673,8 @@ function Analytics() {
             </Typography>
           </Grid>
         </Grid> */}
-      </Grid>
-      <Grid container item md={8} className={"Grid_Padding"}>
+      {/* </Grid> */}
+      <Grid container item md={12} className={"Grid_Padding"}>
         <Grid
           container
           item
@@ -695,7 +693,7 @@ function Analytics() {
         </Grid>
       </Grid>
       {/* SECTION 4 */}
-      <Grid container item md={8} className={"Grid_Padding"}>
+      <Grid container item md={10} className={"Grid_Padding"}>
         <Grid
           container
           item
@@ -724,7 +722,7 @@ function Analytics() {
         >
           <Grid container item md={12} style={{ flexDirection: "column" }}>
             <Typography variant="h5">MAXIMUM BREAKDOWN DURATION</Typography>
-            <Typography variant="body1">
+            <Typography variant="h4" style={{ fontSize: "28px" }}>
               {machineStatusDuration &&
                 machineStatusDuration?.machineBreakdownMaxTimeData[0]?.[
                   "machineID"
@@ -755,7 +753,7 @@ function Analytics() {
         >
           <Grid container item md={12} style={{ flexDirection: "column" }}>
             <Typography variant="h5">MINIMUM BREAKDOWN DURATION</Typography>
-            <Typography variant="body1">
+            <Typography variant="h4" style={{ fontSize: "28px" }}>
               {machineStatusDuration &&
                 machineStatusDuration?.machineBreakdownMinTimeData[0]?.[
                   "machineID"
@@ -777,9 +775,9 @@ function Analytics() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container item md={2} className={"Grid_Padding"}></Grid>
+      {/* <Grid container item md={2} className={"Grid_Padding"}></Grid> */}
       {/* SECTION 5 */}
-      <Grid container item md={2} className={"Grid_Padding"}></Grid>
+      {/* <Grid container item md={2} className={"Grid_Padding"}></Grid> */}
       <Grid container item md={2} className={"Grid_Padding"}>
         <Grid
           container
@@ -791,7 +789,7 @@ function Analytics() {
         >
           <Grid container item md={12} style={{ flexDirection: "column" }}>
             <Typography variant="h5">HIGHEST UTILISED MACHINE</Typography>
-            <Typography variant="body1">
+            <Typography variant="h4" style={{ fontSize: "28px" }}>
               {machineStatusDurationID &&
                 machineStatusDurationID?.machineBreakdownMaxTimeAndIdData[0]
                   ?.machineId}
@@ -800,8 +798,8 @@ function Analytics() {
               {machineStatusDurationID && (
                 <CountUp
                   end={
-                    machineStatusDurationID
-                      ?.machineBreakdownMaxTimeAndIdData[0]["timeDuration"]
+                    machineStatusDurationID?.machineBreakdownMaxTimeAndIdData[0]
+                      ?.timeDuration
                   }
                   duration={4}
                 />
@@ -820,7 +818,7 @@ function Analytics() {
         >
           <Grid container item md={12} style={{ flexDirection: "column" }}>
             <Typography variant="h5">LOWEST UTILISED MACHINE</Typography>
-            <Typography variant="body1">
+            <Typography variant="h4" style={{ fontSize: "28px" }}>
               {machineStatusDurationID &&
                 machineStatusDurationID?.machineBreakdownMinTimeAndIdData[0]
                   ?.machineId}
@@ -829,8 +827,8 @@ function Analytics() {
               {machineStatusDurationID && (
                 <CountUp
                   end={
-                    machineStatusDurationID
-                      ?.machineBreakdownMinTimeAndIdData[0]["timeDuration"]
+                    machineStatusDurationID?.machineBreakdownMinTimeAndIdData[0]
+                      ?.timeDuration
                   }
                   duration={4}
                 />
@@ -840,7 +838,7 @@ function Analytics() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container item md={8} className={"Grid_Padding"}>
+      <Grid container item md={10} className={"Grid_Padding"}>
         <Grid
           container
           item
@@ -859,7 +857,7 @@ function Analytics() {
         </Grid>
       </Grid>
       {/* SECTION 6 */}
-      <Grid container item md={8} className={"Grid_Padding "}>
+      {/* <Grid container item md={8} className={"Grid_Padding "}>
         <Grid
           container
           item
@@ -870,7 +868,7 @@ function Analytics() {
         >
           <LineUtilisation />
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {/* <Grid container item md={2} className={"Grid_Padding"}>
         <Grid

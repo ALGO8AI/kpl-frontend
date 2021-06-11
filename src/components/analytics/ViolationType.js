@@ -119,7 +119,7 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
       size: 1,
     },
     xaxis: {
-      type: "datetime",
+      type: "category",
       categories: week,
       title: {
         text: "Date",
@@ -140,8 +140,8 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
           fontWeight: 400,
         },
       },
-      min: 0,
-      max: 150,
+      // min: 0,
+      // max: 150,
     },
     legend: {
       //

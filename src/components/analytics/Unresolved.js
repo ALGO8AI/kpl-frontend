@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -8,8 +9,9 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
-function Unresolved({ chartData }) {
+function Unresolved({ chartData, value, onChange, filter }) {
   const series = [
     chartData?.length > 0 ? chartData[0]?.count : 0,
     chartData?.length > 0 ? chartData[1]?.count : 0,
@@ -64,7 +66,7 @@ function Unresolved({ chartData }) {
         <Grid container item xs={6}>
           <Typography variant="h6"> MOST UNRESOLVED VIOLATIONS</Typography>
         </Grid>
-        <Grid container item xs={6}>
+        <Grid container item xs={4} style={{ marginBottom: "16px" }}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -76,24 +78,29 @@ function Unresolved({ chartData }) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // multiple
-              // value={inputMACHINEid}
-              // onChange={(e) => setInputMACHINEid(e.target.value)}
+              multiple
+              value={value}
+              onChange={onChange}
               label="Supervisor"
               // multiple
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {["Supervisor 1", "Supervisor 2", "Supervisor 3"].map(
-                (item, index) => (
-                  <MenuItem value={item} key={index}>
-                    {item}
-                  </MenuItem>
-                )
-              )}
+              {["Sanjay Dassamanta", "RP Yadav"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
+        </Grid>
+        <Grid container item className={"Grid_Padding"} md={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={filter}
+          >
+            <FilterListIcon />
+          </Button>
         </Grid>
         <ReactApexChart
           options={options}

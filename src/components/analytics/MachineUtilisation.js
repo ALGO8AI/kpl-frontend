@@ -29,7 +29,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
         //   ],
         // },
         {
-          name: "Worker UA (Hrs.)",
+          name: "Worker Unavailable (Hrs.)",
 
           data: [
             chartData[0]?.WorkerUnavailableHours,
@@ -40,7 +40,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
           ],
         },
         {
-          name: "Feed UA (Hrs.)",
+          name: "Feed Unavailable (Hrs.)",
 
           data: [
             chartData[0]?.feedUnavailableHours,
@@ -141,7 +141,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
     },
     yaxis: {
       title: {
-        text: "% Of Violation",
+        text: "Violation Count",
         style: {
           color: "#0e4a7b",
           fontSize: "14px",

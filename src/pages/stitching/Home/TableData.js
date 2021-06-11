@@ -215,12 +215,19 @@ function TableData({
             <HomeTable
               // data={homeMachineTable}
               data={homeMachineTable.map((row, i) => {
-                const { utilizationPercentage, ...rest } = row;
+                const {
+                  utilizationPercentage,
+                  machineOnOffStatus,
+                  ...rest
+                } = row;
                 return {
                   id: i,
                   utilizationPercentage: `${Math.round(
                     utilizationPercentage
                   )} %`,
+                  machineOnOffStatus: Boolean(machineOnOffStatus)
+                    ? "On"
+                    : "Off",
                   ...rest,
                 };
               })}
@@ -255,15 +262,20 @@ function TableData({
                   field: "feedUnavailableHours",
                   width: 240,
                 },
+                // {
+                //   headerName: "Off Time (Hrs.)",
+                //   field: "machineOffTime",
+                //   width: 240,
+                // },
+                // {
+                //   headerName: "On Time (Hrs.)",
+                //   field: "machineOnTime",
+                //   width: 240,
+                // },
                 {
-                  headerName: "Off Time (Hrs.)",
-                  field: "machineOffTime",
-                  width: 240,
-                },
-                {
-                  headerName: "On Time (Hrs.)",
-                  field: "machineOnTime",
-                  width: 240,
+                  headerName: "Machine Status",
+                  field: "machineOnOffStatus",
+                  width: 180,
                 },
                 {
                   headerName: "Shift",
