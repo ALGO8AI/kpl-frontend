@@ -255,7 +255,7 @@ function Analytics() {
   return (
     <Grid container className="Analytics_Container">
       <Grid container item xs={12}>
-        <Grid container item className={"Grid_Padding"} md={2}>
+        <Grid container item className={"Grid_Padding"} md={2} xs={6}>
           <TextField
             key="from"
             id="fromDate"
@@ -272,7 +272,7 @@ function Analytics() {
           />
         </Grid>
 
-        <Grid container item className={"Grid_Padding"} md={2}>
+        <Grid container item className={"Grid_Padding"} md={2} xs={6}>
           <TextField
             key="from"
             id="fromDate"
@@ -317,7 +317,7 @@ function Analytics() {
           </FormControl>
         </Grid> */}
 
-        <Grid container item className={"Grid_Padding"} md={2}>
+        <Grid container item className={"Grid_Padding"} md={2} xs={6}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -369,7 +369,7 @@ function Analytics() {
           </FormControl>
         </Grid> */}
 
-        <Grid container item className={"Grid_Padding"} md={1}>
+        <Grid container item className={"Grid_Padding"} md={1} xs={6}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -392,7 +392,7 @@ function Analytics() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid container item className={"Grid_Padding"} md={1}>
+        <Grid container item className={"Grid_Padding"} md={1} xs={6}>
           <Button
             variant="contained"
             color="primary"
@@ -404,7 +404,7 @@ function Analytics() {
           </Button>
         </Grid>
 
-        <Grid container item className={"Grid_Padding"} md={1}>
+        <Grid container item className={"Grid_Padding"} md={1} xs={6}>
           <Button
             variant="contained"
             color="primary"
