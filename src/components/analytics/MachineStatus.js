@@ -28,7 +28,7 @@ function MachineStatus({
 
   React.useEffect(() => {
     if (chartData) {
-      console.log(chartData);
+      // console.log(chartData);
       var Orsan6 = chartData
         ?.filter((item) => item?.machineId === "FG2/U+2/Orsan6")
         .map((item) => item?.timeDuration);

@@ -740,7 +740,7 @@ function Analytics() {
                 <CountUp
                   end={
                     machineStatusDuration?.machineBreakdownMaxTimeData[0][
-                      "max(timeDuration)"
+                      "timeDuration"
                     ]
                   }
                   duration={4}
@@ -771,7 +771,7 @@ function Analytics() {
                 <CountUp
                   end={
                     machineStatusDuration?.machineBreakdownMinTimeData[0][
-                      "min(timeDuration)"
+                      "timeDuration"
                     ]
                   }
                   duration={4}
