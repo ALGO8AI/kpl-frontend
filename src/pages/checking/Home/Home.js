@@ -47,24 +47,17 @@ export default function Home() {
 
   // refresh
   const refreshData = async () => {
-    var curr = new Date(); // get current date
-    // console.log(new Date().toISOString().slice(0, 10));
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
 
-    let week = [];
-    for (let i = 1; i <= 7; i++) {
-      let first = curr.getDate() - curr.getDay() + i;
-      let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-      week.push(day);
-    }
-    // console.log(week);
-
-    dispatch({ type: "FROM", payload: firstDay });
+    dispatch({
+      type: "FROM",
+      payload: newDateWeekBack.toISOString().slice(0, 10),
+    });
 
     dispatch({
       type: "TO",
-      payload: new Date().toISOString().slice(0, 10),
+      payload: myDate.toISOString().slice(0, 10),
     });
 
     try {
@@ -123,25 +116,18 @@ export default function Home() {
   };
   // get week days function
   const getFirstDay_LastDay = async () => {
-    var curr = new Date(); // get current date
-    // console.log(new Date().toISOString().slice(0, 10));
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-
-    let week = [];
-    for (let i = 1; i <= 7; i++) {
-      let first = curr.getDate() - curr.getDay() + i;
-      let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-      week.push(day);
-    }
-    // console.log(week);
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
 
     if (Boolean(!state.from)) {
-      dispatch({ type: "FROM", payload: firstDay });
+      dispatch({
+        type: "FROM",
+        payload: newDateWeekBack.toISOString().slice(0, 10),
+      });
     }
 
     if (Boolean(!state.to)) {
-      dispatch({ type: "TO", payload: new Date().toISOString().slice(0, 10) });
+      dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
     }
   };
 

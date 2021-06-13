@@ -131,14 +131,15 @@ function ViolationLog1() {
   const classes = useStyles();
 
   const refreshData = async () => {
-    var curr = new Date(); // get current date
-    // console.log(new Date().toISOString().slice(0, 10));
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-    dispatch({ type: "VIO_FROM", payload: firstDay });
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    dispatch({
+      type: "VIO_FROM",
+      payload: newDateWeekBack.toISOString().slice(0, 10),
+    });
     dispatch({
       type: "VIO_TO",
-      payload: new Date().toISOString().slice(0, 10),
+      payload: myDate.toISOString().slice(0, 10),
     });
 
     const crowd = await crowdingViolationChecking();
@@ -303,19 +304,20 @@ function ViolationLog1() {
   };
 
   const getFirstDay_LastDay = async () => {
-    var curr = new Date(); // get current date
-    // console.log(new Date().toISOString().slice(0, 10));
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
 
     if (Boolean(!state.violationFrom)) {
-      dispatch({ type: "VIO_FROM", payload: firstDay });
+      dispatch({
+        type: "VIO_FROM",
+        payload: newDateWeekBack.toISOString().slice(0, 10),
+      });
     }
 
     if (Boolean(!state.violationTo)) {
       dispatch({
         type: "VIO_TO",
-        payload: new Date().toISOString().slice(0, 10),
+        payload: myDate.toISOString().slice(0, 10),
       });
     }
   };
