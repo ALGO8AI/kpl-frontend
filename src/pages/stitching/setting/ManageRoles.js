@@ -50,6 +50,7 @@ function ManageRoles() {
       if (txt) {
         const resp = await revokeUserAccess(name);
         alert(resp.msg);
+        loadData();
       }
     } catch (e) {}
   };

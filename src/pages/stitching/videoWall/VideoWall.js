@@ -70,12 +70,17 @@ function VideoWall() {
             id="demo-simple-select-outlined"
             label="Current CTR"
           >
-            <MenuItem>Line 1</MenuItem>
+            <MenuItem value=""></MenuItem>
+            {["U+2", "Baffle", "Circular", "Two Row"].map((item, i) => (
+              <MenuItem value={item} key={i}>
+                {item}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
 
-      <Grid container item xs={12} sm={1}>
+      {/* <Grid container item xs={12} sm={1}>
         <FormControl variant="outlined" fullWidth>
           <InputLabel id="demo-simple-select-outlined-label">
             Supervisor
@@ -88,7 +93,7 @@ function VideoWall() {
             <MenuItem>Sup 1</MenuItem>
           </Select>
         </FormControl>
-      </Grid>
+      </Grid> */}
       <Grid container item xs={12} sm={2}>
         <CustomButton>
           <FilterListIcon />

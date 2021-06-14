@@ -72,7 +72,7 @@ function Schedule(props) {
         return dd[1] + "/" + dd[0] + "/" + dd[2];
       },
     },
-    { title: "ID", field: "id" },
+    // { title: "ID", field: "id" },
 
     { title: "Worker ID", field: "workerId" },
     { title: "Shift", field: "shift" },
