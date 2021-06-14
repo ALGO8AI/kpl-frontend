@@ -76,11 +76,10 @@ function NotificationLog() {
   };
 
   const getFirstDay_LastDay = async () => {
-    var curr = new Date();
-    var first = curr.getDate() - curr.getDay() + 1;
-    var firstDay = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-    setFilterDateFrom(firstDay);
-    setFilterDateTo(new Date().toISOString().slice(0, 10));
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    setFilterDateFrom(newDateWeekBack.toISOString().slice(0, 10));
+    setFilterDateTo(myDate.toISOString().slice(0, 10));
   };
 
   React.useEffect(() => {

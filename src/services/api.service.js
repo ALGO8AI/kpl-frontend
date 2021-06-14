@@ -312,7 +312,8 @@ const summaryByViolationData = async (
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    // shifts,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -329,6 +330,7 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -344,6 +346,7 @@ const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
@@ -360,6 +363,7 @@ const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
 
   return await callBackend(
