@@ -1258,6 +1258,16 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
+                  // {
+                  //   title: "Time",
+                  //   field: "DateTime",
+                  //   render: (rowData) => {
+                  //     const NewDate = moment(rowData.Date_Hour).format(
+                  //       "hh:mm a"
+                  //     );
+                  //     return NewDate;
+                  //   },
+                  // },
                   {
                     title: "Worker Name",
                     field: "workerName",
@@ -1274,17 +1284,8 @@ function ViolationLog1() {
                     title: "Machine Id",
                     field: "machineId",
                   },
-
-                  {
-                    title: "Time",
-                    field: "DateTime",
-                    render: (rowData) => {
-                      const NewDate = moment(rowData.Date_Hour).format(
-                        "hh:mm a"
-                      );
-                      return NewDate;
-                    },
-                  },
+                  { title: "Start Time", field: "startTime" },
+                  { title: "End Time", field: "endTime" },
 
                   {
                     title: "Wing",
