@@ -196,17 +196,12 @@ function NotificationLog() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "ID", width: 150 },
+                  { field: "Id", headerName: "Violation ID", width: 210 },
                   { field: "DateTime", headerName: "Date", width: 150 },
                   { field: "Wing", headerName: "Wing", width: 120 },
-                  { field: "FeedID", headerName: "Feed ID", width: 120 },
-                  { field: "MachineID", headerName: "Machine ID", width: 120 },
+                  { field: "FeedID", headerName: "Feed ID", width: 150 },
+                  { field: "MachineID", headerName: "Machine ID", width: 180 },
                   { field: "WorkerID", headerName: "Worker ID", width: 180 },
-                  {
-                    field: "workerName",
-                    headerName: "Worker Name",
-                    width: 180,
-                  },
                   {
                     field: "workerName",
                     headerName: "Worker Name",
@@ -217,11 +212,11 @@ function NotificationLog() {
 
                   {
                     field: "UnavailableDuration",
-                    headerName: "UnavailableDuration",
+                    headerName: "Unavailable Duration",
                     width: 210,
                   },
 
-                  { field: "uuid", headerName: "uuid", width: 240 },
+                  { field: "uuid", headerName: "Unique ID", width: 240 },
                   {
                     field: "video",
                     headerName: "Video",
@@ -235,17 +230,21 @@ function NotificationLog() {
                     hide: "true",
                   },
 
-                  { field: "query", headerName: "Query", width: 180 },
-                  { field: "shift", headerName: "Shift", width: 90 },
+                  {
+                    field: "query",
+                    headerName: "Violation Status",
+                    width: 240,
+                  },
+                  { field: "shift", headerName: "Shift", width: 150 },
                   {
                     field: "supervisorName",
                     headerName: "Supervisor Name",
-                    width: 180,
+                    width: 240,
                   },
                   {
                     field: "violationReason",
-                    headerName: "violation Reason",
-                    width: 180,
+                    headerName: "Violation Reason",
+                    width: 210,
                   },
                   {
                     field: "action",
@@ -275,17 +274,17 @@ function NotificationLog() {
                   {
                     field: "incorrectViolationReason",
                     headerName: "Incorrect Violation Reason",
-                    width: 240,
+                    width: 270,
                   },
                   {
                     field: "communicatedTo",
                     headerName: "Communicated To",
-                    width: 180,
+                    width: 210,
                   },
                   {
                     field: "Reassigned Supervisor",
-                    headerName: "ReassignedSupervisor",
-                    width: 180,
+                    headerName: "Reassigned Supervisor",
+                    width: 240,
                   },
 
                   // {
@@ -347,7 +346,7 @@ function NotificationLog() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "ID", width: 150 },
+                  { field: "Id", headerName: "Violation ID", width: 150 },
                   { field: "DateTime", headerName: "Date", width: 150 },
                   { field: "Wing", headerName: "Wing", width: 120 },
                   { field: "CamID", headerName: "Cam ID", width: 120 },
@@ -393,7 +392,7 @@ function NotificationLog() {
                   { field: "status", headerName: "Status", width: 180 },
 
                   { field: "query", headerName: "Query", width: 180 },
-                  { field: "shift", headerName: "Shift", width: 90 },
+                  { field: "shift", headerName: "Shift", width: 120 },
                   {
                     field: "supervisorName",
                     headerName: "Supervisor Name",
@@ -401,7 +400,7 @@ function NotificationLog() {
                   },
                   {
                     field: "violationReason",
-                    headerName: "violation Reason",
+                    headerName: "Violation Reason",
                     width: 180,
                   },
                   {
@@ -432,17 +431,17 @@ function NotificationLog() {
                   {
                     field: "incorrectViolationReason",
                     headerName: "Incorrect Violation Reason",
-                    width: 240,
+                    width: 270,
                   },
                   {
                     field: "communicatedTo",
                     headerName: "Communicated To",
-                    width: 180,
+                    width: 210,
                   },
                   {
                     field: "Reassigned Supervisor",
                     headerName: "ReassignedSupervisor",
-                    width: 180,
+                    width: 240,
                   },
                 ]}
                 style={{ width: "100%" }}
@@ -493,7 +492,7 @@ function NotificationLog() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "ID", width: 150 },
+                  { field: "Id", headerName: "Violation ID", width: 180 },
                   { field: "DateTime", headerName: "Date", width: 150 },
                   { field: "workerID", headerName: "Worker ID", width: 180 },
                   {
@@ -503,16 +502,16 @@ function NotificationLog() {
                   },
                   { field: "wing", headerName: "Wing", width: 120 },
 
-                  { field: "machineId", headerName: "Machine ID", width: 120 },
+                  { field: "machineId", headerName: "Machine ID", width: 150 },
                   {
                     field: "ViolationDuration",
                     headerName: "Violation Duration",
-                    width: 120,
+                    width: 210,
                   },
 
                   { field: "startTime", headerName: "Start Time", width: 150 },
                   { field: "endTime", headerName: "End Time", width: 150 },
-                  { field: "uuid", headerName: "uuid", width: 240 },
+                  { field: "uuid", headerName: "Unique ID", width: 240 },
 
                   // {
                   //   field: "UnavailableDuration",
@@ -534,17 +533,21 @@ function NotificationLog() {
                   },
                   { field: "status", headerName: "Status", width: 180 },
 
-                  { field: "query", headerName: "Query", width: 180 },
-                  { field: "shift", headerName: "Shift", width: 90 },
+                  {
+                    field: "query",
+                    headerName: "Violation Status",
+                    width: 210,
+                  },
+                  { field: "shift", headerName: "Shift", width: 120 },
                   {
                     field: "supervisorName",
                     headerName: "Supervisor Name",
-                    width: 180,
+                    width: 210,
                   },
                   {
                     field: "violationReason",
-                    headerName: "violation Reason",
-                    width: 180,
+                    headerName: "Violation Reason",
+                    width: 210,
                   },
                   {
                     field: "action",
@@ -574,17 +577,17 @@ function NotificationLog() {
                   {
                     field: "incorrectViolationReason",
                     headerName: "Incorrect Violation Reason",
-                    width: 240,
+                    width: 270,
                   },
                   {
                     field: "communicatedTo",
                     headerName: "Communicated To",
-                    width: 180,
+                    width: 210,
                   },
                   {
                     field: "reassignedSupervisor",
                     headerName: "Reassigned Supervisor",
-                    width: 180,
+                    width: 240,
                   },
                 ]}
                 style={{ width: "100%" }}

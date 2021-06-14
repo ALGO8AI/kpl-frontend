@@ -81,8 +81,8 @@ function YourData() {
           <Tab label="Worker Schedule" {...a11yProps(1)} />
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
 
-          <Tab label=" Layout" {...a11yProps(3)} />
-          <Tab label="Notification Log" {...a11yProps(4)} />
+          {/* <Tab label=" Layout" {...a11yProps(3)} /> */}
+          <Tab label="Notification Log" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -94,10 +94,10 @@ function YourData() {
       <TabPanel value={value} index={2}>
         <Supervisor />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      {/* <TabPanel value={value} index={3}>
         <LayoutView />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
+      </TabPanel> */}
+      <TabPanel value={value} index={3}>
         <NotificationLog />
       </TabPanel>
     </Grid>

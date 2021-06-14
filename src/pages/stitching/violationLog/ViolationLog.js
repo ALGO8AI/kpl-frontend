@@ -423,6 +423,8 @@ function ViolationLog1() {
 
   const handleTabChange = (event, newValue) => {
     dispatch({ type: "VIOLATION_TAB", payload: newValue });
+    setLink(null);
+    setImg(null);
     // setTabValue(newValue);
   };
 
@@ -1280,13 +1282,13 @@ function ViolationLog1() {
                     title: "Breakdown (Mins.)",
                     field: "OffMinutes",
                   },
+
+                  { title: "Start Time", field: "startTime" },
+                  { title: "End Time", field: "endTime" },
                   {
                     title: "Machine Id",
                     field: "machineId",
                   },
-                  { title: "Start Time", field: "startTime" },
-                  { title: "End Time", field: "endTime" },
-
                   {
                     title: "Wing",
                     field: "wing",
