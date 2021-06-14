@@ -267,6 +267,7 @@ const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts: [],
+    username: localStorage.getItem("kpl_username"),
   };
   console.log(data);
   return await callBackend(
@@ -284,6 +285,7 @@ const crowdingInstanceData = async (fromDate, toDate) => {
     {
       filterDateFrom: fromDate,
       filterDateTo: toDate,
+      username: localStorage.getItem("kpl_username"),
     }
   );
 };
@@ -470,6 +472,7 @@ const machineBreakdownData = async (fromDate, toDate, machine, shift) => {
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts: shift,
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",
