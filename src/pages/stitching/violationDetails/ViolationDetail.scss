@@ -1,3 +1,8 @@
+// one class
+.mb-16 {
+  margin-bottom: 1rem !important;
+}
+// nested csss
 .Details_CameraFeed {
   background-color: #000;
   padding: 1rem;
@@ -6,5 +11,20 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1rem;
+  }
+}
+.Details_Info {
+  padding: 1rem;
+  margin: 0px auto 24px auto !important;
+  height: fit-content;
+  .Description {
+    padding: 12px;
+    .Key {
+      color: grey !important;
+      font-weight: normal !important;
+    }
+    .Value {
+      color: black !important;
+    }
   }
 }
