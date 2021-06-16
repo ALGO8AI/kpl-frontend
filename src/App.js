@@ -21,6 +21,7 @@ import ResetPassword from "./pages/ResetPassword";
 import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetails";
 import socketIOClient from "socket.io-client";
+import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
 const ENDPOINT = "http://3.23.114.42:3000";
 // const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
 const socket = socketIOClient(ENDPOINT);
@@ -110,6 +111,11 @@ function App(props) {
           <AuthRoute exact path="/checking/:page" component={Checking} />
           <AuthRoute exact path="/checking/:page/:id" component={Checking} />
           <AuthRoute exact path="/print" component={BarCodePrint} />
+          <AuthRoute
+            exact
+            path="/printUsedUnused"
+            component={UsedUnusedPrint}
+          />
 
           <AuthRoute path="/viewdetails/:cameraid" component={ViewDetails} />
           <Redirect from="/stitching" to="/stitching/home" />

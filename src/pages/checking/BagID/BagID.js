@@ -88,7 +88,7 @@ function BagID() {
     try {
       const resp = await getBagData(state.bagIdFrom, state.bagIdTo);
 
-      console.log(resp);
+      // console.log(resp);
       const data = [...resp.unUsedIds, ...resp.usedIds];
       dispatch({
         type: "BAG-DATA",
@@ -98,7 +98,7 @@ function BagID() {
         },
       });
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
     }
   };
   React.useEffect(() => {
@@ -233,21 +233,41 @@ function BagID() {
                 md={3}
                 style={{ alignItems: "center", height: "min-content" }}
               >
-                <Button
-                  variant="contained"
-                  style={{
-                    backgroundColor: "#0e4a7b",
-                    color: "#FFF",
-                    whiteSpace: "nowrap",
-                    width: "100%",
-                    height: "fit-content",
-                    border: "1px solid #0e4a7b",
-                  }}
-                  onClick={dateFilter}
-                >
-                  <FilterListIcon />
-                  GET DATA
-                </Button>
+                <Grid container item xs={12}>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#0e4a7b",
+                      color: "#FFF",
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                      height: "fit-content",
+                      border: "1px solid #0e4a7b",
+                      marginBottom: "6px",
+                    }}
+                    onClick={dateFilter}
+                  >
+                    <FilterListIcon />
+                    GET DATA
+                  </Button>
+                </Grid>
+                <Grid container item xs={12}>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#0e4a7b",
+                      color: "#FFF",
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                      height: "fit-content",
+                      border: "1px solid #0e4a7b",
+                    }}
+                    onClick={() => history.push("/printUsedUnused")}
+                  >
+                    {/* <FilterListIcon /> */}
+                    PRINT UNUSED
+                  </Button>
+                </Grid>
               </Grid>
 
               <Grid container item md={3}>
