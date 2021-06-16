@@ -20,6 +20,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
     currentCtr: "",
     currentCtrInput: "",
     clpctr: "",
+    clpctrInput: "",
     wing: "",
     line: "",
     resourceId: "",
@@ -36,7 +37,8 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
             CTR.currentCtr === "enter manually"
               ? CTR.currentCtrInput
               : CTR.currentCtr,
-          clpctr: CTR.clpctr,
+          clpctr:
+            CTR.clpctr === "enter manually" ? CTR.clpctrInput : CTR.clpctr,
           wing: CTR.wing,
           line: CTR.line,
           resourceId: CTR.resourceId,
@@ -174,6 +176,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     value={CTR.clpctr}
                     onChange={(e) => setCTR({ ...CTR, clpctr: e.target.value })}
                   >
+                    <MenuItem value={"enter manually"}>Enter Manually</MenuItem>
                     <MenuItem value=""></MenuItem>
                     {ctrDrop &&
                       ctrDrop?.data?.map((item, i) => (
@@ -184,6 +187,20 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                   </Select>
                 </FormControl>
               </Grid>
+              {CTR.clpctr === "enter manually" ? (
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    value={CTR.clpctrInput}
+                    onChange={(e) =>
+                      setCTR({ ...CTR, clpctrInput: e.target.value })
+                    }
+                    placeholder="Type Or Select From Dropdown Menu"
+                    label="CLP-CTR"
+                  />
+                </Grid>
+              ) : null}
               <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">

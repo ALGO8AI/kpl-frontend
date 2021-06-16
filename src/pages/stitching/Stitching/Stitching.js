@@ -11,6 +11,7 @@ import ViolationLog from "../violationLog/ViolationLog";
 import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
 import { Annotation } from "../layoutView/annotation/Annotation";
+import ViolationDetail from "../violationDetails/ViolationDetail";
 
 function Stitching(props) {
   const pages = {
@@ -22,7 +23,7 @@ function Stitching(props) {
     layoutView: <LayoutView />,
     annotation: <Annotation />,
     yourData: <YourData />,
-    violationDetails: <ViolationDetails id={props.match.params.id} />,
+    violationDetails: <ViolationDetail id={props.match.params.id} />,
     analytics: <Analytics />,
   };
 
