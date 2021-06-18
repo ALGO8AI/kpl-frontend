@@ -1169,14 +1169,15 @@ function ViolationLog1() {
                     },
                   },
                   { title: "Worker Name", field: "workerName" },
-                  { title: "Worker Id", field: "workerID" },
+                  { title: "Worker ID", field: "workerID" },
+                  { title: "Machine ID", field: "machineId" },
+
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
                   },
                   { title: "Start Time", field: "startTime" },
                   { title: "End Time", field: "endTime" },
-                  { title: "Machine ID", field: "machineId" },
 
                   { title: "Wing", field: "wing" },
                   { title: "Shift", field: "shift" },
@@ -1196,13 +1197,13 @@ function ViolationLog1() {
                 data={state.by_worker.data}
                 // rowClick={rowClick}
                 columns={[
-                  { title: "Worker Name", field: "workerName" },
                   { title: "Worker ID", field: "workerId" },
+                  { title: "Worker Name", field: "workerName" },
 
-                  // {
-                  //   title: "Machine ID",
-                  //   field: "machineId",
-                  // },
+                  {
+                    title: "Machine ID",
+                    field: "machineId",
+                  },
                   {
                     title: "Feed N/A Duration(Hrs.)",
                     field: "feedUnavailibilityDuration",
@@ -1210,6 +1211,10 @@ function ViolationLog1() {
                   {
                     title: "Worker N/A Duration(Hrs.)",
                     field: "workerUnavailableViolationDuration",
+                  },
+                  {
+                    title: "Shift",
+                    field: "shift",
                   },
                 ]}
               />

@@ -716,12 +716,16 @@ function ViolationDetail(props) {
                 md={12}
               >
                 {/* WORKER NAME */}
-                <NameValue
-                  name="WORKER NAME"
-                  value={data && data?.workerName}
-                />
+                {data?.workerName && (
+                  <NameValue
+                    name="WORKER NAME"
+                    value={data && data?.workerName}
+                  />
+                )}
                 {/*WORKER ID  */}
-                <NameValue name="WORKER ID" value={data && data?.workerId} />
+                {data?.workerId && (
+                  <NameValue name="WORKER ID" value={data && data?.workerId} />
+                )}
                 {/* MACHINE ID */}
                 {data?.machineId && (
                   <NameValue

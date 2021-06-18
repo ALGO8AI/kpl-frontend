@@ -75,6 +75,8 @@ function Schedule(props) {
     // { title: "ID", field: "id" },
 
     { title: "Worker ID", field: "workerId" },
+    { title: "Worker Name", field: "workerName" },
+
     { title: "Shift", field: "shift" },
     { title: "Wing", field: "wing" },
     { title: "Machine ID", field: "machineId" },

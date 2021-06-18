@@ -76,7 +76,7 @@ function BagID() {
       dispatch({
         type: "BAG-DATA",
         payload: {
-          data: data,
+          data: resp.unUsedIds,
           loading: true,
         },
       });
@@ -93,7 +93,7 @@ function BagID() {
       dispatch({
         type: "BAG-DATA",
         payload: {
-          data: data,
+          data: resp.unUsedIds,
           loading: true,
         },
       });

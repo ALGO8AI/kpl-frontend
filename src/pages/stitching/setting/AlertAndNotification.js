@@ -686,7 +686,7 @@ function AlertAndNotification() {
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
           <Grid item xs={2}>
-            Worker Idle
+            Worker Unavailability
           </Grid>
           {/* <Grid item xs={2}>
             <Checkbox
