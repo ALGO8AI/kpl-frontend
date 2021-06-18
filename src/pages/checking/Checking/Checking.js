@@ -6,6 +6,7 @@ import Home from "../Home/Home";
 import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
+import ViolationDetail from "../violationDetails/ViolationDetail";
 import ViolationDetails from "../violationDetails/ViolationDetails";
 import ViolationLog from "../violationLog/ViolationLog";
 import YourData from "../yourData/YourData";
@@ -19,7 +20,7 @@ function Checking(props) {
     setting: <Setting />,
     layoutView: <LayoutView />,
     yourData: <YourData />,
-    violationDetails: <ViolationDetails id={props.match.params.id} />,
+    violationDetails: <ViolationDetail id={props.match.params.id} />,
     bagID: <BagID />,
     feedback: <Feedback />,
     // print: <BarCodePrint />,

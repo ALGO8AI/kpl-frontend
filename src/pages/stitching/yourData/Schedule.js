@@ -147,6 +147,7 @@ function Schedule(props) {
 
   const updateSchedule = async () => {
     try {
+      console.log(scheduleData);
       const resp = await updateStitchingWorkerSchedule(scheduleData);
       console.log(resp);
       setMsg(resp.msg);
@@ -317,7 +318,9 @@ function Schedule(props) {
                 variant="outlined"
                 value={scheduleData.shift}
                 name="shift"
-                onChange={onScheduleDataChange}
+                onChange={(e) =>
+                  setScheduleData({ ...scheduleData, shift: e.target.value })
+                }
                 fullWidth
               />
             </Grid>

@@ -53,7 +53,7 @@ function VideoCard({ data, onClick }) {
       xs={12}
       sm={4}
       // md={2}
-      to={`/stitching/violationDetails/${data.Id}`}
+      to={`/checking/violationDetails/${data.Id}`}
       className="Recent"
     >
       <Grid
@@ -277,7 +277,7 @@ function ViolationDetail(props) {
       setMsg(x.msg);
       setOpen1(true);
       setTimeout(() => {
-        history.push("/stitching/violationLog");
+        history.push("/checking/violationLog");
       }, 2000);
     } catch (e) {
       console.log(e);
@@ -303,7 +303,7 @@ function ViolationDetail(props) {
         setOpen1(true);
         setOpen(false);
         setTimeout(() => {
-          history.push("/stitching/violationLog");
+          history.push("/checking/violationLog");
         }, 2000);
       } else {
         setOpen(false);
@@ -382,7 +382,7 @@ function ViolationDetail(props) {
 
   const openPopUpWindow = (id) => {
     // window.open(
-    //   `/stitching/violationDetails/${id}`,
+    //   `/checking/violationDetails/${id}`,
     //   "window",
     //   "menubar=no,screenX=0,screenY=0,top=0,left=0,location=no,status=no,toolbar=no,scrollbars=yes,resizable=no"
     // );
@@ -607,7 +607,7 @@ function ViolationDetail(props) {
                     //   marginRight: "12px",
                     cursor: "pointer",
                   }}
-                  onClick={() => history.push("/stitching/violationLog")}
+                  onClick={() => history.push("/checking/violationLog")}
                 >
                   <span>
                     <i

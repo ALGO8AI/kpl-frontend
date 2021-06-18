@@ -695,7 +695,7 @@ const updateStitchingWorkerSchedule = async (datas) => {
   const data = {
     date: datas.date,
     workerId: datas.workerId,
-    shift: [],
+    shift: datas.shift,
     wing: datas.wing,
     machineId: datas.machineId,
     machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
