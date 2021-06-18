@@ -42,20 +42,20 @@ function App(props) {
     PROFILE && dispatch({ type: "ADD_PROFILE", payload: JSON.parse(PROFILE) });
 
     //socket
-    socket.on("machineAlert", (resp) => {
-      console.log("Socket On");
-      console.log(resp);
-      if (window.Notification) {
-        Notification.requestPermission(() => {
-          if (Notification.permission === "granted") {
-            const swUrl = `${process.env.PUBLIC_URL}/serviceWorker.js`;
-            navigator.serviceWorker.register(swUrl).then(async (worker) => {
-              worker.showNotification(resp.Message);
-            });
-          }
-        });
-      }
-    });
+    // socket.on("machineAlert", (resp) => {
+    //   console.log("Socket On");
+    //   console.log(resp);
+    //   if (window.Notification) {
+    //     Notification.requestPermission(() => {
+    //       if (Notification.permission === "granted") {
+    //         const swUrl = `${process.env.PUBLIC_URL}/serviceWorker.js`;
+    //         navigator.serviceWorker.register(swUrl).then(async (worker) => {
+    //           worker.showNotification(resp.Message);
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
   }, []);
 
   // setInterval(() => {

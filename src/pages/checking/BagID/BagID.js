@@ -324,6 +324,7 @@ function BagID() {
             title="Bag Details"
             columns={[
               { title: "Bag ID", field: "bagId" },
+              { title: "Table ID", field: "tableId" },
               {
                 field: "view",
                 title: "barcode",
@@ -332,6 +333,7 @@ function BagID() {
                 ),
               },
               { title: "Date", field: "date" },
+              { title: "Time", field: "time" },
             ]}
             data={state.bagDataPrint.data}
             options={{

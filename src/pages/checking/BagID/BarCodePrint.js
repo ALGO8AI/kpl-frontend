@@ -104,6 +104,9 @@ function BarCodePrint() {
     textAlign: "center",
     margin: "20px",
     padding: "20px",
+    pageBreakAfter: "always",
+    // width: "100%",
+    // height: "100%",
   };
 
   return (
@@ -123,15 +126,43 @@ function BarCodePrint() {
         id="printBarCode"
         className="printBarCodes"
         style={BarCodeStyle}
+        // style={{ width: "auto", height: "auto" }}
       >
         {state.bagDataPrint.data.map((item, key) => (
-          <div className="page_printBreack" key={key}>
+          <div
+            // style={{ }}
+            // className="page_printBreack"
+            style={{
+              pageBreakAfter: "always",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            key={key}
+          >
             <img
-              style={{ width: "auto", height: "auto" }}
+              style={{ width: "50%", height: "auto" }}
               key={item.bagId}
               src={item.barcode}
               alt={item.bagId}
             />
+            <div
+              style={{
+                width: "50%",
+                // height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <div>
+                <h3 style={{ margin: 0 }}>Table No. {item.tableId}</h3>
+                <h4 style={{ margin: 0 }}>Bag Id {item.bagId}</h4>
+                <h5 style={{ margin: 0 }}>Date {item.date}</h5>
+                <h5 style={{ margin: 0 }}>Time {item.time}</h5>
+              </div>
+            </div>
           </div>
         ))}
       </div>
