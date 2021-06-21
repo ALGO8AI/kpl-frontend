@@ -305,7 +305,7 @@ function BagID() {
                 { title: "Date", field: "date" },
               ]}
               data={state.bagData.data.filter((data) =>
-                data.assigned.toString().includes(filter)
+                data?.assigned?.toString().includes(filter)
               )}
               options={{
                 exportButton: true,

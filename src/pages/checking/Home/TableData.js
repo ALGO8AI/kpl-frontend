@@ -167,6 +167,16 @@ function TableData({
                   headerName: "Worker Unavailable Hrs.",
                   field: "workerUnav",
                 },
+                {
+                  width: 240,
+                  headerName: "No. Of Bags Checked",
+                  field: "numBagsChecked",
+                },
+                {
+                  width: 240,
+                  headerName: "Count Of Defects",
+                  field: "defectCount",
+                },
                 // { width:240,headerName: "Shift", field: "shift" },
               ]}
             />
@@ -269,6 +279,16 @@ function TableData({
                   width: 240,
                   headerName: "Worker Unavailable Hrs.",
                   field: "WorkerUnavailableHours",
+                },
+                {
+                  width: 240,
+                  headerName: "No. Of Bags Checked",
+                  field: "numBagsChecked",
+                },
+                {
+                  width: 240,
+                  headerName: "Count Of Defects",
+                  field: "defectCount",
                 },
                 // {
                 //   width:240,headerName: "Feed Unavailable Hrs.",

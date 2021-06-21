@@ -157,10 +157,14 @@ function BarCodePrint() {
               }}
             >
               <div>
-                <h3 style={{ margin: 0 }}>Table No. {item.tableId}</h3>
-                <h4 style={{ margin: 0 }}>Bag Id {item.bagId}</h4>
-                <h5 style={{ margin: 0 }}>Date {item.date}</h5>
-                <h5 style={{ margin: 0 }}>Time {item.time}</h5>
+                <p style={{ margin: 0, fontSize: "12px" }}>
+                  Table No. {item.tableId}
+                </p>
+                <p style={{ margin: 0, fontSize: "12px" }}>
+                  Bag Id {item.bagId}
+                </p>
+                <p style={{ margin: 0, fontSize: "12px" }}>Date {item.date}</p>
+                <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p>
               </div>
             </div>
           </div>
