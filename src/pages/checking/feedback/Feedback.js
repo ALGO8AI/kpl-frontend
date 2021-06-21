@@ -14,11 +14,13 @@ function Feedback() {
   const [data, setData] = useState({
     image: [],
     defect: "",
-    roleID: "",
+    clpCtr: "",
     machineID: "",
     date: "",
     time: "",
     moreDetails: "",
+    shift: "",
+    wing: "",
   });
 
   const submitHandler = () => {
@@ -42,6 +44,25 @@ function Feedback() {
               dropzoneText={"Drag and drop files or click here"}
             />
           </Grid>
+        </Grid>
+        <Grid
+          item
+          container
+          md={6}
+          xs={12}
+          style={{ padding: "12px" }}
+          spacing={2}
+        >
+          <Grid item xs={12}>
+            <TextField
+              id="outlined-basic"
+              label="CLP-CTR"
+              variant="outlined"
+              fullWidth
+              value={data.clpCtr}
+              onChange={(e) => setData({ ...data, clpCtr: e.target.value })}
+            />
+          </Grid>
           <Grid item xs={12}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel id="demo-simple-select-outlined-label">
@@ -62,25 +83,6 @@ function Feedback() {
                 <MenuItem value={"Defect 3"}>Defect 3</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          md={6}
-          xs={12}
-          style={{ padding: "12px" }}
-          spacing={2}
-        >
-          <Grid item xs={12}>
-            <TextField
-              id="outlined-basic"
-              label="Role Id"
-              variant="outlined"
-              fullWidth
-              value={data.roleID}
-              onChange={(e) => setData({ ...data, roleID: e.target.value })}
-            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -122,6 +124,52 @@ function Feedback() {
               value={data.time}
               onChange={(e) => setData({ ...data, time: e.target.value })}
             />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={data.shift}
+                onChange={(e) => setData({ ...data, shift: e.target.value })}
+                label="Shift"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {["A", "B"].map((shift, i) => (
+                  <MenuItem key={i} value={shift}>
+                    {shift}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Wing
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={data.wing}
+                onChange={(e) => setData({ ...data, wing: e.target.value })}
+                label="Wing"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {["FG-2", "FG-3"].map((wing, i) => (
+                  <MenuItem key={i} value={wing}>
+                    {wing}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <TextField

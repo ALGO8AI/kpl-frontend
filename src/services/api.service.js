@@ -721,7 +721,7 @@ const updateCheckingWorkerSchedule = async (datas) => {
   const data = {
     date: datas.date,
     workerId: datas.workerId,
-    shift: [],
+    shift: datas.shift,
     wing: datas.wing,
     tableId: datas.tableId,
     id: datas.id,

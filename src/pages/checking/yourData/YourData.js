@@ -10,6 +10,7 @@ import { Grid } from "@material-ui/core";
 import Worker from "./Worker";
 import Schedule from "./Schedule";
 import Supervisor from "./Supervisor";
+import NotificationLog from "../../../components/notificationLog/NotificationLog";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,8 +79,7 @@ function YourData() {
           <Tab label="Worker Detail" {...a11yProps(0)} />
           <Tab label="Worker Schedule" {...a11yProps(1)} />
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
-
-          <Tab label=" Layout" {...a11yProps(3)} />
+          <Tab label="Notification log" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -91,8 +91,8 @@ function YourData() {
       <TabPanel value={value} index={2}>
         <Supervisor />
       </TabPanel>
-      <TabPanel value={value} index={32}>
-        <div id="overlay">COMING SOON...</div>
+      <TabPanel value={value} index={3}>
+        <NotificationLog />
       </TabPanel>
     </Grid>
   );

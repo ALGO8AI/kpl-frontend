@@ -50,6 +50,7 @@ function ManageRoles() {
       if (txt) {
         const resp = await revokeUserAccess(name);
         alert(resp.msg);
+        loadData();
       }
     } catch (e) {}
   };
@@ -103,6 +104,7 @@ function ManageRoles() {
     console.log("loaddata");
     try {
       const x = await StitchingUserData();
+      console.log(x);
       setData(x.userData);
       setColumns([
         {
@@ -121,12 +123,36 @@ function ManageRoles() {
         },
 
         {
-          title: "Shift",
-          field: "shift",
+          title: "Shift A",
+          field: "shiftA",
+          render: (rowData) =>
+            Boolean(rowData.shiftA) ? (
+              <p style={{ color: "rgb(74, 170, 22)" }}>
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </p>
+            ) : (
+              <p style={{ color: "rgb(249, 54, 54)" }}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </p>
+            ),
+        },
+        {
+          title: "Shift B",
+          field: "shiftB",
+          render: (rowData) =>
+            Boolean(rowData.shiftB) ? (
+              <p style={{ color: "rgb(74, 170, 22)" }}>
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </p>
+            ) : (
+              <p style={{ color: "rgb(249, 54, 54)" }}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </p>
+            ),
         },
 
         {
-          title: "Zone",
+          title: "Line",
           field: "zone",
         },
         {
@@ -216,6 +242,8 @@ function ManageRoles() {
 
   return (
     <>
+      {/* <Grid container> */}
+      {/* <Grid container item md={12}> */}
       <MaterialTable
         title="Manage Roles"
         columns={columns}
@@ -226,11 +254,12 @@ function ManageRoles() {
             backgroundColor: "#0e4a7b",
             color: "#FFF",
           },
-          pageSizeOptions: [20, 50, 100, 200, data.length],
+          pageSizeOptions: [20, 50, 100, 200],
           pageSize: 20,
         }}
-        style={{ marginTop: "50px" }}
+        style={{ marginTop: "50px", width: "100%" }}
       />
+      {/* </Grid> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -887,6 +916,7 @@ function ManageRoles() {
           </Alert>
         </Snackbar>
       </Grid> */}
+      {/* </Grid> */}
     </>
   );
 }

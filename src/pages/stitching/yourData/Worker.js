@@ -252,6 +252,8 @@ function Worker(props) {
                 }}
                 onClick={() => {
                   setEdit(false);
+                  setUserData({ workerName: "", workerId: "", image: "" });
+
                   // setUserData({
                   //   ...userdata,
                   //   supervisorName: "",

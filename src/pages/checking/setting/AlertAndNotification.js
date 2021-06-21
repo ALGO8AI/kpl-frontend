@@ -665,7 +665,7 @@ function AlertAndNotification() {
           style={{ alignItems: "center", marginBottom: "12px" }}
         >
           <Grid item xs={2}>
-            Worker Idle
+            Worker Unavailability
           </Grid>
           <Grid item xs={2}>
             <Checkbox
@@ -761,7 +761,7 @@ function AlertAndNotification() {
           </Grid> */}
         </Grid>
 
-        <Grid
+        {/* <Grid
           container
           spacing={1}
           item
@@ -838,7 +838,7 @@ function AlertAndNotification() {
               value={feed.supervisor}
             />
           </Grid>
-          {/* <Grid item xs={2}>
+          <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
  
               <Select
@@ -851,10 +851,10 @@ function AlertAndNotification() {
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid> */}
-        </Grid>
+          </Grid>
+        </Grid> */}
 
-        <Grid
+        {/* <Grid
           container
           spacing={1}
           item
@@ -940,7 +940,7 @@ function AlertAndNotification() {
               value={machineBreak.supervisor}
             />
           </Grid>
-          {/* <Grid item xs={2}>
+          <Grid item xs={2}>
             <FormControl variant="outlined" fullWidth>
 
               <Select
@@ -955,8 +955,8 @@ function AlertAndNotification() {
                 <MenuItem value={"high"}>High</MenuItem>
               </Select>
             </FormControl>
-          </Grid> */}
-        </Grid>
+          </Grid>
+        </Grid> */}
 
         <Grid
           container

@@ -9,10 +9,14 @@ import {
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import VideoTile from "../../../components/videoTile/VideoTile";
-import { videoWallChecking } from "../../../services/api.service";
+import {
+  videoWallChecking,
+  videoWallStitching,
+} from "../../../services/api.service";
 import Loader from "../../../components/loader/Loader";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Alert } from "@material-ui/lab";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const CustomButton = withStyles(() => ({
   root: {
@@ -68,12 +72,17 @@ function VideoWall() {
             id="demo-simple-select-outlined"
             label="Current CTR"
           >
-            <MenuItem>Line 1</MenuItem>
+            <MenuItem value=""></MenuItem>
+            {["U+2", "Baffle", "Circular", "Two Row"].map((item, i) => (
+              <MenuItem value={item} key={i}>
+                {item}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
 
-      <Grid container item xs={12} sm={2}>
+      {/* <Grid container item xs={12} sm={1}>
         <FormControl variant="outlined" fullWidth>
           <InputLabel id="demo-simple-select-outlined-label">
             Supervisor
@@ -86,21 +95,27 @@ function VideoWall() {
             <MenuItem>Sup 1</MenuItem>
           </Select>
         </FormControl>
-      </Grid>
+      </Grid> */}
       <Grid container item xs={12} sm={2}>
         <CustomButton>
           <FilterListIcon />
           Filter
         </CustomButton>
       </Grid>
-      <Grid container item xs={12} sm={6}>
+      <Grid container item xs={12} sm={5}>
         <Alert>
           If Video is not available, refresh the page! To view extended video,
           Click on video.
         </Alert>
       </Grid>
+      <Grid container item xs={12} sm={2}>
+        <CustomButton onClick={() => window.location.reload()}>
+          <RefreshIcon />
+          Refresh
+        </CustomButton>
+      </Grid>
       {videos ? (
-        videos.map((x, index) => {
+        videos?.map((x, index) => {
           return (
             <VideoTile
               data={x}

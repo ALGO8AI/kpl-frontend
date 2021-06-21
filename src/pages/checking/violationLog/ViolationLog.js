@@ -734,7 +734,8 @@ function ViolationLog1() {
             >
               <Tab label="Crowding Violation" {...a11yProps(0)} />
               <Tab label="Worker Violation" {...a11yProps(1)} />
-              <Tab label="Worker Performance" {...a11yProps(2)} />
+              <Tab label="Defects" {...a11yProps(2)} />
+              <Tab label="Worker Performance" {...a11yProps(3)} />
               {/* <Tab label="By Table" {...a11yProps(3)} /> */}
             </Tabs>
           </AppBar>
@@ -927,6 +928,39 @@ function ViolationLog1() {
           </TabPanel>
 
           <TabPanel value={tabValue} index={2}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                data={state.by_worker.data}
+                rowClick={rowClick}
+                selectedRow={selectedRow}
+                columns={[
+                  { title: "Violation ID", field: "violationId" },
+                  { title: "Worker Name", field: "workerName" },
+                  {
+                    title: "Date",
+                    field: "date",
+                  },
+                  {
+                    title: "Table ID",
+                    field: "tableId",
+                  },
+                  {
+                    title: "CLP CTR",
+                    field: "clpctr",
+                  },
+                  { title: "Worker Name", field: "workerName" },
+                  { title: "Worker ID", field: "workerId" },
+                  { title: "Time", field: "time" },
+                  { title: "Defect", field: "defect" },
+                  { title: "Wing", field: "wing" },
+                  { title: "Shift", field: "shift" },
+                  { title: "Supervisor Name", field: "supervisorName" },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.by_worker.data}

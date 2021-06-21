@@ -255,15 +255,7 @@ function Worker(props) {
                 }}
                 onClick={() => {
                   setEdit(false);
-                  setUserData({
-                    ...userdata,
-                    supervisorName: "",
-                    supervisorId: "",
-                    date: "",
-                    shift: "",
-                    wing: "",
-                    line: "",
-                  });
+                  setUserData({ name: "", workerId: "", workerImage: "" });
                 }}
               >
                 CANCEL
