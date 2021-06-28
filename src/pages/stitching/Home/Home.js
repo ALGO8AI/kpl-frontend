@@ -654,7 +654,7 @@ function Home() {
             )}
           </Paper>
         </Grid>
-        <Grid container item xs={12} sm={12} lg={3}>
+        <Grid container item xs={12} sm={6} lg={3}>
           <Paper
             elevation={5}
             style={{
