@@ -14,6 +14,7 @@ import {
   crowdingInstanceData,
   ctr_machineID,
   detailedSummaryByClpCtrChecking,
+  feedInstanceData,
   homepageData,
   machineBreakdownData,
   machineData,
@@ -30,6 +31,7 @@ import DonutChartSimple from "../../../components/donutChartSimple/DonutChartSim
 import DonutChart from "../../../components/donutChart/DonutChart";
 import AreaChart from "../../../components/areaChart/AreaChart";
 import { StitchingContext } from "../../../context/StitchingContext";
+import FeedDonut from "../../../components/donutChart/FeedDonut";
 
 function Home() {
   // context
@@ -175,6 +177,14 @@ function Home() {
         });
       }
 
+      if (state.feedUtilization.loading) {
+        const x = await feedInstanceData();
+
+        dispatch({
+          type: "FEED_UTILIZATION",
+          payload: { data: x.feedUtilization, loading: false },
+        });
+      }
       if (state.homeWorkerTable.loading) {
         const homeWorkerTable = await summaryByWorkerData();
         dispatch({
@@ -578,7 +588,7 @@ function Home() {
       /> */}
 
       <Grid container xs={12} spacing={2} style={{ padding: "12px 16px" }}>
-        <Grid container item xs={12} sm={6} lg={4}>
+        <Grid container item xs={12} sm={6} lg={3}>
           <Paper
             style={{ width: "100%", padding: "8px", minHeight: "280px" }}
             elevation={5}
@@ -594,7 +604,27 @@ function Home() {
             )}
           </Paper>
         </Grid>
-        <Grid container item xs={12} sm={6} lg={4}>
+        <Grid container item xs={12} sm={6} lg={3}>
+          <Paper
+            style={{
+              width: "100%",
+              padding: "8px",
+              minHeight: "280px",
+            }}
+            elevation={5}
+          >
+            {state.feedUtilization.loading ? (
+              <Loader />
+            ) : (
+              <FeedDonut
+                data={state?.feedUtilization?.data}
+                payload_data={0}
+                link={"/stitching/violationLog"}
+              />
+            )}
+          </Paper>
+        </Grid>
+        <Grid container item xs={12} sm={6} lg={3}>
           <Paper
             style={{
               width: "100%",
@@ -624,7 +654,7 @@ function Home() {
             )}
           </Paper>
         </Grid>
-        <Grid container item xs={12} sm={12} lg={4}>
+        <Grid container item xs={12} sm={12} lg={3}>
           <Paper
             elevation={5}
             style={{

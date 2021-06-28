@@ -13,6 +13,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  feedUtilization: {
+    data: [],
+    loading: true,
+  },
   from: null,
   to: null,
   homeWorkerTable: {
@@ -65,6 +69,8 @@ let reducer = (state, action) => {
       return { ...state, workerUtilization: action.payload };
     case "CROWDING_INSTANCE":
       return { ...state, crowdingInstance: action.payload };
+    case "FEED_UTILIZATION":
+      return { ...state, feedUtilization: action.payload };
     case "FROM": {
       return { ...state, from: action.payload };
     }

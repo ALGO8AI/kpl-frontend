@@ -290,6 +290,23 @@ const crowdingInstanceData = async (fromDate, toDate) => {
   );
 };
 
+const feedInstanceData = async (fromDate, toDate, ctr, machine, shift) => {
+  const data = {
+    clpctr: ctr,
+    machineId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/home/feedUtilization",
+    true,
+    data
+  );
+};
+
 const crowdingInstanceCheckingData = async (fromDate, toDate) => {
   return await callBackend(
     "POST",
@@ -1240,4 +1257,5 @@ export {
   analyticsMachineStatusByDuration,
   analyticsMachineStatusByDurationAndMachineID,
   analyticsMachineStatusByOperation,
+  feedInstanceData,
 };
