@@ -76,7 +76,7 @@ function FeedDonut(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total working hours", "Worker Unavailable", "feed unavailable"],
+    labels: ["Total Time", "Feed Unavailable", "Others"],
 
     plotOptions: {
       pie: {
@@ -188,35 +188,9 @@ function FeedDonut(props) {
                   ? props?.data?.feedUnavailibilityDuration
                   : 0,
                 Boolean(props.other) ? props.other : 0,
-
-                // Math.round(
-                //   props.totalTime -
-                //     (props.idleDueToWorkerUnavailable +
-                //       props.feedUnavailibilityDuration +
-                //       props.other)
-                // ),
-                // props.idleDueToWorkerUnavailable,
-                // props.feedUnavailibilityDuration,
-                // props.other,
               ]}
               type="donut"
             />
-            {/* <p>
-            % Actual Working Hour{" "}
-            {Math.round(
-              (props.totalTime -
-                props.idleDueToWorkerUnavailable +
-                props.feedUnavailibilityDuration +
-                props.other) /
-                (props.totalTime -
-                  props.idleDueToWorkerUnavailable +
-                  props.feedUnavailibilityDuration +
-                  props.other +
-                  props.idleDueToWorkerUnavailable +
-                  props.feedUnavailibilityDuration +
-                  props.other)
-            )}
-          </p> */}
           </div>
         </div>
         <div className="rightTile">
@@ -244,7 +218,7 @@ function FeedDonut(props) {
                 }}
               >
                 {" "}
-                Total Working Hours{" "}
+                Total Time{" "}
               </p>
             </div>
             <div
@@ -263,12 +237,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {Math.round(
-                  props.totalTime -
-                    (props.idleDueToWorkerUnavailable +
-                      props.feedUnavailibilityDuration +
-                      props.other)
-                )}
+                {Math.round(props.data.totalTime)}
               </h6>
             </div>
           </div>
@@ -296,7 +265,7 @@ function FeedDonut(props) {
                 }}
               >
                 {" "}
-                Worker Unavailable{" "}
+                Feed Unavailable{" "}
               </p>
             </div>
             <div
@@ -315,7 +284,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.idleDueToWorkerUnavailable}
+                {props?.data?.feedUnavailibilityDuration}
               </h6>
             </div>
           </div>
@@ -342,7 +311,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                Feed Unavailable
+                Other
               </p>
             </div>
             <div
@@ -361,46 +330,10 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.feedUnavailibilityDuration}
+                {props.data.other}
               </h6>
             </div>
           </div>
-          {/* <div class="center-text">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <span
-                className="dots dotRed"
-                style={{
-                  display: "block",
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "4px",
-                }}
-              ></span>
-              <p>Idle-Other</p>
-            </div>
-            <div
-              style={{
-                backgroundColor: "#FEEFEA",
-                width: "auto",
-                padding: "8px 0px",
-                borderRadius: "8px",
-              }}
-            >
-              <h6
-                style={{
-                  color: "#F16230",
-                  textAlign: "center",
-                }}
-              >
-                {props.other}
-              </h6>
-            </div>
-          </div> */}
         </div>
       </div>
       <div>
@@ -433,7 +366,7 @@ function FeedDonut(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Math.round(props.data?.utilizationPercentage)}
+            {Math.round(props.data?.utilizationPercentage) + "%"}
           </span>
         </Typography>
       </div>

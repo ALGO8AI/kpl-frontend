@@ -84,6 +84,12 @@ function Home() {
         payload: { data: x.machineBreakdownData, loading: false },
       });
 
+      const feedUtil = await feedInstanceData();
+      dispatch({
+        type: "FEED_UTILIZATION",
+        payload: { data: feedUtil.feedUtilization, loading: false },
+      });
+
       const y = await workerUtilizationData();
       dispatch({
         type: "WORKER_UTILIZATION",
@@ -249,7 +255,7 @@ function Home() {
             : machineID.map((item) => item.machineID),
           inputSHIFT
         );
-        console.log(x);
+        // console.log(x);
         dispatch({
           type: "WORKER_UTILIZATION",
           payload: { data: x.workerUtilization, loading: false },
@@ -262,6 +268,23 @@ function Home() {
           type: "CROWDING_INSTANCE",
           payload: { data: y.crowdingInstancesData, loading: false },
         });
+
+        // if (state.feedUtilization.loading) {
+        const feed = await feedInstanceData(
+          state.from,
+          state.to,
+          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+          inputMACHINEid.length > 0
+            ? inputMACHINEid
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
+        );
+
+        dispatch({
+          type: "FEED_UTILIZATION",
+          payload: { data: feed.feedUtilization, loading: false },
+        });
+        // }
 
         const z = await machineBreakdownData(
           state.from,
