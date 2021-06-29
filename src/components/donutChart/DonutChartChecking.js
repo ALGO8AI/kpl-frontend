@@ -76,7 +76,7 @@ function DonutChartChecking(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total working hours", "Worker Unavailable", "feed unavailable"],
+    labels: ["Total working hours", "Worker Unavailable", "Other"],
     plotOptions: {
       pie: {
         donut: {
@@ -180,20 +180,8 @@ function DonutChartChecking(props) {
             <Chart
               options={options}
               series={[
-                Boolean(
-                  Math.round(
-                    props.totalTime -
-                      (props.idleDueToWorkerUnavailable +
-                        props.feedUnavailibilityDuration +
-                        props.other)
-                  )
-                )
-                  ? Math.round(
-                      props.totalTime -
-                        (props.idleDueToWorkerUnavailable +
-                          props.feedUnavailibilityDuration +
-                          props.other)
-                    )
+                Boolean(Math.round(props.totalTime))
+                  ? Math.round(props.totalTime)
                   : 0,
                 Boolean(props.idleDueToWorkerUnavailable)
                   ? props.idleDueToWorkerUnavailable
@@ -277,12 +265,7 @@ function DonutChartChecking(props) {
                   fontSize: "14px",
                 }}
               >
-                {Math.round(
-                  props.totalTime -
-                    (props.idleDueToWorkerUnavailable +
-                      props.feedUnavailibilityDuration +
-                      props.other)
-                )}
+                {Math.round(props.totalTime)}
               </h6>
             </div>
           </div>
@@ -356,7 +339,7 @@ function DonutChartChecking(props) {
                   fontSize: "14px",
                 }}
               >
-                Feed Unavailable
+                Other
               </p>
             </div>
             <div
@@ -375,7 +358,7 @@ function DonutChartChecking(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.feedUnavailibilityDuration}
+                {props.other}
               </h6>
             </div>
           </div>
@@ -423,7 +406,7 @@ function DonutChartChecking(props) {
           style={{
             margin: "auto",
             position: "relative",
-            left: "25%",
+            textAlign: "center",
             color: "#f68f1d",
           }}
         >
@@ -438,23 +421,14 @@ function DonutChartChecking(props) {
           style={{
             margin: "auto",
             position: "relative",
-            left: "25%",
+            textAlign: "center",
             color: "#f68f1d",
           }}
         >
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Math.round(
-              (Math.round(
-                props.totalTime -
-                  (props.idleDueToWorkerUnavailable +
-                    props.feedUnavailibilityDuration +
-                    props.other)
-              ) *
-                100) /
-                Math.round(props.totalTime)
-            ) + "%"}
+            {Math.round(props.utilizationPercentage) + "%"}
           </span>
         </Typography>
       </div>
