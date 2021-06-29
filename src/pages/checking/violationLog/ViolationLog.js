@@ -330,11 +330,15 @@ function ViolationLog1() {
 
   const handleTabChange = (event, newValue) => {
     // console.log(newValue);
-    setTabValue(newValue);
+    // setTabValue(newValue);
+    dispatch({ type: "VIOLATION_TAB", payload: newValue });
+    setLink("");
+    setImg("");
+    setIdLabel();
   };
 
   const rowClick = (event, rowData) => {
-    setLink(null);
+    // setLink(null);
     setLink(rowData.video);
     setImg(rowData.img);
     setIdLabel(rowData.Id);
@@ -549,7 +553,7 @@ function ViolationLog1() {
                 Violation Id:{" "}
                 <span style={{ fontWeight: "bold" }}>{idLabel}</span>
               </Typography>
-              {link ? (
+              {link && (
                 <ReactPlayer
                   key={link}
                   url={link.replace(".avi", ".mp4")}
@@ -564,32 +568,34 @@ function ViolationLog1() {
                     alignItems: "center",
                   }}
                 />
-              ) : (
-                <Grid
-                  xs={12}
-                  style={{
-                    backgroundColor: "black",
-                    color: "#fff",
-                    minHeight: "240px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <PlayCircleOutlineIcon />
-                  <Grid xs={12} md={6}>
-                    Select to view the violation video
-                  </Grid>
-                  <Typography
-                    variant="h6"
-                    style={{ color: "#0e4a7b", padding: "6px" }}
-                  >
-                    Note: If The video is unable to play, it might be under
-                    Process.
-                  </Typography>
-                </Grid>
-              )}
+              )
+              // : (
+              // <Grid
+              //   xs={12}
+              //   style={{
+              //     backgroundColor: "black",
+              //     color: "#fff",
+              //     minHeight: "240px",
+              //     display: "flex",
+              //     flexDirection: "column",
+              //     justifyContent: "center",
+              //     alignItems: "center",
+              //   }}
+              // >
+              //   <PlayCircleOutlineIcon />
+              //   <Grid xs={12} md={6}>
+              //     Select to view the violation video
+              //   </Grid>
+              //   <Typography
+              //     variant="h6"
+              //     style={{ color: "#0e4a7b", padding: "6px" }}
+              //   >
+              //     Note: If The video is unable to play, it might be under
+              //     Process.
+              //   </Typography>
+              // </Grid>
+              // )
+              }
             </Grid>
           ) : null}
         </Grid>
@@ -726,7 +732,7 @@ function ViolationLog1() {
         <Grid item xs={12} md={12} style={{ padding: "1rem" }}>
           <AppBar position="static" className="customTab">
             <Tabs
-              value={tabValue}
+              value={state.violationTab}
               onChange={handleTabChange}
               aria-label="simple tabs example"
               variant="scrollable"
@@ -740,7 +746,7 @@ function ViolationLog1() {
             </Tabs>
           </AppBar>
 
-          <TabPanel value={tabValue} index={0}>
+          <TabPanel value={state.violationTab} index={0}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.crowd.data}
@@ -834,7 +840,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel value={state.violationTab} index={1}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.worker.data}
@@ -927,7 +933,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={2}>
+          <TabPanel value={state.violationTab} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.by_worker.data}
@@ -960,7 +966,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={3}>
+          <TabPanel value={state.violationTab} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.by_worker.data}
