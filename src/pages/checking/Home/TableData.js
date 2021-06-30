@@ -94,6 +94,21 @@ function TableData({
                   width: 240,
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
+                  hide: true,
+                },
+                {
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                  width: 240,
+
+                  // hide: true,
+                },
+                {
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavPercentage",
+                  width: 240,
+
+                  // hide: true,
                 },
                 { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 // { width:240,headerName: "Feed Unavailable Hrs.", field: "feedUnav" },
@@ -159,6 +174,21 @@ function TableData({
                   width: 240,
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
+                  hide: true,
+                },
+                {
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                  width: 240,
+
+                  // hide: true,
+                },
+                {
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavPercentage",
+                  width: 240,
+
+                  // hide: true,
                 },
                 { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 // { width:240,headerName: "Feed Unavailable Hrs.", field: "feedUnav" },

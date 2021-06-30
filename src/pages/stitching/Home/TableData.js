@@ -120,6 +120,25 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 7
                       : 1280 / 7,
+                  hide: true,
+                },
+                {
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                  // hide: true,
+                },
+                {
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavPercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                  // hide: true,
                 },
                 {
                   headerName: "Idle Hrs.",
@@ -145,7 +164,11 @@ function TableData({
                       ? table1?.current?.offsetWidth / 7
                       : 1280 / 7,
                 },
-                // { headerName: "Shift", field: "shift" },
+                {
+                  headerName: "Shift",
+                  field: "shift",
+                  hide: true,
+                },
               ]}
             />
           </Grid>
@@ -193,6 +216,25 @@ function TableData({
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
                   width: 240,
+                  hide: true,
+                },
+                {
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                  // hide: true,
+                },
+                {
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavPercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                  // hide: true,
                 },
                 { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
                 {
@@ -250,6 +292,25 @@ function TableData({
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
                   width: 240,
+                  hide: true,
+                },
+                {
+                  headerName: "Worker Unavailable %",
+                  field: "WorkerUnavailablePercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                  // hide: true,
+                },
+                {
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavailablePercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 7
+                      : 1280 / 7,
+                  // hide: true,
                 },
                 { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
                 {

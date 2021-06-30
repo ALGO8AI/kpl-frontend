@@ -218,8 +218,8 @@ const videoWallCutting = async () => {
   return await callBackend("GET", "routes/videoWall/cutting");
 };
 
-const getYourData = async () => {
-  return await callBackend("GET", "routes/yourData");
+const getYourData = async (data) => {
+  return await callBackend("POST", "routes/yourData", true, data);
 };
 
 const getViolationDetailData = async (id) => {
@@ -273,6 +273,29 @@ const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
   return await callBackend(
     "POST",
     "routes/KPI/home/workerUtilization",
+    true,
+    data
+  );
+};
+const checkingWorkerUtilizationData = async (
+  fromDate,
+  toDate,
+  ctr,
+  table,
+  shift
+) => {
+  const data = {
+    clpctr: ctr,
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts: [],
+    username: localStorage.getItem("kpl_username"),
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/workerUtilization",
     true,
     data
   );
@@ -762,6 +785,8 @@ const getForgetPasswordLink = async (data) => {
   };
 
   return await axios(config);
+  // console.log(data);
+  // return await callBackend("POST", "routes/auth", true, data);
 };
 
 const getNotificationLog = async (filterDateFrom, filterDateTo) => {
@@ -797,8 +822,13 @@ const updatePassword = async (data) => {
   return await axios(config);
 };
 
-const getStitchingSupervisorSchedule = async () => {
-  return await callBackend("GET", "routes/stitching/supervisorSchedule/all");
+const getStitchingSupervisorSchedule = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/stitching/supervisorSchedule/all",
+    true,
+    data
+  );
 };
 
 const getStitchingSupervisorCopy = async () => {
@@ -1258,4 +1288,5 @@ export {
   analyticsMachineStatusByDurationAndMachineID,
   analyticsMachineStatusByOperation,
   feedInstanceData,
+  checkingWorkerUtilizationData,
 };

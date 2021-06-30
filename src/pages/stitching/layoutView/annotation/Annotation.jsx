@@ -104,7 +104,7 @@ export const AnnotationPage = observer((props) => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs={8}>
-          <h1
+          {/* <h1
             className={classes.heading}
             style={{ cursor: "pointer" }}
             onClick={() => history.push("/stitching/setting")}
@@ -118,7 +118,7 @@ export const AnnotationPage = observer((props) => {
               ></i>
             </span>
             Annotation Tool
-          </h1>
+          </h1> */}
         </Grid>
         <Grid item xs={12} sm={2}>
           <Paper className={classes.paper}> view</Paper>

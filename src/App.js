@@ -22,15 +22,22 @@ import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetails";
 import socketIOClient from "socket.io-client";
 import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
-const ENDPOINT = "http://3.23.114.42:3000";
+import axios from "axios";
+const ENDPOINT = "http://3.23.114.42:2020/";
 // const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
-const socket = socketIOClient(ENDPOINT);
+// const socket = socketIOClient(ENDPOINT);
 
 function App(props) {
   // console.log(props);
   const { state, dispatch } = useContext(KPLContext);
+  // useEffect(() => {
+  //   console.log("Socket");
+  //   const socket = socketIOClient(ENDPOINT);
+  //   socket.on("StitchingNotification", (data) => {
+  //     console.log(data);
+  //   });
+  // }, []);
   useEffect(() => {
-    console.log(document.html);
     // document.html.style.zoom = "75%";
     const ROLE = localStorage.getItem("ROLE");
     ROLE && dispatch({ type: "ADD_ROLE", payload: ROLE });
@@ -41,8 +48,8 @@ function App(props) {
     const PROFILE = localStorage.getItem("PROFILE");
     PROFILE && dispatch({ type: "ADD_PROFILE", payload: JSON.parse(PROFILE) });
 
-    //socket
-    // socket.on("machineAlert", (resp) => {
+    // socket
+    // socket.on("realTime-notification", (resp) => {
     //   console.log("Socket On");
     //   console.log(resp);
     //   if (window.Notification) {
@@ -58,39 +65,47 @@ function App(props) {
     // });
   }, []);
 
-  // setInterval(() => {
-  //   console.log('Interval triggered');
-  //   if (window.Notification) {
-  //     Notification.requestPermission(() => {
-  //       if (Notification.permission === 'granted') {
-  //         navigator.serviceWorker.register('./worker.js')
-  //           .then((worker) => {
-  //             worker.showNotification('Hello world!');
-  //           });
-  //       }
-  //     });
-  //   }
-  // }, 10000);
-
   // if (window.Notification) {
   //   Notification.requestPermission(() => {
-  //     if (Notification.permission === 'granted') {
-  //       navigator.serviceWorker.register('./worker.js')
+  //     if (Notification.permission === "granted") {
+  //       navigator.serviceWorker
+  //         .register("./serviceWorker.js")
   //         .then(async (worker) => {
-  //           await axios.post(`http://localhost:8081/routes/notification/subscribeMachineAlert`)
-  //             .then(response => {
+  //           await axios
+  //             .get(`http://3.23.114.42:2020/`)
+  //             .then((response) => {
   //               if (response.status == 200) {
-  //                 console.log(response.data.message)
+  //                 console.log(response.data.message);
   //                 worker.showNotification(response.data.message);
   //               }
-  //             }).catch(err => {
-  //               console.log(err)
   //             })
-
+  //             .catch((err) => {
+  //               console.log(err);
+  //             });
   //         });
   //     }
   //   });
   // }
+
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     console.log("Interval triggered");
+  //     if (window.Notification) {
+  //       Notification.requestPermission(() => {
+  //         if (Notification.permission === "granted") {
+  //           navigator.serviceWorker.register("./worker.js").then((worker) => {
+  //             worker.showNotification("Socket On");
+  //             const socket = socketIOClient(ENDPOINT);
+  //             socket.on("StitchingNotification", (data) => {
+  //               console.log(data);
+  //             });
+  //           });
+  //         }
+  //       });
+  //     }
+  //     return () => socket.disconnect();
+  //   }, 10000);
+  // }, []);
 
   return (
     <>

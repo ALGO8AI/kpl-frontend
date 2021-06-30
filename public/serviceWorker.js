@@ -35,9 +35,9 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// self.addEventListener('push', event => {
-//   const data = event.data.json();
-//   self.registration.showNotification(data.title, {
-//     body: data.body,
-//   });
-// });
+self.addEventListener("push", (event) => {
+  const data = event.data.json();
+  self.registration.showNotification(data.title, {
+    body: data.body,
+  });
+});

@@ -55,12 +55,13 @@ function ForgetPassword() {
       const resp = await getForgetPasswordLink(data);
       console.log(resp);
       setOpen(true);
-      setMsg(resp.data.msg);
+      setMsg(resp.data.message);
       setSeverity("success");
       setTimeout(() => {
         history.push("/");
       }, 2500);
     } catch (e) {
+      console.log(e);
       setOpen(true);
       setMsg(e.message);
       setSeverity("error");

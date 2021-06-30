@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
+    <script></script>
     <link rel="apple-touch-icon" href="./icon.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -25,7 +26,8 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!-- <script>
+    <script src="http://3.23.114.42:2020/socket.io/socket.io.js"></script>
+    <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
@@ -34,7 +36,17 @@
             .catch((err) => console.log("Failure :" + err));
         });
       }
-    </script> -->
+    </script>
+    <script>
+      var socket = io();
+      console.log(socket.on);
+      socket.on("StitchingNotification", function(msg) {
+        console.log(msg);
+      });
+      socket.on("realTime-notification", function(msg) {
+        console.log(msg);
+      });
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

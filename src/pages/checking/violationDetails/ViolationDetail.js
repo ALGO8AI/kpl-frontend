@@ -761,12 +761,12 @@ function ViolationDetail(props) {
                   />
                 )}
                 {/* ACTUAL SUPERVISOR */}
-                {data?.actualSupervisor && (
+                {/* {data?.actualSupervisor && (
                   <NameValue
                     name="ACTUAL SUPERVISOR"
                     value={data && data.actualSupervisor}
                   />
-                )}
+                )} */}
                 {/* REASSIGNED SUPERVISOR */}
                 {data?.reassignedSupervisor && (
                   <NameValue

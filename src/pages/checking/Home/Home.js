@@ -18,7 +18,7 @@ import {
   detailedSummaryByTableChecking,
   summaryByViolationData,
   detailedSummaryByWorkerChecking,
-  workerUtilizationData,
+  checkingWorkerUtilizationData,
 } from "../../../services/api.service";
 import GraphData from "./GraphData";
 import TableData from "./TableData";
@@ -61,7 +61,7 @@ export default function Home() {
     });
 
     try {
-      const y = await workerUtilizationData();
+      const y = await checkingWorkerUtilizationData();
       dispatch({
         type: "WORKER_UTILIZATION",
         payload: { data: y.workerUtilization, loading: false },
@@ -146,7 +146,7 @@ export default function Home() {
   const loadData = async () => {
     try {
       if (state.workerUtilization.loading) {
-        const y = await workerUtilizationData();
+        const y = await checkingWorkerUtilizationData();
         console.log(y);
         dispatch({
           type: "WORKER_UTILIZATION",
@@ -220,7 +220,7 @@ export default function Home() {
     else if (!state.to) alert("To Date not Selected!");
     else {
       try {
-        const x = await workerUtilizationData(
+        const x = await checkingWorkerUtilizationData(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),

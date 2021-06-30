@@ -23,6 +23,8 @@ import {
   Switch,
 } from "@material-ui/core";
 import { NextWeekRounded } from "@material-ui/icons";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -33,10 +35,23 @@ function Schedule(props) {
   const [open, setOpen] = React.useState(false);
   const [severity, setSeverity] = React.useState(false);
   const [msg, setMsg] = React.useState(false);
+  const [inputData, setInputData] = React.useState({
+    filterDateFrom: "",
+    filterDateTo: "",
+  });
 
   const loadData = async () => {
     try {
       const x = await getYourData();
+      console.log(x);
+
+      setData(x.latestScheduleData);
+    } catch (err) {}
+  };
+
+  const filterData = async () => {
+    try {
+      const x = await getYourData(inputData);
       console.log(x);
 
       setData(x.latestScheduleData);
@@ -220,7 +235,77 @@ function Schedule(props) {
           &nbsp;Upload Schedule
         </div>
       </Grid>
-      <Grid item md={8} xs={12}>
+      <Grid container item md={8} xs={12}>
+        <Grid
+          container
+          item
+          xs={12}
+          style={{
+            padding: "4px",
+            marginBottom: "12px",
+          }}
+        >
+          <Grid container item xs={6} md={4}>
+            <TextField
+              key="from"
+              id="fromDate"
+              label="From"
+              value={inputData.filterDateFrom}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) =>
+                setInputData({ ...inputData, filterDateFrom: e.target.value })
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid container item xs={6} md={4}>
+            <TextField
+              key="to"
+              id="fromDate"
+              label="To"
+              value={inputData.filterDateTo}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) =>
+                setInputData({ ...inputData, filterDateTo: e.target.value })
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <Button variant="contained" color="primary" onClick={filterData}>
+              <FilterListIcon />
+              Filter
+            </Button>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <Button variant="contained" color="primary" onClick={loadData}>
+              <RefreshIcon />
+              Refresh
+            </Button>
+          </Grid>
+        </Grid>
         <Button
           variant="contained"
           style={{

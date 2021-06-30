@@ -16,6 +16,7 @@ import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 import { LayoutView } from "../layoutView/LayoutView";
+import { AnnotationPage } from "../layoutView/annotation/Annotation";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -120,7 +121,7 @@ function Setting() {
       </TabPanel> */}
 
       <TabPanel value={value} index={2}>
-        <LayoutView />
+        <AnnotationPage />
       </TabPanel>
     </Grid>
   );
