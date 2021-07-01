@@ -410,7 +410,7 @@ function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
@@ -446,7 +446,7 @@ function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
@@ -484,7 +484,7 @@ function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
@@ -508,7 +508,7 @@ function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center", marginBottom: "8px" }}

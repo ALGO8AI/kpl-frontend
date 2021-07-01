@@ -208,7 +208,7 @@ function ViolationLog1() {
           : machineID.map((item) => item.machineID),
         inputSHIFT
       );
-      console.log(machineViolation);
+      // console.log(machineViolation);
       dispatch({
         type: "MACHINE_VIO",
         payload: {
@@ -502,7 +502,7 @@ function ViolationLog1() {
             alignItems: "center",
           }}
         >
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid item xs={6} sm={6} md={2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -533,7 +533,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid item xs={6} sm={6} md={2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -564,7 +564,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid item xs={6} sm={6} md={2}>
             <TextField
               id="fromDate"
               label="From"
@@ -582,7 +582,7 @@ function ViolationLog1() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid item xs={6} sm={6} md={2}>
             <TextField
               id="toDate"
               label="To"

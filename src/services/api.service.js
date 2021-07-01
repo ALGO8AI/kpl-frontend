@@ -84,7 +84,7 @@ const workerUnavailableViolation = async (
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -128,7 +128,7 @@ const feedUnavailableViolation = async (
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   console.log(data);
@@ -146,7 +146,7 @@ const crowdingViolation = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -178,7 +178,7 @@ const violationByWorkerF = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -266,7 +266,7 @@ const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: shift,
     username: localStorage.getItem("kpl_username"),
   };
   console.log(data);
@@ -319,7 +319,7 @@ const feedInstanceData = async (fromDate, toDate, ctr, machine, shift) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: shift,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -346,15 +346,15 @@ const summaryByViolationData = async (
   fromDate,
   toDate,
   ctr,
-  machine
-  // shifts
+  machine,
+  shifts
 ) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -371,7 +371,7 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -387,7 +387,7 @@ const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
@@ -404,7 +404,7 @@ const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts: shifts,
     username: localStorage.getItem("kpl_username"),
   };
 
@@ -578,7 +578,7 @@ const getMachineViolation = async (
     filterDateFrom,
     filterDateTo,
     machineId,
-    shifts: [],
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
