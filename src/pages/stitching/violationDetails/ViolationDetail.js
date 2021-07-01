@@ -17,6 +17,7 @@ import {
   WORKER_UnavailableViolation,
   violationComment,
   communicatedTo,
+  getAllSupervisorList,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -162,6 +163,9 @@ function ViolationDetail(props) {
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [VIOLATION, setVIOLATION] = useState([]);
   const [communicated, setCommunicated] = useState("");
+  const [supervisor, setSupervisor] = useState("");
+  const [newSupervisor, setNewSupervisor] = useState("");
+  const [closedBy, setClosedBy] = useState("");
 
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
@@ -184,6 +188,7 @@ function ViolationDetail(props) {
       const x = await getViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
+      setNewSupervisor(x.volIdData[0].supervisor.split(" ")[0]);
       setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
         setReason(x.volIdData[0].violationReason);
@@ -232,9 +237,18 @@ function ViolationDetail(props) {
     }
   };
 
+  const getSupervisor = async () => {
+    try {
+      const resp = await getAllSupervisorList();
+      console.log(resp);
+      setSupervisor(resp);
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getData();
     getRecentData();
+    getSupervisor();
     return () => {
       setReason("");
       setReason1("");
@@ -714,6 +728,7 @@ function ViolationDetail(props) {
                 xs={12}
                 sm={12}
                 md={12}
+                style={{ alignItems: "center" }}
               >
                 {/* WORKER NAME */}
                 {data?.workerName && (
@@ -755,12 +770,114 @@ function ViolationDetail(props) {
                   <NameValue name="LINE" value={data && data.line} />
                 )}
                 {/* SUPERVISOR */}
-                {data?.supervisor && (
+                {data && (
+                  <>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Key"
+                    >
+                      SUPERVISOR
+                    </Grid>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Value"
+                    >
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginRight: "6px" }}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          Supervisor
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={newSupervisor}
+                          onChange={(e) => setNewSupervisor(e.target.value)}
+                          label="Supervisor"
+                          // multiple
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {supervisor.length > 0 &&
+                            supervisor?.map((item, index) => (
+                              <MenuItem value={item.username} key={index}>
+                                {item.username}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </>
+                )}
+
+                {/* CLOSED BY*/}
+                {data && (
+                  <>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Key"
+                    >
+                      VIOLATION CLOSED
+                    </Grid>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Value"
+                    >
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginRight: "6px" }}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          Supervisor
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={closedBy}
+                          onChange={(e) => setClosedBy(e.target.value)}
+                          label="Supervisor"
+                          // multiple
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {supervisor.length > 0 &&
+                            supervisor?.map((item, index) => (
+                              <MenuItem value={item.username} key={index}>
+                                {item.username}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </>
+                )}
+                {/* {data?.supervisor && (
                   <NameValue
                     name="SUPERVISOR"
                     value={data && data.supervisor}
                   />
-                )}
+                )} */}
                 {/* ACTUAL SUPERVISOR */}
                 {/* {data?.actualSupervisor && (
                   <NameValue
@@ -769,12 +886,12 @@ function ViolationDetail(props) {
                   />
                 )} */}
                 {/* REASSIGNED SUPERVISOR */}
-                {data?.reassignedSupervisor && (
+                {/* {data?.reassignedSupervisor && (
                   <NameValue
                     name="REASSIGNED SUPERVISOR"
                     value={data && data.reassignedSupervisor}
                   />
-                )}
+                )} */}
               </Grid>
             </Grid>
             <Grid
@@ -904,7 +1021,7 @@ function ViolationDetail(props) {
                   />
                 )}
               </Grid>
-              <Grid
+              {/* <Grid
                 container
                 item
                 xs={12}
@@ -927,7 +1044,7 @@ function ViolationDetail(props) {
                   fullWidth
                   style={{ marginBottom: "12px" }}
                 />
-              </Grid>
+              </Grid> */}
 
               {/* COMMUNICATED TO */}
               <Grid

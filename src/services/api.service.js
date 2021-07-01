@@ -1199,6 +1199,10 @@ const analyticsMachineStatusByOperation = async (
   );
 };
 
+const getAllSupervisorList = async () => {
+  return await callBackend("POST", "routes/supervisor/allSupervisors", true);
+};
+
 export {
   login,
   getViolation,
@@ -1289,4 +1293,5 @@ export {
   analyticsMachineStatusByOperation,
   feedInstanceData,
   checkingWorkerUtilizationData,
+  getAllSupervisorList,
 };

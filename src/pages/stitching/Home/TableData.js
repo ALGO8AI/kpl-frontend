@@ -431,29 +431,65 @@ function TableData({
                   field: "id",
                   headerName: "DataTableID",
                   hide: true,
-                  width: 240,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
                 },
                 { headerName: "CLPCTR", field: "clp", width: 240 },
                 {
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
-                  width: 240,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
                 },
                 {
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
-                  width: 240,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  hide: true,
+                },
+                {
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  // hide: true,
+                },
+                {
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavPercentage",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  // hide: true,
                 },
                 { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
                 {
                   headerName: "Worker Unavailable Hrs.",
                   field: "WorkerUnavailableHours",
-                  width: 240,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  hide: true,
                 },
                 {
                   headerName: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
-                  width: 240,
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  hide: true,
                 },
                 // { headerName: "Shift", field: "shift" },
               ]}
