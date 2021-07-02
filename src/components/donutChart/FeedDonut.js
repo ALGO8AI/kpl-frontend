@@ -76,7 +76,7 @@ function FeedDonut(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total Time", "Feed Unavailable", "Others"],
+    labels: ["Total Scheduled Hrs", "Feed Unavailable", "Others"],
 
     plotOptions: {
       pie: {
@@ -181,9 +181,7 @@ function FeedDonut(props) {
             <Chart
               options={options}
               series={[
-                Boolean(Math.round(props.data.totalTime))
-                  ? Math.round(props.data.totalTime)
-                  : 0,
+                Boolean(props.data.totalTime) ? props.data.totalTime : 0,
                 Boolean(props?.data?.feedUnavailibilityDuration)
                   ? props?.data?.feedUnavailibilityDuration
                   : 0,
@@ -218,7 +216,7 @@ function FeedDonut(props) {
                 }}
               >
                 {" "}
-                Total Time{" "}
+                Total Scheduled Hrs{" "}
               </p>
             </div>
             <div
@@ -237,7 +235,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {Math.round(props.data.totalTime)}
+                {props.data.totalTime}
               </h6>
             </div>
           </div>
@@ -347,9 +345,9 @@ function FeedDonut(props) {
             color: "#f68f1d",
           }}
         >
-          Total Time{" "}
+          Total Scheduled Hrs.{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {Math.round(props.data.totalTime)}
+            {props.data.totalTime}
           </span>
         </Typography>
 

@@ -181,9 +181,7 @@ function DonutChart(props) {
             <Chart
               options={options}
               series={[
-                Boolean(Math.round(props.totalTime))
-                  ? Math.round(props.totalTime)
-                  : 0,
+                Boolean(props.totalTime) ? props.totalTime : 0,
                 Boolean(props.idleDueToWorkerUnavailable)
                   ? props.idleDueToWorkerUnavailable
                   : 0,
@@ -266,7 +264,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {Math.round(props.totalTime)}
+                {props.totalTime}
               </h6>
             </div>
           </div>
@@ -414,7 +412,7 @@ function DonutChart(props) {
         >
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {Math.round(props.totalTime)}
+            {props.totalTime}
           </span>
         </Typography>
 
