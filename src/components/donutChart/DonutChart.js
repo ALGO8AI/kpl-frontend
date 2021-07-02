@@ -280,7 +280,7 @@ function DonutChart(props) {
                 }}
               >
                 {" "}
-                Worker Unavailable{" "}
+                Worker Unavailable Hours{" "}
               </p>
             </div>
             <div
@@ -326,7 +326,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                Balance Hours
+                Worker Available Hours
               </p>
             </div>
             <div

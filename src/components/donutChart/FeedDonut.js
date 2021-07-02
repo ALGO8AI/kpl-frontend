@@ -263,7 +263,7 @@ function FeedDonut(props) {
                 }}
               >
                 {" "}
-                Feed Unavailable{" "}
+                Feed Unavailable Hours{" "}
               </p>
             </div>
             <div
@@ -309,7 +309,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                Balance Hours
+                Feed Available Hours
               </p>
             </div>
             <div
