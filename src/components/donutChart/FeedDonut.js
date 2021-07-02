@@ -76,7 +76,7 @@ function FeedDonut(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total Scheduled Hours", "Feed Unavailable", "Others"],
+    labels: ["Total Scheduled Hours", "Feed Unavailable", "Balance Hours"],
 
     plotOptions: {
       pie: {
@@ -185,7 +185,7 @@ function FeedDonut(props) {
                 Boolean(props?.data?.feedUnavailibilityDuration)
                   ? props?.data?.feedUnavailibilityDuration
                   : 0,
-                Boolean(props.other) ? props.other : 0,
+                Boolean(props.data.balanceHours) ? +props.data.balanceHours : 0,
               ]}
               type="donut"
             />
@@ -309,7 +309,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                Other
+                Balance Hours
               </p>
             </div>
             <div
@@ -328,7 +328,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.data.other}
+                {props.data.balanceHours}
               </h6>
             </div>
           </div>

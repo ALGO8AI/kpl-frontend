@@ -76,7 +76,7 @@ function DonutChart(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total working hours", "Worker Unavailable", "Other"],
+    labels: ["Total working hours", "Worker Unavailable", "Balance Hours"],
 
     plotOptions: {
       pie: {
@@ -185,20 +185,8 @@ function DonutChart(props) {
                 Boolean(props.idleDueToWorkerUnavailable)
                   ? props.idleDueToWorkerUnavailable
                   : 0,
-                Boolean(props.feedUnavailibilityDuration)
-                  ? props.feedUnavailibilityDuration
-                  : 0,
-                Boolean(props.other) ? props.other : 0,
 
-                // Math.round(
-                //   props.totalTime -
-                //     (props.idleDueToWorkerUnavailable +
-                //       props.feedUnavailibilityDuration +
-                //       props.other)
-                // ),
-                // props.idleDueToWorkerUnavailable,
-                // props.feedUnavailibilityDuration,
-                // props.other,
+                Boolean(props.other) ? +props.other : 0,
               ]}
               type="donut"
             />
@@ -338,7 +326,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                Other
+                Balance Hours
               </p>
             </div>
             <div

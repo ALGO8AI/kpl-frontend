@@ -667,7 +667,7 @@ function Home() {
                 feedUnavailibilityDuration={
                   state?.workerUtilization?.data?.feedUnavailibilityDuration
                 }
-                other={state?.workerUtilization?.data?.other}
+                other={state?.workerUtilization?.data?.balanceHours}
                 utilizationPercentage={
                   state?.workerUtilization?.data?.utilizationPercentage
                 }
