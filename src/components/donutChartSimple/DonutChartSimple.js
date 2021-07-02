@@ -75,8 +75,12 @@ function DonutChartSimple({ data, payload_data, link }) {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#094573", "#ffce38", "#ffa643"],
-    labels: ["Machine OnTime", "Machine OffTime", "Machine Breakdown Time"],
+    colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
+    labels: [
+      "Max Scheduled Hours",
+      "Machine OffTime",
+      "Machine Breakdown Time",
+    ],
 
     plotOptions: {
       pie: {
@@ -101,7 +105,7 @@ function DonutChartSimple({ data, payload_data, link }) {
     legend: {
       show: false,
       labels: {
-        colors: ["#094573", "#ffce38", "#ffa643"],
+        // colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
         useSeriesColors: false,
       },
     },
@@ -177,17 +181,14 @@ function DonutChartSimple({ data, payload_data, link }) {
             <Chart
               options={options}
               series={[
-                data.length && Boolean(data[0].machineOnTime)
-                  ? data[0].machineOnTime
+                data.length && Boolean(data[0]["max(scheduleHours)"])
+                  ? Math.round(data[0]["max(scheduleHours)"], 2)
                   : 0,
-                data.length && Boolean(data[0].machineOffTime)
-                  ? data[0].machineOffTime
+                data.length && Boolean(data[0].MachineOffTime)
+                  ? data[0].MachineOffTime
                   : 0,
-                data.length && Boolean(data[0].machineOnTime)
-                  ? Math.round(
-                      data[0].machineOnTime - data[0].machineOffTime,
-                      2
-                    )
+                data.length && Boolean(data[0].breakdownTime)
+                  ? data[0].breakdownTime
                   : 0,
               ]}
               type="donut"
@@ -219,7 +220,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                 }}
               >
                 {" "}
-                Machine On Time{" "}
+                Max Scheduled Hours{" "}
               </p>
             </div>
             <div
@@ -238,8 +239,8 @@ function DonutChartSimple({ data, payload_data, link }) {
                   fontSize: "14px",
                 }}
               >
-                {data?.length > 0 && Boolean(data[0].machineOnTime)
-                  ? data[0].machineOnTime
+                {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
+                  ? data[0]["max(scheduleHours)"]
                   : 0}
               </h6>
             </div>
@@ -287,8 +288,8 @@ function DonutChartSimple({ data, payload_data, link }) {
                   fontSize: "14px",
                 }}
               >
-                {data?.length > 0 && Boolean(data[0].machineOffTime)
-                  ? data[0].machineOffTime
+                {data?.length > 0 && Boolean(data[0].MachineOffTime)
+                  ? data[0].MachineOffTime
                   : 0}
               </h6>
             </div>
@@ -335,8 +336,8 @@ function DonutChartSimple({ data, payload_data, link }) {
                   fontSize: "14px",
                 }}
               >
-                {data?.length > 0 && Boolean(data[0].machineOnTime)
-                  ? (data[0].machineOnTime - data[0].machineOffTime).toFixed(2)
+                {data?.length > 0 && Boolean(data[0].breakdownTime)
+                  ? data[0].breakdownTime.toFixed(2)
                   : 0}
               </h6>
             </div>
@@ -354,10 +355,10 @@ function DonutChartSimple({ data, payload_data, link }) {
             textAlign: "center",
           }}
         >
-          Total Scheduled Hours{" "}
+          Max Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {data?.length > 0 && Boolean(data[0].scheduleHours)
-              ? data[0].scheduleHours
+            {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
+              ? data[0]["max(scheduleHours)"]
               : 0}
           </span>
         </Typography>
