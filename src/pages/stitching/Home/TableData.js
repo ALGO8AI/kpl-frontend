@@ -328,7 +328,7 @@ function TableData({
                 },
                 {
                   headerName: "Machine Id",
-                  field: "machineID",
+                  field: "machineId",
                   width:
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
@@ -342,67 +342,95 @@ function TableData({
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
                 },
+                {
+                  headerName: "Machine Utilization %",
+                  field: "machineUtilizationPer",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                },
+                {
+                  headerName: "Runtime Hrs.",
+                  field: "runTimeDuration",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                },
+                {
+                  headerName: "Breakdown Hrs.",
+                  field: "breakdownTimeDuration",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                },
                 // { headerName: "Machine Breakdown Hrs.", field: "scheduledHours" },
 
-                {
-                  headerName: "% Utilization",
-                  field: "utilizationPercentage",
-                  width:
-                    table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 5
-                      : 1280 / 5,
-                  hide: true,
-                },
-                {
-                  headerName: "Worker Utilization %",
-                  field: "WorkerUnavailablePercentage",
-                  width:
-                    table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 5
-                      : 1280 / 5,
-                  // hide: true,
-                },
-                {
-                  headerName: "Feed Utilization %",
-                  field: "feedUnavailablePercentage",
-                  width:
-                    table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 5
-                      : 1280 / 5,
-                  // hide: true,
-                },
-                {
-                  headerName: "Idle Hrs.",
-                  field: "idleHours",
-                  width:
-                    table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 5
-                      : 1280 / 5,
-                  hide: true,
-                },
-                {
-                  headerName: "Worker Unavailable Hrs.",
-                  field: "WorkerUnavailableHours",
-                  width:
-                    table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 5
-                      : 1280 / 5,
-                  hide: true,
-                },
-                {
-                  headerName: "Feed Unavailable Hrs.",
-                  field: "feedUnavailableHours",
-                  width:
-                    table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 5
-                      : 1280 / 5,
-                  hide: true,
-                },
                 // {
-                //   headerName: "Off Time (Hrs.)",
-                //   field: "machineOffTime",
-                //   width: 240,
+                //   headerName: "% Utilization",
+                //   field: "utilizationPercentage",
+                //   width:
+                //     table1?.current?.offsetWidth > 1280
+                //       ? table1?.current?.offsetWidth / 5
+                //       : 1280 / 5,
+                //   // hide: true,
                 // },
+                // {
+                //   headerName: "Worker Utilization %",
+                //   field: "WorkerUnavailablePercentage",
+                //   width:
+                //     table1?.current?.offsetWidth > 1280
+                //       ? table1?.current?.offsetWidth / 5
+                //       : 1280 / 5,
+                //   // hide: true,
+                // },
+                // {
+                //   headerName: "Feed Utilization %",
+                //   field: "feedUnavailablePercentage",
+                //   width:
+                //     table1?.current?.offsetWidth > 1280
+                //       ? table1?.current?.offsetWidth / 5
+                //       : 1280 / 5,
+                //   // hide: true,
+                // },
+                // {
+                //   headerName: "Idle Hrs.",
+                //   field: "idleHours",
+                //   width:
+                //     table1?.current?.offsetWidth > 1280
+                //       ? table1?.current?.offsetWidth / 5
+                //       : 1280 / 5,
+                //   // hide: true,
+                // },
+                // {
+                //   headerName: "Worker Unavailable Hrs.",
+                //   field: "WorkerUnavailableHours",
+                //   width:
+                //     table1?.current?.offsetWidth > 1280
+                //       ? table1?.current?.offsetWidth / 5
+                //       : 1280 / 5,
+                //   // hide: true,
+                // },
+                // {
+                //   headerName: "Feed Unavailable Hrs.",
+                //   field: "feedUnavailableHours",
+                //   width:
+                //     table1?.current?.offsetWidth > 1280
+                //       ? table1?.current?.offsetWidth / 5
+                //       : 1280 / 5,
+                //   // hide: true,
+                // },
+                {
+                  headerName: "Off Time Hrs.",
+                  field: "offTimeDuration",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  // hide: true,
+                },
                 // {
                 //   headerName: "On Time (Hrs.)",
                 //   field: "machineOnTime",

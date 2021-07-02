@@ -300,7 +300,7 @@ const checkingWorkerUtilizationData = async (
     data
   );
 };
-const crowdingInstanceData = async (fromDate, toDate) => {
+const crowdingInstanceData = async (fromDate, toDate, shifts) => {
   return await callBackend(
     "POST",
     "routes/KPI/home/crowdingInstanceData",
@@ -309,6 +309,7 @@ const crowdingInstanceData = async (fromDate, toDate) => {
       filterDateFrom: fromDate,
       filterDateTo: toDate,
       username: localStorage.getItem("kpl_username"),
+      shifts,
     }
   );
 };

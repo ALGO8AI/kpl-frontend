@@ -261,7 +261,7 @@ function Home() {
           payload: { data: x.workerUtilization, loading: false },
         });
 
-        const y = await crowdingInstanceData(state.from, state.to);
+        const y = await crowdingInstanceData(state.from, state.to, inputSHIFT);
         // console.log(`y ${y}`);
 
         dispatch({
