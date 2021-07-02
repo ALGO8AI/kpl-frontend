@@ -77,7 +77,7 @@ function DonutChartSimple({ data, payload_data, link }) {
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
     labels: [
-      "Max Scheduled Hours",
+      "Total Scheduled Hours",
       "Machine OffTime",
       "Machine Breakdown Time",
     ],
@@ -220,7 +220,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                 }}
               >
                 {" "}
-                Max Scheduled Hours{" "}
+                Total Scheduled Hours{" "}
               </p>
             </div>
             <div
@@ -355,7 +355,7 @@ function DonutChartSimple({ data, payload_data, link }) {
             textAlign: "center",
           }}
         >
-          Max Scheduled Hours{" "}
+          Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
               ? data[0]["max(scheduleHours)"]

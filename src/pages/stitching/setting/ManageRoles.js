@@ -64,6 +64,8 @@ function ManageRoles() {
 
   const submitHandler = async () => {
     const DATA = {
+      id: data.id,
+      uid: data.uid,
       username: data.username,
       password: data.password,
       email: data.email,
@@ -81,11 +83,12 @@ function ManageRoles() {
       modifiedBy: data.modifiedBy,
       shiftA: data.shiftA ? 1 : 0,
       shiftB: data.shiftB ? 1 : 0,
-      mobile: data.mobile,
+      mobileNumber: data.mobileNumber,
       machineBreakdown: data.machineBreakdown ? 1 : 0,
       feedUnavailability: data.feedUnavailability ? 1 : 0,
       workerNotAvailable: data.workerNotAvailable ? 1 : 0,
       crowding: data.crowding ? 1 : 0,
+      checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
     };
     console.log(DATA);
     try {
@@ -94,6 +97,7 @@ function ManageRoles() {
         const x = await UpdateStitchingUserData(DATA);
         console.log(x);
         alert(x.msg);
+        loadData();
       }
     } catch (err) {
       console.log(err);

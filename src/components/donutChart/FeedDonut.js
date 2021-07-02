@@ -76,7 +76,7 @@ function FeedDonut(props) {
       enabled: false,
     },
     colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total Scheduled Hrs", "Feed Unavailable", "Others"],
+    labels: ["Total Scheduled Hours", "Feed Unavailable", "Others"],
 
     plotOptions: {
       pie: {
@@ -216,7 +216,7 @@ function FeedDonut(props) {
                 }}
               >
                 {" "}
-                Total Scheduled Hrs{" "}
+                Total Scheduled Hours{" "}
               </p>
             </div>
             <div
@@ -345,7 +345,7 @@ function FeedDonut(props) {
             color: "#f68f1d",
           }}
         >
-          Total Scheduled Hrs.{" "}
+          Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {props.data.totalTime}
           </span>
