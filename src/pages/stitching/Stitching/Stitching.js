@@ -20,7 +20,7 @@ function Stitching(props) {
     videoWall: <VideoWall />,
     setting: <Setting />,
     viewdetails: <ViewDetails />,
-    layoutView: <LayoutView />,
+    layoutView: <LayoutView path="view" />,
     annotation: <Annotation />,
     yourData: <YourData />,
     violationDetails: <ViolationDetail id={props.match.params.id} />,

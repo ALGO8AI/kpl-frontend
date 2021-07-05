@@ -48,7 +48,7 @@ export const LayoutViewPage = observer((props) => {
     setcood([value.position.x, value.position.y]);
   };
 
-  const renderCamposition = () => {
+  const renderCamposition = (path) => {
     return appState.cameraPosition?.map((value) => {
       return (
         <div
@@ -60,6 +60,7 @@ export const LayoutViewPage = observer((props) => {
               id={value.cameraId}
               details={appState.cameraDetails}
               role={store.Role()}
+              path={path}
             />
           </div>
         </div>
@@ -67,7 +68,7 @@ export const LayoutViewPage = observer((props) => {
     });
   };
 
-  const renderFloor = () => {
+  const renderFloor = (path) => {
     return (
       <TransformWrapper>
         {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
@@ -97,7 +98,7 @@ export const LayoutViewPage = observer((props) => {
                   }}
                 >
                   <div className="main" onClick={getPos}>
-                    {renderCamposition()}
+                    {renderCamposition(path)}
                   </div>
                 </ReactCursorPosition>
               </div>
@@ -114,16 +115,15 @@ export const LayoutViewPage = observer((props) => {
           <Grid item xs={10}>
             <h1
               className={classes.heading}
-
-              // onClick={() => history.push("/stitching/")}
+              onClick={() => history.push("/stitching/")}
             >
-              {/* <span>
+              <span>
                 <i
                   class="fa fa-arrow-left"
                   aria-hidden="true"
                   style={{ marginRight: "8px" }}
                 ></i>
-              </span> */}
+              </span>
               Layout View
             </h1>
           </Grid>
@@ -150,7 +150,7 @@ export const LayoutViewPage = observer((props) => {
           <Spinner />
         </div>
       ) : (
-        <div className="img-cntnr">{renderFloor()}</div>
+        <div className="img-cntnr">{renderFloor(props.path)}</div>
       )}
     </div>
   );
@@ -167,6 +167,6 @@ export class LayoutView extends React.Component {
     this.store.getCameraDetails();
   }
   render() {
-    return <LayoutViewPage store={this.store} />;
+    return <LayoutViewPage store={this.store} path={this.props.path} />;
   }
 }

@@ -17,6 +17,7 @@ import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 import { LayoutView } from "../layoutView/LayoutView";
 import { AnnotationPage } from "../layoutView/annotation/Annotation";
+// import { LayoutView } from "../layoutView/LayoutView";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -121,7 +122,7 @@ function Setting() {
       </TabPanel> */}
 
       <TabPanel value={value} index={2}>
-        <AnnotationPage />
+        <LayoutView path="annotate" />
       </TabPanel>
     </Grid>
   );

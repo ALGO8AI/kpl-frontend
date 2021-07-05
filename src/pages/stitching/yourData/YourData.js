@@ -82,7 +82,7 @@ function YourData() {
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
 
           <Tab label="Notification Log" {...a11yProps(3)} />
-          <Tab label=" Layout" {...a11yProps(4)} />
+          {/* <Tab label=" Layout" {...a11yProps(4)} /> */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -97,9 +97,9 @@ function YourData() {
       <TabPanel value={value} index={3}>
         <NotificationLog />
       </TabPanel>
-      <TabPanel value={value} index={4}>
+      {/* <TabPanel value={value} index={4}>
         <LayoutView />
-      </TabPanel>
+      </TabPanel> */}
     </Grid>
   );
 }

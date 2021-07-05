@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 export const AnnotationPage = observer((props) => {
+  console.log(props);
   const history = useHistory();
   const classes = useStyles();
   const coordinates = (data, width, height) => {
@@ -104,12 +105,11 @@ export const AnnotationPage = observer((props) => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs={8}>
-          {/* <h1
+          <h1
             className={classes.heading}
             style={{ cursor: "pointer" }}
-            onClick={() => history.push("/stitching/setting")}
+            onClick={() => history.push("/stitching/layoutView")}
           >
-            {" "}
             <span>
               <i
                 class="fa fa-arrow-left"
@@ -117,8 +117,8 @@ export const AnnotationPage = observer((props) => {
                 style={{ marginRight: "8px" }}
               ></i>
             </span>
-            Annotation Tool
-          </h1> */}
+            Zone
+          </h1>
         </Grid>
         <Grid item xs={12} sm={2}>
           <Paper className={classes.paper}> view</Paper>

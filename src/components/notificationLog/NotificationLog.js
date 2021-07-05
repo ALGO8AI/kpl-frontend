@@ -1,4 +1,12 @@
-import { AppBar, Button, Grid, Tab, Tabs, TextField } from "@material-ui/core";
+import {
+  AppBar,
+  Button,
+  Grid,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
@@ -151,6 +159,7 @@ function NotificationLog() {
             <Tab label="Feed Data" {...a11yProps(0)} />
             <Tab label="Crowd Data" {...a11yProps(1)} />
             <Tab label="Worker Data" {...a11yProps(2)} />
+            <Tab label="Machine Data" {...a11yProps(3)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -594,6 +603,9 @@ function NotificationLog() {
               />
             </Grid>
           )}
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <Typography variant="h5">Machine Logs</Typography>
         </TabPanel>
       </Grid>
 

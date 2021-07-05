@@ -362,6 +362,7 @@ function Schedule(props) {
                 name="machineId"
                 fullWidth
                 onChange={onScheduleDataChange}
+                disabled
               />
             </Grid>
             <Grid md={6} style={{ padding: "12px" }}>

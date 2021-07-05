@@ -79,9 +79,9 @@ export const Camera = observer((props) => {
     setOpen(false);
   };
 
-  const onViewDetails = () => {
+  const onViewDetails = (type) => {
     const path = window.location.pathname == "/stitching/layoutView";
-    if (role == "admin" && !path) {
+    if (type === "annotate") {
       history.push(`/stitching/annotation/${id}`);
     } else {
       history.push(`/stitching/viewdetails/${id}`);
@@ -166,7 +166,9 @@ export const Camera = observer((props) => {
                         >
                           <a>
                             {" "}
-                            <span onClick={onViewDetails}>View Details</span>
+                            <span onClick={() => onViewDetails(props.path)}>
+                              View Details
+                            </span>
                           </a>
                         </Typography>
                       </CardContent>
