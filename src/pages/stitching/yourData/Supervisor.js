@@ -30,6 +30,7 @@ import {
   getStitchingSupervisorCopy,
   addStitchingSupervisorSingle,
   updateStitchingSupervisorSingle,
+  getAllSupervisorList,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -91,12 +92,15 @@ function Supervisor(props) {
     filterDateFrom: "",
     filterDateTo: "",
   });
+  const [supervisorList, setSupervisorList] = useState([]);
 
   const loadData = async () => {
     try {
       const x = await getStitchingSupervisorSchedule();
-      console.log(x.data);
+      // console.log(x.data);
       setWorkerData(x.data);
+      const supData = await getAllSupervisorList();
+      setSupervisorList(supData);
     } catch (err) {}
   };
   const filterData = async () => {
@@ -197,7 +201,20 @@ function Supervisor(props) {
   });
 
   const onInputChange = (e) => {
+    console.log(e);
     setUserData({ ...userdata, [e.target.name]: e.target.value });
+  };
+
+  const onUserChange = (e) => {
+    const i = supervisorList.findIndex(
+      (item) =>
+        item.username === e.target.value || item.workerID === e.target.value
+    );
+    setUserData({
+      ...userdata,
+      supervisorName: supervisorList[i].username,
+      supervisorId: supervisorList[i].workerID,
+    });
   };
 
   const [msg, setMsg] = React.useState("");
@@ -293,7 +310,7 @@ function Supervisor(props) {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} md={4}>
-        <TextField
+        {/* <TextField
           id="outlined-basic"
           label="Supervisor Name"
           variant="outlined"
@@ -302,8 +319,50 @@ function Supervisor(props) {
           name="supervisorName"
           fullWidth
           onChange={onInputChange}
-        />
-        <TextField
+        /> */}
+        {edit ? (
+          <TextField
+            id="outlined-basic"
+            label="Supervisor Name"
+            variant="outlined"
+            style={{ marginBottom: "12px" }}
+            value={userdata.supervisorName}
+            name="supervisorName"
+            fullWidth
+            onChange={onInputChange}
+          />
+        ) : (
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Supervisor Name
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              onChange={onUserChange}
+              label="Supervisor Name"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {supervisorList.length > 0 &&
+                supervisorList.map((item, index) => (
+                  <MenuItem value={item.username} key={index}>
+                    {item.username}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        )}
+        {/* <TextField
           id="outlined-basic"
           label="Supervisor ID"
           variant="outlined"
@@ -312,7 +371,51 @@ function Supervisor(props) {
           name="supervisorId"
           fullWidth
           onChange={onInputChange}
-        />
+        /> */}
+
+        {edit ? (
+          <TextField
+            id="outlined-basic"
+            label="Supervisor Name"
+            variant="outlined"
+            style={{ marginBottom: "12px" }}
+            value={userdata.supervisorId}
+            name="supervisorId"
+            fullWidth
+            onChange={onInputChange}
+          />
+        ) : (
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Supervisor Id
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={userdata.supervisorId}
+              name="supervisorId"
+              fullWidth
+              onChange={onUserChange}
+              label="Supervisor Id"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {supervisorList.length > 0 &&
+                supervisorList.map((item, index) => (
+                  <MenuItem value={item.workerID} key={index}>
+                    {item.workerID}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        )}
+
         {/* <TextField
           id="outlined-basic"
           label="Kit Supervisor"

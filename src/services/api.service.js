@@ -1204,6 +1204,10 @@ const getAllSupervisorList = async () => {
   return await callBackend("POST", "routes/supervisor/allSupervisors", true);
 };
 
+const getAllWorketrList = async () => {
+  return await callBackend("GET", "routes/stitching/worker/allWorker");
+};
+
 export {
   login,
   getViolation,
@@ -1295,4 +1299,5 @@ export {
   feedInstanceData,
   checkingWorkerUtilizationData,
   getAllSupervisorList,
+  getAllWorketrList,
 };

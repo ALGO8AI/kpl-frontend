@@ -23,6 +23,7 @@ import {
   workerDeleteStitching,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
+import { StitchingContext } from "../../../context/StitchingContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -74,12 +75,30 @@ function Worker(props) {
   const [workerData, setWorkerData] = useState([]);
   const classes = useStyles();
   const [edit, setEdit] = useState(false);
+  const { state, dispatch } = React.useContext(StitchingContext);
 
   const loadData = async () => {
     try {
+      if (state.workerDetails.loading) {
+        const x = await getYourData();
+        console.log(x);
+        dispatch({
+          type: "WORKER_DETAILS",
+          payload: { data: x.latestWorkerData, loading: false },
+        });
+        // setWorkerData(x.latestWorkerData);
+      }
+    } catch (err) {}
+  };
+
+  const refreshData = async () => {
+    try {
       const x = await getYourData();
       console.log(x);
-      setWorkerData(x.latestWorkerData);
+      dispatch({
+        type: "WORKER_DETAILS",
+        payload: { data: x.latestWorkerData, loading: false },
+      });
     } catch (err) {}
   };
   useEffect(() => {
@@ -162,7 +181,7 @@ function Worker(props) {
       setWorkerData([...workerData, userdata]);
       setMsg(resp.msg);
       setOpen(true);
-      loadData();
+      refreshData();
       setUserData({ workerName: "", workerId: "", image: "" });
     } catch (e) {
       console.log(e.message);
@@ -174,7 +193,7 @@ function Worker(props) {
       const resp = await workerUpdateStitching(userdata);
       setMsg(resp.msg);
       setOpen(true);
-      loadData();
+      refreshData();
       setUserData({ workerName: "", workerId: "", image: "" });
     } catch (e) {}
   };
@@ -187,7 +206,7 @@ function Worker(props) {
       );
       setMsg("Deleted");
       setOpen(true);
-      loadData();
+      refreshData();
       setUserData({ workerName: "", workerId: "", image: "" });
     } catch (e) {}
   };
@@ -325,7 +344,7 @@ function Worker(props) {
         <MaterialTable
           title="Workers Information"
           columns={columns}
-          data={workerData}
+          data={state.workerDetails.data}
           options={{
             exportButton: true,
             headerStyle: {

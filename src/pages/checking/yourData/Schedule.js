@@ -273,6 +273,7 @@ function Schedule(props) {
                 name="tableId"
                 fullWidth
                 onChange={onScheduleDataChange}
+                disabled
               />
             </Grid>
             <Grid md={6} style={{ padding: "12px" }}>

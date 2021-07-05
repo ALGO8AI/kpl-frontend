@@ -25,6 +25,7 @@ import {
 import { NextWeekRounded } from "@material-ui/icons";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import { StitchingContext } from "../../../context/StitchingContext";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -39,13 +40,29 @@ function Schedule(props) {
     filterDateFrom: "",
     filterDateTo: "",
   });
+  const { state, dispatch } = React.useContext(StitchingContext);
 
   const loadData = async () => {
     try {
-      const x = await getYourData();
-      console.log(x);
+      if (state.workerSchedule.loading) {
+        const x = await getYourData();
+        dispatch({
+          type: "WORKER_SCHEDULE",
+          payload: { data: x.latestScheduleData, loading: false },
+        });
+        // setData(x.latestScheduleData);
+      }
+    } catch (err) {}
+  };
 
-      setData(x.latestScheduleData);
+  const refreshData = async () => {
+    try {
+      const x = await getYourData();
+      dispatch({
+        type: "WORKER_SCHEDULE",
+        payload: { data: x.latestScheduleData, loading: false },
+      });
+      // setData(x.latestScheduleData);
     } catch (err) {}
   };
 
@@ -72,7 +89,7 @@ function Schedule(props) {
       setMsg(response.msg);
       setSeverity("success");
       setOpen(true);
-      loadData();
+      refreshData();
     } catch (e) {}
   };
 
@@ -170,7 +187,7 @@ function Schedule(props) {
       setMsg(resp.msg);
       setSeverity("success");
       setOpen(true);
-      loadData();
+      refreshData();
       setOpenDialog(false);
     } catch (e) {
       console.log(e.message);
@@ -300,7 +317,7 @@ function Schedule(props) {
             md={2}
             style={{ justifyContent: "center", alignItems: "center" }}
           >
-            <Button variant="contained" color="primary" onClick={loadData}>
+            <Button variant="contained" color="primary" onClick={refreshData}>
               <RefreshIcon />
               Refresh
             </Button>
@@ -323,7 +340,7 @@ function Schedule(props) {
         <MaterialTable
           title="Schedule Information"
           columns={columns}
-          data={data}
+          data={state.workerSchedule.data}
           options={{
             exportButton: true,
             headerStyle: {

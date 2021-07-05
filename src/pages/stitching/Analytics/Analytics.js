@@ -741,9 +741,8 @@ function Analytics() {
               {machineStatusDuration && (
                 <CountUp
                   end={
-                    machineStatusDuration?.machineBreakdownMaxTimeData[0][
-                      "timeDuration"
-                    ]
+                    machineStatusDuration?.machineBreakdownMaxTimeData[0]
+                      ?.timeDuration
                   }
                   duration={4}
                 />
@@ -772,9 +771,8 @@ function Analytics() {
               {machineStatusDuration && (
                 <CountUp
                   end={
-                    machineStatusDuration?.machineBreakdownMinTimeData[0][
-                      "timeDuration"
-                    ]
+                    machineStatusDuration?.machineBreakdownMinTimeData[0]
+                      ?.timeDuration
                   }
                   duration={4}
                 />

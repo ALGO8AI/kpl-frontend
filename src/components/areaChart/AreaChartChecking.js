@@ -44,11 +44,13 @@ function AreaChartChecking(props) {
     var ins = 0;
     var dur = 0;
     if (props.data != "no data") {
-      var ary = props.data.map((item) => item.crowdingInstances);
+      var ary = props?.data?.map((item) => item.crowdingInstances);
       setWeek(
-        props.data.map((item) => new Date(item.Date).toISOString().slice(0, 10))
+        props?.data?.map((item) =>
+          new Date(item.Date).toISOString().slice(0, 10)
+        )
       );
-      props.data.map((d) => {
+      props?.data?.map((d) => {
         array[d.day] = d.crowdingInstances;
         ins += d.crowdingInstances;
         dur += d.crowdingDuration;

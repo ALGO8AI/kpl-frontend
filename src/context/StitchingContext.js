@@ -58,6 +58,14 @@ const initialState = {
     loading: true,
   },
   violationTab: 0,
+  workerDetails: {
+    data: [],
+    loading: true,
+  },
+  workerSchedule: {
+    data: [],
+    loading: true,
+  },
 };
 const StitchingContext = React.createContext(initialState);
 
@@ -112,6 +120,12 @@ let reducer = (state, action) => {
     }
     case "MACHINE_VIO": {
       return { ...state, machine: action.payload };
+    }
+    case "WORKER_SCHEDULE": {
+      return { ...state, workerSchedule: action.payload };
+    }
+    case "WORKER_DETAILS": {
+      return { ...state, workerDetails: action.payload };
     }
     default:
       return;
