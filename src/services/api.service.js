@@ -97,15 +97,16 @@ const workerUnavailableViolation = async (
 
 const workerUnavailableViolationChecking = async (
   fromDate,
-  toDate
-  // ctr,
-  // machine
+  toDate,
+  ctr,
+  machine
 ) => {
   const data = {
-    // clpctr: ctr,
-    // machineId: machine,
+    clpctr: ctr,
+    machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    username: localStorage.getItem("kpl_username"),
   };
   console.log(data);
   return await callBackend(
@@ -1208,6 +1209,23 @@ const getAllWorketrList = async () => {
   return await callBackend("GET", "routes/stitching/worker/allWorker");
 };
 
+const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {
+  const data = {
+    clpctr: ctr,
+    tableId: tableId,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/defectViolationData",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1300,4 +1318,5 @@ export {
   checkingWorkerUtilizationData,
   getAllSupervisorList,
   getAllWorketrList,
+  defectsViolation,
 };

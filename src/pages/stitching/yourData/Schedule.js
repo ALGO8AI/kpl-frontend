@@ -3,8 +3,11 @@ import Grid from "@material-ui/core/Grid";
 import { DropzoneArea } from "material-ui-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MaterialTable from "material-table";
+import PropTypes from "prop-types";
+
 import {
   copyScheduleStitching,
+  getAllWorketrList,
   scheduleUpload,
   updateStitchingWorkerSchedule,
 } from "../../../services/api.service";
@@ -21,6 +24,13 @@ import {
   FormControlLabel,
   TextField,
   Switch,
+  AppBar,
+  Tabs,
+  Tab,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { NextWeekRounded } from "@material-ui/icons";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -29,6 +39,40 @@ import { StitchingContext } from "../../../context/StitchingContext";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Grid
+      container
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Grid container item xs={12} style={{ padding: "18px" }}>
+          {children}
+        </Grid>
+      )}
+    </Grid>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
 }
 
 function Schedule(props) {
@@ -42,8 +86,19 @@ function Schedule(props) {
   });
   const { state, dispatch } = React.useContext(StitchingContext);
 
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const [workerList, setWorkerList] = React.useState([]);
+
   const loadData = async () => {
     try {
+      const worker = await getAllWorketrList();
+      // console.log();
+      setWorkerList(worker.data);
       if (state.workerSchedule.loading) {
         const x = await getYourData();
         dispatch({
@@ -237,20 +292,223 @@ function Schedule(props) {
   return (
     <Grid container spacing={4} md={12}>
       <Grid item md={4} xs={12} style={{ backgroundColor: "#FFF" }}>
-        <DropzoneArea
-          onChange={handleFileChange}
-          dropzoneText={"Drag and drop files or click here"}
-          acceptedFiles={[".csv", ".xls", ".xlsx"]}
-        />
-        <br />
-        <div
-          className="customUpload"
-          style={{ padding: "4px 0px" }}
-          onClick={submit}
-        >
-          <CloudUploadIcon />
-          &nbsp;Upload Schedule
-        </div>
+        <AppBar position="static" className="customTab">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="simple tabs example"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="Manual Entry" {...a11yProps(0)} />
+            <Tab label="Upload" {...a11yProps(1)} />
+            {/* <Tab label=" Layout" {...a11yProps(4)} /> */}
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Worker Name
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              // onChange={onUserChange}
+              label="Worker Name"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {workerList.length > 0 &&
+                workerList.map((item, index) => (
+                  <MenuItem value={item.workerName} key={index}>
+                    {item.workerName}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Worker Id
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              // onChange={onUserChange}
+              label="Worker Id"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {workerList.length > 0 &&
+                workerList.map((item, index) => (
+                  <MenuItem value={item.workerId} key={index}>
+                    {item.workerId}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Machine Id
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              // onChange={onUserChange}
+              label="Machine Id"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {state.machineIDs.length > 0 &&
+                state.machineIDs.map((item, index) => (
+                  <MenuItem value={item.machineID} key={index}>
+                    {item.machineID}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <TextField
+            key="from"
+            id="fromDate"
+            label="Date"
+            // value={state.from}
+            type="date"
+            style={{ marginBottom: "12px" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            // onChange={(e) =>
+            //   dispatch({ type: "FROM", payload: e.target.value })
+            // }
+            fullWidth
+          />
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Wing
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              // onChange={onUserChange}
+              label="Wing"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {["FG2"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              // onChange={onUserChange}
+              label="Shift"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {["A", "B"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControlLabel
+            style={{ marginBottom: "12px" }}
+            control={
+              <Switch
+                // checked={scheduleData.machineOnOffStatus}
+                // onChange={(e) =>
+                //   setScheduleData({
+                //     ...scheduleData,
+                //     machineOnOffStatus: e.target.checked,
+                //   })
+                // }
+                name="machineOnOffStatus"
+                color="primary"
+              />
+            }
+            label="Machine Status"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            // style={{ margin: "10px" }}
+            // onClick={dateFilter}
+          >
+            {/* <FilterListIcon /> */}
+            Save
+          </Button>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <DropzoneArea
+            onChange={handleFileChange}
+            dropzoneText={"Drag and drop files or click here"}
+            acceptedFiles={[".csv", ".xls", ".xlsx"]}
+          />
+          <br />
+          <div
+            className="customUpload"
+            style={{ padding: "8px 0px", width: "100%" }}
+            onClick={submit}
+          >
+            <CloudUploadIcon />
+            &nbsp;Upload Schedule
+          </div>
+        </TabPanel>
       </Grid>
       <Grid container item md={8} xs={12}>
         <Grid

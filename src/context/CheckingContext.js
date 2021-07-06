@@ -48,6 +48,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  defects: {
+    data: [],
+    loading: true,
+  },
   violationTab: 0,
   bagDataPrint: {
     data: [],
@@ -106,6 +110,9 @@ let reducer = (state, action) => {
     }
     case "BAG-DATA": {
       return { ...state, bagData: action.payload };
+    }
+    case "DEFECTS": {
+      return { ...state, defects: action.payload };
     }
     case "BAG-DATA-PRINT": {
       return {

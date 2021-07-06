@@ -15,7 +15,7 @@ function ViolationTable({ data, columns, rowClick, selectedRow }) {
   const classes = useStyles();
   return (
     <>
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         <MaterialTable
           title={"Violation Details"}
           columns={columns}

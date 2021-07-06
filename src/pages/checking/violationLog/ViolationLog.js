@@ -31,6 +31,7 @@ import {
   crowdingViolationChecking,
   workerUnavailableViolationChecking,
   loadTableId,
+  defectsViolation,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -178,6 +179,17 @@ function ViolationLog1() {
         loading: false,
       },
     });
+
+    const defects = await defectsViolation();
+    console.log(defects.data);
+
+    dispatch({
+      type: "DEFECTS",
+      payload: {
+        data: defects.data,
+        loading: false,
+      },
+    });
   };
 
   const dateFilter = async () => {
@@ -197,6 +209,24 @@ function ViolationLog1() {
           payload: { data: crowd.crowdingData, loading: false },
         });
       }
+
+      const defects = await defectsViolation(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.tableId)
+      );
+      console.log(defects.data);
+
+      dispatch({
+        type: "DEFECTS",
+        payload: {
+          data: defects.data,
+          loading: false,
+        },
+      });
 
       const worker = await workerUnavailableViolationChecking(
         state.violationFrom,
@@ -223,7 +253,7 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.machineID)
+          : machineID.map((item) => item.tableId)
       );
       console.log(by_worker.violationByWorkerData);
       if (by_worker.violationByWorkerData !== "no data") {
@@ -294,6 +324,19 @@ function ViolationLog1() {
           type: "BY_WORKER_VIO",
           payload: {
             data: by_worker.violationByWorkerData,
+            loading: false,
+          },
+        });
+      }
+
+      if (state.defects.loading) {
+        const defects = await defectsViolation();
+        console.log(defects.data);
+
+        dispatch({
+          type: "DEFECTS",
+          payload: {
+            data: defects.data,
             loading: false,
           },
         });
@@ -936,30 +979,97 @@ function ViolationLog1() {
           <TabPanel value={state.violationTab} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
-                data={state.by_worker.data}
+                data={state.defects.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
-                  { title: "Violation ID", field: "violationId" },
-                  { title: "Worker Name", field: "workerName" },
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/checking/violationDetails/${rowData.Id}`}
+                        className={`${
+                          rowData.query === "Not Resolved"
+                            ? "Link-btn-red"
+                            : "Link-btn-green"
+                        }`}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "feedUnavailable");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Crowding Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            rowData.query
+                          );
+                        }}
+                      >
+                        View
+                      </Link>
+                    ),
+                  },
+                  { title: "Violation ID", field: "Id" },
+                  // {
+                  //   title: "Status",
+                  //   field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
+                  // { title: "Violation Reason", field: "ViolationReason" },
+                  { title: "Table No.", field: "table_no" },
                   {
                     title: "Date",
-                    field: "date",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(new Date(rowData.dateTime))
+                        .format("DD/MM/YYYY")
+                        .toString();
+                      return NewDate;
+                    },
                   },
                   {
-                    title: "Table ID",
-                    field: "tableId",
+                    title: "Time",
+                    field: "time",
                   },
-                  {
-                    title: "CLP CTR",
-                    field: "clpctr",
-                  },
-                  { title: "Worker Name", field: "workerName" },
-                  { title: "Worker ID", field: "workerId" },
-                  { title: "Time", field: "time" },
-                  { title: "Defect", field: "defect" },
+
+                  { title: "Checker Id", field: "checker_emp_id" },
+                  { title: "Checker Name", field: "checker_name" },
+
+                  { title: "Tailor No.", field: "tailorNumber" },
+                  { title: "Tailor Name", field: "tailorName" },
+
+                  { title: "CTR No.", field: "ctr_no" },
+                  { title: "Defect Name", field: "defectName" },
                   { title: "Wing", field: "wing" },
+                  { title: "Line", field: "line" },
                   { title: "Shift", field: "shift" },
+                  { title: "Supervisor Id", field: "supervisorId" },
+
                   { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />

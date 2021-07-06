@@ -150,6 +150,10 @@ function Home() {
       const ctr = await ctr_machineID();
       setClpCtr(ctr.clpctr);
       setMachineID(ctr.machineID);
+      dispatch({
+        type: "MACHINE_ID",
+        payload: ctr.machineID,
+      });
     } catch (err) {
       console.log(err.message);
     }
