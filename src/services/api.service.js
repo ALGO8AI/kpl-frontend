@@ -1226,6 +1226,14 @@ const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {
   );
 };
 
+const getCurrentCTR = async () => {
+  return await callBackend("GET", "routes/ctr/currentCLPCTR");
+};
+
+const getUnassignedCLPCTR = async () => {
+  return await callBackend("GET", "routes/ctr/allUnassignedCLPCTR");
+};
+
 export {
   login,
   getViolation,
@@ -1319,4 +1327,6 @@ export {
   getAllSupervisorList,
   getAllWorketrList,
   defectsViolation,
+  getCurrentCTR,
+  getUnassignedCLPCTR,
 };

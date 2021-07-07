@@ -57,7 +57,7 @@ function TabPanel(props) {
       {...other}
       style={{
         marginTop: "8px",
-        maxHeight: "50vh",
+        maxHeight: "90vh",
         overflow: "scroll",
       }}
     >
@@ -562,7 +562,7 @@ function ViolationLog1() {
       </Grid>
 
       <Grid container>
-        <Grid xs={12} style={{ textAlign: "center" }}>
+        {/* <Grid xs={12} style={{ textAlign: "center" }}>
           <Typography
             variant="body2"
             style={{ padding: "2px", color: "#f68f1d" }}
@@ -571,8 +571,8 @@ function ViolationLog1() {
             <br />
             Note: If The video is unable to play, it might be under Process.
           </Typography>
-        </Grid>
-        <Grid container item xs={12} md={4} style={{ padding: "12px" }}>
+        </Grid> */}
+        {/* <Grid container item xs={12} md={4} style={{ padding: "12px" }}>
           {idLabel ? (
             <Grid
               xs={12}
@@ -612,38 +612,13 @@ function ViolationLog1() {
                   }}
                 />
               )
-              // : (
-              // <Grid
-              //   xs={12}
-              //   style={{
-              //     backgroundColor: "black",
-              //     color: "#fff",
-              //     minHeight: "240px",
-              //     display: "flex",
-              //     flexDirection: "column",
-              //     justifyContent: "center",
-              //     alignItems: "center",
-              //   }}
-              // >
-              //   <PlayCircleOutlineIcon />
-              //   <Grid xs={12} md={6}>
-              //     Select to view the violation video
-              //   </Grid>
-              //   <Typography
-              //     variant="h6"
-              //     style={{ color: "#0e4a7b", padding: "6px" }}
-              //   >
-              //     Note: If The video is unable to play, it might be under
-              //     Process.
-              //   </Typography>
-              // </Grid>
-              // )
+             
               }
             </Grid>
           ) : null}
-        </Grid>
+        </Grid> */}
 
-        <Grid
+        {/* <Grid
           container
           item
           xs={12}
@@ -708,7 +683,7 @@ function ViolationLog1() {
               />
             </>
           ) : null}
-        </Grid>
+        </Grid> */}
         {/* <Grid
           container
           item

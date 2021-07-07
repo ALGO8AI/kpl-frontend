@@ -12,7 +12,12 @@ import {
   TextField,
 } from "@material-ui/core";
 import React from "react";
-import { changeCTR, ctrDropDown } from "../../services/api.service";
+import {
+  changeCTR,
+  ctrDropDown,
+  getCurrentCTR,
+  getUnassignedCLPCTR,
+} from "../../services/api.service";
 
 function ClpCtrDialog({ open, handleCloseCTR }) {
   const [ctrDrop, setCtrDrop] = React.useState();
@@ -27,6 +32,9 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
     startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
   });
   const [CTRresp, setCTRresp] = React.useState("");
+
+  const [currentCTR, setCurrentCTR] = React.useState([]);
+  const [unassignedCTR, setUnassignedCTR] = React.useState([]);
 
   const ChangeCTR = async () => {
     try {
@@ -65,9 +73,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
   const loadData = async () => {
     try {
       const ctr = await ctrDropDown();
-      // console.log(ctr);
-      // console.log(ctr.data[0]);
-
       setCtrDrop(ctr);
       setCTR({
         ...CTR,
@@ -81,8 +86,22 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
       console.log(err.message);
     }
   };
+
+  const loadCurrentAndUnassigned = async () => {
+    try {
+      const curr = await getCurrentCTR();
+      console.log(curr.data);
+      setCurrentCTR(curr.data);
+
+      const unassign = await getUnassignedCLPCTR();
+      console.log(unassign.data);
+      setUnassignedCTR(unassign.data);
+    } catch (e) {}
+  };
+
   React.useEffect(() => {
     loadData();
+    loadCurrentAndUnassigned();
   }, []);
   return (
     <div>
@@ -99,7 +118,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
               <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
-                    Current CTR
+                    Old CTR
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-outlined-label"
