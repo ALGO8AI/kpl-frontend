@@ -107,16 +107,16 @@ function Worker(props) {
   const columns = [
     { title: "Worker ID", field: "workerId" },
     { title: "Worker Name", field: "workerName" },
-    {
-      title: "Image",
-      render: (rowData) => (
-        <img
-          style={{ width: "36px", height: "36px" }}
-          src={rowData.image}
-          alt={rowData.workerId}
-        />
-      ),
-    },
+    // {
+    //   title: "Image",
+    //   render: (rowData) => (
+    //     <img
+    //       style={{ width: "36px", height: "36px" }}
+    //       src={rowData.image}
+    //       alt={rowData.workerId}
+    //     />
+    //   ),
+    // },
     {
       title: "Edit",
       render: (x) => (
