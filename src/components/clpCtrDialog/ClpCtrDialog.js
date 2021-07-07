@@ -118,7 +118,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
               <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
-                    Old CTR
+                    Current CTR
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-outlined-label"
@@ -306,7 +306,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                   inputProps={{
                     step: 300, // 5 min
                   }}
-                  // defaultValue={`${new Date().getHours()}:${new Date().getMinutes()}`}
                   value={CTR.startTime}
                   onChange={(e) =>
                     setCTR({ ...CTR, startTime: e.target.value })

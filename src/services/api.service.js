@@ -1234,6 +1234,10 @@ const getUnassignedCLPCTR = async () => {
   return await callBackend("GET", "routes/ctr/allUnassignedCLPCTR");
 };
 
+const updateCTR = async (data) => {
+  return await callBackend("POST", "routes/ctr/updateCTR", true, data);
+};
+
 export {
   login,
   getViolation,
@@ -1329,4 +1333,5 @@ export {
   defectsViolation,
   getCurrentCTR,
   getUnassignedCLPCTR,
+  updateCTR,
 };

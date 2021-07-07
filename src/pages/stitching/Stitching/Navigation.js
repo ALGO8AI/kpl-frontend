@@ -35,9 +35,9 @@ import {
   getStitchingNotification,
   removeNotification,
 } from "../../../services/api.service";
-import ClpCtrDialog from "../../../components/clpCtrDialog/ClpCtrDialog";
 import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
+import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -375,7 +375,7 @@ export default function Navigation() {
         <HeadsetMicIcon />
         SUPPORT
       </SupportButton>
-      <ClpCtrDialog open={open} handleCloseCTR={handleCloseCTR} />
+      <CLPCTRDialog2 open={open} handleCloseCTR={handleCloseCTR} />
     </Menu>
   );
 
@@ -519,7 +519,7 @@ export default function Navigation() {
             </MenuItem>
           ))}
       </Menu>
-      <ClpCtrDialog open={open} handleCloseCTR={handleCloseCTR} />
+      <CLPCTRDialog2 open={open} handleCloseCTR={handleCloseCTR} />
       <ProfileBox
         openProfile={openProfile}
         handleClickOpenProfile={handleClickOpenProfile}
