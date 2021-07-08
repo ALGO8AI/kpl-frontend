@@ -468,6 +468,15 @@ export default function Navigation() {
               {" "}
               {state.profile.username}
             </Typography>
+            {localStorage.getItem("Current_CTR") && (
+              <Typography
+                variant="h5"
+                style={{ margin: "4px 12px", color: "#0e4a7b" }}
+              >
+                {" "}
+                CTR : {localStorage.getItem("Current_CTR")}
+              </Typography>
+            )}
 
             <SupportButton onClick={handleClickOpenCTR}>
               Change CTR

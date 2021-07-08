@@ -66,6 +66,7 @@ const initialState = {
     data: [],
     loading: true,
   },
+  currentCTR: "",
   machineIDs: [],
 };
 const StitchingContext = React.createContext(initialState);
@@ -130,6 +131,9 @@ let reducer = (state, action) => {
     }
     case "MACHINE_ID": {
       return { ...state, machineIDs: action.payload };
+    }
+    case "CURRENT_CTR": {
+      return { ...state, currentCTR: action.payload };
     }
     default:
       return;

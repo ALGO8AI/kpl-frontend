@@ -84,7 +84,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
         oldCtr: curr.data[0].CtrNo,
         oldCtrId: curr.data[0].id,
       });
-
+      localStorage.setItem("Current_CTR", curr.data[0].CtrNo);
       const unassign = await getUnassignedCLPCTR();
       console.log(unassign.data);
       setUnassignedCTR(unassign.data);
