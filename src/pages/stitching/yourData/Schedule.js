@@ -85,6 +85,10 @@ function Schedule(props) {
     filterDateTo: "",
   });
   const { state, dispatch } = React.useContext(StitchingContext);
+  const [scheduleInput, setScheduleInput] = React.useState({
+    workerId: "",
+    workerName: ":",
+  });
 
   const [value, setValue] = React.useState(0);
 
@@ -289,6 +293,16 @@ function Schedule(props) {
       alert("Select a File!");
     }
   };
+
+  const onUserChange = (e) => {
+    const i = workerList.findIndex((item) => item.workerId === e.target.value);
+    setScheduleInput({
+      ...scheduleInput,
+      workerId: workerList[i].workerId,
+      workerName: workerList[i].workerName,
+    });
+  };
+
   return (
     <Grid container spacing={4} md={12}>
       <Grid item md={4} xs={12} style={{ backgroundColor: "#FFF" }}>
@@ -312,12 +326,42 @@ function Schedule(props) {
             style={{ marginBottom: "12px" }}
           >
             <InputLabel keyid="demo-simple-select-outlined-label">
+              Worker Id
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={scheduleInput.workerId}
+              name="supervisorName"
+              fullWidth
+              onChange={onUserChange}
+              label="Worker Id"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {workerList.length > 0 &&
+                workerList.map((item, index) => (
+                  <MenuItem value={item.workerId} key={index}>
+                    {item.workerId}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+            disabled
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
               Worker Name
             </InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // value={userdata.supervisorName}
+              value={scheduleInput.workerName}
               name="supervisorName"
               fullWidth
               // onChange={onUserChange}
@@ -335,35 +379,7 @@ function Schedule(props) {
                 ))}
             </Select>
           </FormControl>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginBottom: "12px" }}
-          >
-            <InputLabel keyid="demo-simple-select-outlined-label">
-              Worker Id
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              // value={userdata.supervisorName}
-              name="supervisorName"
-              fullWidth
-              // onChange={onUserChange}
-              label="Worker Id"
-              // multiple
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {workerList.length > 0 &&
-                workerList.map((item, index) => (
-                  <MenuItem value={item.workerId} key={index}>
-                    {item.workerId}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+
           <FormControl
             variant="outlined"
             fullWidth

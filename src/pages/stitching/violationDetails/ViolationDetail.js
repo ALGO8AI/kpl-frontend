@@ -188,7 +188,7 @@ function ViolationDetail(props) {
       const x = await getViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
-      setNewSupervisor(x.volIdData[0].supervisor.split(" ")[0]);
+      setNewSupervisor(x.volIdData[0].supervisor);
       setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
         setReason(x.volIdData[0].violationReason);
@@ -277,6 +277,11 @@ function ViolationDetail(props) {
     }
 
     try {
+      if (!res.trim()) {
+        setMsg("Reason can't be empty.");
+        setOpen1(true);
+        return;
+      }
       const x = await violationComment(
         props.id,
         res,
@@ -307,21 +312,21 @@ function ViolationDetail(props) {
     }
 
     try {
-      var txt = window.confirm(
-        "Are you want to mark this violation incorrect ?"
-      );
-      if (txt) {
-        const x = await violationComment(props.id, "", "", false, true, inc);
-        console.log(x);
-        setMsg(x.msg);
-        setOpen1(true);
-        setOpen(false);
-        setTimeout(() => {
-          history.push("/stitching/violationLog");
-        }, 2000);
-      } else {
-        setOpen(false);
-      }
+      // var txt = window.confirm(
+      //   "Are you want to mark this violation incorrect ?"
+      // );
+      // if (txt) {
+      const x = await violationComment(props.id, "", "", false, true, inc);
+      console.log(x);
+      setMsg(x.msg);
+      setOpen1(true);
+      setOpen(false);
+      setTimeout(() => {
+        history.push("/stitching/violationLog");
+      }, 2000);
+      // } else {
+      //   setOpen(false);
+      // }
     } catch (e) {}
   };
 
@@ -768,6 +773,14 @@ function ViolationDetail(props) {
                 {/* LINE */}
                 {data?.line && (
                   <NameValue name="LINE" value={data && data.line} />
+                )}
+                {/* START TIME */}
+                {data?.StartTime && (
+                  <NameValue name="START TIME" value={data && data.StartTime} />
+                )}
+                {/* END TIME */}
+                {data?.EndTime && (
+                  <NameValue name="END TIME" value={data && data.EndTime} />
                 )}
                 {/* SUPERVISOR */}
                 {data && (

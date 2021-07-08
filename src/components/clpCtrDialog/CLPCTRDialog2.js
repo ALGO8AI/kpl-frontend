@@ -15,6 +15,7 @@ import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import {
   changeCTR,
+  closeCTR,
   ctrDropDown,
   getCurrentCTR,
   getUnassignedCLPCTR,
@@ -110,6 +111,16 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
     });
   };
 
+  const fetchCloseCTR = async () => {
+    try {
+      const resp = await closeCTR({ id: CTR.oldCtrId, CtrNo: CTR.oldCtr });
+      console.log(resp);
+      setCTRresp(resp.msg);
+      handleCloseCTR();
+      loadCurrentAndUnassigned();
+    } catch (e) {}
+  };
+
   React.useEffect(() => {
     // loadData();
     loadCurrentAndUnassigned();
@@ -122,7 +133,17 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <h2 style={{ padding: "12px", margin: "auto" }}>Change CTR</h2>
+        <div style={{ width: "100%", display: "flex" }}>
+          <h2 style={{ padding: "12px", margin: "auto" }}>Change CTR</h2>
+          <Button
+            onClick={() => {
+              handleCloseCTR();
+              // console.log(CTR);
+            }}
+          >
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </Button>
+        </div>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <Grid container spacing={1} style={{ width: "320px" }}>
@@ -150,7 +171,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                   variant="outlined"
                   fullWidth
                   id="time"
-                  label="Old CTR"
+                  label="Current CTR"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -242,15 +263,14 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => {
-              handleCloseCTR();
-              console.log(CTR);
-            }}
+            variant="contained"
+            color="primary"
+            onClick={fetchCloseCTR}
             style={{
               border: "1px solid #0e4a7b",
             }}
           >
-            Close
+            Close CTR
           </Button>
           <Button
             variant="contained"

@@ -1238,6 +1238,10 @@ const updateCTR = async (data) => {
   return await callBackend("POST", "routes/ctr/updateCTR", true, data);
 };
 
+const closeCTR = async (data) => {
+  return await callBackend("POST", "routes/ctr/closeCTR", true, data);
+};
+
 export {
   login,
   getViolation,
@@ -1334,4 +1338,5 @@ export {
   getCurrentCTR,
   getUnassignedCLPCTR,
   updateCTR,
+  closeCTR,
 };
