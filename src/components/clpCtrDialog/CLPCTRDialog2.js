@@ -31,6 +31,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
     oldCtr: "",
     oldCtrId: "",
   });
+  const [CLP, setOldCLP] = React.useState("");
   const [CTRresp, setCTRresp] = React.useState("");
   const [currentCTR, setCurrentCTR] = React.useState([]);
   const [unassignedCTR, setUnassignedCTR] = React.useState([]);
@@ -84,6 +85,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
         oldCtr: curr.data[0].CtrNo,
         oldCtrId: curr.data[0].id,
       });
+      setOldCLP(curr.data[0].Clp);
       localStorage.setItem("Current_CTR", curr.data[0].CtrNo);
       const unassign = await getUnassignedCLPCTR();
       console.log(unassign.data);
@@ -175,7 +177,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={CTR.oldCtr}
+                  value={CTR.oldCtr + "-" + CLP}
                   disabled
                 />
               </Grid>
@@ -186,7 +188,9 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                     <Autocomplete
                       id="combo-box-demo"
                       options={unassignedCTR}
-                      getOptionLabel={(option) => option.CtrNo}
+                      getOptionLabel={(option) =>
+                        `${option.CtrNo}-${option.Clp}`
+                      }
                       fullWidth
                       renderInput={(params) => (
                         <TextField
