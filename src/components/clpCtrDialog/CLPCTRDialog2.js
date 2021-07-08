@@ -48,8 +48,10 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           startTime: "",
           startDate: "",
           oldCtr: "",
+          oldCtrId: "",
         });
         alert("CTR changed successfully");
+        loadCurrentAndUnassigned();
       }
     } catch (err) {}
   };
@@ -76,6 +78,11 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
       const curr = await getCurrentCTR();
       console.log(curr.data);
       setCurrentCTR(curr.data);
+      setCTR({
+        ...CTR,
+        oldCtr: curr.data[0].CtrNo,
+        oldCtrId: curr.data[0].id,
+      });
 
       const unassign = await getUnassignedCLPCTR();
       console.log(unassign.data);
@@ -120,7 +127,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           <DialogContentText id="alert-dialog-description">
             <Grid container spacing={1} style={{ width: "320px" }}>
               <Grid item xs={12}>
-                <FormControl variant="outlined" fullWidth>
+                {/* <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
                     Old CTR
                   </InputLabel>
@@ -131,7 +138,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                     value={CTR.oldCtr}
                     onChange={(e) => setOldCtr(e)}
                   >
-                    {/* <MenuItem value={"enter manually"}>Enter Manually</MenuItem> */}
                     {currentCTR.length > 0 &&
                       currentCTR?.map((item, i) => (
                         <MenuItem value={item?.CtrNo} key={i}>
@@ -139,7 +145,18 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                         </MenuItem>
                       ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="time"
+                  label="Old CTR"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={CTR.oldCtr}
+                  disabled
+                />
               </Grid>
 
               {unassignedCTR.length > 0 && (
