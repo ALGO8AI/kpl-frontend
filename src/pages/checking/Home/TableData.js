@@ -236,24 +236,29 @@ function TableData({
                   width: 240,
                 },
                 { width: 240, headerName: "Table Id", field: "tableId" },
-                { width: 240, headerName: "Worker Name", field: "workerName" },
-                { width: 240, headerName: "Worker Id", field: "workerId" },
+                // { width: 240, headerName: "Worker Name", field: "workerName" },
+                // { width: 240, headerName: "Worker Id", field: "workerId" },
 
                 {
                   width: 240,
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
                 },
-                {
-                  width: 240,
-                  headerName: "% Utilization",
-                  field: "utilizationPercentage",
-                },
-                { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
+                // {
+                //   width: 240,
+                //   headerName: "% Utilization",
+                //   field: "utilizationPercentage",
+                // },
+                // { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 // {
                 //   width:240,headerName: "Feed Unavailable Hrs.",
                 //   field: "feedUnav",
                 // },
+                {
+                  width: 240,
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                },
                 {
                   width: 240,
                   headerName: "Worker Unavailable Hrs.",
@@ -261,14 +266,24 @@ function TableData({
                 },
                 {
                   width: 240,
-                  headerName: "No. Of Bags Checked",
-                  field: "numBagsChecked",
+                  headerName: "Defect %",
+                  field: "defectPercentage",
                 },
                 {
                   width: 240,
-                  headerName: "Count Of Defects",
-                  field: "defectCount",
+                  headerName: "Defect Count",
+                  field: "max(defectCount)",
                 },
+                // {
+                //   width: 240,
+                //   headerName: "No. Of Bags Checked",
+                //   field: "numBagsChecked",
+                // },
+                // {
+                //   width: 240,
+                //   headerName: "Count Of Defects",
+                //   field: "defectCount",
+                // },
 
                 // { width:240,headerName: "Shift", field: "shift" },
               ]}

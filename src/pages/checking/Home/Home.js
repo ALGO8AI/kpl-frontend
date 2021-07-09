@@ -15,7 +15,7 @@ import {
   ctr_machineID,
   homepageData,
   machineBreakdownData,
-  detailedSummaryByTableChecking,
+  checkingHomeByTable,
   checkingHomeDate,
   checkingHomeWorker,
   checkingWorkerUtilizationData,
@@ -98,13 +98,11 @@ export default function Home() {
         },
       });
 
-      const homeMachineTable = await detailedSummaryByTableChecking();
+      const homeMachineTable = await checkingHomeByTable();
       dispatch({
         type: "HOME_MACHINE_TABLE",
         payload: {
-          data:
-            homeMachineTable.detailedSummaryByMachineId
-              .violationSummaryByMachineId,
+          data: homeMachineTable?.detailedSummaryByTableId,
           loading: false,
         },
       });
@@ -207,18 +205,6 @@ export default function Home() {
         });
       }
 
-      if (state.homeMachineTable.loading) {
-        const homeMachineTable = await detailedSummaryByTableChecking();
-        console.log(homeMachineTable);
-        dispatch({
-          type: "HOME_MACHINE_TABLE",
-          payload: {
-            data: homeMachineTable,
-            loading: false,
-          },
-        });
-      }
-
       if (state.homeCTRTable.loading) {
         const homeCTRTable = await detailedSummaryByClpCtrChecking();
         console.log(homeCTRTable);
@@ -227,6 +213,17 @@ export default function Home() {
           payload: {
             data:
               homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
+            loading: false,
+          },
+        });
+      }
+      if (state.homeMachineTable.loading) {
+        const homeMachineTable = await checkingHomeByTable();
+        console.log(homeMachineTable);
+        dispatch({
+          type: "HOME_MACHINE_TABLE",
+          payload: {
+            data: homeMachineTable?.detailedSummaryByTableId,
             loading: false,
           },
         });
@@ -316,7 +313,7 @@ export default function Home() {
           });
         }
 
-        const homeMachineTable = await detailedSummaryByTableChecking(
+        const homeMachineTable = await checkingHomeByTable(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -325,16 +322,11 @@ export default function Home() {
             : machineID.map((item) => item.machineID),
           inputSHIFT
         );
-        if (
-          homeMachineTable.detailedSummaryByMachineId
-            .violationSummaryByMachineId !== "no data"
-        ) {
+        if (homeMachineTable?.detailedSummaryByTableId !== "no data") {
           dispatch({
             type: "HOME_MACHINE_TABLE",
             payload: {
-              data:
-                homeMachineTable.detailedSummaryByMachineId
-                  .violationSummaryByMachineId,
+              data: homeMachineTable?.detailedSummaryByTableId,
               loading: false,
             },
           });

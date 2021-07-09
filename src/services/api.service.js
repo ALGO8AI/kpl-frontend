@@ -804,6 +804,20 @@ const communicatedTo = async (to, id, reason) => {
   );
 };
 
+// const CheckingCommunicatedTo = async (to, id, reason) => {
+//   const data = {
+//     communicatedTo: to,
+//     violationId: id,
+//     violationReason: reason,
+//   };
+//   return await callBackend(
+//     "POST",
+//     "routes/KPI/violation/communicatedTo",
+//     true,
+//     data
+//   );
+// };
+
 const updateStitchingWorkerSchedule = async (datas) => {
   const data = {
     date: datas.date,
@@ -1434,6 +1448,30 @@ const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
+const checkingHomeByTable = async (fromDate, toDate, ctr, machine, shifts) => {
+  const data = {
+    clpctr: ctr,
+    tableId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/byTable",
+    true,
+    data
+  );
+};
+
+const getRecentChecking = async () => {
+  return await callBackend(
+    "GET",
+    "routes/checking/KPI/violation/workerUnavRecentIncidents"
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1542,4 +1580,6 @@ export {
   getCheckingViolationDetailData,
   checkingHomeDate,
   checkingViolationSupervisorUpdate,
+  checkingHomeByTable,
+  getRecentChecking,
 };
