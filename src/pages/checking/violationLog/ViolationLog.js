@@ -1021,7 +1021,7 @@ function ViolationLog1() {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
                             "VIOLATION-TYPE",
-                            "Crowding Violation"
+                            "Defect Violation"
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",

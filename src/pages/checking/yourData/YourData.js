@@ -12,6 +12,7 @@ import Schedule from "./Schedule";
 import Supervisor from "./Supervisor";
 import NotificationLog from "../../../components/notificationLog/NotificationLog";
 import Tailor from "./Tailor";
+import NotificationLogChecking from "../../../components/notificationLog/NotificationLogChecking";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -97,7 +98,7 @@ function YourData() {
         <Tailor />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <NotificationLog />
+        <NotificationLogChecking />
       </TabPanel>
     </Grid>
   );

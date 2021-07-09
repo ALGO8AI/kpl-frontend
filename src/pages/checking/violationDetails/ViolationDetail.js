@@ -15,7 +15,7 @@ import {
   getViolationDetailData,
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
-  violationComment,
+  violationCommentChecking,
   communicatedTo,
   getAllSupervisorList,
   checkingViolationSupervisorUpdate,
@@ -290,7 +290,7 @@ function ViolationDetail(props) {
         setOpen1(true);
         return;
       }
-      const x = await violationComment(
+      const x = await violationCommentChecking(
         props.id,
         res,
         act,
@@ -324,7 +324,14 @@ function ViolationDetail(props) {
       //   "Are you want to mark this violation incorrect ?"
       // );
       // if (txt) {
-      const x = await violationComment(props.id, "", "", false, true, inc);
+      const x = await violationCommentChecking(
+        props.id,
+        "",
+        "",
+        false,
+        true,
+        inc
+      );
       console.log(x);
       setMsg(x.msg);
       setOpen1(true);

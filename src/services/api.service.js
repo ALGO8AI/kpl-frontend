@@ -281,6 +281,42 @@ const violationComment = async (
     reassignedSupervisor: reassigned,
   });
 };
+const violationCommentChecking = async (
+  id,
+  reason,
+  action,
+  isCorrect,
+  isIncorrect,
+  incorrect,
+  actual,
+  reassigned
+) => {
+  console.log(
+    id,
+    reason,
+    action,
+    isCorrect,
+    isIncorrect,
+    incorrect,
+    actual,
+    reassigned
+  );
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/addComment",
+    true,
+    {
+      violationId: id,
+      violationReason: reason,
+      action: action,
+      confirmStatus: isCorrect,
+      incorrectStatus: isIncorrect,
+      incorrectViolationReason: incorrect,
+      actualSupervisor: actual,
+      reassignedSupervisor: reassigned,
+    }
+  );
+};
 
 const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
   const data = {
@@ -307,7 +343,7 @@ const checkingWorkerUtilizationData = async (
   shifts
 ) => {
   const data = {
-    clpctr: ctr,
+    clpctr: [],
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -686,7 +722,7 @@ const detailedSummaryByClpCtrChecking = async (
   shifts
 ) => {
   const data = {
-    clpctr: ctr,
+    clpctr: [],
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -877,13 +913,6 @@ const getForgetPasswordLink = async (data) => {
 };
 
 const getNotificationLog = async (filterDateFrom, filterDateTo) => {
-  // var config = {
-  //   method: "post",
-  //   url: "http://3.23.114.42:3000/routes/yourData/notificationLog",
-  //   headers: {},
-  // };
-
-  // return await axios(config);
   const data = {
     filterDateFrom,
     filterDateTo,
@@ -894,6 +923,14 @@ const getNotificationLog = async (filterDateFrom, filterDateTo) => {
     true,
     data
   );
+};
+
+const getNotificationLogChecking = async (filterDateFrom, filterDateTo) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+  };
+  return await callBackend("POST", "routes/checking/notifLog", true, data);
 };
 
 const updatePassword = async (data) => {
@@ -1360,7 +1397,7 @@ const deleteTailor = async (name, Tid, id) => {
 
 const defectChartData = async (fromDate, toDate, ctr, table, shifts) => {
   const data = {
-    clpctr: ctr,
+    clpctr: [],
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1416,7 +1453,7 @@ const checkingViolationSupervisorUpdate = async (volId, supervisorName) => {
 
 const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
-    clpctr: ctr,
+    clpctr: [],
     tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1433,7 +1470,7 @@ const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
 
 const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
-    clpctr: ctr,
+    clpctr: [],
     tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1450,7 +1487,7 @@ const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
 
 const checkingHomeByTable = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
-    clpctr: ctr,
+    clpctr: [],
     tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1582,4 +1619,6 @@ export {
   checkingViolationSupervisorUpdate,
   checkingHomeByTable,
   getRecentChecking,
+  getNotificationLogChecking,
+  violationCommentChecking,
 };

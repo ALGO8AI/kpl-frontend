@@ -14,7 +14,7 @@ import {
   getViolationDetailData,
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
-  violationComment,
+  violationCommentChecking,
   communicatedTo,
 } from "../../../services/api.service";
 import * as moment from "moment";
@@ -201,14 +201,22 @@ function ViolationDetails(props) {
       act = action;
     }
 
-    await violationComment(props.id, res, act, true, false, "").then((x) => {
-      console.log(x);
-      setMsg(x.msg);
+    if (!res) {
+      setMsg("Reason can't be empty");
       setOpen1(true);
-      setTimeout(() => {
-        history.push("/checking/violationLog");
-      }, 2000);
-    });
+      return;
+    }
+
+    await violationCommentChecking(props.id, res, act, true, false, "").then(
+      (x) => {
+        console.log(x);
+        setMsg(x.msg);
+        setOpen1(true);
+        setTimeout(() => {
+          history.push("/checking/violationLog");
+        }, 2000);
+      }
+    );
   };
 
   const submitIncorrectViolation = async () => {
@@ -219,15 +227,17 @@ function ViolationDetails(props) {
       inc = incorrect;
     }
 
-    await violationComment(props.id, "", "", false, true, inc).then((x) => {
-      console.log(x);
-      setMsg(x.msg);
-      setOpen1(true);
-      setOpen(false);
-      setTimeout(() => {
-        history.push("/checking/violationLog");
-      }, 2000);
-    });
+    await violationCommentChecking(props.id, "", "", false, true, inc).then(
+      (x) => {
+        console.log(x);
+        setMsg(x.msg);
+        setOpen1(true);
+        setOpen(false);
+        setTimeout(() => {
+          history.push("/checking/violationLog");
+        }, 2000);
+      }
+    );
   };
 
   const [communicated, setCommunicated] = useState("");
