@@ -458,7 +458,7 @@ function TableData({
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
               // data={homeCTRTable}
-              data={homeCTRTable.map((row, i) => {
+              data={homeCTRTable?.map((row, i) => {
                 const { CLPCTR, ...rest } = row;
                 return {
                   id: i,
@@ -531,7 +531,6 @@ function TableData({
                       : 1280 / 5,
                   hide: true,
                 },
-                // { headerName: "Shift", field: "shift" },
               ]}
             />
           </Grid>

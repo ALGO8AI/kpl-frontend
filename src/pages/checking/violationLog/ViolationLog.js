@@ -200,7 +200,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.tableId)
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
       );
       console.log(crowd);
       if (crowd.crowdingData !== "no data") {
@@ -216,7 +217,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.tableId)
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
       );
       console.log(defects.data);
 
@@ -234,7 +236,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.tableId)
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
       );
       console.log(worker.checkingWorkerUnavailableViolation);
       if (worker.checkingWorkerUnavailableViolation !== "no data") {
@@ -253,7 +256,8 @@ function ViolationLog1() {
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
         inputMACHINEid.length > 0
           ? inputMACHINEid
-          : machineID.map((item) => item.tableId)
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
       );
       console.log(by_worker.violationByWorkerData);
       if (by_worker.violationByWorkerData !== "no data") {
@@ -272,6 +276,7 @@ function ViolationLog1() {
   const [machineID, setMachineID] = useState([]);
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
+  const [inputSHIFT, setInputSHIFT] = useState([]);
 
   const load_ctr_machine = async () => {
     try {
@@ -425,7 +430,7 @@ function ViolationLog1() {
             alignItems: "center",
           }}
         >
-          <Grid item xs={12} md={2}>
+          <Grid item xs={6} md={2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -443,9 +448,6 @@ function ViolationLog1() {
                 label="CTR"
                 // multiple
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 {clpCtr &&
                   clpCtr.map((item, index) => (
                     <MenuItem value={item.ctrs} key={index}>
@@ -456,7 +458,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={6} md={2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -474,9 +476,6 @@ function ViolationLog1() {
                 label="Table ID"
                 // multiple
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 {machineID &&
                   machineID.map((item, index) => (
                     <MenuItem value={item.tableId} key={index}>
@@ -487,7 +486,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={6} md={2}>
             <TextField
               id="fromDate"
               label="From"
@@ -505,7 +504,7 @@ function ViolationLog1() {
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={6} md={2}>
             <TextField
               id="toDate"
               label="To"
@@ -522,12 +521,42 @@ function ViolationLog1() {
               variant="outlined"
             />
           </Grid>
+          <Grid
+            container
+            item
+            xs={4}
+            sm={6}
+            lg={2}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+                // multiple
+              >
+                <MenuItem value="A">A</MenuItem>
+                <MenuItem value="B">B</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
 
           <Grid
             container
             item
-            xs={12}
-            md={2}
+            xs={4}
+            md={1}
             style={{ justifyContent: "center" }}
           >
             <Button
@@ -544,8 +573,8 @@ function ViolationLog1() {
           <Grid
             container
             item
-            xs={12}
-            md={2}
+            xs={4}
+            md={1}
             style={{ justifyContent: "center" }}
           >
             <Button

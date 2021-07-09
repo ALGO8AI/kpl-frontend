@@ -520,9 +520,6 @@ function ViolationLog1() {
                 label="CTR"
                 // multiple
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 {clpCtr &&
                   clpCtr.map((item, index) => (
                     <MenuItem value={item.ctrs} key={index}>
@@ -551,9 +548,6 @@ function ViolationLog1() {
                 label="Machine ID"
                 // multiple
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 {machineID &&
                   machineID.map((item, index) => (
                     <MenuItem value={item.machineID} key={index}>
@@ -603,7 +597,7 @@ function ViolationLog1() {
           <Grid
             container
             item
-            xs={12}
+            xs={4}
             sm={6}
             lg={2}
             style={{ justifyContent: "center" }}
@@ -625,9 +619,6 @@ function ViolationLog1() {
                 label="Shift"
                 // multiple
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 <MenuItem value="A">A</MenuItem>
                 <MenuItem value="B">B</MenuItem>
               </Select>
@@ -637,7 +628,7 @@ function ViolationLog1() {
           <Grid
             container
             item
-            xs={6}
+            xs={4}
             md={1}
             sm={6}
             style={{ justifyContent: "center" }}
@@ -656,7 +647,7 @@ function ViolationLog1() {
           <Grid
             container
             item
-            xs={6}
+            xs={4}
             md={1}
             sm={6}
             style={{ justifyContent: "center" }}

@@ -113,9 +113,7 @@ export default function Home() {
       dispatch({
         type: "HOME_CTR_TABLE",
         payload: {
-          data:
-            homeCTRTable?.data?.detailedSummaryByClpCtr
-              ?.detailedSummaryByClpCtr,
+          data: homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
           loading: false,
         },
       });
@@ -226,8 +224,7 @@ export default function Home() {
           type: "HOME_CTR_TABLE",
           payload: {
             data:
-              homeCTRTable?.data?.detailedSummaryByClpCtr
-                ?.detailedSummaryByClpCtr,
+              homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
             loading: false,
           },
         });
@@ -358,8 +355,7 @@ export default function Home() {
             type: "HOME_CTR_TABLE",
             payload: {
               data:
-                homeCTRTable?.data?.detailedSummaryByClpCtr
-                  ?.detailedSummaryByClpCtr,
+                homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
               loading: false,
             },
           });
@@ -387,7 +383,7 @@ export default function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center" }}
@@ -407,9 +403,6 @@ export default function Home() {
             label="CTR"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {clpCtr &&
               clpCtr.map((item, index) => (
                 <MenuItem value={item.ctrs} key={index}>
@@ -423,7 +416,7 @@ export default function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center" }}
@@ -445,9 +438,6 @@ export default function Home() {
             label="Machine ID"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {machineID &&
               machineID.map((item, index) => (
                 <MenuItem value={item.machineID} key={index}>
@@ -461,7 +451,7 @@ export default function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center" }}
@@ -485,7 +475,7 @@ export default function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={6}
         sm={4}
         lg={2}
         style={{ justifyContent: "center" }}
@@ -509,7 +499,7 @@ export default function Home() {
       <Grid
         container
         item
-        xs={12}
+        xs={4}
         sm={4}
         lg={2}
         style={{ justifyContent: "center" }}
@@ -529,9 +519,6 @@ export default function Home() {
             label="Shift"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value="A">A</MenuItem>
             <MenuItem value="B">B</MenuItem>
           </Select>
@@ -542,7 +529,7 @@ export default function Home() {
         container
         item
         // sm={12}
-        xs={6}
+        xs={4}
         sm={4}
         lg={1}
         style={{ justifyContent: "center" }}
@@ -561,7 +548,7 @@ export default function Home() {
         container
         item
         // sm={12}
-        xs={6}
+        xs={4}
         sm={4}
         lg={1}
         style={{ justifyContent: "center" }}

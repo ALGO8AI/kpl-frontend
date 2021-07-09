@@ -434,9 +434,6 @@ function Home() {
             label="CTR"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {clpCtr &&
               clpCtr.map((item, index) => (
                 <MenuItem value={item.ctrs} key={index}>
@@ -472,9 +469,6 @@ function Home() {
             label="Machine ID"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {machineID &&
               machineID.map((item, index) => (
                 <MenuItem value={item.machineID} key={index}>
@@ -556,9 +550,6 @@ function Home() {
             label="Shift"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value="A">A</MenuItem>
             <MenuItem value="B">B</MenuItem>
           </Select>
@@ -708,7 +699,10 @@ function Home() {
         homeWorkerTable={state.homeWorkerTable.data}
         homeDateTable={state.homeDateTable.data}
         homeMachineTable={state.homeMachineTable.data}
-        homeCTRTable={state.homeCTRTable.data}
+        homeCTRTable={
+          state.homeCTRTable?.data?.detailedSummaryByClpCtr
+            ?.detailedSummaryByClpCtr
+        }
       />
     </Grid>
   );

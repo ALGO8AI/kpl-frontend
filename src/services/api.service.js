@@ -99,13 +99,15 @@ const workerUnavailableViolationChecking = async (
   fromDate,
   toDate,
   ctr,
-  machine
+  machine,
+  shifts
 ) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   console.log(data);
@@ -158,12 +160,20 @@ const crowdingViolation = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
-const crowdingViolationChecking = async (fromDate, toDate, ctr, machine) => {
+const crowdingViolationChecking = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
   };
   return await callBackend(
     "POST",

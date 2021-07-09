@@ -285,18 +285,15 @@ function TableData({
             <HomeTable
               // data={homeCTRTable}
               data={
-                homeCTRTable?.data?.detailedSummaryByClpCtr
-                  ?.detailedSummaryByClpCtr?.length > 0 &&
-                homeCTRTable?.data?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr?.map(
-                  (row, i) => {
-                    const { CLPCTR, ...rest } = row;
-                    return {
-                      id: i,
-                      clp: CLPCTR,
-                      ...rest,
-                    };
-                  }
-                )
+                homeCTRTable?.length > 0 &&
+                homeCTRTable?.map((row, i) => {
+                  const { CLPCTR, ...rest } = row;
+                  return {
+                    id: i,
+                    clp: CLPCTR,
+                    ...rest,
+                  };
+                })
               }
               columns={[
                 {
