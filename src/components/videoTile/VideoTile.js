@@ -5,7 +5,7 @@ import ImageDialog from "../imageDialog/ImageDialog";
 import "./VideoTile.scss";
 
 function VideoTile({ data, ctr, supervisor }) {
-  // console.log(data);
+  console.log(data, ctr, supervisor);
   const [open, setOpen] = React.useState(false);
   const [link, setLink] = React.useState("");
 

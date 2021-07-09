@@ -78,18 +78,19 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
   const loadCurrentAndUnassigned = async () => {
     try {
       const curr = await getCurrentCTR();
-      console.log(curr.data);
-      setCurrentCTR(curr.data);
+      console.log(curr?.data);
+      setCurrentCTR(curr?.data);
       setCTR({
         ...CTR,
-        oldCtr: curr.data[0].CtrNo,
-        oldCtrId: curr.data[0].id,
+        oldCtr: curr?.data[0]?.CtrNo,
+        oldCtrId: curr?.data[0]?.id,
       });
-      setOldCLP(curr.data[0].Clp);
-      localStorage.setItem("Current_CTR", curr.data[0].CtrNo);
+      setOldCLP(curr?.data[0]?.Clp);
+      localStorage.setItem("Current_CTR", curr?.data[0]?.CtrNo || "N/A");
+      console.log(curr?.data[0]?.CtrNo || "N/A");
       const unassign = await getUnassignedCLPCTR();
-      console.log(unassign.data);
-      setUnassignedCTR(unassign.data);
+      console.log(unassign?.data);
+      setUnassignedCTR(unassign?.data);
     } catch (e) {}
   };
 
@@ -169,20 +170,22 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                       ))}
                   </Select>
                 </FormControl> */}
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="time"
-                  label="Current CTR"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={CLP + "-" + CTR.oldCtr}
-                  disabled
-                />
+                {CTR.oldCtr && (
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="time"
+                    label="Current CTR"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={CLP + "-" + CTR.oldCtr}
+                    disabled
+                  />
+                )}
               </Grid>
 
-              {unassignedCTR.length > 0 && (
+              {unassignedCTR?.length > 0 && (
                 <>
                   <Grid item xs={12}>
                     <Autocomplete
@@ -235,7 +238,8 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                   inputProps={{
                     step: 300, // 5 min
                   }}
-                  value={CTR.startTime}
+                  defaultValue={CTR.startTime}
+                  // value={CTR.startTime}
                   onChange={(e) =>
                     setCTR({ ...CTR, startTime: e.target.value })
                   }
