@@ -17,6 +17,9 @@ import {
   WORKER_UnavailableViolation,
   violationComment,
   communicatedTo,
+  getAllSupervisorList,
+  violationSupervisorUpdate,
+  violationClosedByUpdate,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -162,6 +165,9 @@ function ViolationDetail(props) {
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [VIOLATION, setVIOLATION] = useState([]);
   const [communicated, setCommunicated] = useState("");
+  const [supervisor, setSupervisor] = useState("");
+  const [newSupervisor, setNewSupervisor] = useState("");
+  const [closedBy, setClosedBy] = useState("");
 
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
@@ -184,6 +190,8 @@ function ViolationDetail(props) {
       const x = await getViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
+      setNewSupervisor(x.volIdData[0].supervisor);
+      setClosedBy(x.volIdData[0].closingSupervisor);
       setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
         setReason(x.volIdData[0].violationReason);
@@ -232,9 +240,18 @@ function ViolationDetail(props) {
     }
   };
 
+  const getSupervisor = async () => {
+    try {
+      const resp = await getAllSupervisorList();
+      console.log(resp);
+      setSupervisor(resp);
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getData();
     getRecentData();
+    getSupervisor();
     return () => {
       setReason("");
       setReason1("");
@@ -263,6 +280,11 @@ function ViolationDetail(props) {
     }
 
     try {
+      if (!res.trim()) {
+        setMsg("Reason can't be empty.");
+        setOpen1(true);
+        return;
+      }
       const x = await violationComment(
         props.id,
         res,
@@ -293,21 +315,21 @@ function ViolationDetail(props) {
     }
 
     try {
-      var txt = window.confirm(
-        "Are you want to mark this violation incorrect ?"
-      );
-      if (txt) {
-        const x = await violationComment(props.id, "", "", false, true, inc);
-        console.log(x);
-        setMsg(x.msg);
-        setOpen1(true);
-        setOpen(false);
-        setTimeout(() => {
-          history.push("/checking/violationLog");
-        }, 2000);
-      } else {
-        setOpen(false);
-      }
+      // var txt = window.confirm(
+      //   "Are you want to mark this violation incorrect ?"
+      // );
+      // if (txt) {
+      const x = await violationComment(props.id, "", "", false, true, inc);
+      console.log(x);
+      setMsg(x.msg);
+      setOpen1(true);
+      setOpen(false);
+      setTimeout(() => {
+        history.push("/checking/violationLog");
+      }, 2000);
+      // } else {
+      //   setOpen(false);
+      // }
     } catch (e) {}
   };
 
@@ -573,6 +595,28 @@ function ViolationDetail(props) {
         return "Link-btn-red";
     }
   };
+  const onSupervisorChange = async (e) => {
+    try {
+      setNewSupervisor(e.target.value);
+      const resp = await violationSupervisorUpdate(props.id, e.target.value);
+      setMsg(resp.volIdData);
+      setOpen1(true);
+    } catch (e) {
+      // console.log(e);
+    }
+  };
+
+  const onClosedByChange = async (e) => {
+    try {
+      setClosedBy(e.target.value);
+      const resp = await violationClosedByUpdate(props.id, e.target.value);
+      setMsg(resp.msg);
+      setOpen1(true);
+    } catch (e) {
+      // console.log(e);
+    }
+  };
+
   return (
     <>
       <Grid
@@ -714,6 +758,7 @@ function ViolationDetail(props) {
                 xs={12}
                 sm={12}
                 md={12}
+                style={{ alignItems: "center" }}
               >
                 {/* WORKER NAME */}
                 {data?.workerName && (
@@ -722,6 +767,7 @@ function ViolationDetail(props) {
                     value={data && data?.workerName}
                   />
                 )}
+
                 {/*WORKER ID  */}
                 {data?.workerId && (
                   <NameValue name="WORKER ID" value={data && data?.workerId} />
@@ -753,13 +799,123 @@ function ViolationDetail(props) {
                 {data?.line && (
                   <NameValue name="LINE" value={data && data.line} />
                 )}
+                {/* START TIME */}
+                {data?.StartTime && (
+                  <NameValue name="START TIME" value={data && data.StartTime} />
+                )}
+                {/* END TIME */}
+                {data?.EndTime && (
+                  <NameValue name="END TIME" value={data && data.EndTime} />
+                )}
                 {/* SUPERVISOR */}
-                {data?.supervisor && (
+                {data && (
+                  <>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Key"
+                    >
+                      SUPERVISOR
+                    </Grid>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Value"
+                    >
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginRight: "6px" }}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          Supervisor
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={newSupervisor}
+                          onChange={onSupervisorChange}
+                          label="Supervisor"
+                          // multiple
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {supervisor.length > 0 &&
+                            supervisor?.map((item, index) => (
+                              <MenuItem value={item.username} key={index}>
+                                {item.username}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </>
+                )}
+
+                {/* CLOSED BY*/}
+                {data && (
+                  <>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Key"
+                    >
+                      VIOLATION CLOSED
+                    </Grid>
+                    <Grid
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      component={Typography}
+                      variant="h6"
+                      className="Value"
+                    >
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginRight: "6px" }}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          Supervisor
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={closedBy}
+                          onChange={onClosedByChange}
+                          label="Supervisor"
+                          // multiple
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {supervisor.length > 0 &&
+                            supervisor?.map((item, index) => (
+                              <MenuItem value={item.username} key={index}>
+                                {item.username}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </>
+                )}
+                {/* {data?.supervisor && (
                   <NameValue
                     name="SUPERVISOR"
                     value={data && data.supervisor}
                   />
-                )}
+                )} */}
                 {/* ACTUAL SUPERVISOR */}
                 {/* {data?.actualSupervisor && (
                   <NameValue
@@ -768,12 +924,12 @@ function ViolationDetail(props) {
                   />
                 )} */}
                 {/* REASSIGNED SUPERVISOR */}
-                {data?.reassignedSupervisor && (
+                {/* {data?.reassignedSupervisor && (
                   <NameValue
                     name="REASSIGNED SUPERVISOR"
                     value={data && data.reassignedSupervisor}
                   />
-                )}
+                )} */}
               </Grid>
             </Grid>
             <Grid
@@ -903,7 +1059,7 @@ function ViolationDetail(props) {
                   />
                 )}
               </Grid>
-              <Grid
+              {/* <Grid
                 container
                 item
                 xs={12}
@@ -926,7 +1082,7 @@ function ViolationDetail(props) {
                   fullWidth
                   style={{ marginBottom: "12px" }}
                 />
-              </Grid>
+              </Grid> */}
 
               {/* COMMUNICATED TO */}
               <Grid

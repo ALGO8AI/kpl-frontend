@@ -9,6 +9,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { Typography } from "@material-ui/core";
+import { CheckingContext } from "../../context/CheckingContext";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   // formControl: {
@@ -21,12 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DefectChart() {
+function DefectChart({ data, link, payload_data }) {
+  const { dispatch } = React.useContext(CheckingContext);
   const DATA = {
     series: [
       {
         name: "Defects",
-        data: [65, 89, 38, 22, 50],
+        data: data.map((item) => item.count),
       },
     ],
     options: {
@@ -57,7 +60,7 @@ function DefectChart() {
       // ],
 
       xaxis: {
-        categories: ["Damage", "Fray", "Miss", "Baffle", "Juki"],
+        categories: data.map((item) => item.defectName),
         position: "bottom",
         axisBorder: {
           show: false,
@@ -66,7 +69,7 @@ function DefectChart() {
           show: false,
         },
         title: {
-          text: "Top 5 Defects",
+          text: "Top 3 Defects",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
@@ -89,7 +92,7 @@ function DefectChart() {
 
   return (
     <>
-      <div className="top" style={{ marginBottom: "12px" }}>
+      <div className="top" style={{ display: "flex", marginBottom: "12px" }}>
         <Typography
           // variant="h6"
           style={{
@@ -100,18 +103,16 @@ function DefectChart() {
             padding: "4px 8px",
             borderRadius: "4px",
             textDecoration: "none",
-            width: "fit-content",
             fontSize: "20px",
             fontWeight: "500",
           }}
+          component={Link}
+          to={link}
+          onClick={() =>
+            dispatch({ type: "VIOLATION_TAB", payload: payload_data })
+          }
         >
-          Defects %
-        </Typography>
-        <Typography
-          variant="body1"
-          style={{ margin: "auto", textAlign: "center", color: "#0e4a7b" }}
-        >
-          Top 5 Defects
+          Defects
         </Typography>
       </div>
 
@@ -125,7 +126,7 @@ function DefectChart() {
           />
         </div>
       </div>
-      <Typography
+      {/* <Typography
         variant="h6"
         style={{
           margin: "auto",
@@ -136,7 +137,7 @@ function DefectChart() {
       >
         % Defective Bags{" "}
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>43%</span>
-      </Typography>
+      </Typography> */}
     </>
   );
 }

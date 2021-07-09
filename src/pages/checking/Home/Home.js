@@ -19,6 +19,7 @@ import {
   summaryByViolationData,
   detailedSummaryByWorkerChecking,
   checkingWorkerUtilizationData,
+  defectChartData,
 } from "../../../services/api.service";
 import GraphData from "./GraphData";
 import TableData from "./TableData";
@@ -61,6 +62,12 @@ export default function Home() {
     });
 
     try {
+      const defect = await defectChartData();
+      dispatch({
+        type: "DEFECT_CHART",
+        payload: { data: defect.data, loading: false },
+      });
+
       const y = await checkingWorkerUtilizationData();
       dispatch({
         type: "WORKER_UTILIZATION",
@@ -106,7 +113,9 @@ export default function Home() {
       dispatch({
         type: "HOME_CTR_TABLE",
         payload: {
-          data: homeCTRTable,
+          data:
+            homeCTRTable?.data?.detailedSummaryByClpCtr
+              ?.detailedSummaryByClpCtr,
           loading: false,
         },
       });
@@ -167,6 +176,13 @@ export default function Home() {
         });
       }
 
+      if (state.defectChart.loading) {
+        const defect = await defectChartData();
+        dispatch({
+          type: "DEFECT_CHART",
+          payload: { data: defect.data, loading: false },
+        });
+      }
       if (state.homeWorkerTable.loading) {
         const homeWorkerTable = await detailedSummaryByWorkerChecking();
         console.log(homeWorkerTable);
@@ -209,7 +225,9 @@ export default function Home() {
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
-            data: homeCTRTable,
+            data:
+              homeCTRTable?.data?.detailedSummaryByClpCtr
+                ?.detailedSummaryByClpCtr,
             loading: false,
           },
         });
@@ -224,6 +242,19 @@ export default function Home() {
     else if (!state.to) alert("To Date not Selected!");
     else {
       try {
+        const defect = await defectChartData(
+          state.from,
+          state.to,
+          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+          inputMACHINEid.length > 0
+            ? inputMACHINEid
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
+        );
+        dispatch({
+          type: "DEFECT_CHART",
+          payload: { data: defect.data, loading: false },
+        });
         const x = await checkingWorkerUtilizationData(
           state.from,
           state.to,
@@ -238,7 +269,11 @@ export default function Home() {
           payload: { data: x.workerUtilization, loading: false },
         });
 
-        const y = await crowdingInstanceCheckingData(state.from, state.to);
+        const y = await crowdingInstanceCheckingData(
+          state.from,
+          state.to,
+          inputSHIFT
+        );
         dispatch({
           type: "CROWDING_INSTANCE",
           payload: { data: y.crowdingInstancesData, loading: false },
@@ -250,8 +285,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
-          // inputSHIFT
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (homeWorkerTable !== "no data") {
           dispatch({
@@ -269,8 +304,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
-          // inputSHIFT
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeDateTable.detailedSummaryByViolation.violationSummary !==
@@ -291,8 +326,8 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
-          // inputSHIFT
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (
           homeMachineTable.detailedSummaryByMachineId
@@ -315,14 +350,16 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID)
-          // inputSHIFT
+            : machineID.map((item) => item.machineID),
+          inputSHIFT
         );
         if (homeCTRTable !== "no data") {
           dispatch({
             type: "HOME_CTR_TABLE",
             payload: {
-              data: homeCTRTable,
+              data:
+                homeCTRTable?.data?.detailedSummaryByClpCtr
+                  ?.detailedSummaryByClpCtr,
               loading: false,
             },
           });
@@ -561,7 +598,15 @@ export default function Home() {
             ) : (
               <DonutChartSimple data={breakdownData.data} />
             )} */}
-            <DefectChart />
+            {state.defectChart.loading ? (
+              <Loader />
+            ) : (
+              <DefectChart
+                data={state?.defectChart?.data}
+                payload_data={2}
+                link={"/checking/violationLog"}
+              />
+            )}
           </Paper>
         </Grid>
         <Grid container item xs={12} sm={6} lg={4}>

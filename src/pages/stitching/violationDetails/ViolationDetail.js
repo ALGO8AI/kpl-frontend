@@ -18,6 +18,8 @@ import {
   violationComment,
   communicatedTo,
   getAllSupervisorList,
+  violationSupervisorUpdate,
+  violationClosedByUpdate,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -189,6 +191,7 @@ function ViolationDetail(props) {
       console.log(x);
       setData(x.volIdData[0]);
       setNewSupervisor(x.volIdData[0].supervisor);
+      setClosedBy(x.volIdData[0].closingSupervisor);
       setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
         setReason(x.volIdData[0].violationReason);
@@ -592,6 +595,28 @@ function ViolationDetail(props) {
         return "Link-btn-red";
     }
   };
+  const onSupervisorChange = async (e) => {
+    try {
+      setNewSupervisor(e.target.value);
+      const resp = await violationSupervisorUpdate(props.id, e.target.value);
+      setMsg(resp.volIdData);
+      setOpen1(true);
+    } catch (e) {
+      // console.log(e);
+    }
+  };
+
+  const onClosedByChange = async (e) => {
+    try {
+      setClosedBy(e.target.value);
+      const resp = await violationClosedByUpdate(props.id, e.target.value);
+      setMsg(resp.msg);
+      setOpen1(true);
+    } catch (e) {
+      // console.log(e);
+    }
+  };
+
   return (
     <>
       <Grid
@@ -815,7 +840,7 @@ function ViolationDetail(props) {
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={newSupervisor}
-                          onChange={(e) => setNewSupervisor(e.target.value)}
+                          onChange={onSupervisorChange}
                           label="Supervisor"
                           // multiple
                         >
@@ -867,7 +892,7 @@ function ViolationDetail(props) {
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={closedBy}
-                          onChange={(e) => setClosedBy(e.target.value)}
+                          onChange={onClosedByChange}
                           label="Supervisor"
                           // multiple
                         >

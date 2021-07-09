@@ -77,10 +77,13 @@ function TableData({
           >
             <HomeTable
               // data={homeWorkerTable}
-              data={homeWorkerTable?.map((row, i) => {
-                const { workerId, ...rest } = row;
-                return { id: workerId, ...rest };
-              })}
+              data={
+                homeWorkerTable?.length > 0 &&
+                homeWorkerTable?.map((row, i) => {
+                  const { workerId, ...rest } = row;
+                  return { id: workerId, ...rest };
+                })
+              }
               columns={[
                 { width: 240, headerName: "Worker ID", field: "id" },
                 { width: 240, headerName: "Worker Name", field: "workerName" },
@@ -137,7 +140,7 @@ function TableData({
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
               // data={homeDateTable}
-              data={homeDateTable.map((row, i) => {
+              data={homeDateTable?.map((row, i) => {
                 const { date, ...rest } = row;
                 return {
                   id: i,
@@ -216,16 +219,19 @@ function TableData({
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
               // data={homeMachineTable}
-              data={homeMachineTable.map((row, i) => {
-                const { utilizationPercentage, ...rest } = row;
-                return {
-                  id: i,
-                  utilizationPercentage: `${Math.round(
-                    utilizationPercentage
-                  )} %`,
-                  ...rest,
-                };
-              })}
+              data={
+                homeMachineTable.length > 0 &&
+                homeMachineTable?.map((row, i) => {
+                  const { utilizationPercentage, ...rest } = row;
+                  return {
+                    id: i,
+                    utilizationPercentage: `${Math.round(
+                      utilizationPercentage
+                    )} %`,
+                    ...rest,
+                  };
+                })
+              }
               columns={[
                 {
                   field: "id",
@@ -278,14 +284,20 @@ function TableData({
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
               // data={homeCTRTable}
-              data={homeCTRTable.map((row, i) => {
-                const { CLPCTR, ...rest } = row;
-                return {
-                  id: i,
-                  clp: CLPCTR,
-                  ...rest,
-                };
-              })}
+              data={
+                homeCTRTable?.data?.detailedSummaryByClpCtr
+                  ?.detailedSummaryByClpCtr?.length > 0 &&
+                homeCTRTable?.data?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr?.map(
+                  (row, i) => {
+                    const { CLPCTR, ...rest } = row;
+                    return {
+                      id: i,
+                      clp: CLPCTR,
+                      ...rest,
+                    };
+                  }
+                )
+              }
               columns={[
                 {
                   field: "id",

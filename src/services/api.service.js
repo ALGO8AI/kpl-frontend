@@ -283,14 +283,14 @@ const checkingWorkerUtilizationData = async (
   toDate,
   ctr,
   table,
-  shift
+  shifts
 ) => {
   const data = {
     clpctr: ctr,
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
-    shifts: [],
+    shifts,
     username: localStorage.getItem("kpl_username"),
   };
   console.log(data);
@@ -332,7 +332,7 @@ const feedInstanceData = async (fromDate, toDate, ctr, machine, shift) => {
   );
 };
 
-const crowdingInstanceCheckingData = async (fromDate, toDate) => {
+const crowdingInstanceCheckingData = async (fromDate, toDate, shifts) => {
   return await callBackend(
     "POST",
     "routes/checking/KPI/home/crowdingInstanceData",
@@ -340,6 +340,7 @@ const crowdingInstanceCheckingData = async (fromDate, toDate) => {
     {
       filterDateFrom: fromDate,
       filterDateTo: toDate,
+      shifts,
     }
   );
 };
@@ -591,98 +592,146 @@ const getMachineViolation = async (
   );
 };
 const postMachineViolation = async (fromDate, toDate) => {
-  try {
-    var config = {
-      method: "post",
-      url: "http://3.23.114.42:3000/routes/KPI/violation/mechineVoilation",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
-        filterDateFrom: fromDate,
-        filterDateTo: toDate,
-      },
-    };
+  const data = {
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/mechineVoilation",
+    true,
+    data
+  );
+  // try {
+  //   var config = {
+  //     method: "post",
+  //     url: "http://3.23.114.42:3000/routes/KPI/violation/mechineVoilation",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: {
+  //       filterDateFrom: fromDate,
+  //       filterDateTo: toDate,
+  //     },
+  //   };
 
-    const response = await axios(config);
-    console.log(response);
-    return response.data.data;
-  } catch {}
+  //   const response = await axios(config);
+  //   console.log(response);
+  //   return response.data.data;
+  // } catch {}
 };
 
 const detailedSummaryByWorkerChecking = async (
   fromDate,
   toDate,
-  tableId,
+  ctr,
+  table,
   shifts
 ) => {
-  try {
-    var config = {
-      method: "post",
-      url:
-        "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByWorker",
-      headers: {},
-      data: {
-        filterDateFrom: fromDate,
-        filterDateTo: toDate,
-        // tableId,
-        // shifts,
-      },
-    };
+  const data = {
+    clpctr: ctr,
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/detailedSummaryByWorker",
+    true,
+    data
+  );
+  // try {
+  //   var config = {
+  //     method: "post",
+  //     url:
+  //       "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByWorker",
+  //     headers: {},
+  //     data,
+  //   };
 
-    const response = await axios(config);
-    return response.data.detailedSummaryByWorker;
-  } catch (e) {}
+  //   const response = await axios(config);
+  //   return response.data.detailedSummaryByWorker;
+  // } catch (e) {}
 };
 
 const detailedSummaryByClpCtrChecking = async (
   fromDate,
   toDate,
-  tableId,
+  ctr,
+  table,
   shifts
 ) => {
-  try {
-    var config = {
-      method: "post",
-      url:
-        "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByClpCtr",
-      headers: {},
-      data: {
-        filterDateFrom: fromDate,
-        filterDateTo: toDate,
-        // tableId,
-        // shifts,
-      },
-    };
+  const data = {
+    clpctr: ctr,
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/detailedSummaryByClpCtr",
+    true,
+    data
+  );
+  // try {
+  //   var config = {
+  //     method: "post",
+  //     url:
+  //       "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByClpCtr",
+  //     headers: {},
+  //     data: {
+  //       filterDateFrom: fromDate,
+  //       filterDateTo: toDate,
+  //       // tableId,
+  //       // shifts,
+  //     },
+  //   };
 
-    const response = await axios(config);
-    return response.data.detailedSummaryByClpCtr.detailedSummaryByClpCtr;
-  } catch (err) {}
+  //   const response = await axios(config);
+  //   return response.data.detailedSummaryByClpCtr.detailedSummaryByClpCtr;
+  // } catch (err) {}
 };
 
 const detailedSummaryByTableChecking = async (
   fromDate,
   toDate,
-  tableId,
+  ctr,
+  table,
   shifts
 ) => {
-  try {
-    var config = {
-      method: "post",
-      url:
-        "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByTable",
-      headers: {},
-      data: {
-        filterDateFrom: fromDate,
-        filterDateTo: toDate,
-        // tableId,
-        // shifts,
-      },
-    };
+  const data = {
+    clpctr: ctr,
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/detailedSummaryByTable",
+    true,
+    data
+  );
+  // try {
+  //   var config = {
+  //     method: "post",
+  //     url:
+  //       "http://3.23.114.42:3000/routes/checking/KPI/home/detailedSummaryByTable",
+  //     headers: {},
+  //     data: {
+  //       filterDateFrom: fromDate,
+  //       filterDateTo: toDate,
+  //     },
+  //   };
 
-    const response = await axios(config);
-    return response.data.detailedSummaryByTable;
-  } catch (err) {}
+  //   const response = await axios(config);
+  //   return response.data.detailedSummaryByTable;
+  // } catch (err) {}
 };
 
 const revokeUserAccess = async (username) => {
@@ -1273,6 +1322,49 @@ const deleteTailor = async (name, Tid, id) => {
   return await callBackend("POST", "routes/checking/tailor/delete", true, data);
 };
 
+const defectChartData = async (fromDate, toDate, ctr, table, shifts) => {
+  const data = {
+    clpctr: ctr,
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/defectKPI",
+    true,
+    data
+  );
+};
+
+const violationSupervisorUpdate = async (volId, supervisorName) => {
+  const data = {
+    volId,
+    supervisorName,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/updateSupervisorByvolId",
+    true,
+    data
+  );
+};
+
+const violationClosedByUpdate = async (volId, closedBySupervisor) => {
+  const data = {
+    volId,
+    closedBySupervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/violationClosedBy",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1374,4 +1466,7 @@ export {
   addTailor,
   updateTailor,
   deleteTailor,
+  defectChartData,
+  violationSupervisorUpdate,
+  violationClosedByUpdate,
 };
