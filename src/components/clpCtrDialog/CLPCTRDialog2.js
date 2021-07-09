@@ -26,7 +26,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
   const [CTR, setCTR] = React.useState({
     id: "",
     CtrNo: "",
-    startTime: "",
+    startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
     startDate: "",
     oldCtr: "",
     oldCtrId: "",
@@ -47,7 +47,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
         setCTR({
           id: "",
           CtrNo: "",
-          startTime: "",
+          startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
           startDate: "",
           oldCtr: "",
           oldCtrId: "",
@@ -140,7 +140,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           <Button
             onClick={() => {
               handleCloseCTR();
-              // console.log(CTR);
+              console.log(CTR);
             }}
           >
             <i class="fa fa-times" aria-hidden="true"></i>
@@ -177,7 +177,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={CTR.oldCtr + "-" + CLP}
+                  value={CLP + "-" + CTR.oldCtr}
                   disabled
                 />
               </Grid>
@@ -189,7 +189,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                       id="combo-box-demo"
                       options={unassignedCTR}
                       getOptionLabel={(option) =>
-                        `${option.CtrNo}-${option.Clp}`
+                        `${option.Clp}-${option.CtrNo}`
                       }
                       fullWidth
                       renderInput={(params) => (
