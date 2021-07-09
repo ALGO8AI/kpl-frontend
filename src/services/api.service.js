@@ -1451,6 +1451,19 @@ const checkingViolationSupervisorUpdate = async (volId, supervisorName) => {
   );
 };
 
+const checkingViolationClosedByUpdate = async (volId, closedBySupervisor) => {
+  const data = {
+    volId,
+    closedBySupervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/violationClosedBy",
+    true,
+    data
+  );
+};
+
 const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: [],
@@ -1637,4 +1650,5 @@ export {
   violationCommentChecking,
   getRecentCheckingDefect,
   getRecentCheckingCrowd,
+  checkingViolationClosedByUpdate,
 };

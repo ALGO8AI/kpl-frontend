@@ -24,6 +24,7 @@ import {
   getRecentCheckingUnavailable,
   getRecentCheckingDefect,
   getRecentCheckingCrowd,
+  checkingViolationClosedByUpdate,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -627,7 +628,10 @@ function ViolationDetail(props) {
   const onClosedByChange = async (e) => {
     try {
       setClosedBy(e.target.value);
-      const resp = await violationClosedByUpdate(props.id, e.target.value);
+      const resp = await checkingViolationClosedByUpdate(
+        props.id,
+        e.target.value
+      );
       setMsg(resp.msg);
       setOpen1(true);
     } catch (e) {
