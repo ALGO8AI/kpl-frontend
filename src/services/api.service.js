@@ -239,6 +239,17 @@ const getViolationDetailData = async (id) => {
   });
 };
 
+const getCheckingViolationDetailData = async (id) => {
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/getDataByVolId",
+    true,
+    {
+      volId: id,
+    }
+  );
+};
+
 const violationComment = async (
   id,
   reason,
@@ -1376,13 +1387,20 @@ const violationClosedByUpdate = async (volId, closedBySupervisor) => {
   );
 };
 
-const checkingHomeWorker = async (
-  fromDate,
-  toDate,
-  ctr,
-  machine,
-  shifts
-) => {
+const checkingViolationSupervisorUpdate = async (volId, supervisorName) => {
+  const data = {
+    volId,
+    supervisorName,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/updateSupervisorByvolId",
+    true,
+    data
+  );
+};
+
+const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
     clpctr: ctr,
     tableId: machine,
@@ -1394,6 +1412,23 @@ const checkingHomeWorker = async (
   return await callBackend(
     "POST",
     "routes/checking/KPI/home/byWorker",
+    true,
+    data
+  );
+};
+
+const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
+  const data = {
+    clpctr: ctr,
+    tableId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/byDate",
     true,
     data
   );
@@ -1504,4 +1539,7 @@ export {
   violationSupervisorUpdate,
   violationClosedByUpdate,
   checkingHomeWorker,
+  getCheckingViolationDetailData,
+  checkingHomeDate,
+  checkingViolationSupervisorUpdate,
 };

@@ -18,8 +18,9 @@ import {
   violationComment,
   communicatedTo,
   getAllSupervisorList,
-  violationSupervisorUpdate,
+  checkingViolationSupervisorUpdate,
   violationClosedByUpdate,
+  getCheckingViolationDetailData,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -187,7 +188,7 @@ function ViolationDetail(props) {
   };
   const getData = async () => {
     try {
-      const x = await getViolationDetailData(props.id);
+      const x = await getCheckingViolationDetailData(props.id);
       console.log(x);
       setData(x.volIdData[0]);
       setNewSupervisor(x.volIdData[0].supervisor);
@@ -598,7 +599,10 @@ function ViolationDetail(props) {
   const onSupervisorChange = async (e) => {
     try {
       setNewSupervisor(e.target.value);
-      const resp = await violationSupervisorUpdate(props.id, e.target.value);
+      const resp = await checkingViolationSupervisorUpdate(
+        props.id,
+        e.target.value
+      );
       setMsg(resp.volIdData);
       setOpen1(true);
     } catch (e) {

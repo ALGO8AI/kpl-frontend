@@ -164,12 +164,12 @@ function TableData({
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
                 },
-                {
-                  width: 240,
-                  headerName: "% Utilization",
-                  field: "utilizationPercentage",
-                  hide: true,
-                },
+                // {
+                //   width: 240,
+                //   headerName: "% Utilization",
+                //   field: "utilizationPercentage",
+                //   hide: true,
+                // },
                 {
                   headerName: "Worker Unavailable %",
                   field: "workerUnavPercentage",
@@ -178,29 +178,34 @@ function TableData({
                   // hide: true,
                 },
                 {
-                  headerName: "Feed Unavailable %",
-                  field: "feedUnavPercentage",
-                  width: 240,
-
-                  // hide: true,
-                },
-                { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
-                // { width:240,headerName: "Feed Unavailable Hrs.", field: "feedUnav" },
-                {
                   width: 240,
                   headerName: "Worker Unavailable Hrs.",
                   field: "workerUnav",
                 },
                 {
+                  headerName: "Defect %",
+                  field: "defectPercentage",
                   width: 240,
-                  headerName: "No. Of Bags Checked",
-                  field: "numBagsChecked",
+
+                  // hide: true,
                 },
+                // { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 {
                   width: 240,
-                  headerName: "Count Of Defects",
+                  headerName: "Defect Count",
                   field: "defectCount",
                 },
+
+                // {
+                //   width: 240,
+                //   headerName: "No. Of Bags Checked",
+                //   field: "numBagsChecked",
+                // },
+                // {
+                //   width: 240,
+                //   headerName: "Count Of Defects",
+                //   field: "defectCount",
+                // },
                 // { width:240,headerName: "Shift", field: "shift" },
               ]}
             />
@@ -301,25 +306,40 @@ function TableData({
                 },
                 {
                   width: 240,
+                  headerName: "Feed Unavailable %",
+                  field: "feedUnavPercentage",
+                },
+                {
+                  width: 240,
+                  headerName: "Feed Unavailable Hrs.",
+                  field: "feedUnavailableHours",
+                },
+                {
+                  width: 240,
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
                 },
                 { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 {
                   width: 240,
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                },
+                {
+                  width: 240,
                   headerName: "Worker Unavailable Hrs.",
                   field: "WorkerUnavailableHours",
                 },
-                {
-                  width: 240,
-                  headerName: "No. Of Bags Checked",
-                  field: "numBagsChecked",
-                },
-                {
-                  width: 240,
-                  headerName: "Count Of Defects",
-                  field: "defectCount",
-                },
+                // {
+                //   width: 240,
+                //   headerName: "No. Of Bags Checked",
+                //   field: "numBagsChecked",
+                // },
+                // {
+                //   width: 240,
+                //   headerName: "Count Of Defects",
+                //   field: "defectCount",
+                // },
                 // {
                 //   width:240,headerName: "Feed Unavailable Hrs.",
                 //   field: "feedUnavailableHours",

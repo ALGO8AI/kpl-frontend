@@ -16,7 +16,7 @@ import {
   homepageData,
   machineBreakdownData,
   detailedSummaryByTableChecking,
-  summaryByViolationData,
+  checkingHomeDate,
   checkingHomeWorker,
   checkingWorkerUtilizationData,
   defectChartData,
@@ -89,11 +89,11 @@ export default function Home() {
         },
       });
 
-      const homeDateTable = await summaryByViolationData();
+      const homeDateTable = await checkingHomeDate();
       dispatch({
         type: "HOME_DATE_TABLE",
         payload: {
-          data: homeDateTable.detailedSummaryByViolation.violationSummary,
+          data: homeDateTable.detailedSummaryByDate,
           loading: false,
         },
       });
@@ -196,12 +196,12 @@ export default function Home() {
       }
 
       if (state.homeDateTable.loading) {
-        const homeDateTable = await summaryByViolationData();
+        const homeDateTable = await checkingHomeDate();
         console.log(homeDateTable);
         dispatch({
           type: "HOME_DATE_TABLE",
           payload: {
-            data: homeDateTable?.detailedSummaryByViolation.violationSummary,
+            data: homeDateTable?.detailedSummaryByDate,
             loading: false,
           },
         });
@@ -297,7 +297,7 @@ export default function Home() {
           });
         }
 
-        const homeDateTable = await summaryByViolationData(
+        const homeDateTable = await checkingHomeDate(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -306,14 +306,11 @@ export default function Home() {
             : machineID.map((item) => item.machineID),
           inputSHIFT
         );
-        if (
-          homeDateTable.detailedSummaryByViolation.violationSummary !==
-          "no data"
-        ) {
+        if (homeDateTable.detailedSummaryByDate !== "no data") {
           dispatch({
             type: "HOME_DATE_TABLE",
             payload: {
-              data: homeDateTable.detailedSummaryByViolation.violationSummary,
+              data: homeDateTable.detailedSummaryByDate,
               loading: false,
             },
           });

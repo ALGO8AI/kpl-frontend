@@ -145,15 +145,15 @@ function ViolationLog1() {
 
     const crowd = await crowdingViolationChecking();
     console.log(crowd);
-    if (crowd.checkingCrowdingData !== "no data") {
+    if (crowd?.crowdingData !== "no data") {
       dispatch({
         type: "CROWD_VIO",
-        payload: { data: crowd.checkingCrowdingData, loading: false },
+        payload: { data: crowd?.crowdingData, loading: false },
       });
     }
 
     const worker = await workerUnavailableViolationChecking();
-    if (worker.checkingWorkerUnavailableViolation === "no data") {
+    if (worker?.workerUnavailableDurationData === "no data") {
       dispatch({
         type: "WORKER_VIO",
         payload: {
@@ -165,7 +165,7 @@ function ViolationLog1() {
       dispatch({
         type: "WORKER_VIO",
         payload: {
-          data: worker.checkingWorkerUnavailableViolation,
+          data: worker?.workerUnavailableDurationData,
           loading: false,
         },
       });
@@ -175,18 +175,18 @@ function ViolationLog1() {
     dispatch({
       type: "BY_WORKER_VIO",
       payload: {
-        data: by_worker.violationByWorkerData,
+        data: by_worker?.violationByWorkerData,
         loading: false,
       },
     });
 
     const defects = await defectsViolation();
-    console.log(defects.data);
+    console.log(defects?.data);
 
     dispatch({
       type: "DEFECTS",
       payload: {
-        data: defects.data,
+        data: defects?.data,
         loading: false,
       },
     });
@@ -204,10 +204,10 @@ function ViolationLog1() {
         inputSHIFT
       );
       console.log(crowd);
-      if (crowd.crowdingData !== "no data") {
+      if (crowd?.crowdingData !== "no data") {
         dispatch({
           type: "CROWD_VIO",
-          payload: { data: crowd.crowdingData, loading: false },
+          payload: { data: crowd?.crowdingData, loading: false },
         });
       }
 
@@ -220,12 +220,12 @@ function ViolationLog1() {
           : machineID.map((item) => item.tableId),
         inputSHIFT
       );
-      console.log(defects.data);
+      console.log(defects?.data);
 
       dispatch({
         type: "DEFECTS",
         payload: {
-          data: defects.data,
+          data: defects?.data,
           loading: false,
         },
       });
@@ -239,12 +239,12 @@ function ViolationLog1() {
           : machineID.map((item) => item.tableId),
         inputSHIFT
       );
-      console.log(worker.checkingWorkerUnavailableViolation);
-      if (worker.checkingWorkerUnavailableViolation !== "no data") {
+      console.log(worker?.workerUnavailableDurationData);
+      if (worker?.workerUnavailableDurationData !== "no data") {
         dispatch({
           type: "WORKER_VIO",
           payload: {
-            data: worker.checkingWorkerUnavailableViolation,
+            data: worker?.workerUnavailableDurationData,
             loading: false,
           },
         });
@@ -259,12 +259,12 @@ function ViolationLog1() {
           : machineID.map((item) => item.tableId),
         inputSHIFT
       );
-      console.log(by_worker.violationByWorkerData);
-      if (by_worker.violationByWorkerData !== "no data") {
+      console.log(by_worker?.violationByWorkerData);
+      if (by_worker?.violationByWorkerData !== "no data") {
         dispatch({
           type: "BY_WORKER_VIO",
           payload: {
-            data: by_worker.violationByWorkerData,
+            data: by_worker?.violationByWorkerData,
             loading: false,
           },
         });
@@ -281,20 +281,20 @@ function ViolationLog1() {
   const load_ctr_machine = async () => {
     try {
       const ctr = await ctr_machineID();
-      setClpCtr(ctr.clpctr);
+      setClpCtr(ctr?.clpctr);
       // setMachineID(ctr.machineID);
 
       const tableID = await loadTableId();
       // console.log(tableID);
-      setMachineID(tableID.data);
+      setMachineID(tableID?.data);
 
       if (state.crowd.loading) {
         const crowd = await crowdingViolationChecking();
         console.log(crowd);
-        if (crowd.checkingCrowdingData !== "no data") {
+        if (crowd.crowdingData !== "no data") {
           dispatch({
             type: "CROWD_VIO",
-            payload: { data: crowd.checkingCrowdingData, loading: false },
+            payload: { data: crowd?.crowdingData, loading: false },
           });
         }
       }
@@ -302,7 +302,7 @@ function ViolationLog1() {
       if (state.worker.loading) {
         const worker = await workerUnavailableViolationChecking();
         console.log(worker);
-        if (worker.checkingWorkerUnavailableViolation === "no data") {
+        if (worker.workerUnavailableDurationData === "no data") {
           dispatch({
             type: "WORKER_VIO",
             payload: {
@@ -314,7 +314,7 @@ function ViolationLog1() {
           dispatch({
             type: "WORKER_VIO",
             payload: {
-              data: worker.checkingWorkerUnavailableViolation,
+              data: worker?.workerUnavailableDurationData,
               loading: false,
             },
           });
@@ -328,7 +328,7 @@ function ViolationLog1() {
         dispatch({
           type: "BY_WORKER_VIO",
           payload: {
-            data: by_worker.violationByWorkerData,
+            data: by_worker?.violationByWorkerData,
             loading: false,
           },
         });
@@ -336,12 +336,12 @@ function ViolationLog1() {
 
       if (state.defects.loading) {
         const defects = await defectsViolation();
-        console.log(defects.data);
+        console.log(defects?.data);
 
         dispatch({
           type: "DEFECTS",
           payload: {
-            data: defects.data,
+            data: defects?.data,
             loading: false,
           },
         });
@@ -408,6 +408,32 @@ function ViolationLog1() {
       setTimeout(() => {
         console.log(profile);
       }, 2000);
+    }
+  };
+
+  const returnClassName = (type) => {
+    switch (type) {
+      case "INCORRECT VIOLATION":
+        return "Link-btn-grey";
+      case "OPEN":
+        return "Link-btn-red";
+      case "CLOSED":
+        return "Link-btn-green";
+      default:
+        return "Link-btn-red";
+    }
+  };
+
+  const returnStatus = (type) => {
+    switch (type) {
+      case "INCORRECT VIOLATION":
+        return "Incorrect";
+      case "OPEN":
+        return "Unresolved";
+      case "CLOSED":
+        return "Resolved";
+      default:
+        return "Unresolved";
     }
   };
   return (
@@ -806,11 +832,12 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/checking/violationDetails/${rowData.Id}`}
-                        className={`${
-                          rowData.query === "Not Resolved"
-                            ? "Link-btn-red"
-                            : "Link-btn-green"
-                        }`}
+                        className={returnClassName(rowData.actionStatus)}
+                        // className={`${
+                        //   rowData.query === "Not Resolved"
+                        //     ? "Link-btn-red"
+                        //     : "Link-btn-green"
+                        // }`}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -819,11 +846,11 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -900,11 +927,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/checking/violationDetails/${rowData.Id}`}
-                        className={`${
-                          rowData.query === "Not Resolved"
-                            ? "Link-btn-red"
-                            : "Link-btn-green"
-                        }`}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -913,11 +936,11 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -993,11 +1016,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/checking/violationDetails/${rowData.Id}`}
-                        className={`${
-                          rowData.query === "Not Resolved"
-                            ? "Link-btn-red"
-                            : "Link-btn-green"
-                        }`}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "feedUnavailable");
                           localStorage.setItem(
@@ -1006,11 +1025,11 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.query
+                            returnStatus(rowData.actionStatus)
                           );
                         }}
                       >
-                        View
+                        {returnStatus(rowData.actionStatus)}
                       </Link>
                     ),
                   },
