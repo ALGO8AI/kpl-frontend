@@ -1242,6 +1242,37 @@ const closeCTR = async (data) => {
   return await callBackend("POST", "routes/ctr/closeCTR", true, data);
 };
 
+const getTailorDetails = async () => {
+  return await callBackend("GET", "routes/checking/tailor");
+};
+
+const addTailor = async (name, id) => {
+  const data = {
+    tailorName: name,
+    tailorId: id,
+    img: "",
+  };
+  return await callBackend("POST", "routes/checking/tailor/add", true, data);
+};
+
+const updateTailor = async (name, id) => {
+  const data = {
+    tailorName: name,
+    tailorId: id,
+    img: "",
+  };
+  return await callBackend("POST", "routes/checking/tailor/update", true, data);
+};
+
+const deleteTailor = async (name, Tid, id) => {
+  const data = {
+    tailorName: name,
+    tailorId: Tid,
+    id: id,
+  };
+  return await callBackend("POST", "routes/checking/tailor/delete", true, data);
+};
+
 export {
   login,
   getViolation,
@@ -1339,4 +1370,8 @@ export {
   getUnassignedCLPCTR,
   updateCTR,
   closeCTR,
+  getTailorDetails,
+  addTailor,
+  updateTailor,
+  deleteTailor,
 };

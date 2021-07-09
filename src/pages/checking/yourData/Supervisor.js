@@ -293,45 +293,6 @@ function Supervisor(props) {
             label="Supervisor Name"
             variant="outlined"
             style={{ marginBottom: "12px" }}
-            value={userdata.supervisorName}
-            name="supervisorName"
-            fullWidth
-            onChange={onInputChange}
-          />
-        ) : (
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel keyid="demo-simple-select-outlined-label">
-              Supervisor Name
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={userdata.supervisorName}
-              name="supervisorName"
-              fullWidth
-              onChange={onUserChange}
-              label="Supervisor Name"
-              // multiple
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {supervisorList.length > 0 &&
-                supervisorList.map((item, index) => (
-                  <MenuItem value={item.username} key={index}>
-                    {item.username}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        )}
-
-        {edit ? (
-          <TextField
-            id="outlined-basic"
-            label="Supervisor Name"
-            variant="outlined"
-            style={{ marginBottom: "12px" }}
             value={userdata.supervisorId}
             name="supervisorId"
             fullWidth
@@ -368,6 +329,50 @@ function Supervisor(props) {
             </Select>
           </FormControl>
         )}
+        {edit ? (
+          <TextField
+            id="outlined-basic"
+            label="Supervisor Name"
+            variant="outlined"
+            style={{ marginBottom: "12px" }}
+            value={userdata.supervisorName}
+            name="supervisorName"
+            fullWidth
+            onChange={onInputChange}
+          />
+        ) : (
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+            disabled
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Supervisor Name
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              onChange={onUserChange}
+              label="Supervisor Name"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {supervisorList.length > 0 &&
+                supervisorList.map((item, index) => (
+                  <MenuItem value={item.username} key={index}>
+                    {item.username}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        )}
+
         {/* <TextField
           id="outlined-basic"
           label="Supervisor Name"

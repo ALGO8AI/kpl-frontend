@@ -27,7 +27,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
     id: "",
     CtrNo: "",
     startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
-    startDate: "",
+    startDate: new Date().toISOString().slice(0, 10),
     oldCtr: "",
     oldCtrId: "",
   });
@@ -48,7 +48,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           id: "",
           CtrNo: "",
           startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
-          startDate: "",
+          startDate: new Date().toISOString().slice(0, 10),
           oldCtr: "",
           oldCtrId: "",
         });

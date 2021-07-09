@@ -23,6 +23,10 @@ import {
   getYourData,
   workerUpdateChecking,
   workerDeleteChecking,
+  getTailorDetails,
+  addTailor,
+  updateTailor,
+  deleteTailor,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 
@@ -72,14 +76,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Worker(props) {
+function Tailor(props) {
   const [workerData, setWorkerData] = useState();
   const classes = useStyles();
   const [edit, setEdit] = useState(false);
 
   const loadData = async () => {
     try {
-      const x = await getCheckingWorkerData();
+      const x = await getTailorDetails();
       console.log(x);
       setWorkerData(x.data);
     } catch (err) {}
@@ -88,7 +92,7 @@ function Worker(props) {
     loadData();
   }, []);
   const columns = [
-    { title: "Worker ID", field: "workerId" },
+    { title: "Tailor ID", field: "tailorId" },
     // {
     //   title: "Image",
     //   render: (rowData) => (
@@ -99,7 +103,7 @@ function Worker(props) {
     //     />
     //   ),
     // },
-    { title: "Worker Name", field: "workerName" },
+    { title: "Tailor Name", field: "tailorName" },
     {
       title: "Edit",
       render: (x) => (
@@ -118,9 +122,10 @@ function Worker(props) {
             setEdit(true);
             setUserData({
               ...userdata,
-              name: x.workerName,
-              workerId: x.workerId,
+              name: x.tailorName,
+              workerId: x.tailorId,
               workerImage: x.image,
+              id: x.id,
             });
           }}
         >
@@ -133,6 +138,7 @@ function Worker(props) {
     name: "",
     workerId: "",
     workerImage: "",
+    id: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -160,12 +166,12 @@ function Worker(props) {
 
   const submitImageDetails = async () => {
     try {
-      const resp = await AddWorkerChecking(userdata);
+      const resp = await addTailor(userdata.name, userdata.workerId);
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      setUserData({ name: "", workerId: "", workerImage: "", id: "" });
     } catch (e) {
       // console.log(e.message);
     }
@@ -173,12 +179,12 @@ function Worker(props) {
 
   const updateImageDetails = async () => {
     try {
-      const resp = await workerUpdateChecking(userdata);
+      const resp = await updateTailor(userdata.name, userdata.workerId);
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      setUserData({ name: "", workerId: "", workerImage: "", id: "" });
     } catch (e) {
       // console.log(e.message);
     }
@@ -186,9 +192,13 @@ function Worker(props) {
 
   const deleteImageDetails = async () => {
     try {
-      const resp = await workerDeleteChecking({ workerId: userdata.workerId });
+      const resp = await deleteTailor(
+        userdata.name,
+        userdata.workerId,
+        userdata.id
+      );
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      setUserData({ name: "", workerId: "", workerImage: "", id: "" });
       // console.log(resp);
       setMsg("Deleted");
       setOpen(true);
@@ -202,7 +212,7 @@ function Worker(props) {
       <Grid item xs={12} md={4}>
         <TextField
           id="outlined-basic"
-          label="Name"
+          label="Tailor Name"
           variant="outlined"
           style={{ marginBottom: "12px" }}
           value={userdata.name}
@@ -211,7 +221,7 @@ function Worker(props) {
         />
         <TextField
           id="outlined-basic"
-          label="Worker ID"
+          label="Tailor ID"
           variant="outlined"
           style={{ marginBottom: "12px" }}
           value={userdata.workerId}
@@ -220,7 +230,7 @@ function Worker(props) {
             setUserData({ ...userdata, workerId: e.target.value })
           }
         />
-        <label for="myfile" className="inputLabel">
+        {/* <label for="myfile" className="inputLabel">
           Select a file:
         </label>
         <input
@@ -232,14 +242,14 @@ function Worker(props) {
           onChange={(e) => {
             uploadImage(e);
           }}
-        />
-        {userdata.workerImage && (
+        /> */}
+        {/* {userdata.workerImage && (
           <img
             style={{ width: "100%", padding: "12px" }}
             src={userdata.workerImage}
             alt="User"
           />
-        )}
+        )} */}
         {edit ? (
           <Grid container xs={12}>
             <Grid container item xs={6} style={{ padding: "6px" }}>
@@ -316,7 +326,7 @@ function Worker(props) {
       </Grid>
       <Grid item xs={12} md={8}>
         <MaterialTable
-          title="Workers Information"
+          title="Tailors Information"
           columns={columns}
           data={workerData}
           options={{
@@ -344,4 +354,4 @@ function Worker(props) {
   );
 }
 
-export default Worker;
+export default Tailor;

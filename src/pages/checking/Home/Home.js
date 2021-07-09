@@ -137,6 +137,10 @@ export default function Home() {
       const ctr = await ctr_machineID();
       setClpCtr(ctr.clpctr);
       setMachineID(ctr.machineID);
+      dispatch({
+        type: "TABLE_ID",
+        payload: ctr.machineID,
+      });
     } catch (err) {
       console.log(err.message);
     }

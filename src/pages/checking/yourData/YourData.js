@@ -11,6 +11,7 @@ import Worker from "./Worker";
 import Schedule from "./Schedule";
 import Supervisor from "./Supervisor";
 import NotificationLog from "../../../components/notificationLog/NotificationLog";
+import Tailor from "./Tailor";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,7 +80,8 @@ function YourData() {
           <Tab label="Worker Detail" {...a11yProps(0)} />
           <Tab label="Worker Schedule" {...a11yProps(1)} />
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
-          <Tab label="Notification log" {...a11yProps(3)} />
+          <Tab label="Tailor Detail" {...a11yProps(3)} />
+          <Tab label="Notification log" {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -92,6 +94,9 @@ function YourData() {
         <Supervisor />
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <Tailor />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <NotificationLog />
       </TabPanel>
     </Grid>
