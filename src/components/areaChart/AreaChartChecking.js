@@ -185,8 +185,8 @@ function AreaChartChecking(props) {
         variant="h6"
         style={{
           margin: "auto",
-          position: "relative",
-          left: "25%",
+          textAlign: "center",
+
           color: "#f68f1d",
         }}
       >
@@ -199,8 +199,7 @@ function AreaChartChecking(props) {
         variant="h6"
         style={{
           margin: "auto",
-          position: "relative",
-          left: "25%",
+          textAlign: "center",
           color: "#f68f1d",
         }}
       >

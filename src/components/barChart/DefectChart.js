@@ -126,18 +126,19 @@ function DefectChart({ data, link, payload_data }) {
           />
         </div>
       </div>
-      {/* <Typography
+      <Typography
         variant="h6"
         style={{
           margin: "auto",
-          position: "relative",
-          left: "25%",
+          textAlign: "center",
           color: "#f68f1d",
         }}
       >
-        % Defective Bags{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>43%</span>
-      </Typography> */}
+        Total Defects{" "}
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {data.reduce((sum, num) => (sum = sum + num.count), 0)}
+        </span>
+      </Typography>
     </>
   );
 }

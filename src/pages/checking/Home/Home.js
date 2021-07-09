@@ -156,12 +156,21 @@ export default function Home() {
   // load initial table data
   const loadData = async () => {
     try {
+      if (state.defectChart.loading) {
+        const defect = await defectChartData();
+        console.log(defect);
+        dispatch({
+          type: "DEFECT_CHART",
+          payload: { data: defect?.data, loading: false },
+        });
+      }
+
       if (state.workerUtilization.loading) {
         const y = await checkingWorkerUtilizationData();
         console.log(y);
         dispatch({
           type: "WORKER_UTILIZATION",
-          payload: { data: y.workerUtilization, loading: false },
+          payload: { data: y?.workerUtilization, loading: false },
         });
       }
 
@@ -170,17 +179,10 @@ export default function Home() {
         console.log(z);
         dispatch({
           type: "CROWDING_INSTANCE",
-          payload: { data: z.crowdingInstancesData, loading: false },
+          payload: { data: z?.crowdingInstancesData, loading: false },
         });
       }
 
-      if (state.defectChart.loading) {
-        const defect = await defectChartData();
-        dispatch({
-          type: "DEFECT_CHART",
-          payload: { data: defect.data, loading: false },
-        });
-      }
       if (state.homeWorkerTable.loading) {
         const homeWorkerTable = await detailedSummaryByWorkerChecking();
         console.log(homeWorkerTable);
@@ -199,7 +201,7 @@ export default function Home() {
         dispatch({
           type: "HOME_DATE_TABLE",
           payload: {
-            data: homeDateTable.detailedSummaryByViolation.violationSummary,
+            data: homeDateTable?.detailedSummaryByViolation.violationSummary,
             loading: false,
           },
         });
