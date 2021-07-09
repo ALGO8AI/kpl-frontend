@@ -1502,10 +1502,24 @@ const checkingHomeByTable = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
-const getRecentChecking = async () => {
+const getRecentCheckingUnavailable = async () => {
   return await callBackend(
     "GET",
     "routes/checking/KPI/violation/workerUnavRecentIncidents"
+  );
+};
+
+const getRecentCheckingDefect = async () => {
+  return await callBackend(
+    "GET",
+    "routes/checking/KPI/violation/defectRecentIncidents"
+  );
+};
+
+const getRecentCheckingCrowd = async () => {
+  return await callBackend(
+    "GET",
+    "routes/checking/KPI/violation/crowdingRecentIncidents"
   );
 };
 
@@ -1618,7 +1632,9 @@ export {
   checkingHomeDate,
   checkingViolationSupervisorUpdate,
   checkingHomeByTable,
-  getRecentChecking,
+  getRecentCheckingUnavailable,
   getNotificationLogChecking,
   violationCommentChecking,
+  getRecentCheckingDefect,
+  getRecentCheckingCrowd,
 };

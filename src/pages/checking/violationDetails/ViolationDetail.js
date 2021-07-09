@@ -21,7 +21,9 @@ import {
   checkingViolationSupervisorUpdate,
   violationClosedByUpdate,
   getCheckingViolationDetailData,
-  getRecentChecking,
+  getRecentCheckingUnavailable,
+  getRecentCheckingDefect,
+  getRecentCheckingCrowd,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
@@ -174,18 +176,19 @@ function ViolationDetail(props) {
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
     try {
-      const x = await getRecentChecking();
-      console.log(x);
-      setVIOLATION(x);
-      // if (typeOfViolation === "feedUnavailable") {
-      //   const x = await FEED_UnavailableViolation();
-      //   setVIOLATION(x);
-      //   console.log(x.length);
-      // } else if (typeOfViolation === "worker") {
-      //   const x = await WORKER_UnavailableViolation();
-      //   setVIOLATION(x);
-      //   console.log(x.length);
-      // }
+      if (typeOfViolation === "feedUnavailable") {
+        const x = await getRecentCheckingUnavailable();
+        console.log(x);
+        setVIOLATION(x);
+      } else if (typeOfViolation === "defects") {
+        const x = await getRecentCheckingDefect();
+        setVIOLATION(x);
+        console.log(x);
+      } else if (typeOfViolation === "crowd") {
+        const x = await getRecentCheckingCrowd();
+        setVIOLATION(x);
+        console.log(x);
+      }
     } catch (err) {
       console.log(err.message);
     }
