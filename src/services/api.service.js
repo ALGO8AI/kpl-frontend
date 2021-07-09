@@ -1376,6 +1376,29 @@ const violationClosedByUpdate = async (volId, closedBySupervisor) => {
   );
 };
 
+const checkingHomeWorker = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
+  const data = {
+    clpctr: ctr,
+    tableId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/byWorker",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1480,4 +1503,5 @@ export {
   defectChartData,
   violationSupervisorUpdate,
   violationClosedByUpdate,
+  checkingHomeWorker,
 };

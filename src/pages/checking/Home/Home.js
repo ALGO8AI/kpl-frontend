@@ -17,7 +17,7 @@ import {
   machineBreakdownData,
   detailedSummaryByTableChecking,
   summaryByViolationData,
-  detailedSummaryByWorkerChecking,
+  checkingHomeWorker,
   checkingWorkerUtilizationData,
   defectChartData,
 } from "../../../services/api.service";
@@ -80,11 +80,11 @@ export default function Home() {
         payload: { data: z.crowdingInstancesData, loading: false },
       });
 
-      const homeWorkerTable = await detailedSummaryByWorkerChecking();
+      const homeWorkerTable = await checkingHomeWorker();
       dispatch({
         type: "HOME_WORKER_TABLE",
         payload: {
-          data: homeWorkerTable,
+          data: homeWorkerTable?.detailedSummaryByWorker,
           loading: false,
         },
       });
@@ -184,12 +184,12 @@ export default function Home() {
       }
 
       if (state.homeWorkerTable.loading) {
-        const homeWorkerTable = await detailedSummaryByWorkerChecking();
+        const homeWorkerTable = await checkingHomeWorker();
         console.log(homeWorkerTable);
         dispatch({
           type: "HOME_WORKER_TABLE",
           payload: {
-            data: homeWorkerTable,
+            data: homeWorkerTable?.detailedSummaryByWorker,
             loading: false,
           },
         });
@@ -278,7 +278,7 @@ export default function Home() {
           payload: { data: y.crowdingInstancesData, loading: false },
         });
 
-        const homeWorkerTable = await detailedSummaryByWorkerChecking(
+        const homeWorkerTable = await checkingHomeWorker(
           state.from,
           state.to,
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -291,7 +291,7 @@ export default function Home() {
           dispatch({
             type: "HOME_WORKER_TABLE",
             payload: {
-              data: homeWorkerTable,
+              data: homeWorkerTable?.detailedSummaryByWorker,
               loading: false,
             },
           });

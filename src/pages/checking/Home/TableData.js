@@ -80,13 +80,19 @@ function TableData({
               data={
                 homeWorkerTable?.length > 0 &&
                 homeWorkerTable?.map((row, i) => {
-                  const { workerId, ...rest } = row;
-                  return { id: workerId, ...rest };
+                  const { checkerID, ...rest } = row;
+                  return { id: checkerID, ...rest };
                 })
               }
               columns={[
-                { width: 240, headerName: "Worker ID", field: "id" },
-                { width: 240, headerName: "Worker Name", field: "workerName" },
+                { width: 240, headerName: "Checker ID", field: "id" },
+                {
+                  width: 240,
+                  headerName: "Checker Name",
+                  field: "checkerName",
+                  // hide: true,
+                },
+                { width: 240, headerName: "Table Id", field: "tableId" },
                 // { width:240,headerName: "Total Working Hrs.", field: "totalWorkingHours" },
                 {
                   width: 240,
@@ -95,42 +101,27 @@ function TableData({
                 },
                 {
                   width: 240,
+                  headerName: "Unavailable Hrs.",
+                  field: "unavailableDuration",
+                },
+                {
+                  width: 240,
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
                   hide: true,
                 },
                 {
-                  headerName: "Worker Unavailable %",
-                  field: "workerUnavPercentage",
                   width: 240,
-
-                  // hide: true,
-                },
-                {
-                  headerName: "Feed Unavailable %",
-                  field: "feedUnavPercentage",
-                  width: 240,
-
-                  // hide: true,
-                },
-                { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
-                // { width:240,headerName: "Feed Unavailable Hrs.", field: "feedUnav" },
-                {
-                  width: 240,
-                  headerName: "Worker Unavailable Hrs.",
-                  field: "workerUnav",
-                },
-                {
-                  width: 240,
-                  headerName: "No. Of Bags Checked",
-                  field: "numBagsChecked",
+                  headerName: "Defect %",
+                  field: "defectPercentage",
+                  hide: true,
                 },
                 {
                   width: 240,
                   headerName: "Count Of Defects",
                   field: "defectCount",
                 },
-                // { width:240,headerName: "Shift", field: "shift" },
+                { width: 240, headerName: "Shift", field: "shift" },
               ]}
             />
           </Grid>
