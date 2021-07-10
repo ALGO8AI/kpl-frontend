@@ -1536,6 +1536,10 @@ const getRecentCheckingCrowd = async () => {
   );
 };
 
+const getAllTableId = async () => {
+  return await callBackend("GET", "routes/checking/KPI/violation/allTableID");
+};
+
 export {
   login,
   getViolation,
@@ -1651,4 +1655,5 @@ export {
   getRecentCheckingDefect,
   getRecentCheckingCrowd,
   checkingViolationClosedByUpdate,
+  getAllTableId,
 };

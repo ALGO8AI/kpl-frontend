@@ -32,6 +32,7 @@ import {
   workerUnavailableViolationChecking,
   loadTableId,
   defectsViolation,
+  getAllTableId,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -284,7 +285,7 @@ function ViolationLog1() {
       setClpCtr(ctr?.clpctr);
       // setMachineID(ctr.machineID);
 
-      const tableID = await loadTableId();
+      const tableID = await getAllTableId();
       // console.log(tableID);
       setMachineID(tableID?.data);
 

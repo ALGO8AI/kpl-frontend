@@ -20,6 +20,7 @@ import {
   checkingHomeWorker,
   checkingWorkerUtilizationData,
   defectChartData,
+  getAllTableId,
 } from "../../../services/api.service";
 import GraphData from "./GraphData";
 import TableData from "./TableData";
@@ -137,11 +138,13 @@ export default function Home() {
   };
 
   // load ctr filter dropdown data
-  const load_ctr_machine = async () => {
+  const load_ctr_table = async () => {
     try {
       const ctr = await ctr_machineID();
-      setClpCtr(ctr.clpctr);
-      setMachineID(ctr.machineID);
+      const tableIds = await getAllTableId();
+      // console.log(tableIds);
+      setClpCtr(ctr?.clpctr);
+      setMachineID(tableIds?.data);
       dispatch({
         type: "TABLE_ID",
         payload: ctr.machineID,
@@ -244,7 +247,7 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+            : machineID.map((item) => item.tableId),
           inputSHIFT
         );
         dispatch({
@@ -257,7 +260,7 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+            : machineID.map((item) => item.tableId),
           inputSHIFT
         );
         dispatch({
@@ -281,7 +284,7 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+            : machineID.map((item) => item.tableId),
           inputSHIFT
         );
         if (homeWorkerTable !== "no data") {
@@ -300,7 +303,7 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+            : machineID.map((item) => item.tableId),
           inputSHIFT
         );
         if (homeDateTable.detailedSummaryByDate !== "no data") {
@@ -319,7 +322,7 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+            : machineID.map((item) => item.tableId),
           inputSHIFT
         );
         if (homeMachineTable?.detailedSummaryByTableId !== "no data") {
@@ -338,7 +341,7 @@ export default function Home() {
           inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
           inputMACHINEid.length > 0
             ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+            : machineID.map((item) => item.tableId),
           inputSHIFT
         );
         if (homeCTRTable !== "no data") {
@@ -360,7 +363,7 @@ export default function Home() {
   // Use Effects
   useEffect(() => {
     getFirstDay_LastDay();
-    load_ctr_machine();
+    load_ctr_table();
     loadData();
   }, []);
 
@@ -431,8 +434,8 @@ export default function Home() {
           >
             {machineID &&
               machineID.map((item, index) => (
-                <MenuItem value={item.machineID} key={index}>
-                  {item.machineID}
+                <MenuItem value={item.tableId} key={index}>
+                  {item.tableId}
                 </MenuItem>
               ))}
           </Select>
