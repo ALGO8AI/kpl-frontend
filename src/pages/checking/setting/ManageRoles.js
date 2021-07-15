@@ -57,8 +57,12 @@ function ManageRoles() {
 
   const unRevokeUser = async (name) => {
     try {
-      const resp = await UnrevokeUserAccess(name);
-      alert(resp.msg);
+      var txt = window.confirm("User access will be un-revoked, continue?");
+      if (txt) {
+        const resp = await UnrevokeUserAccess(name);
+        alert(resp.msg);
+        loadData();
+      }
     } catch (e) {}
   };
 
@@ -199,21 +203,36 @@ function ManageRoles() {
         {
           title: "Revoke",
           field: "uid",
-          render: (x) => (
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#0e4a7b",
-                padding: "8px 12px",
-                cursor: "pointer",
-                fontSize: "1rem",
-                color: "white",
-              }}
-              onClick={() => revokeUser(x.username)}
-            >
-              REVOKE
-            </Button>
-          ),
+          render: (x) =>
+            x.revokeAccess === 0 ? (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  fontSize: "1rem",
+                  color: "white",
+                }}
+                onClick={() => revokeUser(x.username)}
+              >
+                REVOKE
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  fontSize: "1rem",
+                  color: "white",
+                }}
+                onClick={() => unRevokeUser(x.username)}
+              >
+                UNREVOKE
+              </Button>
+            ),
         },
         // {
         //   title: "Unrevoke",
@@ -298,7 +317,8 @@ function ManageRoles() {
                 variant="outlined"
                 value={data.username}
                 fullWidth
-                disabled
+                onChange={(e) => setData({ ...data, username: e.target.value })}
+                // disabled
               />
             </Grid>
             <Grid
@@ -334,7 +354,8 @@ function ManageRoles() {
                 label="Email"
                 variant="outlined"
                 value={data.email}
-                disabled
+                // disabled
+                onChange={(e) => setData({ ...data, email: e.target.value })}
               />
             </Grid>
             <Grid
