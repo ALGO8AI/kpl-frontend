@@ -181,11 +181,13 @@ function FeedDonut(props) {
             <Chart
               options={options}
               series={[
-                Boolean(props.data.totalTime) ? props.data.totalTime : 0,
+                Boolean(props?.data?.totalTime) ? props?.data?.totalTime : 0,
                 Boolean(props?.data?.feedUnavailibilityDuration)
                   ? props?.data?.feedUnavailibilityDuration
                   : 0,
-                Boolean(props.data.balanceHours) ? +props.data.balanceHours : 0,
+                Boolean(props?.data?.balanceHours)
+                  ? +props?.data?.balanceHours
+                  : 0,
               ]}
               type="donut"
             />
@@ -235,7 +237,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.data.totalTime}
+                {props?.data?.totalTime}
               </h6>
             </div>
           </div>
@@ -328,7 +330,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.data.balanceHours}
+                {props?.data?.balanceHours}
               </h6>
             </div>
           </div>
@@ -347,7 +349,7 @@ function FeedDonut(props) {
         >
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {props.data.totalTime}
+            {props?.data?.totalTime}
           </span>
         </Typography>
 
@@ -364,7 +366,7 @@ function FeedDonut(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Math.round(props.data?.utilizationPercentage) + "%"}
+            {Math.round(props?.data?.utilizationPercentage) + "%"}
           </span>
         </Typography>
       </div>

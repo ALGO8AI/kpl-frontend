@@ -181,13 +181,13 @@ function DonutChartSimple({ data, payload_data, link }) {
             <Chart
               options={options}
               series={[
-                data.length && Boolean(data[0]["max(scheduleHours)"])
+                data?.length && Boolean(data[0]["max(scheduleHours)"])
                   ? Math.round(data[0]["max(scheduleHours)"], 2)
                   : 0,
-                data.length && Boolean(data[0].MachineOffTime)
+                data?.length && Boolean(data[0].MachineOffTime)
                   ? data[0].MachineOffTime
                   : 0,
-                data.length && Boolean(data[0].breakdownTime)
+                data?.length && Boolean(data[0].breakdownTime)
                   ? data[0].breakdownTime
                   : 0,
               ]}
