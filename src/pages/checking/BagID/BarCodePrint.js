@@ -67,6 +67,7 @@ function BarCodePrint() {
 
     printWindow.document.write(`<html><head>
     <style >
+    
   
     @page {
   size: 10cm 5cm;
@@ -74,7 +75,9 @@ function BarCodePrint() {
 </style>
     `);
 
-    printWindow.document.write("</head><body >");
+    printWindow.document.write(
+      "</head><body style=display:flex;flex-wrap:wrap;height:100% >"
+    );
 
     printWindow.document.write(panel.innerHTML);
 
@@ -133,15 +136,18 @@ function BarCodePrint() {
             // style={{ }}
             // className="page_printBreack"
             style={{
-              pageBreakAfter: "always",
+              pageBreakAfter: key % 2 === 0 ? "auto" : "always",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              width: "50%",
+              height: "100%",
             }}
             key={key}
           >
             <img
-              style={{ width: "50%", height: "auto" }}
+              style={{ width: "50%" }}
               key={item.bagId}
               src={item.barcode}
               alt={item.bagId}
@@ -149,7 +155,7 @@ function BarCodePrint() {
             <div
               style={{
                 width: "50%",
-                // height: "100%",
+                height: "100%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

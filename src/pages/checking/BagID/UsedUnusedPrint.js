@@ -219,7 +219,9 @@ function UsedUnusedPrint() {
 </style>
     `);
 
-    printWindow.document.write("</head><body >");
+    printWindow.document.write(
+      "</head><body style=display:flex;flex-wrap:wrap;height:100% >"
+    );
 
     printWindow.document.write(panel.innerHTML);
 
@@ -278,15 +280,18 @@ function UsedUnusedPrint() {
             // style={{ }}
             // className="page_printBreack"
             style={{
-              pageBreakAfter: "always",
+              pageBreakAfter: key % 2 === 0 ? "auto" : "always",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              width: "50%",
+              height: "100%",
             }}
             key={key}
           >
             <img
-              style={{ width: "50%", height: "auto" }}
+              style={{ width: "50%" }}
               key={item.bagId}
               src={item.barcode}
               alt={item.bagId}
@@ -294,7 +299,7 @@ function UsedUnusedPrint() {
             <div
               style={{
                 width: "50%",
-                // height: "100%",
+                height: "100%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -305,9 +310,9 @@ function UsedUnusedPrint() {
                 <p style={{ margin: 0, fontSize: "12px" }}>
                   Table No. {item.tableId}
                 </p>
-                <p style={{ margin: 0, fontSize: "12px" }}>
+                {/* <p style={{ margin: 0, fontSize: "12px" }}>
                   Bag Id {item.bagId}
-                </p>
+                </p> */}
                 <p style={{ margin: 0, fontSize: "12px" }}>Date {item.date}</p>
                 <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p>
               </div>
