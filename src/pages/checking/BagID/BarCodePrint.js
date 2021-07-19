@@ -53,6 +53,7 @@
 
 // export default BarCodePrint;
 import { Button, Grid } from "@material-ui/core";
+import moment from "moment";
 import React from "react";
 import { CheckingContext } from "../../../context/CheckingContext";
 import "./BarCode.scss";
@@ -67,7 +68,9 @@ function BarCodePrint() {
 
     printWindow.document.write(`<html><head>
     <style >
-    
+    p{
+      font-size:18px;
+    }
   
     @page {
   size: 10cm 5cm;
@@ -143,18 +146,19 @@ function BarCodePrint() {
               justifyContent: "center",
               width: "50%",
               height: "100%",
+              margin: "auto",
             }}
             key={key}
           >
             <img
-              style={{ width: "50%" }}
+              style={{ width: "90%" }}
               key={item.bagId}
               src={item.barcode}
               alt={item.bagId}
             />
             <div
               style={{
-                width: "50%",
+                width: "90%",
                 height: "100%",
                 display: "flex",
                 alignItems: "center",
@@ -163,9 +167,11 @@ function BarCodePrint() {
               }}
             >
               <div>
-                <p style={{ margin: 0, fontSize: "12px" }}>{item.tableId}</p>
-                <p style={{ margin: 0, fontSize: "12px" }}>{item.bagId}</p>
-                <p style={{ margin: 0, fontSize: "12px" }}>{item.date}</p>
+                <p style={{ margin: 0, fontSize: "18px" }}>{item.tableId}</p>
+                {/* <p style={{ margin: 0, fontSize: "12px" }}>{item.bagId}</p> */}
+                <p style={{ margin: 0, fontSize: "18px" }}>
+                  {moment(item.date).format("DD-MM-YYYY")}
+                </p>
                 {/* <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p> */}
               </div>
             </div>
