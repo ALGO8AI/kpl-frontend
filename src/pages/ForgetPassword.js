@@ -55,7 +55,7 @@ function ForgetPassword() {
       const resp = await getForgetPasswordLink(data);
       console.log(resp);
       setOpen(true);
-      setMsg(resp.data.message);
+      setMsg(resp.data.msg);
       setSeverity("success");
       setTimeout(() => {
         history.push("/");
@@ -120,7 +120,7 @@ function ForgetPassword() {
           </div>
         </Paper>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity={severity}>
+          <Alert onClose={handleClose} severity={"success"}>
             {msg}
           </Alert>
         </Snackbar>

@@ -225,24 +225,24 @@ function TableData({
                   },
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                 },
                 {
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                 },
                 {
                   headerName: "% Utilization",
                   field: "utilizationPercentage",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                   hide: true,
                 },
                 {
@@ -250,8 +250,8 @@ function TableData({
                   field: "workerUnavPercentage",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                   // hide: true,
                 },
                 {
@@ -259,8 +259,8 @@ function TableData({
                   field: "feedUnavPercentage",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                   // hide: true,
                 },
                 {
@@ -268,8 +268,8 @@ function TableData({
                   field: "idleHours",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                   hide: true,
                 },
                 {
@@ -277,8 +277,8 @@ function TableData({
                   field: "feedUnav",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                   hide: true,
                 },
                 {
@@ -286,9 +286,27 @@ function TableData({
                   field: "workerUnav",
                   width:
                     table1?.current?.offsetWidth > 1280
-                      ? table1?.current?.offsetWidth / 4
-                      : 1280 / 4,
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
                   hide: true,
+                },
+                {
+                  headerName: "Breakdown Time Hrs.",
+                  field: "breakdownTime",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
+                  // hide: true,
+                },
+                {
+                  headerName: "Machine Off Hrs.",
+                  field: "MachineOffTime",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 6
+                      : 1280 / 6,
+                  // hide: true,
                 },
                 // { headerName: "Shift", field: "shift" },
               ]}
