@@ -213,9 +213,15 @@ function UsedUnusedPrint() {
 
     printWindow.document.write(`<html><head>
     <style >
-  
+  *{
+      padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    }
     @page {
   size: 10cm 5cm;
+  margin:0;
+
 }
 </style>
     `);
@@ -289,6 +295,9 @@ function UsedUnusedPrint() {
               width: "50%",
               height: "100%",
               margin: "auto",
+              boxSizing: "border-box",
+              // border: "1px solid red",
+              padding: "12px",
             }}
             key={key}
           >
