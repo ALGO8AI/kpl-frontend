@@ -152,10 +152,10 @@ function BarCodePrint() {
               justifyContent: "center",
               width: "50%",
               height: "100%",
-              margin: "auto",
+              // margin: "auto",
               boxSizing: "border-box",
               // border: "1px solid red",
-              padding: "12px",
+              padding: "36px 16px",
             }}
             key={key}
           >
