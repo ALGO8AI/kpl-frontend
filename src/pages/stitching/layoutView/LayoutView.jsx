@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import ReactCursorPosition from "react-cursor-position";
 import "./LayoutView.scss";
@@ -7,7 +9,7 @@ import { LayoutStore } from "./LayoutStore";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import { AddCamera } from "./camera/addCamera";
+// import { AddCamera } from "./camera/addCamera";
 import Button from "@material-ui/core/Button";
 import { Camera } from "./camera/camera";
 import { observer } from "mobx-react";

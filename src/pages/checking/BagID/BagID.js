@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   Snackbar,
   TextField,
@@ -72,7 +72,7 @@ function BagID() {
       );
 
       console.log(resp);
-      const data = [...resp.unUsedIds, ...resp.usedIds];
+      // const data = [...resp.unUsedIds, ...resp.usedIds];
       dispatch({
         type: "BAG-DATA",
         payload: {
@@ -89,7 +89,7 @@ function BagID() {
       const resp = await getBagData(state.bagIdFrom, state.bagIdTo);
 
       // console.log(resp);
-      const data = [...resp.unUsedIds, ...resp.usedIds];
+      // const data = [...resp.unUsedIds, ...resp.usedIds];
       dispatch({
         type: "BAG-DATA",
         payload: {

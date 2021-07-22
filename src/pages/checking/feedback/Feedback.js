@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { DropzoneArea } from "material-ui-dropzone";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function Feedback() {
   const [data, setData] = useState({

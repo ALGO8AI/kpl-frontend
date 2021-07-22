@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   FormControl,
@@ -15,14 +16,14 @@ import {
   ctr_machineID,
   detailedSummaryByClpCtrChecking,
   feedInstanceData,
-  homepageData,
+  // homepageData,
   machineBreakdownData,
   machineData,
   summaryByViolationData,
   summaryByWorkerData,
   workerUtilizationData,
 } from "../../../services/api.service";
-import GraphData from "./GraphData";
+// import GraphData from "./GraphData";
 import TableData from "./TableData";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -38,7 +39,7 @@ function Home() {
   const { state, dispatch } = React.useContext(StitchingContext);
 
   // State
-  const [WEEK, setWEEK] = useState([]);
+  // const [WEEK, setWEEK] = useState([]);
 
   const [clpCtr, setClpCtr] = useState([]);
   const [machineID, setMachineID] = useState([]);

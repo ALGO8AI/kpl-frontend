@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -7,17 +8,13 @@ import PropTypes from "prop-types";
 
 import {
   copyScheduleChecking,
-  copyScheduleStitching,
   getAllWorketrList,
   getCheckingSchedule,
-  scheduleUpload,
   updateCheckingWorkerSchedule,
-  updateStitchingWorkerSchedule,
 } from "../../../services/api.service";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { getYourData } from "../../../services/api.service";
 import {
   Button,
   Dialog,
@@ -35,8 +32,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { NextWeekRounded } from "@material-ui/icons";
-import { StitchingContext } from "../../../context/StitchingContext";
 import { CheckingContext } from "../../../context/CheckingContext";
 
 function Alert(props) {
@@ -83,7 +78,7 @@ function Schedule(props) {
   const [severity, setSeverity] = React.useState(false);
   const [msg, setMsg] = React.useState(false);
 
-  const { state, dispatch } = React.useContext(CheckingContext);
+  const { state } = React.useContext(CheckingContext);
 
   const loadData = async () => {
     try {

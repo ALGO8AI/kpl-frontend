@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   FormControl,
@@ -13,8 +14,6 @@ import {
   detailedSummaryByClpCtrChecking,
   crowdingInstanceCheckingData,
   ctr_machineID,
-  homepageData,
-  machineBreakdownData,
   checkingHomeByTable,
   checkingHomeDate,
   checkingHomeWorker,
@@ -22,14 +21,11 @@ import {
   defectChartData,
   getAllTableId,
 } from "../../../services/api.service";
-import GraphData from "./GraphData";
 import TableData from "./TableData";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import Loader from "../../../components/loader/Loader";
-import DonutChartSimple from "../../../components/donutChartSimple/DonutChartSimple";
-import DonutChart from "../../../components/donutChart/DonutChart";
-import AreaChart from "../../../components/areaChart/AreaChart";
+
 import DefectChart from "../../../components/barChart/DefectChart";
 import { CheckingContext } from "../../../context/CheckingContext";
 import DonutChartChecking from "../../../components/donutChart/DonutChartChecking";

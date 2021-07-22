@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -8,7 +10,6 @@ import PropTypes from "prop-types";
 import {
   copyScheduleStitching,
   getAllWorketrList,
-  scheduleUpload,
   updateStitchingWorkerSchedule,
 } from "../../../services/api.service";
 import axios from "axios";
@@ -32,7 +33,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { NextWeekRounded } from "@material-ui/icons";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { StitchingContext } from "../../../context/StitchingContext";

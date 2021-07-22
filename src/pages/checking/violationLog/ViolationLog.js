@@ -1,36 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
 // import "./home.css";
-import MaterialTable from "material-table";
-import ReactPlayer from "react-player";
+
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 // import "./setting.css";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import {
-  violationDateFilter,
-  workerUnavailableViolation,
-  feedUnavailableViolation,
-  crowdingViolation,
   violationByWorkerF,
   ctr_machineID,
   crowdingViolationChecking,
   workerUnavailableViolationChecking,
-  loadTableId,
   defectsViolation,
   getAllTableId,
 } from "../../../services/api.service";

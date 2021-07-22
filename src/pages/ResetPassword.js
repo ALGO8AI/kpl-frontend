@@ -3,7 +3,6 @@ import {
   Paper,
   Snackbar,
   TextField,
-  Typography,
   withStyles,
 } from "@material-ui/core";
 import React, { useState } from "react";
@@ -11,8 +10,6 @@ import * as Styles from "./Login.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
 // import { ResetPassword } from "../services/api.service";
-import { Link, useHistory } from "react-router-dom";
-import { KPLContext } from "../context/ViolationContext";
 import Blank from "./Blank";
 import { updatePassword } from "../services/api.service";
 
@@ -29,7 +26,6 @@ const ColorButton = withStyles(() => ({
 
 function ResetPassword(props) {
   // Variables
-  const history = useHistory();
 
   // states
   const [user, setUser] = useState({
@@ -39,7 +35,7 @@ function ResetPassword(props) {
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState("");
 
-  const { dispatch } = React.useContext(KPLContext);
+  // const { dispatch } = React.useContext(KPLContext);
 
   // Snackbar close function
   const handleClose = (event, reason) => {

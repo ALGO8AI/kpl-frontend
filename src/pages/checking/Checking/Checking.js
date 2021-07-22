@@ -1,13 +1,11 @@
 import React from "react";
 import BagID from "../BagID/BagID";
-import BarCodePrint from "../BagID/BarCodePrint";
 import Feedback from "../feedback/Feedback";
 import Home from "../Home/Home";
 import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
 import ViolationDetail from "../violationDetails/ViolationDetail";
-import ViolationDetails from "../violationDetails/ViolationDetails";
 import ViolationLog from "../violationLog/ViolationLog";
 import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
@@ -26,10 +24,6 @@ function Checking(props) {
     // print: <BarCodePrint />,
   };
 
-  const logout = () => {
-    localStorage.removeItem("isAuth");
-    // history.push("/login");
-  };
   const page = pages[props.match.params.page];
   return (
     <>

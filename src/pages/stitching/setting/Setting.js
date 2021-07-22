@@ -1,22 +1,15 @@
 import React from "react";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import { makeStyles } from "@material-ui/core/styles";
 // import "./home.css";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import "./Setting.scss";
 import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 import { LayoutView } from "../layoutView/LayoutView";
-import { AnnotationPage } from "../layoutView/annotation/Annotation";
 // import { LayoutView } from "../layoutView/LayoutView";
 
 function TabPanel(props) {
@@ -41,9 +34,6 @@ function TabPanel(props) {
     </Grid>
   );
 }
-const getRole = () => {
-  return localStorage.getItem("ROLE");
-};
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -58,35 +48,13 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    backgroundColor: "#fff",
-    boxShadow: "1px 1px 5px #555",
-    borderRadius: "10px",
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
 function Setting() {
-  const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [timePeriod, setTimePeriod] = React.useState("weekly");
-  const [zone, setZone] = React.useState("zone1");
 
-  const handleTimeChange = (event) => {
-    setTimePeriod(event.target.value);
-  };
-  const handleZoneChange = (event) => {
-    setZone(event.target.value);
-  };
   return (
     <Grid xs={12} md={12} item style={{ padding: "1rem" }}>
       <AppBar position="static" className="customTab">

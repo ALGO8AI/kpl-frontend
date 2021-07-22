@@ -3,7 +3,6 @@ import React from "react";
 import AreaChart from "../../../components/areaChart/AreaChart";
 import DonutChart from "../../../components/donutChart/DonutChart";
 import DonutChartSimple from "../../../components/donutChartSimple/DonutChartSimple";
-import Loader from "../../../components/loader/Loader";
 
 function GraphData({ workerUtilization, crowdingInstance }) {
   return (

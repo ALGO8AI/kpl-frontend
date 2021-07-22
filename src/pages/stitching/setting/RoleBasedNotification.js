@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   Checkbox,
   Grid,
   makeStyles,
-  Paper,
   Snackbar,
 } from "@material-ui/core";
 import EmailIcon from "@material-ui/icons/Email";
@@ -13,7 +13,6 @@ import StayPrimaryPortraitIcon from "@material-ui/icons/StayPrimaryPortrait";
 import React, { useState, useEffect } from "react";
 import {
   loadStitchingAlertData,
-  stitchingAlert,
   stitchingNotification,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";

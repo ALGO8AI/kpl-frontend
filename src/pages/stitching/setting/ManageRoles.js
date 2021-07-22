@@ -1,9 +1,10 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   Checkbox,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogContentText,
   DialogTitle,
   FormControl,
@@ -12,14 +13,11 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import {
   revokeUserAccess,
   StitchingUserData,
@@ -30,11 +28,7 @@ import {
 function ManageRoles() {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
-  const [user, SetUser] = useState({});
   const [open, setOpen] = React.useState(false);
-  const [update, setUpdate] = useState();
-  const [msg, setMsg] = useState("Updated");
-  const [openMsg, setOpenMsg] = useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);

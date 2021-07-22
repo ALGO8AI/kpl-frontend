@@ -11,19 +11,14 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
 
 function AddUser() {
   const [open, setOpen] = React.useState(false);
-  const [update, setUpdate] = useState();
-  const [msg, setMsg] = useState("User Added");
-  const [openMsg, setOpenMsg] = useState(true);
 
   const [data, setData] = useState({
     username: "",

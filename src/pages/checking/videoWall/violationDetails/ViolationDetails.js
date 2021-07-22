@@ -18,7 +18,7 @@ import {
   WORKER_UnavailableViolation,
   violationCommentChecking,
   communicatedTo,
-} from "../../../services/api.service";
+} from "../../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";

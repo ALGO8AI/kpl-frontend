@@ -9,10 +9,7 @@ import {
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import VideoTile from "../../../components/videoTile/VideoTile";
-import {
-  videoWallChecking,
-  videoWallStitching,
-} from "../../../services/api.service";
+import { videoWallChecking } from "../../../services/api.service";
 import Loader from "../../../components/loader/Loader";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Alert } from "@material-ui/lab";

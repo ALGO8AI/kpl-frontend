@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const localUrl = "";
+// const localUrl = "";
 const cloudUrl = "http://3.23.114.42:3000"; //dev
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://13.232.228.72";

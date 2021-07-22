@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Button,
   Checkbox,
@@ -14,13 +15,12 @@ import {
   Stepper,
   TextField,
   Typography,
-  withStyles,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import * as Styles from "./SignUp.module.scss";
 import logo from "../images/kpl-logo.png";
 import { Alert } from "@material-ui/lab";
-import { AddNewUser, login } from "../services/api.service";
+import { AddNewUser } from "../services/api.service";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 
@@ -447,15 +447,15 @@ function GetStepContent({ activeStep, data, setData }) {
   }
 }
 
-const ColorButton = withStyles(() => ({
-  root: {
-    color: "white",
-    backgroundColor: "#0e4a7b",
-    "&:hover": {
-      backgroundColor: "#0e4a7b",
-    },
-  },
-}))(Button);
+// const ColorButton = withStyles(() => ({
+//   root: {
+//     color: "white",
+//     backgroundColor: "#0e4a7b",
+//     "&:hover": {
+//       backgroundColor: "#0e4a7b",
+//     },
+//   },
+// }))(Button);
 
 function SignUp() {
   // Variables
@@ -505,8 +505,6 @@ function SignUp() {
 
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState("");
-
-  const { dispatch } = React.useContext(KPLContext);
 
   // Snackbar close function
   const handleClose = (event, reason) => {

@@ -35,9 +35,9 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
       );
       // console.log(WEEK2);
 
-      var WEEK = chartData?.crowdingData?.map((item) =>
-        new Date(item?.date).toISOString().slice(0, 10)
-      );
+      // var WEEK = chartData?.crowdingData?.map((item) =>
+      //   new Date(item?.date).toISOString().slice(0, 10)
+      // );
 
       setWeek(WEEK2);
       setSeries([

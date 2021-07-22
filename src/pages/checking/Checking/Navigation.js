@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
@@ -36,7 +34,6 @@ import clsx from "clsx";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import logo from "../../../images/kpl-logo.png";
 import {
-  changeCTR,
   ctrDropDown,
   getStitchingNotification,
   removeNotification,
@@ -418,7 +415,7 @@ export default function Navigation() {
     setAnchorE2(null);
   };
   const handleMenuItemClick2 = async (event, index) => {
-    setNotification(notification.filter((data) => data.id != index));
+    setNotification(notification.filter((data) => data.id !== index));
     try {
       const resp = await removeNotification(index);
       console.log(resp);

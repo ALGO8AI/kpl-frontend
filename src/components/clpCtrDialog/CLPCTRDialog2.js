@@ -1,22 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import {
-  changeCTR,
   closeCTR,
-  ctrDropDown,
   getCurrentCTR,
   getUnassignedCLPCTR,
   updateCTR,
@@ -92,17 +88,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
       console.log(unassign?.data);
       setUnassignedCTR(unassign?.data);
     } catch (e) {}
-  };
-
-  const setOldCtr = (e) => {
-    const current = currentCTR.findIndex(
-      (item) => item.CtrNo === e.target.value
-    );
-    setCTR({
-      ...CTR,
-      oldCtr: currentCTR[current].CtrNo,
-      oldCtrId: currentCTR[current].id,
-    });
   };
 
   const setNewCtr = (e, t) => {

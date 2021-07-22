@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
+import React from "react";
 import { Stage, Layer, Image, Rect, Line, Label, Text, Tag } from "react-konva";
 import useImage from "use-image";
 // import img from '../../../../Assets/images/viewdetails.png';

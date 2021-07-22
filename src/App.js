@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-  useHistory,
 } from "react-router-dom";
 import React, { useContext, useEffect } from "react";
 import { Portal } from "mobx-portals";
@@ -13,23 +13,21 @@ import Stitching from "./pages/stitching/Stitching/Stitching";
 import { KPLContext } from "./context/ViolationContext";
 import AuthRoute from "./Auth/AuthRoute";
 import Checking from "./pages/checking/Checking/Checking";
-import { LayoutView } from "./pages/stitching/layoutView/LayoutView";
 import SignUp from "./pages/SignUp";
-import Blank from "./pages/Blank";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetails";
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
 import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
-import axios from "axios";
-const ENDPOINT = "http://3.23.114.42:2020/";
+// import axios from "axios";
+// const ENDPOINT = "http://3.23.114.42:2020/";
 // const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
 // const socket = socketIOClient(ENDPOINT);
 
 function App(props) {
   // console.log(props);
-  const { state, dispatch } = useContext(KPLContext);
+  const { dispatch } = useContext(KPLContext);
   // useEffect(() => {
   //   console.log("Socket");
   //   const socket = socketIOClient(ENDPOINT);

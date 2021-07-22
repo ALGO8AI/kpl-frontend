@@ -1,16 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
-import ReactPlayer from "react-player";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import Typography from "@material-ui/core/Typography";
 
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {
@@ -20,7 +19,6 @@ import {
   violationByWorkerF,
   ctr_machineID,
   getMachineViolation,
-  postMachineViolation,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";

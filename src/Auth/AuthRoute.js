@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { KPLContext } from "../context/ViolationContext";
 
 function AuthRoute({ component, authed, ...rest }) {
   // const { state } = React.useContext(KPLContext);

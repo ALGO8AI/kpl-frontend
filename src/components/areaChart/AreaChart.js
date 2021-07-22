@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
 // import classes from "*.module.css";
-import { FormControl, Select, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
@@ -13,18 +15,18 @@ function AreaChart(props) {
 
   const [instance, setInstance] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [state, setState] = React.useState({
-    age: "",
-    name: "hai",
-  });
+  // const [state, setState] = React.useState({
+  //   age: "",
+  //   name: "hai",
+  // });
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   const name = event.target.name;
+  //   setState({
+  //     ...state,
+  //     [name]: event.target.value,
+  //   });
+  // };
 
   function changeWeek() {
     // console.log("in change week");

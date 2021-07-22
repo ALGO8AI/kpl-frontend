@@ -197,14 +197,14 @@
 // }
 
 // export default UsedUnusedPrint;
-import { Button, Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import moment from "moment";
 import React from "react";
 import { CheckingContext } from "../../../context/CheckingContext";
 import "./BarCode.scss";
 
 function UsedUnusedPrint() {
-  const { state, dispatch } = React.useContext(CheckingContext);
+  const { state } = React.useContext(CheckingContext);
 
   const printDiv = (divName) => {
     var panel = document.getElementById(divName);
@@ -269,7 +269,6 @@ function UsedUnusedPrint() {
         id="no-print"
         variant="contained"
         style={btn_style}
-        id="no-print"
         onClick={() => printDiv("printBarCode")}
       >
         PRINT

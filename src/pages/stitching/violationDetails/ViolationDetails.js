@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory, history, Link } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
+import { useHistory, Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import "./ViolationDetails.scss";
 import Select from "@material-ui/core/Select";
@@ -21,12 +23,7 @@ import * as moment from "moment";
 import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import {
-  FormControl,
-  InputLabel,
-  isWidthUp,
-  Typography,
-} from "@material-ui/core";
+import { FormControl, InputLabel, Typography } from "@material-ui/core";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -100,7 +97,6 @@ function ViolationDetails(props) {
   const classes = useStyles();
   const [data, setData] = useState();
   const [isCorrect, setIsCorrect] = useState(false);
-  const [isIncorrect, setIsIncorrect] = useState(false);
   const [VIOLATION, setVIOLATION] = useState([]);
   const [communicated, setCommunicated] = useState("");
 

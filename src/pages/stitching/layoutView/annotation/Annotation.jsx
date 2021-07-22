@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable array-callback-return */
+import React from "react";
 import ReactImageAnnotate from "react-image-annotate";
 import { useHistory } from "react-router-dom";
-import img from "../../../../Assets/images/viewdetails.png";
 import { observer } from "mobx-react";
 import { appState } from "../LayoutStore";
 import { LayoutStore } from "../LayoutStore";
 import { withRouter } from "react-router";
-import { Spinner } from "../spinner";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";

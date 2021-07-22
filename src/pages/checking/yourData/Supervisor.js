@@ -1,29 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {
   FormControl,
   FormControlLabel,
-  Input,
   InputLabel,
   Select,
   Snackbar,
   Switch,
 } from "@material-ui/core";
 import "./Worker.scss";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MaterialTable from "material-table";
-import { DropzoneArea } from "material-ui-dropzone";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import PublishIcon from "@material-ui/icons/Publish";
 import {
   getCheckingSupervisorSchedule,
   getCheckingSupervisorCopy,
@@ -59,29 +51,21 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    backgroundColor: "#fff",
-    boxShadow: "1px 1px 5px #555",
-    borderRadius: "10px",
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120,
+//     backgroundColor: "#fff",
+//     boxShadow: "1px 1px 5px #555",
+//     borderRadius: "10px",
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2),
+//   },
+// }));
 
 function Supervisor(props) {
   const [workerData, setWorkerData] = useState();
-  const classes = useStyles();
   const [edit, setEdit] = useState(false);
   const [supervisorList, setSupervisorList] = useState([]);
 
@@ -190,26 +174,26 @@ function Supervisor(props) {
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
 
-  const uploadImage = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertBase64(file);
-    setUserData({ ...userdata, workerImage: base64 });
-  };
+  // const uploadImage = async (e) => {
+  //   const file = e.target.files[0];
+  //   const base64 = await convertBase64(file);
+  //   setUserData({ ...userdata, workerImage: base64 });
+  // };
 
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+  // const convertBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
 
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
 
   //   const submitImageDetails = async () => {
   //     try {

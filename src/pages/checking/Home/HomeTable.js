@@ -1,6 +1,5 @@
 import { LinearProgress, makeStyles } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
-import MaterialTable from "material-table";
 import React from "react";
 const useStyles = makeStyles((theme) => ({
   root: {

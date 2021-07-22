@@ -3,14 +3,10 @@ import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Worker from "./Worker";
 import Schedule from "./Schedule";
 import Supervisor from "./Supervisor";
-import NotificationLog from "../../../components/notificationLog/NotificationLog";
 import Tailor from "./Tailor";
 import NotificationLogChecking from "../../../components/notificationLog/NotificationLogChecking";
 
@@ -48,21 +44,7 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    backgroundColor: "#fff",
-    boxShadow: "1px 1px 5px #555",
-    borderRadius: "10px",
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
 function YourData() {
-  const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {

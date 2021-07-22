@@ -1,33 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import "./alertAndNotification.scss";
-import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import EmailIcon from "@material-ui/icons/Email";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import StayPrimaryPortraitIcon from "@material-ui/icons/StayPrimaryPortrait";
-import MaterialTable from "material-table";
 
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  Snackbar,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Snackbar, TextField, Typography } from "@material-ui/core";
 import {
   loadStitchingAlertData,
   stitchingAlert,
   stitchingNotification,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
-import RoleBasedNotification from "./RoleBasedNotification";
-import ManageRoles from "./ManageRoles";
-import AddUser from "./AddUser";
 
 function AlertAndNotification() {
   const [manager, setManager] = useState({

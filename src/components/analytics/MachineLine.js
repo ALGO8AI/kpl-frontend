@@ -43,16 +43,16 @@ function MachineLine({
       ];
       const max = Math.max(...nums);
 
-      var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map(
-        (item) =>
-          `${new Date(item?.timeInterval).getDate()}-${new Date(
-            item?.timeInterval
-          ).getMonth() + 1} ${new Date(
-            item?.timeInterval
-          ).getHours()}:${new Date(item?.timeInterval).getMinutes()}:${new Date(
-            item?.timeInterval
-          ).getSeconds()}`
-      );
+      // var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map(
+      //   (item) =>
+      //     `${new Date(item?.timeInterval).getDate()}-${new Date(
+      //       item?.timeInterval
+      //     ).getMonth() + 1} ${new Date(
+      //       item?.timeInterval
+      //     ).getHours()}:${new Date(item?.timeInterval).getMinutes()}:${new Date(
+      //       item?.timeInterval
+      //     ).getSeconds()}`
+      // );
 
       var WEEK = chartData?.[ary[nums.indexOf(max)]]?.map(
         (item) => item?.timeInterval

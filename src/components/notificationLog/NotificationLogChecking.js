@@ -1,21 +1,12 @@
-import {
-  AppBar,
-  Button,
-  Grid,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+/* eslint-disable eqeqeq */
+import { AppBar, Button, Grid, Tab, Tabs, TextField } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
-import MaterialTable from "material-table";
 import clsx from "clsx";
 import moment from "moment";
 import React from "react";
 import { getNotificationLogChecking } from "../../services/api.service";
-import { LinearProgress, makeStyles } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 function TabPanel(props) {
@@ -52,22 +43,12 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
 function NotificationLogChecking() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const classes = useStyles();
 
   const [data, setData] = React.useState();
   const [filterDateFrom, setFilterDateFrom] = React.useState();

@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useRef } from "react";
 import cam from "../../../../Assets/images/cam.svg";
 import { useHistory } from "react-router-dom";
@@ -5,12 +9,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
-import {
-  makeStyles,
-  createStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -62,7 +61,7 @@ export const Camera = observer((props) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
-  const { id, details, role } = props;
+  const { id, details } = props;
 
   const [videowall, setvideowall] = useState();
   const [camDetails, setcamDetails] = useState();
@@ -80,7 +79,7 @@ export const Camera = observer((props) => {
   };
 
   const onViewDetails = (type) => {
-    const path = window.location.pathname == "/stitching/layoutView";
+    // const path = window.location.pathname == "/stitching/layoutView";
     if (type === "annotate") {
       history.push(`/stitching/annotation/${id}`);
     } else {

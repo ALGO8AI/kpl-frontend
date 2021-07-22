@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Button,
   FormControl,
@@ -14,7 +15,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import CountUp from "react-countup";
 import React, { useState, useEffect } from "react";
 import ActiveViolation from "../../../components/analytics/ActiveViolation";
-import LineUtilisation from "../../../components/analytics/LineUtilisation";
+// import LineUtilisation from "../../../components/analytics/LineUtilisation";
 import MachineLine from "../../../components/analytics/MachineLine";
 import MachineStatus from "../../../components/analytics/MachineStatus";
 import MachineUtilisation from "../../../components/analytics/MachineUtilisation";
