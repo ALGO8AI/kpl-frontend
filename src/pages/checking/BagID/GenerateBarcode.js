@@ -34,6 +34,7 @@ function GenerateBarcode() {
         item
         xs={12}
         md={4}
+        sm={4}
         style={{ height: "min-content", padding: "12px" }}
       >
         <TextField
@@ -96,7 +97,7 @@ function GenerateBarcode() {
           </Button>
         </Grid>
       </Grid>
-      <Grid container item xs={12} md={8} style={{ padding: "12px" }}>
+      <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
         <MaterialTable
           title="NEW BARCODE DETAILS"
           columns={[

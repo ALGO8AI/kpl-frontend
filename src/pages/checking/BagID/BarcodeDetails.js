@@ -8,14 +8,15 @@ import {
   TextField,
 } from "@material-ui/core";
 import MaterialTable from "material-table";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
-import { getBagData } from "../../../services/api.service";
+import { getAllTableId, getBagData } from "../../../services/api.service";
 
 function BarcodeDetails() {
   const { state, dispatch } = React.useContext(CheckingContext);
   const [filter, setFilter] = React.useState("");
+  const [machineID, setMachineID] = useState([]);
 
   const history = useHistory();
   const fetchBagIds = async () => {
@@ -45,8 +46,10 @@ function BarcodeDetails() {
         state.bagIdFrom || firstDay,
         state.bagIdTo || new Date().toISOString().slice(0, 10)
       );
-
-      console.log(resp);
+      const tableID = await getAllTableId();
+      // console.log(tableID);
+      setMachineID(tableID?.data);
+      // console.log(resp);
       // const data = [...resp.unUsedIds, ...resp.usedIds];
       dispatch({
         type: "BAG-DATA",
@@ -85,6 +88,7 @@ function BarcodeDetails() {
         container
         item
         xs={12}
+        sm={4}
         md={4}
         style={{ height: "min-content", padding: "12px" }}
       >
@@ -126,6 +130,31 @@ function BarcodeDetails() {
           }
           fullWidth
         />
+        <FormControl
+          variant="outlined"
+          // className={classes.formControl}
+          fullWidth
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Table ID
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            // multiple
+            // value={inputMACHINEid}
+            // onChange={(e) => setInputMACHINEid(e.target.value)}
+            label="Table ID"
+            style={{ marginBottom: "1rem" }}
+          >
+            {machineID &&
+              machineID?.map((item, index) => (
+                <MenuItem value={item?.tableId} key={index}>
+                  {item?.tableId}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         <FormControl
           variant="outlined"
           fullWidth
@@ -186,7 +215,7 @@ function BarcodeDetails() {
           </Button>
         </Grid>
       </Grid>
-      <Grid container item xs={12} md={8} style={{ padding: "12px" }}>
+      <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
         {state.bagData.loading && (
           <MaterialTable
             title="BARCODE DETAILS"
