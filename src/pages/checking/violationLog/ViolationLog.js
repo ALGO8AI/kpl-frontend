@@ -979,6 +979,8 @@ function ViolationLog1() {
                   { title: "Worker Name", field: "workerName" },
 
                   { title: "Worker Id", field: "workerID" },
+                  { title: "Table Id", field: "tableId" },
+
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
