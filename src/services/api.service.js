@@ -596,10 +596,11 @@ const generateBagIds = async (lotSize, tableNo) => {
   );
 };
 
-const getBagData = async (filterDateFrom, filterDateTo) => {
+const getBagData = async (filterDateFrom, filterDateTo, tableId) => {
   const data = {
     filterDateFrom,
     filterDateTo,
+    tableId,
   };
   console.log(data);
   return await callBackend(

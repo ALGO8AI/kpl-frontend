@@ -17,6 +17,7 @@ function BarcodeDetails() {
   const { state, dispatch } = React.useContext(CheckingContext);
   const [filter, setFilter] = React.useState("");
   const [machineID, setMachineID] = useState([]);
+  const [inputMACHINEid, setInputMACHINEid] = useState([]);
 
   const history = useHistory();
   const fetchBagIds = async () => {
@@ -64,7 +65,11 @@ function BarcodeDetails() {
   };
   const dateFilter = async () => {
     try {
-      const resp = await getBagData(state.bagIdFrom, state.bagIdTo);
+      const resp = await getBagData(
+        state.bagIdFrom,
+        state.bagIdTo,
+        inputMACHINEid
+      );
 
       // console.log(resp);
       // const data = [...resp.unUsedIds, ...resp.usedIds];
@@ -141,9 +146,9 @@ function BarcodeDetails() {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            // multiple
-            // value={inputMACHINEid}
-            // onChange={(e) => setInputMACHINEid(e.target.value)}
+            multiple
+            value={inputMACHINEid}
+            onChange={(e) => setInputMACHINEid(e.target.value)}
             label="Table ID"
             style={{ marginBottom: "1rem" }}
           >
