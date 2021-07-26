@@ -155,26 +155,6 @@ function BarcodeDetails() {
               ))}
           </Select>
         </FormControl>
-        <FormControl
-          variant="outlined"
-          fullWidth
-          style={{ marginBottom: "1rem" }}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">Filter</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            label="Designation"
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={0}>Unused</MenuItem>
-            <MenuItem value={1}>Used</MenuItem>
-          </Select>
-        </FormControl>
 
         <Grid container item xs={6}>
           <Button
@@ -216,6 +196,26 @@ function BarcodeDetails() {
         </Grid>
       </Grid>
       <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginBottom: "1rem" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Filter</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            label="Designation"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={0}>Unused</MenuItem>
+            <MenuItem value={1}>Used</MenuItem>
+          </Select>
+        </FormControl>
         {state.bagData.loading && (
           <MaterialTable
             title="BARCODE DETAILS"

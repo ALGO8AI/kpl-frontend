@@ -173,7 +173,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 7
                       : 1280 / 7,
-                  hide: true,
+                  // hide: true,
                 },
                 {
                   headerName: "Worker Unavailable Hrs.",
@@ -182,7 +182,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 7
                       : 1280 / 7,
-                  hide: true,
+                  // hide: true,
                 },
               ]}
             />
@@ -279,7 +279,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 6
                       : 1280 / 6,
-                  hide: true,
+                  // hide: true,
                 },
                 {
                   headerName: "Worker Unavailable Hrs.",
@@ -288,7 +288,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 6
                       : 1280 / 6,
-                  hide: true,
+                  // hide: true,
                 },
                 {
                   headerName: "Breakdown Time Hrs.",
