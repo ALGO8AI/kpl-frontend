@@ -1,0 +1,31 @@
+.r1 {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /* width: 100%; */
+}
+
+.cardsSpace {
+  width: calc(35% - 1rem);
+  margin: 0.5rem;
+}
+.cardsSpace2 {
+  width: calc(30% - 1rem);
+
+  margin: 0.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .Container1 {
+    width: 100vw;
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 968px) and (min-width: 600px) {
+  .Container1 {
+    margin-left: 500px;
+  }
+}

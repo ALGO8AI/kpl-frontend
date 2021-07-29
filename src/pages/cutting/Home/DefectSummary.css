@@ -1,0 +1,35 @@
+.defCard {
+  width: 100%;
+  height: 350px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 900;
+  background-color: #333;
+  margin-left: 10px;
+  padding: 10px 10px;
+  font-weight: normal;
+  align-items: center;
+  justify-content: center;
+}
+
+.defTitle {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+.defCardRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  border-bottom: 1px solid white;
+  font-size: 12px;
+  margin-top: 24px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+
+@media only screen and (max-width: 600px) {
+  .defCard {
+    width: 100%;
+  }
+}

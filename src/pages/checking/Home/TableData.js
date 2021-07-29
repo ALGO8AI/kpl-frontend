@@ -85,16 +85,16 @@ function TableData({
                 })
               }
               columns={[
-                { width: 240, headerName: "Checker ID", field: "id" },
+                { width: 180, headerName: "Checker ID", field: "id" },
                 {
-                  width: 240,
+                  width: 180,
                   headerName: "Checker Name",
                   field: "checkerName",
                   // hide: true,
                 },
-                { width: 240, headerName: "Shift", field: "shift" },
+                { width: 150, headerName: "Shift", field: "shift" },
 
-                { width: 240, headerName: "Table Id", field: "tableId" },
+                { width: 180, headerName: "Table Id", field: "tableId" },
                 // { width:240,headerName: "Total Working Hrs.", field: "totalWorkingHours" },
                 {
                   width: 240,

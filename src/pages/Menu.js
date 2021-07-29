@@ -114,7 +114,7 @@ function Menu() {
         </div>
 
         <div className={Styles.Links}>
-          <Link className={Styles.Link}>
+          <Link className={Styles.Link} to="/cutting/home">
             <Paper elevation={5} className={Styles.container}>
               <img src={Cutter} alt="cutter" />
               <Typography variant="h4">Cutting</Typography>

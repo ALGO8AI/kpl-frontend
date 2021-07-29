@@ -20,6 +20,7 @@ import BarCodePrint from "./pages/checking/BagID/BarCodePrint";
 import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetails";
 // import socketIOClient from "socket.io-client";
 import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
+import Cutting from "./pages/cutting/Cutting/Cutting";
 // import axios from "axios";
 // const ENDPOINT = "http://3.23.114.42:2020/";
 // const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
@@ -123,6 +124,8 @@ function App(props) {
           <AuthRoute exact path="/stitching/:page/:id" component={Stitching} />
           <AuthRoute exact path="/checking/:page" component={Checking} />
           <AuthRoute exact path="/checking/:page/:id" component={Checking} />
+          <AuthRoute exact path="/cutting/:page" component={Cutting} />
+          <AuthRoute exact path="/cutting/:page/:id" component={Cutting} />
           <AuthRoute exact path="/print" component={BarCodePrint} />
           <AuthRoute
             exact

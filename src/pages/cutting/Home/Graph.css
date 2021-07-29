@@ -1,0 +1,43 @@
+.graph {
+  height: 350px;
+  width: 100%;
+  background-color: #333;
+  border-radius: 5px;
+  margin-left: 10px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  color: white;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.graphr1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+}
+.r2 {
+  margin-top: 10px;
+}
+
+.center1 {
+  display: flex;
+  align-items: center;
+}
+
+.graphTitle {
+  font-size: 20px;
+}
+
+.center2 {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .graph {
+    width: 100%;
+  }
+}
