@@ -1,6 +1,9 @@
 import React from "react";
+import { LayoutView } from "../../stitching/layoutView/LayoutView";
+import Setting from "../../stitching/setting/Setting";
 import DefectDetails from "../DefectDetails/DefectDetails";
 import Home from "../Home/Home";
+import VideoWall from "../VideoWall/VideoWall";
 
 // import { LayoutView } from "../layoutView/LayoutView";
 // import { ViewDetails } from "../layoutView/viewDetails/viewDetails";
@@ -16,10 +19,10 @@ function Cutting(props) {
   const pages = {
     home: <Home />,
     defectDetails: <DefectDetails />,
-    // videoWall: <VideoWall />,
-    // setting: <Setting />,
+    videoWall: <VideoWall />,
+    setting: <Setting />,
     // viewdetails: <ViewDetails />,
-    // layoutView: <LayoutView path="view" />,
+    layoutView: <LayoutView path="view" />,
     // annotation: <Annotation />,
     // yourData: <YourData />,
     // violationDetails: <ViolationDetail id={props.match.params.id} />,

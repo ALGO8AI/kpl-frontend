@@ -215,7 +215,7 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
-            to="/stitching/videoWall"
+            to="/cutting/videoWall"
           >
             <VideocamIcon className={classes.icon} />
             Video Wall
@@ -226,7 +226,7 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
-            to="/stitching/layoutView"
+            to="/cutting/layoutView"
           >
             <MapIcon className={classes.icon} />
             Layout View
@@ -237,7 +237,7 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
-            to="/stitching/setting"
+            to="/cutting/setting"
           >
             <SettingsIcon className={classes.icon} />
             Setting

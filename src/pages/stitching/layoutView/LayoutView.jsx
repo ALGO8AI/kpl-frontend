@@ -115,10 +115,7 @@ export const LayoutViewPage = observer((props) => {
       <div className={classes.root}>
         <Grid container spacing={1}>
           <Grid item xs={10}>
-            <h1
-              className={classes.heading}
-              onClick={() => history.push("/stitching/")}
-            >
+            <h1 className={classes.heading} onClick={() => history.goBack()}>
               <span>
                 <i
                   class="fa fa-arrow-left"
