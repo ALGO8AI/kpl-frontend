@@ -6,7 +6,7 @@ function Charts() {
   const [options, setOptions] = useState({
     chart: {
       type: "area",
-      foreColor: "#fff",
+      foreColor: "#0e4a7b",
     },
     dataLabels: {
       enabled: false,
@@ -21,6 +21,12 @@ function Charts() {
     },
     xaxis: {
       type: "category",
+      // title: {
+      //   text: "Months",
+      //   style: {
+      //     color: "#0e4a7b",
+      //   },
+      // },
       categories: [
         "Jan",
         "Feb",
@@ -38,7 +44,7 @@ function Charts() {
     },
 
     fill: {
-      colors: "#BF0000",
+      colors: "#0e4a7b",
       opacity: 0.9,
       type: "solid",
       gradient: {

@@ -38,6 +38,7 @@ import {
 import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
 import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
+import RollDialog from "../../../components/rollDialog/RollDialog";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -204,7 +205,7 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
-            to="/cutting/defectDetails"
+            to="/cutting/defects"
           >
             <NotInterestedIcon className={classes.icon} />
             Defect Details
@@ -479,7 +480,7 @@ export default function Navigation() {
             )}
 
             <SupportButton onClick={handleClickOpenCTR}>
-              Change CTR
+              Change Roll
             </SupportButton>
 
             <SupportButton>
@@ -528,7 +529,7 @@ export default function Navigation() {
             </MenuItem>
           ))}
       </Menu>
-      <CLPCTRDialog2 open={open} handleCloseCTR={handleCloseCTR} />
+      <RollDialog open={open} handleCloseCTR={handleCloseCTR} />
       <ProfileBox
         openProfile={openProfile}
         handleClickOpenProfile={handleClickOpenProfile}

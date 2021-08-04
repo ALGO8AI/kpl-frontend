@@ -471,6 +471,30 @@ const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
 
   return await callBackend(
     "POST",
+    "routes/KPI/home/detailedSummaryByClpCtr",
+    true,
+    data
+  );
+};
+
+export const ClpCtrDataChecking = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts
+) => {
+  const data = {
+    clpctr: ctr,
+    tableId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts: shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+
+  return await callBackend(
+    "POST",
     "routes/KPI/home/detailedSummaryByClpCtrChecking",
     true,
     data
@@ -732,7 +756,7 @@ const detailedSummaryByClpCtrChecking = async (
   };
   return await callBackend(
     "POST",
-    "routes/checking/KPI/home/detailedSummaryByClpCtr",
+    "routes/checking/KPI/home/detailedSummaryByClpCtrChecking",
     true,
     data
   );

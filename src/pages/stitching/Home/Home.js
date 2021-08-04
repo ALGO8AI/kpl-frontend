@@ -14,7 +14,6 @@ import {
   ClpCtrData,
   crowdingInstanceData,
   ctr_machineID,
-  detailedSummaryByClpCtrChecking,
   feedInstanceData,
   // homepageData,
   machineBreakdownData,
@@ -231,7 +230,7 @@ function Home() {
       }
 
       if (state.homeCTRTable.loading) {
-        const homeCTRTable = await detailedSummaryByClpCtrChecking();
+        const homeCTRTable = await ClpCtrData();
         console.log(homeCTRTable);
         dispatch({
           type: "HOME_CTR_TABLE",

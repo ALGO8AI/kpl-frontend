@@ -51,7 +51,6 @@ function TableData({
   const table1 = React.useRef(null);
 
   const handleTabChange = (event, newValue) => {
-    console.log();
     setTabValue(newValue);
   };
 
