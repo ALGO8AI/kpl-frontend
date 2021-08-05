@@ -1,6 +1,8 @@
 import React, { useReducer } from "react";
 
 const initialState = {
+  CTRDialog: false,
+
   role: "",
   designation: "",
   profile: "",
@@ -24,6 +26,18 @@ let reducer = (state, action) => {
         violation: action.payload.violation,
         status: action.payload.status,
       };
+    case "OPEN_CTR_DIALOG": {
+      return {
+        ...state,
+        CTRDialog: true,
+      };
+    }
+    case "CLOSE_CTR_DIALOG": {
+      return {
+        ...state,
+        CTRDialog: false,
+      };
+    }
     default:
       return;
   }

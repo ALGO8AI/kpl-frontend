@@ -370,13 +370,12 @@ export default function Navigation() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      <SupportButton>Change CTR</SupportButton>
+      <SupportButton onClick={handleClickOpenCTR}>Change Roll</SupportButton>
 
       <SupportButton>
         <HeadsetMicIcon />
         SUPPORT
       </SupportButton>
-      <CLPCTRDialog2 open={open} handleCloseCTR={handleCloseCTR} />
     </Menu>
   );
 

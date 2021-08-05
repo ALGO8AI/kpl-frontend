@@ -135,6 +135,7 @@ let reducer = (state, action) => {
     case "CURRENT_CTR": {
       return { ...state, currentCTR: action.payload };
     }
+
     default:
       return;
   }

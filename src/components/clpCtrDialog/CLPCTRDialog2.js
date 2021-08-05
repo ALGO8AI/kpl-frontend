@@ -17,6 +17,7 @@ import {
   getUnassignedCLPCTR,
   updateCTR,
 } from "../../services/api.service";
+import "./CLPCTRDialog.scss";
 
 function CLPCTRDialog2({ open, handleCloseCTR }) {
   const [CTR, setCTR] = React.useState({
@@ -114,7 +115,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
     loadCurrentAndUnassigned();
   }, []);
   return (
-    <div>
+    <div className="CLP-Dialog">
       <Dialog
         open={open}
         onClose={handleCloseCTR}
@@ -136,25 +137,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           <DialogContentText id="alert-dialog-description">
             <Grid container spacing={1} style={{ width: "320px" }}>
               <Grid item xs={12}>
-                {/* <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Old CTR
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    label="Old CTR"
-                    value={CTR.oldCtr}
-                    onChange={(e) => setOldCtr(e)}
-                  >
-                    {currentCTR.length > 0 &&
-                      currentCTR?.map((item, i) => (
-                        <MenuItem value={item?.CtrNo} key={i}>
-                          {item?.CtrNo}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl> */}
                 {CTR.oldCtr && (
                   <TextField
                     variant="outlined"
@@ -230,22 +212,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                   }
                 />
               </Grid>
-
-              {/* {CTR.currentCtr === "enter manually" ? (
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    value={CTR.currentCtrInput}
-                    onChange={(e) =>
-                      setCTR({ ...CTR, currentCtrInput: e.target.value })
-                    }
-                    placeholder="Type Or Select From Dropdown Menu"
-                    label="Current CTR"
-                  />
-                </Grid>
-              ) : null} */}
-
               <Grid xs={12}>
                 <p style={{ color: "#F68F1D", textAlign: "center" }}>
                   {CTRresp}
@@ -268,9 +234,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           <Button
             variant="contained"
             onClick={() => {
-              //   console.log(CTR);
               ChangeCTR();
-              // handleCloseCTR();
             }}
             color="primary"
             autoFocus

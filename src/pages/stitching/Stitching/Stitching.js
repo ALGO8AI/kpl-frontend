@@ -10,8 +10,12 @@ import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
 import { Annotation } from "../layoutView/annotation/Annotation";
 import ViolationDetail from "../violationDetails/ViolationDetail";
+import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
+import { KPLContext } from "../../../context/ViolationContext";
 
 function Stitching(props) {
+  const { state, dispatch } = React.useContext(KPLContext);
+
   const pages = {
     home: <Home />,
     violationLog: <ViolationLog />,
@@ -26,11 +30,20 @@ function Stitching(props) {
   };
 
   const page = pages[props.match.params.page];
+  const handleCloseCTR = () => {
+    // setOpen(false);
+
+    dispatch({
+      type: "CLOSE_CTR_DIALOG",
+    });
+  };
   return (
     <>
       {/* <StitchingProvider> */}
       <Navigation />
       <div className="Stitching_Container">{page}</div>
+      {/* <CLPCTRDialog2 open={state?.CTRDialog} handleCloseCTR={handleCloseCTR} /> */}
+
       {/* </StitchingProvider> */}
     </>
   );

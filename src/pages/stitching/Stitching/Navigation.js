@@ -149,11 +149,19 @@ export default function Navigation() {
     } catch (err) {}
   };
   const handleClickOpenCTR = () => {
+    // console.log("clicked");
     setOpen(true);
+    dispatch({
+      type: "OPEN_CTR_DIALOG",
+    });
   };
 
   const handleCloseCTR = () => {
     setOpen(false);
+
+    dispatch({
+      type: "CLOSE_CTR_DIALOG",
+    });
   };
   React.useEffect(() => {
     loadData();
@@ -369,13 +377,12 @@ export default function Navigation() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      <SupportButton>Change CTR</SupportButton>
+      <SupportButton onClick={handleClickOpenCTR}>Change CTR</SupportButton>
 
       <SupportButton>
         <HeadsetMicIcon />
         SUPPORT
       </SupportButton>
-      <CLPCTRDialog2 open={open} handleCloseCTR={handleCloseCTR} />
     </Menu>
   );
 
