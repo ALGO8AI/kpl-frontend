@@ -36,6 +36,7 @@ import {
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { StitchingContext } from "../../../context/StitchingContext";
+import moment from "moment";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -160,7 +161,9 @@ function Schedule(props) {
         const date1 = new Date(rowData.Date).toLocaleString().split(",");
         // return date1[0]
         const dd = date1[0].split("/");
-        return dd[1] + "/" + dd[0] + "/" + dd[2];
+        return moment(new Date(rowData.Date))
+          .format("DD/MM/YYYY")
+          .toString();
       },
     },
     // { title: "ID", field: "id" },

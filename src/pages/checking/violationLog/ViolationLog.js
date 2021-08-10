@@ -991,6 +991,7 @@ function ViolationLog1() {
                   // { title: "Machine ID", field: "machineID" },
                   { title: "Wing", field: "wing" },
                   { title: "Shift", field: "shift" },
+                  { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />
             </Grid>

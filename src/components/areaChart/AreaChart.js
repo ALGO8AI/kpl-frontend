@@ -218,7 +218,9 @@ function AreaChart(props) {
         }}
       >
         Crowding Duration:{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>{duration}</span>
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {duration + "Hrs."}
+        </span>
       </Typography>
     </>
   );

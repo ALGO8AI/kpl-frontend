@@ -27,6 +27,7 @@ import {
 import { Alert } from "@material-ui/lab";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import moment from "moment";
 
 // import { Switch } from "react-router";
 
@@ -87,7 +88,13 @@ function Supervisor(props) {
   const columns = [
     {
       title: "Date",
-      render: (rowData) => <p>{new Date(rowData.date).toLocaleDateString()}</p>,
+      render: (rowData) => (
+        <p>
+          {moment(new Date(rowData.date))
+            .format("DD/MM/YYYY")
+            .toString()}
+        </p>
+      ),
     },
     { title: "Supervisor Id", field: "supervisorId" },
     { title: "Supervisor Name", field: "supervisorName" },

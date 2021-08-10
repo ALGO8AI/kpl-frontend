@@ -24,6 +24,7 @@ import {
   getAllSupervisorList,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
+import moment from "moment";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,7 +85,13 @@ function Supervisor(props) {
   const columns = [
     {
       title: "Date",
-      render: (rowData) => <p>{new Date(rowData.date).toLocaleDateString()}</p>,
+      render: (rowData) => (
+        <p>
+          {moment(new Date(rowData.date))
+            .format("DD/MM/YYYY")
+            .toString()}
+        </p>
+      ),
     },
     { title: "Supervisor Id", field: "supervisorId" },
     { title: "Supervisor Name", field: "supervisorName" },
