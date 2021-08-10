@@ -334,7 +334,7 @@ function FeedDonut(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Math.round(props?.data?.utilizationPercentage) + "%"}
+            {props?.data?.utilizationPercentage + "%"}
           </span>
         </Typography>
       </div>

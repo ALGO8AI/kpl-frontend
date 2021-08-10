@@ -205,9 +205,7 @@ function AreaChart(props) {
         }}
       >
         Total Crowding Instances:{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {Math.round(instance)}{" "}
-        </span>
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>{instance}</span>
       </Typography>
       <Typography
         variant="h6"
@@ -220,9 +218,7 @@ function AreaChart(props) {
         }}
       >
         Crowding Duration:{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {Math.round(duration)} Hrs.{" "}
-        </span>
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>{duration}</span>
       </Typography>
     </>
   );

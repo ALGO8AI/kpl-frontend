@@ -114,7 +114,7 @@ function DonutChartSimple({ data, payload_data, link }) {
         Boolean(data[0]?.machineOnTime) ? data[0]?.machineOnTime : 0,
         Boolean(data[0]?.machineOffTime) ? data[0]?.machineOffTime : 0,
         Boolean(data[0]?.machineOnTime)
-          ? Math.round(data[0]?.machineOnTime - data[0]?.machineOffTime, 2)
+          ? data[0]?.machineOnTime - data[0]?.machineOffTime
           : 0,
       ]);
     }
@@ -153,7 +153,7 @@ function DonutChartSimple({ data, payload_data, link }) {
               options={options}
               series={[
                 data?.length && Boolean(data[0]["max(scheduleHours)"])
-                  ? Math.round(data[0]["max(scheduleHours)"], 2)
+                  ? data[0]["max(scheduleHours)"]
                   : 0,
                 data?.length && Boolean(data[0].MachineOffTime)
                   ? data[0].MachineOffTime

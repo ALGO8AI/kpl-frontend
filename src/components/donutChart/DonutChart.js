@@ -124,12 +124,10 @@ function DonutChart(props) {
   }, []);
 
   const SERIES = [
-    Math.round(
-      props.totalTime -
-        (props.idleDueToWorkerUnavailable +
-          props.feedUnavailibilityDuration +
-          props.other)
-    ),
+    props.totalTime -
+      (props.idleDueToWorkerUnavailable +
+        props.feedUnavailibilityDuration +
+        props.other),
     props.idleDueToWorkerUnavailable,
     props.feedUnavailibilityDuration,
     props.other,
@@ -403,7 +401,7 @@ function DonutChart(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Math.round(props?.utilizationPercentage) + "%"}
+            {props?.utilizationPercentage + "%"}
           </span>
         </Typography>
       </div>

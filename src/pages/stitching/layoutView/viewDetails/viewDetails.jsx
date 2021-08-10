@@ -105,7 +105,7 @@ export const ViewDetailsPage = observer((props) => {
             <h1
               className={classes.heading}
               style={{ cursor: "pointer" }}
-              onClick={() => history.push("/stitching/layoutView")}
+              onClick={() => history.goBack()}
             >
               <span>
                 <i
