@@ -1,0 +1,32 @@
+.customUpload {
+  background-color: #f68f1d;
+  color: white;
+  border-radius: 5px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+
+.photoup {
+  background-color: #f68f1d;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.gridMargin {
+  margin-top: 10px;
+}
+.inputLabel {
+  width: 100%;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  color: rgba(0, 0, 0, 0.54);
+  padding: 16px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}

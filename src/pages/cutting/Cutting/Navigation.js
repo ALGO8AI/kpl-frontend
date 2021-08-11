@@ -19,6 +19,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import MapIcon from "@material-ui/icons/Map";
 import PublishIcon from "@material-ui/icons/Publish";
 import PollIcon from "@material-ui/icons/Poll";
+import FeedbackIcon from "@material-ui/icons/Feedback";
 
 import {
   Button,
@@ -216,6 +217,28 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
+            to="/cutting/feedback"
+          >
+            <FeedbackIcon className={classes.icon} />
+            Feedback
+          </NavLink>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/cutting/yourData"
+          >
+            <PublishIcon className={classes.icon} />
+            Your Data
+          </NavLink>
+        </ListItem>
+        <Divider />
+        {/* <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
             to="/cutting/videoWall"
           >
             <VideocamIcon className={classes.icon} />
@@ -265,7 +288,7 @@ export default function Navigation() {
             <PollIcon className={classes.icon} />
             Analytics
           </NavLink>
-        </ListItem>
+        </ListItem> */}
         <Divider />
       </List>
     </div>

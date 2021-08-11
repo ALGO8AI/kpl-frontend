@@ -3,9 +3,11 @@ import { LayoutView } from "../../stitching/layoutView/LayoutView";
 import Setting from "../../stitching/setting/Setting";
 import DefectDetails from "../DefectDetails/DefectDetails";
 import Defects from "../DefectDetails/Defects";
+import Feedback from "../Feedback/Feedback";
 // import DefectDetails fro../DefectDetails/Defectsils";
 import Home from "../Home/Home";
 import VideoWall from "../VideoWall/VideoWall";
+import YourData from "../YourData/YourData";
 
 // import { LayoutView } from "../layoutView/LayoutView";
 // import { ViewDetails } from "../layoutView/viewDetails/viewDetails";
@@ -25,8 +27,9 @@ function Cutting(props) {
     setting: <Setting />,
     defectDetails: <DefectDetails id={props.match.params.id} />,
     layoutView: <LayoutView path="view" />,
+    feedback: <Feedback />,
     // annotation: <Annotation />,
-    // yourData: <YourData />,
+    yourData: <YourData />,
     // violationDetails: <ViolationDetail id={props.match.params.id} />,
     // analytics: <Analytics />,
   };

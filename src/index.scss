@@ -4,3 +4,7 @@ $primary-blue: #0e4a7b;
   display: flex;
   flex-wrap: wrap;
 }
+
+.MuiInputLabel-outlined.MuiInputLabel-shrink {
+  background-color: white !important;
+}

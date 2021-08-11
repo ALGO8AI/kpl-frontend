@@ -51,6 +51,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
         });
         alert("CTR changed successfully");
         loadCurrentAndUnassigned();
+        window.location.reload();
       }
     } catch (err) {}
   };
