@@ -5,6 +5,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Grid } from "@material-ui/core";
 import OperatorInformation from "./OperatorInformation";
+import OperatorSchedule from "./OperatorSchedule";
+import RollSummary from "./RollSummary";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,10 +68,10 @@ function YourData() {
         <OperatorInformation />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* <Schedule /> */}
+        <OperatorSchedule />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {/* <Supervisor /> */}
+        <RollSummary />
       </TabPanel>
     </Grid>
   );
