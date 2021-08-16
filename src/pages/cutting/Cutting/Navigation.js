@@ -202,7 +202,7 @@ export default function Navigation() {
           </NavLink>
         </ListItem>
         <Divider />
-        <ListItem button>
+        {/* <ListItem button>
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
@@ -210,6 +210,17 @@ export default function Navigation() {
           >
             <NotInterestedIcon className={classes.icon} />
             Defect Details
+          </NavLink>
+        </ListItem>
+        <Divider /> */}
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/cutting/yourData"
+          >
+            <PublishIcon className={classes.icon} />
+            Your Data
           </NavLink>
         </ListItem>
         <Divider />
@@ -221,17 +232,6 @@ export default function Navigation() {
           >
             <FeedbackIcon className={classes.icon} />
             Feedback
-          </NavLink>
-        </ListItem>
-        <Divider />
-        <ListItem button>
-          <NavLink
-            activeClassName={classes.active}
-            className={classes.link}
-            to="/cutting/yourData"
-          >
-            <PublishIcon className={classes.icon} />
-            Your Data
           </NavLink>
         </ListItem>
         <Divider />

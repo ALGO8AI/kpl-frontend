@@ -108,6 +108,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
       setCTRresp(resp.msg);
       handleCloseCTR();
       loadCurrentAndUnassigned();
+      window.location.reload();
     } catch (e) {}
   };
 

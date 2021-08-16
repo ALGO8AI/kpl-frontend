@@ -21,8 +21,8 @@ import Navigation from "./Navigation";
 
 function Cutting(props) {
   const pages = {
-    home: <Home />,
-    defects: <Defects />,
+    // home: <Home />,
+    home: <Defects />,
     videoWall: <VideoWall />,
     setting: <Setting />,
     defectDetails: <DefectDetails id={props.match.params.id} />,
