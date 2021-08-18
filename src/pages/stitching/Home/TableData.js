@@ -82,8 +82,18 @@ function TableData({
           >
             <HomeTable
               data={homeWorkerTable?.map((row, i) => {
-                const { workerId, ...rest } = row;
-                return { id: workerId, ...rest };
+                const {
+                  workerId,
+                  feedUnavPercentage,
+                  workerUnavPercentage,
+                  ...rest
+                } = row;
+                return {
+                  id: workerId,
+                  feedUnavPercentage: feedUnavPercentage.toFixed(2),
+                  workerUnavPercentage: workerUnavPercentage.toFixed(2),
+                  ...rest,
+                };
               })}
               column={[
                 {

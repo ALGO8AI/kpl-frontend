@@ -796,10 +796,12 @@ function ViolationDetail(props) {
                 {data?.machineId && (
                   <NameValue name="MACHINE ID" value={data && data.machineId} />
                 )}
-                {/* CTR */}
-                {data?.CTR && (
-                  <NameValue name="CTR NO." value={data && data.CTR} />
+                {data?.ctr && (
+                  <NameValue name="CTR NO." value={data && data.ctr} />
                 )}
+
+                {/* CTR */}
+
                 {/* WING */}
                 {data?.wing && (
                   <NameValue name="WING" value={data && data.wing} />
@@ -819,6 +821,25 @@ function ViolationDetail(props) {
                 {/* END TIME */}
                 {data?.EndTime && (
                   <NameValue name="END TIME" value={data && data.EndTime} />
+                )}
+                {/* TABLE */}
+                {data?.table_no && (
+                  <NameValue name="TABLE NO." value={data && data.table_no} />
+                )}
+                {/* CHECKER ID */}
+                {data?.CheckerId && (
+                  <NameValue name="CHECKER ID" value={data && data.CheckerId} />
+                )}
+                {/* CHECKER NAME*/}
+                {data?.CheckerName && (
+                  <NameValue
+                    name="CHECKER NAME"
+                    value={data && data.CheckerName}
+                  />
+                )}
+                {/* CHECKER ID */}
+                {data?.time && (
+                  <NameValue name="TIME" value={data && data.time} />
                 )}
                 {/* SUPERVISOR */}
                 {data && (
@@ -1164,17 +1185,32 @@ function ViolationDetail(props) {
                   md={6}
                   style={{ padding: "12px" }}
                 >
-                  <Button
-                    variant="contained"
-                    style={{
-                      width: "100%",
-                      padding: "8px !important",
-                    }}
-                    onClick={handleOpen}
-                    // className="violation-btn incorrect-btn"
-                  >
-                    Incorrect Violation
-                  </Button>
+                  {localStorage.getItem("VIOLATION-TYPE") ===
+                  "Defect Violation" ? (
+                    <Button
+                      variant="contained"
+                      style={{
+                        width: "100%",
+                        padding: "8px !important",
+                      }}
+                      onClick={handleOpen}
+                      // className="violation-btn incorrect-btn"
+                    >
+                      Bag Rejected
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      style={{
+                        width: "100%",
+                        padding: "8px !important",
+                      }}
+                      onClick={handleOpen}
+                      // className="violation-btn incorrect-btn"
+                    >
+                      Incorrect Violation
+                    </Button>
+                  )}
                 </Grid>
                 <Grid
                   container
@@ -1184,19 +1220,36 @@ function ViolationDetail(props) {
                   md={6}
                   style={{ padding: "12px" }}
                 >
-                  <Button
-                    // className="violation-btn correct-btn"
-                    variant="contained"
-                    style={{
-                      width: "100%",
-                      backgroundColor: "#f68f1d",
-                      color: "white",
-                      padding: "8px !important",
-                    }}
-                    onClick={submitConfirmViolation}
-                  >
-                    Confirm Violation
-                  </Button>
+                  {localStorage.getItem("VIOLATION-TYPE") ===
+                  "Defect Violation" ? (
+                    <Button
+                      // className="violation-btn correct-btn"
+                      variant="contained"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#f68f1d",
+                        color: "white",
+                        padding: "8px !important",
+                      }}
+                      onClick={submitConfirmViolation}
+                    >
+                      Bag Repaired
+                    </Button>
+                  ) : (
+                    <Button
+                      // className="violation-btn correct-btn"
+                      variant="contained"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#f68f1d",
+                        color: "white",
+                        padding: "8px !important",
+                      }}
+                      onClick={submitConfirmViolation}
+                    >
+                      Confirm Violation
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

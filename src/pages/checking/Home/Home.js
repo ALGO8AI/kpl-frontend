@@ -143,7 +143,11 @@ export default function Home() {
       setMachineID(tableIds?.data);
       dispatch({
         type: "TABLE_ID",
-        payload: ctr.machineID,
+        payload: tableIds?.data,
+      });
+      dispatch({
+        type: "CTR",
+        payload: ctr?.clpctr,
       });
     } catch (err) {
       console.log(err.message);

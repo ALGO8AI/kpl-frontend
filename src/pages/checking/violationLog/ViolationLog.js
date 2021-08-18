@@ -805,7 +805,7 @@ function ViolationLog1() {
               <Tab label="Crowding Violation" {...a11yProps(0)} />
               <Tab label="Worker Violation" {...a11yProps(1)} />
               <Tab label="Defects" {...a11yProps(2)} />
-              <Tab label="Worker Performance" {...a11yProps(3)} />
+              <Tab label="Checker Performance" {...a11yProps(3)} />
               {/* <Tab label="By Table" {...a11yProps(3)} /> */}
             </Tabs>
           </AppBar>
@@ -1069,6 +1069,7 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
+                  { title: "CTR No.", field: "ctr_no" },
                   {
                     title: "Time",
                     field: "time",
@@ -1080,7 +1081,6 @@ function ViolationLog1() {
                   { title: "Tailor No.", field: "tailorNumber" },
                   { title: "Tailor Name", field: "tailorName" },
 
-                  { title: "CTR No.", field: "ctr_no" },
                   { title: "Defect Name", field: "defectName" },
                   { title: "Wing", field: "wing" },
                   { title: "Line", field: "line" },
@@ -1100,21 +1100,22 @@ function ViolationLog1() {
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
-                  { title: "Worker ID", field: "workerId" },
-                  { title: "Worker Name", field: "workerName" },
+                  { title: "Checker ID", field: "workerId" },
+                  { title: "Checker Name", field: "workerName" },
                   {
                     title: "Table ID",
                     field: "machineId",
                   },
+                  { title: "Shift", field: "shift" },
+
                   {
-                    title: "Feed N/A Duration(Hrs.)",
+                    title: "Feed Unavailable Hours",
                     field: "feedUnavailibilityDuration",
                   },
                   {
-                    title: "Worker N/A Duration(Hrs.)",
+                    title: "Worker Unavailable Hours ",
                     field: "workerUnavailableViolationDuration",
                   },
-                  { title: "Shift", field: "shift" },
                 ]}
               />
             </Grid>

@@ -367,12 +367,43 @@ function Schedule(props) {
               </MenuItem>
               {state?.tableIDs?.length > 0 &&
                 state?.tableIDs?.map((item, index) => (
-                  <MenuItem value={item.machineID} key={index}>
-                    {item.machineID}
+                  <MenuItem value={item.tableId} key={index}>
+                    {item.tableId}
                   </MenuItem>
                 ))}
             </Select>
           </FormControl>
+
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              CTR
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              // value={userdata.supervisorName}
+              name="supervisorName"
+              fullWidth
+              // onChange={onUserChange}
+              label="CTR"
+              // multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {state?.CTR?.length > 0 &&
+                state?.CTR?.map((item, index) => (
+                  <MenuItem value={item.ctrs} key={index}>
+                    {item.ctrs}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+
           <TextField
             key="from"
             id="fromDate"
@@ -445,7 +476,7 @@ function Schedule(props) {
               ))}
             </Select>
           </FormControl>
-          <FormControlLabel
+          {/* <FormControlLabel
             style={{ marginBottom: "12px" }}
             control={
               <Switch
@@ -461,7 +492,7 @@ function Schedule(props) {
               />
             }
             label="Machine Status"
-          />
+          /> */}
           <Button
             variant="contained"
             color="primary"
@@ -602,7 +633,37 @@ function Schedule(props) {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-            ></Grid>
+            >
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  CTR
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  // value={userdata.supervisorName}
+                  name="supervisorName"
+                  fullWidth
+                  // onChange={onUserChange}
+                  label="CTR"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {state?.CTR?.length > 0 &&
+                    state?.CTR?.map((item, index) => (
+                      <MenuItem value={item.ctrs} key={index}>
+                        {item.ctrs}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </DialogContentText>
 

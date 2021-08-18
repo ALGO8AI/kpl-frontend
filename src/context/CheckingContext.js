@@ -62,6 +62,7 @@ const initialState = {
     loading: true,
   },
   tableIDs: [],
+  CTR: [],
 };
 const CheckingContext = React.createContext(initialState);
 
@@ -132,6 +133,12 @@ let reducer = (state, action) => {
     }
     case "TABLE_ID": {
       return { ...state, tableIDs: action.payload };
+    }
+    case "CTR": {
+      return {
+        ...state,
+        CTR: action.payload,
+      };
     }
     default:
       return;
