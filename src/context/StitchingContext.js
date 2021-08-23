@@ -58,6 +58,7 @@ const initialState = {
     loading: true,
   },
   violationTab: 0,
+  settingTab: 0,
   workerDetails: {
     data: [],
     loading: true,
@@ -119,6 +120,9 @@ let reducer = (state, action) => {
     }
     case "VIOLATION_TAB": {
       return { ...state, violationTab: action.payload };
+    }
+    case "SETTING_TAB": {
+      return { ...state, settingTab: action.payload };
     }
     case "MACHINE_VIO": {
       return { ...state, machine: action.payload };

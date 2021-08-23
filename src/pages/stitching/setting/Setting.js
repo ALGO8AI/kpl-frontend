@@ -10,6 +10,7 @@ import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 import { LayoutView } from "../layoutView/LayoutView";
+import { StitchingContext } from "../../../context/StitchingContext";
 // import { LayoutView } from "../layoutView/LayoutView";
 
 function TabPanel(props) {
@@ -50,16 +51,17 @@ function a11yProps(index) {
 
 function Setting() {
   const [value, setValue] = React.useState(0);
+  const { state, dispatch } = React.useContext(StitchingContext);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    dispatch({ type: "SETTING_TAB", payload: newValue });
   };
 
   return (
     <Grid xs={12} md={12} item style={{ padding: "1rem" }}>
       <AppBar position="static" className="customTab">
         <Tabs
-          value={value}
+          value={state.settingTab}
           onChange={handleChange}
           aria-label="simple tabs example"
           variant="scrollable"
@@ -74,10 +76,10 @@ function Setting() {
           ) : null} */}
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={state.settingTab} index={0}>
         <AlertAndNotification />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={state.settingTab} index={1}>
         <Grid container item xs={12}>
           <ManageRoles />
         </Grid>
@@ -89,7 +91,7 @@ function Setting() {
         </div>
       </TabPanel> */}
 
-      <TabPanel value={value} index={2}>
+      <TabPanel value={state.settingTab} index={2}>
         <LayoutView path="annotate" />
       </TabPanel>
     </Grid>

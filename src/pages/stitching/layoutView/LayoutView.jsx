@@ -115,14 +115,17 @@ export const LayoutViewPage = observer((props) => {
       <div className={classes.root}>
         <Grid container spacing={1}>
           <Grid item xs={10}>
-            <h1 className={classes.heading} onClick={() => history.goBack()}>
-              <span>
+            <h1
+              className={classes.heading}
+              // onClick={() => history.goBack()}
+            >
+              {/* <span>
                 <i
                   class="fa fa-arrow-left"
                   aria-hidden="true"
                   style={{ marginRight: "8px" }}
                 ></i>
-              </span>
+              </span> */}
               Layout View
             </h1>
           </Grid>
