@@ -713,28 +713,57 @@ function ViolationDetail(props) {
             <Grid container item xs={12} className="Details_CameraFeed">
               {/* DATE & ID */}
               <Grid ontainer item xs={12} className={"Header"}>
-                <h3 style={{ color: "white " }}>Violation Id : {props.id}</h3>
+                <h3 style={{ color: "white " }}>
+                  Violation Id : {props.id} <br />
+                  {data?.bagId && <>Bag Id : {data?.bagId}</>}
+                </h3>
                 <p style={{ color: "white" }}>
-                  {data &&
+                  {data?.dateTime &&
+                    moment(new Date(data.dateTime))
+                      .format("DD/MM/YYYY")
+                      .toString()}
+                  {data?.date &&
                     moment(new Date(data.date))
                       .format("DD/MM/YYYY")
+                      .toString()}
+                  <br />
+                  {data?.dateTime &&
+                    moment(new Date(data.dateTime))
+                      .format("HH:MM")
                       .toString()}
                 </p>
               </Grid>
               {/* VIDEO */}
-              <Grid container item xs={12} className="mb-16">
-                <ReactPlayer
-                  key={link}
-                  url={link?.replace(".avi", ".mp4")}
-                  controls={true}
-                  width="100%"
-                  height="auto"
-                />
-              </Grid>
+              {link && (
+                <Grid container item xs={12} className="mb-16">
+                  <ReactPlayer
+                    key={link}
+                    url={link?.replace(".avi", ".mp4")}
+                    controls={true}
+                    width="100%"
+                    height="auto"
+                  />
+                </Grid>
+              )}
               {/* IMAGE */}
               <Grid container item xs={12}>
-                {data && (
+                {data?.img && (
                   <img src={data.img} style={{ width: "100%" }} alt="img" />
+                )}
+                {data?.barcode && (
+                  <div
+                    style={{
+                      width: "100%",
+                      background: "white",
+                      height: "auto",
+                    }}
+                  >
+                    <img
+                      src={data?.barcode}
+                      style={{ width: "100%" }}
+                      alt="barcode"
+                    />
+                  </div>
                 )}
               </Grid>
             </Grid>
@@ -825,6 +854,10 @@ function ViolationDetail(props) {
                 {/* TABLE */}
                 {data?.table_no && (
                   <NameValue name="TABLE NO." value={data && data.table_no} />
+                )}
+                {/* BAGID */}
+                {data?.bagId && (
+                  <NameValue name="BAG ID" value={data && data.bagId} />
                 )}
                 {/* CHECKER ID */}
                 {data?.CheckerId && (

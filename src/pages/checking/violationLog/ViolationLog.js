@@ -1082,6 +1082,8 @@ function ViolationLog1() {
                   { title: "Tailor Name", field: "tailorName" },
 
                   { title: "Defect Name", field: "defectName" },
+                  { title: "Bag Id", field: "bagId" },
+
                   { title: "Wing", field: "wing" },
                   { title: "Line", field: "line" },
                   { title: "Shift", field: "shift" },
