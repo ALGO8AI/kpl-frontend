@@ -727,10 +727,7 @@ function ViolationDetail(props) {
                       .format("DD/MM/YYYY")
                       .toString()}
                   <br />
-                  {data?.dateTime &&
-                    moment(new Date(data.dateTime))
-                      .format("HH:MM")
-                      .toString()}
+                  {data?.time}
                 </p>
               </Grid>
               {/* VIDEO */}
@@ -755,7 +752,8 @@ function ViolationDetail(props) {
                     style={{
                       width: "100%",
                       background: "white",
-                      height: "auto",
+                      height: "fit-content",
+                      padding: "12px",
                     }}
                   >
                     <img

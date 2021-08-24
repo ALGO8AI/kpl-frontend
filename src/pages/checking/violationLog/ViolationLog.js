@@ -978,8 +978,8 @@ function ViolationLog1() {
                   },
                   { title: "Worker Name", field: "workerName" },
 
-                  { title: "Worker Id", field: "workerID" },
-                  { title: "Table Id", field: "tableId" },
+                  { title: "Worker ID", field: "workerID" },
+                  { title: "Table ID", field: "tableId" },
 
                   {
                     title: "Violation Duration(Min.)",
@@ -1075,19 +1075,19 @@ function ViolationLog1() {
                     field: "time",
                   },
 
-                  { title: "Checker Id", field: "checker_emp_id" },
+                  { title: "Checker ID", field: "checker_emp_id" },
                   { title: "Checker Name", field: "checker_name" },
 
                   { title: "Tailor No.", field: "tailorNumber" },
                   { title: "Tailor Name", field: "tailorName" },
 
                   { title: "Defect Name", field: "defectName" },
-                  { title: "Bag Id", field: "bagId" },
+                  { title: "Bag ID", field: "bagId" },
 
                   { title: "Wing", field: "wing" },
                   { title: "Line", field: "line" },
                   { title: "Shift", field: "shift" },
-                  { title: "Supervisor Id", field: "supervisorId" },
+                  { title: "Supervisor ID", field: "supervisorId" },
 
                   { title: "Supervisor Name", field: "supervisorName" },
                 ]}
