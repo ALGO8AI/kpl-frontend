@@ -200,6 +200,29 @@ const violationByWorkerF = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
+const violationByWorkerFChecking = async (
+  fromDate,
+  toDate,
+  ctr,
+  table,
+  shifts
+) => {
+  const data = {
+    clpctr: ctr,
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/violationByWorker",
+    true,
+    data
+  );
+};
+
 const violationDateFilter = async (fromDate, toDate) => {
   // console.log("violation filter function")
   // const { data } =
@@ -1681,4 +1704,5 @@ export {
   getRecentCheckingCrowd,
   checkingViolationClosedByUpdate,
   getAllTableId,
+  violationByWorkerFChecking,
 };

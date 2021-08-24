@@ -17,7 +17,7 @@ import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import {
-  violationByWorkerF,
+  violationByWorkerFChecking,
   ctr_machineID,
   crowdingViolationChecking,
   workerUnavailableViolationChecking,
@@ -162,7 +162,7 @@ function ViolationLog1() {
       });
     }
 
-    const by_worker = await violationByWorkerF();
+    const by_worker = await violationByWorkerFChecking();
     dispatch({
       type: "BY_WORKER_VIO",
       payload: {
@@ -241,7 +241,7 @@ function ViolationLog1() {
         });
       }
 
-      const by_worker = await violationByWorkerF(
+      const by_worker = await violationByWorkerFChecking(
         state.violationFrom,
         state.violationTo,
         inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
@@ -313,7 +313,7 @@ function ViolationLog1() {
       }
 
       if (state.by_worker.loading) {
-        const by_worker = await violationByWorkerF();
+        const by_worker = await violationByWorkerFChecking();
         console.log(by_worker);
 
         dispatch({
@@ -1102,21 +1102,25 @@ function ViolationLog1() {
                 rowClick={rowClick}
                 selectedRow={selectedRow}
                 columns={[
-                  { title: "Checker ID", field: "workerId" },
-                  { title: "Checker Name", field: "workerName" },
+                  { title: "Checker ID", field: "checkerID" },
+                  { title: "Checker Name", field: "checkerName" },
                   {
                     title: "Table ID",
-                    field: "machineId",
+                    field: "tableId",
                   },
                   { title: "Shift", field: "shift" },
 
                   {
-                    title: "Feed Unavailable Hours",
-                    field: "feedUnavailibilityDuration",
+                    title: "Violation Duration Hours",
+                    field: "violationDuration",
                   },
                   {
-                    title: "Worker Unavailable Hours ",
-                    field: "workerUnavailableViolationDuration",
+                    title: "No. Of Bags Checked",
+                    field: "NoOfBagsChecked",
+                  },
+                  {
+                    title: "No. Of Defects",
+                    field: "NoOfDefects",
                   },
                 ]}
               />
