@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 
 // import "./setting.css";
 
-import TextField from "@material-ui/core/TextField";
+// import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -28,7 +28,7 @@ import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
 import * as moment from "moment";
 // import { ViolationContext } from "../../context/ViolationContext";
-import { AppBar, InputLabel, Tab, Tabs } from "@material-ui/core";
+import { AppBar, InputLabel, Tab, Tabs, TextField } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
 import { CheckingContext } from "../../../context/CheckingContext";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
