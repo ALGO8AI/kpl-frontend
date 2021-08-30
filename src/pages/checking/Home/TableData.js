@@ -134,12 +134,13 @@ function TableData({
             <HomeTable
               // data={homeDateTable}
               data={homeDateTable?.map((row, i) => {
-                const { date, ...rest } = row;
+                const { date, workerUnavPercentage, ...rest } = row;
                 return {
                   id: i,
                   date: moment(new Date(date))
                     .format("DD/MM/YYYY")
                     .toString(),
+                  workerUnavPercentage: workerUnavPercentage.toFixed(2),
                   ...rest,
                 };
               })}

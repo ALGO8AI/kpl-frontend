@@ -399,11 +399,17 @@ function TableData({
             <HomeTable
               // data={homeCTRTable}
               data={homeCTRTable?.map((row, i) => {
-                const { CLPCTR, workerUnavPercentage, ...rest } = row;
+                const {
+                  CLPCTR,
+                  workerUnavPercentage,
+                  feedUnavPercentage,
+                  ...rest
+                } = row;
                 return {
                   id: i,
                   clp: CLPCTR,
                   workerUnavPercentage: workerUnavPercentage.toFixed(2),
+                  feedUnavPercentage: feedUnavPercentage.toFixed(2),
                   ...rest,
                 };
               })}
