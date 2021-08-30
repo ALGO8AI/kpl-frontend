@@ -108,7 +108,7 @@ export default function Home() {
       dispatch({
         type: "HOME_CTR_TABLE",
         payload: {
-          data: homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
+          data: homeCTRTable?.data,
           loading: false,
         },
       });
@@ -214,8 +214,7 @@ export default function Home() {
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
-            data:
-              homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
+            data: homeCTRTable?.data,
             loading: false,
           },
         });
@@ -348,8 +347,7 @@ export default function Home() {
           dispatch({
             type: "HOME_CTR_TABLE",
             payload: {
-              data:
-                homeCTRTable?.detailedSummaryByClpCtr?.detailedSummaryByClpCtr,
+              data: homeCTRTable?.data,
               loading: false,
             },
           });

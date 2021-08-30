@@ -318,7 +318,7 @@ function TableData({
                   hide: true,
                   width: 240,
                 },
-                { width: 240, headerName: "CLPCTR", field: "clp" },
+                { width: 240, headerName: "CLPCTR", field: "ctr" },
                 {
                   width: 240,
                   headerName: "Scheduled Hrs.",
@@ -326,29 +326,29 @@ function TableData({
                 },
                 {
                   width: 240,
-                  headerName: "Feed Unavailable %",
-                  field: "feedUnavPercentage",
+                  headerName: "Defect Count",
+                  field: "defectCount",
                 },
                 {
                   width: 240,
-                  headerName: "Feed Unavailable Hrs.",
-                  field: "feedUnavailableHours",
+                  headerName: "% Defect",
+                  field: "defectPercentage",
                 },
+                // {
+                //   width: 240,
+                //   headerName: "Worker Unavailable Hrs.",
+                //   field: "workerUnav",
+                // },
+                // { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 {
                   width: 240,
-                  headerName: "% Utilization",
-                  field: "utilizationPercentage",
+                  headerName: "Worker Unavailable Hrs.",
+                  field: "workerUnav",
                 },
-                { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
                 {
                   width: 240,
                   headerName: "Worker Unavailable %",
                   field: "workerUnavPercentage",
-                },
-                {
-                  width: 240,
-                  headerName: "Worker Unavailable Hrs.",
-                  field: "WorkerUnavailableHours",
                 },
                 // {
                 //   width: 240,
