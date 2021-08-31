@@ -429,14 +429,31 @@ function ViolationLog1() {
   };
   const returnStatusDefect = (type) => {
     switch (type) {
-      case "Not Known":
+      case "INCORRECT VIOLATION":
         return "Incorrect";
+      case "Not Known":
+        return "Not Repaired";
       case "OPEN":
         return "Not Repaired";
       case "CLOSED":
         return "Repaired";
       default:
         return "Not Repaired";
+    }
+  };
+
+  const returnClassNameDefect = (type) => {
+    switch (type) {
+      case "INCORRECT VIOLATION":
+        return "Link-btn-grey";
+      case "Not Known":
+        return "Link-btn-red";
+      case "OPEN":
+        return "Link-btn-red";
+      case "CLOSED":
+        return "Link-btn-green";
+      default:
+        return "Link-btn-red";
     }
   };
   return (
@@ -1022,7 +1039,7 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/checking/violationDetails/${rowData.Id}`}
-                        className={returnClassName(rowData.actionStatus)}
+                        className={returnClassNameDefect(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "defects");
                           localStorage.setItem(
