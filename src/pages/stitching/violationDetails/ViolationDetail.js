@@ -839,9 +839,6 @@ function ViolationDetail(props) {
                           label="Supervisor"
                           // multiple
                         >
-                          <option value="">
-                            <em>None</em>
-                          </option>
                           {supervisor.length > 0 &&
                             supervisor?.map((item, index) => (
                               <option value={item.username} key={index}>
@@ -892,9 +889,6 @@ function ViolationDetail(props) {
                           label="Supervisor"
                           // multiple
                         >
-                          <option value="">
-                            <em>None</em>
-                          </option>
                           {supervisor.length > 0 &&
                             supervisor?.map((item, index) => (
                               <option value={item.username} key={index}>

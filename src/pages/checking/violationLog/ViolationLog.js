@@ -429,7 +429,7 @@ function ViolationLog1() {
   };
   const returnStatusDefect = (type) => {
     switch (type) {
-      case "INCORRECT VIOLATION":
+      case "Not Known":
         return "Incorrect";
       case "OPEN":
         return "Not Repaired";
