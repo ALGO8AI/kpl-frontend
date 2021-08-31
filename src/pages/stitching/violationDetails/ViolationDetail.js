@@ -969,6 +969,7 @@ function ViolationDetail(props) {
                     onChange={handleReasonChange}
                     label="Choose Reason"
                   >
+                    <option value="">Choose Reason</option>
                     <option value="Add Reason">Add Reason</option>
 
                     {SelectDropdowndata.length > 0 &&
@@ -1028,6 +1029,8 @@ function ViolationDetail(props) {
                     onChange={handleActionChange}
                     label="Choose Action"
                   >
+                    <option value="">Choose Action</option>
+
                     <option value="Add Comment">Add Comment</option>
 
                     {["Penalty", "Supervisor Informed", "Worker Warned"].map(
