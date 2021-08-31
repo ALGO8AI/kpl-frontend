@@ -902,6 +902,7 @@ function ViolationDetail(props) {
                           Supervisor
                         </InputLabel>
                         <Select
+                          native
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={newSupervisor}
@@ -909,14 +910,14 @@ function ViolationDetail(props) {
                           label="Supervisor"
                           // multiple
                         >
-                          <MenuItem value="">
+                          <option value="">
                             <em>None</em>
-                          </MenuItem>
+                          </option>
                           {supervisor.length > 0 &&
                             supervisor?.map((item, index) => (
-                              <MenuItem value={item.username} key={index}>
+                              <option value={item.username} key={index}>
                                 {item.username}
-                              </MenuItem>
+                              </option>
                             ))}
                         </Select>
                       </FormControl>
@@ -954,6 +955,7 @@ function ViolationDetail(props) {
                           Supervisor
                         </InputLabel>
                         <Select
+                          native
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={closedBy}
@@ -961,14 +963,14 @@ function ViolationDetail(props) {
                           label="Supervisor"
                           // multiple
                         >
-                          <MenuItem value="">
+                          <option value="">
                             <em>None</em>
-                          </MenuItem>
+                          </option>
                           {supervisor.length > 0 &&
                             supervisor?.map((item, index) => (
-                              <MenuItem value={item.username} key={index}>
+                              <option value={item.username} key={index}>
                                 {item.username}
-                              </MenuItem>
+                              </option>
                             ))}
                         </Select>
                       </FormControl>
@@ -1037,24 +1039,25 @@ function ViolationDetail(props) {
                     Choose Reason
                   </InputLabel>
                   <Select
+                    native
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={reason}
                     onChange={handleReasonChange}
                     label="Choose Reason"
                   >
-                    <MenuItem value="Add Reason">Add Reason</MenuItem>
+                    <option value="Add Reason">Add Reason</option>
 
                     {SelectDropdowndata.length > 0 &&
                       SelectDropdowndata.map((item, i) => (
-                        <MenuItem key={i} value={item}>
+                        <option key={i} value={item}>
                           {item}
-                        </MenuItem>
+                        </option>
                       ))}
 
-                    <MenuItem value="Repeated Violation">
+                    <option value="Repeated Violation">
                       Repeated Violation
-                    </MenuItem>
+                    </option>
                   </Select>
                 </FormControl>
                 {reason === "Add Reason" && (
@@ -1095,19 +1098,20 @@ function ViolationDetail(props) {
                     Choose Action
                   </InputLabel>
                   <Select
+                    native
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={action}
                     onChange={handleActionChange}
                     label="Choose Action"
                   >
-                    <MenuItem value="Add Comment">Add Comment</MenuItem>
+                    <option value="Add Comment">Add Comment</option>
 
                     {["Penalty", "Supervisor Informed", "Worker Warned"].map(
                       (item, i) => (
-                        <MenuItem key={i} value={item}>
+                        <option key={i} value={item}>
                           {item}
-                        </MenuItem>
+                        </option>
                       )
                     )}
                   </Select>
@@ -1341,23 +1345,21 @@ function ViolationDetail(props) {
                     Choose Reason
                   </InputLabel>
                   <Select
+                    native
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={incorrect}
                     onChange={handleIncorrectChange}
                     label="Choose Reason"
                   >
-                    <MenuItem value="" disabled>
-                      Select Reason
-                    </MenuItem>
-                    <MenuItem value="Add Comment">Add Comment</MenuItem>
-                    <MenuItem value="Not a Violation">Not a Violation</MenuItem>
-                    <MenuItem value="Different Violation">
+                    <option value="Add Reason">Add Reason</option>
+
+                    <option value="Add Comment">Add Comment</option>
+                    <option value="Not a Violation">Not a Violation</option>
+                    <option value="Different Violation">
                       Different Violation
-                    </MenuItem>
-                    <MenuItem value="Incorrect Details">
-                      Incorrect Details
-                    </MenuItem>
+                    </option>
+                    <option value="Incorrect Details">Incorrect Details</option>
                   </Select>
                 </FormControl>
               </Grid>
