@@ -827,7 +827,15 @@ function ViolationDetail(props) {
                   <NameValue name="CTR NO." value={data && data.ctr} />
                 )}
 
-                {/* CTR */}
+                {/* TAILOR NAME */}
+                {data?.tailorName && (
+                  <NameValue name="TAILOR" value={data && data.tailorName} />
+                )}
+
+                {/* DEFECT NAME */}
+                {data?.defectName && (
+                  <NameValue name="DEFECT" value={data && data.defectName} />
+                )}
 
                 {/* WING */}
                 {data?.wing && (
@@ -868,6 +876,7 @@ function ViolationDetail(props) {
                     value={data && data.CheckerName}
                   />
                 )}
+
                 {/* CHECKER ID */}
                 {data?.time && (
                   <NameValue name="TIME" value={data && data.time} />
@@ -1046,6 +1055,7 @@ function ViolationDetail(props) {
                     onChange={handleReasonChange}
                     label="Choose Reason"
                   >
+                    <option value="">Choose Reason</option>
                     <option value="Add Reason">Add Reason</option>
 
                     {SelectDropdowndata.length > 0 &&
@@ -1105,6 +1115,7 @@ function ViolationDetail(props) {
                     onChange={handleActionChange}
                     label="Choose Action"
                   >
+                    <option value="">Choose Action</option>
                     <option value="Add Comment">Add Comment</option>
 
                     {["Penalty", "Supervisor Informed", "Worker Warned"].map(
