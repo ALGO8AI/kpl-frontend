@@ -427,6 +427,18 @@ function ViolationLog1() {
         return "Unresolved";
     }
   };
+  const returnStatusDefect = (type) => {
+    switch (type) {
+      case "INCORRECT VIOLATION":
+        return "Incorrect";
+      case "OPEN":
+        return "Not Repaired";
+      case "CLOSED":
+        return "Repaired";
+      default:
+        return "Not Repaired";
+    }
+  };
   return (
     <>
       <ImageDialog
@@ -1023,7 +1035,7 @@ function ViolationLog1() {
                           );
                         }}
                       >
-                        {returnStatus(rowData.actionStatus)}
+                        {returnStatusDefect(rowData.actionStatus)}
                       </Link>
                     ),
                   },
@@ -1111,7 +1123,7 @@ function ViolationLog1() {
                   { title: "Shift", field: "shift" },
 
                   {
-                    title: "Violation Duration Hours",
+                    title: "Worker N/A Duration Hrs.",
                     field: "violationDuration",
                   },
                   {
