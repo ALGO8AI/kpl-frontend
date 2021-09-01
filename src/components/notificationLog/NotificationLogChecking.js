@@ -142,6 +142,8 @@ function NotificationLogChecking() {
           >
             <Tab label="Crowd Data" {...a11yProps(0)} />
             <Tab label="Worker Data" {...a11yProps(1)} />
+            <Tab label="Defect Data" {...a11yProps(2)} />
+
             {/* <Tab label="Worker Data" {...a11yProps(2)} />
             <Tab label="Machine Data" {...a11yProps(3)} /> */}
           </Tabs>
@@ -444,6 +446,154 @@ function NotificationLogChecking() {
             </Grid>
           )}
         </TabPanel>
+        <TabPanel value={value} index={2}>
+          {data?.defectData?.length > 0 && (
+            <Grid
+              container
+              item
+              xs={12}
+              style={{ height: "700px", width: "100%" }}
+            >
+              <DataGrid
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+                // rows={data}
+                rows={data?.defectData?.map((row, i) => {
+                  const {
+                    DateTime,
+                    helperSentStatus,
+                    managerSentStatus,
+                    supervisorSentStatus,
+                    wingInchargeSentStatus,
+                    ...rest
+                  } = row;
+                  return {
+                    id: i,
+                    DateTime: moment(new Date(DateTime))
+                      .format("DD/MM/YYYY")
+                      .toString(),
+                    ...rest,
+                  };
+                })}
+                columns={[
+                  { field: "Id", headerName: "Defect ID", width: 180 },
+                  { field: "DateTime", headerName: "Date", width: 150 },
+                  { field: "action", headerName: "Action", width: 150 },
+                  {
+                    field: "actionStatus",
+                    headerName: "Action Status",
+                    width: 240,
+                  },
+                  {
+                    field: "bagId",
+                    headerName: "Bag ID",
+                    width: 240,
+                  },
+
+                  {
+                    field: "checker_emp_id",
+                    headerName: "Checker ID",
+                    width: 240,
+                  },
+                  {
+                    field: "checker_name",
+                    headerName: "Checker Name",
+                    width: 240,
+                  },
+                  {
+                    field: "communicatedTo",
+                    headerName: "Communicated To",
+                    width: 240,
+                  },
+                  {
+                    field: "confirmStatus",
+                    headerName: "Confirm Status",
+                    width: 240,
+                  },
+                  {
+                    field: "ctr_no",
+                    headerName: "CTR No.",
+                    width: 150,
+                  },
+                  {
+                    field: "defectName",
+                    headerName: "Defect Name",
+                    width: 240,
+                  },
+                  {
+                    field: "incorrectStatus",
+                    headerName: "Incorrect Status",
+                    width: 270,
+                  },
+                  {
+                    field: "incorrectViolationReason",
+                    headerName: "Incorrect Violation Reason",
+                    width: 270,
+                  },
+                  {
+                    field: "line",
+                    headerName: "Line",
+                    width: 120,
+                  },
+                  {
+                    field: "reassignedSupervisor",
+                    headerName: "Reassigned Supervisor",
+                    width: 240,
+                  },
+                  {
+                    field: "shift",
+                    headerName: "Shift",
+                    width: 180,
+                  },
+                  {
+                    field: "status",
+                    headerName: "Status",
+                    width: 180,
+                  },
+                  {
+                    field: "supervisorId",
+                    headerName: "Supervisor ID",
+                    width: 240,
+                  },
+                  {
+                    field: "supervisorName",
+                    headerName: "Supervisor Name",
+                    width: 240,
+                  },
+                  {
+                    field: "table_no",
+                    headerName: "Table No.",
+                    width: 240,
+                  },
+                  {
+                    field: "tailorName",
+                    headerName: "Tailor Name",
+                    width: 240,
+                  },
+                  {
+                    field: "tailorNumber",
+                    headerName: "Tailor Number",
+                    width: 240,
+                  },
+                  {
+                    field: "time",
+                    headerName: "Time",
+                    width: 240,
+                  },
+                  {
+                    field: "violationReason",
+                    headerName: "Violation Reason",
+                    width: 240,
+                  },
+                  { field: "wing", headerName: "Wing", width: 120 },
+                ]}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+          )}
+        </TabPanel>
+
         {/* <TabPanel value={value} index={2}>
           {data?.workerData?.length > 0 && (
             <Grid
