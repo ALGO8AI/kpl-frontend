@@ -1048,7 +1048,7 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            returnStatus(rowData.actionStatus)
+                            returnStatusDefect(rowData.actionStatus)
                           );
                         }}
                       >

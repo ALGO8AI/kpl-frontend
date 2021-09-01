@@ -598,6 +598,12 @@ function ViolationDetail(props) {
         return "Link-btn-red";
       case "Resolved":
         return "Link-btn-green";
+      case "Rejected":
+        return "Link-btn-grey";
+      case "Not Repaired":
+        return "Link-btn-red";
+      case "Repaired":
+        return "Link-btn-green";
       default:
         return "Link-btn-red";
     }

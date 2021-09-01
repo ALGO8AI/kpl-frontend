@@ -460,17 +460,10 @@ function NotificationLogChecking() {
                 }}
                 // rows={data}
                 rows={data?.defectData?.map((row, i) => {
-                  const {
-                    DateTime,
-                    helperSentStatus,
-                    managerSentStatus,
-                    supervisorSentStatus,
-                    wingInchargeSentStatus,
-                    ...rest
-                  } = row;
+                  const { dateTime, ...rest } = row;
                   return {
                     id: i,
-                    DateTime: moment(new Date(DateTime))
+                    dateTime: moment(new Date(dateTime))
                       .format("DD/MM/YYYY")
                       .toString(),
                     ...rest,
@@ -478,7 +471,17 @@ function NotificationLogChecking() {
                 })}
                 columns={[
                   { field: "Id", headerName: "Defect ID", width: 180 },
-                  { field: "DateTime", headerName: "Date", width: 150 },
+                  { field: "dateTime", headerName: "Date", width: 150 },
+                  {
+                    field: "checker_emp_id",
+                    headerName: "Checker ID",
+                    width: 240,
+                  },
+                  {
+                    field: "checker_name",
+                    headerName: "Checker Name",
+                    width: 240,
+                  },
                   { field: "action", headerName: "Action", width: 150 },
                   {
                     field: "actionStatus",
@@ -491,16 +494,6 @@ function NotificationLogChecking() {
                     width: 240,
                   },
 
-                  {
-                    field: "checker_emp_id",
-                    headerName: "Checker ID",
-                    width: 240,
-                  },
-                  {
-                    field: "checker_name",
-                    headerName: "Checker Name",
-                    width: 240,
-                  },
                   {
                     field: "communicatedTo",
                     headerName: "Communicated To",
