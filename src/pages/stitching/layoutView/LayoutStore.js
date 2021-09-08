@@ -50,6 +50,7 @@ export class LayoutStore extends BaseStore {
     const response = await this.api.Get(
       `routes/annotation/stitching/cameraDetails`
     );
+    console.log("camera Detail", response);
     if (response) {
       appState.cameraDetails = response.FeedCords;
       appState.cameraWorkerUnavCords = response.WorkerUnavCords;

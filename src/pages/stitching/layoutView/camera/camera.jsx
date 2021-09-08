@@ -178,7 +178,7 @@ export const Camera = observer((props) => {
                       </div>
                     ) : null}
                     <img
-                      src={`http://3.23.114.42${videowall}`}
+                      src={`http://13.232.228.72${videowall}`}
                       alt="camera picture"
                       width={load ? "0px" : "260px"}
                       height={load ? "0px" : "150px"}

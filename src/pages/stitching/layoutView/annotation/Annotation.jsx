@@ -81,6 +81,7 @@ export const AnnotationPage = observer((props) => {
     const body = {
       data: array,
     };
+    console.log(body);
     props.store.saveAnnotation(body, history);
   };
   // const getFeedTag = (tagId) => {
@@ -159,36 +160,60 @@ export const AnnotationPage = observer((props) => {
   );
 });
 
-export class _Annotation extends React.Component {
-  store;
-  id;
-  machineId;
-  constructor(props) {
-    super(props);
-    this.store = new LayoutStore();
-    this.id = props.match.params.id;
-  }
+// export class _Annotation extends React.Component {
+//   store;
+//   id;
+//   machineId;
+//   constructor(props) {
+//     super(props);
+//     this.store = new LayoutStore();
+//     this.id = props.match.params.id;
+//   }
 
-  async componentDidMount() {
-    await this.store.getTags();
-    await this.store.getCameraDetails();
+//   async componentDidMount() {
+//     await this.store.getTags();
+//     await this.store.getCameraDetails();
+//     appState.cameraDetails?.find((camera, index) => {
+//       if (camera.cameraId === this.id) {
+//         this.machineId = camera.machineId;
+//         appState.camearaValue = camera;
+//         localStorage.setItem("anImage", appState.camearaValue.image);
+//       }
+//     });
+//   }
+//   render() {
+//     return (
+//       <AnnotationPage
+//         store={this.store}
+//         id={this.id}
+//         machineId={this.machineId}
+//       />
+//     );
+//   }
+// }
+const _Annotation = (props) => {
+  console.log(props);
+  const store = new LayoutStore();
+  const id = props.match.params.id;
+  let machineId = null;
+
+  const initialCall = async () => {
+    await store.getTags();
+    await store.getCameraDetails();
     appState.cameraDetails?.find((camera, index) => {
-      if (camera.cameraId === this.id) {
-        this.machineId = camera.machineId;
+      if (camera.cameraId === id) {
+        machineId = camera.machineId;
         appState.camearaValue = camera;
         localStorage.setItem("anImage", appState.camearaValue.image);
       }
     });
-  }
-  render() {
-    return (
-      <AnnotationPage
-        store={this.store}
-        id={this.id}
-        machineId={this.machineId}
-      />
-    );
-  }
-}
+  };
+
+  React.useEffect(() => {
+    initialCall();
+  }, [appState.camearaValue.image]);
+
+  return <AnnotationPage store={store} id={id} machineId={machineId} />;
+};
 
 export const Annotation = withRouter(_Annotation);
