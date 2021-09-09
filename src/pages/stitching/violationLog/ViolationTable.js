@@ -26,7 +26,8 @@ function ViolationTable({ data, columns, rowClick, selectedRow }) {
             pageSizeOptions: [20, 50, 100, 200, data.length],
             pageSize: 20,
             rowStyle: (rowData) => ({
-              backgroundColor: selectedRow === rowData.Id ? "#ffe2c1" : "white",
+              backgroundColor:
+                rowData.actionStatus === "OPEN" ? "rgb(255 243 230)" : "white",
             }),
           }}
           onRowClick={rowClick}

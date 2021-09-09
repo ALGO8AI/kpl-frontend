@@ -37,7 +37,6 @@ export const AddCamera = observer((props) => {
   };
 
   const addCamPostion = (e) => {
-    alert(e.target.elements);
     const camValue = {
       cameraId: CamName,
       x: Number(props.x && props.x[0]),

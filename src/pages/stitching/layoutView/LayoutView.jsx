@@ -9,7 +9,7 @@ import { LayoutStore } from "./LayoutStore";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-// import { AddCamera } from "./camera/addCamera";
+import { AddCamera } from "./camera/addCamera";
 import Button from "@material-ui/core/Button";
 import { Camera } from "./camera/camera";
 import { observer } from "mobx-react";
@@ -129,12 +129,15 @@ export const LayoutViewPage = observer((props) => {
               Layout View
             </h1>
           </Grid>
-          {/* {store.Role() === 'admin' ?
-                        <Grid item xs={12} sm={2}>
-                            <Paper className={classes.paper}> <AddCamera x={cood} y={cood} store={store} /></Paper>
-                        </Grid> : null
-                    } */}
-
+          {/* {store.Role() === 'admin' ? */}
+          <Grid item xs={12} sm={2}>
+            <Paper className={classes.paper}>
+              {" "}
+              <AddCamera x={cood} y={cood} store={store} />
+            </Paper>
+          </Grid>{" "}
+          {/* : null */}
+          {/* } */}
           <Grid item xs={12} sm={1}>
             <Paper className={classes.paper}>Floor</Paper>
           </Grid>

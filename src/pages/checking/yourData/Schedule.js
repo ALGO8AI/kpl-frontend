@@ -5,6 +5,8 @@ import { DropzoneArea } from "material-ui-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MaterialTable from "material-table";
 import PropTypes from "prop-types";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 import {
   copyScheduleChecking,
@@ -99,6 +101,17 @@ function Schedule(props) {
     setOpen(false);
   };
 
+  const filterData = async () => {
+    try {
+      const worker = await getAllWorketrList(inputData);
+      // console.log();
+      setWorkerList(worker?.data);
+      const x = await getCheckingSchedule(inputData);
+
+      setData(x.data);
+    } catch (err) {}
+  };
+
   const copy = async () => {
     try {
       const response = await copyScheduleChecking();
@@ -170,6 +183,10 @@ function Schedule(props) {
     wing: "",
     tableId: "",
     id: "",
+  });
+  const [inputData, setInputData] = React.useState({
+    filterDateFrom: "",
+    filterDateTo: "",
   });
 
   const [value, setValue] = React.useState(0);
@@ -522,6 +539,76 @@ function Schedule(props) {
         </TabPanel>
       </Grid>
       <Grid item md={8} xs={12}>
+        <Grid
+          container
+          item
+          xs={12}
+          style={{
+            padding: "4px",
+            marginBottom: "12px",
+          }}
+        >
+          <Grid container item xs={6} md={4}>
+            <TextField
+              key="from"
+              id="fromDate"
+              label="From"
+              value={inputData.filterDateFrom}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) =>
+                setInputData({ ...inputData, filterDateFrom: e.target.value })
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid container item xs={6} md={4}>
+            <TextField
+              key="to"
+              id="fromDate"
+              label="To"
+              value={inputData.filterDateTo}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) =>
+                setInputData({ ...inputData, filterDateTo: e.target.value })
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <Button variant="contained" color="primary" onClick={filterData}>
+              <FilterListIcon />
+              Filter
+            </Button>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <Button variant="contained" color="primary" onClick={loadData}>
+              <RefreshIcon />
+              Refresh
+            </Button>
+          </Grid>
+        </Grid>
         <Button
           variant="contained"
           style={{

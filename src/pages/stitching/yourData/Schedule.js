@@ -132,6 +132,10 @@ function Schedule(props) {
       console.log(x);
 
       setData(x.latestScheduleData);
+      dispatch({
+        type: "WORKER_SCHEDULE",
+        payload: { data: x.latestScheduleData, loading: false },
+      });
     } catch (err) {}
   };
 
