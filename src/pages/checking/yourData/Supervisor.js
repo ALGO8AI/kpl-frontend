@@ -269,11 +269,19 @@ function Supervisor(props) {
       (item) =>
         item.username === e.target.value || item.workerID === e.target.value
     );
-    setUserData({
-      ...userdata,
-      supervisorName: supervisorList[i].username,
-      supervisorId: supervisorList[i].workerID,
-    });
+    if (i !== -1) {
+      setUserData({
+        ...userdata,
+        supervisorName: supervisorList[i].username,
+        supervisorId: supervisorList[i].workerID,
+      });
+    } else {
+      setUserData({
+        ...userdata,
+        supervisorName: "",
+        supervisorId: "",
+      });
+    }
   };
   return (
     <Grid container spacing={4}>
@@ -314,7 +322,7 @@ function Supervisor(props) {
               {supervisorList.length > 0 &&
                 supervisorList.map((item, index) => (
                   <MenuItem value={item.workerID} key={index}>
-                    {item.workerID}
+                    {item?.workerID} - {item?.username}
                   </MenuItem>
                 ))}
             </Select>

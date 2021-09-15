@@ -105,12 +105,18 @@ function TableData({
                   width: 240,
                   headerName: "Unavailable Hrs.",
                   field: "unavailableDuration",
-                  hide: true,
+                  // hide: true,
                 },
+                // {
+                //   width: 240,
+                //   headerName: "Utilization %",
+                //   field: "utilizationPercentage",
+                //   // hide: true,
+                // },
                 {
                   width: 240,
-                  headerName: "Utilization %",
-                  field: "utilizationPercentage",
+                  headerName: "Total Bags Checked",
+                  field: "totalBagsChecked",
                   // hide: true,
                 },
                 {
@@ -173,23 +179,29 @@ function TableData({
                 //   field: "utilizationPercentage",
                 //   hide: true,
                 // },
-                {
-                  headerName: "Utilisation %",
-                  field: "workerUnavPercentage",
-                  width: 240,
 
-                  // hide: true,
-                },
-                {
-                  width: 240,
-                  headerName: "Defect Count",
-                  field: "defectCount",
-                },
                 {
                   width: 240,
                   headerName: "Worker Unavailable Hrs.",
                   field: "workerUnav",
-                  hide: true,
+                  // hide: true,
+                },
+                {
+                  width: 240,
+                  headerName: "Worker Unavailable %",
+                  field: "workerUnavPercentage",
+                  // hide: true,
+                },
+                {
+                  width: 240,
+                  headerName: "Total Bags Checked",
+                  field: "totalBagsChecked",
+                  // hide: true,
+                },
+                {
+                  width: 240,
+                  headerName: "Count Of Defects",
+                  field: "defectCount",
                 },
                 {
                   headerName: "Defect %",
@@ -258,10 +270,17 @@ function TableData({
                 //   width:240,headerName: "Feed Unavailable Hrs.",
                 //   field: "feedUnav",
                 // },
+                // {
+                //   width: 240,
+                //   headerName: "Utilisation %",
+                //   field: "workerUnavPercentage",
+                // },
+
                 {
                   width: 240,
-                  headerName: "Utilisation %",
+                  headerName: "Worker Unavailable %",
                   field: "workerUnavPercentage",
+                  // hide: true,
                 },
                 {
                   width: 240,
@@ -271,13 +290,21 @@ function TableData({
                 },
                 {
                   width: 240,
-                  headerName: "Defect Count",
-                  field: "max(defectCount)",
+                  headerName: "Total Bags Checked",
+                  field: "totalBagsChecked",
+                  // hide: true,
                 },
                 {
                   width: 240,
+                  headerName: "Count Of Defects",
+                  field: "defectCount",
+                },
+                {
                   headerName: "Defect %",
                   field: "defectPercentage",
+                  width: 240,
+
+                  // hide: true,
                 },
 
                 // {
@@ -325,16 +352,16 @@ function TableData({
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
                 },
-                {
-                  width: 240,
-                  headerName: "Defect Count",
-                  field: "defectCount",
-                },
-                {
-                  width: 240,
-                  headerName: "% Defect",
-                  field: "defectPercentage",
-                },
+                // {
+                //   width: 240,
+                //   headerName: "Defect Count",
+                //   field: "defectCount",
+                // },
+                // {
+                //   width: 240,
+                //   headerName: "% Defect",
+                //   field: "defectPercentage",
+                // },
                 // {
                 //   width: 240,
                 //   headerName: "Worker Unavailable Hrs.",
@@ -351,6 +378,25 @@ function TableData({
                   headerName: "Worker Unavailable %",
                   field: "workerUnavPercentage",
                 },
+                {
+                  width: 240,
+                  headerName: "Total Bags Checked",
+                  field: "totalBagsChecked",
+                  // hide: true,
+                },
+                {
+                  width: 240,
+                  headerName: "Count Of Defects",
+                  field: "defectCount",
+                },
+                {
+                  headerName: "Defect %",
+                  field: "defectPercentage",
+                  width: 240,
+
+                  // hide: true,
+                },
+
                 // {
                 //   width: 240,
                 //   headerName: "No. Of Bags Checked",

@@ -162,7 +162,7 @@ export default function Home() {
         console.log(defect);
         dispatch({
           type: "DEFECT_CHART",
-          payload: { data: defect?.data, loading: false },
+          payload: { data: defect, loading: false },
         });
       }
 
@@ -608,7 +608,7 @@ export default function Home() {
                 feedUnavailibilityDuration={
                   state?.workerUtilization?.data?.feedUnavailibilityDuration
                 }
-                other={state?.workerUtilization?.data?.other}
+                other={state?.workerUtilization?.data?.balanceHours}
                 utilizationPercentage={
                   state?.workerUtilization?.data?.utilizationPercentage
                 }

@@ -8,6 +8,7 @@ import MaterialTable from "material-table";
 import PropTypes from "prop-types";
 
 import {
+  addStitchingWorkerSchedule,
   copyScheduleStitching,
   getAllWorketrList,
   updateStitchingWorkerSchedule,
@@ -88,7 +89,12 @@ function Schedule(props) {
   const { state, dispatch } = React.useContext(StitchingContext);
   const [scheduleInput, setScheduleInput] = React.useState({
     workerId: "",
-    workerName: ":",
+    workerName: "",
+    date: "",
+    wing: "",
+    shift: "",
+    machineId: "",
+    machineOnOffStatus: 0,
   });
 
   const [value, setValue] = React.useState(0);
@@ -247,17 +253,25 @@ function Schedule(props) {
 
   const updateSchedule = async () => {
     try {
-      console.log(scheduleData);
       const resp = await updateStitchingWorkerSchedule(scheduleData);
-      console.log(resp);
       setMsg(resp.msg);
       setSeverity("success");
       setOpen(true);
       refreshData();
       setOpenDialog(false);
-    } catch (e) {
-      console.log(e.message);
-    }
+    } catch (e) {}
+  };
+
+  const addSchedule = async () => {
+    try {
+      const resp = await addStitchingWorkerSchedule(scheduleInput);
+      if (resp?.msg === "Successfully Added") {
+        setMsg(resp.msg);
+        setSeverity("success");
+        setOpen(true);
+        refreshData();
+      }
+    } catch (e) {}
   };
 
   const submit = async () => {
@@ -303,11 +317,19 @@ function Schedule(props) {
 
   const onUserChange = (e) => {
     const i = workerList.findIndex((item) => item.workerId === e.target.value);
-    setScheduleInput({
-      ...scheduleInput,
-      workerId: workerList[i].workerId,
-      workerName: workerList[i].workerName,
-    });
+    if (i !== -1) {
+      setScheduleInput({
+        ...scheduleInput,
+        workerId: workerList[i].workerId,
+        workerName: workerList[i].workerName,
+      });
+    } else {
+      setScheduleInput({
+        ...scheduleInput,
+        workerId: "",
+        workerName: "",
+      });
+    }
   };
 
   return (
@@ -351,7 +373,7 @@ function Schedule(props) {
               {workerList.length > 0 &&
                 workerList.map((item, index) => (
                   <MenuItem value={item.workerId} key={index}>
-                    {item.workerId}
+                    {item.workerId} - {item?.workerName}
                   </MenuItem>
                 ))}
             </Select>
@@ -398,10 +420,15 @@ function Schedule(props) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // value={userdata.supervisorName}
+              value={scheduleInput?.machineId}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  machineId: e.target.value,
+                })
+              }
               label="Machine Id"
               // multiple
             >
@@ -427,9 +454,12 @@ function Schedule(props) {
               shrink: true,
             }}
             variant="outlined"
-            // onChange={(e) =>
-            //   dispatch({ type: "FROM", payload: e.target.value })
-            // }
+            onChange={(e) =>
+              setScheduleInput({
+                ...scheduleInput,
+                date: e.target.value,
+              })
+            }
             fullWidth
           />
           <FormControl
@@ -446,7 +476,12 @@ function Schedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  wing: e.target.value,
+                })
+              }
               label="Wing"
               // multiple
             >
@@ -474,7 +509,12 @@ function Schedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  shift: e.target.value,
+                })
+              }
               label="Shift"
               // multiple
             >
@@ -492,13 +532,13 @@ function Schedule(props) {
             style={{ marginBottom: "12px" }}
             control={
               <Switch
-                // checked={scheduleData.machineOnOffStatus}
-                // onChange={(e) =>
-                //   setScheduleData({
-                //     ...scheduleData,
-                //     machineOnOffStatus: e.target.checked,
-                //   })
-                // }
+                checked={scheduleInput?.machineOnOffStatus === 1 ? true : false}
+                onChange={(e) =>
+                  setScheduleInput({
+                    ...scheduleInput,
+                    machineOnOffStatus: e.target.checked ? 1 : 0,
+                  })
+                }
                 name="machineOnOffStatus"
                 color="primary"
               />
@@ -510,7 +550,7 @@ function Schedule(props) {
             color="primary"
             fullWidth
             // style={{ margin: "10px" }}
-            // onClick={dateFilter}
+            onClick={addSchedule}
           >
             {/* <FilterListIcon /> */}
             Save

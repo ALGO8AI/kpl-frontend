@@ -142,10 +142,10 @@ function DonutChartChecking(props) {
                 Boolean(props.idleDueToWorkerUnavailable)
                   ? props.idleDueToWorkerUnavailable
                   : 0,
-                Boolean(props.feedUnavailibilityDuration)
-                  ? props.feedUnavailibilityDuration
-                  : 0,
-                Boolean(props.other) ? props.other : 0,
+                // Boolean(props.feedUnavailibilityDuration)
+                //   ? props.feedUnavailibilityDuration
+                //   : 0,
+                // Boolean(props.other) ? props.other : 0,
 
                 // Math.round(
                 //   props.totalTime -
@@ -295,7 +295,7 @@ function DonutChartChecking(props) {
                   fontSize: "14px",
                 }}
               >
-                Other
+                Balance Hours
               </p>
             </div>
             <div

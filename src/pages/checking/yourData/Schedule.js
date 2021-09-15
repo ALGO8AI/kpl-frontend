@@ -9,6 +9,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import {
+  addCheckingWorkerSchedule,
   copyScheduleChecking,
   getAllWorketrList,
   getCheckingSchedule,
@@ -141,6 +142,10 @@ function Schedule(props) {
     { title: "Shift", field: "shift" },
     { title: "Wing", field: "wing" },
     { title: "Table ID", field: "tableId" },
+    {
+      title: "Table Status",
+      render: (x) => (Boolean(x.tableOnOff) ? "On" : "Off"),
+    },
 
     {
       title: "Edit",
@@ -165,6 +170,7 @@ function Schedule(props) {
               wing: x.wing,
               tableId: x.tableId,
               id: x.id,
+              tableOnOff: Boolean(x.tableOnOff),
             });
           }}
         >
@@ -183,6 +189,7 @@ function Schedule(props) {
     wing: "",
     tableId: "",
     id: "",
+    tableOnOff: false,
   });
   const [inputData, setInputData] = React.useState({
     filterDateFrom: "",
@@ -197,7 +204,12 @@ function Schedule(props) {
 
   const [scheduleInput, setScheduleInput] = React.useState({
     workerId: "",
-    workerName: ":",
+    workerName: "",
+    date: "",
+    wing: "",
+    shift: "",
+    tableId: "",
+    tableOnOff: 0,
   });
 
   const onScheduleDataChange = (e) => {
@@ -221,6 +233,7 @@ function Schedule(props) {
   const updateSchedule = async () => {
     try {
       const resp = await updateCheckingWorkerSchedule(scheduleData);
+      console.log(scheduleData);
       console.log(resp);
       setMsg(resp.msg);
       setSeverity("success");
@@ -230,6 +243,18 @@ function Schedule(props) {
     } catch (e) {
       console.log(e.message);
     }
+  };
+
+  const addSchedule = async () => {
+    try {
+      const resp = await addCheckingWorkerSchedule(scheduleInput);
+      if (resp?.msg === "Successfully New Schedule Updated") {
+        setMsg(resp.msg);
+        setSeverity("success");
+        setOpen(true);
+        loadData();
+      }
+    } catch (e) {}
   };
 
   const submit = async () => {
@@ -277,11 +302,19 @@ function Schedule(props) {
 
   const onUserChange = (e) => {
     const i = workerList.findIndex((item) => item.workerId === e.target.value);
-    setScheduleInput({
-      ...scheduleInput,
-      workerId: workerList[i].workerId,
-      workerName: workerList[i].workerName,
-    });
+    if (i !== -1) {
+      setScheduleInput({
+        ...scheduleInput,
+        workerId: workerList[i].workerId,
+        workerName: workerList[i].workerName,
+      });
+    } else {
+      setScheduleInput({
+        ...scheduleInput,
+        workerId: "",
+        workerName: "",
+      });
+    }
   };
 
   return (
@@ -325,7 +358,7 @@ function Schedule(props) {
               {workerList.length > 0 &&
                 workerList.map((item, index) => (
                   <MenuItem value={item.workerId} key={index}>
-                    {item.workerId}
+                    {item.workerId} - {item?.workerName}
                   </MenuItem>
                 ))}
             </Select>
@@ -372,10 +405,15 @@ function Schedule(props) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // value={userdata.supervisorName}
+              value={scheduleInput?.tableId}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  tableId: e.target.value,
+                })
+              }
               label="Table Id"
               // multiple
             >
@@ -391,7 +429,7 @@ function Schedule(props) {
             </Select>
           </FormControl>
 
-          <FormControl
+          {/* <FormControl
             variant="outlined"
             fullWidth
             style={{ marginBottom: "12px" }}
@@ -419,22 +457,25 @@ function Schedule(props) {
                   </MenuItem>
                 ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <TextField
             key="from"
             id="fromDate"
             label="Date"
-            // value={state.from}
+            value={scheduleInput?.date}
+            onChange={(e) =>
+              setScheduleInput({
+                ...scheduleInput,
+                date: e.target.value,
+              })
+            }
             type="date"
             style={{ marginBottom: "12px" }}
             InputLabelProps={{
               shrink: true,
             }}
             variant="outlined"
-            // onChange={(e) =>
-            //   dispatch({ type: "FROM", payload: e.target.value })
-            // }
             fullWidth
           />
           <FormControl
@@ -448,10 +489,15 @@ function Schedule(props) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // value={userdata.supervisorName}
+              value={scheduleInput?.wing}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  wing: e.target.value,
+                })
+              }
               label="Wing"
               // multiple
             >
@@ -476,10 +522,15 @@ function Schedule(props) {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // value={userdata.supervisorName}
+              value={scheduleInput?.shift}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  shift: e.target.value,
+                })
+              }
               label="Shift"
               // multiple
             >
@@ -493,6 +544,23 @@ function Schedule(props) {
               ))}
             </Select>
           </FormControl>
+          <FormControlLabel
+            style={{ marginBottom: "12px" }}
+            control={
+              <Switch
+                checked={scheduleInput?.tableOnOff === 1 ? true : false}
+                onChange={(e) =>
+                  setScheduleInput({
+                    ...scheduleInput,
+                    tableOnOff: e.target.checked ? 1 : 0,
+                  })
+                }
+                name="machineOnOffStatus"
+                color="primary"
+              />
+            }
+            label="Table Status"
+          />
           {/* <FormControlLabel
             style={{ marginBottom: "12px" }}
             control={
@@ -515,7 +583,7 @@ function Schedule(props) {
             color="primary"
             fullWidth
             // style={{ margin: "10px" }}
-            // onClick={dateFilter}
+            onClick={addSchedule}
           >
             {/* <FilterListIcon /> */}
             Save
@@ -713,7 +781,7 @@ function Schedule(props) {
                 fullWidth
               />
             </Grid>
-            <Grid
+            {/* <Grid
               md={6}
               style={{
                 display: "flex",
@@ -750,6 +818,25 @@ function Schedule(props) {
                     ))}
                 </Select>
               </FormControl>
+            </Grid> */}
+            <Grid md={6}>
+              <FormControlLabel
+                style={{ marginBottom: "12px" }}
+                control={
+                  <Switch
+                    checked={scheduleData.tableOnOff}
+                    onChange={(e) =>
+                      setScheduleData({
+                        ...scheduleData,
+                        tableOnOff: e.target.checked,
+                      })
+                    }
+                    name="machineOnOffStatus"
+                    color="primary"
+                  />
+                }
+                label="Table Status"
+              />
             </Grid>
           </Grid>
         </DialogContentText>
@@ -769,6 +856,7 @@ function Schedule(props) {
               color: "#FFF",
             }}
             onClick={updateSchedule}
+            // onClick={() => console.log(scheduleData)}
             autoFocus
           >
             UPDATE

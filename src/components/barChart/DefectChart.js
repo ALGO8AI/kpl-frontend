@@ -12,7 +12,7 @@ function DefectChart({ data, link, payload_data }) {
     series: [
       {
         name: "Defects",
-        data: data.map((item) => item.count),
+        data: data?.data?.map((item) => item.count),
       },
     ],
     options: {
@@ -43,7 +43,7 @@ function DefectChart({ data, link, payload_data }) {
       // ],
 
       xaxis: {
-        categories: data.map((item) => item.defectName),
+        categories: data?.data?.map((item) => item.defectName),
         position: "bottom",
         axisBorder: {
           show: false,
@@ -117,9 +117,35 @@ function DefectChart({ data, link, payload_data }) {
           color: "#f68f1d",
         }}
       >
+        Total Bags Checked{" "}
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {data?.totalBagsChecked}
+        </span>
+      </Typography>
+      <Typography
+        variant="h6"
+        style={{
+          margin: "auto",
+          textAlign: "center",
+          color: "#f68f1d",
+        }}
+      >
         Total Defects{" "}
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {data.reduce((sum, num) => (sum = sum + num.count), 0)}
+          {data?.defectCount}
+        </span>
+      </Typography>
+      <Typography
+        variant="h6"
+        style={{
+          margin: "auto",
+          textAlign: "center",
+          color: "#f68f1d",
+        }}
+      >
+        Total Defect %{" "}
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {data?.totalDefectPercentage}
         </span>
       </Typography>
     </>

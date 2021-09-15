@@ -188,11 +188,19 @@ function Supervisor(props) {
       (item) =>
         item.username === e.target.value || item.workerID === e.target.value
     );
-    setUserData({
-      ...userdata,
-      supervisorName: supervisorList[i].username,
-      supervisorId: supervisorList[i].workerID,
-    });
+    if (i !== -1) {
+      setUserData({
+        ...userdata,
+        supervisorName: supervisorList[i].username,
+        supervisorId: supervisorList[i].workerID,
+      });
+    } else {
+      setUserData({
+        ...userdata,
+        supervisorName: "",
+        supervisorId: "",
+      });
+    }
   };
 
   const [msg, setMsg] = React.useState("");

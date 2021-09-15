@@ -4,11 +4,12 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Grid } from "@material-ui/core";
-import Worker from "./Worker";
 import Schedule from "./Schedule";
 import Supervisor from "./Supervisor";
 import Tailor from "./Tailor";
 import NotificationLogChecking from "../../../components/notificationLog/NotificationLogChecking";
+import WorkerChecking from "./Worker";
+import Worker from "../../stitching/yourData/Worker";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,7 +69,7 @@ function YourData() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Worker />
+        <WorkerChecking />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Schedule />
@@ -77,7 +78,8 @@ function YourData() {
         <Supervisor />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Tailor />
+        {/* <Tailor /> */}
+        <Worker columns={["Tailor ID", "Tailor Name"]} />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <NotificationLogChecking />

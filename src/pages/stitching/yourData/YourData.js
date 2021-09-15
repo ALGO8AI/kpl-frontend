@@ -68,7 +68,7 @@ function YourData() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Worker />
+        <Worker columns={["Worker ID", "Worker Name"]} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Schedule />

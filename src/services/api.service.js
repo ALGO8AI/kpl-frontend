@@ -936,6 +936,7 @@ const updateCheckingWorkerSchedule = async (datas) => {
     wing: datas.wing,
     tableId: datas.tableId,
     id: datas.id,
+    tableOnOff: datas.tableOnOff ? 1 : 0,
   };
   return await callBackend(
     "POST",
@@ -1588,6 +1589,43 @@ const getAllTableId = async () => {
   return await callBackend("GET", "routes/checking/KPI/violation/allTableID");
 };
 
+const deleteBarCode = async (bags) => {
+  const data = {
+    bagIds: bags,
+  };
+  console.log(data);
+  return await callBackend(
+    "POST",
+    "routes/checking/bagId/deleteBagId",
+    true,
+    data
+  );
+};
+
+const addStitchingWorkerSchedule = async (form) => {
+  const formData = {
+    data: form,
+  };
+  return await callBackend(
+    "POST",
+    "routes/stitchigSheduleSingleUpdate/add",
+    true,
+    formData
+  );
+};
+
+const addCheckingWorkerSchedule = async (form) => {
+  const formData = {
+    data: form,
+  };
+  return await callBackend(
+    "POST",
+    "routes/checkingSheduleSingleUpdate/add",
+    true,
+    formData
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1705,4 +1743,7 @@ export {
   checkingViolationClosedByUpdate,
   getAllTableId,
   violationByWorkerFChecking,
+  deleteBarCode,
+  addStitchingWorkerSchedule,
+  addCheckingWorkerSchedule,
 };

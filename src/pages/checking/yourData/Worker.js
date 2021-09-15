@@ -44,7 +44,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function Worker(props) {
+function WorkerChecking(props) {
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);
 
@@ -315,4 +315,4 @@ function Worker(props) {
   );
 }
 
-export default Worker;
+export default WorkerChecking;

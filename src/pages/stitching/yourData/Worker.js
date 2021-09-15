@@ -79,8 +79,8 @@ function Worker(props) {
     loadData();
   }, []);
   const columns = [
-    { title: "Worker ID", field: "workerId" },
-    { title: "Worker Name", field: "workerName" },
+    { title: props.columns[0], field: "workerId" },
+    { title: props.columns[0], field: "workerName" },
     // {
     //   title: "Image",
     //   render: (rowData) => (
