@@ -751,7 +751,18 @@ function ViolationDetail(props) {
               {/* IMAGE */}
               <Grid container item xs={12}>
                 {data?.img && (
-                  <img src={data.img} style={{ width: "100%" }} alt="img" />
+                  <img
+                    // src={data.img}
+                    src={
+                      link?.includes("webM")
+                        ? link.replace("webM", "png")
+                        : link.includes("mp4")
+                        ? link.replace("mp4", "png")
+                        : ""
+                    }
+                    style={{ width: "100%" }}
+                    alt="img"
+                  />
                 )}
                 {data?.barcode && (
                   <div

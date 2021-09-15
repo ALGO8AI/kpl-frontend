@@ -715,7 +715,17 @@ function ViolationDetail(props) {
               {/* IMAGE */}
               <Grid container item xs={12}>
                 {data && (
-                  <img src={data.img} style={{ width: "100%" }} alt="img" />
+                  <img
+                    src={
+                      link?.includes("webM")
+                        ? link.replace("webM", "png")
+                        : link.includes("mp4")
+                        ? link.replace("mp4", "png")
+                        : ""
+                    }
+                    style={{ width: "100%" }}
+                    alt="img"
+                  />
                 )}
               </Grid>
             </Grid>
@@ -1195,8 +1205,8 @@ function ViolationDetail(props) {
             >
               <Typography variant="h4">Recent Violation</Typography>
               <Grid container item xs={12} className="RecentVio_Container">
-                {VIOLATION &&
-                  VIOLATION.map((item, i) => (
+                {VIOLATION?.length > 0 &&
+                  VIOLATION?.map((item, i) => (
                     <VideoCard
                       onClick={() => openPopUpWindow(item.Id)}
                       key={i}

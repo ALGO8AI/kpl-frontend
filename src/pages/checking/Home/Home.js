@@ -157,7 +157,7 @@ export default function Home() {
   // load initial table data
   const loadData = async () => {
     try {
-      if (state.defectChart.loading) {
+      if (state?.defectChart?.loading) {
         const defect = await defectChartData();
         console.log(defect);
         dispatch({
@@ -166,7 +166,7 @@ export default function Home() {
         });
       }
 
-      if (state.workerUtilization.loading) {
+      if (state?.workerUtilization?.loading) {
         const y = await checkingWorkerUtilizationData();
         console.log(y);
         dispatch({
@@ -175,7 +175,7 @@ export default function Home() {
         });
       }
 
-      if (state.crowdingInstance.loading) {
+      if (state?.crowdingInstance?.loading) {
         const z = await crowdingInstanceCheckingData();
         console.log(z);
         dispatch({
@@ -184,7 +184,7 @@ export default function Home() {
         });
       }
 
-      if (state.homeWorkerTable.loading) {
+      if (state?.homeWorkerTable?.loading) {
         const homeWorkerTable = await checkingHomeWorker();
         console.log(homeWorkerTable);
         dispatch({
@@ -196,7 +196,7 @@ export default function Home() {
         });
       }
 
-      if (state.homeDateTable.loading) {
+      if (state?.homeDateTable?.loading) {
         const homeDateTable = await checkingHomeDate();
         console.log(homeDateTable);
         dispatch({
@@ -208,7 +208,7 @@ export default function Home() {
         });
       }
 
-      if (state.homeCTRTable.loading) {
+      if (state?.homeCTRTable?.loading) {
         const homeCTRTable = await detailedSummaryByClpCtrChecking();
         console.log(homeCTRTable);
         dispatch({
