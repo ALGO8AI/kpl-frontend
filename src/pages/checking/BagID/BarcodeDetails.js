@@ -25,11 +25,15 @@ import {
 function BarcodeDetails() {
   const { state, dispatch } = React.useContext(CheckingContext);
   const [filter, setFilter] = React.useState("");
+  const [tempFilter, setTempFilter] = React.useState("");
+
   const [machineID, setMachineID] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [selectedBarcode, setSelectedBarcode] = useState([]);
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
+
+  const [columns, setColumns] = useState();
 
   const history = useHistory();
   const fetchBagIds = async () => {
@@ -189,7 +193,7 @@ function BarcodeDetails() {
             </Select>
           </FormControl>
 
-          <Grid container item xs={6}>
+          <Grid container item xs={6} style={{ marginBottom: "2rem" }}>
             <Button
               variant="contained"
               style={{
@@ -208,7 +212,7 @@ function BarcodeDetails() {
               PRINT
             </Button>
           </Grid>
-          <Grid container item xs={6}>
+          <Grid container item xs={6} style={{ marginBottom: "2rem" }}>
             <Button
               variant="contained"
               style={{
@@ -227,9 +231,69 @@ function BarcodeDetails() {
               GET DATA
             </Button>
           </Grid>
+          <Grid container item xs={12} style={{ marginBottom: "1rem" }}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Filter
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                label="Designation"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={0}>Unused</MenuItem>
+                <MenuItem value={1}>Used</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid container item xs={6} style={{ marginBottom: "1rem" }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#fff",
+                color: "#0e4a7b",
+                whiteSpace: "nowrap",
+                width: "100%",
+                height: "fit-content",
+                border: "1px solid #0e4a7b",
+                marginRight: "12px",
+                padding: "12px",
+              }}
+              onClick={() => setTempFilter(filter)}
+            >
+              {/* <FilterListIcon /> */}
+              FILTER
+            </Button>
+          </Grid>
+          {tempFilter !== 1 && (
+            <Grid container item xs={6} style={{ marginBottom: "1rem" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                  //   marginBottom: "6px",
+                  marginLeft: "12px",
+                  padding: "12px",
+                }}
+                onClick={dateFilter}
+              >
+                DELETE
+              </Button>
+            </Grid>
+          )}
         </Grid>
         <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
-          <Grid item xs={12} sm={10}>
+          {/* <Grid item xs={12} sm={10}>
             <FormControl
               variant="outlined"
               fullWidth
@@ -253,75 +317,108 @@ function BarcodeDetails() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={2}>
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#0e4a7b",
-                color: "#FFF",
-                whiteSpace: "nowrap",
-                width: "100%",
-                height: "fit-content",
-                border: "1px solid #0e4a7b",
-                //   marginBottom: "6px",
-                marginLeft: "12px",
-                padding: "12px",
-              }}
-              onClick={deleteBarCodes}
-            >
-              DELETE
-            </Button>
-          </Grid>
+          {filter !== 1 && (
+            <Grid item xs={12} sm={2}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                  //   marginBottom: "6px",
+                  marginLeft: "12px",
+                  padding: "12px",
+                }}
+                onClick={deleteBarCodes}
+              >
+                DELETE
+              </Button>
+            </Grid>
+          )} */}
 
           {state.bagData.loading && (
             <MaterialTable
-              title="BARCODE DETAILS"
-              columns={[
-                {
-                  title: "Delete",
-                  render: (rowData) =>
-                    rowData.assigned === 0 && (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedBarcode.includes(rowData.bagId)}
-                            onChange={(e) =>
-                              selectedBarcode.includes(rowData.bagId)
-                                ? setSelectedBarcode(
-                                    selectedBarcode.filter(
-                                      (data) => data !== rowData.bagId
-                                    )
-                                  )
-                                : setSelectedBarcode([
-                                    rowData?.bagId,
-                                    ...selectedBarcode,
-                                  ])
-                            }
-                            name="checkedB"
-                            color="primary"
-                          />
-                        }
-                      />
-                    ),
-                },
-                { title: "Bag ID", field: "bagId" },
-                {
-                  field: "view",
-                  title: "barcode",
-                  render: (rowData) => (
-                    <img src={rowData.barcode} alt={rowData.bagId} />
-                  ),
-                },
-                { title: "Date", field: "date" },
-              ]}
+              title={`BARCODE DETAILS ${
+                tempFilter === ""
+                  ? ""
+                  : tempFilter !== 1
+                  ? "(Unused)"
+                  : "(Used)"
+              }`}
+              columns={
+                tempFilter !== 1
+                  ? [
+                      {
+                        title: "",
+                        render: (rowData) =>
+                          rowData.assigned === 0 && (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={selectedBarcode.includes(
+                                    rowData.bagId
+                                  )}
+                                  onChange={(e) =>
+                                    selectedBarcode.includes(rowData.bagId)
+                                      ? setSelectedBarcode(
+                                          selectedBarcode.filter(
+                                            (data) => data !== rowData.bagId
+                                          )
+                                        )
+                                      : setSelectedBarcode([
+                                          rowData?.bagId,
+                                          ...selectedBarcode,
+                                        ])
+                                  }
+                                  name="checkedB"
+                                  color="primary"
+                                />
+                              }
+                            />
+                          ),
+                      },
+                      { title: "Bag ID", field: "bagId" },
+                      {
+                        field: "view",
+                        title: "barcode",
+                        render: (rowData) => (
+                          <img src={rowData.barcode} alt={rowData.bagId} />
+                        ),
+                      },
+                      { title: "Date", field: "date" },
+                    ]
+                  : [
+                      { title: "Bag ID", field: "bagId" },
+                      {
+                        field: "view",
+                        title: "barcode",
+                        render: (rowData) => (
+                          <img src={rowData.barcode} alt={rowData.bagId} />
+                        ),
+                      },
+                      { title: "Date", field: "date" },
+                    ]
+              }
               data={state?.bagData?.data?.filter((data) =>
-                data?.assigned?.toString().includes(filter)
+                data?.assigned?.toString().includes(tempFilter)
               )}
               options={{
                 exportButton: true,
                 pageSizeOptions: [20, 50, 100, 200],
                 pageSize: 20,
               }}
+              // actions={[
+              //   {
+              //     icon: "save",
+              //     tooltip: "Save User",
+              //     onClick: (event, rowData) => {
+              //       // Do save operation
+              //     },
+              //   },
+              // ]}
             />
           )}
         </Grid>

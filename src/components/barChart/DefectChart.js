@@ -95,7 +95,7 @@ function DefectChart({ data, link, payload_data }) {
             dispatch({ type: "VIOLATION_TAB", payload: payload_data })
           }
         >
-          Defects
+          Top 5 Defects
         </Typography>
       </div>
 
@@ -109,7 +109,7 @@ function DefectChart({ data, link, payload_data }) {
           />
         </div>
       </div>
-      <Typography
+      {/* <Typography
         variant="h6"
         style={{
           margin: "auto",
@@ -134,8 +134,8 @@ function DefectChart({ data, link, payload_data }) {
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
           {data?.defectCount}
         </span>
-      </Typography>
-      <Typography
+      </Typography> */}
+      {/* <Typography
         variant="h6"
         style={{
           margin: "auto",
@@ -147,7 +147,7 @@ function DefectChart({ data, link, payload_data }) {
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
           {data?.totalDefectPercentage}
         </span>
-      </Typography>
+      </Typography> */}
     </>
   );
 }
