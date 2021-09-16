@@ -12,7 +12,7 @@ function DefectChart({ data, link, payload_data }) {
     series: [
       {
         name: "Defects",
-        data: data?.data?.map((item) => item.count),
+        data: data?.data?.map((item) => item.defectCount),
       },
     ],
     options: {

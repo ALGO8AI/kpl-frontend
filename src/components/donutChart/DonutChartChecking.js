@@ -202,7 +202,7 @@ function DonutChartChecking(props) {
                 }}
               >
                 {" "}
-                Total Working Hour{" "}
+                Total Working Hours{" "}
               </p>
             </div>
             <div
@@ -249,7 +249,7 @@ function DonutChartChecking(props) {
                 }}
               >
                 {" "}
-                Worker Unavailable{" "}
+                Worker Unavailable Hours{" "}
               </p>
             </div>
             <div
@@ -295,7 +295,7 @@ function DonutChartChecking(props) {
                   fontSize: "14px",
                 }}
               >
-                Balance Hours
+                Worker Available Hours
               </p>
             </div>
             <div
