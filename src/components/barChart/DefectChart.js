@@ -52,7 +52,7 @@ function DefectChart({ data, link, payload_data }) {
           show: false,
         },
         title: {
-          text: "Top 3 Defects",
+          text: "Top 5 Defects",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
