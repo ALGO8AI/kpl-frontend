@@ -844,6 +844,10 @@ function ViolationDetail(props) {
                   <NameValue name="CTR NO." value={data && data.ctr} />
                 )}
 
+                {data?.CTR && (
+                  <NameValue name="CTR NO." value={data && data.CTR} />
+                )}
+
                 {/* TAILOR NAME */}
                 {data?.tailorName && (
                   <NameValue name="TAILOR" value={data && data.tailorName} />
@@ -877,6 +881,10 @@ function ViolationDetail(props) {
                 {/* TABLE */}
                 {data?.table_no && (
                   <NameValue name="TABLE NO." value={data && data.table_no} />
+                )}
+                {/* TABLE ID */}
+                {data?.tableId && (
+                  <NameValue name="TABLE ID" value={data && data.tableId} />
                 )}
                 {/* BAGID */}
                 {data?.bagId && (
