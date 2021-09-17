@@ -63,7 +63,7 @@ export default function Home() {
       const defect = await defectChartData();
       dispatch({
         type: "DEFECT_CHART",
-        payload: { data: defect.data, loading: false },
+        payload: { data: defect, loading: false },
       });
 
       const y = await checkingWorkerUtilizationData();
@@ -252,7 +252,7 @@ export default function Home() {
         );
         dispatch({
           type: "DEFECT_CHART",
-          payload: { data: defect?.data, loading: false },
+          payload: { data: defect, loading: false },
         });
         const x = await checkingWorkerUtilizationData(
           state.from,
