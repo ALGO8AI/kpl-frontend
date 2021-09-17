@@ -252,7 +252,7 @@ export default function Home() {
         );
         dispatch({
           type: "DEFECT_CHART",
-          payload: { data: defect.data, loading: false },
+          payload: { data: defect?.data, loading: false },
         });
         const x = await checkingWorkerUtilizationData(
           state.from,
@@ -265,7 +265,7 @@ export default function Home() {
         );
         dispatch({
           type: "WORKER_UTILIZATION",
-          payload: { data: x.workerUtilization, loading: false },
+          payload: { data: x?.workerUtilization, loading: false },
         });
 
         const y = await crowdingInstanceCheckingData(
@@ -275,7 +275,7 @@ export default function Home() {
         );
         dispatch({
           type: "CROWDING_INSTANCE",
-          payload: { data: y.crowdingInstancesData, loading: false },
+          payload: { data: y?.crowdingInstancesData, loading: false },
         });
 
         const homeWorkerTable = await checkingHomeWorker(
@@ -310,7 +310,7 @@ export default function Home() {
           dispatch({
             type: "HOME_DATE_TABLE",
             payload: {
-              data: homeDateTable.detailedSummaryByDate,
+              data: homeDateTable?.detailedSummaryByDate,
               loading: false,
             },
           });

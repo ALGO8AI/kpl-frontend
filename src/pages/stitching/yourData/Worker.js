@@ -80,7 +80,7 @@ function Worker(props) {
   }, []);
   const columns = [
     { title: props.columns[0], field: "workerId" },
-    { title: props.columns[0], field: "workerName" },
+    { title: props.columns[1], field: "workerName" },
     // {
     //   title: "Image",
     //   render: (rowData) => (

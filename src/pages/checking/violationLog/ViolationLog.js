@@ -917,12 +917,12 @@ function ViolationLog1() {
                     },
                   },
                   {
-                    title: "Crowding Duration(Min.)",
+                    title: "Crowding Duration",
                     field: "CrowdingDuration",
                   },
 
-                  { title: "Crowding Start Time", field: "crowdStartTime" },
-                  { title: "Crowding End Time", field: "crowdEndTime" },
+                  { title: "Start Time", field: "crowdStartTime" },
+                  { title: "End Time", field: "crowdEndTime" },
 
                   { title: "Number Of Person", field: "MaxPerson" },
                   // { title: "Person(Min)", field: "MinPerson" },
