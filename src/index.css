@@ -54,12 +54,29 @@
   border-radius: 5px;
 }
 
+.Link-btn-orange {
+  text-decoration: none;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  color: rgb(255, 153, 0);
+  background-color: rgba(255, 145, 0, 0.2);
+  border-radius: 5px;
+}
+
 .Link-btn-green {
   text-decoration: none;
   padding: 8px 12px !important;
   font-size: 12px !important;
   color: rgb(74, 170, 22);
   background-color: rgba(74, 170, 22, 0.2);
+  border-radius: 5px;
+}
+.Link-btn-yellow {
+  text-decoration: none;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  background-color: rgba(238, 255, 0, 0.5);
+  color: rgba(74, 75, 6, 1);
   border-radius: 5px;
 }
 .Link-btn-grey {

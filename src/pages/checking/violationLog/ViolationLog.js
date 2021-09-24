@@ -444,16 +444,18 @@ function ViolationLog1() {
 
   const returnClassNameDefect = (type) => {
     switch (type) {
-      case "INCORRECT VIOLATION":
+      case "incorrect violation":
         return "Link-btn-grey";
-      case "Not Known":
+      case "okay bag":
+        return "Link-btn-yellow";
+      case "rejected":
         return "Link-btn-red";
-      case "OPEN":
-        return "Link-btn-red";
-      case "CLOSED":
+      case "not-repaired":
+        return "Link-btn-orange";
+      case "repaired":
         return "Link-btn-green";
       default:
-        return "Link-btn-red";
+        return "Link-btn-green";
     }
   };
   return (
@@ -1039,7 +1041,9 @@ function ViolationLog1() {
                     render: (rowData) => (
                       <Link
                         to={`/checking/violationDetails/${rowData.Id}`}
-                        className={returnClassNameDefect(rowData.actionStatus)}
+                        className={returnClassNameDefect(
+                          rowData.actionStatus.toLowerCase()
+                        )}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "defects");
                           localStorage.setItem(
@@ -1048,11 +1052,11 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            returnStatusDefect(rowData.actionStatus)
+                            rowData.actionStatus
                           );
                         }}
                       >
-                        {returnStatusDefect(rowData.actionStatus)}
+                        {rowData.actionStatus.toLowerCase()}
                       </Link>
                     ),
                   },
@@ -1111,6 +1115,8 @@ function ViolationLog1() {
                   { title: "Tailor Name", field: "tailorName" },
 
                   { title: "Defect Name", field: "defectName" },
+                  { title: "Action Status", field: "actionStatus" },
+
                   { title: "Bag ID", field: "bagId" },
 
                   { title: "Wing", field: "wing" },

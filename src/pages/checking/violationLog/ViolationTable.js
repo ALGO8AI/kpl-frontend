@@ -27,7 +27,7 @@ function ViolationTable({ data, columns, rowClick, selectedRow }) {
             rowStyle: (rowData) => ({
               backgroundColor:
                 rowData.actionStatus === "OPEN" || "Not Known"
-                  ? "rgb(255 243 230)"
+                  ? "rgba(255,243,230,0.35)"
                   : "white",
             }),
           }}
