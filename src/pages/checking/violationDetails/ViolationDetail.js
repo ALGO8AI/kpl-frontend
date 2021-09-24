@@ -1317,6 +1317,26 @@ function ViolationDetail(props) {
                     </Button>
                   )}
                 </Grid>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{ padding: "12px" }}
+                >
+                  <Link
+                    to="/checking/feedback"
+                    style={{
+                      textDecoration: "underline",
+                      display: "block",
+                      marginLeft: "auto",
+                      color: "blue",
+                    }}
+                  >
+                    Share Feedback
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
