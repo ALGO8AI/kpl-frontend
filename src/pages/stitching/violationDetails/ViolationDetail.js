@@ -1193,7 +1193,7 @@ function ViolationDetail(props) {
               </Grid>
             </Grid>
           </Grid>
-          {localStorage.getItem("VIOLATION") === "feedUnavailable" ||
+          {/* {localStorage.getItem("VIOLATION") === "feedUnavailable" ||
           localStorage.getItem("VIOLATION") === "worker" ? (
             <Grid
               container
@@ -1215,7 +1215,7 @@ function ViolationDetail(props) {
                   ))}
               </Grid>
             </Grid>
-          ) : null}
+          ) : null} */}
         </Grid>
       </Grid>
       <Modal

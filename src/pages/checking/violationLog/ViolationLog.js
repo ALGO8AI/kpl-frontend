@@ -429,13 +429,13 @@ function ViolationLog1() {
   };
   const returnStatusDefect = (type) => {
     switch (type) {
-      case "INCORRECT VIOLATION":
+      case "incorrect violation":
         return "Rejected";
-      case "Not Known":
+      case "not known":
         return "Not Repaired";
-      case "OPEN":
+      case "open":
         return "Not Repaired";
-      case "CLOSED":
+      case "closed":
         return "Repaired";
       default:
         return "Not Repaired";
@@ -1056,7 +1056,7 @@ function ViolationLog1() {
                           );
                         }}
                       >
-                        {rowData.actionStatus.toLowerCase()}
+                        {returnStatusDefect(rowData.actionStatus.toLowerCase())}
                       </Link>
                     ),
                   },

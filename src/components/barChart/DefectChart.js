@@ -24,10 +24,33 @@ function DefectChart({ data, link, payload_data }) {
           borderRadius: 10,
           dataLabels: {
             position: "top", // top, center, bottom
+            formatter: function(val, opt) {
+              return `${val}%`;
+            },
           },
         },
       },
+      dataLabels: {
+        enabled: true,
+        formatter: function(val, opt) {
+          return val + "%";
+        },
+      },
       colors: ["#f68f1d"],
+      tooltip: {
+        x: {
+          formatter: undefined,
+          title: {
+            formatter: (value) => `${value} %`,
+          },
+        },
+        y: {
+          formatter: undefined,
+          title: {
+            formatter: (seriesName) => `${seriesName} %`,
+          },
+        },
+      },
       // responsive: [
       //   {
       //     breakpoint: 480,
@@ -121,7 +144,7 @@ function DefectChart({ data, link, payload_data }) {
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
           {data?.totalBagsChecked}
         </span>
-      </Typography>
+      </Typography> */}
       <Typography
         variant="h6"
         style={{
@@ -134,7 +157,7 @@ function DefectChart({ data, link, payload_data }) {
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
           {data?.defectCount}
         </span>
-      </Typography> */}
+      </Typography>
       {/* <Typography
         variant="h6"
         style={{
