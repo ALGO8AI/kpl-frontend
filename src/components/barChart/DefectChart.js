@@ -62,7 +62,7 @@ function DefectChart({ data, link, payload_data }) {
       },
       yaxis: {
         title: {
-          text: "Count",
+          text: "%",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
