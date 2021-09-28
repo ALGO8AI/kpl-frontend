@@ -435,6 +435,8 @@ function ViolationLog1() {
         return "Not Repaired";
       case "open":
         return "Not Repaired";
+      case "okay bag":
+        return "Okay Bag";
       case "closed":
         return "Repaired";
       default:
@@ -455,7 +457,7 @@ function ViolationLog1() {
       case "repaired":
         return "Link-btn-green";
       default:
-        return "Link-btn-green";
+        return "Link-btn-orange";
     }
   };
   return (
@@ -1052,7 +1054,9 @@ function ViolationLog1() {
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
-                            rowData.actionStatus
+                            returnStatusDefect(
+                              rowData.actionStatus.toLowerCase()
+                            )
                           );
                         }}
                       >
@@ -1115,7 +1119,7 @@ function ViolationLog1() {
                   { title: "Tailor Name", field: "tailorName" },
 
                   { title: "Defect Name", field: "defectName" },
-                  { title: "Action Status", field: "actionStatus" },
+                  // { title: "Action Status", field: "actionStatus" },
 
                   { title: "Bag ID", field: "bagId" },
 
