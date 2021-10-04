@@ -447,7 +447,7 @@ function ViolationLog1() {
   const returnClassNameDefect = (type) => {
     switch (type) {
       case "incorrect violation":
-        return "Link-btn-grey";
+        return "Link-btn-red";
       case "okay bag":
         return "Link-btn-yellow";
       case "rejected":
@@ -455,6 +455,8 @@ function ViolationLog1() {
       case "not-repaired":
         return "Link-btn-orange";
       case "repaired":
+        return "Link-btn-green";
+      case "closed":
         return "Link-btn-green";
       default:
         return "Link-btn-orange";
