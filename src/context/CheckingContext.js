@@ -56,6 +56,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  tailorSummary: {
+    data: [],
+    loading: true,
+  },
   violationTab: 0,
   bagDataPrint: {
     data: [],
@@ -121,6 +125,9 @@ let reducer = (state, action) => {
     }
     case "DEFECTS": {
       return { ...state, defects: action.payload };
+    }
+    case "TAILOR_SUMMARY": {
+      return { ...state, tailorSummary: action.payload };
     }
     case "BAG-DATA-PRINT": {
       return {

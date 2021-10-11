@@ -1626,6 +1626,23 @@ const addCheckingWorkerSchedule = async (form) => {
   );
 };
 
+const tailorSummary = async (fromDate, toDate, ctr, table, shifts) => {
+  const data = {
+    clpctr: [],
+    tableId: table,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/tailorSummary",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1746,4 +1763,5 @@ export {
   deleteBarCode,
   addStitchingWorkerSchedule,
   addCheckingWorkerSchedule,
+  tailorSummary,
 };

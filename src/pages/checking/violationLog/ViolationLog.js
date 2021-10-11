@@ -23,6 +23,7 @@ import {
   workerUnavailableViolationChecking,
   defectsViolation,
   getAllTableId,
+  tailorSummary,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -172,7 +173,6 @@ function ViolationLog1() {
     });
 
     const defects = await defectsViolation();
-    console.log(defects?.data);
 
     dispatch({
       type: "DEFECTS",
@@ -181,19 +181,64 @@ function ViolationLog1() {
         loading: false,
       },
     });
+
+    const tailorSum = await tailorSummary(
+      state.violationFrom,
+      state.violationTo,
+      inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+      inputMACHINEid.length > 0
+        ? inputMACHINEid
+        : machineID.map((item) => item.tableId),
+      inputSHIFT
+    );
+    const def = tailorSum?.defectCols?.map((item) => item.defectName);
+    const resp = tailorSum?.tailorSummary?.map((item, i) => {
+      let error = {};
+      const errs = def.map((item2) => {
+        return item.defectName === item2
+          ? { ...error, [item2]: item.defectCount }
+          : { ...error, [item2]: 0 };
+      });
+      return {
+        ...errs[0],
+        ...errs[1],
+        ...errs[2],
+        ...errs[3],
+        ...errs[4],
+        ...errs[5],
+        ...errs[6],
+        ...errs[7],
+        ...errs[8],
+        ...errs[9],
+        ...errs[10],
+        ...errs[11],
+        ...errs[12],
+        ...errs[13],
+        ...errs[14],
+        ...errs[15],
+        ...errs[16],
+        ...errs[17],
+        ...errs[18],
+        ...errs[19],
+        ...errs[20],
+        ...errs[21],
+        ...errs[22],
+        ...errs[24],
+        ...item,
+      };
+    });
+    dispatch({
+      type: "TAILOR_SUMMARY",
+      payload: {
+        data: resp,
+        loading: false,
+      },
+    });
   };
 
   const dateFilter = async () => {
     try {
-      const crowd = await crowdingViolationChecking(
-        state.violationFrom,
-        state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
-        inputSHIFT
-      );
+      const crowd = await crowdingViolationChecking();
       console.log(crowd);
       if (crowd?.crowdingData !== "no data") {
         dispatch({
@@ -217,6 +262,59 @@ function ViolationLog1() {
         type: "DEFECTS",
         payload: {
           data: defects?.data,
+          loading: false,
+        },
+      });
+
+      const tailorSum = await tailorSummary(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
+      );
+      const def = tailorSum?.defectCols?.map((item) => item.defectName);
+      const resp = tailorSum?.tailorSummary?.map((item, i) => {
+        let error = {};
+        const errs = def.map((item2) => {
+          return item.defectName === item2
+            ? { ...error, [item2]: item.defectCount }
+            : { ...error, [item2]: 0 };
+        });
+        return {
+          ...errs[0],
+          ...errs[1],
+          ...errs[2],
+          ...errs[3],
+          ...errs[4],
+          ...errs[5],
+          ...errs[6],
+          ...errs[7],
+          ...errs[8],
+          ...errs[9],
+          ...errs[10],
+          ...errs[11],
+          ...errs[12],
+          ...errs[13],
+          ...errs[14],
+          ...errs[15],
+          ...errs[16],
+          ...errs[17],
+          ...errs[18],
+          ...errs[19],
+          ...errs[20],
+          ...errs[21],
+          ...errs[22],
+          ...errs[24],
+          ...item,
+        };
+      });
+      dispatch({
+        type: "TAILOR_SUMMARY",
+        payload: {
+          data: resp,
           loading: false,
         },
       });
@@ -333,6 +431,52 @@ function ViolationLog1() {
           type: "DEFECTS",
           payload: {
             data: defects?.data,
+            loading: false,
+          },
+        });
+      }
+      if (state.tailorSummary.loading) {
+        const tailorSum = await tailorSummary();
+        const def = tailorSum?.defectCols?.map((item) => item.defectName);
+        const resp = tailorSum?.tailorSummary?.map((item, i) => {
+          let error = {};
+          const errs = def.map((item2) => {
+            return item.defectName === item2
+              ? { ...error, [item2]: item.defectCount }
+              : { ...error, [item2]: 0 };
+          });
+          return {
+            ...errs[0],
+            ...errs[1],
+            ...errs[2],
+            ...errs[3],
+            ...errs[4],
+            ...errs[5],
+            ...errs[6],
+            ...errs[7],
+            ...errs[8],
+            ...errs[9],
+            ...errs[10],
+            ...errs[11],
+            ...errs[12],
+            ...errs[13],
+            ...errs[14],
+            ...errs[15],
+            ...errs[16],
+            ...errs[17],
+            ...errs[18],
+            ...errs[19],
+            ...errs[20],
+            ...errs[21],
+            ...errs[22],
+            ...errs[24],
+            ...item,
+          };
+        });
+        dispatch({
+          type: "TAILOR_SUMMARY",
+          payload: {
+            data: resp,
             loading: false,
           },
         });
@@ -841,6 +985,8 @@ function ViolationLog1() {
               <Tab label="Worker Violation" {...a11yProps(1)} />
               <Tab label="Defects" {...a11yProps(2)} />
               <Tab label="Checker Performance" {...a11yProps(3)} />
+              <Tab label="Tailor Summary" {...a11yProps(4)} />
+
               {/* <Tab label="By Table" {...a11yProps(3)} /> */}
             </Tabs>
           </AppBar>
@@ -1163,6 +1309,75 @@ function ViolationLog1() {
                     title: "No. Of Defects",
                     field: "NoOfDefects",
                   },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+          <TabPanel value={state.violationTab} index={4}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                data={state.tailorSummary.data}
+                rowClick={rowClick}
+                selectedRow={selectedRow}
+                columns={[
+                  { title: "Tailor ID", field: "name" },
+                  { title: "Tailor Name", field: "workerName" },
+                  { title: "Herackle -3 Layer", field: "Herackle -3 Layer" },
+                  {
+                    title: "Herackle - Open Stitch",
+                    field: "Herackle - Open Stitch",
+                  },
+                  {
+                    title: "Herackle- Fabric Pressed",
+                    field: "Herackle- Fabric Pressed",
+                  },
+                  { title: "Safety Open Stitch", field: "Safety Open Stitch" },
+                  {
+                    title: "Safety - Stitch Miss",
+                    field: "Safety - Stitch Miss",
+                  },
+                  {
+                    title: "Safety - Corner damage",
+                    field: "Safety - Corner damage",
+                  },
+                  {
+                    title: "Safety - Fabric Pressed",
+                    field: "Safety - Fabric Pressed",
+                  },
+                  {
+                    title: "Discharge -Stitch Open",
+                    field: "Discharge -Stitch Open",
+                  },
+                  {
+                    title: "Discharge -Filler cord",
+                    field: "Discharge -Filler cord",
+                  },
+                  { title: "Top - Open Stitch", field: "Top - Open Stitch" },
+                  { title: "Top - Filler cord", field: "Top - Filler cord" },
+                  {
+                    title: "Top - Label/Doc Pkt",
+                    field: "Top - Label/Doc Pkt",
+                  },
+                  {
+                    title: "Accs. - Open Stitch",
+                    field: "Accs. - Open Stitch",
+                  },
+                  {
+                    title: "Accs. - Stitch Miss",
+                    field: "Accs. - Stitch Miss",
+                  },
+                  {
+                    title: "Accs. -  Stitching overlap",
+                    field: "Accs. -  Stitching overlap",
+                  },
+                  { title: "Juki", field: "Juki" },
+                  { title: "Baffle", field: "Baffle" },
+                  { title: "Defective Fabric", field: "Defective Fabric" },
+                  { title: "Contamination", field: "Contamination" },
+                  { title: "Defective Webbing", field: "Defective Webbing" },
+                  { title: "Tie Damage", field: "Tie Damage" },
+                  { title: "Fabric Fray", field: "Fabric Fray" },
+                  { title: "Heat Cutter Damage", field: "Heat Cutter Damage" },
                 ]}
               />
             </Grid>
