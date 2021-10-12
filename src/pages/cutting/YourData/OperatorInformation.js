@@ -200,7 +200,7 @@ function OperatorInformation(props) {
             setUserData({ ...userdata, workerId: e.target.value })
           }
         />
-        <label for="myfile" className="inputLabel">
+        {/* <label for="myfile" className="inputLabel">
           Select a file:
         </label>
         <input
@@ -219,7 +219,7 @@ function OperatorInformation(props) {
             src={userdata.image}
             alt="User"
           />
-        )}
+        )} */}
         {edit ? (
           <Grid container xs={12}>
             <Grid container item xs={6} style={{ padding: "6px" }}>

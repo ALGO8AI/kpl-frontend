@@ -217,6 +217,27 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
+            to="/cutting/defect"
+          >
+            <NotInterestedIcon className={classes.icon} />
+            Defect Details
+          </NavLink>
+        </ListItem>
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/cutting/setting"
+          >
+            <SettingsIcon className={classes.icon} />
+            Setting
+          </NavLink>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
             to="/cutting/yourData"
           >
             <PublishIcon className={classes.icon} />

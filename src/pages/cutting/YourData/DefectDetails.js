@@ -105,7 +105,7 @@ const tableData = [
   },
 ];
 
-function DefectTable() {
+function DefectDetails() {
   return (
     <>
       <MaterialTable
@@ -154,4 +154,4 @@ function DefectTable() {
   );
 }
 
-export default DefectTable;
+export default DefectDetails;

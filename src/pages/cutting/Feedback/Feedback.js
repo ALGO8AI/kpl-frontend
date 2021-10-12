@@ -59,6 +59,21 @@ function Feedback() {
         </Grid>
         <Grid item xs={12} sm={6} style={{ padding: "12px 8px" }}>
           <FormControl variant="outlined" fullWidth>
+            <InputLabel>ROLL BARCODE NO.</InputLabel>
+            <Select>
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {[1, 2, 3, 4, 5].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  CATEGORY {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6} style={{ padding: "12px 8px" }}>
+          <FormControl variant="outlined" fullWidth>
             <InputLabel>ROLL CATEGORY</InputLabel>
             <Select>
               <MenuItem value="">
