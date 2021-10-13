@@ -19,6 +19,11 @@ import {
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import { StitchingContext } from "../../../context/StitchingContext";
+import {
+  addOperatorCutting,
+  deleteOperatorCutting,
+  updateOperatorCutting,
+} from "../../../services/cuttingApi.service";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -99,9 +104,9 @@ function OperatorInformation(props) {
             setEdit(true);
             setUserData({
               ...userdata,
-              workerName: x.workerName,
+              name: x.workerName,
               workerId: x.workerId,
-              image: x.image,
+              workerImage: x.image,
             });
           }}
         >
@@ -111,9 +116,9 @@ function OperatorInformation(props) {
     },
   ];
   const [userdata, setUserData] = useState({
-    workerName: "",
+    name: "",
     workerId: "",
-    image: "",
+    workerImage: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -121,7 +126,7 @@ function OperatorInformation(props) {
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
-    setUserData({ ...userdata, image: base64 });
+    setUserData({ ...userdata, workerImage: base64 });
   };
 
   const convertBase64 = (file) => {
@@ -141,12 +146,13 @@ function OperatorInformation(props) {
 
   const submitImageDetails = async () => {
     try {
-      const resp = await AddWorkerStitching(userdata);
+      const resp = await addOperatorCutting(userdata);
+      console.log(resp);
       setWorkerData([...workerData, userdata]);
       setMsg(resp.msg);
       setOpen(true);
       refreshData();
-      setUserData({ workerName: "", workerId: "", image: "" });
+      setUserData({ name: "", workerId: "", workerImage: "" });
     } catch (e) {
       console.log(e.message);
     }
@@ -154,24 +160,24 @@ function OperatorInformation(props) {
 
   const updateImageDetails = async () => {
     try {
-      const resp = await workerUpdateStitching(userdata);
+      const resp = await updateOperatorCutting(userdata);
       setMsg(resp.msg);
       setOpen(true);
       refreshData();
-      setUserData({ workerName: "", workerId: "", image: "" });
+      setUserData({ name: "", workerId: "", workerImage: "" });
     } catch (e) {}
   };
 
   const deleteImageDetails = async () => {
     try {
-      const resp = await workerDeleteStitching({ workerId: userdata.workerId });
+      const resp = await deleteOperatorCutting({ workerId: userdata.workerId });
       setWorkerData(
         workerData.filter((item) => item.workerId !== userdata.workerId)
       );
       setMsg("Deleted");
       setOpen(true);
       refreshData();
-      setUserData({ workerName: "", workerId: "", image: "" });
+      setUserData({ name: "", workerId: "", workerImage: "" });
     } catch (e) {}
   };
 
@@ -183,11 +189,9 @@ function OperatorInformation(props) {
           label="Name"
           variant="outlined"
           style={{ marginBottom: "12px" }}
-          value={userdata.workerName}
+          value={userdata.name}
           fullWidth
-          onChange={(e) =>
-            setUserData({ ...userdata, workerName: e.target.value })
-          }
+          onChange={(e) => setUserData({ ...userdata, name: e.target.value })}
         />
         <TextField
           id="outlined-basic"
@@ -235,7 +239,11 @@ function OperatorInformation(props) {
                 }}
                 onClick={() => {
                   setEdit(false);
-                  setUserData({ workerName: "", workerId: "", image: "" });
+                  setUserData({
+                    name: "",
+                    workerId: "",
+                    workerImage: "",
+                  });
 
                   // setUserData({
                   //   ...userdata,

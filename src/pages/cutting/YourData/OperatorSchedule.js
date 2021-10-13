@@ -37,6 +37,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { StitchingContext } from "../../../context/StitchingContext";
 import moment from "moment";
+import { addScheduleDetail } from "../../../services/cuttingApi.service";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -84,11 +85,21 @@ function OperatorSchedule(props) {
   const [inputData, setInputData] = React.useState({
     filterDateFrom: "",
     filterDateTo: "",
+    date: "",
+    wing: "",
+    shift: "",
+    machineId: "",
+    machineOnOffStatus: 0,
   });
   const { state, dispatch } = React.useContext(StitchingContext);
   const [scheduleInput, setScheduleInput] = React.useState({
     workerId: "",
-    workerName: ":",
+    workerName: "",
+    date: "",
+    wing: "",
+    shift: "",
+    machineId: "",
+    machineOnOffStatus: 0,
   });
 
   const [value, setValue] = React.useState(0);
@@ -150,6 +161,18 @@ function OperatorSchedule(props) {
       setSeverity("success");
       setOpen(true);
       refreshData();
+    } catch (e) {}
+  };
+
+  const addSchedule = async () => {
+    try {
+      const resp = await addScheduleDetail(scheduleInput);
+      if (resp?.msg === "Successfully New Schedule Updated") {
+        setMsg(resp.msg);
+        setSeverity("success");
+        setOpen(true);
+        refreshData();
+      }
     } catch (e) {}
   };
 
@@ -397,7 +420,12 @@ function OperatorSchedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  machineId: e.target.value,
+                })
+              }
               label="Machine Id"
               // multiple
             >
@@ -423,9 +451,9 @@ function OperatorSchedule(props) {
               shrink: true,
             }}
             variant="outlined"
-            // onChange={(e) =>
-            //   dispatch({ type: "FROM", payload: e.target.value })
-            // }
+            onChange={(e) =>
+              setScheduleInput({ ...scheduleInput, date: e.target.value })
+            }
             fullWidth
           />
           <FormControl
@@ -442,7 +470,12 @@ function OperatorSchedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  wing: e.target.value,
+                })
+              }
               label="Wing"
               // multiple
             >
@@ -470,7 +503,12 @@ function OperatorSchedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
-              // onChange={onUserChange}
+              onChange={(e) =>
+                setScheduleInput({
+                  ...scheduleInput,
+                  shift: e.target.value,
+                })
+              }
               label="Shift"
               // multiple
             >
@@ -488,13 +526,13 @@ function OperatorSchedule(props) {
             style={{ marginBottom: "12px" }}
             control={
               <Switch
-                // checked={scheduleData.machineOnOffStatus}
-                // onChange={(e) =>
-                //   setScheduleData({
-                //     ...scheduleData,
-                //     machineOnOffStatus: e.target.checked,
-                //   })
-                // }
+                checked={scheduleInput?.machineOnOffStatus === 1 ? true : false}
+                onChange={(e) =>
+                  setScheduleInput({
+                    ...scheduleInput,
+                    machineOnOffStatus: e.target.checked ? 1 : 0,
+                  })
+                }
                 name="machineOnOffStatus"
                 color="primary"
               />
@@ -506,7 +544,7 @@ function OperatorSchedule(props) {
             color="primary"
             fullWidth
             // style={{ margin: "10px" }}
-            // onClick={dateFilter}
+            onClick={addSchedule}
           >
             {/* <FilterListIcon /> */}
             Save
