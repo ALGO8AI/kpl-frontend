@@ -41,6 +41,7 @@ import {
   addScheduleDetail,
   cuttingOperator,
   getCuttingOperatorCopy,
+  getCuttingOperatorSchedule,
 } from "../../../services/cuttingApi.service";
 
 function Alert(props) {
@@ -96,6 +97,7 @@ function OperatorSchedule(props) {
     machineOnOff: 0,
   });
   const { state, dispatch } = React.useContext(StitchingContext);
+  const [operatorScheduleList, setOperatorScheduleList] = useState([]);
   const [scheduleInput, setScheduleInput] = React.useState({
     operatorId: "",
     operatorName: "",
@@ -118,6 +120,8 @@ function OperatorSchedule(props) {
     try {
       const { data } = await cuttingOperator();
       setWorkerList(data);
+      const resp = await getCuttingOperatorSchedule();
+      setOperatorScheduleList(resp.data);
     } catch (err) {}
   };
 
@@ -186,8 +190,8 @@ function OperatorSchedule(props) {
     },
     // { title: "ID", field: "id" },
 
-    { title: "Worker ID", field: "workerId" },
-    { title: "Worker Name", field: "workerName" },
+    { title: "Operator ID", field: "operatorId" },
+    { title: "Operator Name", field: "operatorName" },
 
     { title: "Shift", field: "shift" },
     { title: "Wing", field: "wing" },
@@ -214,7 +218,8 @@ function OperatorSchedule(props) {
             handleClickOpenDialog();
             setScheduleData({
               date: new Date(x.Date).toISOString().slice(0, 10),
-              operatorId: x.workerId,
+              operatorId: x.operatorId,
+              operatorName: x.operatorName,
               shift: x.shift,
               wing: x.wing,
               machineId: x.machineId,
@@ -234,6 +239,7 @@ function OperatorSchedule(props) {
   const [scheduleData, setScheduleData] = React.useState({
     date: "",
     operatorId: "",
+    operatorName: "",
     shift: "",
     wing: "",
     machineId: "",
@@ -429,12 +435,12 @@ function OperatorSchedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {state.machineIDs.length > 0 &&
-                state.machineIDs.map((item, index) => (
-                  <MenuItem value={item.machineID} key={index}>
-                    {item.machineID}
-                  </MenuItem>
-                ))}
+              {/* {state.machineIDs.length > 0 && */}
+              {["MC04"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <TextField
@@ -652,7 +658,7 @@ function OperatorSchedule(props) {
         <MaterialTable
           title="Schedule Information"
           columns={columns}
-          data={state.workerSchedule.data}
+          data={operatorScheduleList}
           options={{
             exportButton: true,
             headerStyle: {
@@ -685,10 +691,10 @@ function OperatorSchedule(props) {
             <Grid md={6} style={{ padding: "12px" }}>
               <TextField
                 id="outlined-basic"
-                label="Operator Id"
+                label="Operator Name"
                 variant="outlined"
-                value={scheduleData.machineId}
-                name="machineId"
+                value={scheduleData.operatorName}
+                name="operatorName"
                 fullWidth
                 onChange={onScheduleDataChange}
                 disabled

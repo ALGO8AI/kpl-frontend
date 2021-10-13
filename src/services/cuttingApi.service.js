@@ -70,3 +70,7 @@ export const getCuttingSupervisorCopy = async () => {
 export const getCuttingOperatorCopy = async () => {
   return await callBackend("GET", "routes/cutting/schedule/updateAllSchedule");
 };
+
+export const getCuttingOperatorSchedule = async () => {
+  return await callBackend("GET", "routes/cutting/schedule/scheduleDetail");
+};
