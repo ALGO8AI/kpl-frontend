@@ -39,6 +39,7 @@ import { StitchingContext } from "../../../context/StitchingContext";
 import moment from "moment";
 import {
   addScheduleDetail,
+  cuttingOperator,
   getCuttingOperatorCopy,
 } from "../../../services/cuttingApi.service";
 
@@ -92,17 +93,17 @@ function OperatorSchedule(props) {
     wing: "",
     shift: "",
     machineId: "",
-    machineOnOffStatus: 0,
+    machineOnOff: 0,
   });
   const { state, dispatch } = React.useContext(StitchingContext);
   const [scheduleInput, setScheduleInput] = React.useState({
-    workerId: "",
-    workerName: "",
+    operatorId: "",
+    operatorName: "",
     date: "",
     wing: "",
     shift: "",
     machineId: "",
-    machineOnOffStatus: 0,
+    machineOnOff: 0,
   });
 
   const [value, setValue] = React.useState(0);
@@ -115,17 +116,8 @@ function OperatorSchedule(props) {
 
   const loadData = async () => {
     try {
-      const worker = await getAllWorketrList();
-      // console.log();
-      setWorkerList(worker.data);
-      if (state.workerSchedule.loading) {
-        const x = await getYourData();
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
-        // setData(x.latestScheduleData);
-      }
+      const { data } = await cuttingOperator();
+      setWorkerList(data);
     } catch (err) {}
   };
 
@@ -202,7 +194,7 @@ function OperatorSchedule(props) {
     { title: "Machine ID", field: "machineId" },
     {
       title: "Machine Status",
-      render: (x) => (Boolean(x.machineOnOffStatus) ? "On" : "Off"),
+      render: (x) => (Boolean(x.machineOnOff) ? "On" : "Off"),
     },
     {
       title: "Edit",
@@ -222,11 +214,11 @@ function OperatorSchedule(props) {
             handleClickOpenDialog();
             setScheduleData({
               date: new Date(x.Date).toISOString().slice(0, 10),
-              workerId: x.workerId,
+              operatorId: x.workerId,
               shift: x.shift,
               wing: x.wing,
               machineId: x.machineId,
-              machineOnOffStatus: Boolean(x.machineOnOffStatus),
+              machineOnOff: Boolean(x.machineOnOff),
               id: x.id,
             });
           }}
@@ -241,12 +233,12 @@ function OperatorSchedule(props) {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [scheduleData, setScheduleData] = React.useState({
     date: "",
-    workerId: "",
+    operatorId: "",
     shift: "",
     wing: "",
     machineId: "",
     id: "",
-    machineOnOffStatus: false,
+    machineOnOff: false,
   });
 
   const onScheduleDataChange = (e) => {
@@ -324,11 +316,13 @@ function OperatorSchedule(props) {
   };
 
   const onUserChange = (e) => {
-    const i = workerList.findIndex((item) => item.workerId === e.target.value);
+    const i = workerList.findIndex(
+      (item) => item.operatorId === e.target.value
+    );
     setScheduleInput({
       ...scheduleInput,
-      workerId: workerList[i].workerId,
-      workerName: workerList[i].workerName,
+      operatorId: workerList[i].operatorId,
+      operatorName: workerList[i].operatorName,
     });
   };
 
@@ -355,12 +349,12 @@ function OperatorSchedule(props) {
             style={{ marginBottom: "12px" }}
           >
             <InputLabel keyid="demo-simple-select-outlined-label">
-              Worker Id
+              Operator Id
             </InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              value={scheduleInput.workerId}
+              value={scheduleInput.operatorId}
               name="supervisorName"
               fullWidth
               onChange={onUserChange}
@@ -370,10 +364,10 @@ function OperatorSchedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {workerList.length > 0 &&
+              {workerList?.length > 0 &&
                 workerList.map((item, index) => (
-                  <MenuItem value={item.workerId} key={index}>
-                    {item.workerId}
+                  <MenuItem value={item.operatorId} key={index}>
+                    {item.operatorId} - {item.operatorName}
                   </MenuItem>
                 ))}
             </Select>
@@ -385,12 +379,12 @@ function OperatorSchedule(props) {
             disabled
           >
             <InputLabel keyid="demo-simple-select-outlined-label">
-              Worker Name
+              Operator Name
             </InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              value={scheduleInput.workerName}
+              value={scheduleInput.operatorName}
               name="supervisorName"
               fullWidth
               // onChange={onUserChange}
@@ -402,8 +396,8 @@ function OperatorSchedule(props) {
               </MenuItem>
               {workerList.length > 0 &&
                 workerList.map((item, index) => (
-                  <MenuItem value={item.workerName} key={index}>
-                    {item.workerName}
+                  <MenuItem value={item.operatorName} key={index}>
+                    {item.operatorName}
                   </MenuItem>
                 ))}
             </Select>
@@ -529,14 +523,14 @@ function OperatorSchedule(props) {
             style={{ marginBottom: "12px" }}
             control={
               <Switch
-                checked={scheduleInput?.machineOnOffStatus === 1 ? true : false}
+                checked={scheduleInput?.machineOnOff === 1 ? true : false}
                 onChange={(e) =>
                   setScheduleInput({
                     ...scheduleInput,
-                    machineOnOffStatus: e.target.checked ? 1 : 0,
+                    machineOnOff: e.target.checked ? 1 : 0,
                   })
                 }
-                name="machineOnOffStatus"
+                name="machineOnOff"
                 color="primary"
               />
             }
@@ -691,7 +685,7 @@ function OperatorSchedule(props) {
             <Grid md={6} style={{ padding: "12px" }}>
               <TextField
                 id="outlined-basic"
-                label="Machine Id"
+                label="Operator Id"
                 variant="outlined"
                 value={scheduleData.machineId}
                 name="machineId"
@@ -703,10 +697,10 @@ function OperatorSchedule(props) {
             <Grid md={6} style={{ padding: "12px" }}>
               <TextField
                 id="outlined-basic"
-                label="Worker Id"
+                label="Operator Id"
                 variant="outlined"
-                value={scheduleData.workerId}
-                name="workerId"
+                value={scheduleData.operatorId}
+                name="operator"
                 onChange={onScheduleDataChange}
                 fullWidth
               />
@@ -758,14 +752,14 @@ function OperatorSchedule(props) {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={scheduleData.machineOnOffStatus}
+                    checked={scheduleData.machineOnOff}
                     onChange={(e) =>
                       setScheduleData({
                         ...scheduleData,
-                        machineOnOffStatus: e.target.checked,
+                        machineOnOff: e.target.checked,
                       })
                     }
-                    name="machineOnOffStatus"
+                    name="machineOnOff"
                     color="primary"
                   />
                 }
