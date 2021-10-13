@@ -31,3 +31,42 @@ export const addScheduleDetail = async (formData) => {
     { data: formData }
   );
 };
+
+export const cuttingOperator = async () => {
+  return await callBackend("GET", "routes/cutting/operator/all");
+};
+
+export const cuttingSupervisorSchedule = async () => {
+  return await callBackend("GET", "routes/cutting/supervisorSchedule/all");
+};
+
+export const addCuttingSupervisorSingle = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/cuttingSupervisorSchedule/addSingle",
+    true,
+    data
+  );
+};
+
+export const updateCuttingSupervisorSingle = async (datas) => {
+  const data = datas;
+  return await callBackend(
+    "POST",
+    "routes/cuttingSupervisorSchedule/updateSingle",
+    true,
+    data
+  );
+};
+
+export const getCuttingSupervisorCopy = async () => {
+  return await callBackend(
+    "GET",
+    "routes/cuttingSupervisorSchedule/updateAllSchedule"
+  );
+};
+
+export const getCuttingOperatorCopy = async () => {
+  return await callBackend("GET", "routes/cutting/schedule/updateAllSchedule");
+};

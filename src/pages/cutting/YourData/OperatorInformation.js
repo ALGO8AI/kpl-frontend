@@ -21,6 +21,7 @@ import { Alert } from "@material-ui/lab";
 import { StitchingContext } from "../../../context/StitchingContext";
 import {
   addOperatorCutting,
+  cuttingOperator,
   deleteOperatorCutting,
   updateOperatorCutting,
 } from "../../../services/cuttingApi.service";
@@ -55,18 +56,12 @@ function OperatorInformation(props) {
   const [workerData, setWorkerData] = useState([]);
   const [edit, setEdit] = useState(false);
   const { state, dispatch } = React.useContext(StitchingContext);
+  const [operatorList, setOperatorList] = useState([]);
 
   const loadData = async () => {
     try {
-      if (state.workerDetails.loading) {
-        const x = await getYourData();
-        console.log(x);
-        dispatch({
-          type: "WORKER_DETAILS",
-          payload: { data: x.latestWorkerData, loading: false },
-        });
-        // setWorkerData(x.latestWorkerData);
-      }
+      const { data } = await cuttingOperator();
+      setOperatorList(data);
     } catch (err) {}
   };
 
@@ -84,8 +79,8 @@ function OperatorInformation(props) {
     loadData();
   }, []);
   const columns = [
-    { title: "Operator ID", field: "workerId" },
-    { title: "Operator Name", field: "workerName" },
+    { title: "Operator ID", field: "operatorId" },
+    { title: "Operator Name", field: "operatorName" },
     {
       title: "Edit",
       render: (x) => (
@@ -104,9 +99,9 @@ function OperatorInformation(props) {
             setEdit(true);
             setUserData({
               ...userdata,
-              name: x.workerName,
-              workerId: x.workerId,
-              workerImage: x.image,
+              name: x.operatorName,
+              workerId: x.operatorId,
+              workerImage: "",
             });
           }}
         >
@@ -151,7 +146,7 @@ function OperatorInformation(props) {
       setWorkerData([...workerData, userdata]);
       setMsg(resp.msg);
       setOpen(true);
-      refreshData();
+      loadData();
       setUserData({ name: "", workerId: "", workerImage: "" });
     } catch (e) {
       console.log(e.message);
@@ -163,7 +158,7 @@ function OperatorInformation(props) {
       const resp = await updateOperatorCutting(userdata);
       setMsg(resp.msg);
       setOpen(true);
-      refreshData();
+      loadData();
       setUserData({ name: "", workerId: "", workerImage: "" });
     } catch (e) {}
   };
@@ -176,7 +171,7 @@ function OperatorInformation(props) {
       );
       setMsg("Deleted");
       setOpen(true);
-      refreshData();
+      loadData();
       setUserData({ name: "", workerId: "", workerImage: "" });
     } catch (e) {}
   };
@@ -316,7 +311,7 @@ function OperatorInformation(props) {
         <MaterialTable
           title="OPERATOR INFORMATION"
           columns={columns}
-          data={state.workerDetails.data}
+          data={operatorList}
           options={{
             exportButton: true,
             headerStyle: {

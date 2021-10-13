@@ -37,7 +37,10 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { StitchingContext } from "../../../context/StitchingContext";
 import moment from "moment";
-import { addScheduleDetail } from "../../../services/cuttingApi.service";
+import {
+  addScheduleDetail,
+  getCuttingOperatorCopy,
+} from "../../../services/cuttingApi.service";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -156,7 +159,7 @@ function OperatorSchedule(props) {
 
   const copy = async () => {
     try {
-      const response = await copyScheduleStitching();
+      const response = await getCuttingOperatorCopy();
       setMsg(response.msg);
       setSeverity("success");
       setOpen(true);

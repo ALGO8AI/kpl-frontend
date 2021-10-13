@@ -8,6 +8,7 @@ import OperatorInformation from "./OperatorInformation";
 import OperatorSchedule from "./OperatorSchedule";
 import RollSummary from "./RollSummary";
 import DefectDetails from "./DefectDetails";
+import Supervisor from "./SupervisorSchedule";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,8 +62,10 @@ function YourData() {
         >
           <Tab label="Operator Details" {...a11yProps(0)} />
           <Tab label="Operator Schedule" {...a11yProps(1)} />
-          <Tab label="Roll Summary" {...a11yProps(2)} />
-          <Tab label="Defect Details" {...a11yProps(3)} />
+          <Tab label="Supervisor Schedule" {...a11yProps(2)} />
+
+          <Tab label="Roll Summary" {...a11yProps(3)} />
+          <Tab label="Defect Details" {...a11yProps(4)} />
 
           {/* <Tab label=" Layout" {...a11yProps(4)} /> */}
         </Tabs>
@@ -74,9 +77,12 @@ function YourData() {
         <OperatorSchedule />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <RollSummary />
+        <Supervisor />
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <RollSummary />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <DefectDetails />
       </TabPanel>
     </Grid>
