@@ -145,6 +145,25 @@ function Defects() {
     } catch (e) {}
   };
 
+  const dateFilter = async () => {
+    try {
+      const defectData = await defectViolation(
+        state?.violationFrom,
+        state?.violationTo,
+        fabricCategory,
+        inputMACHINEid,
+        inputSHIFT
+      );
+      dispatch({
+        type: "DEFECT_VIO",
+        payload: {
+          data: defectData?.defectRecords,
+          loading: false,
+        },
+      });
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getFirstDay_LastDay();
     fetchData();
@@ -334,7 +353,7 @@ function Defects() {
               variant="contained"
               color="primary"
               style={{ margin: "10px" }}
-              // onClick={dateFilter}
+              onClick={dateFilter}
             >
               <FilterListIcon />
               Filter
@@ -354,7 +373,7 @@ function Defects() {
               color="primary"
               style={{ margin: "10px" }}
               onClick={() => {
-                // refreshData();
+                fetchData();
                 setInputFabric([]);
                 setInputMACHINEid([]);
                 setInputSHIFT([]);
