@@ -74,3 +74,117 @@ export const getCuttingOperatorCopy = async () => {
 export const getCuttingOperatorSchedule = async () => {
   return await callBackend("GET", "routes/cutting/schedule/scheduleDetail");
 };
+
+export const defectViolation = async (
+  fromDate,
+  toDate,
+  fabricCategory,
+  machine,
+  shifts
+) => {
+  const data = {
+    fabricCategory,
+    machineId: machine,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/cutting/KPI/violation/defectViolation",
+    true,
+    data
+  );
+};
+export const getViolationDetailData = async (id) => {
+  return await callBackend(
+    "POST",
+    "routes/cutting/KPI/violation/getDataByVolId",
+    true,
+    {
+      volId: id,
+    }
+  );
+};
+
+export const cuttingViolationSupervisorUpdate = async (
+  volId,
+  supervisorName
+) => {
+  const data = {
+    volId,
+    supervisorName,
+  };
+  return await callBackend(
+    "POST",
+    "routes/cutting/KPI/violation/updateSupervisorByvolId",
+    true,
+    data
+  );
+};
+
+export const cuttingCommunicatedTo = async (to, id, reason) => {
+  const data = {
+    communicatedTo: to,
+    violationId: id,
+    violationReason: reason,
+  };
+  return await callBackend(
+    "POST",
+    "routes/cutting/KPI/violation/communicatedTo",
+    true,
+    data
+  );
+};
+
+export const violationCommentCutting = async (
+  id,
+  reason,
+  action,
+  isCorrect,
+  isIncorrect,
+  incorrect,
+  actual,
+  reassigned
+) => {
+  return await callBackend(
+    "POST",
+    "routes/cutting/KPI/violation/addComment",
+    true,
+    {
+      violationId: id,
+      violationReason: reason,
+      action: action,
+      confirmStatus: isCorrect,
+      incorrectStatus: isIncorrect,
+      incorrectViolationReason: incorrect,
+      actualSupervisor: actual,
+      reassignedSupervisor: reassigned,
+    }
+  );
+};
+
+export const cuttingViolationClosedByUpdate = async (
+  volId,
+  closedBySupervisor
+) => {
+  const data = {
+    volId,
+    closedBySupervisor,
+  };
+  return await callBackend(
+    "POST",
+    "routes/cutting/KPI/violation/violationClosedBy",
+    true,
+    data
+  );
+};
+
+export const notificationLogs = async (filterDateFrom, filterDateTo) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+  };
+  return await callBackend("POST", "routes/cutting/notifLog", true, data);
+};

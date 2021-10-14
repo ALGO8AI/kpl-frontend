@@ -23,11 +23,11 @@ import Navigation from "./Navigation";
 function Cutting(props) {
   const pages = {
     // home: <Home />,
-    home: <Defects />,
+    home: <Home />,
     videoWall: <VideoWall />,
     setting: <Setting />,
-    defect: <DefectTable />,
-    defectDetails: <DefectDetails id={props.match.params.id} />,
+    defect: <Defects />,
+    violationDetails: <DefectDetails id={props.match.params.id} />,
     layoutView: <LayoutView path="view" />,
     feedback: <Feedback />,
     // annotation: <Annotation />,

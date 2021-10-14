@@ -7,7 +7,7 @@ import { Grid } from "@material-ui/core";
 import OperatorInformation from "./OperatorInformation";
 import OperatorSchedule from "./OperatorSchedule";
 import RollSummary from "./RollSummary";
-import DefectDetails from "./DefectDetails";
+import DefectsLog from "./DefectsLog";
 import Supervisor from "./SupervisorSchedule";
 
 function TabPanel(props) {
@@ -65,7 +65,7 @@ function YourData() {
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
 
           <Tab label="Roll Summary" {...a11yProps(3)} />
-          <Tab label="Defect Details" {...a11yProps(4)} />
+          <Tab label="Defects Logs" {...a11yProps(4)} />
 
           {/* <Tab label=" Layout" {...a11yProps(4)} /> */}
         </Tabs>
@@ -83,7 +83,7 @@ function YourData() {
         <RollSummary />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <DefectDetails />
+        <DefectsLog />
       </TabPanel>
     </Grid>
   );

@@ -13,20 +13,22 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import {
-  getViolationDetailData,
   FEED_UnavailableViolation,
   WORKER_UnavailableViolation,
-  violationComment,
-  communicatedTo,
   getAllSupervisorList,
-  violationSupervisorUpdate,
-  violationClosedByUpdate,
 } from "../../../services/api.service";
 import * as moment from "moment";
 import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { FormControl, InputLabel, Paper, Typography } from "@material-ui/core";
+import {
+  cuttingViolationSupervisorUpdate,
+  getViolationDetailData,
+  cuttingCommunicatedTo,
+  violationCommentCutting,
+  cuttingViolationClosedByUpdate,
+} from "../../../services/cuttingApi.service";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -279,7 +281,7 @@ function DefectDetails(props) {
         setOpen1(true);
         return;
       }
-      const x = await violationComment(
+      const x = await violationCommentCutting(
         props.id,
         res,
         act,
@@ -293,7 +295,7 @@ function DefectDetails(props) {
       setMsg(x.msg);
       setOpen1(true);
       setTimeout(() => {
-        history.push("/stitching/violationLog");
+        history.push("/cutting/defect");
       }, 2000);
     } catch (e) {
       console.log(e);
@@ -313,13 +315,20 @@ function DefectDetails(props) {
       //   "Are you want to mark this violation incorrect ?"
       // );
       // if (txt) {
-      const x = await violationComment(props.id, "", "", false, true, inc);
+      const x = await violationCommentCutting(
+        props.id,
+        "",
+        "",
+        false,
+        true,
+        inc
+      );
       console.log(x);
       setMsg(x.msg);
       setOpen1(true);
       setOpen(false);
       setTimeout(() => {
-        history.push("/stitching/violationLog");
+        history.push("/cutting/defect");
       }, 2000);
       // } else {
       //   setOpen(false);
@@ -329,7 +338,7 @@ function DefectDetails(props) {
 
   const submitCommunication = async () => {
     try {
-      const resp = await communicatedTo(
+      const resp = await cuttingCommunicatedTo(
         communicated,
         props.id,
         reason === "Add Reason" ? reason1 : reason
@@ -592,7 +601,10 @@ function DefectDetails(props) {
   const onSupervisorChange = async (e) => {
     try {
       setNewSupervisor(e.target.value);
-      const resp = await violationSupervisorUpdate(props.id, e.target.value);
+      const resp = await cuttingViolationSupervisorUpdate(
+        props.id,
+        e.target.value
+      );
       setMsg(resp.volIdData);
       setOpen1(true);
     } catch (e) {
@@ -603,7 +615,10 @@ function DefectDetails(props) {
   const onClosedByChange = async (e) => {
     try {
       setClosedBy(e.target.value);
-      const resp = await violationClosedByUpdate(props.id, e.target.value);
+      const resp = await cuttingViolationClosedByUpdate(
+        props.id,
+        e.target.value
+      );
       setMsg(resp.msg);
       setOpen1(true);
     } catch (e) {
@@ -753,28 +768,34 @@ function DefectDetails(props) {
                 md={12}
                 style={{ alignItems: "center" }}
               >
-                {/* WORKER NAME */}
-                {data?.workerName && (
+                {/* OPERATOR NAME */}
+                {data?.operatorName && (
                   <NameValue
-                    name="WORKER NAME"
-                    value={data && data?.workerName}
+                    name="OPERATOR NAME"
+                    value={data && data?.operatorName}
                   />
                 )}
 
-                {/*WORKER ID  */}
-                {data?.workerId && (
-                  <NameValue name="WORKER ID" value={data && data?.workerId} />
-                )}
-                {/* MACHINE ID */}
-                {data?.machineId && (
+                {/*OPERATOR ID  */}
+                {data?.operatorId && (
                   <NameValue
-                    name="MACHINE STATUS"
-                    value={data && data?.status === 0 ? "Off" : "On"}
+                    name="OPERATOR ID"
+                    value={data && data?.operatorId}
                   />
                 )}
                 {/* MACHINE ID */}
                 {data?.machineId && (
-                  <NameValue name="MACHINE ID" value={data && data.machineId} />
+                  <NameValue
+                    name="MACHINE ID"
+                    value={data && data?.machineId}
+                  />
+                )}
+                {/* ROLL BARCODE */}
+                {data?.rollBarcodeNumbe && (
+                  <NameValue
+                    name="ROLL BARCODE NO."
+                    value={data && data?.rollBarcodeNumbe}
+                  />
                 )}
                 {/* CTR */}
                 {data?.CTR && (
