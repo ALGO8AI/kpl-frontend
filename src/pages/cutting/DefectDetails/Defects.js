@@ -182,11 +182,13 @@ function Defects() {
 
   const returnClassName = (type) => {
     switch (type) {
-      case "confirm defect":
+      case "Confirm Defect":
         return "Link-btn-green";
-      case "not a defect":
+      case "Not A Defect":
         return "Link-btn-yellow";
-      case "not known":
+      case "Not Known":
+        return "Link-btn-red";
+      case "Not Resolved":
         return "Link-btn-red";
       default:
         return "Link-btn-red";
@@ -195,7 +197,9 @@ function Defects() {
 
   const returnStatus = (type) => {
     switch (type) {
-      case "confirm defect":
+      case "Not Resolved":
+        return "Unresolved";
+      case "Not Known":
         return "Unresolved";
       default:
         return type;
@@ -409,9 +413,7 @@ function Defects() {
                     render: (rowData) => (
                       <Link
                         to={`/cutting/violationDetails/${rowData.Id}`}
-                        className={returnClassName(
-                          rowData.actionStatus.toLowerCase()
-                        )}
+                        className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "defectRecord");
                           localStorage.setItem(
