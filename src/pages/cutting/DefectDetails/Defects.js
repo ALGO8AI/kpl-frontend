@@ -182,12 +182,12 @@ function Defects() {
 
   const returnClassName = (type) => {
     switch (type) {
-      case "INCORRECT VIOLATION":
-        return "Link-btn-grey";
-      case "OPEN":
-        return "Link-btn-red";
-      case "CLOSED":
+      case "confirm defect":
         return "Link-btn-green";
+      case "not a defect":
+        return "Link-btn-yellow";
+      case "not known":
+        return "Link-btn-red";
       default:
         return "Link-btn-red";
     }
@@ -195,14 +195,10 @@ function Defects() {
 
   const returnStatus = (type) => {
     switch (type) {
-      case "INCORRECT VIOLATION":
-        return "Incorrect";
-      case "OPEN":
+      case "confirm defect":
         return "Unresolved";
-      case "CLOSED":
-        return "Resolved";
       default:
-        return "Unresolved";
+        return type;
     }
   };
 
@@ -396,7 +392,7 @@ function Defects() {
               variant="scrollable"
               scrollButtons="auto"
             >
-              <Tab label="Feed Unavailable" {...a11yProps(0)} />
+              <Tab label="Defect Log" {...a11yProps(0)} />
             </Tabs>
           </AppBar>
 
@@ -413,7 +409,9 @@ function Defects() {
                     render: (rowData) => (
                       <Link
                         to={`/cutting/violationDetails/${rowData.Id}`}
-                        className={returnClassName(rowData.actionStatus)}
+                        className={returnClassName(
+                          rowData.actionStatus.toLowerCase()
+                        )}
                         onClick={() => {
                           localStorage.setItem("VIOLATION", "defectRecord");
                           localStorage.setItem(
@@ -435,7 +433,7 @@ function Defects() {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.DateTime))
+                      const NewDate = moment(new Date(rowData.date))
                         .format("DD/MM/YYYY")
                         .toString();
                       return NewDate;
@@ -458,8 +456,8 @@ function Defects() {
 
                   { title: "Waste Length", field: "wasteLength" },
                   { title: "Shift", field: "shift" },
-                  { title: "status", field: "Status" },
-                  { title: "Action Status", field: "actionStatus" },
+                  // { title: "status", field: "Status" },
+                  // { title: "Action Status", field: "actionStatus" },
                   // { title: "Supervisor Name", field: "supervisorName" },
                 ]}
               />

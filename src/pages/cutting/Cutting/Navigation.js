@@ -191,7 +191,7 @@ export default function Navigation() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <ListItem button>
+        {/* <ListItem button>
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
@@ -201,7 +201,7 @@ export default function Navigation() {
             Home
           </NavLink>
         </ListItem>
-        <Divider />
+        <Divider /> */}
         {/* <ListItem button>
           <NavLink
             activeClassName={classes.active}

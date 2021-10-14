@@ -18,7 +18,7 @@ function Table({ data, columns, rowClick, selectedRow }) {
     <>
       {data?.length > 0 ? (
         <MaterialTable
-          title={"Violation Details"}
+          title={"Defect Details"}
           columns={columns}
           data={data}
           options={{

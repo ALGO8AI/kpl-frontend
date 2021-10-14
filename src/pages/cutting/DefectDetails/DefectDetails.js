@@ -588,12 +588,12 @@ function DefectDetails(props) {
   }, []);
   const returnClassName = (type) => {
     switch (type) {
-      case "Incorrect":
-        return "Link-btn-grey";
-      case "Unresolved":
-        return "Link-btn-red";
-      case "Resolved":
+      case "confirm defect":
         return "Link-btn-green";
+      case "not a defect":
+        return "Link-btn-yellow";
+      case "not known":
+        return "Link-btn-red";
       default:
         return "Link-btn-red";
     }
@@ -670,7 +670,7 @@ function DefectDetails(props) {
                   ></i>
                 </span>
                 {/* {localStorage.getItem("VIOLATION-TYPE")} */}
-                VIOLATION TYPE
+                DEFECT DETAILS
               </Typography>
             </Grid>
             <Grid container item xs={4} md={3}>
@@ -679,9 +679,11 @@ function DefectDetails(props) {
                   lineHeight: "21px !important",
                   height: "max-content",
                 }}
-                className="Link-btn-red"
+                className={returnClassName(
+                  localStorage.getItem("VIOLATION-STATUS").toLowerCase()
+                )}
               >
-                Status
+                {localStorage.getItem("VIOLATION-STATUS")}
               </Typography>
             </Grid>
           </>
@@ -708,7 +710,7 @@ function DefectDetails(props) {
             <Grid container item xs={12} className="Details_CameraFeed">
               {/* DATE & ID */}
               <Grid ontainer item xs={12} className={"Header"}>
-                <h3 style={{ color: "white " }}>Violation Id : {props.id}</h3>
+                <h3 style={{ color: "white " }}>Defect Id : {props.id}</h3>
                 <p style={{ color: "white" }}>
                   {data &&
                     moment(new Date(data.date))
@@ -757,7 +759,7 @@ function DefectDetails(props) {
               md={9}
             >
               <Typography variant="h5" style={{ fontWeight: "bold" }}>
-                About Incident
+                About Defect
               </Typography>
               <Grid
                 container
@@ -974,7 +976,7 @@ function DefectDetails(props) {
                   variant="h5"
                   style={{ fontWeight: "bold", marginBottom: "12px" }}
                 >
-                  Violation Reason
+                  Type Of Defect
                 </Typography>
                 <FormControl
                   fullWidth
@@ -1174,7 +1176,7 @@ function DefectDetails(props) {
                     onClick={handleOpen}
                     // className="violation-btn incorrect-btn"
                   >
-                    Incorrect Violation
+                    NOT A DEFECT
                   </Button>
                 </Grid>
                 <Grid
@@ -1196,7 +1198,7 @@ function DefectDetails(props) {
                     }}
                     onClick={submitConfirmViolation}
                   >
-                    Confirm Violation
+                    CONFIRM DEFECT
                   </Button>
                 </Grid>
               </Grid>
