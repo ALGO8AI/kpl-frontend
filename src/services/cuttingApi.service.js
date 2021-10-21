@@ -188,3 +188,19 @@ export const notificationLogs = async (filterDateFrom, filterDateTo) => {
   };
   return await callBackend("POST", "routes/cutting/notifLog", true, data);
 };
+
+export const getUnassignedRoll = async () => {
+  return await callBackend("GET", "routes/roll/allUnassignedRoll");
+};
+
+export const getCurrentRoll = async () => {
+  return await callBackend("GET", "routes/roll/currentRoll");
+};
+
+export const updateRoll = async (data) => {
+  return await callBackend("POST", "routes/roll/updateRoll", true, data);
+};
+
+export const closeRoll = async (data) => {
+  return await callBackend("POST", "routes/roll/closeRoll", true, data);
+};

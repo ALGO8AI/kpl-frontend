@@ -11,32 +11,94 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   TextField,
 } from "@material-ui/core";
-import React from "react";
+import { Alert, Autocomplete } from "@material-ui/lab";
+import React, { useEffect, useState } from "react";
 import {
-  changeCTR,
-  ctrDropDown,
-  getCurrentCTR,
-  getUnassignedCLPCTR,
-} from "../../services/api.service";
+  closeRoll,
+  getCurrentRoll,
+  getUnassignedRoll,
+  updateRoll,
+} from "../../services/cuttingApi.service";
 
 function RollDialog({ open, handleCloseCTR }) {
-  const [ctrDrop, setCtrDrop] = React.useState();
-  const [CTR, setCTR] = React.useState({
-    currentCtr: "",
-    currentCtrInput: "",
-    clpctr: "",
-    clpctrInput: "",
-    wing: "",
-    line: "",
-    resourceId: "",
-    startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
+  const [unassignedData, setUnassignedData] = useState([]);
+  const [oldCTR, setOldCTR] = useState({
+    oldCtr: "",
+    oldCtrId: "",
+    oldFabricRollNo: "",
+    oldbodyPart: "",
   });
-  const [CTRresp, setCTRresp] = React.useState("");
+  const [selectedData, setSelectedData] = useState({
+    id: "",
+    CtrNo: "",
+    FabricRollNo: "",
+    bodyPart: "",
+    startTime: "",
+    startDate: "",
+    // startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
+    // startDate: new Date().toISOString().slice(0, 10),
+  });
 
-  const [currentCTR, setCurrentCTR] = React.useState([]);
-  const [unassignedCTR, setUnassignedCTR] = React.useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  const fetchUnassigned = async () => {
+    try {
+      const { data } = await getUnassignedRoll();
+      setUnassignedData(data);
+      const current = await getCurrentRoll();
+      setOldCTR({
+        oldCtr: current?.data[0]?.CtrNo,
+        oldCtrId: current?.data[0]?.id,
+        oldFabricRollNo: current?.data[0]?.FabricRollNo,
+        oldbodyPart: current?.data[0]?.bodyPart,
+      });
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchUnassigned();
+  }, []);
+
+  const updateRollCutting = async () => {
+    try {
+      const data = {
+        ...oldCTR,
+        ...selectedData,
+        // id: unassignedData.filter((i) => i.CtrNo === selectedData.CtrNo)[0].id,
+      };
+      const resp = await updateRoll(data);
+      if (resp?.msg) {
+        setOpenDialog(true);
+        setMsg(resp.msg);
+        handleCloseCTR();
+      }
+    } catch (e) {}
+  };
+
+  const closeRollCutting = async () => {
+    try {
+      const data = {
+        CtrNo: selectedData.CtrNo,
+        id: selectedData.id,
+        FabricRollNo: selectedData.FabricRollNo,
+        bodyPart: selectedData.bodyPart,
+      };
+      const resp = await closeRoll(data);
+      if (resp?.msg) {
+        setOpenDialog(true);
+        setMsg(resp.msg);
+        handleCloseCTR();
+      }
+    } catch (e) {}
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
 
   return (
     <div>
@@ -60,181 +122,192 @@ function RollDialog({ open, handleCloseCTR }) {
           <DialogContentText id="alert-dialog-description">
             <Grid container spacing={1} style={{ width: "320px" }}>
               <Grid item xs={12}>
-                <FormControl variant="outlined" fullWidth>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={unassignedData}
+                  getOptionLabel={(option) => `${option.Clp}-${option.CtrNo}`}
+                  fullWidth
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="New CTR"
+                      variant="outlined"
+                      //   value={CTR.CtrNo}
+                    />
+                  )}
+                  //   value={CTR.CtrNo}
+                  onChange={(e, t) => {
+                    const current = unassignedData.findIndex(
+                      (item) => item?.CtrNo === t?.CtrNo
+                    );
+                    setSelectedData({
+                      ...selectedData,
+                      CtrNo: unassignedData[current]?.CtrNo,
+                      id: unassignedData[current]?.id,
+                    });
+                  }}
+                />
+                {/* <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
-                    Select Machine
+                    Select CTR
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    label="Select Machine"
-                    // value={CTR.currentCtr}
-                    // onChange={(e) =>
-                    //   setCTR({ ...CTR, currentCtr: e.target.value })
-                    // }
+                    label="Select CTR"
+                    value={selectedData.CtrNo}
+                    onChange={(e) =>
+                      setSelectedData({
+                        ...selectedData,
+                        CtrNo: e.target.value,
+                      })
+                    }
                   >
-                    {/* <MenuItem value={"enter manually"}>Enter Manually</MenuItem> */}
-                    {[1, 2, 3, 4].map((item, i) => (
-                      <MenuItem value={item} key={i}>
-                        Machine {item}
+                    {unassignedData?.map((item, i) => (
+                      <MenuItem value={item.CtrNo} key={i}>
+                        {item.Clp}+{item.CtrNo}
                       </MenuItem>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </Grid>
-              {/* {CTR.currentCtr === "enter manually" ? (
+              {selectedData.CtrNo && (
+                <Grid item xs={12}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Select Bodypart
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      label="Select Bodypart"
+                      value={selectedData.bodyPart}
+                      onChange={(e) =>
+                        setSelectedData({
+                          ...selectedData,
+                          bodyPart: e.target.value,
+                        })
+                      }
+                    >
+                      {unassignedData
+                        .filter((i) => i.CtrNo === selectedData.CtrNo)
+                        ?.map((item, i) => (
+                          <MenuItem value={item.bodyPart} key={i}>
+                            {item.bodyPart}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              )}
+
+              {selectedData.bodyPart && (
+                <Grid item xs={12}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Select Fabric No.
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      label="Select Fabric No."
+                      value={selectedData.FabricRollNo}
+                      onChange={(e) =>
+                        setSelectedData({
+                          ...selectedData,
+                          FabricRollNo: e.target.value,
+                        })
+                      }
+                    >
+                      {/* <MenuItem value={"enter manually"}>Enter Manually</MenuItem> */}
+                      {unassignedData
+                        .filter(
+                          (i) =>
+                            i.bodyPart === selectedData.bodyPart &&
+                            i.CtrNo === selectedData.CtrNo
+                        )
+                        ?.map((item, i) => (
+                          <MenuItem value={item.FabricRollNo} key={i}>
+                            {item.FabricRollNo}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              )}
+              {selectedData.FabricRollNo && (
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
                     fullWidth
-                    value={CTR.currentCtrInput}
+                    id="time"
+                    label="Start Date"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={selectedData.startDate}
                     onChange={(e) =>
-                      setCTR({ ...CTR, currentCtrInput: e.target.value })
+                      setSelectedData({
+                        ...selectedData,
+                        startDate: e.target.value,
+                      })
                     }
-                    placeholder="Type Or Select From Dropdown Menu"
-                    label="Current CTR"
                   />
                 </Grid>
-              ) : null} */}
-              <Grid item xs={12}>
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Select Barcode
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    label="Select Barcode"
-                    // value={CTR.wing}
-                    onChange={(e) => setCTR({ ...CTR, wing: e.target.value })}
-                  >
-                    {[1, 2, 3, 4, 5].map((item, i) => (
-                      <MenuItem value={item} key={i}>
-                        Barcode {item}
-                      </MenuItem>
-                    ))
-                    // ctrDrop.data.map((item, i) => (
-                    //   <MenuItem value={item.wing} key={i}>
-                    //     {item.wing}
-                    //   </MenuItem>
-                    // ))
-                    }
-                  </Select>
-                </FormControl>
-              </Grid>
+              )}
 
-              <Grid item xs={12}>
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Select Category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    label="Select Category"
-                    // value={CTR.clpctr}
-                    // onChange={(e) => setCTR({ ...CTR, clpctr: e.target.value })}
-                  >
-                    {/* <MenuItem value={"enter manually"}>Enter Manually</MenuItem> */}
-                    <MenuItem value=""></MenuItem>
-                    {["Standard", "Food Grade"].map((item, i) => (
-                      <MenuItem value={item} key={i}>
-                        {item}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              {/* {CTR.clpctr === "enter manually" ? (
+              {selectedData.startDate && (
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
                     fullWidth
-                    value={CTR.clpctrInput}
+                    id="time"
+                    label="Start Time"
+                    type="time"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 300, // 5 min
+                    }}
+                    defaultValue={selectedData.startTime}
                     onChange={(e) =>
-                      setCTR({ ...CTR, clpctrInput: e.target.value })
+                      setSelectedData({
+                        ...selectedData,
+                        startTime: e.target.value,
+                      })
                     }
-                    placeholder="Type Or Select From Dropdown Menu"
-                    label="CLP-CTR"
                   />
                 </Grid>
-              ) : null} */}
-              <Grid item xs={6}>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="time"
-                  label="Start Date"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-
-                  //   value={CTR.startTime}
-                  //   onChange={(e) =>
-                  //     setCTR({ ...CTR, startTime: e.target.value })
-                  //   }
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="time"
-                  label="Start Time"
-                  type="time"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300, // 5 min
-                  }}
-                  //   value={CTR.startTime}
-                  //   onChange={(e) =>
-                  //     setCTR({ ...CTR, startTime: e.target.value })
-                  //   }
-                />
-              </Grid>
+              )}
             </Grid>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => {
-              handleCloseCTR();
-              console.log(CTR);
-            }}
+            onClick={closeRollCutting}
             style={{
               border: "1px solid #0e4a7b",
             }}
           >
-            End Current Roll
+            Close Current Roll
           </Button>
           <Button
             variant="contained"
-            // onClick={() => {
-            //   // console.log(CTR);
-            //   // handleCloseCTR();
-
-            //   ChangeCTR();
-            //   setCTR({
-            //     ...CTR,
-            //     clpctr: "",
-            //     currentCtr: "",
-            //     line: "",
-            //     resourceId: "",
-            //     startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
-            //     wing: "",
-            //   });
-            // }}
             color="primary"
             autoFocus
+            onClick={updateRollCutting}
           >
             Start New Roll
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={openDialog} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          {msg}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

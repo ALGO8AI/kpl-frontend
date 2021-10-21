@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -40,6 +40,7 @@ import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
 import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
 import RollDialog from "../../../components/rollDialog/RollDialog";
+import { getCurrentRoll } from "../../../services/cuttingApi.service";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -131,7 +132,28 @@ const useStyles = makeStyles((theme) => ({
 export default function Navigation() {
   const history = useHistory();
   const { state, dispatch } = React.useContext(KPLContext);
+  const [oldCTR, setOldCTR] = useState({
+    oldCtr: "",
+    oldCtrId: "",
+    oldFabricRollNo: "",
+    oldbodyPart: "",
+  });
 
+  const fetchUnassigned = async () => {
+    try {
+      const current = await getCurrentRoll();
+      setOldCTR({
+        oldCtr: current?.data[0]?.CtrNo,
+        oldCtrId: current?.data[0]?.id,
+        oldFabricRollNo: current?.data[0]?.FabricRollNo,
+        oldbodyPart: current?.data[0]?.bodyPart,
+      });
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchUnassigned();
+  }, []);
   // CUSTOM NOTIFICATION FUNCTION
   const [open, setOpen] = React.useState(false);
   const [notification, setNotification] = useState([]);
@@ -512,15 +534,14 @@ export default function Navigation() {
               {" "}
               {state.profile.username}
             </Typography>
-            {localStorage.getItem("Current_CTR") && (
-              <Typography
-                variant="h5"
-                style={{ margin: "4px 12px", color: "#0e4a7b" }}
-              >
-                {" "}
-                CTR : {localStorage.getItem("Current_CTR")}
-              </Typography>
-            )}
+
+            <Typography
+              variant="h5"
+              style={{ margin: "4px 12px", color: "#0e4a7b" }}
+            >
+              {" "}
+              CTR : {oldCTR.oldCtr}
+            </Typography>
 
             <SupportButton onClick={handleClickOpenCTR}>
               Change Roll
