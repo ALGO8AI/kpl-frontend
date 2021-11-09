@@ -107,7 +107,9 @@ function ManageRoles() {
     try {
       const x = await StitchingUserData();
       console.log(x);
-      setData(x.userData);
+      if (x?.userData) {
+        setData(x?.userData);
+      }
       setColumns([
         {
           title: "User ID",
@@ -309,7 +311,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Username"
                 variant="outlined"
-                value={data.username}
+                value={data?.username}
                 fullWidth
                 onChange={(e) => setData({ ...data, username: e.target.value })}
                 // disabled
@@ -328,7 +330,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                value={data.password}
+                value={data?.password}
                 fullWidth
                 disabled
               />
@@ -347,7 +349,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Email"
                 variant="outlined"
-                value={data.email}
+                value={data?.email}
                 // disabled
                 onChange={(e) => setData({ ...data, email: e.target.value })}
               />
@@ -368,7 +370,7 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.designation}
+                  value={data?.designation}
                   onChange={(e) =>
                     setData({ ...data, designation: e.target.value })
                   }
@@ -385,7 +387,7 @@ function ManageRoles() {
               </FormControl>
             </Grid>
 
-            {data.designation === "supervisor" && (
+            {data?.designation === "supervisor" && (
               <Grid
                 item
                 xs={6}
@@ -402,7 +404,7 @@ function ManageRoles() {
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    value={data.role}
+                    value={data?.role}
                     onChange={(e) => setData({ ...data, role: e.target.value })}
                     label="Designation"
                   >
@@ -423,7 +425,7 @@ function ManageRoles() {
               </Grid>
             )}
 
-            {data.designation === "manager" && (
+            {data?.designation === "manager" && (
               <Grid
                 item
                 xs={6}
