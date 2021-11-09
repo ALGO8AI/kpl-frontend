@@ -8,40 +8,17 @@ import { Link } from "react-router-dom";
 import { StitchingContext } from "../../context/StitchingContext";
 import "./AreaChart.scss";
 function AreaChart(props) {
+  // DISPATCH
   const { dispatch } = React.useContext(StitchingContext);
 
+  // STATE
   const [series, setSeries] = useState([]);
   const [week, setWeek] = useState([]);
-
   const [instance, setInstance] = useState(0);
   const [duration, setDuration] = useState(0);
-  // const [state, setState] = React.useState({
-  //   age: "",
-  //   name: "hai",
-  // });
 
-  // const handleChange = (event) => {
-  //   const name = event.target.name;
-  //   setState({
-  //     ...state,
-  //     [name]: event.target.value,
-  //   });
-  // };
-
-  function changeWeek() {
-    // console.log("in change week");
-    // let curr = new Date(props.FROM);
-    // let week = [props.FROM];
-    // for (let i = 1; i <= 6; i++) {
-    //   let first = curr.setDate(curr.getDate() + 1);
-    //   week.push(new Date(first).toISOString().slice(5, 10));
-    // }
-    // console.log(week);
-    // setWEEK(week);
-  }
-
+  // FUNCTION TO LOAD AND SET STATE FROM INITIAL DATA
   function LoadData() {
-    // setWEEK(props.week)
     var array = [];
     var ins = 0;
     var dur = 0;
@@ -69,33 +46,8 @@ function AreaChart(props) {
   }
 
   useEffect(() => {
-    // console.log("in Use Effect");
-    changeWeek();
     LoadData();
   }, [props]);
-
-  // useEffect(() => {
-  //   console.log("in use effect");
-  //   var array = [0, 0, 0, 0, 0, 0, 0];
-  //   var ins = 0;
-  //   var dur = 0;
-  //   if (props.data != "no data") {
-  //     props.data.map((d) => {
-  //       array[d.day] = d.crowdingInstances;
-  //       ins += d.crowdingInstances;
-  //       dur += d.crowdingDuration;
-  //     });
-  //   }
-  //   console.log(array);
-  //   setSeries([
-  //     {
-  //       name: "crowding",
-  //       data: array,
-  //     },
-  //   ]);
-  //   setInstance(ins);
-  //   setDuration(dur);
-  // }, []);
 
   const options = {
     chart: {
@@ -157,7 +109,6 @@ function AreaChart(props) {
     <>
       <div className="top" style={{ display: "flex", marginBottom: "18px" }}>
         <Typography
-          // variant="h6"
           style={{
             margin: "auto",
             textAlign: "center",
@@ -182,17 +133,6 @@ function AreaChart(props) {
         <div className="chart">
           <Chart options={options} series={series} type="line" height={200} />
         </div>
-        {/* <div className="bottom">
-          <p>Total Crowding Instance:</p>
-          <h4>
-  
-            {Math.round(instance)}
-          </h4>
-        </div>
-        <div className="bottom">
-          <p>Crowding duration: </p>
-          <h4>{Math.round(duration)} Hrs. </h4>
-        </div> */}
       </div>
       <Typography
         variant="h6"

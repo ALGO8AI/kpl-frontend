@@ -17,14 +17,7 @@ function Unresolved({ chartData, value, onChange, filter }) {
 
   React.useEffect(() => {
     if (chartData) {
-      setSeries(
-        //       [
-        //   chartData?.length > 0 ? chartData[0]?.count : 0,
-        //   chartData?.length > 0 ? chartData[1]?.count : 0,
-        //   chartData?.length > 0 ? chartData[2]?.count : 0,
-        // ]
-        chartData?.map((item) => item?.count)
-      );
+      setSeries(chartData?.map((item) => item?.count));
       setLabel(chartData?.map((item) => item.instance));
     }
   }, [chartData]);
@@ -74,11 +67,7 @@ function Unresolved({ chartData, value, onChange, filter }) {
           <Typography variant="h6"> MOST UNRESOLVED VIOLATIONS</Typography>
         </Grid>
         <Grid container item xs={4} style={{ marginBottom: "16px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            // style={{ marginRight: "6px" }}
-          >
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">
               Supervisor
             </InputLabel>
@@ -119,16 +108,6 @@ function Unresolved({ chartData, value, onChange, filter }) {
         />
       </Grid>
     </>
-    // <>
-    // <ReactApexChart
-    //   options={options}
-    //   series={series}
-    //   type="donut"
-    //   height={350}
-    //   width={"100%"}
-    //   style={{ margin: "auto", width: "100%" }}
-    // />
-    // </>
   );
 }
 

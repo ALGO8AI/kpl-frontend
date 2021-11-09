@@ -22,6 +22,7 @@ import {
 } from "../../services/api.service";
 
 function ClpCtrDialog({ open, handleCloseCTR }) {
+  // STATE
   const [ctrDrop, setCtrDrop] = React.useState();
   const [CTR, setCTR] = React.useState({
     currentCtr: "",
@@ -34,7 +35,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
     startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
   });
   const [CTRresp, setCTRresp] = React.useState("");
-
   const [currentCTR, setCurrentCTR] = React.useState([]);
   const [unassignedCTR, setUnassignedCTR] = React.useState([]);
 
@@ -56,18 +56,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
         });
         console.log(resp.msg);
         setCTRresp(resp.msg);
-        // const data = {
-        //   currentCtr:
-        //     CTR.currentCtr === "enter manually"
-        //       ? CTR.currentCtrInput
-        //       : CTR.currentCtr,
-        //   clpctr: CTR.clpctr,
-        //   wing: CTR.wing,
-        //   line: CTR.line,
-        //   resourceId: CTR.resourceId,
-        //   startTime: CTR.startTime,
-        // };
-        // console.log(data);
       }
     } catch (err) {}
   };
@@ -94,7 +82,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
       const curr = await getCurrentCTR();
       console.log(curr.data);
       setCurrentCTR(curr.data);
-
       const unassign = await getUnassignedCLPCTR();
       console.log(unassign.data);
       setUnassignedCTR(unassign.data);
@@ -174,13 +161,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                             {item}
                           </MenuItem>
                         )
-                      )
-                    // ctrDrop.data.map((item, i) => (
-                    //   <MenuItem value={item.wing} key={i}>
-                    //     {item.wing}
-                    //   </MenuItem>
-                    // ))
-                    }
+                      )}
                   </Select>
                 </FormControl>
               </Grid>
@@ -235,7 +216,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     onChange={(e) =>
                       setCTR({ ...CTR, resourceId: e.target.value })
                     }
-                    // value={ctrDrop && ctrDrop.data[0].resourceId}
                   >
                     <MenuItem value=""></MenuItem>
                     {ctrDrop &&
@@ -247,26 +227,12 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                         <MenuItem value={item} key={i}>
                           {item}
                         </MenuItem>
-                      ))
-                    // ctrDrop.data.map((item, i) => (
-                    //   <MenuItem value={item.resourceId} key={i}>
-                    //     {item.resourceId}
-                    //   </MenuItem>
-                    // ))
-                    }
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
 
               <Grid item xs={12}>
-                {/* <TextField
-                  variant="outlined"
-                  fullWidth
-                  value={CTR.line}
-                  onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                  label="Line"
-                /> */}
-
                 <FormControl variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">
                     Line
@@ -277,20 +243,13 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     label="Line"
                     value={CTR.line}
                     onChange={(e) => setCTR({ ...CTR, line: e.target.value })}
-                    // value={ctrDrop && ctrDrop.data[0].resourceId}
                   >
                     <MenuItem value=""></MenuItem>
                     {["U+2", "Baffle", "Circular", "Two Row"].map((item, i) => (
                       <MenuItem value={item} key={i}>
                         {item}
                       </MenuItem>
-                    ))
-                    // ctrDrop.data.map((item, i) => (
-                    //   <MenuItem value={item.resourceId} key={i}>
-                    //     {item.resourceId}
-                    //   </MenuItem>
-                    // ))
-                    }
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -306,7 +265,7 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
                     shrink: true,
                   }}
                   inputProps={{
-                    step: 300, // 5 min
+                    step: 300,
                   }}
                   value={CTR.startTime}
                   onChange={(e) =>
@@ -337,9 +296,6 @@ function ClpCtrDialog({ open, handleCloseCTR }) {
           <Button
             variant="contained"
             onClick={() => {
-              // console.log(CTR);
-              // handleCloseCTR();
-
               ChangeCTR();
               setCTR({
                 ...CTR,

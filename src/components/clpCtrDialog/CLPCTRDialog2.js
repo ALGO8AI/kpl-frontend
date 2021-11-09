@@ -20,6 +20,7 @@ import {
 import "./CLPCTRDialog.scss";
 
 function CLPCTRDialog2({ open, handleCloseCTR }) {
+  // STATE
   const [CTR, setCTR] = React.useState({
     id: "",
     CtrNo: "",
@@ -38,7 +39,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
       var txt = window.confirm("CTR will be changed, Do you want to proceed ?");
       if (txt) {
         const resp = await updateCTR(CTR);
-        // console.log(resp);
         setCTRresp(resp.msg);
         handleCloseCTR();
         setCTR({
@@ -55,23 +55,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
       }
     } catch (err) {}
   };
-
-  //   const loadData = async () => {
-  //     try {
-  //       const ctr = await ctrDropDown();
-  //       setCtrDrop(ctr);
-  //       setCTR({
-  //         ...CTR,
-  //         currentCtr: ctr?.currentCLPCTR[0]?.clpCtr,
-  //         wing: ctr?.data[0]?.wing,
-  //         clpctr: ctr?.data[0]?.clpCtr,
-  //         resourceId: ctr?.data[0]?.resourceId,
-  //         line: "U+2",
-  //       });
-  //     } catch (err) {
-  //       console.log(err.message);
-  //     }
-  //   };
 
   const loadCurrentAndUnassigned = async () => {
     try {
@@ -113,7 +96,6 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
   };
 
   React.useEffect(() => {
-    // loadData();
     loadCurrentAndUnassigned();
   }, []);
   return (
@@ -169,10 +151,8 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                           {...params}
                           label="New CTR"
                           variant="outlined"
-                          //   value={CTR.CtrNo}
                         />
                       )}
-                      //   value={CTR.CtrNo}
                       onChange={(e, t) => setNewCtr(e, t)}
                     />
                   </Grid>
@@ -205,10 +185,9 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
                     shrink: true,
                   }}
                   inputProps={{
-                    step: 300, // 5 min
+                    step: 300,
                   }}
                   defaultValue={CTR.startTime}
-                  // value={CTR.startTime}
                   onChange={(e) =>
                     setCTR({ ...CTR, startTime: e.target.value })
                   }

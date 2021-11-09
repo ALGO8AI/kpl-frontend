@@ -28,7 +28,6 @@ function MachineStatus({
 
   React.useEffect(() => {
     if (chartData) {
-      // console.log(chartData);
       var Orsan6 = chartData
         ?.filter((item) => item?.machineId === "FG2/U+2/Orsan6")
         .map((item) => item?.timeDuration);
@@ -51,17 +50,12 @@ function MachineStatus({
         "FG2/U+2/Top3",
       ];
       const max = Math.max(...nums);
-      // var WEEK = ary[nums.indexOf(max)]?.map((item) =>
-      //   new Date(item?.timeInterval).toISOString().slice(0, 10)
-      // );
+
       var WEEK1 = chartData
         ?.filter((item) => item?.machineId === ary[nums.indexOf(max)])
         .map((item) => item.timeInterval);
 
-      // console.log(WEEK1);
-
       setWeek(WEEK1);
-      // console.log(Orsan6, Orsan5, Orsan4, Top3);
       setSeries([
         {
           name: "Orsan6",
@@ -82,21 +76,6 @@ function MachineStatus({
       ]);
     }
   }, [chartData]);
-
-  // const series = [
-  //   {
-  //     name: "On",
-  //     data: [28, 29, 33, 36, 32, 32, 33],
-  //   },
-  //   {
-  //     name: "Off",
-  //     data: [12, 11, 14, 18, 17, 13, 13],
-  //   },
-  //   {
-  //     name: "Machine Breakdown",
-  //     data: [16, 19, 11, 13, 12, 10, 14],
-  //   },
-  // ];
 
   const options = {
     chart: {
@@ -121,19 +100,11 @@ function MachineStatus({
     stroke: {
       curve: "smooth",
     },
-    // title: {
-    //   text: "Duration By Type Of Violation",
-    //   style: {
-    //     color: "#0e4a7b",
-    //     fontSize: "24px",
-    //     fontWeight: 600,
-    //   },
-    //   align: "left",
-    // },
+
     grid: {
       borderColor: "#e7e7e7",
       row: {
-        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+        colors: ["#f3f3f3", "transparent"],
         opacity: 0.5,
       },
     },
@@ -164,15 +135,8 @@ function MachineStatus({
           fontWeight: 400,
         },
       },
-      // min: 0,
-      // max: 500,
     },
     legend: {
-      // position: "top",
-      // horizontalAlign: "right",
-      // floating: true,
-      // offsetY: -25,
-      // offsetX: -5,
       horizontalAlign: "center",
       position: "top",
     },
@@ -185,11 +149,7 @@ function MachineStatus({
           <Typography variant="h6"> MACHINE STATUS</Typography>
         </Grid>
         <Grid container item xs={6} md={2} style={{ marginBottom: "16px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            // style={{ marginRight: "6px" }}
-          >
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">
               Machine ID
             </InputLabel>
@@ -200,7 +160,6 @@ function MachineStatus({
               value={value}
               onChange={onChange}
               label="Machine ID"
-              // multiple
             >
               <MenuItem value="">
                 <em>None</em>
@@ -231,7 +190,6 @@ function MachineStatus({
               value={shiftValue}
               onChange={setShiftValue}
               label="Shift"
-              // multiple
             >
               {["A", "B"].map((item, index) => (
                 <MenuItem value={item} key={index}>
@@ -278,16 +236,6 @@ function MachineStatus({
         />
       </Grid>
     </>
-    // <>
-    // <ReactApexChart
-    //   options={options}
-    //   series={series}
-    //   type="line"
-    //   height={350}
-    //   width={"100%"}
-    //   style={{ margin: "auto", width: "100%" }}
-    // />
-    // </>
   );
 }
 

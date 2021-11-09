@@ -42,18 +42,6 @@ function MachineLine({
         "workerUnavailableData",
       ];
       const max = Math.max(...nums);
-
-      // var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map(
-      //   (item) =>
-      //     `${new Date(item?.timeInterval).getDate()}-${new Date(
-      //       item?.timeInterval
-      //     ).getMonth() + 1} ${new Date(
-      //       item?.timeInterval
-      //     ).getHours()}:${new Date(item?.timeInterval).getMinutes()}:${new Date(
-      //       item?.timeInterval
-      //     ).getSeconds()}`
-      // );
-
       var WEEK = chartData?.[ary[nums.indexOf(max)]]?.map(
         (item) => item?.timeInterval
       );
@@ -76,24 +64,8 @@ function MachineLine({
     }
   }, [chartData]);
 
-  // const series = [
-  //   {
-  //     name: "Feed UA",
-  //     data: [28, 29, 33, 36, 32, 32, 33],
-  //   },
-  //   {
-  //     name: "Worker UA",
-  //     data: [12, 11, 14, 18, 17, 13, 13],
-  //   },
-  //   {
-  //     name: "Machine Breakdown",
-  //     data: [16, 19, 11, 13, 12, 10, 14],
-  //   },
-  // ];
-
   const options = {
     chart: {
-      // height: 360,
       type: "line",
       dropShadow: {
         enabled: false,
@@ -114,19 +86,11 @@ function MachineLine({
     stroke: {
       curve: "smooth",
     },
-    // title: {
-    //   text: "Duration By Type Of Violation",
-    //   style: {
-    //     color: "#0e4a7b",
-    //     fontSize: "24px",
-    //     fontWeight: 600,
-    //   },
-    //   align: "left",
-    // },
+
     grid: {
       borderColor: "#e7e7e7",
       row: {
-        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+        colors: ["#f3f3f3", "transparent"],
         opacity: 0.5,
       },
     },
@@ -157,15 +121,8 @@ function MachineLine({
           fontWeight: 400,
         },
       },
-      // min: 0,
-      // max: 1000,
     },
     legend: {
-      // position: "top",
-      // horizontalAlign: "right",
-      // floating: true,
-      // offsetY: -25,
-      // offsetX: -5,
       horizontalAlign: "center",
       position: "top",
     },
@@ -193,7 +150,6 @@ function MachineLine({
               value={value}
               onChange={onChange}
               label="Machine ID"
-              // multiple
             >
               {machineID?.length > 0 &&
                 machineID.map((item, index) => (
@@ -221,7 +177,6 @@ function MachineLine({
               value={shiftValue}
               onChange={setShiftValue}
               label="Shift"
-              // multiple
             >
               {["A", "B"].map((item, index) => (
                 <MenuItem value={item} key={index}>
@@ -268,16 +223,6 @@ function MachineLine({
         />
       </Grid>
     </>
-    // <>
-    // <ReactApexChart
-    //   options={options}
-    //   series={series}
-    //   type="line"
-    //   height={350}
-    //   width={"100%"}
-    //   style={{ margin: "auto", width: "100%" }}
-    // />
-    // </>
   );
 }
 

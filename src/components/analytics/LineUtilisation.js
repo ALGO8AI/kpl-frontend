@@ -44,15 +44,6 @@ function LineUtilisation() {
       width: 1,
       colors: ["#fff"],
     },
-    // title: {
-    //   text: "Machine Utilisation",
-    //   style: {
-    //     color: "#0e4a7b",
-    //     fontSize: "24px",
-    //     fontWeight: 600,
-    //   },
-    //   align: "left",
-    // },
     tooltip: {
       shared: false,
       intersect: false,
@@ -87,11 +78,8 @@ function LineUtilisation() {
       },
     },
     legend: {
-      //
       horizontalAlign: "center",
       position: "top",
-
-      // offsetX: 40,
     },
   };
   return (
@@ -107,22 +95,14 @@ function LineUtilisation() {
           <Typography variant="h6"> LINE UTILISATION</Typography>
         </Grid>
         <Grid container item xs={6} style={{ marginBottom: "16px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            // style={{ marginRight: "6px" }}
-          >
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">
               Machine ID
             </InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // multiple
-              // value={inputMACHINEid}
-              // onChange={(e) => setInputMACHINEid(e.target.value)}
               label="Machine ID"
-              // multiple
             >
               <MenuItem value="">
                 <em>None</em>
@@ -145,16 +125,6 @@ function LineUtilisation() {
         />
       </Grid>
     </>
-    // <>
-    // <ReactApexChart
-    //   options={options}
-    //   series={series}
-    //   type="bar"
-    //   height={360}
-    //   width={"100%"}
-    //   style={{ margin: "auto", width: "100%" }}
-    // />
-    // </>
   );
 }
 

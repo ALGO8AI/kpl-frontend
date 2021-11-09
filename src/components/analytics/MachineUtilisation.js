@@ -17,17 +17,6 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
   React.useEffect(() => {
     if (chartData) {
       setSeries([
-        // {
-        //   name: "Scheduled (Hrs.)",
-
-        //   data: [
-        //     chartData[0]?.scheduledHours,
-        //     chartData[1]?.scheduledHours,
-        //     chartData[2]?.scheduledHours,
-        //     chartData[3]?.scheduledHours,
-        //     chartData[4]?.scheduledHours,
-        //   ],
-        // },
         {
           name: "Worker Unavailable (Hrs.)",
 
@@ -73,20 +62,6 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
     }
   }, [chartData]);
 
-  // const series = [
-  //   {
-  //     name: "% Feed UA",
-  //     data: [44, 55, 41, 64, 22, 43, 21],
-  //   },
-  //   {
-  //     name: "% Worker UA",
-  //     data: [53, 32, 33, 52, 13, 44, 32],
-  //   },
-  //   {
-  //     name: "% Machine Breakdown",
-  //     data: [16, 19, 11, 13, 12, 10, 14],
-  //   },
-  // ];
   const options = {
     chart: {
       type: "bar",
@@ -118,15 +93,6 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
       width: 1,
       colors: ["#fff"],
     },
-    // title: {
-    //   text: "Machine Utilisation",
-    //   style: {
-    //     color: "#0e4a7b",
-    //     fontSize: "24px",
-    //     fontWeight: 600,
-    //   },
-    //   align: "left",
-    // },
     tooltip: {
       shared: false,
       intersect: false,
@@ -155,11 +121,8 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
       max: 100,
     },
     legend: {
-      //
       horizontalAlign: "center",
       position: "top",
-
-      // offsetX: 40,
     },
   };
   return (
@@ -169,11 +132,7 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
           <Typography variant="h6"> MACHINE UTILISATION %</Typography>
         </Grid>
         <Grid container item xs={4} style={{ marginBottom: "16px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            // style={{ marginRight: "6px" }}
-          >
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">
               Machine ID
             </InputLabel>
@@ -184,7 +143,6 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
               value={value}
               onChange={onChange}
               label="Machine ID"
-              // multiple
             >
               <MenuItem value="">
                 <em>None</em>
@@ -218,16 +176,6 @@ function MachineUtilisation({ chartData, value, onChange, machineID, filter }) {
         />
       </Grid>
     </>
-    // <>
-    // <ReactApexChart
-    //   options={options}
-    //   series={series}
-    //   type="bar"
-    //   height={360}
-    //   width={"100%"}
-    //   style={{ margin: "auto", width: "100%" }}
-    // />
-    // </>
   );
 }
 

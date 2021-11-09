@@ -8,28 +8,16 @@ import { Link } from "react-router-dom";
 import { CheckingContext } from "../../context/CheckingContext";
 import "./AreaChart.scss";
 function AreaChartChecking(props) {
+  // DISPATCH
   const { dispatch } = React.useContext(CheckingContext);
 
+  // STATE
   const [series, setSeries] = useState([]);
   const [week, setWeek] = useState([]);
-
   const [instance, setInstance] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  function changeWeek() {
-    // console.log("in change week");
-    // let curr = new Date(props.FROM);
-    // let week = [props.FROM];
-    // for (let i = 1; i <= 6; i++) {
-    //   let first = curr.setDate(curr.getDate() + 1);
-    //   week.push(new Date(first).toISOString().slice(5, 10));
-    // }
-    // console.log(week);
-    // setWEEK(week);
-  }
-
   function LoadData() {
-    // setWEEK(props.week)
     var array = [];
     var ins = 0;
     var dur = 0;
@@ -57,33 +45,8 @@ function AreaChartChecking(props) {
   }
 
   useEffect(() => {
-    // console.log("in Use Effect");
-    changeWeek();
     LoadData();
   }, [props]);
-
-  // useEffect(() => {
-  //   console.log("in use effect");
-  //   var array = [0, 0, 0, 0, 0, 0, 0];
-  //   var ins = 0;
-  //   var dur = 0;
-  //   if (props.data != "no data") {
-  //     props.data.map((d) => {
-  //       array[d.day] = d.crowdingInstances;
-  //       ins += d.crowdingInstances;
-  //       dur += d.crowdingDuration;
-  //     });
-  //   }
-  //   console.log(array);
-  //   setSeries([
-  //     {
-  //       name: "crowding",
-  //       data: array,
-  //     },
-  //   ]);
-  //   setInstance(ins);
-  //   setDuration(dur);
-  // }, []);
 
   const options = {
     chart: {
@@ -145,7 +108,6 @@ function AreaChartChecking(props) {
     <>
       <div className="top" style={{ display: "flex" }}>
         <Typography
-          // variant="h6"
           style={{
             margin: "auto",
             textAlign: "center",

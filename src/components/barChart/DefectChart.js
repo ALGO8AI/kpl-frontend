@@ -1,13 +1,14 @@
 import React from "react";
 import Chart from "react-apexcharts";
-// import "./donutChart.css";
 
 import { Typography } from "@material-ui/core";
 import { CheckingContext } from "../../context/CheckingContext";
 import { Link } from "react-router-dom";
 
 function DefectChart({ data, link, payload_data }) {
+  // DISPATCH
   const { dispatch } = React.useContext(CheckingContext);
+
   const DATA = {
     series: [
       {
@@ -23,7 +24,7 @@ function DefectChart({ data, link, payload_data }) {
         bar: {
           borderRadius: 10,
           dataLabels: {
-            position: "top", // top, center, bottom
+            position: "top",
             formatter: function(val, opt) {
               return `${val}%`;
             },
@@ -51,19 +52,6 @@ function DefectChart({ data, link, payload_data }) {
           },
         },
       },
-      // responsive: [
-      //   {
-      //     breakpoint: 480,
-      //     options: {
-      //       chart: {
-      //         width: 200,
-      //       },
-      //       legend: {
-      //         position: "bottom",
-      //       },
-      //     },
-      //   },
-      // ],
 
       xaxis: {
         categories: data?.data?.map((item) => item.defectName),
@@ -100,7 +88,6 @@ function DefectChart({ data, link, payload_data }) {
     <>
       <div className="top" style={{ display: "flex", marginBottom: "12px" }}>
         <Typography
-          // variant="h6"
           style={{
             margin: "auto",
             textAlign: "center",
@@ -132,19 +119,7 @@ function DefectChart({ data, link, payload_data }) {
           />
         </div>
       </div>
-      {/* <Typography
-        variant="h6"
-        style={{
-          margin: "auto",
-          textAlign: "center",
-          color: "#f68f1d",
-        }}
-      >
-        Total Bags Checked{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {data?.totalBagsChecked}
-        </span>
-      </Typography> */}
+
       <Typography
         variant="h6"
         style={{
@@ -158,19 +133,6 @@ function DefectChart({ data, link, payload_data }) {
           {data?.defectCount}
         </span>
       </Typography>
-      {/* <Typography
-        variant="h6"
-        style={{
-          margin: "auto",
-          textAlign: "center",
-          color: "#f68f1d",
-        }}
-      >
-        Total Defect %{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {data?.totalDefectPercentage}
-        </span>
-      </Typography> */}
     </>
   );
 }

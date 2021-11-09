@@ -54,11 +54,7 @@ function ActiveViolation({ chartData, value, onChange, filter }) {
           <Typography variant="h6"> TOTAL VIOLATIONS</Typography>
         </Grid>
         <Grid container item xs={4} style={{ marginBottom: "16px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            // style={{ marginRight: "6px" }}
-          >
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">
               Supervisor
             </InputLabel>
@@ -69,7 +65,6 @@ function ActiveViolation({ chartData, value, onChange, filter }) {
               value={value}
               onChange={onChange}
               label="Supervisor"
-              // multiple
             >
               {["Sanjay Dassamanta", "RP Yadav"].map((item, index) => (
                 <MenuItem value={item} key={index}>

@@ -33,11 +33,6 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
       var WEEK2 = chartData?.[ary[nums.indexOf(max)]]?.map((item) =>
         new Date(item?.date).toISOString().slice(0, 10)
       );
-      // console.log(WEEK2);
-
-      // var WEEK = chartData?.crowdingData?.map((item) =>
-      //   new Date(item?.date).toISOString().slice(0, 10)
-      // );
 
       setWeek(WEEK2);
       setSeries([
@@ -57,28 +52,8 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
     }
   }, [chartData]);
 
-  // const series = [
-  //   {
-  //     name: "Feed UA",
-  //     data: data?.crowdingData,
-  //   },
-  //   // {
-  //   //   name: "Worker UA",
-  //   //   data: [12, 11, 14, 18, 17, 13, 13],
-  //   // },
-  //   // {
-  //   //   name: "Machine Downtime",
-  //   //   data: [16, 19, 11, 13, 12, 10, 14],
-  //   // },
-  //   // {
-  //   //   name: "Crowding",
-  //   //   data: [32, 32, 33, 12, 11, 14, 18],
-  //   // },
-  // ];
-
   const options = {
     chart: {
-      // height: 480,
       type: "line",
       dropShadow: {
         enabled: true,
@@ -99,19 +74,11 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
     stroke: {
       curve: "smooth",
     },
-    // title: {
-    //   text: "Total violations by type.",
-    //   style: {
-    //     color: "#0e4a7b",
-    //     fontSize: "24px",
-    //     fontWeight: 600,
-    //   },
-    //   align: "left",
-    // },
+
     grid: {
       borderColor: "#e7e7e7",
       row: {
-        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+        colors: ["#f3f3f3", "transparent"],
         opacity: 0.5,
       },
     },
@@ -140,15 +107,10 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
           fontWeight: 400,
         },
       },
-      // min: 0,
-      // max: 150,
     },
     legend: {
-      //
       horizontalAlign: "center",
       position: "top",
-
-      // offsetX: 40,
     },
   };
 
@@ -159,11 +121,7 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
           <Typography variant="h6"> TOTAL VIOLATIONS BY TYPE</Typography>
         </Grid>
         <Grid container item xs={4} style={{ marginBottom: "16px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            // style={{ marginRight: "6px" }}
-          >
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">
               Machine ID
             </InputLabel>
@@ -174,7 +132,6 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
               value={value}
               onChange={onChange}
               label="Machine ID"
-              // multiple
             >
               {machineID?.length > 0 &&
                 machineID.map((item, index) => (
@@ -205,16 +162,6 @@ function ViolationType({ chartData, value, onChange, machineID, filter }) {
         />
       </Grid>
     </>
-    // <>
-    // <ReactApexChart
-    //   options={options}
-    //   series={series}
-    //   type="line"
-    //   height={350}
-    //   width={"100%"}
-    //   style={{ margin: "auto", width: "100%" }}
-    // />
-    // </>
   );
 }
 
