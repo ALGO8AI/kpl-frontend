@@ -1001,14 +1001,28 @@ function ViolationLog1() {
                   // },
                   { title: "Camera ID", field: "CamID" },
 
+                  // {
+                  //   title: "Date",
+                  //   field: "DateTime",
+                  //   render: (rowData) => {
+                  //     const NewDate = moment(
+                  //   new Date(
+                  //     new Date(rowData.DateTime).toUTCString()
+                  //   ).toISOString()
+                  // )
+                  //       .format("DD/MM/YYYY")
+                  //       .toString();
+                  //     return NewDate;
+                  //   },
+                  // },
                   {
                     title: "Date",
-                    field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.DateTime))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      const d = rowData.DateTime;
+
+                      return `${new Date(d).getUTCDate()}/${new Date(
+                        d
+                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   {
