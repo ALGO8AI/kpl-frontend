@@ -135,7 +135,7 @@ function Home() {
       dispatch({
         type: "HOME_CTR_TABLE",
         payload: {
-          data: homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+          data: homeCTRTable,
           loading: false,
         },
       });
@@ -385,8 +385,7 @@ function Home() {
           dispatch({
             type: "HOME_CTR_TABLE",
             payload: {
-              data:
-                homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr,
+              data: homeCTRTable,
               loading: false,
             },
           });
