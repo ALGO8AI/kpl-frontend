@@ -12,6 +12,7 @@ import { Annotation } from "../layoutView/annotation/Annotation";
 import ViolationDetail from "../violationDetails/ViolationDetail";
 import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
 import { KPLContext } from "../../../context/ViolationContext";
+import ComingSoon from "../layoutView/ComingSoon";
 
 function Stitching(props) {
   const { state, dispatch } = React.useContext(KPLContext);
@@ -22,7 +23,8 @@ function Stitching(props) {
     videoWall: <VideoWall />,
     setting: <Setting />,
     viewdetails: <ViewDetails />,
-    layoutView: <LayoutView path="view" />,
+    layoutView: <ComingSoon />,
+    // layoutView: <LayoutView path="view" />,
     annotation: <Annotation />,
     yourData: <YourData />,
     violationDetails: <ViolationDetail id={props.match.params.id} />,

@@ -263,7 +263,7 @@ export default function Navigation() {
           </NavLink>
         </ListItem>
         <Divider />
-        <ListItem button>
+        {/* <ListItem button>
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
@@ -273,7 +273,7 @@ export default function Navigation() {
             Analytics
           </NavLink>
         </ListItem>
-        <Divider />
+        <Divider /> */}
       </List>
     </div>
   );
