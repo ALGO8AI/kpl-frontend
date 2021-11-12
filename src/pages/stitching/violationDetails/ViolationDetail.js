@@ -714,7 +714,7 @@ function ViolationDetail(props) {
               </Grid>
               {/* IMAGE */}
               <Grid container item xs={12}>
-                {data && (
+                {link && (
                   <img
                     src={
                       link?.includes("webM")

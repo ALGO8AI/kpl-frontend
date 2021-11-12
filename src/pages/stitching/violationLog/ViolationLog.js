@@ -802,7 +802,7 @@ function ViolationLog1() {
               <Tab label="Feed Unavailable" {...a11yProps(0)} />
               <Tab label="Crowding Violation" {...a11yProps(1)} />
               <Tab label="Worker Violation" {...a11yProps(2)} />
-              <Tab label="Machine Violation" {...a11yProps(3)} />
+              <Tab label="Machine Breakdown" {...a11yProps(3)} />
               <Tab label="Worker Performance" {...a11yProps(4)} />
             </Tabs>
           </AppBar>
