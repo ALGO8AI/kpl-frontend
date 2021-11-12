@@ -19,6 +19,7 @@ import {
   violationByWorkerF,
   ctr_machineID,
   getMachineViolation,
+  getMachineBreakdown,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -148,11 +149,21 @@ function ViolationLog1() {
         payload: { data: feed.feedUnavailableData, loading: false },
       });
 
-      const machineVio = await getMachineViolation();
+      const machineBreak = await getMachineBreakdown();
+      dispatch({
+        type: "MACHINE_BREAKDOWN_VIO",
+        payload: {
+          data: machineBreak.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
+
+      const machineViolation = await getMachineViolation();
+      // console.log(machineBreak);
       dispatch({
         type: "MACHINE_VIO",
         payload: {
-          data: machineVio.machineBreakdownViolationtable,
+          data: machineViolation.machineViolationtable,
           loading: false,
         },
       });
@@ -198,6 +209,22 @@ function ViolationLog1() {
 
   const dateFilter = async () => {
     try {
+      const machineBreak = await getMachineBreakdown(
+        state.violationFrom,
+        state.violationTo,
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.machineID),
+        inputSHIFT
+      );
+      // console.log(machineBreak);
+      dispatch({
+        type: "MACHINE_BREAKDOWN_VIO",
+        payload: {
+          data: machineBreak.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
       const machineViolation = await getMachineViolation(
         state.violationFrom,
         state.violationTo,
@@ -206,11 +233,11 @@ function ViolationLog1() {
           : machineID.map((item) => item.machineID),
         inputSHIFT
       );
-      // console.log(machineViolation);
+      // console.log(machineBreak);
       dispatch({
         type: "MACHINE_VIO",
         payload: {
-          data: machineViolation.machineBreakdownViolationtable,
+          data: machineViolation.machineViolationtable,
           loading: false,
         },
       });
@@ -336,12 +363,22 @@ function ViolationLog1() {
       });
       // }
       // if (state.machine.loading) {
-      const machineVio = await getMachineViolation();
-      console.log(machineVio);
+      const machineBreak = await getMachineBreakdown();
+      // console.log(machineBreak);
+      dispatch({
+        type: "MACHINE_BREAKDOWN_VIO",
+        payload: {
+          data: machineBreak.machineBreakdownViolationtable,
+          loading: false,
+        },
+      });
+
+      const machineViolation = await getMachineViolation();
+      console.log(machineBreak);
       dispatch({
         type: "MACHINE_VIO",
         payload: {
-          data: machineVio.machineBreakdownViolationtable,
+          data: machineViolation.machineViolationtable,
           loading: false,
         },
       });
@@ -803,7 +840,8 @@ function ViolationLog1() {
               <Tab label="Crowding Violation" {...a11yProps(1)} />
               <Tab label="Worker Violation" {...a11yProps(2)} />
               <Tab label="Machine Breakdown" {...a11yProps(3)} />
-              <Tab label="Worker Performance" {...a11yProps(4)} />
+              <Tab label="Machine Violation" {...a11yProps(4)} />
+              <Tab label="Worker Performance" {...a11yProps(5)} />
             </Tabs>
           </AppBar>
 
@@ -1170,7 +1208,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={state.violationTab} index={4}>
+          <TabPanel value={state.violationTab} index={5}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <WorkerPerformanceTable
                 // title=""
@@ -1204,7 +1242,7 @@ function ViolationLog1() {
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 // title=""
-                data={state.machine.data}
+                data={state.machineBreakdown.data}
                 rowClick={rowClick}
                 columns={[
                   {
@@ -1270,6 +1308,98 @@ function ViolationLog1() {
 
                   { title: "Start Time", field: "startTime" },
                   { title: "End Time", field: "endTime" },
+                  {
+                    title: "Machine Id",
+                    field: "machineId",
+                  },
+                  {
+                    title: "Wing",
+                    field: "wing",
+                  },
+                  {
+                    title: "Shift",
+                    field: "shift",
+                  },
+                  // { title: "Violation Reason", field: "violationReason" },
+                  // { title: "Action", field: "actionStatus" },
+
+                  { title: "Supervisor Name", field: "supervisorName" },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+
+          <TabPanel value={state.violationTab} index={4}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                // title=""
+                data={state.machineViolation.data}
+                rowClick={rowClick}
+                columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/stitching/violationDetails/${rowData.id}`}
+                        // className={"Link-btn-red"}
+                        className={returnClassName(rowData.actionStatus)}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "mechineViolation");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Machine Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            returnStatus(rowData.actionStatus)
+                          );
+                        }}
+                      >
+                        {returnStatus(rowData.actionStatus)}
+                      </Link>
+                    ),
+                  },
+                  {
+                    title: "Violation Id",
+                    field: "id",
+                  },
+                  {
+                    title: "Date",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(new Date(rowData.Date_Hour))
+                        .format("DD/MM/YYYY")
+                        .toString();
+                      return NewDate;
+                    },
+                  },
+                  // {
+                  //   title: "Time",
+                  //   field: "DateTime",
+                  //   render: (rowData) => {
+                  //     const NewDate = moment(rowData.Date_Hour).format(
+                  //       "hh:mm a"
+                  //     );
+                  //     return NewDate;
+                  //   },
+                  // },
+                  {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
+                  {
+                    title: "Worker Id",
+                    field: "workerId",
+                  },
+                  // {
+                  //   title: "Breakdown (Mins.)",
+                  //   field: "OffMinutes",
+                  // },
+
+                  { title: "Start Time", field: "startTime" },
+                  { title: "End Time", field: "endTime" },
+                  { title: "Violation Duration", field: "violationDuration" },
                   {
                     title: "Machine Id",
                     field: "machineId",

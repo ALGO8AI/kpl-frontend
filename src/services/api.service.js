@@ -677,7 +677,7 @@ const AddWorkerChecking = async (data) => {
   console.log(data);
   return await callBackend("POST", "routes/addWorkerChecking", true, data);
 };
-const getMachineViolation = async (
+const getMachineBreakdown = async (
   filterDateFrom,
   filterDateTo,
   machineId,
@@ -693,6 +693,26 @@ const getMachineViolation = async (
   return await callBackend(
     "POST",
     "routes/KPI/violation/machineBreakdownViolationtable",
+    true,
+    data
+  );
+};
+export const getMachineViolation = async (
+  filterDateFrom,
+  filterDateTo,
+  machineId,
+  shifts
+) => {
+  const data = {
+    filterDateFrom,
+    filterDateTo,
+    machineId,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/KPI/violation/machineViolationtable",
     true,
     data
   );
@@ -1691,7 +1711,7 @@ export {
   ResetPassword,
   AddWorkerStitching,
   AddWorkerChecking,
-  getMachineViolation,
+  getMachineBreakdown,
   postMachineViolation,
   detailedSummaryByWorkerChecking,
   detailedSummaryByClpCtrChecking,
