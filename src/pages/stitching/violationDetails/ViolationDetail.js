@@ -694,8 +694,8 @@ function ViolationDetail(props) {
             <Grid container item xs={12} className="Details_CameraFeed">
               {/* DATE & ID */}
               <Grid ontainer item xs={12} className={"Header"}>
-                <h3 style={{ color: "white " }}>Violation Id : {props.id}</h3>
-                <p style={{ color: "white" }}>
+                <h3 style={{ color: "black " }}>Violation Id : {props.id}</h3>
+                <p style={{ color: "black" }}>
                   {data &&
                     moment(new Date(data.date))
                       .format("DD/MM/YYYY")
