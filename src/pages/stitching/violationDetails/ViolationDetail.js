@@ -572,6 +572,54 @@ function ViolationDetail(props) {
         "Upper Feeddog breakdown",
         "Upper Feeddog Setting",
       ]);
+
+    localStorage.getItem("VIOLATION-TYPE") === "Machine Breakdown" &&
+      setSelectDropdowndata([
+        "Ball Stud breakdown",
+        "Ball Stud Setting",
+        "Big Ball Stud breakdown",
+        "Big Ball Stud Setting",
+        "CAM breakdown",
+        "CAM Setting",
+        "Connecting rod breakdown",
+        "Connecting rod setting",
+        "Cross Looper breakdown",
+        "Cross Looper Setting",
+        "Electrical Issue",
+        "Feeddog breakdown",
+        "Feeddog Setting",
+        "Heat cutter Issue",
+        "High GSM setting issue",
+        "Looper breakdown",
+        "Looper Setting",
+        "Lower Feeddog breakdown",
+        "Lower Feeddog Setting",
+        "Machine Oil issue",
+        "Needle breakdown",
+        "Needle gaurd breakdown",
+        "Needle gaurd Setting",
+        "Needle holder breakdown",
+        "Needle holder Setting",
+        "Needle Setting",
+        "Other breakdown",
+        "Other Chukka Issue",
+        "Other Part setting issue",
+        "PP thread setting issue",
+        "Pressure foot breakdown",
+        "Pressure foot Setting",
+        "Screw breakdown",
+        "Screw Setting",
+        "Small Ball Stud breakdown",
+        "Small Ball Stud Setting",
+        "Spreader breakdown",
+        "Spreader lever breakdown",
+        "Spreader lever Setting",
+        "Spreader Setting",
+        "Throat plate breakdown",
+        "Throat plate Setting",
+        "Upper Feeddog breakdown",
+        "Upper Feeddog Setting",
+      ]);
   };
 
   useEffect(() => {
@@ -791,6 +839,30 @@ function ViolationDetail(props) {
                 {data?.CTR && (
                   <NameValue name="CTR NO." value={data && data.CTR} />
                 )}
+
+                {data?.ctr && (
+                  <NameValue name="CTR NO." value={data && data.ctr} />
+                )}
+
+                {data?.startTimestamp && (
+                  <NameValue
+                    name="START TIME"
+                    value={
+                      data &&
+                      new Date(data?.startTimestamp).toLocaleTimeString()
+                    }
+                  />
+                )}
+
+                {data?.endTimestamp && (
+                  <NameValue
+                    name="END TIME"
+                    value={
+                      data && new Date(data?.endTimestamp).toLocaleTimeString()
+                    }
+                  />
+                )}
+
                 {/* WING */}
                 {data?.wing && (
                   <NameValue name="WING" value={data && data.wing} />

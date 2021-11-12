@@ -1254,10 +1254,10 @@ function ViolationLog1() {
                         // className={"Link-btn-red"}
                         className={returnClassName(rowData.actionStatus)}
                         onClick={() => {
-                          localStorage.setItem("VIOLATION", "mechineViolation");
+                          localStorage.setItem("VIOLATION", "mechineBreakdown");
                           localStorage.setItem(
                             "VIOLATION-TYPE",
-                            "Machine Violation"
+                            "Machine Breakdown"
                           );
                           localStorage.setItem(
                             "VIOLATION-STATUS",
