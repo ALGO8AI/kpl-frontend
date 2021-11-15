@@ -607,8 +607,9 @@ function NotificationLog() {
                   Toolbar: GridToolbar,
                 }}
                 // rows={data}
-                rows={data?.workerData?.map((row, i) => {
+                rows={data?.machineViolation?.map((row, i) => {
                   const {
+                    id,
                     Date_Hour,
                     confirmStatus,
                     status,
@@ -617,7 +618,8 @@ function NotificationLog() {
                   } = row;
                   return {
                     id: i,
-                    Date_Hour: moment(new Date(Date_Hour))
+                    Id: id,
+                    Date: moment(new Date(Date_Hour))
                       .format("DD/MM/YYYY")
                       .toString(),
                     confirmStatus: Boolean(confirmStatus) ? "True" : "False",
@@ -630,9 +632,9 @@ function NotificationLog() {
                   };
                 })}
                 columns={[
-                  { field: "id", headerName: "Violation ID", width: 180 },
-                  { field: "Date_Hour", headerName: "Date", width: 150 },
-                  { field: "workerID", headerName: "Worker ID", width: 180 },
+                  { field: "Id", headerName: "Violation ID", width: 180 },
+                  { field: "Date", headerName: "Date", width: 150 },
+                  { field: "workerId", headerName: "Worker ID", width: 180 },
                   {
                     field: "workerName",
                     headerName: "Worker Name",
@@ -749,7 +751,7 @@ function NotificationLog() {
           )}
         </TabPanel>
         <TabPanel value={value} index={4}>
-          {data?.machineViolation?.length > 0 && (
+          {data?.machineBreakdown?.length > 0 && (
             <Grid
               container
               item
@@ -761,8 +763,9 @@ function NotificationLog() {
                   Toolbar: GridToolbar,
                 }}
                 // rows={data}
-                rows={data?.workerData?.map((row, i) => {
+                rows={data?.machineBreakdown?.map((row, i) => {
                   const {
+                    id,
                     Date_Hour,
                     confirmStatus,
                     status,
@@ -771,7 +774,8 @@ function NotificationLog() {
                   } = row;
                   return {
                     id: i,
-                    Date_Hour: moment(new Date(Date_Hour))
+                    Id: id,
+                    Date: moment(new Date(Date_Hour))
                       .format("DD/MM/YYYY")
                       .toString(),
                     confirmStatus: Boolean(confirmStatus) ? "True" : "False",
@@ -784,9 +788,9 @@ function NotificationLog() {
                   };
                 })}
                 columns={[
-                  { field: "id", headerName: "Violation ID", width: 180 },
-                  { field: "Date_Hour", headerName: "Date", width: 150 },
-                  { field: "workerID", headerName: "Worker ID", width: 180 },
+                  { field: "Id", headerName: "Violation ID", width: 180 },
+                  { field: "Date", headerName: "Date", width: 150 },
+                  { field: "workerId", headerName: "Worker ID", width: 180 },
                   {
                     field: "workerName",
                     headerName: "Worker Name",
