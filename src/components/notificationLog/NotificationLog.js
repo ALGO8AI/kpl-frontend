@@ -148,7 +148,8 @@ function NotificationLog() {
             <Tab label="Feed Data" {...a11yProps(0)} />
             <Tab label="Crowd Data" {...a11yProps(1)} />
             <Tab label="Worker Data" {...a11yProps(2)} />
-            <Tab label="Machine Data" {...a11yProps(3)} />
+            <Tab label="Machine Violation" {...a11yProps(3)} />
+            <Tab label="Machine Breakdown" {...a11yProps(4)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -594,7 +595,312 @@ function NotificationLog() {
           )}
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Typography variant="h5">Machine Logs</Typography>
+          {data?.machineViolation?.length > 0 && (
+            <Grid
+              container
+              item
+              xs={12}
+              style={{ height: "700px", width: "100%" }}
+            >
+              <DataGrid
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+                // rows={data}
+                rows={data?.workerData?.map((row, i) => {
+                  const {
+                    Date_Hour,
+                    confirmStatus,
+                    status,
+                    incorrectStatus,
+                    ...rest
+                  } = row;
+                  return {
+                    id: i,
+                    Date_Hour: moment(new Date(Date_Hour))
+                      .format("DD/MM/YYYY")
+                      .toString(),
+                    confirmStatus: Boolean(confirmStatus) ? "True" : "False",
+                    status: Boolean(status) ? "True" : "False",
+                    incorrectStatus: Boolean(incorrectStatus)
+                      ? "True"
+                      : "False",
+
+                    ...rest,
+                  };
+                })}
+                columns={[
+                  { field: "id", headerName: "Violation ID", width: 180 },
+                  { field: "Date_Hour", headerName: "Date", width: 150 },
+                  { field: "workerID", headerName: "Worker ID", width: 180 },
+                  {
+                    field: "workerName",
+                    headerName: "Worker Name",
+                    width: 180,
+                  },
+                  { field: "wing", headerName: "Wing", width: 120 },
+
+                  { field: "machineId", headerName: "Machine ID", width: 150 },
+
+                  { field: "startTime", headerName: "Start Time", width: 150 },
+                  { field: "endTime", headerName: "End Time", width: 150 },
+                  // { field: "uuid", headerName: "Unique ID", width: 240 },
+
+                  // {
+                  //   field: "UnavailableDuration",
+                  //   headerName: "UnavailableDuration",
+                  //   width: 210,
+                  // },
+
+                  // {
+                  //   field: "video",
+                  //   headerName: "Video",
+                  //   width: 150,
+                  //   hide: "true",
+                  // },
+                  // {
+                  //   field: "img",
+                  //   headerName: "Image",
+                  //   width: 150,
+                  //   hide: "true",
+                  // },
+                  {
+                    field: "status",
+                    headerName: "Status",
+                    width: 180,
+                    cellClassName: (params) =>
+                      clsx({
+                        negative: params.value == "false",
+                        positive: params.value == "true",
+                      }),
+                  },
+
+                  // {
+                  //   field: "query",
+                  //   headerName: "Violation Status",
+                  //   width: 210,
+                  // },
+                  { field: "shift", headerName: "Shift", width: 120 },
+                  { field: "ctr", headerName: "CTR", width: 120 },
+                  {
+                    field: "supervisorName",
+                    headerName: "Supervisor Name",
+                    width: 210,
+                  },
+                  {
+                    field: "violationReason",
+                    headerName: "Violation Reason",
+                    width: 210,
+                  },
+                  {
+                    field: "ViolationDuration",
+                    headerName: "Violation Duration",
+                    width: 210,
+                  },
+                  {
+                    field: "action",
+                    headerName: "Action",
+                    width: 180,
+                  },
+                  {
+                    field: "actionStatus",
+                    headerName: "Action Status",
+                    width: 180,
+                  },
+                  {
+                    field: "confirmStatus",
+                    headerName: "Confirm Status",
+                    width: 180,
+                    cellClassName: (params) =>
+                      clsx({
+                        negative: params.value == "false",
+                        positive: params.value == "true",
+                      }),
+                  },
+                  {
+                    field: "incorrectStatus",
+                    headerName: "Incorrect Status",
+                    width: 180,
+                    cellClassName: (params) =>
+                      clsx({
+                        negative: params.value == "false",
+                        positive: params.value == "true",
+                      }),
+                  },
+                  {
+                    field: "incorrectViolationReason",
+                    headerName: "Incorrect Violation Reason",
+                    width: 270,
+                  },
+                  {
+                    field: "communicatedTo",
+                    headerName: "Communicated To",
+                    width: 210,
+                  },
+                  {
+                    field: "reassignedSupervisor",
+                    headerName: "Reassigned Supervisor",
+                    width: 240,
+                  },
+                ]}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+          )}
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          {data?.machineViolation?.length > 0 && (
+            <Grid
+              container
+              item
+              xs={12}
+              style={{ height: "700px", width: "100%" }}
+            >
+              <DataGrid
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+                // rows={data}
+                rows={data?.workerData?.map((row, i) => {
+                  const {
+                    Date_Hour,
+                    confirmStatus,
+                    status,
+                    incorrectStatus,
+                    ...rest
+                  } = row;
+                  return {
+                    id: i,
+                    Date_Hour: moment(new Date(Date_Hour))
+                      .format("DD/MM/YYYY")
+                      .toString(),
+                    confirmStatus: Boolean(confirmStatus) ? "True" : "False",
+                    status: Boolean(status) ? "True" : "False",
+                    incorrectStatus: Boolean(incorrectStatus)
+                      ? "True"
+                      : "False",
+
+                    ...rest,
+                  };
+                })}
+                columns={[
+                  { field: "id", headerName: "Violation ID", width: 180 },
+                  { field: "Date_Hour", headerName: "Date", width: 150 },
+                  { field: "workerID", headerName: "Worker ID", width: 180 },
+                  {
+                    field: "workerName",
+                    headerName: "Worker Name",
+                    width: 180,
+                  },
+                  { field: "wing", headerName: "Wing", width: 120 },
+
+                  { field: "machineId", headerName: "Machine ID", width: 150 },
+
+                  { field: "startTime", headerName: "Start Time", width: 150 },
+                  { field: "endTime", headerName: "End Time", width: 150 },
+                  // { field: "uuid", headerName: "Unique ID", width: 240 },
+
+                  // {
+                  //   field: "UnavailableDuration",
+                  //   headerName: "UnavailableDuration",
+                  //   width: 210,
+                  // },
+
+                  // {
+                  //   field: "video",
+                  //   headerName: "Video",
+                  //   width: 150,
+                  //   hide: "true",
+                  // },
+                  // {
+                  //   field: "img",
+                  //   headerName: "Image",
+                  //   width: 150,
+                  //   hide: "true",
+                  // },
+                  {
+                    field: "status",
+                    headerName: "Status",
+                    width: 180,
+                    cellClassName: (params) =>
+                      clsx({
+                        negative: params.value == "false",
+                        positive: params.value == "true",
+                      }),
+                  },
+
+                  // {
+                  //   field: "query",
+                  //   headerName: "Violation Status",
+                  //   width: 210,
+                  // },
+                  { field: "shift", headerName: "Shift", width: 120 },
+                  { field: "ctr", headerName: "CTR", width: 120 },
+                  {
+                    field: "supervisorName",
+                    headerName: "Supervisor Name",
+                    width: 210,
+                  },
+                  {
+                    field: "violationReason",
+                    headerName: "Violation Reason",
+                    width: 210,
+                  },
+                  {
+                    field: "ViolationDuration",
+                    headerName: "Violation Duration",
+                    width: 210,
+                  },
+                  {
+                    field: "action",
+                    headerName: "Action",
+                    width: 180,
+                  },
+                  {
+                    field: "actionStatus",
+                    headerName: "Action Status",
+                    width: 180,
+                  },
+                  {
+                    field: "confirmStatus",
+                    headerName: "Confirm Status",
+                    width: 180,
+                    cellClassName: (params) =>
+                      clsx({
+                        negative: params.value == "false",
+                        positive: params.value == "true",
+                      }),
+                  },
+                  {
+                    field: "incorrectStatus",
+                    headerName: "Incorrect Status",
+                    width: 180,
+                    cellClassName: (params) =>
+                      clsx({
+                        negative: params.value == "false",
+                        positive: params.value == "true",
+                      }),
+                  },
+                  {
+                    field: "incorrectViolationReason",
+                    headerName: "Incorrect Violation Reason",
+                    width: 270,
+                  },
+                  {
+                    field: "communicatedTo",
+                    headerName: "Communicated To",
+                    width: 210,
+                  },
+                  {
+                    field: "reassignedSupervisor",
+                    headerName: "Reassigned Supervisor",
+                    width: 240,
+                  },
+                ]}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+          )}
         </TabPanel>
       </Grid>
 
