@@ -771,6 +771,7 @@ function OperatorSchedule(props) {
                   />
                 }
                 label="Machine Status"
+                disabled
               />
             </Grid>
           </Grid>
