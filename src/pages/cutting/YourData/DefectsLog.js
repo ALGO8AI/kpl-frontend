@@ -182,29 +182,32 @@ function DefectsLog() {
                   {
                     field: "rollBarcodeNumber",
                     headerName: "Roll Barcode Number",
-                    width: 210,
+                    width: 270,
                   },
-                  { field: "rollId", headerName: "Roll ID", width: 180 },
-                  {
-                    field: "rollCategory",
-                    headerName: "Roll Category",
-                    width: 180,
-                  },
+                  { field: "machineId", headerName: "Machine ID", width: 150 },
                   {
                     field: "rollLenght",
                     headerName: "Roll Length",
                     width: 240,
                   },
                   {
+                    field: "rollCategory",
+                    headerName: "Fabric Category",
+                    width: 180,
+                  },
+
+                  // { field: "rollId", headerName: "Roll ID", width: 180 },
+
+                  {
                     field: "wasteLength",
-                    headerName: "Waste Length",
-                    width: 150,
+                    headerName: "Wastage (m)",
+                    width: 210,
                     // hide: "true",
                   },
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 150,
+                    width: 240,
                   },
                   {
                     field: "operatorId",
@@ -216,7 +219,6 @@ function DefectsLog() {
                     headerName: "Operator Name",
                     width: 180,
                   },
-                  { field: "machineId", headerName: "Machine ID", width: 150 },
 
                   {
                     field: "acceptance",
@@ -233,7 +235,7 @@ function DefectsLog() {
                   {
                     field: "actionStatus",
                     headerName: "Action Status",
-                    width: 150,
+                    width: 210,
                   },
                 ]}
                 style={{ width: "100%" }}

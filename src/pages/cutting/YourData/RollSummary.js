@@ -205,8 +205,12 @@ function RollSummary() {
                   headerName: "Worker Name",
                   width: 180,
                 },
-                { field: "StartTime", headerName: "Start Time", width: 150 },
-                { field: "EndTime", headerName: "End Time", width: 150 },
+                {
+                  field: "StartTime",
+                  headerName: "Roll Start Time",
+                  width: 210,
+                },
+                { field: "EndTime", headerName: "Roll End Time", width: 210 },
 
                 {
                   field: "UnavailableDuration",

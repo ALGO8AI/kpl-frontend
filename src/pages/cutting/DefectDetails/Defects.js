@@ -19,6 +19,7 @@ import {
   violationByWorkerF,
   ctr_machineID,
   getMachineViolation,
+  getFabricList,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -112,6 +113,7 @@ function Defects() {
   const [fabricCategory, setInputFabric] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [fabricList, setFabricList] = useState([]);
 
   const getFirstDay_LastDay = async () => {
     var myDate = new Date();
@@ -142,6 +144,8 @@ function Defects() {
           loading: false,
         },
       });
+      const fabrics = await getFabricList();
+      setFabricList(fabrics.data);
     } catch (e) {}
   };
 
@@ -238,9 +242,9 @@ function Defects() {
                 label="Fabric Category"
                 // multiple
               >
-                {["f1", "f2"].map((item, index) => (
-                  <MenuItem value={item} key={index}>
-                    {item}
+                {fabricList?.map((item, index) => (
+                  <MenuItem value={item?.category} key={index}>
+                    {item?.category}
                   </MenuItem>
                 ))}
               </Select>
@@ -370,7 +374,7 @@ function Defects() {
           >
             <Button
               variant="contained"
-              color="primary"
+              // color="primary"
               style={{ margin: "10px" }}
               onClick={() => {
                 fetchData();
@@ -409,7 +413,7 @@ function Defects() {
                 columns={[
                   {
                     field: "view",
-                    title: "Details",
+                    title: "Defect Status",
                     render: (rowData) => (
                       <Link
                         to={`/cutting/violationDetails/${rowData.Id}`}
@@ -442,22 +446,21 @@ function Defects() {
                     },
                   },
                   { title: "Time", field: "time" },
-                  { title: "Operator Id", field: "operatorId" },
-                  { title: "Operator Name", field: "operatorName" },
-                  { title: "Roll ID", field: "rollId" },
-
                   {
                     title: "Roll Barcode No.",
                     field: "rollBarcodeNumber",
                   },
-                  { title: "Roll Length", field: "rollLenght" },
-                  { title: "Roll Category", field: "rollCategory" },
+                  // { title: "Roll ID", field: "rollId" },
                   { title: "Machine ID", field: "machineId" },
-
+                  { title: "Roll Category", field: "rollCategory" },
                   { title: "Acceptance", field: "acceptance" },
-
-                  { title: "Waste Length", field: "wasteLength" },
+                  { title: "Roll Length", field: "rollLenght" },
+                  { title: "Wastage (m)", field: "wasteLength" },
                   { title: "Shift", field: "shift" },
+                  { title: "Operator Name", field: "operatorName" },
+
+                  // { title: "Operator Id", field: "operatorId" },
+
                   // { title: "status", field: "Status" },
                   // { title: "Action Status", field: "actionStatus" },
                   // { title: "Supervisor Name", field: "supervisorName" },

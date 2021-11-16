@@ -36,8 +36,8 @@ function RollDialog({ open, handleCloseCTR }) {
     CtrNo: "",
     FabricRollNo: "",
     bodyPart: "",
-    startTime: "",
-    startDate: "",
+    startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
+    startDate: new Date().toISOString().slice(0, 10),
     // startTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
     // startDate: new Date().toISOString().slice(0, 10),
   });
@@ -122,6 +122,49 @@ function RollDialog({ open, handleCloseCTR }) {
           <DialogContentText id="alert-dialog-description">
             <Grid container spacing={1} style={{ width: "320px" }}>
               <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="time"
+                  label="Start Date"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={selectedData.startDate}
+                  onChange={(e) =>
+                    setSelectedData({
+                      ...selectedData,
+                      startDate: e.target.value,
+                    })
+                  }
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="time"
+                  label="Start Time"
+                  type="time"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    step: 300, // 5 min
+                  }}
+                  defaultValue={selectedData.startTime}
+                  onChange={(e) =>
+                    setSelectedData({
+                      ...selectedData,
+                      startTime: e.target.value,
+                    })
+                  }
+                />
+              </Grid>
+
+              <Grid item xs={12}>
                 <Autocomplete
                   id="combo-box-demo"
                   options={unassignedData}
@@ -145,6 +188,15 @@ function RollDialog({ open, handleCloseCTR }) {
                       CtrNo: unassignedData[current]?.CtrNo,
                       id: unassignedData[current]?.id,
                     });
+                    console.log([
+                      ...new Set(
+                        unassignedData
+                          .filter(
+                            (i) => i.CtrNo === unassignedData[current]?.CtrNo
+                          )
+                          .map((item) => item.bodyPart)
+                      ),
+                    ]);
                   }}
                 />
                 {/* <FormControl variant="outlined" fullWidth>
@@ -189,13 +241,17 @@ function RollDialog({ open, handleCloseCTR }) {
                         })
                       }
                     >
-                      {unassignedData
-                        .filter((i) => i.CtrNo === selectedData.CtrNo)
-                        ?.map((item, i) => (
-                          <MenuItem value={item.bodyPart} key={i}>
-                            {item.bodyPart}
-                          </MenuItem>
-                        ))}
+                      {[
+                        ...new Set(
+                          unassignedData
+                            .filter((i) => i.CtrNo === selectedData.CtrNo)
+                            .map((item) => item.bodyPart)
+                        ),
+                      ]?.map((item, i) => (
+                        <MenuItem value={item} key={i}>
+                          {item}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -233,52 +289,6 @@ function RollDialog({ open, handleCloseCTR }) {
                         ))}
                     </Select>
                   </FormControl>
-                </Grid>
-              )}
-              {selectedData.FabricRollNo && (
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    id="time"
-                    label="Start Date"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={selectedData.startDate}
-                    onChange={(e) =>
-                      setSelectedData({
-                        ...selectedData,
-                        startDate: e.target.value,
-                      })
-                    }
-                  />
-                </Grid>
-              )}
-
-              {selectedData.startDate && (
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    id="time"
-                    label="Start Time"
-                    type="time"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      step: 300, // 5 min
-                    }}
-                    defaultValue={selectedData.startTime}
-                    onChange={(e) =>
-                      setSelectedData({
-                        ...selectedData,
-                        startTime: e.target.value,
-                      })
-                    }
-                  />
                 </Grid>
               )}
             </Grid>

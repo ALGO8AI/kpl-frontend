@@ -684,7 +684,7 @@ function OperatorSchedule(props) {
         style={{ width: "900px", margin: "auto" }}
       >
         <DialogTitle id="alert-dialog-title">
-          {"UPDATE WORKER SCHEDULE"}
+          {"UPDATE OPERATOR SCHEDULE"}
         </DialogTitle>
         <DialogContentText id="alert-dialog-description">
           <Grid container item style={{ padding: "12px", minWidth: "600px" }}>
@@ -745,6 +745,7 @@ function OperatorSchedule(props) {
                   setScheduleData({ ...scheduleData, shift: e.target.value })
                 }
                 fullWidth
+                disabled
               />
             </Grid>
             <Grid

@@ -792,11 +792,18 @@ function DefectDetails(props) {
                     value={data && data?.machineId}
                   />
                 )}
-                {/* ROLL BARCODE */}
-                {data?.rollBarcodeNumbe && (
+                {/* ROLL BARCODE NUMBER*/}
+                {data?.rollBarcodeNumber && (
                   <NameValue
                     name="ROLL BARCODE NO."
-                    value={data && data?.rollBarcodeNumbe}
+                    value={data && data.rollBarcodeNumber}
+                  />
+                )}
+                {/* ROLL CATEGORY */}
+                {data?.rollCategory && (
+                  <NameValue
+                    name="ROLL CATEGORY"
+                    value={data && data?.rollCategory}
                   />
                 )}
                 {/* CTR */}

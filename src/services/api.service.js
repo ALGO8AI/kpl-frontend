@@ -929,7 +929,7 @@ const updateStitchingWorkerSchedule = async (datas) => {
     shift: datas.shift,
     wing: datas.wing,
     machineId: datas.machineId,
-    machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
+    machineOnOffStatus: datas.machineOnOff ? 1 : 0,
     id: datas.id,
   };
   return await callBackend(
@@ -1663,6 +1663,13 @@ const tailorSummary = async (fromDate, toDate, ctr, table, shifts) => {
   );
 };
 
+const getFabricList = async () => {
+  return await callBackend(
+    "GET",
+    "routes/cutting/KPI/home/distinctFabricCategory"
+  );
+};
+
 export {
   login,
   getViolation,
@@ -1784,4 +1791,5 @@ export {
   addStitchingWorkerSchedule,
   addCheckingWorkerSchedule,
   tailorSummary,
+  getFabricList,
 };
