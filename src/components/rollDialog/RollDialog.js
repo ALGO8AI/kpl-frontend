@@ -188,40 +188,8 @@ function RollDialog({ open, handleCloseCTR }) {
                       CtrNo: unassignedData[current]?.CtrNo,
                       id: unassignedData[current]?.id,
                     });
-                    console.log([
-                      ...new Set(
-                        unassignedData
-                          .filter(
-                            (i) => i.CtrNo === unassignedData[current]?.CtrNo
-                          )
-                          .map((item) => item.bodyPart)
-                      ),
-                    ]);
                   }}
                 />
-                {/* <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Select CTR
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    label="Select CTR"
-                    value={selectedData.CtrNo}
-                    onChange={(e) =>
-                      setSelectedData({
-                        ...selectedData,
-                        CtrNo: e.target.value,
-                      })
-                    }
-                  >
-                    {unassignedData?.map((item, i) => (
-                      <MenuItem value={item.CtrNo} key={i}>
-                        {item.Clp}+{item.CtrNo}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl> */}
               </Grid>
               {selectedData.CtrNo && (
                 <Grid item xs={12}>
@@ -234,12 +202,23 @@ function RollDialog({ open, handleCloseCTR }) {
                       id="demo-simple-select-outlined"
                       label="Select Bodypart"
                       value={selectedData.bodyPart}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setSelectedData({
                           ...selectedData,
                           bodyPart: e.target.value,
-                        })
-                      }
+                        });
+                        console.log([
+                          ...new Set(
+                            unassignedData
+                              .filter(
+                                (i) =>
+                                  i.bodyPart === e.target.value &&
+                                  i.CtrNo === selectedData.CtrNo
+                              )
+                              .map((i) => i.FabricRollNo)
+                          ),
+                        ]);
+                      }}
                     >
                       {[
                         ...new Set(
@@ -276,7 +255,22 @@ function RollDialog({ open, handleCloseCTR }) {
                       }
                     >
                       {/* <MenuItem value={"enter manually"}>Enter Manually</MenuItem> */}
-                      {unassignedData
+                      {[
+                        ...new Set(
+                          unassignedData
+                            .filter(
+                              (i) =>
+                                i.bodyPart === selectedData.bodyPart &&
+                                i.CtrNo === selectedData.CtrNo
+                            )
+                            .map((i) => i.FabricRollNo)
+                        ),
+                      ].map((item, index) => (
+                        <MenuItem value={item} key={index}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                      {/* {unassignedData
                         .filter(
                           (i) =>
                             i.bodyPart === selectedData.bodyPart &&
@@ -286,7 +280,7 @@ function RollDialog({ open, handleCloseCTR }) {
                           <MenuItem value={item.FabricRollNo} key={i}>
                             {item.FabricRollNo}
                           </MenuItem>
-                        ))}
+                        ))} */}
                     </Select>
                   </FormControl>
                 </Grid>

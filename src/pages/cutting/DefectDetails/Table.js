@@ -23,6 +23,10 @@ function Table({ data, columns, rowClick, selectedRow }) {
           data={data}
           options={{
             exportButton: true,
+            optionsexportButton: {
+              csv: false,
+              pdf: false,
+            },
             pageSizeOptions: [20, 50, 100, 200, data.length],
             pageSize: 20,
             rowStyle: (rowData) => ({

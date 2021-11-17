@@ -231,7 +231,7 @@ function Defects() {
               fullWidth
             >
               <InputLabel id="demo-simple-select-outlined-label">
-                Fabric Category
+                Roll Category
               </InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"

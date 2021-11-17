@@ -192,7 +192,7 @@ function DefectsLog() {
                   },
                   {
                     field: "rollCategory",
-                    headerName: "Fabric Category",
+                    headerName: "Roll Category",
                     width: 180,
                   },
 
