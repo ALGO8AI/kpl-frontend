@@ -702,7 +702,7 @@ function NotificationLog() {
                     width: 210,
                   },
                   {
-                    field: "ViolationDuration",
+                    field: "violationDuration",
                     headerName: "Violation Duration",
                     width: 210,
                   },
@@ -858,7 +858,7 @@ function NotificationLog() {
                     width: 210,
                   },
                   {
-                    field: "ViolationDuration",
+                    field: "violationDuration",
                     headerName: "Violation Duration",
                     width: 210,
                   },
