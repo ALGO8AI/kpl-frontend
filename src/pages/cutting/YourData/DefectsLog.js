@@ -166,9 +166,10 @@ function DefectsLog() {
                 }}
                 // rows={data}
                 rows={data?.map((row, i) => {
-                  const { date, ...rest } = row;
+                  const { date, acceptance, ...rest } = row;
                   return {
                     id: i,
+                    acceptance: Boolean(Number(acceptance)) ? "Yes" : "No",
                     DateTime: moment(new Date(date))
                       .format("DD/MM/YYYY")
                       .toString(),
@@ -222,8 +223,8 @@ function DefectsLog() {
 
                   {
                     field: "acceptance",
-                    headerName: "Aceptance",
-                    width: 150,
+                    headerName: "Acceptance",
+                    width: 180,
                   },
 
                   { field: "shift", headerName: "Shift", width: 150 },
