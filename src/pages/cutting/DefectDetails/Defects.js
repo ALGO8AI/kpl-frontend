@@ -453,7 +453,13 @@ function Defects() {
                   // { title: "Roll ID", field: "rollId" },
                   { title: "Machine ID", field: "machineId" },
                   { title: "Roll Category", field: "rollCategory" },
-                  { title: "Acceptance", field: "acceptance" },
+                  {
+                    title: "Acceptance",
+                    field: "acceptance",
+                    render: (x) => {
+                      return Boolean(Number(x.acceptance)) ? "Yes" : "No";
+                    },
+                  },
                   { title: "Roll Length", field: "rollLenght" },
                   { title: "Wastage (m)", field: "wasteLength" },
                   { title: "Shift", field: "shift" },

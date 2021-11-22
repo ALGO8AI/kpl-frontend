@@ -168,29 +168,50 @@ function OperatorSchedule(props) {
   const addSchedule = async () => {
     try {
       const resp = await addScheduleDetail(scheduleInput);
-      if (resp?.msg === "Successfully New Schedule Updated") {
-        setMsg(resp.msg);
-        setSeverity("success");
-        setOpen(true);
-        refreshData();
-      }
+      loadData();
+
+      // if (resp?.msg === "Successfully New Schedule Updated") {
+      setMsg(resp.msg);
+      setSeverity("success");
+      setOpen(true);
+      setScheduleInput({
+        operatorId: "",
+        operatorName: "",
+        date: "",
+        wing: "",
+        shift: "",
+        machineId: "",
+        machineOnOff: 0,
+      });
+      // refreshData();
+      // }
     } catch (e) {}
   };
 
-  const deleteSchedule = async () => {
-    try {
-      const formData = {
-        id: scheduleData?.id,
-      };
-      console.log(formData);
-      const resp = await deleteOperatorSchedule(formData);
-      if (resp?.msg === "successfully updated") {
-        setMsg(resp.msg);
-        setSeverity("success");
-        setOpen(true);
-        refreshData();
-      }
-    } catch (e) {}
+  const deleteSchedule = async (id) => {
+    const permission = window.confirm(
+      "Are you sure you want to delete the schedule ?"
+    );
+    if (permission) {
+      try {
+        const formData = {
+          id: id,
+        };
+        // console.log(formData);
+        const resp = await deleteOperatorSchedule(formData);
+        if (resp?.msg === "successfully updated") {
+          loadData();
+          setMsg("Successfully Deleted");
+          setSeverity("success");
+          setOpen(true);
+          refreshData();
+        }
+      } catch (e) {}
+    } else {
+      setMsg("Operation Cancelled");
+      setSeverity("error");
+      setOpen(true);
+    }
   };
 
   const [columns, setColumns] = useState([
@@ -219,7 +240,7 @@ function OperatorSchedule(props) {
       render: (x) => (Boolean(x.machineOnOff) ? "On" : "Off"),
     },
     {
-      title: "Edit",
+      title: "Delete",
       render: (x) => (
         <button
           style={{
@@ -232,24 +253,44 @@ function OperatorSchedule(props) {
             cursor: "pointer",
             fontSize: "1rem",
           }}
-          onClick={() => {
-            handleClickOpenDialog();
-            setScheduleData({
-              date: new Date(x.Date).toISOString().slice(0, 10),
-              operatorId: x.operatorId,
-              operatorName: x.operatorName,
-              shift: x.shift,
-              wing: x.wing,
-              machineId: x.machineId,
-              machineOnOff: Boolean(x.machineOnOff),
-              id: x.id,
-            });
-          }}
+          onClick={() => deleteSchedule(x.id)}
         >
-          EDIT
+          Delete
         </button>
       ),
     },
+    // {
+    //   title: "Edit",
+    //   render: (x) => (
+    // <button
+    //   style={{
+    //     color: "#0e4a7b",
+    //     textDecoration: "underline",
+    //     backgroundColor: "white",
+    //     padding: "8px 16px",
+    //     border: "none",
+    //     outline: "none",
+    //     cursor: "pointer",
+    //     fontSize: "1rem",
+    //   }}
+    //       onClick={() => {
+    //         handleClickOpenDialog();
+    //         setScheduleData({
+    //           date: new Date(x.Date).toISOString().slice(0, 10),
+    //           operatorId: x.operatorId,
+    //           operatorName: x.operatorName,
+    //           shift: x.shift,
+    //           wing: x.wing,
+    //           machineId: x.machineId,
+    //           machineOnOff: Boolean(x.machineOnOff),
+    //           id: x.id,
+    //         });
+    //       }}
+    //     >
+    //       EDIT
+    //     </button>
+    //   ),
+    // },
   ]);
 
   const [data, setData] = useState([]);
