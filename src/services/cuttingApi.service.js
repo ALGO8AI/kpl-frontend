@@ -75,6 +75,15 @@ export const getCuttingOperatorSchedule = async () => {
   return await callBackend("GET", "routes/cutting/schedule/scheduleDetail");
 };
 
+export const deleteOperatorSchedule = async (formData) => {
+  return await callBackend(
+    "POST",
+    "routes/addScheduleDetailCutting/delete",
+    true,
+    formData
+  );
+};
+
 export const defectViolation = async (
   fromDate,
   toDate,
@@ -204,3 +213,7 @@ export const updateRoll = async (data) => {
 export const closeRoll = async (data) => {
   return await callBackend("POST", "routes/roll/closeRoll", true, data);
 };
+
+// export const rollSummary = async (data) => {
+//   return await callBackend("POST", "routes/cutting/notifLog", true, data);
+// };

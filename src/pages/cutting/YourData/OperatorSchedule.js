@@ -32,6 +32,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
 } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -40,6 +41,7 @@ import moment from "moment";
 import {
   addScheduleDetail,
   cuttingOperator,
+  deleteOperatorSchedule,
   getCuttingOperatorCopy,
   getCuttingOperatorSchedule,
 } from "../../../services/cuttingApi.service";
@@ -167,6 +169,22 @@ function OperatorSchedule(props) {
     try {
       const resp = await addScheduleDetail(scheduleInput);
       if (resp?.msg === "Successfully New Schedule Updated") {
+        setMsg(resp.msg);
+        setSeverity("success");
+        setOpen(true);
+        refreshData();
+      }
+    } catch (e) {}
+  };
+
+  const deleteSchedule = async () => {
+    try {
+      const formData = {
+        id: scheduleData?.id,
+      };
+      console.log(formData);
+      const resp = await deleteOperatorSchedule(formData);
+      if (resp?.msg === "successfully updated") {
         setMsg(resp.msg);
         setSeverity("success");
         setOpen(true);
@@ -683,9 +701,27 @@ function OperatorSchedule(props) {
         aria-describedby="alert-dialog-description"
         style={{ width: "900px", margin: "auto" }}
       >
-        <DialogTitle id="alert-dialog-title">
-          {"UPDATE OPERATOR SCHEDULE"}
-        </DialogTitle>
+        <Grid
+          xs={12}
+          container
+          item
+          id="alert-dialog-title"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: "12px",
+          }}
+        >
+          <Typography variant="h6">{"UPDATE OPERATOR SCHEDULE"}</Typography>
+          <Button
+            onClick={deleteSchedule}
+            variant="contained"
+            color="secondary"
+          >
+            DELETE
+          </Button>
+        </Grid>
         <DialogContentText id="alert-dialog-description">
           <Grid container item style={{ padding: "12px", minWidth: "600px" }}>
             <Grid md={6} style={{ padding: "12px" }}>
@@ -781,7 +817,7 @@ function OperatorSchedule(props) {
           <Button
             onClick={handleCloseDialog}
             variant="contained"
-            color="secondary"
+            // color="secondary"
           >
             CANCEL
           </Button>

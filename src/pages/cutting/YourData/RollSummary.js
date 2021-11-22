@@ -16,6 +16,10 @@ import moment from "moment";
 import React from "react";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { getNotificationLog } from "../../../services/api.service";
+import {
+  notificationLogs,
+  rollSummary,
+} from "../../../services/cuttingApi.service";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,15 +62,16 @@ function RollSummary() {
     setValue(newValue);
   };
 
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState([]);
   const [filterDateFrom, setFilterDateFrom] = React.useState();
   const [filterDateTo, setFilterDateTo] = React.useState();
 
   const getLogs = async () => {
     try {
-      const resp = await getNotificationLog();
-      // console.log(resp);
-      setData(resp);
+      const resp = await notificationLogs();
+      console.log(resp);
+      console.table(resp?.rollSummary);
+      setData(resp?.rollSummary);
     } catch (err) {
       // console.log(err);
     }
@@ -85,9 +90,8 @@ function RollSummary() {
   }, []);
   const filterLogs = async () => {
     try {
-      const resp = await getNotificationLog(filterDateFrom, filterDateTo);
-      // console.log(resp);
-      setData(resp);
+      const resp = await notificationLogs(filterDateFrom, filterDateTo);
+      setData(resp?.rollSummary);
     } catch (err) {
       // console.log(err);
     }
@@ -152,7 +156,7 @@ function RollSummary() {
           </Tabs>
         </AppBar> */}
         {/* <TabPanel value={value} index={0}> */}
-        {data?.feedData?.length > 0 && (
+        {data?.length > 0 && (
           <Grid
             container
             item
@@ -164,141 +168,73 @@ function RollSummary() {
                 Toolbar: GridToolbar,
               }}
               // rows={data}
-              rows={data?.feedData?.map((row, i) => {
-                const {
-                  DateTime,
-                  helperSentStatus,
-                  managerSentStatus,
-                  supervisorSentStatus,
-                  wingInchargeSentStatus,
-                  ...rest
-                } = row;
+              rows={data?.map((row, i) => {
+                const { date, machineId, ...rest } = row;
                 return {
                   id: i,
-                  DateTime: moment(new Date(DateTime))
+                  Id: machineId,
+                  DateTime: moment(new Date(date))
                     .format("DD/MM/YYYY")
                     .toString(),
                   ...rest,
-                  helperSentStatus: Boolean(helperSentStatus)
-                    ? "True"
-                    : "False",
-                  managerSentStatus: Boolean(managerSentStatus)
-                    ? "True"
-                    : "False",
-                  supervisorSentStatus: Boolean(supervisorSentStatus)
-                    ? "True"
-                    : "False",
-                  wingInchargeSentStatus: Boolean(wingInchargeSentStatus)
-                    ? "True"
-                    : "False",
                 };
               })}
               columns={[
-                { field: "Id", headerName: "Violation ID", width: 210 },
                 { field: "DateTime", headerName: "Date", width: 150 },
-                { field: "Wing", headerName: "Wing", width: 120 },
-                { field: "FeedID", headerName: "Feed ID", width: 150 },
-                { field: "MachineID", headerName: "Machine ID", width: 180 },
-                { field: "WorkerID", headerName: "Worker ID", width: 180 },
+                { field: "Id", headerName: "Machine Id", width: 210 },
                 {
-                  field: "workerName",
-                  headerName: "Worker Name",
+                  field: "FabricCategory",
+                  headerName: "Roll Category",
                   width: 180,
                 },
                 {
-                  field: "StartTime",
+                  field: "rollBarcodeNumber",
+                  headerName: "Roll Barcode No.",
+                  width: 240,
+                },
+                {
+                  field: "rollBarcodeNumber",
+                  headerName: "Roll Barcode No.",
+                  width: 240,
+                },
+                {
+                  field: "rollLenght",
+                  headerName: "Roll Length",
+                  width: 150,
+                },
+                {
+                  field: "wasteLength",
+                  headerName: "Waste Length",
+                  width: 210,
+                },
+                {
+                  field: "waste_percentage",
+                  headerName: "Waste %",
+                  width: 150,
+                },
+                {
+                  field: "defect_percentage",
+                  headerName: "Defect %",
+                  width: 150,
+                },
+                {
+                  field: "no_defect",
+                  headerName: "Defect No.",
+                  width: 150,
+                },
+
+                {
+                  field: "operatorName",
+                  headerName: "Operator Name",
+                  width: 180,
+                },
+                {
+                  field: "startTime",
                   headerName: "Roll Start Time",
                   width: 210,
                 },
-                { field: "EndTime", headerName: "Roll End Time", width: 210 },
-
-                {
-                  field: "UnavailableDuration",
-                  headerName: "Unavailable Duration",
-                  width: 210,
-                },
-
-                { field: "uuid", headerName: "Unique ID", width: 240 },
-                {
-                  field: "video",
-                  headerName: "Video",
-                  width: 150,
-                  hide: "true",
-                },
-                {
-                  field: "img",
-                  headerName: "Image",
-                  width: 150,
-                  hide: "true",
-                },
-
-                {
-                  field: "query",
-                  headerName: "Violation Status",
-                  width: 240,
-                },
+                { field: "endTime", headerName: "Roll End Time", width: 210 },
                 { field: "shift", headerName: "Shift", width: 150 },
-                {
-                  field: "supervisorName",
-                  headerName: "Supervisor Name",
-                  width: 240,
-                },
-                {
-                  field: "violationReason",
-                  headerName: "Violation Reason",
-                  width: 210,
-                },
-                {
-                  field: "action",
-                  headerName: "Action",
-                  width: 180,
-                },
-                {
-                  field: "confirmStatus",
-                  headerName: "Confirm Status",
-                  width: 180,
-                  cellClassName: (params) =>
-                    clsx({
-                      negative: params.value == "false",
-                      positive: params.value == "true",
-                    }),
-                },
-                {
-                  field: "incorrectStatus",
-                  headerName: "Incorrect Status",
-                  width: 180,
-                  cellClassName: (params) =>
-                    clsx({
-                      negative: params.value == "false",
-                      positive: params.value == "true",
-                    }),
-                },
-                {
-                  field: "incorrectViolationReason",
-                  headerName: "Incorrect Violation Reason",
-                  width: 270,
-                },
-                {
-                  field: "communicatedTo",
-                  headerName: "Communicated To",
-                  width: 210,
-                },
-                {
-                  field: "Reassigned Supervisor",
-                  headerName: "Reassigned Supervisor",
-                  width: 240,
-                },
-
-                // {
-                //   field: "wingInchargeSentStatus",
-                //   headerName: "Wing Incharge Status",
-                //   width: 210,
-                // cellClassName: (params) =>
-                //   clsx({
-                //     negative: params.value === "False",
-                //     positive: params.value === "True",
-                //   }),
-                // },
               ]}
               style={{ width: "100%" }}
             />
