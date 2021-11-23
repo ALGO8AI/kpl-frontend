@@ -137,6 +137,7 @@ function NameValue({ name, value }) {
         component={Typography}
         variant="h6"
         className="Key"
+        style={{ textAlign: "center" }}
       >
         {name}
       </Grid>
@@ -147,6 +148,7 @@ function NameValue({ name, value }) {
         component={Typography}
         variant="h6"
         className="Value"
+        style={{ textAlign: "center" }}
       >
         {value}
       </Grid>
@@ -623,14 +625,14 @@ function LiveDefect(props) {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      Magnify(10);
-    }, 3500);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [data]);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     Magnify(10);
+  //   }, 3500);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [data]);
   const Magnify = (zoom) => {
     var img, glass, w, h, bw;
     img = document.getElementById("myimage");
@@ -715,7 +717,7 @@ function LiveDefect(props) {
           xs={12}
           sm={12}
           md={12}
-          style={{ marginBottom: "1rem" }}
+          // style={{ marginBottom: "0.5rem" }}
         >
           {/* {localStorage.getItem("VIOLATION-TYPE") && ( */}
           <>
@@ -763,15 +765,15 @@ function LiveDefect(props) {
           xs={12}
           sm={12}
           md={12}
-          style={{ padding: "12px" }}
+          // style={{ padding: "12px" }}
         >
           <Grid
             container
             item
             xs={12}
-            sm={5}
-            md={5}
-            style={{ padding: "12px" }}
+            sm={12}
+            md={12}
+            // style={{ padding: "12px" }}
           >
             {/* CAMERA FEED */}
             <Grid container item xs={12} className="Details_CameraFeed">
@@ -802,15 +804,15 @@ function LiveDefect(props) {
                 container
                 item
                 xs={12}
-                className="img-magnifier-container"
+                // className="img-magnifier-container"
                 style={{ overflow: "scroll" }}
               >
                 {data && (
                   <>
-                    <div
+                    {/* <div
                       className="img-magnifier-glass"
                       id="img-magnifier-glass"
-                    ></div>
+                    ></div> */}
                     <img
                       id="myimage"
                       src={data.img}
@@ -832,8 +834,8 @@ function LiveDefect(props) {
             container
             item
             xs={12}
-            sm={7}
-            md={7}
+            sm={12}
+            md={12}
             style={{
               padding: "12px",
               height: "max-content",
@@ -849,6 +851,7 @@ function LiveDefect(props) {
               xs={12}
               sm={12}
               md={9}
+              style={{ justifyContent: "center" }}
             >
               <Typography variant="h5" style={{ fontWeight: "bold" }}>
                 About Defect
