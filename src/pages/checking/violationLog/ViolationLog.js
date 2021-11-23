@@ -238,7 +238,15 @@ function ViolationLog1() {
 
   const dateFilter = async () => {
     try {
-      const crowd = await crowdingViolationChecking();
+      const crowd = await crowdingViolationChecking(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
+      );
       console.log(crowd);
       if (crowd?.crowdingData !== "no data") {
         dispatch({

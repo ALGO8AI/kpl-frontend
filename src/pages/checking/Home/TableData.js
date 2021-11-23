@@ -103,7 +103,7 @@ function TableData({
                 },
                 {
                   width: 240,
-                  headerName: "Unavailable Hrs.",
+                  headerName: "Worker Unavailable Hrs.",
                   field: "unavailableDuration",
                   // hide: true,
                 },

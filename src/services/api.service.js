@@ -1648,7 +1648,7 @@ const addCheckingWorkerSchedule = async (form) => {
 
 const tailorSummary = async (fromDate, toDate, ctr, table, shifts) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,

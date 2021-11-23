@@ -779,6 +779,7 @@ function Schedule(props) {
                 name="shift"
                 onChange={onScheduleDataChange}
                 fullWidth
+                disabled
               />
             </Grid>
             {/* <Grid
