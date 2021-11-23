@@ -8,3 +8,17 @@ $primary-blue: #0e4a7b;
 .MuiInputLabel-outlined.MuiInputLabel-shrink {
   background-color: white !important;
 }
+
+.img-magnifier-container {
+  position: relative;
+}
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 200px;
+  height: 200px;
+}

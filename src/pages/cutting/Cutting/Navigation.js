@@ -245,6 +245,19 @@ export default function Navigation() {
             Defect Details
           </NavLink>
         </ListItem>
+        <Divider />
+        <ListItem button>
+          <NavLink
+            activeClassName={classes.active}
+            className={classes.link}
+            to="/cutting/liveDefect"
+          >
+            <VideocamIcon className={classes.icon} />
+            Live Defect
+          </NavLink>
+        </ListItem>
+        <Divider />
+
         <ListItem button>
           <NavLink
             activeClassName={classes.active}

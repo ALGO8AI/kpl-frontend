@@ -217,3 +217,10 @@ export const closeRoll = async (data) => {
 // export const rollSummary = async (data) => {
 //   return await callBackend("POST", "routes/cutting/notifLog", true, data);
 // };
+
+export const liveDefect = async () => {
+  return await callBackend(
+    "GET",
+    "routes/cutting/KPI/violation/getLatestDefectDetails"
+  );
+};

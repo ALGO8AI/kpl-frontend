@@ -7,6 +7,7 @@ import DefectTable from "../DefectDetails/DefectTable";
 import Feedback from "../Feedback/Feedback";
 // import DefectDetails fro../DefectDetails/Defectsils";
 import Home from "../Home/Home";
+import LiveDefect from "../LiveDefect/LiveDefect";
 import Setting from "../Setting/Setting";
 import VideoWall from "../VideoWall/VideoWall";
 import YourData from "../YourData/YourData";
@@ -33,6 +34,7 @@ function Cutting(props) {
     feedback: <Feedback />,
     // annotation: <Annotation />,
     yourData: <YourData />,
+    liveDefect: <LiveDefect />,
     // violationDetails: <ViolationDetail id={props.match.params.id} />,
     // analytics: <Analytics />,
   };

@@ -28,6 +28,7 @@ import {
   cuttingCommunicatedTo,
   violationCommentCutting,
   cuttingViolationClosedByUpdate,
+  liveDefect,
 } from "../../../services/cuttingApi.service";
 
 const useStyles = makeStyles((theme) => ({
@@ -153,8 +154,7 @@ function NameValue({ name, value }) {
   );
 }
 
-function DefectDetails(props) {
-  console.log(props);
+function LiveDefect(props) {
   const history = useHistory();
   const classes = useStyles();
   const [data, setData] = useState();
@@ -171,93 +171,90 @@ function DefectDetails(props) {
       if (typeOfViolation === "feedUnavailable") {
         const x = await FEED_UnavailableViolation();
         setVIOLATION(x);
-        console.log(x.length);
+        // console.log(x.length);
       } else if (typeOfViolation === "worker") {
         const x = await WORKER_UnavailableViolation();
         setVIOLATION(x);
-        console.log(x.length);
+        // console.log(x.length);
       }
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
     }
   };
   const getData = async () => {
     try {
-      const x = await getViolationDetailData(props.id);
-      console.log(x);
-      setData(x.volIdData[0]);
-      setNewSupervisor(x.volIdData[0].supervisor);
-      setClosedBy(x.volIdData[0].closingSupervisor);
-      setLink(x.volIdData[0]?.video);
-      if (x.volIdData[0].violationReason) {
-        setReason(x.volIdData[0].violationReason);
+      const x = await liveDefect();
+      // console.log(x);
+      setData(x.liveDefectData[0]);
+      setNewSupervisor(x.liveDefectData[0].supervisor);
+      setClosedBy(x.liveDefectData[0].closingSupervisor);
+      setLink(x.liveDefectData[0]?.video);
+      if (x.liveDefectData[0].violationReason) {
+        setReason(x.liveDefectData[0].violationReason);
       }
       if (
         !(
-          x.volIdData[0].violationReason === "Machine Breakdown" ||
-          x.volIdData[0].violationReason === "CTR Change"
+          x.liveDefectData[0].violationReason === "Machine Breakdown" ||
+          x.liveDefectData[0].violationReason === "CTR Change"
         ) &&
-        x.volIdData[0].confirmStatus === "true"
+        x.liveDefectData[0].confirmStatus === "true"
       ) {
         setReason("Add Reason");
-        setReason1(x.volIdData[0].violationReason);
+        setReason1(x.liveDefectData[0].violationReason);
       }
 
-      if (x.volIdData[0].action) {
-        setAction(x.volIdData[0].action);
+      if (x.liveDefectData[0].action) {
+        setAction(x.liveDefectData[0].action);
       }
       if (
         !(
-          x.volIdData[0].action === "Penalty" ||
-          x.volIdData[0].action === "Supervisor Informed" ||
-          x.volIdData[0].action === "Worker Warned"
+          x.liveDefectData[0].action === "Penalty" ||
+          x.liveDefectData[0].action === "Supervisor Informed" ||
+          x.liveDefectData[0].action === "Worker Warned"
         ) &&
-        x.volIdData[0].confirmStatus === "true"
+        x.liveDefectData[0].confirmStatus === "true"
       ) {
         setAction("Add Comment");
-        setAction1(x.volIdData[0].action);
+        setAction1(x.liveDefectData[0].action);
       }
-      if (x.volIdData[0].incorrectViolationReason) {
-        setIncorrect(x.volIdData[0].incorrectViolationReason);
+      if (x.liveDefectData[0].incorrectViolationReason) {
+        setIncorrect(x.liveDefectData[0].incorrectViolationReason);
       }
       if (
         !(
-          x.volIdData[0].incorrectViolationReason === "Not a Violation" ||
-          x.volIdData[0].incorrectViolationReason === "Different Violation" ||
-          x.volIdData[0].incorrectViolationReason === "Incorrect Details"
+          x.liveDefectData[0].incorrectViolationReason === "Not a Violation" ||
+          x.liveDefectData[0].incorrectViolationReason ===
+            "Different Violation" ||
+          x.liveDefectData[0].incorrectViolationReason === "Incorrect Details"
         ) &&
-        x.volIdData[0].incorrectStatus === "true"
+        x.liveDefectData[0].incorrectStatus === "true"
       ) {
         setIncorrect("Add Comment");
-        setIncorrect1(x.volIdData[0].incorrectViolationReason);
+        setIncorrect1(x.liveDefectData[0].incorrectViolationReason);
       }
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
     }
   };
 
   const getSupervisor = async () => {
     try {
       const resp = await getAllSupervisorList();
-      console.log(resp);
+      // console.log(resp);
       setSupervisor(resp);
     } catch (e) {}
   };
 
   useEffect(() => {
-    getData();
-    getRecentData();
-    getSupervisor();
+    function getAlerts() {
+      getData();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 10000);
     return () => {
-      setReason("");
-      setReason1("");
-      setAction("");
-      setAction1("");
-      setIncorrect("");
-      setIncorrect1("");
-      setLink("");
+      clearInterval(interval);
     };
-  }, [props.id]);
+  }, []);
 
   const [reassigned, setReassigned] = React.useState("");
   const submitConfirmViolation = async () => {
@@ -291,14 +288,14 @@ function DefectDetails(props) {
         data?.actualSupervisor,
         reassigned
       );
-      console.log(x);
+      // console.log(x);
       setMsg(x.msg);
       setOpen1(true);
-      setTimeout(() => {
-        history.push("/cutting/defect");
-      }, 2000);
+      //   setTimeout(() => {
+      //     history.push("/cutting/defect");
+      //   }, 2000);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 
@@ -323,13 +320,13 @@ function DefectDetails(props) {
         true,
         inc
       );
-      console.log(x);
+      // console.log(x);
       setMsg(x.msg);
       setOpen1(true);
       setOpen(false);
-      setTimeout(() => {
-        history.push("/cutting/defect");
-      }, 2000);
+      //   setTimeout(() => {
+      //     history.push("/cutting/defect");
+      //   }, 2000);
       // } else {
       //   setOpen(false);
       // }
@@ -605,7 +602,7 @@ function DefectDetails(props) {
         props.id,
         e.target.value
       );
-      setMsg(resp.volIdData);
+      setMsg(resp.liveDefectData);
       setOpen1(true);
     } catch (e) {
       // console.log(e);
@@ -626,7 +623,6 @@ function DefectDetails(props) {
     }
   };
 
-  const myImg = useRef(null);
   useEffect(() => {
     const timer = setTimeout(() => {
       Magnify(10);
@@ -634,15 +630,15 @@ function DefectDetails(props) {
     return () => {
       clearTimeout(timer);
     };
-  }, [myImg]);
+  }, [data]);
   const Magnify = (zoom) => {
     var img, glass, w, h, bw;
     img = document.getElementById("myimage");
     // img = myImg.current;
     /*create magnifier glass:*/
     if (img) {
-      glass = document.createElement("DIV");
-      glass.setAttribute("class", "img-magnifier-glass");
+      glass = document.getElementById("img-magnifier-glass");
+
       /*insert magnifier glass:*/
       img.parentElement.insertBefore(glass, img);
       /*set background properties for the magnifier glass:*/
@@ -739,21 +735,13 @@ function DefectDetails(props) {
                   //   marginRight: "12px",
                   cursor: "pointer",
                 }}
-                onClick={() => history.goBack()}
               >
-                <span>
-                  <i
-                    class="fa fa-arrow-left"
-                    aria-hidden="true"
-                    style={{ marginRight: "8px" }}
-                  ></i>
-                </span>
                 {/* {localStorage.getItem("VIOLATION-TYPE")} */}
-                DEFECT DETAILS
+                LIVE DEFECT
               </Typography>
             </Grid>
             <Grid container item xs={4} md={3}>
-              <Typography
+              {/* <Typography
                 style={{
                   lineHeight: "21px !important",
                   height: "max-content",
@@ -763,7 +751,7 @@ function DefectDetails(props) {
                 )}
               >
                 {localStorage.getItem("VIOLATION-STATUS")}
-              </Typography>
+              </Typography> */}
             </Grid>
           </>
           {/* )} */}
@@ -789,7 +777,9 @@ function DefectDetails(props) {
             <Grid container item xs={12} className="Details_CameraFeed">
               {/* DATE & ID */}
               <Grid ontainer item xs={12} className={"Header"}>
-                <h3 style={{ color: "black " }}>Defect Id : {props.id}</h3>
+                <h3 style={{ color: "black " }}>
+                  Defect Id : {data?.violationId}
+                </h3>
                 <p style={{ color: "black" }}>
                   {data &&
                     moment(new Date(data.date))
@@ -808,20 +798,32 @@ function DefectDetails(props) {
                 />
               </Grid>
               {/* IMAGE */}
-              <Grid container item xs={12} className="img-magnifier-container">
+              <Grid
+                container
+                item
+                xs={12}
+                className="img-magnifier-container"
+                style={{ overflow: "scroll" }}
+              >
                 {data && (
-                  <img
-                    ref={myImg}
-                    id="myimage"
-                    src={data.img}
-                    style={{
-                      width: "100%",
-                      userSelect: "none",
-                    }}
-                    alt="img"
-                    // onMouseOver={() => Magnify(3)}
-                    // onMouseLeave={() => console.log("out")}
-                  />
+                  <>
+                    <div
+                      className="img-magnifier-glass"
+                      id="img-magnifier-glass"
+                    ></div>
+                    <img
+                      id="myimage"
+                      src={data.img}
+                      style={{
+                        width: "100%",
+                        // transform: "scale(1.5)",
+                        userSelect: "none",
+                      }}
+                      alt="img"
+                      // onMouseOver={() => Magnify(3)}
+                      // onMouseLeave={() => console.log("out")}
+                    />
+                  </>
                 )}
               </Grid>
             </Grid>
@@ -1423,4 +1425,4 @@ function DefectDetails(props) {
   );
 }
 
-export default DefectDetails;
+export default LiveDefect;

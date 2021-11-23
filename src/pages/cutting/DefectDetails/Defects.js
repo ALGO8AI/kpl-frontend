@@ -154,8 +154,10 @@ function Defects() {
       const defectData = await defectViolation(
         state?.violationFrom,
         state?.violationTo,
-        fabricCategory,
-        inputMACHINEid,
+        fabricCategory.length > 0
+          ? fabricCategory
+          : fabricList?.map((item, index) => item?.category),
+        inputMACHINEid.length > 0 ? inputMACHINEid : ["MC04"],
         inputSHIFT
       );
       dispatch({
