@@ -837,6 +837,13 @@ function DefectDetails(props) {
                     value={data && data.rollBarcodeNumber}
                   />
                 )}
+                {/* WASTE LEBGTH */}
+                {data?.wasteLength && (
+                  <NameValue
+                    name="WASTE LENGTH"
+                    value={data && data?.wasteLength}
+                  />
+                )}
                 {/* ROLL CATEGORY */}
                 {data?.rollCategory && (
                   <NameValue

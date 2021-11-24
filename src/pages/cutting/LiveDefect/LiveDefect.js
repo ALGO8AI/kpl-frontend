@@ -905,6 +905,13 @@ function LiveDefect(props) {
                     value={data && data?.rollCategory}
                   />
                 )}
+                {/* WASTE LEBGTH */}
+                {data?.wasteLength && (
+                  <NameValue
+                    name="WASTE LENGTH"
+                    value={data && data?.wasteLength}
+                  />
+                )}
                 {/* CTR */}
                 {data?.CTR && (
                   <NameValue name="CTR NO." value={data && data.CTR} />
