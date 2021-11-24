@@ -248,6 +248,10 @@ function LiveDefect(props) {
   };
 
   useEffect(() => {
+    getSupervisor();
+  }, []);
+
+  useEffect(() => {
     function getAlerts() {
       getData();
     }
@@ -601,10 +605,10 @@ function LiveDefect(props) {
     try {
       setNewSupervisor(e.target.value);
       const resp = await cuttingViolationSupervisorUpdate(
-        props.id,
+        data?.violationId,
         e.target.value
       );
-      setMsg(resp.liveDefectData);
+      setMsg("Successfully Updated");
       setOpen1(true);
     } catch (e) {
       // console.log(e);
@@ -615,10 +619,10 @@ function LiveDefect(props) {
     try {
       setClosedBy(e.target.value);
       const resp = await cuttingViolationClosedByUpdate(
-        props.id,
+        data?.violationId,
         e.target.value
       );
-      setMsg(resp.msg);
+      setMsg("Successfully Updated");
       setOpen1(true);
     } catch (e) {
       // console.log(e);
@@ -1050,375 +1054,9 @@ function LiveDefect(props) {
                 )} */}
               </Grid>
             </Grid>
-            <Grid
-              className="Details_Info"
-              style={{
-                padding: "12px 0",
-                display: "flex",
-                alignItems: "start",
-                justifyContent: "space-between",
-              }}
-              container
-              item
-              xs={12}
-              sm={12}
-              md={9}
-            >
-              <Grid
-                container
-                item
-                xs={12}
-                sm={5}
-                md={5}
-                component={Paper}
-                elevation={1}
-                style={{ padding: "6px 12px 6px 12px", marginBottom: "24px" }}
-              >
-                <Typography
-                  variant="h5"
-                  style={{ fontWeight: "bold", marginBottom: "12px" }}
-                >
-                  Type Of Defect
-                </Typography>
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                  className={classes.formControl}
-                  style={{ marginBottom: "12px" }}
-                >
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Choose Reason
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={reason}
-                    onChange={handleReasonChange}
-                    label="Choose Reason"
-                  >
-                    <MenuItem value="Add Reason">Add Reason</MenuItem>
-
-                    {SelectDropdowndata.length > 0 &&
-                      SelectDropdowndata.map((item, i) => (
-                        <MenuItem key={i} value={item}>
-                          {item}
-                        </MenuItem>
-                      ))}
-
-                    <MenuItem value="Repeated Violation">
-                      Repeated Violation
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                {reason === "Add Reason" && (
-                  <TextField
-                    id="outlined-basic"
-                    label="Reason"
-                    variant="outlined"
-                    fullWidth
-                    onChange={customReason}
-                    value={reason1}
-                    style={{ marginBottom: "12px" }}
-                  />
-                )}
-              </Grid>
-              <Grid
-                container
-                item
-                xs={12}
-                sm={5}
-                md={5}
-                component={Paper}
-                elevation={1}
-                style={{ padding: "6px 12px 6px 12px", marginBottom: "24px" }}
-              >
-                <Typography
-                  variant="h5"
-                  style={{ fontWeight: "bold", marginBottom: "12px" }}
-                >
-                  Action Taken
-                </Typography>
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                  className={classes.formControl}
-                  style={{ marginBottom: "12px" }}
-                >
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Choose Action
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={action}
-                    onChange={handleActionChange}
-                    label="Choose Action"
-                  >
-                    <MenuItem value="Add Comment">Add Comment</MenuItem>
-
-                    {["Penalty", "Supervisor Informed", "Worker Warned"].map(
-                      (item, i) => (
-                        <MenuItem key={i} value={item}>
-                          {item}
-                        </MenuItem>
-                      )
-                    )}
-                  </Select>
-                </FormControl>
-                {action === "Add Comment" && (
-                  <TextField
-                    id="outlined-basic"
-                    label="Comment"
-                    variant="outlined"
-                    fullWidth
-                    onChange={customAction}
-                    value={action1}
-                    style={{ marginBottom: "12px" }}
-                  />
-                )}
-              </Grid>
-              {/* <Grid
-                container
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                component={Paper}
-                elevation={1}
-                style={{ padding: "6px 12px 6px 12px", marginBottom: "24px" }}
-              >
-                <Typography
-                  variant="h5"
-                  style={{ fontWeight: "bold", marginBottom: "12px" }}
-                >
-                  Reassign Supervisor
-                </Typography>
-                <TextField
-                  id="outlined-basic"
-                  label="Reassign Supervisor"
-                  variant="outlined"
-                  fullWidth
-                  style={{ marginBottom: "12px" }}
-                />
-              </Grid> */}
-
-              {/* COMMUNICATED TO */}
-              <Grid
-                container
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                component={Paper}
-                elevation={1}
-                style={{
-                  padding: "6px 12px 6px 12px",
-                  alignItems: "center",
-                  marginBottom: "24px",
-                }}
-              >
-                <Grid container item xs={12}>
-                  <Typography
-                    variant="h5"
-                    style={{ fontWeight: "bold", marginBottom: "12px" }}
-                  >
-                    Communicated To
-                  </Typography>
-                </Grid>
-
-                <Grid item container xs={9} sm={10}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Communicate To"
-                    variant="outlined"
-                    fullWidth
-                    onChange={(e) => setCommunicated(e.target.value)}
-                    value={communicated}
-                    style={{ marginBottom: "12px" }}
-                  />
-                </Grid>
-                <Grid
-                  container
-                  item
-                  xs={3}
-                  sm={2}
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <Button
-                    variant="contained"
-                    style={{ height: "max-content", marginBottom: "12px" }}
-                    onClick={submitCommunication}
-                  >
-                    <SendIcon />
-                  </Button>
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                style={{ padding: "6px 12px 6px 12px", alignItems: "center" }}
-              >
-                <Grid
-                  container
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  style={{ padding: "12px" }}
-                >
-                  <Button
-                    variant="contained"
-                    style={{
-                      width: "100%",
-                      padding: "8px !important",
-                    }}
-                    onClick={handleOpen}
-                    // className="violation-btn incorrect-btn"
-                  >
-                    NOT A DEFECT
-                  </Button>
-                </Grid>
-                <Grid
-                  container
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  style={{ padding: "12px" }}
-                >
-                  <Button
-                    // className="violation-btn correct-btn"
-                    variant="contained"
-                    style={{
-                      width: "100%",
-                      backgroundColor: "#f68f1d",
-                      color: "white",
-                      padding: "8px !important",
-                    }}
-                    onClick={submitConfirmViolation}
-                  >
-                    CONFIRM DEFECT
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
           </Grid>
-          {localStorage.getItem("VIOLATION") === "feedUnavailable" ||
-          localStorage.getItem("VIOLATION") === "worker" ? (
-            <Grid
-              container
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              style={{ marginTop: "32px" }}
-            >
-              <Typography variant="h4">Recent Violation</Typography>
-              <Grid container item xs={12} className="RecentVio_Container">
-                {VIOLATION &&
-                  VIOLATION.map((item, i) => (
-                    <VideoCard
-                      onClick={() => openPopUpWindow(item.Id)}
-                      key={i}
-                      data={item}
-                    />
-                  ))}
-              </Grid>
-            </Grid>
-          ) : null}
         </Grid>
       </Grid>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Paper elevation={3} style={{ textAlign: "center", padding: "1rem" }}>
-            <Typography
-              variant="h5"
-              style={{ fontWeight: "bold", marginBottom: "12px" }}
-            >
-              Incorrect Violation Reason
-            </Typography>
-            <Grid container>
-              <Grid container item xs={12} style={{ marginBottom: "12px" }}>
-                <FormControl
-                  variant="outlined"
-                  className={classes.formControl}
-                  fullWidth
-                >
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Choose Reason
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={incorrect}
-                    onChange={handleIncorrectChange}
-                    label="Choose Reason"
-                  >
-                    <MenuItem value="" disabled>
-                      Select Reason
-                    </MenuItem>
-                    <MenuItem value="Add Comment">Add Comment</MenuItem>
-                    <MenuItem value="Not a Violation">Not a Violation</MenuItem>
-                    <MenuItem value="Different Violation">
-                      Different Violation
-                    </MenuItem>
-                    <MenuItem value="Incorrect Details">
-                      Incorrect Details
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-            {incorrect === "Add Comment" && (
-              <Grid
-                item
-                xs={12}
-                className="vd-d1 vd-d2"
-                style={{ marginBottom: "12px" }}
-              >
-                {/* text box here */}
-                <TextField
-                  id="outlined-basic"
-                  label="Write Your Own Reason"
-                  variant="outlined"
-                  fullWidth
-                  onChange={customIncorrect}
-                  value={incorrect1}
-                  style={{ marginBottom: "12px" }}
-                />
-                {/* <TextField
-                  placeholder="Write Your Own Reason"
-                  fullWidth
-                  onChange={customIncorrect}
-                  value={incorrect1}
-                /> */}
-              </Grid>
-            )}
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: "10px" }}
-              onClick={submitIncorrectViolation}
-            >
-              Save
-            </Button>
-          </Paper>
-        </Fade>
-      </Modal>
       <Snackbar open={open1} autoHideDuration={2000} onClose={handleClose1}>
         <Alert onClose={handleClose1} severity="success">
           {msg}

@@ -69,9 +69,32 @@ function RollSummary() {
   const getLogs = async () => {
     try {
       const resp = await notificationLogs();
-      console.log(resp);
-      console.table(resp?.rollSummary);
-      setData(resp?.rollSummary);
+      const summed = resp?.rollSummary.reduce((acc, curr) => {
+        acc = acc + curr["no_defect"];
+        return acc;
+      }, 0);
+      console.log(summed);
+      console.log(
+        resp?.rollSummary.map((item, index) => {
+          let { defect_percentage, ...rest } = item;
+          return {
+            count: index,
+            defect_percentage: summed,
+            ...rest,
+          };
+        })
+      );
+      setData(
+        resp?.rollSummary.map((item, index) => {
+          let { defect_percentage, no_defect, ...rest } = item;
+          return {
+            count: index,
+            no_defect: no_defect,
+            defect_percentage: Math.floor((no_defect / summed) * 100),
+            ...rest,
+          };
+        })
+      );
     } catch (err) {
       // console.log(err);
     }
@@ -170,6 +193,7 @@ function RollSummary() {
               // rows={data}
               rows={data?.map((row, i) => {
                 const { date, machineId, ...rest } = row;
+
                 return {
                   id: i,
                   Id: machineId,
