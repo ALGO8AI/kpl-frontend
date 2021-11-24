@@ -188,8 +188,8 @@ function DefectsLog() {
                   { field: "machineId", headerName: "Machine ID", width: 150 },
                   {
                     field: "rollLenght",
-                    headerName: "Roll Length",
-                    width: 240,
+                    headerName: "Total Meter Count",
+                    width: 210,
                   },
                   {
                     field: "rollCategory",

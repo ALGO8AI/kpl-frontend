@@ -223,8 +223,8 @@ function RollSummary() {
                 },
                 {
                   field: "rollLenght",
-                  headerName: "Roll Length",
-                  width: 150,
+                  headerName: "Total Meter Count",
+                  width: 210,
                 },
                 {
                   field: "wasteLength",
@@ -243,8 +243,8 @@ function RollSummary() {
                 },
                 {
                   field: "no_defect",
-                  headerName: "Defect No.",
-                  width: 150,
+                  headerName: "Defect Count",
+                  width: 180,
                 },
 
                 {
