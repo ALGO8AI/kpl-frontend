@@ -11,6 +11,8 @@ import ManageRoles from "./ManageRoles";
 import AddUser from "./AddUser";
 import { LayoutView } from "../layoutView/LayoutView";
 import { StitchingContext } from "../../../context/StitchingContext";
+import ComingSoon from "../layoutView/ComingSoon";
+
 // import { LayoutView } from "../layoutView/LayoutView";
 
 function TabPanel(props) {
@@ -92,7 +94,8 @@ function Setting() {
       </TabPanel> */}
 
       <TabPanel value={state.settingTab} index={2}>
-        <LayoutView path="annotate" />
+        {/* <LayoutView path="annotate" /> */}
+        <ComingSoon />
       </TabPanel>
     </Grid>
   );
