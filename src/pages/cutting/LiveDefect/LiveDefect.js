@@ -30,6 +30,7 @@ import {
   cuttingViolationClosedByUpdate,
   liveDefect,
 } from "../../../services/cuttingApi.service";
+import { Hours } from "../../../Utility/DateDiff";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -717,22 +718,22 @@ function LiveDefect(props) {
   //     clearInterval(timer);
   //   };
   // }, []);
-  const [timer, setTimer] = useState(0);
+  // const [timer, setTimer] = useState(0);
 
-  const tick = () => {
-    setTimer(timer + 1);
-  };
+  // const tick = () => {
+  //   setTimer(timer + 1);
+  // };
 
-  useEffect(() => {
-    setTimer(0);
-  }, [data?.violationId]);
+  // useEffect(() => {
+  //   setTimer(0);
+  // }, [data?.violationId]);
 
-  useEffect(() => {
-    const timerID = setTimeout(() => tick(), 1000);
-    return () => {
-      clearTimeout(timerID);
-    };
-  }, [timer]);
+  // useEffect(() => {
+  //   const timerID = setTimeout(() => tick(), 1000);
+  //   return () => {
+  //     clearTimeout(timerID);
+  //   };
+  // }, [timer]);
 
   return (
     <>
@@ -818,10 +819,19 @@ function LiveDefect(props) {
                     moment(new Date(data.date))
                       .format("DD/MM/YYYY")
                       .toString()}
-                  {"  "}
+                  {"     "}
                   {data && data?.time}
                   <br />
-                  {timer} seconds
+                  Last data since{" "}
+                  {Hours(
+                    new Date(),
+                    new Date(
+                      `${new Date(data?.date).toLocaleDateString()} ${
+                        data?.time
+                      }`
+                    )
+                  )}{" "}
+                  hours
                 </p>
               </Grid>
               {/* VIDEO */}
@@ -948,17 +958,17 @@ function LiveDefect(props) {
                   <NameValue name="CTR NO." value={data && data.CTR} />
                 )}
                 {/* WING */}
-                {data?.wing && (
+                {/* {data?.wing && (
                   <NameValue name="WING" value={data && data.wing} />
-                )}
+                )} */}
                 {/* SHIFT */}
                 {data?.shift && (
                   <NameValue name="SHIFT" value={data && data.shift} />
                 )}
                 {/* LINE */}
-                {data?.line && (
+                {/* {data?.line && (
                   <NameValue name="LINE" value={data && data.line} />
-                )}
+                )} */}
                 {/* START TIME */}
                 {data?.StartTime && (
                   <NameValue name="START TIME" value={data && data.StartTime} />

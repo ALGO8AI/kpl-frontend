@@ -195,29 +195,29 @@ function RollDialog({ open, handleCloseCTR }) {
                 <Grid item xs={12}>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel id="demo-simple-select-outlined-label">
-                      Select Bodypart
+                      Select Roll Category
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      label="Select Bodypart"
+                      label="Select Roll Category"
                       value={selectedData.bodyPart}
                       onChange={(e) => {
                         setSelectedData({
                           ...selectedData,
                           bodyPart: e.target.value,
                         });
-                        console.log([
-                          ...new Set(
-                            unassignedData
-                              .filter(
-                                (i) =>
-                                  i.bodyPart === e.target.value &&
-                                  i.CtrNo === selectedData.CtrNo
-                              )
-                              .map((i) => i.FabricRollNo)
-                          ),
-                        ]);
+                        // console.log([
+                        //   ...new Set(
+                        //     unassignedData
+                        //       .filter(
+                        //         (i) =>
+                        //           i.bodyPart === e.target.value &&
+                        //           i.CtrNo === selectedData.CtrNo
+                        //       )
+                        //       .map((i) => i.FabricRollNo)
+                        //   ),
+                        // ]);
                       }}
                     >
                       {[

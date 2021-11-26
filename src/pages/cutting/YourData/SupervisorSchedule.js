@@ -134,8 +134,8 @@ function Supervisor(props) {
         ),
     },
 
-    { title: "Line", field: "line" },
-    { title: "Wing", field: "wing" },
+    // { title: "Line", field: "line" },
+    // { title: "Wing", field: "wing" },
     { title: "Shift", field: "shift" },
     {
       title: "Edit",

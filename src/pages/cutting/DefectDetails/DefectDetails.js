@@ -856,17 +856,17 @@ function DefectDetails(props) {
                   <NameValue name="CTR NO." value={data && data.CTR} />
                 )}
                 {/* WING */}
-                {data?.wing && (
+                {/* {data?.wing && (
                   <NameValue name="WING" value={data && data.wing} />
-                )}
+                )} */}
                 {/* SHIFT */}
                 {data?.shift && (
                   <NameValue name="SHIFT" value={data && data.shift} />
                 )}
                 {/* LINE */}
-                {data?.line && (
+                {/* {data?.line && (
                   <NameValue name="LINE" value={data && data.line} />
-                )}
+                )} */}
                 {/* START TIME */}
                 {data?.StartTime && (
                   <NameValue name="START TIME" value={data && data.StartTime} />

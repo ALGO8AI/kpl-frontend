@@ -233,7 +233,7 @@ function OperatorSchedule(props) {
     { title: "Operator Name", field: "operatorName" },
 
     { title: "Shift", field: "shift" },
-    { title: "Wing", field: "wing" },
+    // { title: "Wing", field: "wing" },
     { title: "Machine ID", field: "machineId" },
     {
       title: "Machine Status",
