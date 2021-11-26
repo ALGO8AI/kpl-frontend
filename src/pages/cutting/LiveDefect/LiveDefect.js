@@ -630,12 +630,12 @@ function LiveDefect(props) {
   };
 
   // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     Magnify(10);
-  //   }, 3500);
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
+  // const timer = setTimeout(() => {
+  //   Magnify(10);
+  // }, 3500);
+  // return () => {
+  //   clearTimeout(timer);
+  // };
   // }, [data]);
   const Magnify = (zoom) => {
     var img, glass, w, h, bw;
@@ -706,6 +706,33 @@ function LiveDefect(props) {
       }
     }
   };
+
+  // const [timer, setTimer] = useState(0);
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimer(timer + 1);
+  //   }, 1000);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
+  const [timer, setTimer] = useState(0);
+
+  const tick = () => {
+    setTimer(timer + 1);
+  };
+
+  useEffect(() => {
+    setTimer(0);
+  }, [data?.violationId]);
+
+  useEffect(() => {
+    const timerID = setTimeout(() => tick(), 1000);
+    return () => {
+      clearTimeout(timerID);
+    };
+  }, [timer]);
 
   return (
     <>
@@ -791,6 +818,10 @@ function LiveDefect(props) {
                     moment(new Date(data.date))
                       .format("DD/MM/YYYY")
                       .toString()}
+                  {"  "}
+                  {data && data?.time}
+                  <br />
+                  {timer} seconds
                 </p>
               </Grid>
               {/* VIDEO */}
