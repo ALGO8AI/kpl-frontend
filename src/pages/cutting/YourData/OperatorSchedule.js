@@ -140,10 +140,18 @@ function OperatorSchedule(props) {
 
   const filterData = async () => {
     try {
-      const x = await getYourData(inputData);
-      console.log(x);
-
-      setData(x.latestScheduleData);
+      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
+        setMsg("Please include start date and end date");
+        setSeverity("error");
+        setOpen(true);
+      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
+        const x = await getYourData(inputData);
+        setData(x.latestScheduleData);
+      } else {
+        setMsg("Wrong date range selected");
+        setSeverity("error");
+        setOpen(true);
+      }
     } catch (err) {}
   };
 

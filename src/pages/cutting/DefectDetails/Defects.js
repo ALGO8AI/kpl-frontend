@@ -436,7 +436,7 @@ function Defects() {
                       </Link>
                     ),
                   },
-                  { title: "Violation ID", field: "Id" },
+                  { title: "Defect ID", field: "Id" },
                   {
                     title: "Date",
                     field: "DateTime",

@@ -83,9 +83,17 @@ function Supervisor(props) {
   };
   const filterData = async () => {
     try {
-      const x = await getStitchingSupervisorSchedule(inputData);
-      console.log(x.data);
-      setWorkerData(x.data);
+      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
+        setMsg("Please include start date and end date");
+        setOpen(true);
+      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
+        const x = await getStitchingSupervisorSchedule(inputData);
+        setWorkerData(x.data);
+      } else {
+        setMsg("Wrong Date Range Selected");
+        //  setSeverity("error");
+        setOpen(true);
+      }
     } catch (err) {}
   };
   useEffect(() => {
