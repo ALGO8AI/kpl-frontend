@@ -3,7 +3,7 @@ import "./ComingSoon.scss";
 function ComingSoon() {
   return (
     <div className="ComingSoon_Container">
-      <h1>N/A</h1>
+      <h1>Coming Soon...</h1>
     </div>
   );
 }
