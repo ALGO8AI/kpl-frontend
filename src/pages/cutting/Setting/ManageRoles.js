@@ -155,14 +155,14 @@ function ManageRoles() {
             ),
         },
 
-        {
-          title: "Line",
-          field: "zone",
-        },
-        {
-          title: "Wing",
-          field: "wing",
-        },
+        // {
+        //   title: "Line",
+        //   field: "zone",
+        // },
+        // {
+        //   title: "Wing",
+        //   field: "wing",
+        // },
 
         {
           title: "Email",

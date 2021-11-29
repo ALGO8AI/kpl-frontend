@@ -86,6 +86,9 @@ function Supervisor(props) {
       if (!inputData.filterDateFrom || !inputData.filterDateTo) {
         setMsg("Please include start date and end date");
         setOpen(true);
+      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
+        const x = await getStitchingSupervisorSchedule(inputData);
+        setWorkerData(x.data);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
         const x = await getStitchingSupervisorSchedule(inputData);
         setWorkerData(x.data);

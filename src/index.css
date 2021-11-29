@@ -4,6 +4,8 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
+  scrollbar-color: #f68f1d #ffffff;
+  scrollbar-width: 1px !important;
 }
 .MuiIconButton-colorInherit {
   color: #0e4a7b !important;
@@ -103,6 +105,9 @@
   background: linear-gradient(#3f51b5, #f68f1d);
   border-radius: 3px;
 }
+
+/* firefox */
+
 .MuiDialog-paperWidthSm {
   max-width: 100% !important;
 }
@@ -186,4 +191,12 @@
   /*Set the size of the magnifier glass:*/
   width: 200px;
   height: 200px;
+}
+
+#simple-tabpanel-0,
+#simple-tabpanel-1,
+#simple-tabpanel-2,
+#simple-tabpanel-3,
+#simple-tabpanel-4 {
+  overflow: unset !important;
 }

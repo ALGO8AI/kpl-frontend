@@ -144,6 +144,9 @@ function OperatorSchedule(props) {
         setMsg("Please include start date and end date");
         setSeverity("error");
         setOpen(true);
+      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
+        const x = await getYourData(inputData);
+        setData(x.latestScheduleData);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
         const x = await getYourData(inputData);
         setData(x.latestScheduleData);
