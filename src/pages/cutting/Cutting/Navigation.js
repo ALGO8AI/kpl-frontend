@@ -142,6 +142,15 @@ export default function Navigation() {
   const fetchUnassigned = async () => {
     try {
       const current = await getCurrentRoll();
+      dispatch({
+        type: "CUTTING_CTR",
+        payload: {
+          oldCtr: current?.data[0]?.CtrNo,
+          oldCtrId: current?.data[0]?.id,
+          oldFabricRollNo: current?.data[0]?.FabricRollNo,
+          oldbodyPart: current?.data[0]?.bodyPart,
+        },
+      });
       setOldCTR({
         oldCtr: current?.data[0]?.CtrNo,
         oldCtrId: current?.data[0]?.id,
@@ -553,7 +562,7 @@ export default function Navigation() {
               style={{ margin: "4px 12px", color: "#0e4a7b" }}
             >
               {" "}
-              CTR : {oldCTR.oldCtr}
+              CTR : {state?.oldCTR.oldCtr}
             </Typography>
 
             <SupportButton onClick={handleClickOpenCTR}>

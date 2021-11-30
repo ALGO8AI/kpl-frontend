@@ -8,6 +8,7 @@ const initialState = {
   profile: "",
   violation: "",
   status: "",
+  oldCTR: {},
 };
 const KPLContext = React.createContext(initialState);
 
@@ -36,6 +37,12 @@ let reducer = (state, action) => {
       return {
         ...state,
         CTRDialog: false,
+      };
+    }
+    case "CUTTING_CTR": {
+      return {
+        ...state,
+        oldCTR: action.payload,
       };
     }
     default:

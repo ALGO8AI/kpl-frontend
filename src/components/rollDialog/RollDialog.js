@@ -25,6 +25,7 @@ import {
   getUnassignedRoll,
   updateRoll,
 } from "../../services/cuttingApi.service";
+import { KPLContext } from "../../context/ViolationContext";
 
 function RollDialog({ open, handleCloseCTR }) {
   const [unassignedData, setUnassignedData] = useState([]);
@@ -51,12 +52,23 @@ function RollDialog({ open, handleCloseCTR }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [msg, setMsg] = useState("");
 
+  const { state, dispatch } = React.useContext(KPLContext);
+
   const fetchUnassigned = async () => {
     try {
       const resp = await getClpCtr();
       console.log(resp);
       setUnassignedData(resp.clpctr);
       const current = await getCurrentRoll();
+      dispatch({
+        type: "CUTTING_CTR",
+        payload: {
+          oldCtr: current?.data[0]?.CtrNo,
+          oldCtrId: current?.data[0]?.id,
+          oldFabricRollNo: current?.data[0]?.FabricRollNo,
+          oldbodyPart: current?.data[0]?.bodyPart,
+        },
+      });
       setOldCTR({
         oldCtr: current?.data[0]?.CtrNo,
         oldCtrId: current?.data[0]?.id,
@@ -82,6 +94,22 @@ function RollDialog({ open, handleCloseCTR }) {
         setOpenDialog(true);
         setMsg(resp.msg);
         handleCloseCTR();
+        const current = await getCurrentRoll();
+        dispatch({
+          type: "CUTTING_CTR",
+          payload: {
+            oldCtr: current?.data[0]?.CtrNo,
+            oldCtrId: current?.data[0]?.id,
+            oldFabricRollNo: current?.data[0]?.FabricRollNo,
+            oldbodyPart: current?.data[0]?.bodyPart,
+          },
+        });
+        setOldCTR({
+          oldCtr: current?.data[0]?.CtrNo,
+          oldCtrId: current?.data[0]?.id,
+          oldFabricRollNo: current?.data[0]?.FabricRollNo,
+          oldbodyPart: current?.data[0]?.bodyPart,
+        });
       }
     } catch (e) {}
   };
@@ -99,6 +127,22 @@ function RollDialog({ open, handleCloseCTR }) {
         setOpenDialog(true);
         setMsg(resp.msg);
         handleCloseCTR();
+        const current = await getCurrentRoll();
+        dispatch({
+          type: "CUTTING_CTR",
+          payload: {
+            oldCtr: current?.data[0]?.CtrNo,
+            oldCtrId: current?.data[0]?.id,
+            oldFabricRollNo: current?.data[0]?.FabricRollNo,
+            oldbodyPart: current?.data[0]?.bodyPart,
+          },
+        });
+        setOldCTR({
+          oldCtr: current?.data[0]?.CtrNo,
+          oldCtrId: current?.data[0]?.id,
+          oldFabricRollNo: current?.data[0]?.FabricRollNo,
+          oldbodyPart: current?.data[0]?.bodyPart,
+        });
       }
     } catch (e) {}
   };
