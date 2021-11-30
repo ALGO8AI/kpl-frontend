@@ -18,13 +18,19 @@ import { Alert, Autocomplete } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import {
   closeRoll,
+  getBodyPart,
+  getClpCtr,
   getCurrentRoll,
+  getRollIds,
   getUnassignedRoll,
   updateRoll,
 } from "../../services/cuttingApi.service";
 
 function RollDialog({ open, handleCloseCTR }) {
   const [unassignedData, setUnassignedData] = useState([]);
+  const [bodyPart, setBodyPart] = useState([]);
+  const [rollIds, setRollIds] = useState([]);
+
   const [oldCTR, setOldCTR] = useState({
     oldCtr: "",
     oldCtrId: "",
@@ -47,8 +53,9 @@ function RollDialog({ open, handleCloseCTR }) {
 
   const fetchUnassigned = async () => {
     try {
-      const { data } = await getUnassignedRoll();
-      setUnassignedData(data);
+      const resp = await getClpCtr();
+      console.log(resp);
+      setUnassignedData(resp.clpctr);
       const current = await getCurrentRoll();
       setOldCTR({
         oldCtr: current?.data[0]?.CtrNo,
@@ -179,15 +186,19 @@ function RollDialog({ open, handleCloseCTR }) {
                     />
                   )}
                   //   value={CTR.CtrNo}
-                  onChange={(e, t) => {
+                  onChange={async (e, t) => {
                     const current = unassignedData.findIndex(
                       (item) => item?.CtrNo === t?.CtrNo
                     );
                     setSelectedData({
                       ...selectedData,
                       CtrNo: unassignedData[current]?.CtrNo,
-                      id: unassignedData[current]?.id,
                     });
+                    const resp = await getBodyPart({
+                      ctrNo: unassignedData[current]?.CtrNo,
+                    });
+                    console.log(resp);
+                    setBodyPart(resp?.bodyPart);
                   }}
                 />
               </Grid>
@@ -202,25 +213,19 @@ function RollDialog({ open, handleCloseCTR }) {
                       id="demo-simple-select-outlined"
                       label="Select Roll Category"
                       value={selectedData.bodyPart}
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         setSelectedData({
                           ...selectedData,
                           bodyPart: e.target.value,
                         });
-                        // console.log([
-                        //   ...new Set(
-                        //     unassignedData
-                        //       .filter(
-                        //         (i) =>
-                        //           i.bodyPart === e.target.value &&
-                        //           i.CtrNo === selectedData.CtrNo
-                        //       )
-                        //       .map((i) => i.FabricRollNo)
-                        //   ),
-                        // ]);
+                        const resp = await getRollIds({
+                          bodyPart: e.target.value,
+                          CtrNo: selectedData.CtrNo,
+                        });
+                        setRollIds(resp?.rollNoandIds);
                       }}
                     >
-                      {[
+                      {/* {[
                         ...new Set(
                           unassignedData
                             .filter((i) => i.CtrNo === selectedData.CtrNo)
@@ -229,6 +234,11 @@ function RollDialog({ open, handleCloseCTR }) {
                       ]?.map((item, i) => (
                         <MenuItem value={item} key={i}>
                           {item}
+                        </MenuItem>
+                      ))} */}
+                      {bodyPart.map((item, index) => (
+                        <MenuItem value={item?.bodyPart} key={index}>
+                          {item?.bodyPart}
                         </MenuItem>
                       ))}
                     </Select>
@@ -247,15 +257,19 @@ function RollDialog({ open, handleCloseCTR }) {
                       id="demo-simple-select-outlined"
                       label="Select Fabric No."
                       value={selectedData.FabricRollNo}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const current = rollIds.findIndex(
+                          (item) => item?.FabricRollNo === e.target.value
+                        );
                         setSelectedData({
                           ...selectedData,
                           FabricRollNo: e.target.value,
-                        })
-                      }
+                          id: rollIds[current].id,
+                        });
+                      }}
                     >
                       {/* <MenuItem value={"enter manually"}>Enter Manually</MenuItem> */}
-                      {[
+                      {/* {[
                         ...new Set(
                           unassignedData
                             .filter(
@@ -268,6 +282,11 @@ function RollDialog({ open, handleCloseCTR }) {
                       ].map((item, index) => (
                         <MenuItem value={item} key={index}>
                           {item}
+                        </MenuItem>
+                      ))} */}
+                      {rollIds.map((item, index) => (
+                        <MenuItem value={item?.FabricRollNo} key={index}>
+                          {item?.FabricRollNo}
                         </MenuItem>
                       ))}
                       {/* {unassignedData

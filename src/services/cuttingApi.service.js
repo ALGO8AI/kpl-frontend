@@ -207,6 +207,7 @@ export const getCurrentRoll = async () => {
 };
 
 export const updateRoll = async (data) => {
+  // console.log(data);
   return await callBackend("POST", "routes/roll/updateRoll", true, data);
 };
 
@@ -223,4 +224,18 @@ export const liveDefect = async () => {
     "GET",
     "routes/cutting/KPI/violation/getLatestDefectDetails"
   );
+};
+
+// ROll DIALOG API
+
+export const getClpCtr = async () => {
+  return await callBackend("GET", "routes/roll/getClpCtr");
+};
+
+export const getBodyPart = async (data) => {
+  return await callBackend("POST", "routes/roll/rollCategory", true, data);
+};
+
+export const getRollIds = async (data) => {
+  return await callBackend("POST", "routes/roll/rollIds", true, data);
 };

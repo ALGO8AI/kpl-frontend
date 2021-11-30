@@ -134,14 +134,29 @@ function Schedule(props) {
 
   const filterData = async () => {
     try {
-      const x = await getYourData(inputData);
-      console.log(x);
-
-      setData(x.latestScheduleData);
-      dispatch({
-        type: "WORKER_SCHEDULE",
-        payload: { data: x.latestScheduleData, loading: false },
-      });
+      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
+        setMsg("Please include start date and end date");
+        setSeverity("error");
+        setOpen(true);
+      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
+        const x = await getYourData(inputData);
+        setData(x.latestScheduleData);
+        dispatch({
+          type: "WORKER_SCHEDULE",
+          payload: { data: x.latestScheduleData, loading: false },
+        });
+      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
+        const x = await getYourData(inputData);
+        setData(x.latestScheduleData);
+        dispatch({
+          type: "WORKER_SCHEDULE",
+          payload: { data: x.latestScheduleData, loading: false },
+        });
+      } else {
+        setMsg("Wrong date range selected");
+        setSeverity("error");
+        setOpen(true);
+      }
     } catch (err) {}
   };
 
