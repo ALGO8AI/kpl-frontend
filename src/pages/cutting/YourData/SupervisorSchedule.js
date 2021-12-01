@@ -33,6 +33,7 @@ import {
   cuttingSupervisorSchedule,
   getCuttingSupervisorCopy,
   updateCuttingSupervisorSingle,
+  deleteSUpervisorSchedule,
 } from "../../../services/cuttingApi.service";
 
 // import { Switch } from "react-router";
@@ -287,6 +288,34 @@ function Supervisor(props) {
         lineSupervisor: false,
       });
     } catch (err) {}
+  };
+
+  const deleteSUpervisor = async () => {
+    try {
+      const permission = window.confirm(
+        "Are you sure you want to delete the schedule ?"
+      );
+      if (permission) {
+        const resp = await deleteSUpervisorSchedule({ id: userdata.id });
+        loadData();
+        setMsg("Schedule Deleted");
+        setUserData({
+          id: "",
+          supervisorName: "",
+          supervisorId: "",
+          date: "",
+          shift: "",
+          wing: "",
+          line: "",
+          kitSupervisor: false,
+          lineSupervisor: false,
+        });
+        setOpen(true);
+      } else {
+        setMsg("Operation Cancelled");
+        setOpen(true);
+      }
+    } catch (e) {}
   };
 
   return (
@@ -612,6 +641,22 @@ function Supervisor(props) {
                 onClick={updateSupervisor}
               >
                 UPDATE
+              </Button>
+            </Grid>
+            <Grid container item xs={12} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "rgb(181, 63, 63)",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                }}
+                onClick={deleteSUpervisor}
+              >
+                DELETE
               </Button>
             </Grid>
           </Grid>

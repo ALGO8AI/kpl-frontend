@@ -1,5 +1,4 @@
 const { callBackend } = require("./http.service");
-const axios = require("axios");
 
 export const addOperatorCutting = async (formData) => {
   return await callBackend("POST", "routes/addOperatorCutting", true, formData);
@@ -238,4 +237,13 @@ export const getBodyPart = async (data) => {
 
 export const getRollIds = async (data) => {
   return await callBackend("POST", "routes/roll/rollIds", true, data);
+};
+
+export const deleteSUpervisorSchedule = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/cuttingSupervisorSchedule/deleteSupervisor",
+    true,
+    data
+  );
 };
