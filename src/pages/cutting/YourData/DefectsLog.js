@@ -177,7 +177,7 @@ function DefectsLog() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "Violation ID", width: 210 },
+                  { field: "Id", headerName: "Defect ID", width: 210 },
                   { field: "DateTime", headerName: "Date", width: 150 },
                   { field: "time", headerName: "Time", width: 120 },
                   {

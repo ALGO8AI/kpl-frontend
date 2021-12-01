@@ -17,7 +17,7 @@ import {
 import React, { useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
 
-function AddUser() {
+function AddUser({ loadData }) {
   const [open, setOpen] = React.useState(false);
 
   const [data, setData] = useState({
@@ -47,7 +47,6 @@ function AddUser() {
   });
 
   const submitUserForm = async () => {
-    console.log(data);
     const DATA = {
       username: data.username,
       password: data.password,
@@ -78,8 +77,8 @@ function AddUser() {
       var txt = window.confirm("User will be added, continue?");
       if (txt) {
         const x = await AddNewUser(DATA);
-        console.log(x);
         alert(x.message);
+        loadData();
       }
     } catch (err) {
       console.log(err.message);
@@ -345,7 +344,7 @@ function AddUser() {
               </Grid>
             )}
 
-            <Grid
+            {/* <Grid
               item
               xs={6}
               style={{
@@ -362,8 +361,8 @@ function AddUser() {
                 value={data.zone}
                 onChange={(e) => setData({ ...data, zone: e.target.value })}
               />
-            </Grid>
-            <Grid
+            </Grid> */}
+            {/* <Grid
               item
               xs={6}
               style={{
@@ -380,7 +379,7 @@ function AddUser() {
                 value={data.wing}
                 onChange={(e) => setData({ ...data, wing: e.target.value })}
               />
-            </Grid>
+            </Grid> */}
             <Grid
               item
               xs={6}

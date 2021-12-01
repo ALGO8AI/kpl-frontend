@@ -83,7 +83,7 @@ function Setting() {
         <Grid container item xs={12}>
           <ManageRoles />
         </Grid>
-        <AddUser />
+        {/* <AddUser /> */}
       </TabPanel>
 
       {/* <TabPanel value={state.settingTab} index={2}>

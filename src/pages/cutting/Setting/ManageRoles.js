@@ -24,6 +24,7 @@ import {
   UpdateStitchingUserData,
   UnrevokeUserAccess,
 } from "../../../services/api.service";
+import AddUser from "./AddUser";
 
 function ManageRoles() {
   const [columns, setColumns] = useState([]);
@@ -938,6 +939,7 @@ function ManageRoles() {
         </Snackbar>
       </Grid> */}
       {/* </Grid> */}
+      <AddUser loadData={loadData} />
     </>
   );
 }
