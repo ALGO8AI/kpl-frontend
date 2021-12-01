@@ -201,11 +201,11 @@ function OperatorSchedule(props) {
   };
 
   const deleteSchedule = async (id) => {
-    const permission = window.confirm(
-      "Are you sure you want to delete the schedule ?"
-    );
-    if (permission) {
-      try {
+    try {
+      const permission = window.confirm(
+        "Are you sure you want to delete the schedule ?"
+      );
+      if (permission) {
         const formData = {
           id: id,
         };
@@ -213,17 +213,40 @@ function OperatorSchedule(props) {
         const resp = await deleteOperatorSchedule(formData);
         if (resp?.msg === "successfully updated") {
           loadData();
+          setOpen(true);
           setMsg("Successfully Deleted");
           setSeverity("success");
-          setOpen(true);
-          refreshData();
+          // refreshData();
         }
-      } catch (e) {}
-    } else {
-      setMsg("Operation Cancelled");
-      setSeverity("error");
-      setOpen(true);
-    }
+      } else {
+        setMsg("Operation Cancelled");
+        setSeverity("error");
+        setOpen(true);
+      }
+    } catch (e) {}
+    // const permission = window.confirm(
+    //   "Are you sure you want to delete the schedule ?"
+    // );
+    // if (permission) {
+    //   try {
+    //     const formData = {
+    //       id: id,
+    //     };
+    //     // console.log(formData);
+    //     const resp = await deleteOperatorSchedule(formData);
+    //     if (resp?.msg === "successfully updated") {
+    //       loadData();
+    //       setMsg("Successfully Deleted");
+    //       setSeverity("success");
+    //       setOpen(true);
+    //       refreshData();
+    //     }
+    //   } catch (e) {}
+    // } else {
+    //   setMsg("Operation Cancelled");
+    //   setSeverity("error");
+    //   setOpen(true);
+    // }
   };
 
   const [columns, setColumns] = useState([
@@ -771,13 +794,13 @@ function OperatorSchedule(props) {
           }}
         >
           <Typography variant="h6">{"UPDATE OPERATOR SCHEDULE"}</Typography>
-          <Button
+          {/* <Button
             onClick={deleteSchedule}
             variant="contained"
             color="secondary"
           >
             DELETE
-          </Button>
+          </Button> */}
         </Grid>
         <DialogContentText id="alert-dialog-description">
           <Grid container item style={{ padding: "12px", minWidth: "600px" }}>
@@ -817,7 +840,7 @@ function OperatorSchedule(props) {
               />
             </Grid>
             <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
+              {/* <TextField
                 id="outlined-basic"
                 label="Wing"
                 variant="outlined"
@@ -825,10 +848,39 @@ function OperatorSchedule(props) {
                 name="wing"
                 onChange={onScheduleDataChange}
                 fullWidth
-              />
+              /> */}
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  Wing
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  // value={userdata.supervisorName}
+                  fullWidth
+                  value={scheduleData.wing}
+                  name="wing"
+                  onChange={onScheduleDataChange}
+                  label="Wing"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {["FG2"].map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>{" "}
             <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
+              {/* <TextField
                 id="outlined-basic"
                 label="Shift"
                 variant="outlined"
@@ -839,7 +891,38 @@ function OperatorSchedule(props) {
                 }
                 fullWidth
                 disabled
-              />
+              /> */}
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  Shift
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  // value={userdata.supervisorName}
+                  fullWidth
+                  value={scheduleData.shift}
+                  name="shift"
+                  onChange={(e) =>
+                    setScheduleData({ ...scheduleData, shift: e.target.value })
+                  }
+                  label="Shift"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {["A", "B"].map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid
               md={6}
@@ -864,7 +947,7 @@ function OperatorSchedule(props) {
                   />
                 }
                 label="Machine Status"
-                disabled
+                // disabled
               />
             </Grid>
           </Grid>
