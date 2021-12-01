@@ -257,7 +257,7 @@ function LiveDefect(props) {
       getData();
     }
     getAlerts();
-    const interval = setInterval(() => getAlerts(), 10000);
+    const interval = setInterval(() => getAlerts(), 1000);
     return () => {
       clearInterval(interval);
     };
@@ -831,7 +831,6 @@ function LiveDefect(props) {
                       }`
                     )
                   )}{" "}
-                  hours
                 </p>
               </Grid>
               {/* VIDEO */}
