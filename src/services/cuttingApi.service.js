@@ -31,6 +31,15 @@ export const addScheduleDetail = async (formData) => {
   );
 };
 
+export const updateScheduleDetail = async (formData) => {
+  return await callBackend(
+    "POST",
+    "routes/addScheduleDetailCutting/update",
+    true,
+    { data: formData }
+  );
+};
+
 export const cuttingOperator = async () => {
   return await callBackend("GET", "routes/cutting/operator/all");
 };

@@ -298,6 +298,7 @@ function Supervisor(props) {
       if (permission) {
         const resp = await deleteSUpervisorSchedule({ id: userdata.id });
         loadData();
+        setEdit(false);
         setMsg("Schedule Deleted");
         setUserData({
           id: "",

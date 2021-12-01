@@ -44,6 +44,7 @@ import {
   deleteOperatorSchedule,
   getCuttingOperatorCopy,
   getCuttingOperatorSchedule,
+  updateScheduleDetail,
 } from "../../../services/cuttingApi.service";
 
 function Alert(props) {
@@ -251,7 +252,39 @@ function OperatorSchedule(props) {
       render: (x) => (Boolean(x.machineOnOff) ? "On" : "Off"),
     },
     {
-      title: "Delete",
+      title: "Edit",
+      render: (x) => (
+        <button
+          style={{
+            color: "#0e4a7b",
+            textDecoration: "underline",
+            backgroundColor: "white",
+            padding: "8px 16px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+          onClick={() => {
+            handleClickOpenDialog();
+            setScheduleData({
+              date: new Date(x.Date).toISOString().slice(0, 10),
+              operatorId: x.operatorId,
+              operatorName: x.operatorName,
+              shift: x.shift,
+              wing: x.wing,
+              machineId: x.machineId,
+              machineOnOff: Boolean(x.machineOnOff),
+              id: x.id,
+            });
+          }}
+        >
+          EDIT
+        </button>
+      ),
+    },
+    {
+      title: "DELETE",
       render: (x) => (
         <button
           style={{
@@ -266,42 +299,10 @@ function OperatorSchedule(props) {
           }}
           onClick={() => deleteSchedule(x.id)}
         >
-          Delete
+          DELETE
         </button>
       ),
     },
-    // {
-    //   title: "Edit",
-    //   render: (x) => (
-    // <button
-    //   style={{
-    //     color: "#0e4a7b",
-    //     textDecoration: "underline",
-    //     backgroundColor: "white",
-    //     padding: "8px 16px",
-    //     border: "none",
-    //     outline: "none",
-    //     cursor: "pointer",
-    //     fontSize: "1rem",
-    //   }}
-    //       onClick={() => {
-    //         handleClickOpenDialog();
-    //         setScheduleData({
-    //           date: new Date(x.Date).toISOString().slice(0, 10),
-    //           operatorId: x.operatorId,
-    //           operatorName: x.operatorName,
-    //           shift: x.shift,
-    //           wing: x.wing,
-    //           machineId: x.machineId,
-    //           machineOnOff: Boolean(x.machineOnOff),
-    //           id: x.id,
-    //         });
-    //       }}
-    //     >
-    //       EDIT
-    //     </button>
-    //   ),
-    // },
   ]);
 
   const [data, setData] = useState([]);
@@ -338,8 +339,12 @@ function OperatorSchedule(props) {
   const updateSchedule = async () => {
     try {
       console.log(scheduleData);
-      const resp = await updateStitchingWorkerSchedule(scheduleData);
-      console.log(resp);
+      const resp = await updateScheduleDetail({
+        ...scheduleData,
+        machineOnOff: scheduleData.machineOnOff ? 1 : 0,
+      });
+      loadData();
+      // console.log(resp);
       setMsg(resp.msg);
       setSeverity("success");
       setOpen(true);

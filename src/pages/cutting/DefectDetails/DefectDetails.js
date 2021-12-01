@@ -1059,18 +1059,18 @@ function DefectDetails(props) {
                       Repeated Violation
                     </MenuItem>
                     {[
+                      "Contamination",
+                      "Cutting",
+                      "End",
+                      "Lamination",
+                      "Loom Wastage-Fray",
+                      "Loom Wastage-Others",
                       "Loom Wastage-Warp Break",
                       "Loom Wastage-Warp Hole",
                       "Loom Wastage-Weft Break",
                       "Loom Wastage-Weft Missing",
-                      "Loom Wastage-Fray",
-                      "Loom Wastage-Others",
-                      "Lamination",
-                      "Cutting",
                       "Start",
-                      "End",
                       "Quality Check",
-                      "Contamination",
                     ].map((item, index) => (
                       <MenuItem value={item} key={index}>
                         {item}
