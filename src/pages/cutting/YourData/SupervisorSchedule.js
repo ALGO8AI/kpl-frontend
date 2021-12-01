@@ -500,7 +500,7 @@ function Supervisor(props) {
           fullWidth
         />
 
-        <FormControl
+        {/* <FormControl
           variant="outlined"
           fullWidth
           style={{ marginBottom: "12px" }}
@@ -524,7 +524,7 @@ function Supervisor(props) {
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <FormControl
           variant="outlined"
@@ -552,7 +552,7 @@ function Supervisor(props) {
           </Select>
         </FormControl>
 
-        <FormControl
+        {/* <FormControl
           variant="outlined"
           fullWidth
           style={{ marginBottom: "12px" }}
@@ -576,7 +576,7 @@ function Supervisor(props) {
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
         {/* <label for="myfile" className="inputLabel">
           Select a file:
         </label>

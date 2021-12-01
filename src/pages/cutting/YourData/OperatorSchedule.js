@@ -557,7 +557,7 @@ function OperatorSchedule(props) {
             }
             fullWidth
           />
-          <FormControl
+          {/* <FormControl
             variant="outlined"
             fullWidth
             style={{ marginBottom: "12px" }}
@@ -578,7 +578,6 @@ function OperatorSchedule(props) {
                 })
               }
               label="Wing"
-              // multiple
             >
               <MenuItem value="">
                 <em>None</em>
@@ -589,7 +588,7 @@ function OperatorSchedule(props) {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
           <FormControl
             variant="outlined"
             fullWidth
@@ -839,8 +838,8 @@ function OperatorSchedule(props) {
                 fullWidth
               />
             </Grid>
-            <Grid md={6} style={{ padding: "12px" }}>
-              {/* <TextField
+            {/* <Grid md={6} style={{ padding: "12px" }}>
+               <TextField
                 id="outlined-basic"
                 label="Wing"
                 variant="outlined"
@@ -848,7 +847,7 @@ function OperatorSchedule(props) {
                 name="wing"
                 onChange={onScheduleDataChange}
                 fullWidth
-              /> */}
+              /> 
               <FormControl
                 variant="outlined"
                 fullWidth
@@ -878,7 +877,7 @@ function OperatorSchedule(props) {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>{" "}
+            </Grid> */}
             <Grid md={6} style={{ padding: "12px" }}>
               {/* <TextField
                 id="outlined-basic"

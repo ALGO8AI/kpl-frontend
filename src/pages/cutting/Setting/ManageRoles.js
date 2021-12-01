@@ -88,7 +88,7 @@ function ManageRoles() {
       crowding: data.crowding ? 1 : 0,
       checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
     };
-    console.log(DATA);
+    // console.log(DATA);
     try {
       var txt = window.confirm("User will be updated, continue?");
       if (txt) {
@@ -519,7 +519,7 @@ function ManageRoles() {
               </Grid>
             )}
 
-            <Grid
+            {/* <Grid
               item
               xs={6}
               style={{
@@ -536,8 +536,8 @@ function ManageRoles() {
                 value={data.zone}
                 onChange={(e) => setData({ ...data, zone: e.target.value })}
               />
-            </Grid>
-            <Grid
+            </Grid> */}
+            {/* <Grid
               item
               xs={6}
               style={{
@@ -554,7 +554,7 @@ function ManageRoles() {
                 value={data.wing}
                 onChange={(e) => setData({ ...data, wing: e.target.value })}
               />
-            </Grid>
+            </Grid> */}
             <Grid
               item
               xs={6}
