@@ -44,8 +44,13 @@ export const cuttingOperator = async () => {
   return await callBackend("GET", "routes/cutting/operator/all");
 };
 
-export const cuttingSupervisorSchedule = async () => {
-  return await callBackend("GET", "routes/cutting/supervisorSchedule/all");
+export const cuttingSupervisorSchedule = async (formData) => {
+  return await callBackend(
+    "POST",
+    "routes/cutting/supervisorSchedule/all",
+    true,
+    formData
+  );
 };
 
 export const addCuttingSupervisorSingle = async (datas) => {
@@ -79,8 +84,13 @@ export const getCuttingOperatorCopy = async () => {
   return await callBackend("GET", "routes/cutting/schedule/updateAllSchedule");
 };
 
-export const getCuttingOperatorSchedule = async () => {
-  return await callBackend("GET", "routes/cutting/schedule/scheduleDetail");
+export const getCuttingOperatorSchedule = async (formData) => {
+  return await callBackend(
+    "POST",
+    "routes/cutting/schedule/scheduleDetail",
+    true,
+    formData
+  );
 };
 
 export const deleteOperatorSchedule = async (formData) => {

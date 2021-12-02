@@ -88,10 +88,10 @@ function Supervisor(props) {
         setMsg("Please include start date and end date");
         setOpen(true);
       } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getStitchingSupervisorSchedule(inputData);
+        const x = await cuttingSupervisorSchedule(inputData);
         setWorkerData(x.data);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getStitchingSupervisorSchedule(inputData);
+        const x = await cuttingSupervisorSchedule(inputData);
         setWorkerData(x.data);
       } else {
         setMsg("Wrong Date Range Selected");

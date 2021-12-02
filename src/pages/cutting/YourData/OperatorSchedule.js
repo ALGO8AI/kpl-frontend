@@ -146,10 +146,10 @@ function OperatorSchedule(props) {
         setSeverity("error");
         setOpen(true);
       } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getYourData(inputData);
+        const x = await getCuttingOperatorSchedule(inputData);
         setData(x.latestScheduleData);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getYourData(inputData);
+        const x = await getCuttingOperatorSchedule(inputData);
         setData(x.latestScheduleData);
       } else {
         setMsg("Wrong date range selected");
