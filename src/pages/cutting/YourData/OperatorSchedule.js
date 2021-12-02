@@ -130,12 +130,8 @@ function OperatorSchedule(props) {
 
   const refreshData = async () => {
     try {
-      const x = await getYourData();
-      dispatch({
-        type: "WORKER_SCHEDULE",
-        payload: { data: x.latestScheduleData, loading: false },
-      });
-      // setData(x.latestScheduleData);
+      const resp = await getCuttingOperatorSchedule();
+      setOperatorScheduleList(resp.data);
     } catch (err) {}
   };
 
@@ -146,11 +142,11 @@ function OperatorSchedule(props) {
         setSeverity("error");
         setOpen(true);
       } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getCuttingOperatorSchedule(inputData);
-        setData(x.latestScheduleData);
+        const resp = await getCuttingOperatorSchedule(inputData);
+        setOperatorScheduleList(resp.data);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getCuttingOperatorSchedule(inputData);
-        setData(x.latestScheduleData);
+        const resp = await getCuttingOperatorSchedule(inputData);
+        setOperatorScheduleList(resp.data);
       } else {
         setMsg("Wrong date range selected");
         setSeverity("error");

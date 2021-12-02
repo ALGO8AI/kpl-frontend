@@ -76,7 +76,6 @@ function Supervisor(props) {
   const loadData = async () => {
     try {
       const x = await cuttingSupervisorSchedule();
-      // console.log(x.data);
       setWorkerData(x.data);
       const supData = await getAllSupervisorList();
       setSupervisorList(supData);
