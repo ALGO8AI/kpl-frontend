@@ -241,7 +241,7 @@ function ViolationLog1() {
       const crowd = await crowdingViolationChecking(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputCTR.length > 0 ? inputCTR : [],
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId),
@@ -258,7 +258,7 @@ function ViolationLog1() {
       const defects = await defectsViolation(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputCTR.length > 0 ? inputCTR : [],
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId),
@@ -277,7 +277,7 @@ function ViolationLog1() {
       const tailorSum = await tailorSummary(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputCTR.length > 0 ? inputCTR : [],
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId),
@@ -330,7 +330,7 @@ function ViolationLog1() {
       const worker = await workerUnavailableViolationChecking(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputCTR.length > 0 ? inputCTR : [],
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId),
@@ -350,7 +350,7 @@ function ViolationLog1() {
       const by_worker = await violationByWorkerFChecking(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
+        inputCTR.length > 0 ? inputCTR : [],
         inputMACHINEid.length > 0
           ? inputMACHINEid
           : machineID.map((item) => item.tableId),

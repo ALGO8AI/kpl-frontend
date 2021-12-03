@@ -107,6 +107,12 @@ function TableData({
                   field: "unavailableDuration",
                   // hide: true,
                 },
+                {
+                  width: 240,
+                  headerName: "Utilization %",
+                  field: "utilizationPercentage",
+                  // hide: true,
+                },
                 // {
                 //   width: 240,
                 //   headerName: "Utilization %",

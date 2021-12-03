@@ -238,12 +238,12 @@ function NotificationLogChecking() {
                     width: 150,
                     hide: "true",
                   },
-                  {
-                    field: "status",
-                    headerName: "Status",
-                    width: 150,
-                    hide: "true",
-                  },
+                  // {
+                  //   field: "status",
+                  //   headerName: "Status",
+                  //   width: 150,
+                  //   hide: "true",
+                  // },
 
                   {
                     field: "query",
@@ -389,7 +389,7 @@ function NotificationLogChecking() {
                     width: 150,
                     hide: "true",
                   },
-                  { field: "status", headerName: "Status", width: 180 },
+                  // { field: "status", headerName: "Status", width: 180 },
 
                   {
                     field: "query",
@@ -546,11 +546,11 @@ function NotificationLogChecking() {
                     headerName: "Shift",
                     width: 180,
                   },
-                  {
-                    field: "status",
-                    headerName: "Status",
-                    width: 180,
-                  },
+                  // {
+                  //   field: "status",
+                  //   headerName: "Status",
+                  //   width: 180,
+                  // },
                   {
                     field: "supervisorId",
                     headerName: "Supervisor ID",

@@ -104,7 +104,7 @@ const workerUnavailableViolationChecking = async (
 ) => {
   const data = {
     clpctr: ctr,
-    machineId: machine,
+    tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts,
@@ -169,7 +169,7 @@ const crowdingViolationChecking = async (
 ) => {
   const data = {
     clpctr: ctr,
-    machineId: machine,
+    tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
     shifts,
