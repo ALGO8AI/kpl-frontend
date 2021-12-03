@@ -5,7 +5,7 @@ const localUrl = "http://localhost:5000";
 const cloudUrl = "http://kpl.algo8apps.com:3000"; //dev
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
-const videoWall = "http://13.232.228.72";
+const videoWall = "http://kpl.algo8apps.com";
 
 const baseUrl = cloudUrl;
 // const baseUrl = localUrl;
