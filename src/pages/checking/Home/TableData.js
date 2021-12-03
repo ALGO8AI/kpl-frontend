@@ -188,7 +188,7 @@ function TableData({
                 },
                 {
                   width: 240,
-                  headerName: "Worker Unavailable %",
+                  headerName: "Worker Utilization %",
                   field: "workerUnavPercentage",
                   // hide: true,
                 },

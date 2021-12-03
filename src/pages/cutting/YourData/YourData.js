@@ -65,7 +65,7 @@ function YourData() {
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
 
           <Tab label="Roll Summary" {...a11yProps(3)} />
-          <Tab label="Defects Logs" {...a11yProps(4)} />
+          <Tab label="Notification Logs" {...a11yProps(4)} />
 
           {/* <Tab label=" Layout" {...a11yProps(4)} /> */}
         </Tabs>

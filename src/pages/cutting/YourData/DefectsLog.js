@@ -205,11 +205,11 @@ function DefectsLog() {
                     width: 210,
                     // hide: "true",
                   },
-                  {
-                    field: "violationReason",
-                    headerName: "Violation Reason",
-                    width: 240,
-                  },
+                  // {
+                  //   field: "violationReason",
+                  //   headerName: "Violation Reason",
+                  //   width: 240,
+                  // },
                   {
                     field: "operatorId",
                     headerName: "Operator ID",
@@ -228,14 +228,14 @@ function DefectsLog() {
                   },
 
                   { field: "shift", headerName: "Shift", width: 150 },
-                  {
-                    field: "status",
-                    headerName: "Status",
-                    width: 150,
-                  },
+                  // {
+                  //   field: "status",
+                  //   headerName: "Status",
+                  //   width: 150,
+                  // },
                   {
                     field: "actionStatus",
-                    headerName: "Action Status",
+                    headerName: "Action Taken",
                     width: 210,
                   },
                 ]}
