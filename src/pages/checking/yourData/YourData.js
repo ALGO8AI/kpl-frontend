@@ -6,7 +6,7 @@ import Tab from "@material-ui/core/Tab";
 import { Grid } from "@material-ui/core";
 import Schedule from "./Schedule";
 import Supervisor from "./Supervisor";
-import Tailor from "./Tailor";
+// import Tailor from "./Tailor";
 import NotificationLogChecking from "../../../components/notificationLog/NotificationLogChecking";
 import WorkerChecking from "./Worker";
 import Worker from "../../stitching/yourData/Worker";

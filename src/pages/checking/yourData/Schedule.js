@@ -104,13 +104,26 @@ function Schedule(props) {
 
   const filterData = async () => {
     try {
-      const worker = await getAllWorketrList(inputData);
-      // console.log();
-      setWorkerList(worker?.data);
-      const x = await getCheckingSchedule(inputData);
-
-      setData(x.data);
+      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
+        setMsg("Please include start date and end date");
+        setSeverity("error");
+        setOpen(true);
+      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
+        const x = await getCheckingSchedule(inputData);
+        setData(x.data);
+      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
+        const x = await getCheckingSchedule(inputData);
+        setData(x.data);
+      } else {
+        setMsg("Wrong date range selected");
+        setSeverity("error");
+        setOpen(true);
+      }
     } catch (err) {}
+    // try {
+    // const x = await getCheckingSchedule(inputData);
+    // setData(x.data);
+    // } catch (err) {}
   };
 
   const copy = async () => {
