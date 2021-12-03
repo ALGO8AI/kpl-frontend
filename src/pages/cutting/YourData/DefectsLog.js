@@ -6,12 +6,12 @@ import {
   Tab,
   Tabs,
   TextField,
-  Typography,
+  // Typography,
 } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
-import clsx from "clsx";
+// import clsx from "clsx";
 import moment from "moment";
 import React from "react";
 // import { notificationLogs } from "../../../";
@@ -205,11 +205,11 @@ function DefectsLog() {
                     width: 210,
                     // hide: "true",
                   },
-                  // {
-                  //   field: "violationReason",
-                  //   headerName: "Violation Reason",
-                  //   width: 240,
-                  // },
+                  {
+                    field: "violationReason",
+                    headerName: "Defect Type",
+                    width: 240,
+                  },
                   {
                     field: "operatorId",
                     headerName: "Operator ID",
@@ -235,7 +235,7 @@ function DefectsLog() {
                   // },
                   {
                     field: "actionStatus",
-                    headerName: "Action Taken",
+                    headerName: "Defect Status",
                     width: 210,
                   },
                 ]}

@@ -25,6 +25,8 @@ import {
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import moment from "moment";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -73,12 +75,33 @@ function Supervisor(props) {
   const loadData = async () => {
     try {
       const x = await getCheckingSupervisorSchedule();
-      console.log(x.data);
       setWorkerData(x.data);
       const supData = await getAllSupervisorList();
       setSupervisorList(supData);
     } catch (err) {}
   };
+
+  const filterData = async () => {
+    try {
+      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
+        setMsg("Please include start date and end date");
+        setOpen(true);
+      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
+        const x = await getCheckingSupervisorSchedule(inputData);
+        // console.log(x);
+        setWorkerData(x.data);
+      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
+        const x = await getCheckingSupervisorSchedule(inputData);
+        // console.log(x);
+        setWorkerData(x.data);
+      } else {
+        setMsg("Wrong Date Range Selected");
+        //  setSeverity("error");
+        setOpen(true);
+      }
+    } catch (err) {}
+  };
+
   useEffect(() => {
     loadData();
   }, []);
@@ -172,6 +195,11 @@ function Supervisor(props) {
     line: "",
     kitSupervisor: false,
     lineSupervisor: false,
+  });
+
+  const [inputData, setInputData] = React.useState({
+    filterDateFrom: "",
+    filterDateTo: "",
   });
 
   const onInputChange = (e) => {
@@ -607,6 +635,76 @@ function Supervisor(props) {
         )}
       </Grid>
       <Grid item xs={12} md={8}>
+        <Grid
+          container
+          item
+          xs={12}
+          style={{
+            padding: "4px",
+            marginBottom: "12px",
+          }}
+        >
+          <Grid container item xs={6} md={4}>
+            <TextField
+              key="from"
+              id="fromDate"
+              label="From"
+              value={inputData.filterDateFrom}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) =>
+                setInputData({ ...inputData, filterDateFrom: e.target.value })
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid container item xs={6} md={4}>
+            <TextField
+              key="to"
+              id="fromDate"
+              label="To"
+              value={inputData.filterDateTo}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) =>
+                setInputData({ ...inputData, filterDateTo: e.target.value })
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <Button variant="contained" color="primary" onClick={filterData}>
+              <FilterListIcon />
+              Filter
+            </Button>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <Button variant="contained" color="primary" onClick={loadData}>
+              <RefreshIcon />
+              Refresh
+            </Button>
+          </Grid>
+        </Grid>
         <Button
           variant="contained"
           style={{

@@ -944,8 +944,14 @@ const getCheckingWorkerData = async () => {
   return await callBackend("GET", "routes/checking/worker/all");
 };
 
-const getCheckingSchedule = async () => {
-  return await callBackend("GET", "routes/checking/schedule/scheduleDetail");
+const getCheckingSchedule = async (formData) => {
+  console.log("formData", formData);
+  return await callBackend(
+    "POST",
+    "routes/checking/schedule/scheduleDetail",
+    true,
+    formData
+  );
 };
 
 const updateCheckingWorkerSchedule = async (datas) => {
@@ -1051,8 +1057,13 @@ const updateStitchingSupervisorSingle = async (datas) => {
   );
 };
 
-const getCheckingSupervisorSchedule = async () => {
-  return await callBackend("GET", "routes/checking/supervisorSchedule/all");
+const getCheckingSupervisorSchedule = async (formData) => {
+  return await callBackend(
+    "POST",
+    "routes/checking/supervisorSchedule/all",
+    true,
+    formData
+  );
 };
 
 const getCheckingSupervisorCopy = async () => {
