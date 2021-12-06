@@ -208,10 +208,10 @@ function OperatorSchedule(props) {
         // console.log(formData);
         const resp = await deleteOperatorSchedule(formData);
         if (resp?.msg === "successfully updated") {
-          loadData();
-          setOpen(true);
-          setMsg("Successfully Deleted");
+          setMsg("Deleted");
           setSeverity("success");
+          setOpen(true);
+          loadData();
           // refreshData();
         }
       } else {
