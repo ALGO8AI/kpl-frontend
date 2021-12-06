@@ -210,7 +210,7 @@ function NotificationLogChecking() {
                     width: 150,
                   },
                   { field: "crowdEndTime", headerName: "End Time", width: 150 },
-                  { field: "day", headerName: "Day", width: 150 },
+                  // { field: "day", headerName: "Day", width: 150 },
                   {
                     field: "CrowdingDuration",
                     headerName: "Crowding Duration",
@@ -259,7 +259,7 @@ function NotificationLogChecking() {
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 180,
+                    width: 240,
                   },
                   {
                     field: "action",
