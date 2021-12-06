@@ -828,7 +828,7 @@ function ViolationDetail(props) {
                 style={{ alignItems: "center" }}
               >
                 {/* WORKER NAME */}
-                {data?.workerName && (
+                {data?.workerName && data?.workerName !== "not available" && (
                   <NameValue
                     name="WORKER NAME"
                     value={data && data?.workerName}
@@ -836,7 +836,7 @@ function ViolationDetail(props) {
                 )}
 
                 {/*WORKER ID  */}
-                {data?.workerId && (
+                {data?.workerId && data?.workerId !== "not available" && (
                   <NameValue name="WORKER ID" value={data && data?.workerId} />
                 )}
                 {/* MACHINE ID */}
@@ -854,7 +854,7 @@ function ViolationDetail(props) {
                   <NameValue name="CTR NO." value={data && data.ctr} />
                 )}
 
-                {data?.CTR && (
+                {data?.CTR && data?.CTR !== "not available" && (
                   <NameValue name="CTR NO." value={data && data.CTR} />
                 )}
 

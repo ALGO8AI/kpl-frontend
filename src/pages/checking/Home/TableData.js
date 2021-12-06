@@ -109,7 +109,7 @@ function TableData({
                 },
                 {
                   width: 240,
-                  headerName: "Utilization %",
+                  headerName: "Worker Utilization %",
                   field: "utilizationPercentage",
                   // hide: true,
                 },
