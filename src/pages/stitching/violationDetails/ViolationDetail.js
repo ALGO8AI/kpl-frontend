@@ -27,6 +27,7 @@ import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { FormControl, InputLabel, Paper, Typography } from "@material-ui/core";
+import { KPLContext } from "../../../context/ViolationContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -152,7 +153,8 @@ function NameValue({ name, value }) {
 }
 
 function ViolationDetail(props) {
-  console.log(props);
+  const { state, dispatch } = React.useContext(KPLContext);
+
   const history = useHistory();
   const classes = useStyles();
   const [data, setData] = useState();
@@ -169,11 +171,9 @@ function ViolationDetail(props) {
       if (typeOfViolation === "feedUnavailable") {
         const x = await FEED_UnavailableViolation();
         setVIOLATION(x);
-        console.log(x.length);
       } else if (typeOfViolation === "worker") {
         const x = await WORKER_UnavailableViolation();
         setVIOLATION(x);
-        console.log(x.length);
       }
     } catch (err) {
       console.log(err.message);
@@ -332,7 +332,13 @@ function ViolationDetail(props) {
       const resp = await communicatedTo(
         communicated,
         props.id,
-        reason === "Add Reason" ? reason1 : reason
+        reason === "Add Reason" ? reason1 : reason,
+        link?.includes("webM")
+          ? link?.replace("webM", "png")
+          : link?.includes("mp4")
+          ? link?.replace("mp4", "png")
+          : "",
+        state.profile.username
       );
       setMsg(resp.msg);
       setOpen1(true);

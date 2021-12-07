@@ -90,6 +90,8 @@ function Defects() {
   const { state, dispatch } = React.useContext(CuttingContext);
 
   const [selectedRow, setSelectedRow] = useState(null);
+  const [loader, setLoader] = useState(false);
+
   const [idLabel, setIdLabel] = useState();
   const [link, setLink] = React.useState("");
   const [img, setImg] = React.useState("");
@@ -136,6 +138,8 @@ function Defects() {
 
   const fetchData = async () => {
     try {
+      setLoader(true);
+
       const defectData = await defectViolation();
       dispatch({
         type: "DEFECT_VIO",
@@ -146,11 +150,13 @@ function Defects() {
       });
       const fabrics = await getFabricList();
       setFabricList(fabrics.data);
+      setLoader(false);
     } catch (e) {}
   };
 
   const dateFilter = async () => {
     try {
+      setLoader(true);
       const defectData = await defectViolation(
         state?.violationFrom,
         state?.violationTo,
@@ -167,6 +173,7 @@ function Defects() {
           loading: false,
         },
       });
+      setLoader(false);
     } catch (e) {}
   };
 
@@ -412,6 +419,7 @@ function Defects() {
                 data={state?.defect?.data}
                 // rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",

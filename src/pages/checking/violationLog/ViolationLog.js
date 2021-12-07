@@ -91,6 +91,8 @@ const useStyles = makeStyles((theme) => ({
 function ViolationLog1() {
   const { state, dispatch } = React.useContext(CheckingContext);
 
+  const [loader, setLoader] = useState(false);
+
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
   const [link, setLink] = React.useState("");
@@ -124,6 +126,8 @@ function ViolationLog1() {
   const classes = useStyles();
 
   const refreshData = async () => {
+    setLoader(true);
+
     var myDate = new Date();
     var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
     dispatch({
@@ -234,10 +238,13 @@ function ViolationLog1() {
         loading: false,
       },
     });
+    setLoader(false);
   };
 
   const dateFilter = async () => {
     try {
+      setLoader(true);
+
       const crowd = await crowdingViolationChecking(
         state.violationFrom,
         state.violationTo,
@@ -366,6 +373,7 @@ function ViolationLog1() {
           },
         });
       }
+      setLoader(false);
     } catch (err) {}
   };
 
@@ -1005,6 +1013,7 @@ function ViolationLog1() {
                 data={state.crowd.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -1100,6 +1109,7 @@ function ViolationLog1() {
                 data={state.worker.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -1192,6 +1202,7 @@ function ViolationLog1() {
                 data={state.defects.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -1296,6 +1307,7 @@ function ViolationLog1() {
                 data={state.by_worker.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   { title: "Checker ID", field: "checkerID" },
                   { title: "Checker Name", field: "checkerName" },
@@ -1327,6 +1339,7 @@ function ViolationLog1() {
                 data={state.tailorSummary.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   { title: "Tailor ID", field: "name" },
                   { title: "Tailor Name", field: "workerName" },

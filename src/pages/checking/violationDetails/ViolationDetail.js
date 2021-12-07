@@ -345,7 +345,13 @@ function ViolationDetail(props) {
       const resp = await communicatedTo(
         communicated,
         props.id,
-        reason === "Add Reason" ? reason1 : reason
+        reason === "Add Reason" ? reason1 : reason,
+        link?.includes("webM")
+          ? link.replace("webM", "png")
+          : link.includes("mp4")
+          ? link.replace("mp4", "png")
+          : "",
+        localStorage.getItem("kpl_username")
       );
       setMsg(resp.msg);
       setOpen1(true);

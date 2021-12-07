@@ -246,6 +246,11 @@ function RollSummary() {
                   headerName: "Defect Count",
                   width: 180,
                 },
+                {
+                  field: "partName",
+                  headerName: "Part Name",
+                  width: 180,
+                },
 
                 {
                   field: "operatorName",

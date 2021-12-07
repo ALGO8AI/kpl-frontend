@@ -151,11 +151,13 @@ export const cuttingViolationSupervisorUpdate = async (
   );
 };
 
-export const cuttingCommunicatedTo = async (to, id, reason) => {
+export const cuttingCommunicatedTo = async (to, id, reason, image, name) => {
   const data = {
     communicatedTo: to,
     violationId: id,
     violationReason: reason,
+    image: image,
+    userName: name,
   };
   return await callBackend(
     "POST",

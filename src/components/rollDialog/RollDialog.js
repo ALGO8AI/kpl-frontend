@@ -250,12 +250,12 @@ function RollDialog({ open, handleCloseCTR }) {
                 <Grid item xs={12}>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel id="demo-simple-select-outlined-label">
-                      Select Roll Category
+                      Select Part Name
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      label="Select Roll Category"
+                      label="Select Part Name"
                       value={selectedData.bodyPart}
                       onChange={async (e) => {
                         setSelectedData({

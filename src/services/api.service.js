@@ -894,11 +894,13 @@ const copyScheduleChecking = async () => {
   return await callBackend("GET", "routes/checking/schedule/updateAllSchedule");
 };
 
-const communicatedTo = async (to, id, reason) => {
+const communicatedTo = async (to, id, reason, image, name) => {
   const data = {
     communicatedTo: to,
     violationId: id,
     violationReason: reason,
+    image: image,
+    userName: name,
   };
   return await callBackend(
     "POST",

@@ -342,7 +342,9 @@ function DefectDetails(props) {
       const resp = await cuttingCommunicatedTo(
         communicated,
         props.id,
-        reason === "Add Reason" ? reason1 : reason
+        reason === "Add Reason" ? reason1 : reason,
+        data.img,
+        localStorage.getItem("kpl_username")
       );
       setMsg(resp.msg);
       setOpen1(true);

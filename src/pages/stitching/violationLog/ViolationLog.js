@@ -90,6 +90,7 @@ function ViolationLog1() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
 
+  const [loader, setLoader] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
   const [link, setLink] = React.useState("");
@@ -125,6 +126,7 @@ function ViolationLog1() {
 
   const refreshData = async () => {
     try {
+      setLoader(true);
       var myDate = new Date();
       var newDateWeekBack = new Date(
         myDate.getTime() - 60 * 60 * 24 * 7 * 1000
@@ -204,11 +206,13 @@ function ViolationLog1() {
           loading: false,
         },
       });
+      setLoader(false);
     } catch (e) {}
   };
 
   const dateFilter = async () => {
     try {
+      setLoader(true);
       const machineBreak = await getMachineBreakdown(
         state.violationFrom,
         state.violationTo,
@@ -336,6 +340,7 @@ function ViolationLog1() {
           },
         });
       }
+      setLoader(false);
     } catch (err) {}
   };
 
@@ -851,6 +856,7 @@ function ViolationLog1() {
                 data={state.feed.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -950,6 +956,7 @@ function ViolationLog1() {
                 data={state.crowd.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -1089,6 +1096,7 @@ function ViolationLog1() {
                 data={state.worker.data}
                 rowClick={rowClick}
                 selectedRow={selectedRow}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -1213,6 +1221,7 @@ function ViolationLog1() {
               <WorkerPerformanceTable
                 // title=""
                 data={state.by_worker.data}
+                loading={loader}
                 // rowClick={rowClick}
                 columns={[
                   { title: "Worker ID", field: "workerId" },
@@ -1244,6 +1253,7 @@ function ViolationLog1() {
                 // title=""
                 data={state.machineBreakdown.data}
                 rowClick={rowClick}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
@@ -1335,6 +1345,7 @@ function ViolationLog1() {
                 // title=""
                 data={state.machineViolation.data}
                 rowClick={rowClick}
+                loading={loader}
                 columns={[
                   {
                     field: "view",
