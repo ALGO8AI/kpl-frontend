@@ -22,6 +22,7 @@ import {
   addCheckingSupervisorSingle,
   updateCheckingSupervisorSingle,
   getAllSupervisorList,
+  deleteCheckingSupervisorSchedule,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import moment from "moment";
@@ -290,8 +291,43 @@ function Supervisor(props) {
         kitSupervisor: false,
         lineSupervisor: false,
       });
+      setEdit(false);
     } catch (err) {}
   };
+
+  const deleteSUpervisor = async () => {
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete the schedule?"
+      );
+      if (confirm) {
+        const resp = await deleteCheckingSupervisorSchedule({
+          id: userdata.id,
+        });
+        if (resp.message) {
+          setMsg("Successfully Deleted");
+          setOpen(true);
+          setUserData({
+            id: "",
+            supervisorName: "",
+            supervisorId: "",
+            date: "",
+            shift: "",
+            wing: "",
+            line: "",
+            kitSupervisor: false,
+            lineSupervisor: false,
+          });
+          setEdit(false);
+          loadData();
+        }
+      } else {
+        setMsg("Operation Cancelled");
+        setOpen(true);
+      }
+    } catch (e) {}
+  };
+
   const onUserChange = (e) => {
     const i = supervisorList.findIndex(
       (item) =>
@@ -586,12 +622,15 @@ function Supervisor(props) {
                   setEdit(false);
                   setUserData({
                     ...userdata,
+                    id: "",
                     supervisorName: "",
                     supervisorId: "",
                     date: "",
                     shift: "",
                     wing: "",
                     line: "",
+                    kitSupervisor: false,
+                    lineSupervisor: false,
                   });
                 }}
               >
@@ -612,6 +651,22 @@ function Supervisor(props) {
                 onClick={() => updateSupervisor(userdata)}
               >
                 UPDATE
+              </Button>
+            </Grid>
+            <Grid container item xs={12} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#b53f3f",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #b53f3f",
+                }}
+                onClick={deleteSUpervisor}
+              >
+                DELETE
               </Button>
             </Grid>
           </Grid>

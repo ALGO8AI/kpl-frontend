@@ -1683,6 +1683,24 @@ const getFabricList = async () => {
   );
 };
 
+export const deleteCheckingWorkerSchedule = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/addScheduleDetailChecking/delete",
+    true,
+    data
+  );
+};
+
+export const deleteCheckingSupervisorSchedule = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/checkingSupervisorSchedule/deleteSupervisor",
+    true,
+    data
+  );
+};
+
 export {
   login,
   getViolation,

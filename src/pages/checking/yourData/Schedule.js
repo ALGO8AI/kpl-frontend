@@ -11,6 +11,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import {
   addCheckingWorkerSchedule,
   copyScheduleChecking,
+  deleteCheckingWorkerSchedule,
   getAllWorketrList,
   getCheckingSchedule,
   updateCheckingWorkerSchedule,
@@ -136,6 +137,27 @@ function Schedule(props) {
     } catch (e) {}
   };
 
+  const deleteSchedule = async (id) => {
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete the schedule?"
+      );
+      if (confirm) {
+        const resp = await deleteCheckingWorkerSchedule({ id });
+        if (resp?.msg) {
+          setOpen(true);
+          setMsg("Successfully Deleted");
+          setSeverity("success");
+          loadData();
+        }
+      } else {
+        setOpen(true);
+        setMsg("Operation Cancelled");
+        setSeverity("error");
+      }
+    } catch (e) {}
+  };
+
   const [columns, setColumns] = useState([
     {
       title: "Date",
@@ -188,6 +210,38 @@ function Schedule(props) {
           }}
         >
           EDIT
+        </button>
+      ),
+    },
+    {
+      title: "Delete",
+      render: (x) => (
+        <button
+          style={{
+            color: "#0e4a7b",
+            textDecoration: "underline",
+            backgroundColor: "white",
+            padding: "8px 16px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+          onClick={
+            () => deleteSchedule(x.id)
+            // handleClickOpenDialog();
+            // setScheduleData({
+            //   date: new Date(x.Date).toISOString().slice(0, 10),
+            //   workerId: x.workerId,
+            //   shift: x.shift,
+            //   wing: x.wing,
+            //   tableId: x.tableId,
+            //   id: x.id,
+            //   tableOnOff: Boolean(x.tableOnOff),
+            // });
+          }
+        >
+          DELETE
         </button>
       ),
     },
