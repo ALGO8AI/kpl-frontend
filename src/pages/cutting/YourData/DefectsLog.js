@@ -206,6 +206,11 @@ function DefectsLog() {
                     // hide: "true",
                   },
                   {
+                    field: "action",
+                    headerName: "Action Taken",
+                    width: 240,
+                  },
+                  {
                     field: "violationReason",
                     headerName: "Defect Type",
                     width: 240,

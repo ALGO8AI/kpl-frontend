@@ -1430,6 +1430,29 @@ const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {
   );
 };
 
+export const productionSummary = async (
+  fromDate,
+  toDate,
+  ctr,
+  tableId,
+  shifts
+) => {
+  const data = {
+    clpctr: ctr,
+    tableId: tableId,
+    filterDateFrom: fromDate,
+    filterDateTo: toDate,
+    shifts,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/violation/allDefectViolationData",
+    true,
+    data
+  );
+};
+
 const getCurrentCTR = async () => {
   return await callBackend("GET", "routes/ctr/currentCLPCTR");
 };

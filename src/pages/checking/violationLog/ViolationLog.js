@@ -24,6 +24,7 @@ import {
   defectsViolation,
   getAllTableId,
   tailorSummary,
+  productionSummary,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -186,6 +187,18 @@ function ViolationLog1() {
       },
     });
 
+    const prodSUm = await productionSummary();
+    // console.table("Prod SUmmary");
+    // console.table(defects);
+
+    dispatch({
+      type: "PRODUCTION_SUMMARY",
+      payload: {
+        data: prodSUm?.data,
+        loading: false,
+      },
+    });
+
     const tailorSum = await tailorSummary(
       state.violationFrom,
       state.violationTo,
@@ -271,7 +284,7 @@ function ViolationLog1() {
           : machineID.map((item) => item.tableId),
         inputSHIFT
       );
-      console.log(defects?.data);
+      // console.log(defects?.data);
 
       dispatch({
         type: "DEFECTS",
@@ -280,6 +293,28 @@ function ViolationLog1() {
           loading: false,
         },
       });
+
+      // if (state.productionSummary.loading) {
+      const prodSum = await productionSummary(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR.length > 0 ? inputCTR : [],
+        inputMACHINEid.length > 0
+          ? inputMACHINEid
+          : machineID.map((item) => item.tableId),
+        inputSHIFT
+      );
+      // console.table("Prod SUmmary");
+      // console.table(defects);
+
+      dispatch({
+        type: "PRODUCTION_SUMMARY",
+        payload: {
+          data: prodSum?.data,
+          loading: false,
+        },
+      });
+      // }
 
       const tailorSum = await tailorSummary(
         state.violationFrom,
@@ -343,7 +378,7 @@ function ViolationLog1() {
           : machineID.map((item) => item.tableId),
         inputSHIFT
       );
-      console.log(worker?.workerUnavailableDurationData);
+      // console.log(worker?.workerUnavailableDurationData);
       if (worker?.workerUnavailableDurationData !== "no data") {
         dispatch({
           type: "WORKER_VIO",
@@ -363,7 +398,7 @@ function ViolationLog1() {
           : machineID.map((item) => item.tableId),
         inputSHIFT
       );
-      console.log(by_worker?.violationByWorkerData);
+      // console.log(by_worker?.violationByWorkerData);
       if (by_worker?.violationByWorkerData !== "no data") {
         dispatch({
           type: "BY_WORKER_VIO",
@@ -445,6 +480,19 @@ function ViolationLog1() {
 
         dispatch({
           type: "DEFECTS",
+          payload: {
+            data: defects?.data,
+            loading: false,
+          },
+        });
+      }
+      if (state.productionSummary.loading) {
+        const defects = await productionSummary();
+        // console.table("Prod SUmmary");
+        // console.table(defects);
+
+        dispatch({
+          type: "PRODUCTION_SUMMARY",
           payload: {
             data: defects?.data,
             loading: false,
@@ -997,17 +1045,122 @@ function ViolationLog1() {
               variant="scrollable"
               scrollButtons="auto"
             >
-              <Tab label="Crowding Violation" {...a11yProps(0)} />
-              <Tab label="Worker Violation" {...a11yProps(1)} />
-              <Tab label="Defects" {...a11yProps(2)} />
-              <Tab label="Checker Performance" {...a11yProps(3)} />
-              <Tab label="Tailor Summary" {...a11yProps(4)} />
+              <Tab label="Defects" {...a11yProps(0)} />
+              <Tab label="Production Summary" {...a11yProps(1)} />
+              <Tab label="Worker Violation" {...a11yProps(2)} />
+              <Tab label="Crowding Violation" {...a11yProps(3)} />
+              <Tab label="Checker Performance" {...a11yProps(4)} />
+              <Tab label="Tailor Summary" {...a11yProps(5)} />
 
               {/* <Tab label="By Table" {...a11yProps(3)} /> */}
             </Tabs>
           </AppBar>
 
-          <TabPanel value={state.violationTab} index={0}>
+          <TabPanel value={state.violationTab} index={1}>
+            <Grid container item xs={12} style={{ padding: "12px" }}>
+              <ViolationTable
+                data={state.productionSummary.data}
+                rowClick={rowClick}
+                selectedRow={selectedRow}
+                loading={loader}
+                columns={[
+                  {
+                    field: "view",
+                    title: "Details",
+                    render: (rowData) => (
+                      <Link
+                        to={`/checking/violationDetails/${rowData.Id}`}
+                        className={returnClassNameDefect(
+                          rowData.actionStatus.toLowerCase()
+                        )}
+                        onClick={() => {
+                          localStorage.setItem("VIOLATION", "defects");
+                          localStorage.setItem(
+                            "VIOLATION-TYPE",
+                            "Defect Violation"
+                          );
+                          localStorage.setItem(
+                            "VIOLATION-STATUS",
+                            returnStatusDefect(
+                              rowData.actionStatus.toLowerCase()
+                            )
+                          );
+                        }}
+                      >
+                        {returnStatusDefect(rowData.actionStatus.toLowerCase())}
+                      </Link>
+                    ),
+                  },
+                  { title: "Violation ID", field: "Id" },
+                  // {
+                  //   title: "Status",
+                  //   field: "query",
+                  //   render: (rowData) => {
+                  //     return rowData.query === "Not Resolved" ? (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(249, 54, 54)",
+                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Not Resolved
+                  //       </p>
+                  //     ) : (
+                  //       <p
+                  //         style={{
+                  //           color: "rgb(74, 170, 22)",
+                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                  //           padding: "4px 8px",
+                  //           borderRadius: "4px",
+                  //         }}
+                  //       >
+                  //         Resolved
+                  //       </p>
+                  //     );
+                  //   },
+                  // },
+                  // { title: "Violation Reason", field: "ViolationReason" },
+                  { title: "Bag ID", field: "bagId" },
+                  { title: "Table No.", field: "table_no" },
+                  {
+                    title: "Date",
+                    field: "DateTime",
+                    render: (rowData) => {
+                      const NewDate = moment(new Date(rowData.dateTime))
+                        .format("DD/MM/YYYY")
+                        .toString();
+                      return NewDate;
+                    },
+                  },
+                  { title: "CTR No.", field: "ctr_no" },
+                  {
+                    title: "Time",
+                    field: "time",
+                  },
+
+                  { title: "Checker ID", field: "checker_emp_id" },
+                  { title: "Checker Name", field: "checker_name" },
+
+                  { title: "Tailor No.", field: "tailorNumber" },
+                  { title: "Tailor Name", field: "tailorName" },
+
+                  { title: "Defect Name", field: "defectName" },
+                  // { title: "Action Status", field: "actionStatus" },
+
+                  { title: "Wing", field: "wing" },
+                  { title: "Line", field: "line" },
+                  { title: "Shift", field: "shift" },
+                  { title: "Supervisor ID", field: "supervisorId" },
+
+                  { title: "Supervisor Name", field: "supervisorName" },
+                ]}
+              />
+            </Grid>
+          </TabPanel>
+
+          <TabPanel value={state.violationTab} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.crowd.data}
@@ -1103,7 +1256,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={state.violationTab} index={1}>
+          <TabPanel value={state.violationTab} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.worker.data}
@@ -1196,7 +1349,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={state.violationTab} index={2}>
+          <TabPanel value={state.violationTab} index={0}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.defects.data}
@@ -1262,6 +1415,7 @@ function ViolationLog1() {
                   //   },
                   // },
                   // { title: "Violation Reason", field: "ViolationReason" },
+                  { title: "Bag ID", field: "bagId" },
                   { title: "Table No.", field: "table_no" },
                   {
                     title: "Date",
@@ -1288,8 +1442,6 @@ function ViolationLog1() {
                   { title: "Defect Name", field: "defectName" },
                   // { title: "Action Status", field: "actionStatus" },
 
-                  { title: "Bag ID", field: "bagId" },
-
                   { title: "Wing", field: "wing" },
                   { title: "Line", field: "line" },
                   { title: "Shift", field: "shift" },
@@ -1301,7 +1453,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={state.violationTab} index={3}>
+          <TabPanel value={state.violationTab} index={4}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.by_worker.data}
@@ -1333,7 +1485,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          <TabPanel value={state.violationTab} index={4}>
+          <TabPanel value={state.violationTab} index={5}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.tailorSummary.data}

@@ -56,6 +56,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  productionSummary: {
+    data: [],
+    loading: true,
+  },
   tailorSummary: {
     data: [],
     loading: true,
@@ -128,6 +132,9 @@ let reducer = (state, action) => {
     }
     case "TAILOR_SUMMARY": {
       return { ...state, tailorSummary: action.payload };
+    }
+    case "PRODUCTION_SUMMARY": {
+      return { ...state, productionSummary: action.payload };
     }
     case "BAG-DATA-PRINT": {
       return {
