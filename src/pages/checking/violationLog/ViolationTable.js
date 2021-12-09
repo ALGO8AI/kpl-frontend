@@ -13,6 +13,15 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  loadingTable: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
@@ -44,7 +53,7 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
           </div>
         )
       ) : (
-        <div className={classes.root}>
+        <div className={classes.loadingTable}>
           <CircularProgress />
         </div>
       )}

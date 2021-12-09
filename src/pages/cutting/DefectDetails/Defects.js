@@ -449,10 +449,14 @@ function Defects() {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.date))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      // const NewDate = moment(new Date(rowData.date))
+                      //   .format("DD/MM/YYYY")
+                      //   .toString();
+                      // return new Date(rowData.date).toUTCString().slice(5, 16);
+                      const d = rowData.date;
+                      return `${new Date(d).getUTCDate()}/${new Date(
+                        d
+                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   { title: "Time", field: "time" },

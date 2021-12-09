@@ -250,12 +250,12 @@ function NotificationLog() {
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 210,
+                    width: 300,
                   },
                   {
                     field: "action",
-                    headerName: "Action",
-                    width: 180,
+                    headerName: "Action Taken",
+                    width: 280,
                   },
                   {
                     field: "confirmStatus",
@@ -407,12 +407,12 @@ function NotificationLog() {
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 180,
+                    width: 300,
                   },
                   {
                     field: "action",
-                    headerName: "Action",
-                    width: 180,
+                    headerName: "Action Taken",
+                    width: 280,
                   },
                   {
                     field: "confirmStatus",
@@ -553,12 +553,12 @@ function NotificationLog() {
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 210,
+                    width: 300,
                   },
                   {
                     field: "action",
-                    headerName: "Action",
-                    width: 180,
+                    headerName: "Action Taken",
+                    width: 280,
                   },
                   {
                     field: "confirmStatus",
@@ -699,7 +699,7 @@ function NotificationLog() {
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 210,
+                    width: 300,
                   },
                   {
                     field: "violationDuration",
@@ -708,8 +708,8 @@ function NotificationLog() {
                   },
                   {
                     field: "action",
-                    headerName: "Action",
-                    width: 180,
+                    headerName: "Action Taken",
+                    width: 280,
                   },
                   {
                     field: "actionStatus",
@@ -855,7 +855,7 @@ function NotificationLog() {
                   {
                     field: "violationReason",
                     headerName: "Violation Reason",
-                    width: 210,
+                    width: 300,
                   },
                   {
                     field: "violationDuration",
@@ -864,13 +864,13 @@ function NotificationLog() {
                   },
                   {
                     field: "action",
-                    headerName: "Action",
-                    width: 180,
+                    headerName: "Action Taken",
+                    width: 280,
                   },
                   {
                     field: "actionStatus",
                     headerName: "Action Status",
-                    width: 180,
+                    width: 280,
                   },
                   {
                     field: "confirmStatus",

@@ -1092,46 +1092,19 @@ function ViolationLog1() {
                     ),
                   },
                   { title: "Violation ID", field: "Id" },
-                  // {
-                  //   title: "Status",
-                  //   field: "query",
-                  //   render: (rowData) => {
-                  //     return rowData.query === "Not Resolved" ? (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(249, 54, 54)",
-                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Not Resolved
-                  //       </p>
-                  //     ) : (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(74, 170, 22)",
-                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Resolved
-                  //       </p>
-                  //     );
-                  //   },
-                  // },
-                  // { title: "Violation Reason", field: "ViolationReason" },
+
                   { title: "Bag ID", field: "bagId" },
                   { title: "Table No.", field: "table_no" },
                   {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.dateTime))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      // const NewDate = moment(new Date(rowData.dateTime))
+                      //   .format("DD/MM/YYYY")
+                      //   .toString();
+                      return new Date(rowData.dateTime)
+                        .toUTCString()
+                        .slice(5, 16);
                     },
                   },
                   { title: "CTR No.", field: "ctr_no" },
@@ -1143,10 +1116,34 @@ function ViolationLog1() {
                   { title: "Checker ID", field: "checker_emp_id" },
                   { title: "Checker Name", field: "checker_name" },
 
-                  { title: "Tailor No.", field: "tailorNumber" },
-                  { title: "Tailor Name", field: "tailorName" },
+                  {
+                    title: "Tailor No.",
+                    field: "tailorNumber",
+                    render: (x) => {
+                      return x.tailorNumber
+                        .split(",")
+                        .map((item, x) => <p>{item}</p>);
+                    },
+                  },
+                  {
+                    title: "Tailor Name",
+                    field: "tailorName",
+                    render: (x) => {
+                      return x.tailorName
+                        .split(",")
+                        .map((item, x) => <p>{item}</p>);
+                    },
+                  },
 
-                  { title: "Defect Name", field: "defectName" },
+                  {
+                    title: "Defect Name",
+                    field: "defectName",
+                    render: (x) => {
+                      return x.defectName
+                        .split(",")
+                        .map((item, x) => <p>{item}</p>);
+                    },
+                  },
                   // { title: "Action Status", field: "actionStatus" },
 
                   { title: "Wing", field: "wing" },
@@ -1232,14 +1229,20 @@ function ViolationLog1() {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.DateTime))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      // const NewDate = moment(new Date(rowData.DateTime))
+                      //   .format("DD/MM/YYYY")
+                      //   .toString();
+                      // return new Date(rowData.DateTime)
+                      //   .toUTCString()
+                      //   .slice(5, 16);
+                      const d = rowData.DateTime;
+                      return `${new Date(d).getUTCDate()}/${new Date(
+                        d
+                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   {
-                    title: "Crowding Duration",
+                    title: "Violation Duration(Min.)",
                     field: "CrowdingDuration",
                   },
 
@@ -1322,10 +1325,14 @@ function ViolationLog1() {
                     title: "Date",
                     field: "date",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.date))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      // const NewDate = moment(new Date(rowData.date))
+                      //   .format("DD/MM/YYYY")
+                      //   .toString();
+                      // return new Date(rowData.date).toUTCString().slice(5, 16);
+                      const d = rowData.date;
+                      return `${new Date(d).getUTCDate()}/${new Date(
+                        d
+                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   { title: "Worker Name", field: "workerName" },
@@ -1421,10 +1428,13 @@ function ViolationLog1() {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.dateTime))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      // const NewDate = moment(new Date(rowData.dateTime))
+                      //   .format("DD/MM/YYYY")
+                      //   .toString();
+                      const d = rowData.dateTime;
+                      return `${new Date(d).getUTCDate()}/${new Date(
+                        d
+                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   { title: "CTR No.", field: "ctr_no" },
@@ -1436,10 +1446,34 @@ function ViolationLog1() {
                   { title: "Checker ID", field: "checker_emp_id" },
                   { title: "Checker Name", field: "checker_name" },
 
-                  { title: "Tailor No.", field: "tailorNumber" },
-                  { title: "Tailor Name", field: "tailorName" },
+                  {
+                    title: "Tailor No.",
+                    field: "tailorNumber",
+                    render: (x) => {
+                      return x.tailorNumber
+                        .split(",")
+                        .map((item, x) => <p>{item}</p>);
+                    },
+                  },
+                  {
+                    title: "Tailor Name",
+                    field: "tailorName",
+                    render: (x) => {
+                      return x.tailorName
+                        .split(",")
+                        .map((item, x) => <p>{item}</p>);
+                    },
+                  },
 
-                  { title: "Defect Name", field: "defectName" },
+                  {
+                    title: "Defect Name",
+                    field: "defectName",
+                    render: (x) => {
+                      return x.defectName
+                        .split(",")
+                        .map((item, x) => <p>{item}</p>);
+                    },
+                  },
                   // { title: "Action Status", field: "actionStatus" },
 
                   { title: "Wing", field: "wing" },

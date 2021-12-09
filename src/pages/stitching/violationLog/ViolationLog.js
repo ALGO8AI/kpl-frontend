@@ -920,10 +920,14 @@ function ViolationLog1() {
                     title: "Date",
                     field: "DateTime",
                     render: (rowData) => {
-                      const NewDate = moment(new Date(rowData.DateTime))
-                        .format("DD/MM/YYYY")
-                        .toString();
-                      return NewDate;
+                      // const NewDate = moment(new Date(rowData.DateTime))
+                      //   .format("DD/MM/YYYY")
+                      //   .toString();
+                      // return NewDate;
+                      const d = rowData.DateTime;
+                      return `${new Date(d).getUTCDate()}/${new Date(
+                        d
+                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   { title: "Worker Name", field: "workerName" },

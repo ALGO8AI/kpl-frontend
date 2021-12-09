@@ -735,11 +735,11 @@ function ViolationDetail(props) {
             <Grid container item xs={12} className="Details_CameraFeed">
               {/* DATE & ID */}
               <Grid ontainer item xs={12} className={"Header"}>
-                <h3 style={{ color: "white " }}>
+                <h3 style={{ color: "black" }}>
                   Violation Id : {props.id} <br />
                   {data?.bagId && <>Bag Id : {data?.bagId}</>}
                 </h3>
-                <p style={{ color: "white" }}>
+                <p style={{ color: "black" }}>
                   {data?.dateTime &&
                     moment(new Date(data.dateTime))
                       .format("DD/MM/YYYY")
@@ -871,7 +871,10 @@ function ViolationDetail(props) {
 
                 {/* DEFECT NAME */}
                 {data?.defectName && (
-                  <NameValue name="DEFECT" value={data && data.defectName} />
+                  <NameValue
+                    name="DEFECT NAME"
+                    value={data && data.defectName}
+                  />
                 )}
 
                 {/* WING */}
