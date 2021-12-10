@@ -73,7 +73,7 @@ function Setting() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ManageRoles />
-        <AddUser />
+        {/* <AddUser /> */}
       </TabPanel>
       <TabPanel value={value} index={2}>
         <div className="overlay">

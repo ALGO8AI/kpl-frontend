@@ -199,7 +199,7 @@ function NotificationLogChecking() {
                 })}
                 columns={[
                   { field: "Id", headerName: "Violation ID", width: 210 },
-                  { field: "crowdId", headerName: "Crowd ID", width: 210 },
+                  { field: "crowdId", headerName: "Crowd ID", width: 360 },
                   { field: "DateTime", headerName: "Date", width: 150 },
                   { field: "Wing", headerName: "Wing", width: 120 },
                   { field: "CamID", headerName: "Cam ID", width: 150 },
@@ -263,7 +263,7 @@ function NotificationLogChecking() {
                   },
                   {
                     field: "action",
-                    headerName: "Action",
+                    headerName: "Action Taken",
                     width: 180,
                   },
                   {
@@ -409,7 +409,7 @@ function NotificationLogChecking() {
                   },
                   {
                     field: "action",
-                    headerName: "Action",
+                    headerName: "Action Taken",
                     width: 180,
                   },
                   {
@@ -489,7 +489,7 @@ function NotificationLogChecking() {
                     headerName: "Checker Name",
                     width: 240,
                   },
-                  { field: "action", headerName: "Action", width: 150 },
+                  { field: "action", headerName: "Action Taken", width: 180 },
                   {
                     field: "actionStatus",
                     headerName: "Action Status",
@@ -519,7 +519,7 @@ function NotificationLogChecking() {
                   {
                     field: "defectName",
                     headerName: "Defect Name",
-                    width: 240,
+                    width: 360,
                   },
                   {
                     field: "incorrectStatus",
@@ -569,12 +569,12 @@ function NotificationLogChecking() {
                   {
                     field: "tailorName",
                     headerName: "Tailor Name",
-                    width: 240,
+                    width: 360,
                   },
                   {
                     field: "tailorNumber",
                     headerName: "Tailor Number",
-                    width: 240,
+                    width: 360,
                   },
                   {
                     field: "time",

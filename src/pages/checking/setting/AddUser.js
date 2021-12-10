@@ -17,7 +17,7 @@ import {
 import React, { useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
 
-function AddUser() {
+function AddUser({ load }) {
   const [open, setOpen] = React.useState(false);
 
   const [data, setData] = useState({
@@ -78,8 +78,9 @@ function AddUser() {
       var txt = window.confirm("User will be added, continue?");
       if (txt) {
         const x = await AddNewUser(DATA);
-        console.log(x);
-        alert(x.message);
+        alert("User Added");
+        handleClose();
+        load();
       }
     } catch (err) {
       console.log(err.message);

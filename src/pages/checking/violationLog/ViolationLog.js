@@ -1272,7 +1272,7 @@ function ViolationLog1() {
                   { title: "Start Time", field: "crowdStartTime" },
                   { title: "End Time", field: "crowdEndTime" },
 
-                  { title: "Number Of Person", field: "MaxPerson" },
+                  { title: "Person(Max)", field: "MaxPerson" },
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },

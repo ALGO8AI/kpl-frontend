@@ -838,7 +838,36 @@ function Schedule(props) {
               />
             </Grid>{" "}
             <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  Shift
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  // value={userdata.supervisorName}
+                  value={scheduleData.shift}
+                  name="shift"
+                  onChange={onScheduleDataChange}
+                  fullWidth
+                  label="Shift"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {["A", "B"].map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/* <TextField
                 id="outlined-basic"
                 label="Shift"
                 variant="outlined"
@@ -846,8 +875,8 @@ function Schedule(props) {
                 name="shift"
                 onChange={onScheduleDataChange}
                 fullWidth
-                disabled
-              />
+                // disabled
+              /> */}
             </Grid>
             {/* <Grid
               md={6}
