@@ -903,15 +903,15 @@ function DefectDetails(props) {
                         fullWidth
                         style={{ marginRight: "6px" }}
                       >
-                        <InputLabel id="demo-simple-select-outlined-label">
+                        {/* <InputLabel id="demo-simple-select-outlined-label">
                           Supervisor
-                        </InputLabel>
+                        </InputLabel> */}
                         <Select
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={newSupervisor}
                           onChange={onSupervisorChange}
-                          label="Supervisor"
+                          // label="Supervisor"
                           // multiple
                         >
                           <MenuItem value="">
@@ -955,15 +955,15 @@ function DefectDetails(props) {
                         fullWidth
                         style={{ marginRight: "6px" }}
                       >
-                        <InputLabel id="demo-simple-select-outlined-label">
+                        {/* <InputLabel id="demo-simple-select-outlined-label">
                           Supervisor
-                        </InputLabel>
+                        </InputLabel> */}
                         <Select
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={closedBy}
                           onChange={onClosedByChange}
-                          label="Supervisor"
+                          // label="Supervisor"
                           // multiple
                         >
                           <MenuItem value="">
@@ -1038,15 +1038,15 @@ function DefectDetails(props) {
                   className={classes.formControl}
                   style={{ marginBottom: "12px" }}
                 >
-                  <InputLabel id="demo-simple-select-outlined-label">
+                  {/* <InputLabel id="demo-simple-select-outlined-label">
                     Choose Reason
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={reason}
                     onChange={handleReasonChange}
-                    label="Choose Reason"
+                    // label="Choose Reason"
                   >
                     <MenuItem value="Add Reason">Add Reason</MenuItem>
 
@@ -1112,15 +1112,15 @@ function DefectDetails(props) {
                   className={classes.formControl}
                   style={{ marginBottom: "12px" }}
                 >
-                  <InputLabel id="demo-simple-select-outlined-label">
+                  {/* <InputLabel id="demo-simple-select-outlined-label">
                     Choose Action
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={action}
                     onChange={handleActionChange}
-                    label="Choose Action"
+                    // label="Choose Action"
                   >
                     <MenuItem value="Add Comment">Add Comment</MenuItem>
 

@@ -1067,29 +1067,52 @@ function ViolationLog1() {
                   {
                     field: "view",
                     title: "Details",
-                    render: (rowData) => (
-                      <Link
-                        to={`/checking/violationDetails/${rowData.Id}`}
-                        className={returnClassNameDefect(
-                          rowData.actionStatus.toLowerCase()
-                        )}
-                        onClick={() => {
-                          localStorage.setItem("VIOLATION", "defects");
-                          localStorage.setItem(
-                            "VIOLATION-TYPE",
-                            "Defect Violation"
-                          );
-                          localStorage.setItem(
-                            "VIOLATION-STATUS",
-                            returnStatusDefect(
-                              rowData.actionStatus.toLowerCase()
-                            )
-                          );
-                        }}
-                      >
-                        {returnStatusDefect(rowData.actionStatus.toLowerCase())}
-                      </Link>
-                    ),
+                    render: (rowData) =>
+                      rowData?.defectName ? (
+                        <Link
+                          to={`/checking/violationDetails/${rowData.Id}`}
+                          className={returnClassNameDefect(
+                            rowData.actionStatus.toLowerCase()
+                          )}
+                          onClick={() => {
+                            localStorage.setItem("VIOLATION", "defects");
+                            localStorage.setItem(
+                              "VIOLATION-TYPE",
+                              "Defect Violation"
+                            );
+                            localStorage.setItem(
+                              "VIOLATION-STATUS",
+                              returnStatusDefect(
+                                rowData.actionStatus.toLowerCase()
+                              )
+                            );
+                          }}
+                        >
+                          {returnStatusDefect(
+                            rowData.actionStatus.toLowerCase()
+                          )}
+                        </Link>
+                      ) : (
+                        <Link
+                          to={`/checking/violationDetails/${rowData.Id}`}
+                          className={"Link-btn-green"}
+                          onClick={() => {
+                            localStorage.setItem("VIOLATION", "defects");
+                            localStorage.setItem(
+                              "VIOLATION-TYPE",
+                              "Defect Violation"
+                            );
+                            localStorage.setItem(
+                              "VIOLATION-STATUS",
+                              returnStatusDefect(
+                                rowData.actionStatus.toLowerCase()
+                              )
+                            );
+                          }}
+                        >
+                          Okay Bag
+                        </Link>
+                      ),
                   },
                   { title: "Violation ID", field: "Id" },
 

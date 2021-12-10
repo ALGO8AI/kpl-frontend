@@ -915,16 +915,16 @@ function ViolationDetail(props) {
                         fullWidth
                         style={{ marginRight: "6px" }}
                       >
-                        <InputLabel id="demo-simple-select-outlined-label">
+                        {/* <InputLabel id="demo-simple-select-outlined-label">
                           Supervisor
-                        </InputLabel>
+                        </InputLabel> */}
                         <Select
                           native
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={newSupervisor}
                           onChange={onSupervisorChange}
-                          label="Supervisor"
+                          // label="Supervisor"
                           // multiple
                         >
                           {supervisor.length > 0 &&
@@ -965,16 +965,16 @@ function ViolationDetail(props) {
                         fullWidth
                         style={{ marginRight: "6px" }}
                       >
-                        <InputLabel id="demo-simple-select-outlined-label">
+                        {/* <InputLabel id="demo-simple-select-outlined-label">
                           Supervisor
-                        </InputLabel>
+                        </InputLabel> */}
                         <Select
                           native
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={closedBy}
                           onChange={onClosedByChange}
-                          label="Supervisor"
+                          // label="Supervisor"
                           // multiple
                         >
                           {supervisor.length > 0 &&
@@ -1046,16 +1046,16 @@ function ViolationDetail(props) {
                   className={classes.formControl}
                   style={{ marginBottom: "12px" }}
                 >
-                  <InputLabel id="demo-simple-select-outlined-label">
+                  {/* <InputLabel id="demo-simple-select-outlined-label">
                     Choose Reason
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     native
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={reason}
                     onChange={handleReasonChange}
-                    label="Choose Reason"
+                    // label="Choose Reason"
                   >
                     <option value=" ">Choose Reason</option>
                     <option value="Add Reason">Add Reason</option>
@@ -1106,16 +1106,16 @@ function ViolationDetail(props) {
                   className={classes.formControl}
                   style={{ marginBottom: "12px" }}
                 >
-                  <InputLabel id="demo-simple-select-outlined-label">
+                  {/* <InputLabel id="demo-simple-select-outlined-label">
                     Choose Action
-                  </InputLabel>
+                  </InputLabel> */}
                   <Select
                     native
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     value={action}
                     onChange={handleActionChange}
-                    label="Choose Action"
+                    // label="Choose Action"
                   >
                     <option value=" ">Choose Action</option>
 

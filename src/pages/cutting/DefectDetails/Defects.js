@@ -474,7 +474,7 @@ function Defects() {
                       return Boolean(Number(x.acceptance)) ? "Yes" : "No";
                     },
                   },
-                  { title: "Total Meter Count", field: "rollLenght" },
+                  { title: "Total Meter Count (m)", field: "rollLenght" },
                   { title: "Wastage (m)", field: "wasteLength" },
                   { title: "Shift", field: "shift" },
                   { title: "Operator Name", field: "operatorName" },

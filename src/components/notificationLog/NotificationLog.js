@@ -355,7 +355,7 @@ function NotificationLog() {
                   { field: "Id", headerName: "Violation ID", width: 150 },
                   { field: "DateTime", headerName: "Date", width: 150 },
                   { field: "Wing", headerName: "Wing", width: 120 },
-                  { field: "CamID", headerName: "Cam ID", width: 120 },
+                  { field: "CamID", headerName: "Cam ID", width: 180 },
 
                   { field: "crowdId", headerName: "Crowd ID", width: 180 },
 
