@@ -142,6 +142,12 @@ export default function Navigation() {
   const fetchUnassigned = async () => {
     try {
       const current = await getCurrentRoll();
+      // console.log(
+      //   `
+      //     partName: ${current?.data[0]?.FinishedWidth_x_ESComCutLength},
+
+      //   `
+      // );
       dispatch({
         type: "CUTTING_CTR",
         payload: {

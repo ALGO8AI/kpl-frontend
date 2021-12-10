@@ -67,6 +67,7 @@ function RollDialog({ open, handleCloseCTR }) {
           oldCtrId: current?.data[0]?.id,
           oldFabricRollNo: current?.data[0]?.FabricRollNo,
           oldbodyPart: current?.data[0]?.bodyPart,
+          partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
         },
       });
       setOldCTR({
@@ -74,6 +75,7 @@ function RollDialog({ open, handleCloseCTR }) {
         oldCtrId: current?.data[0]?.id,
         oldFabricRollNo: current?.data[0]?.FabricRollNo,
         oldbodyPart: current?.data[0]?.bodyPart,
+        partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
       });
     } catch (e) {}
   };
@@ -102,6 +104,7 @@ function RollDialog({ open, handleCloseCTR }) {
             oldCtrId: current?.data[0]?.id,
             oldFabricRollNo: current?.data[0]?.FabricRollNo,
             oldbodyPart: current?.data[0]?.bodyPart,
+            partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
           },
         });
         setOldCTR({
@@ -109,6 +112,7 @@ function RollDialog({ open, handleCloseCTR }) {
           oldCtrId: current?.data[0]?.id,
           oldFabricRollNo: current?.data[0]?.FabricRollNo,
           oldbodyPart: current?.data[0]?.bodyPart,
+          partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
         });
       }
     } catch (e) {}
@@ -135,6 +139,7 @@ function RollDialog({ open, handleCloseCTR }) {
             oldCtrId: current?.data[0]?.id,
             oldFabricRollNo: current?.data[0]?.FabricRollNo,
             oldbodyPart: current?.data[0]?.bodyPart,
+            partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
           },
         });
         setOldCTR({
@@ -142,6 +147,7 @@ function RollDialog({ open, handleCloseCTR }) {
           oldCtrId: current?.data[0]?.id,
           oldFabricRollNo: current?.data[0]?.FabricRollNo,
           oldbodyPart: current?.data[0]?.bodyPart,
+          partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
         });
       }
     } catch (e) {}
