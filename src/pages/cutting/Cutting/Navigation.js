@@ -149,6 +149,7 @@ export default function Navigation() {
           oldCtrId: current?.data[0]?.id,
           oldFabricRollNo: current?.data[0]?.FabricRollNo,
           oldbodyPart: current?.data[0]?.bodyPart,
+          partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
         },
       });
       setOldCTR({
@@ -156,6 +157,7 @@ export default function Navigation() {
         oldCtrId: current?.data[0]?.id,
         oldFabricRollNo: current?.data[0]?.FabricRollNo,
         oldbodyPart: current?.data[0]?.bodyPart,
+        partName: current?.data[0]?.FinishedWidth_x_ESComCutLength,
       });
     } catch (e) {}
   };
@@ -562,7 +564,14 @@ export default function Navigation() {
               style={{ margin: "4px 12px", color: "#0e4a7b" }}
             >
               {" "}
-              CTR : {state?.oldCTR.oldCtr}
+              CTR : {state?.oldCTR?.oldCtr};{"           "}
+              <span style={{ fontSize: "16px" }}>
+                PARTNAME : {state?.oldCTR?.partName}
+              </span>
+              <br />
+              <span style={{ fontSize: "14px" }}>
+                FABRIC ROLL NO. : {state?.oldCTR?.oldFabricRollNo}
+              </span>
             </Typography>
 
             <SupportButton onClick={handleClickOpenCTR}>

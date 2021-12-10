@@ -362,12 +362,12 @@ function NotificationLog() {
                   {
                     field: "crowdStartTime",
                     headerName: "Crowd Start Time",
-                    width: 150,
+                    width: 210,
                   },
                   {
                     field: "crowdEndTime",
                     headerName: "Crowd End Time",
-                    width: 150,
+                    width: 210,
                   },
                   {
                     field: "day",
@@ -402,7 +402,7 @@ function NotificationLog() {
                   {
                     field: "supervisorName",
                     headerName: "Supervisor Name",
-                    width: 180,
+                    width: 240,
                   },
                   {
                     field: "violationReason",
