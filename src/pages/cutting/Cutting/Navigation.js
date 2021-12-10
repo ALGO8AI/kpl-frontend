@@ -570,13 +570,19 @@ export default function Navigation() {
               style={{ margin: "4px 12px", color: "#0e4a7b" }}
             >
               {" "}
-              CTR : {state?.oldCTR?.oldCtr};{"           "}
+              <span style={{ fontWeight: "bold" }}>CTR</span> :{" "}
+              {state?.oldCTR?.oldCtr};{"           "}
               <span style={{ fontSize: "16px" }}>
-                PARTNAME : {state?.oldCTR?.partName}
+                <span style={{ fontWeight: "bold" }}>PARTNAME</span> :{" "}
+                {state?.oldCTR?.oldbodyPart}
               </span>
               <br />
               <span style={{ fontSize: "14px" }}>
-                FABRIC ROLL NO. : {state?.oldCTR?.oldFabricRollNo}
+                <span style={{ fontWeight: "bold" }}>FABRIC ROLL NO.</span> :{" "}
+                {state?.oldCTR?.oldFabricRollNo}; {"        "}
+                <span style={{ fontWeight: "bold" }}>
+                  WIDTH x LENGTH
+                </span> : {state?.oldCTR?.partName}
               </span>
             </Typography>
 
