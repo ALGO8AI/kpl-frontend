@@ -1413,6 +1413,10 @@ const getAllWorketrList = async () => {
   return await callBackend("GET", "routes/stitching/worker/allWorker");
 };
 
+const getAllWorketrListChecking = async () => {
+  return await callBackend("GET", "routes/checking/worker/all");
+};
+
 const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {
   const data = {
     clpctr: ctr,
@@ -1846,4 +1850,5 @@ export {
   addCheckingWorkerSchedule,
   tailorSummary,
   getFabricList,
+  getAllWorketrListChecking,
 };

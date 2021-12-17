@@ -12,7 +12,7 @@ import {
   addCheckingWorkerSchedule,
   copyScheduleChecking,
   deleteCheckingWorkerSchedule,
-  getAllWorketrList,
+  getAllWorketrListChecking,
   getCheckingSchedule,
   updateCheckingWorkerSchedule,
 } from "../../../services/api.service";
@@ -86,7 +86,7 @@ function Schedule(props) {
 
   const loadData = async () => {
     try {
-      const worker = await getAllWorketrList();
+      const worker = await getAllWorketrListChecking();
       // console.log();
       setWorkerList(worker?.data);
       const x = await getCheckingSchedule();
