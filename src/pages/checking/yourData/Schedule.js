@@ -147,7 +147,7 @@ function Schedule(props) {
         if (resp?.msg) {
           setOpen(true);
           setMsg("Successfully Deleted");
-          setSeverity("success");
+          // setSeverity("success");
           loadData();
         }
       } else {
