@@ -467,12 +467,27 @@ function NotificationLogChecking() {
                 }}
                 // rows={data}
                 rows={data?.defectData?.map((row, i) => {
-                  const { dateTime, ...rest } = row;
+                  const { dateTime, defectName, ...rest } = row;
                   return {
                     id: i,
                     dateTime: moment(new Date(dateTime))
                       .format("DD/MM/YYYY")
                       .toString(),
+                    defect1: Boolean(defectName.split(",")[0])
+                      ? defectName.split(",")[0]
+                      : "-",
+                    defect2: Boolean(defectName.split(",")[1])
+                      ? defectName.split(",")[1]
+                      : "-",
+                    defect3: Boolean(defectName.split(",")[2])
+                      ? defectName.split(",")[2]
+                      : "-",
+                    defect4: Boolean(defectName.split(",")[3])
+                      ? defectName.split(",")[3]
+                      : "-",
+                    defect5: Boolean(defectName.split(",")[4])
+                      ? defectName.split(",")[4]
+                      : "-",
                     ...rest,
                   };
                 })}
@@ -517,9 +532,29 @@ function NotificationLogChecking() {
                     width: 150,
                   },
                   {
-                    field: "defectName",
-                    headerName: "Defect Name",
-                    width: 360,
+                    field: "defect1",
+                    headerName: "Defect 1",
+                    width: 180,
+                  },
+                  {
+                    field: "defect2",
+                    headerName: "Defect 2",
+                    width: 180,
+                  },
+                  {
+                    field: "defect3",
+                    headerName: "Defect 3",
+                    width: 180,
+                  },
+                  {
+                    field: "defect4",
+                    headerName: "Defect 4",
+                    width: 180,
+                  },
+                  {
+                    field: "defect5",
+                    headerName: "Defect 5",
+                    width: 180,
                   },
                   {
                     field: "incorrectStatus",
