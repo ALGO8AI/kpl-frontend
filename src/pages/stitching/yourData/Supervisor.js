@@ -28,6 +28,8 @@ import { Alert } from "@material-ui/lab";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 // import { Switch } from "react-router";
 
@@ -66,6 +68,9 @@ function Supervisor(props) {
   });
   const [supervisorList, setSupervisorList] = useState([]);
 
+  // redux dispatch
+  const Dispatch = useDispatch();
+
   const loadData = async () => {
     try {
       const x = await getStitchingSupervisorSchedule();
@@ -93,8 +98,17 @@ function Supervisor(props) {
       }
     } catch (err) {}
   };
+  const getFirstDay_LastDay = async () => {
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    setInputData({
+      filterDateFrom: newDateWeekBack.toISOString().slice(0, 10),
+      filterDateTo: myDate.toISOString().slice(0, 10),
+    });
+  };
   useEffect(() => {
     loadData();
+    getFirstDay_LastDay();
   }, []);
   const columns = [
     {
@@ -650,9 +664,20 @@ function Supervisor(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateFrom: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value > inputData.filterDateTo
+                  ? Dispatch(
+                      openSnackbar(
+                        true,
+                        "error",
+                        "From Date Must Be Less Than From Date"
+                      )
+                    )
+                  : setInputData({
+                      ...inputData,
+                      filterDateFrom: e.target.value,
+                    });
+              }}
               fullWidth
             />
           </Grid>
@@ -668,9 +693,20 @@ function Supervisor(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateTo: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value < inputData.filterDateFrom
+                  ? Dispatch(
+                      openSnackbar(
+                        true,
+                        "error",
+                        "To Date Must Be Greater Than From Date"
+                      )
+                    )
+                  : setInputData({
+                      ...inputData,
+                      filterDateTo: e.target.value,
+                    });
+              }}
               fullWidth
             />
           </Grid>

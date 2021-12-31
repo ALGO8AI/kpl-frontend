@@ -1,25 +1,12 @@
 /* eslint-disable eqeqeq */
-import {
-  AppBar,
-  Button,
-  Grid,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Grid, TextField } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
-import clsx from "clsx";
 import moment from "moment";
 import React from "react";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { getNotificationLog } from "../../../services/api.service";
-import {
-  notificationLogs,
-  rollSummary,
-} from "../../../services/cuttingApi.service";
+import { notificationLogs } from "../../../services/cuttingApi.service";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,20 +35,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
 function RollSummary() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   const [data, setData] = React.useState([]);
   const [filterDateFrom, setFilterDateFrom] = React.useState();
   const [filterDateTo, setFilterDateTo] = React.useState();

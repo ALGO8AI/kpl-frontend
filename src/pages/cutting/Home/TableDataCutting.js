@@ -42,7 +42,6 @@ function a11yProps(index) {
 
 function TableDataCutting() {
   const [tabValue, setTabValue] = React.useState(0);
-  const table1 = React.useRef(null);
 
   const handleTabChange = (event, newValue) => {
     console.log();

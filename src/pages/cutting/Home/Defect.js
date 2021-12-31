@@ -1,4 +1,4 @@
-import { Grid, Typography, Paper } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 import React from "react";
 import Chart from "react-apexcharts";
 

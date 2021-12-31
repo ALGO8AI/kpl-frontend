@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
 import "./Chart.css";

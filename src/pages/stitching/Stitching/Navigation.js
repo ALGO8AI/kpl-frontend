@@ -18,7 +18,6 @@ import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MapIcon from "@material-ui/icons/Map";
 import PublishIcon from "@material-ui/icons/Publish";
-import PollIcon from "@material-ui/icons/Poll";
 
 import {
   Button,

@@ -55,7 +55,7 @@
 // }
 
 // export default Graph;
-import { CircularProgress, Grid, Paper, Typography } from "@material-ui/core";
+import { CircularProgress, Grid, Paper } from "@material-ui/core";
 import Charts from "./Chart";
 import React from "react";
 

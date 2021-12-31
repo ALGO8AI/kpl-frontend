@@ -26,7 +26,7 @@ function GenerateBarcode() {
       console.log(err.message);
     }
   };
-  const [filter, setFilter] = React.useState("");
+  // const [filter, setFilter] = React.useState("");
   return (
     <Grid container>
       <Grid

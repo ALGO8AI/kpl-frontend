@@ -1,13 +1,5 @@
 /* eslint-disable eqeqeq */
-import {
-  AppBar,
-  Button,
-  Grid,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Button, Grid, Tab, Tabs, TextField } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
@@ -16,6 +8,8 @@ import moment from "moment";
 import React from "react";
 import { getNotificationLog } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,6 +46,7 @@ function a11yProps(index) {
 }
 
 function NotificationLog() {
+  // state
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -61,6 +56,9 @@ function NotificationLog() {
   const [data, setData] = React.useState();
   const [filterDateFrom, setFilterDateFrom] = React.useState();
   const [filterDateTo, setFilterDateTo] = React.useState();
+
+  // redux dispatch
+  const Dispatch = useDispatch();
 
   const getLogs = async () => {
     try {
@@ -112,7 +110,17 @@ function NotificationLog() {
               shrink: true,
             }}
             variant="outlined"
-            onChange={(e) => setFilterDateFrom(e.target.value)}
+            onChange={(e) => {
+              e.target.value > filterDateTo
+                ? Dispatch(
+                    openSnackbar(
+                      true,
+                      "error",
+                      "From Date Must Be Less Than From Date"
+                    )
+                  )
+                : setFilterDateFrom(e.target.value);
+            }}
             fullWidth
           />
         </Grid>
@@ -127,7 +135,18 @@ function NotificationLog() {
               shrink: true,
             }}
             variant="outlined"
-            onChange={(e) => setFilterDateTo(e.target.value)}
+            onChange={(e) => {
+              e.target.value < filterDateFrom
+                ? Dispatch(
+                    openSnackbar(
+                      true,
+                      "error",
+                      "To Date Must Be Greater Than From Date"
+                    )
+                  )
+                : setFilterDateTo(e.target.value);
+            }}
+            // onChange={(e) => setFilterDateTo(e.target.value)}
             fullWidth
           />
         </Grid>

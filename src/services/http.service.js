@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const localUrl = "http://localhost:5000";
+// const localUrl = "http://localhost:5000";
 // const cloudUrl = "http://3.18.22.89:3000"; //dev
 const cloudUrl = "http://kpl.algo8apps.com:3000"; //dev
 

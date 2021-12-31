@@ -74,10 +74,10 @@ function AddUser({ load }) {
       checkerActiveMonitorin: data.checkerActiveMonitoring ? 1 : 0,
     };
     try {
-      console.log(DATA);
+      // console.log(DATA);
       var txt = window.confirm("User will be added, continue?");
       if (txt) {
-        const x = await AddNewUser(DATA);
+        await AddNewUser(DATA);
         alert("User Added");
         handleClose();
         load();

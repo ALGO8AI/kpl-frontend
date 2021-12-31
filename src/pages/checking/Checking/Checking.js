@@ -1,5 +1,8 @@
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import React from "react";
-import BagID from "../BagID/BagID";
+import { useDispatch, useSelector } from "react-redux";
+// import BagID from "../BagID/BagID";
 import BagID2 from "../BagID/BagID2";
 import Feedback from "../feedback/Feedback";
 import Home from "../Home/Home";
@@ -25,11 +28,29 @@ function Checking(props) {
     // print: <BarCodePrint />,
   };
 
+  // selector
+  const { open, status, message } = useSelector((state) => state?.Common);
+
+  // dispatch
+  const dispatch = useDispatch();
+
   const page = pages[props.match.params.page];
   return (
     <>
       <Navigation />
       {page}
+      <Snackbar open={open} autoHideDuration={4000}>
+        <Alert
+          onClose={() =>
+            dispatch({
+              type: "CLOSE_SNACK",
+            })
+          }
+          severity={status}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

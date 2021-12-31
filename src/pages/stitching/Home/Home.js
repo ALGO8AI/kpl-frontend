@@ -32,10 +32,15 @@ import DonutChart from "../../../components/donutChart/DonutChart";
 import AreaChart from "../../../components/areaChart/AreaChart";
 import { StitchingContext } from "../../../context/StitchingContext";
 import FeedDonut from "../../../components/donutChart/FeedDonut";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function Home() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
+
+  // reducDispatch
+  const Dispatch = useDispatch();
 
   // State
   // const [WEEK, setWEEK] = useState([]);
@@ -497,7 +502,20 @@ function Home() {
             shrink: true,
           }}
           variant="outlined"
-          onChange={(e) => dispatch({ type: "FROM", payload: e.target.value })}
+          onChange={(e) => {
+            e.target.value > state.to
+              ? Dispatch(
+                  openSnackbar(
+                    true,
+                    "error",
+                    "From Date Must Be Less Than From Date"
+                  )
+                )
+              : dispatch({
+                  type: "FROM",
+                  payload: e.target.value,
+                });
+          }}
           fullWidth
         />
       </Grid>
@@ -521,7 +539,17 @@ function Home() {
           InputLabelProps={{
             shrink: true,
           }}
-          onChange={(e) => dispatch({ type: "TO", payload: e.target.value })}
+          onChange={(e) => {
+            e.target.value < state.from
+              ? Dispatch(
+                  openSnackbar(
+                    true,
+                    "error",
+                    "To Date Must Be Greater Than From Date"
+                  )
+                )
+              : dispatch({ type: "TO", payload: e.target.value });
+          }}
           fullWidth
         />
       </Grid>

@@ -38,6 +38,8 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { StitchingContext } from "../../../context/StitchingContext";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -78,6 +80,7 @@ function a11yProps(index) {
 }
 
 function Schedule(props) {
+  // state
   const [file, setFile] = React.useState();
   const [open, setOpen] = React.useState(false);
   const [severity, setSeverity] = React.useState(false);
@@ -99,11 +102,23 @@ function Schedule(props) {
 
   const [value, setValue] = React.useState(0);
 
+  // redux dispatch
+  const Dispatch = useDispatch();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const [workerList, setWorkerList] = React.useState([]);
+
+  const getFirstDay_LastDay = async () => {
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    setInputData({
+      filterDateFrom: newDateWeekBack.toISOString().slice(0, 10),
+      filterDateTo: myDate.toISOString().slice(0, 10),
+    });
+  };
 
   const loadData = async () => {
     try {
@@ -162,6 +177,7 @@ function Schedule(props) {
 
   useEffect(() => {
     loadData();
+    getFirstDay_LastDay();
   }, []);
 
   const handleClose = (event, reason) => {
@@ -610,9 +626,20 @@ function Schedule(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateFrom: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value > inputData.filterDateTo
+                  ? Dispatch(
+                      openSnackbar(
+                        true,
+                        "error",
+                        "From Date Must Be Less Than From Date"
+                      )
+                    )
+                  : setInputData({
+                      ...inputData,
+                      filterDateFrom: e.target.value,
+                    });
+              }}
               fullWidth
             />
           </Grid>
@@ -628,9 +655,20 @@ function Schedule(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateTo: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value < inputData.filterDateFrom
+                  ? Dispatch(
+                      openSnackbar(
+                        true,
+                        "error",
+                        "To Date Must Be Greater Than From Date"
+                      )
+                    )
+                  : setInputData({
+                      ...inputData,
+                      filterDateTo: e.target.value,
+                    });
+              }}
               fullWidth
             />
           </Grid>

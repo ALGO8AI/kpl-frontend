@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   Checkbox,
@@ -8,19 +9,14 @@ import {
   Select,
   TextField,
   FormControlLabel,
-  Snackbar,
+  // Snackbar,
 } from "@material-ui/core";
-import { CheckBoxOutlineBlank } from "@material-ui/icons";
-import { Alert } from "@material-ui/lab";
+// import { Alert } from "@material-ui/lab";
 import MaterialTable from "material-table";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
-import {
-  deleteBarCode,
-  getAllTableId,
-  getBagData,
-} from "../../../services/api.service";
+import { getAllTableId, getBagData } from "../../../services/api.service";
 
 function BarcodeDetails() {
   const { state, dispatch } = React.useContext(CheckingContext);
@@ -30,10 +26,8 @@ function BarcodeDetails() {
   const [machineID, setMachineID] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [selectedBarcode, setSelectedBarcode] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [msg, setMsg] = useState("");
-
-  const [columns, setColumns] = useState();
+  // const [open, setOpen] = useState(false);
+  // const [msg, setMsg] = useState("");
 
   const history = useHistory();
   const fetchBagIds = async () => {
@@ -105,18 +99,18 @@ function BarcodeDetails() {
     fetchBagIds();
   }, []);
 
-  const deleteBarCodes = async () => {
-    try {
-      const resp = await deleteBarCode(selectedBarcode);
-      if (resp?.msg === "BagId successfully Deleted") {
-        setOpen(true);
-        setMsg(resp?.msg);
-        fetchBagIds();
-      }
-    } catch (e) {
-      // console.log(e);
-    }
-  };
+  // const deleteBarCodes = async () => {
+  //   try {
+  //     const resp = await deleteBarCode(selectedBarcode);
+  //     if (resp?.msg === "BagId successfully Deleted") {
+  //       setOpen(true);
+  //       setMsg(resp?.msg);
+  //       fetchBagIds();
+  //     }
+  //   } catch (e) {
+  //     // console.log(e);
+  //   }
+  // };
 
   return (
     <>
@@ -423,7 +417,7 @@ function BarcodeDetails() {
           )}
         </Grid>
       </Grid>
-      <Snackbar
+      {/* <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={() => setOpen(false)}
@@ -431,7 +425,7 @@ function BarcodeDetails() {
         <Alert onClose={() => setOpen(false)} severity="success">
           {msg}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
     </>
   );
 }

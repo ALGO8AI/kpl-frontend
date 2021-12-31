@@ -8,7 +8,6 @@ import "./Setting.scss";
 // import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
-import AddUser from "./AddUser";
 // import { LayoutView } from "../layoutView/LayoutView";
 import { StitchingContext } from "../../../context/StitchingContext";
 // import { LayoutView } from "../layoutView/LayoutView";
@@ -50,7 +49,6 @@ function a11yProps(index) {
 }
 
 function Setting() {
-  const [value, setValue] = React.useState(0);
   const { state, dispatch } = React.useContext(StitchingContext);
 
   const handleChange = (event, newValue) => {

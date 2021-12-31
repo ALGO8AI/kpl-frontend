@@ -4,12 +4,19 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import CombineContext from "./context/CombineContext";
+import { Provider } from "react-redux";
+import { Store } from "./redux/Store";
+// import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CombineContext>
-      <App />
-    </CombineContext>
+    <Provider store={Store}>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+      <CombineContext>
+        <App />
+      </CombineContext>
+      {/* </PersistGate> */}
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

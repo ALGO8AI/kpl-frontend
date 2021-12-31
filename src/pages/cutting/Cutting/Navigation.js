@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -12,14 +14,14 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
-import HomeIcon from "@material-ui/icons/Home";
+// import HomeIcon from "@material-ui/icons/Home";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import SettingsIcon from "@material-ui/icons/Settings";
-import MapIcon from "@material-ui/icons/Map";
+// import MapIcon from "@material-ui/icons/Map";
 import PublishIcon from "@material-ui/icons/Publish";
-import PollIcon from "@material-ui/icons/Poll";
-import FeedbackIcon from "@material-ui/icons/Feedback";
+// import PollIcon from "@material-ui/icons/Poll";
+// import FeedbackIcon from "@material-ui/icons/Feedback";
 
 import {
   Button,
@@ -38,7 +40,7 @@ import {
 } from "../../../services/api.service";
 import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
-import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
+// import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
 import RollDialog from "../../../components/rollDialog/RollDialog";
 import { getCurrentRoll } from "../../../services/cuttingApi.service";
 
