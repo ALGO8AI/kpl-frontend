@@ -73,6 +73,7 @@ const initialState = {
   },
   currentCTR: "",
   machineIDs: [],
+  tableCurrentPage: 0,
 };
 const StitchingContext = React.createContext(initialState);
 
@@ -145,6 +146,18 @@ let reducer = (state, action) => {
     }
     case "CURRENT_CTR": {
       return { ...state, currentCTR: action.payload };
+    }
+    case "SET_TABLE_PAGE": {
+      return {
+        ...state,
+        tableCurrentPage: action.payload,
+      };
+    }
+    case "RESET_TABLE_PAGE": {
+      return {
+        ...state,
+        tableCurrentPage: 0,
+      };
     }
 
     default:

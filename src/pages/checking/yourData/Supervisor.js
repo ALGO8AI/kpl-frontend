@@ -399,11 +399,13 @@ function Supervisor(props) {
                 <em>None</em>
               </MenuItem>
               {supervisorList.length > 0 &&
-                supervisorList.map((item, index) => (
-                  <MenuItem value={item.workerID} key={index}>
-                    {item?.workerID} - {item?.username}
-                  </MenuItem>
-                ))}
+                supervisorList
+                  .sort((a, b) => (a.username > b.username ? 1 : -1))
+                  .map((item, index) => (
+                    <MenuItem value={item.workerID} key={index}>
+                      {item?.workerID} - {item?.username}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
         )}
@@ -593,7 +595,7 @@ function Supervisor(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {["U+2", "Baffle", "Circular", "Two Row"].map((item, index) => (
+            {["Baffle", "Circular", "Two Row", "U+2"].map((item, index) => (
               <MenuItem value={item} key={index}>
                 {item}
               </MenuItem>

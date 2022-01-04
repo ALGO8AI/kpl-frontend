@@ -440,11 +440,13 @@ export default function Home() {
             // multiple
           >
             {machineID &&
-              machineID.map((item, index) => (
-                <MenuItem value={item.tableId} key={index}>
-                  {item.tableId}
-                </MenuItem>
-              ))}
+              machineID
+                ?.sort((a, b) => (a?.tableId > b?.tableId ? 1 : -1))
+                .map((item, index) => (
+                  <MenuItem value={item.tableId} key={index}>
+                    {item.tableId}
+                  </MenuItem>
+                ))}
           </Select>
         </FormControl>
       </Grid>

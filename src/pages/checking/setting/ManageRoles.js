@@ -378,10 +378,10 @@ function ManageRoles() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={"supervisor"}>Supervisor</MenuItem>
-                  <MenuItem value={"manager"}>Manager</MenuItem>
-                  <MenuItem value={"wing incharge"}>wing Incharge</MenuItem>
                   <MenuItem value={"helper"}>Helper</MenuItem>
+                  <MenuItem value={"manager"}>Manager</MenuItem>
+                  <MenuItem value={"supervisor"}>Supervisor</MenuItem>
+                  <MenuItem value={"wing incharge"}>wing Incharge</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -410,14 +410,14 @@ function ManageRoles() {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={"Line Area Supervisor"}>
-                      Line Area Supervisor
+                    <MenuItem value={"Final Area Supervisor"}>
+                      Final Area Supervisor
                     </MenuItem>
                     <MenuItem value={"Kit Area Supervisor"}>
                       Kit Area Supervisor
                     </MenuItem>
-                    <MenuItem value={"Final Area Supervisor"}>
-                      Final Area Supervisor
+                    <MenuItem value={"Line Area Supervisor"}>
+                      Line Area Supervisor
                     </MenuItem>
                   </Select>
                 </FormControl>
@@ -448,10 +448,10 @@ function ManageRoles() {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
+                    <MenuItem value={"admin"}>Admin</MenuItem>
                     <MenuItem value={"Production Manager"}>
                       Production Manager
                     </MenuItem>
-                    <MenuItem value={"admin"}>Admin</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -511,8 +511,8 @@ function ManageRoles() {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={"fitter"}>Fitter</MenuItem>
                     <MenuItem value={"electrician"}>Electrician</MenuItem>
+                    <MenuItem value={"fitter"}>Fitter</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

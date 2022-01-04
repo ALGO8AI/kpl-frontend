@@ -5,6 +5,7 @@ import {
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React from "react";
+import { StitchingContext } from "../../../context/StitchingContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
   const classes = useStyles();
 
+  // context
+  const { state, dispatch } = React.useContext(StitchingContext);
+
   return (
     <>
       {!loading ? (
@@ -38,9 +42,16 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
             title={"Violation Details"}
             columns={columns}
             data={data}
+            onChangePage={(e) =>
+              dispatch({
+                type: "SET_TABLE_PAGE",
+                payload: e,
+              })
+            }
             options={{
               exportButton: true,
               pageSizeOptions: [20, 50, 100, 200, data.length],
+              initialPage: state?.tableCurrentPage,
               pageSize: 20,
               rowStyle: (rowData) => ({
                 backgroundColor:

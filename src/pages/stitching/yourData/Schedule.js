@@ -405,11 +405,13 @@ function Schedule(props) {
                 <em>None</em>
               </MenuItem>
               {workerList.length > 0 &&
-                workerList.map((item, index) => (
-                  <MenuItem value={item.workerId} key={index}>
-                    {item.workerId} - {item?.workerName}
-                  </MenuItem>
-                ))}
+                workerList
+                  ?.sort((a, b) => (a?.workerName > b?.workerName ? 1 : -1))
+                  ?.map((item, index) => (
+                    <MenuItem value={item.workerId} key={index}>
+                      {item.workerId} - {item?.workerName}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
           <FormControl

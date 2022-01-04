@@ -586,6 +586,7 @@ function ViolationLog1() {
   const handleTabChange = (event, newValue) => {
     // console.log(newValue);
     // setTabValue(newValue);
+    dispatch({ type: "RESET_TABLE_PAGE" });
     dispatch({ type: "VIOLATION_TAB", payload: newValue });
     setLink("");
     setImg("");
@@ -745,11 +746,13 @@ function ViolationLog1() {
                 // multiple
               >
                 {machineID &&
-                  machineID.map((item, index) => (
-                    <MenuItem value={item.tableId} key={index}>
-                      {item.tableId}
-                    </MenuItem>
-                  ))}
+                  machineID
+                    ?.sort((a, b) => (a?.tableId > b?.tableId ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem value={item.tableId} key={index}>
+                        {item.tableId}
+                      </MenuItem>
+                    ))}
               </Select>
             </FormControl>
           </Grid>
