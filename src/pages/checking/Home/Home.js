@@ -31,6 +31,12 @@ import { CheckingContext } from "../../../context/CheckingContext";
 import DonutChartChecking from "../../../components/donutChart/DonutChartChecking";
 import AreaChartChecking from "../../../components/areaChart/AreaChartChecking";
 import DefectDonutChart from "../../../components/donutChart/DefectDonutChart";
+import { useDispatch } from "react-redux";
+import {
+  openSnackbar,
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
 
 export default function Home() {
   // context
@@ -42,6 +48,8 @@ export default function Home() {
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
 
+  // React dispatch
+  const Dispatch = useDispatch();
   // Functions
 
   // refresh
@@ -460,7 +468,15 @@ export default function Home() {
             shrink: true,
           }}
           variant="outlined"
-          onChange={(e) => dispatch({ type: "FROM", payload: e.target.value })}
+          // onChange={(e) => dispatch({ type: "FROM", payload: e.target.value })}
+          onChange={(e) => {
+            e.target.value > state.to
+              ? Dispatch(openSnackbar_FROM())
+              : dispatch({
+                  type: "FROM",
+                  payload: e.target.value,
+                });
+          }}
           fullWidth
         />
       </Grid>
@@ -484,7 +500,13 @@ export default function Home() {
           InputLabelProps={{
             shrink: true,
           }}
-          onChange={(e) => dispatch({ type: "TO", payload: e.target.value })}
+          // onChange={(e) => dispatch({ type: "TO", payload: e.target.value })}
+
+          onChange={(e) => {
+            e.target.value < state.from
+              ? Dispatch(openSnackbar_TO())
+              : dispatch({ type: "TO", payload: e.target.value });
+          }}
           fullWidth
         />
       </Grid>

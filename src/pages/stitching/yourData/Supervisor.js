@@ -29,7 +29,10 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
 
 // import { Switch } from "react-router";
 
@@ -666,13 +669,7 @@ function Supervisor(props) {
               variant="outlined"
               onChange={(e) => {
                 e.target.value > inputData.filterDateTo
-                  ? Dispatch(
-                      openSnackbar(
-                        true,
-                        "error",
-                        "From Date Must Be Less Than From Date"
-                      )
-                    )
+                  ? Dispatch(openSnackbar_FROM())
                   : setInputData({
                       ...inputData,
                       filterDateFrom: e.target.value,
@@ -695,13 +692,7 @@ function Supervisor(props) {
               variant="outlined"
               onChange={(e) => {
                 e.target.value < inputData.filterDateFrom
-                  ? Dispatch(
-                      openSnackbar(
-                        true,
-                        "error",
-                        "To Date Must Be Greater Than From Date"
-                      )
-                    )
+                  ? Dispatch(openSnackbar_TO())
                   : setInputData({
                       ...inputData,
                       filterDateTo: e.target.value,

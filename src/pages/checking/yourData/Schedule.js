@@ -37,6 +37,12 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { CheckingContext } from "../../../context/CheckingContext";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
+import { useDispatch } from "react-redux";
+import { weekRange } from "../../../Utility/DateRange";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -77,6 +83,9 @@ function a11yProps(index) {
 }
 
 function Schedule(props) {
+  // redux dispatch
+  const Dispatch = useDispatch();
+
   const [file, setFile] = React.useState();
   const [open, setOpen] = React.useState(false);
   const [severity, setSeverity] = React.useState(false);
@@ -262,6 +271,13 @@ function Schedule(props) {
     filterDateFrom: "",
     filterDateTo: "",
   });
+
+  useEffect(() => {
+    setInputData({
+      filterDateFrom: weekRange()[0],
+      filterDateTo: weekRange()[1],
+    });
+  }, []);
 
   const [value, setValue] = React.useState(0);
 
@@ -695,9 +711,17 @@ function Schedule(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateFrom: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value > inputData.filterDateTo
+                  ? Dispatch(openSnackbar_FROM())
+                  : setInputData({
+                      ...inputData,
+                      filterDateFrom: e.target.value,
+                    });
+              }}
+              // onChange={(e) =>
+              //   setInputData({ ...inputData, filterDateFrom: e.target.value })
+              // }
               fullWidth
             />
           </Grid>
@@ -713,9 +737,17 @@ function Schedule(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateTo: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value < inputData.filterDateFrom
+                  ? Dispatch(openSnackbar_TO())
+                  : setInputData({
+                      ...inputData,
+                      filterDateTo: e.target.value,
+                    });
+              }}
+              // onChange={(e) =>
+              //   setInputData({ ...inputData, filterDateTo: e.target.value })
+              // }
               fullWidth
             />
           </Grid>

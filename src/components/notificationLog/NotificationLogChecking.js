@@ -8,6 +8,12 @@ import moment from "moment";
 import React from "react";
 import { getNotificationLogChecking } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import { weekRange } from "../../Utility/DateRange";
+import { useDispatch } from "react-redux";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,6 +50,8 @@ function a11yProps(index) {
 }
 
 function NotificationLogChecking() {
+  // redux dispatch
+  const Dispatch = useDispatch();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -71,16 +79,10 @@ function NotificationLogChecking() {
     }
   };
 
-  const getFirstDay_LastDay = async () => {
-    var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-    setFilterDateFrom(newDateWeekBack.toISOString().slice(0, 10));
-    setFilterDateTo(myDate.toISOString().slice(0, 10));
-  };
-
   React.useEffect(() => {
     getLogs();
-    getFirstDay_LastDay();
+    setFilterDateFrom(weekRange()[0]);
+    setFilterDateTo(weekRange()[1]);
   }, []);
   const filterLogs = async () => {
     try {
@@ -107,7 +109,11 @@ function NotificationLogChecking() {
               shrink: true,
             }}
             variant="outlined"
-            onChange={(e) => setFilterDateFrom(e.target.value)}
+            onChange={(e) => {
+              e.target.value > filterDateTo
+                ? Dispatch(openSnackbar_FROM())
+                : setFilterDateFrom(e.target.value);
+            }}
             fullWidth
           />
         </Grid>
@@ -122,7 +128,11 @@ function NotificationLogChecking() {
               shrink: true,
             }}
             variant="outlined"
-            onChange={(e) => setFilterDateTo(e.target.value)}
+            onChange={(e) => {
+              e.target.value < filterDateFrom
+                ? Dispatch(openSnackbar_TO())
+                : setFilterDateTo(e.target.value);
+            }}
             fullWidth
           />
         </Grid>

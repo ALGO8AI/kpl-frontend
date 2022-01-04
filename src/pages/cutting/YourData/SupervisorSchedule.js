@@ -35,6 +35,12 @@ import {
   updateCuttingSupervisorSingle,
   deleteSUpervisorSchedule,
 } from "../../../services/cuttingApi.service";
+import { weekRange } from "../../../Utility/DateRange";
+import { useDispatch } from "react-redux";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
 
 // import { Switch } from "react-router";
 
@@ -65,6 +71,10 @@ TabPanel.propTypes = {
 };
 
 function Supervisor(props) {
+  // redux dispatch
+  const Dispatch = useDispatch();
+
+  // states
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);
   const [inputData, setInputData] = React.useState({
@@ -72,6 +82,14 @@ function Supervisor(props) {
     filterDateTo: "",
   });
   const [supervisorList, setSupervisorList] = useState([]);
+
+  // useEffect
+  useEffect(() => {
+    setInputData({
+      filterDateFrom: weekRange()[0],
+      filterDateTo: weekRange()[1],
+    });
+  }, []);
 
   const loadData = async () => {
     try {
@@ -701,9 +719,17 @@ function Supervisor(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateFrom: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value > inputData.filterDateTo
+                  ? Dispatch(openSnackbar_FROM())
+                  : setInputData({
+                      ...inputData,
+                      filterDateFrom: e.target.value,
+                    });
+              }}
+              // onChange={(e) =>
+              //   setInputData({ ...inputData, filterDateFrom: e.target.value })
+              // }
               fullWidth
             />
           </Grid>
@@ -719,9 +745,18 @@ function Supervisor(props) {
                 shrink: true,
               }}
               variant="outlined"
-              onChange={(e) =>
-                setInputData({ ...inputData, filterDateTo: e.target.value })
-              }
+              // onChange={(e) =>
+              //   setInputData({ ...inputData, filterDateTo: e.target.value })
+              // }
+
+              onChange={(e) => {
+                e.target.value < inputData.filterDateFrom
+                  ? Dispatch(openSnackbar_TO())
+                  : setInputData({
+                      ...inputData,
+                      filterDateTo: e.target.value,
+                    });
+              }}
               fullWidth
             />
           </Grid>

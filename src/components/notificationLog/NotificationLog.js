@@ -9,7 +9,10 @@ import React from "react";
 import { getNotificationLog } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { useDispatch } from "react-redux";
-import { openSnackbar } from "../../redux/CommonReducer/CommonAction";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -112,13 +115,7 @@ function NotificationLog() {
             variant="outlined"
             onChange={(e) => {
               e.target.value > filterDateTo
-                ? Dispatch(
-                    openSnackbar(
-                      true,
-                      "error",
-                      "From Date Must Be Less Than From Date"
-                    )
-                  )
+                ? Dispatch(openSnackbar_FROM())
                 : setFilterDateFrom(e.target.value);
             }}
             fullWidth
@@ -137,13 +134,7 @@ function NotificationLog() {
             variant="outlined"
             onChange={(e) => {
               e.target.value < filterDateFrom
-                ? Dispatch(
-                    openSnackbar(
-                      true,
-                      "error",
-                      "To Date Must Be Greater Than From Date"
-                    )
-                  )
+                ? Dispatch(openSnackbar_TO())
                 : setFilterDateTo(e.target.value);
             }}
             // onChange={(e) => setFilterDateTo(e.target.value)}

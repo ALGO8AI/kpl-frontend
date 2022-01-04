@@ -20,6 +20,9 @@ import YourData from "../YourData/YourData";
 import Navigation from "./Navigation";
 // import { Annotation } from "../layoutView/annotation/Annotation";
 // import ViolationDetail from "../violationDetails/ViolationDetail";
+import { useDispatch, useSelector } from "react-redux";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 function Cutting(props) {
   const pages = {
@@ -39,11 +42,30 @@ function Cutting(props) {
   };
 
   const page = pages[props.match.params.page];
+
+  // selector
+  const { open, status, message } = useSelector((state) => state?.Common);
+
+  // dispatch
+  const dispatch = useDispatch();
+
   return (
     <>
       {/* <StitchingProvider> */}
       <Navigation />
       <div className="Stitching_Container">{page}</div>
+      <Snackbar open={open} autoHideDuration={4000}>
+        <Alert
+          onClose={() =>
+            dispatch({
+              type: "CLOSE_SNACK",
+            })
+          }
+          severity={status}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
       {/* </StitchingProvider> */}
     </>
   );

@@ -12,8 +12,6 @@ import AddUser from "./AddUser";
 import { StitchingContext } from "../../../context/StitchingContext";
 import ComingSoon from "../layoutView/ComingSoon";
 
-// import { LayoutView } from "../layoutView/LayoutView";
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 

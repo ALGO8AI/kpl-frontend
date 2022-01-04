@@ -34,6 +34,11 @@ import { AppBar, InputLabel, Tab, Tabs, TextField } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
 import { CheckingContext } from "../../../context/CheckingContext";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
+import { useDispatch } from "react-redux";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -91,6 +96,9 @@ const useStyles = makeStyles((theme) => ({
 
 function ViolationLog1() {
   const { state, dispatch } = React.useContext(CheckingContext);
+
+  // Reduc Dispatch
+  const Dispatch = useDispatch();
 
   const [loader, setLoader] = useState(false);
 
@@ -756,9 +764,14 @@ function ViolationLog1() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={(e) =>
-                dispatch({ type: "VIO_FROM", payload: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value > state.violationTo
+                  ? Dispatch(openSnackbar_FROM())
+                  : dispatch({ type: "VIO_FROM", payload: e.target.value });
+              }}
+              // onChange={(e) =>
+              //   dispatch({ type: "VIO_FROM", payload: e.target.value })
+              // }
               fullWidth
               variant="outlined"
             />
@@ -774,9 +787,14 @@ function ViolationLog1() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={(e) =>
-                dispatch({ type: "VIO_TO", payload: e.target.value })
-              }
+              // onChange={(e) =>
+              //   dispatch({ type: "VIO_TO", payload: e.target.value })
+              // }
+              onChange={(e) => {
+                e.target.value < state.violationFrom
+                  ? Dispatch(openSnackbar_TO())
+                  : dispatch({ type: "VIO_TO", payload: e.target.value });
+              }}
               fullWidth
               variant="outlined"
             />

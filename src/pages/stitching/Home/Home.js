@@ -33,7 +33,10 @@ import AreaChart from "../../../components/areaChart/AreaChart";
 import { StitchingContext } from "../../../context/StitchingContext";
 import FeedDonut from "../../../components/donutChart/FeedDonut";
 import { useDispatch } from "react-redux";
-import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
 
 function Home() {
   // context
@@ -504,13 +507,7 @@ function Home() {
           variant="outlined"
           onChange={(e) => {
             e.target.value > state.to
-              ? Dispatch(
-                  openSnackbar(
-                    true,
-                    "error",
-                    "From Date Must Be Less Than From Date"
-                  )
-                )
+              ? Dispatch(openSnackbar_FROM())
               : dispatch({
                   type: "FROM",
                   payload: e.target.value,
@@ -541,13 +538,7 @@ function Home() {
           }}
           onChange={(e) => {
             e.target.value < state.from
-              ? Dispatch(
-                  openSnackbar(
-                    true,
-                    "error",
-                    "To Date Must Be Greater Than From Date"
-                  )
-                )
+              ? Dispatch(openSnackbar_TO())
               : dispatch({ type: "TO", payload: e.target.value });
           }}
           fullWidth

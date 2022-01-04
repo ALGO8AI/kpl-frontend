@@ -32,7 +32,10 @@ import { StitchingContext } from "../../../context/StitchingContext";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
 import WorkerPerformanceTable from "./WorkerPerformanceTable";
 import { useDispatch } from "react-redux";
-import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -615,13 +618,7 @@ function ViolationLog1() {
               }}
               onChange={(e) => {
                 e.target.value > state.violationTo
-                  ? Dispatch(
-                      openSnackbar(
-                        true,
-                        "error",
-                        "From Date Must Be Less Than From Date"
-                      )
-                    )
+                  ? Dispatch(openSnackbar_FROM())
                   : dispatch({ type: "VIO_FROM", payload: e.target.value });
               }}
               fullWidth
@@ -641,13 +638,7 @@ function ViolationLog1() {
               }}
               onChange={(e) => {
                 e.target.value < state.violationFrom
-                  ? Dispatch(
-                      openSnackbar(
-                        true,
-                        "error",
-                        "To Date Must Be Greater Than From Date"
-                      )
-                    )
+                  ? Dispatch(openSnackbar_TO())
                   : dispatch({ type: "VIO_TO", payload: e.target.value });
               }}
               fullWidth

@@ -30,6 +30,12 @@ import Table from "./Table";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
 import { CuttingContext } from "../../../context/CuttingContext";
 import { defectViolation } from "../../../services/cuttingApi.service";
+import { weekRange } from "../../../Utility/DateRange";
+import {
+  openSnackbar_FROM,
+  openSnackbar_TO,
+} from "../../../redux/CommonReducer/CommonAction";
+import { useDispatch } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -86,6 +92,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Defects() {
+  // redux dispatch
+  const Dispatch = useDispatch();
   // context
   const { state, dispatch } = React.useContext(CuttingContext);
 
@@ -116,25 +124,6 @@ function Defects() {
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
   const [fabricList, setFabricList] = useState([]);
-
-  const getFirstDay_LastDay = async () => {
-    var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-
-    if (Boolean(!state.violationFrom)) {
-      dispatch({
-        type: "VIO_FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-    }
-
-    if (Boolean(!state.violationTo)) {
-      dispatch({
-        type: "VIO_TO",
-        payload: myDate.toISOString().slice(0, 10),
-      });
-    }
-  };
 
   const fetchData = async () => {
     try {
@@ -178,9 +167,16 @@ function Defects() {
   };
 
   useEffect(() => {
-    getFirstDay_LastDay();
     fetchData();
-    console.log("in Use effect");
+    dispatch({
+      type: "VIO_FROM",
+      payload: weekRange()[0],
+    });
+
+    dispatch({
+      type: "VIO_TO",
+      payload: weekRange()[1],
+    });
   }, []);
   // const [state.violationTab, setTabValue] = React.useState(state.violationTab);
 
@@ -297,9 +293,14 @@ function Defects() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={(e) =>
-                dispatch({ type: "VIO_FROM", payload: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value > state.violationTo
+                  ? Dispatch(openSnackbar_FROM())
+                  : dispatch({ type: "VIO_FROM", payload: e.target.value });
+              }}
+              // onChange={(e) =>
+              //   dispatch({ type: "VIO_FROM", payload: e.target.value })
+              // }
               fullWidth
               variant="outlined"
             />
@@ -315,9 +316,14 @@ function Defects() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={(e) =>
-                dispatch({ type: "VIO_TO", payload: e.target.value })
-              }
+              onChange={(e) => {
+                e.target.value < state.violationFrom
+                  ? Dispatch(openSnackbar_TO())
+                  : dispatch({ type: "VIO_TO", payload: e.target.value });
+              }}
+              // onChange={(e) =>
+              //   dispatch({ type: "VIO_TO", payload: e.target.value })
+              // }
               fullWidth
               variant="outlined"
             />
