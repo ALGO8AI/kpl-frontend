@@ -37,6 +37,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
+import { weekRange } from "../../../Utility/DateRange";
 
 function Home() {
   // context
@@ -53,24 +54,50 @@ function Home() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // Functions
 
-  // get week days function
-  const getFirstDay_LastDay = async () => {
+  // handle date range
+  const handleDateRange = (value) => {
     var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-    if (Boolean(!state.from)) {
-      dispatch({
-        type: "FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-    }
-
-    if (Boolean(!state.to)) {
-      dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+    setTypeOfRange(value);
+    switch (value) {
+      case "weekly":
+        var newDateWeekBack = new Date(
+          myDate.getTime() - 60 * 60 * 24 * 7 * 1000
+        );
+        dispatch({
+          type: "FROM",
+          payload: newDateWeekBack.toISOString().slice(0, 10),
+        });
+        dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+        break;
+      case "monthly":
+        var newDateMonthBack = new Date(
+          myDate.getTime() - 60 * 60 * 24 * 30 * 1000
+        );
+        dispatch({
+          type: "FROM",
+          payload: newDateMonthBack.toISOString().slice(0, 10),
+        });
+        dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+        break;
+      case "custom":
+        dispatch({
+          type: "FROM",
+          payload: weekRange()[0],
+        });
+        dispatch({
+          type: "TO",
+          payload: weekRange()[1],
+        });
+        break;
+      default:
+        return null;
     }
   };
+
   // refresh data
   const refreshData = async () => {
     try {
@@ -406,7 +433,12 @@ function Home() {
 
   // Use Effects
   useEffect(() => {
-    getFirstDay_LastDay();
+    dispatch({
+      type: "FROM",
+      payload: weekRange()[0],
+    });
+
+    dispatch({ type: "TO", payload: weekRange()[1] });
     load_ctr_machine();
     loadData();
   }, []);
@@ -423,7 +455,7 @@ function Home() {
         item
         xs={6}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
@@ -456,7 +488,7 @@ function Home() {
         item
         xs={6}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
@@ -500,56 +532,91 @@ function Home() {
         lg={2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
-        <TextField
-          key="from"
-          id="fromDate"
-          label="From"
-          value={state.from}
-          type="date"
-          style={{ marginRight: "6px" }}
-          InputLabelProps={{
-            shrink: true,
-          }}
+        <FormControl
           variant="outlined"
-          onChange={(e) => {
-            e.target.value > state.to
-              ? Dispatch(openSnackbar_FROM())
-              : dispatch({
-                  type: "FROM",
-                  payload: e.target.value,
-                });
-          }}
           fullWidth
-        />
+          style={{ marginRight: "6px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Date Range
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={typeOfRange}
+            onChange={(e) => handleDateRange(e.target.value)}
+            label="Machine ID"
+            // multiple
+          >
+            <MenuItem value={"weekly"}>Weekly</MenuItem>
+            <MenuItem value={"monthly"}>Monthly</MenuItem>
+            <MenuItem value={"custom"}>Custom</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
 
-      <Grid
-        container
-        item
-        xs={6}
-        sm={4}
-        lg={2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <TextField
-          key="to"
-          id="toDate"
-          label="To"
-          type="date"
-          value={state.to}
-          style={{ marginRight: "6px" }}
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(e) => {
-            e.target.value < state.from
-              ? Dispatch(openSnackbar_TO())
-              : dispatch({ type: "TO", payload: e.target.value });
-          }}
-          fullWidth
-        />
-      </Grid>
+      {typeOfRange === "custom" && (
+        <>
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center", marginBottom: "8px" }}
+          >
+            <TextField
+              key="from"
+              id="fromDate"
+              label="From"
+              value={state.from}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) => {
+                e.target.value > state.to
+                  ? Dispatch(openSnackbar_FROM())
+                  : dispatch({
+                      type: "FROM",
+                      payload: e.target.value,
+                    });
+              }}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center", marginBottom: "8px" }}
+          >
+            <TextField
+              key="to"
+              id="toDate"
+              label="To"
+              type="date"
+              value={state.to}
+              style={{ marginRight: "6px" }}
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={(e) => {
+                e.target.value < state.from
+                  ? Dispatch(openSnackbar_TO())
+                  : dispatch({ type: "TO", payload: e.target.value });
+              }}
+              fullWidth
+            />
+          </Grid>
+        </>
+      )}
 
       <Grid
         container
@@ -586,7 +653,7 @@ function Home() {
         // sm={12}
         xs={4}
         sm={4}
-        lg={1}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
@@ -605,7 +672,7 @@ function Home() {
         // sm={12}
         xs={4}
         sm={4}
-        lg={1}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button

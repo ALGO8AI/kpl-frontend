@@ -1,11 +1,22 @@
 /* eslint-disable eqeqeq */
-import { AppBar, Button, Grid, Tab, Tabs, TextField } from "@material-ui/core";
+import {
+  AppBar,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  TextField,
+} from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
 import clsx from "clsx";
 import moment from "moment";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getNotificationLogChecking } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { weekRange } from "../../Utility/DateRange";
@@ -52,15 +63,43 @@ function a11yProps(index) {
 function NotificationLogChecking() {
   // redux dispatch
   const Dispatch = useDispatch();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const [data, setData] = React.useState();
-  const [filterDateFrom, setFilterDateFrom] = React.useState();
-  const [filterDateTo, setFilterDateTo] = React.useState();
+  const [data, setData] = useState();
+  const [filterDateFrom, setFilterDateFrom] = useState();
+  const [filterDateTo, setFilterDateTo] = useState();
+  const [typeOfRange, setTypeOfRange] = useState("weekly");
+
+  // functions
+  // handle date range
+  const handleDateRange = (value) => {
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    var newDateMonthBack = new Date(
+      myDate.getTime() - 60 * 60 * 24 * 30 * 1000
+    );
+    setTypeOfRange(value);
+    switch (value) {
+      case "weekly":
+        setFilterDateFrom(newDateWeekBack.toISOString().slice(0, 10));
+        setFilterDateTo(myDate.toISOString().slice(0, 10));
+        break;
+      case "monthly":
+        setFilterDateFrom(newDateMonthBack.toISOString().slice(0, 10));
+        setFilterDateTo(myDate.toISOString().slice(0, 10));
+        break;
+      case "custom":
+        setFilterDateFrom(newDateWeekBack.toISOString().slice(0, 10));
+        setFilterDateTo(myDate.toISOString().slice(0, 10));
+        break;
+      default:
+        return null;
+    }
+  };
 
   const getLogs = async () => {
     try {
@@ -79,7 +118,7 @@ function NotificationLogChecking() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getLogs();
     setFilterDateFrom(weekRange()[0]);
     setFilterDateTo(weekRange()[1]);
@@ -99,43 +138,76 @@ function NotificationLogChecking() {
   return (
     <Grid container>
       <Grid container item xs={12}>
-        <Grid container item xs={6} md={2}>
-          <TextField
-            label="From"
-            value={filterDateFrom}
-            type="date"
-            style={{ marginRight: "6px" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+        <Grid
+          container
+          item
+          xs={6}
+          md={2}
+          // style={{ justifyContent: "center", marginBottom: "8px" }}
+        >
+          <FormControl
             variant="outlined"
-            onChange={(e) => {
-              e.target.value > filterDateTo
-                ? Dispatch(openSnackbar_FROM())
-                : setFilterDateFrom(e.target.value);
-            }}
             fullWidth
-          />
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Date Range
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={typeOfRange}
+              onChange={(e) => handleDateRange(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              <MenuItem value={"weekly"}>Weekly</MenuItem>
+              <MenuItem value={"monthly"}>Monthly</MenuItem>
+              <MenuItem value={"custom"}>Custom</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
+        {typeOfRange === "custom" && (
+          <>
+            <Grid container item xs={6} md={2}>
+              <TextField
+                label="From"
+                value={filterDateFrom}
+                type="date"
+                style={{ marginRight: "6px" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                onChange={(e) => {
+                  e.target.value > filterDateTo
+                    ? Dispatch(openSnackbar_FROM())
+                    : setFilterDateFrom(e.target.value);
+                }}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid container item xs={6} md={2}>
-          <TextField
-            label="To"
-            value={filterDateTo}
-            type="date"
-            style={{ marginRight: "6px" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            variant="outlined"
-            onChange={(e) => {
-              e.target.value < filterDateFrom
-                ? Dispatch(openSnackbar_TO())
-                : setFilterDateTo(e.target.value);
-            }}
-            fullWidth
-          />
-        </Grid>
+            <Grid container item xs={6} md={2}>
+              <TextField
+                label="To"
+                value={filterDateTo}
+                type="date"
+                style={{ marginRight: "6px" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                onChange={(e) => {
+                  e.target.value < filterDateFrom
+                    ? Dispatch(openSnackbar_TO())
+                    : setFilterDateTo(e.target.value);
+                }}
+                fullWidth
+              />
+            </Grid>
+          </>
+        )}
         <Grid container item xs={12} md={2}>
           <Button
             variant="contained"
@@ -171,7 +243,10 @@ function NotificationLogChecking() {
               container
               item
               xs={12}
-              style={{ height: "700px", width: "100%" }}
+              style={{
+                height: "700px",
+                width: "100%",
+              }}
             >
               <DataGrid
                 components={{
@@ -208,18 +283,42 @@ function NotificationLogChecking() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "Violation ID", width: 210 },
-                  { field: "crowdId", headerName: "Crowd ID", width: 360 },
-                  { field: "DateTime", headerName: "Date", width: 150 },
-                  { field: "Wing", headerName: "Wing", width: 120 },
-                  { field: "CamID", headerName: "Cam ID", width: 150 },
+                  {
+                    field: "Id",
+                    headerName: "Violation ID",
+                    width: 210,
+                  },
+                  {
+                    field: "crowdId",
+                    headerName: "Crowd ID",
+                    width: 360,
+                  },
+                  {
+                    field: "DateTime",
+                    headerName: "Date",
+                    width: 150,
+                  },
+                  {
+                    field: "Wing",
+                    headerName: "Wing",
+                    width: 120,
+                  },
+                  {
+                    field: "CamID",
+                    headerName: "Cam ID",
+                    width: 150,
+                  },
 
                   {
                     field: "crowdStartTime",
                     headerName: "Start Time",
                     width: 150,
                   },
-                  { field: "crowdEndTime", headerName: "End Time", width: 150 },
+                  {
+                    field: "crowdEndTime",
+                    headerName: "End Time",
+                    width: 150,
+                  },
                   // { field: "day", headerName: "Day", width: 150 },
                   {
                     field: "CrowdingDuration",
@@ -260,7 +359,11 @@ function NotificationLogChecking() {
                     headerName: "Violation Status",
                     width: 240,
                   },
-                  { field: "shift", headerName: "Shift", width: 150 },
+                  {
+                    field: "shift",
+                    headerName: "Shift",
+                    width: 150,
+                  },
                   {
                     field: "supervisorName",
                     headerName: "Supervisor Name",
@@ -323,7 +426,10 @@ function NotificationLogChecking() {
               container
               item
               xs={12}
-              style={{ height: "700px", width: "100%" }}
+              style={{
+                height: "700px",
+                width: "100%",
+              }}
             >
               <DataGrid
                 components={{
@@ -360,26 +466,58 @@ function NotificationLogChecking() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "Violation ID", width: 180 },
-                  { field: "DateTime", headerName: "Date", width: 150 },
-                  { field: "workerID", headerName: "Worker ID", width: 180 },
+                  {
+                    field: "Id",
+                    headerName: "Violation ID",
+                    width: 180,
+                  },
+                  {
+                    field: "DateTime",
+                    headerName: "Date",
+                    width: 150,
+                  },
+                  {
+                    field: "workerID",
+                    headerName: "Worker ID",
+                    width: 180,
+                  },
                   {
                     field: "workerName",
                     headerName: "Worker Name",
                     width: 180,
                   },
-                  { field: "wing", headerName: "Wing", width: 120 },
+                  {
+                    field: "wing",
+                    headerName: "Wing",
+                    width: 120,
+                  },
 
-                  { field: "tableId", headerName: "Table ID", width: 150 },
+                  {
+                    field: "tableId",
+                    headerName: "Table ID",
+                    width: 150,
+                  },
                   {
                     field: "ViolationDuration",
                     headerName: "Violation Duration",
                     width: 210,
                   },
 
-                  { field: "startTime", headerName: "Start Time", width: 150 },
-                  { field: "endTime", headerName: "End Time", width: 150 },
-                  { field: "uuid", headerName: "Unique ID", width: 240 },
+                  {
+                    field: "startTime",
+                    headerName: "Start Time",
+                    width: 150,
+                  },
+                  {
+                    field: "endTime",
+                    headerName: "End Time",
+                    width: 150,
+                  },
+                  {
+                    field: "uuid",
+                    headerName: "Unique ID",
+                    width: 240,
+                  },
 
                   // {
                   //   field: "UnavailableDuration",
@@ -406,7 +544,11 @@ function NotificationLogChecking() {
                     headerName: "Violation Status",
                     width: 210,
                   },
-                  { field: "shift", headerName: "Shift", width: 120 },
+                  {
+                    field: "shift",
+                    headerName: "Shift",
+                    width: 120,
+                  },
                   {
                     field: "supervisorName",
                     headerName: "Supervisor Name",
@@ -469,7 +611,10 @@ function NotificationLogChecking() {
               container
               item
               xs={12}
-              style={{ height: "700px", width: "100%" }}
+              style={{
+                height: "700px",
+                width: "100%",
+              }}
             >
               <DataGrid
                 components={{
@@ -502,8 +647,16 @@ function NotificationLogChecking() {
                   };
                 })}
                 columns={[
-                  { field: "Id", headerName: "Defect ID", width: 180 },
-                  { field: "dateTime", headerName: "Date", width: 150 },
+                  {
+                    field: "Id",
+                    headerName: "Defect ID",
+                    width: 180,
+                  },
+                  {
+                    field: "dateTime",
+                    headerName: "Date",
+                    width: 150,
+                  },
                   {
                     field: "checker_emp_id",
                     headerName: "Checker ID",
@@ -514,7 +667,11 @@ function NotificationLogChecking() {
                     headerName: "Checker Name",
                     width: 240,
                   },
-                  { field: "action", headerName: "Action Taken", width: 180 },
+                  {
+                    field: "action",
+                    headerName: "Action Taken",
+                    width: 180,
+                  },
                   {
                     field: "actionStatus",
                     headerName: "Action Status",
@@ -631,7 +788,11 @@ function NotificationLogChecking() {
                     headerName: "Violation Reason",
                     width: 240,
                   },
-                  { field: "wing", headerName: "Wing", width: 120 },
+                  {
+                    field: "wing",
+                    headerName: "Wing",
+                    width: 120,
+                  },
                 ]}
                 style={{ width: "100%" }}
               />

@@ -36,6 +36,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
+import { weekRange } from "../../../Utility/DateRange";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -98,6 +99,7 @@ function ViolationLog1() {
   // redux dispatch
   const Dispatch = useDispatch();
 
+  // state
   const [loader, setLoader] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [idLabel, setIdLabel] = useState();
@@ -117,6 +119,60 @@ function ViolationLog1() {
   });
   const [openDialog, setOpenDialog] = React.useState(false);
   const [linkDialog, setLinkDialog] = React.useState("");
+  const [clpCtr, setClpCtr] = useState([]);
+  const [machineID, setMachineID] = useState([]);
+  const [inputCTR, setInputCTR] = useState([]);
+  const [inputMACHINEid, setInputMACHINEid] = useState([]);
+  const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [typeOfRange, setTypeOfRange] = useState("weekly");
+
+  // functions
+
+  // handle date range
+  const handleDateRange = (value) => {
+    var myDate = new Date();
+    setTypeOfRange(value);
+    switch (value) {
+      case "weekly":
+        var newDateWeekBack = new Date(
+          myDate.getTime() - 60 * 60 * 24 * 7 * 1000
+        );
+        dispatch({
+          type: "VIO_FROM",
+          payload: newDateWeekBack.toISOString().slice(0, 10),
+        });
+        dispatch({
+          type: "VIO_TO",
+          payload: myDate.toISOString().slice(0, 10),
+        });
+        break;
+      case "monthly":
+        var newDateMonthBack = new Date(
+          myDate.getTime() - 60 * 60 * 24 * 30 * 1000
+        );
+        dispatch({
+          type: "VIO_FROM",
+          payload: newDateMonthBack.toISOString().slice(0, 10),
+        });
+        dispatch({
+          type: "VIO_TO",
+          payload: myDate.toISOString().slice(0, 10),
+        });
+        break;
+      case "custom":
+        dispatch({
+          type: "VIO_FROM",
+          payload: weekRange()[0],
+        });
+        dispatch({
+          type: "VIO_TO",
+          payload: weekRange()[1],
+        });
+        break;
+      default:
+        return null;
+    }
+  };
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -156,7 +212,10 @@ function ViolationLog1() {
       console.log(feed.feedUnavailableData);
       dispatch({
         type: "FEED_VIO",
-        payload: { data: feed.feedUnavailableData, loading: false },
+        payload: {
+          data: feed.feedUnavailableData,
+          loading: false,
+        },
       });
 
       const machineBreak = await getMachineBreakdown();
@@ -185,7 +244,10 @@ function ViolationLog1() {
       if (crowd.crowdingData !== "no data") {
         dispatch({
           type: "CROWD_VIO",
-          payload: { data: crowd.crowdingData, loading: false },
+          payload: {
+            data: crowd.crowdingData,
+            loading: false,
+          },
         });
       }
 
@@ -265,7 +327,10 @@ function ViolationLog1() {
       if (feed.feedUnavailableData !== "no data") {
         dispatch({
           type: "FEED_VIO",
-          payload: { data: feed.feedUnavailableData, loading: false },
+          payload: {
+            data: feed.feedUnavailableData,
+            loading: false,
+          },
         });
       } else {
         dispatch({
@@ -286,7 +351,10 @@ function ViolationLog1() {
       if (crowd.crowdingData !== "no data") {
         dispatch({
           type: "CROWD_VIO",
-          payload: { data: crowd.crowdingData, loading: false },
+          payload: {
+            data: crowd.crowdingData,
+            loading: false,
+          },
         });
       } else {
         dispatch({
@@ -352,12 +420,6 @@ function ViolationLog1() {
     } catch (err) {}
   };
 
-  const [clpCtr, setClpCtr] = useState([]);
-  const [machineID, setMachineID] = useState([]);
-  const [inputCTR, setInputCTR] = useState([]);
-  const [inputMACHINEid, setInputMACHINEid] = useState([]);
-  const [inputSHIFT, setInputSHIFT] = useState([]);
-
   const load_ctr_machine = async () => {
     try {
       const ctr = await ctr_machineID();
@@ -372,7 +434,10 @@ function ViolationLog1() {
       console.log(feed.feedUnavailableData);
       dispatch({
         type: "FEED_VIO",
-        payload: { data: feed.feedUnavailableData, loading: false },
+        payload: {
+          data: feed.feedUnavailableData,
+          loading: false,
+        },
       });
       // }
       // if (state.machine.loading) {
@@ -405,7 +470,10 @@ function ViolationLog1() {
       if (crowd.crowdingData !== "no data") {
         dispatch({
           type: "CROWD_VIO",
-          payload: { data: crowd.crowdingData, loading: false },
+          payload: {
+            data: crowd.crowdingData,
+            loading: false,
+          },
         });
       }
       // }
@@ -444,33 +512,25 @@ function ViolationLog1() {
     }
   };
 
-  const getFirstDay_LastDay = async () => {
-    var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-
-    if (Boolean(!state.violationFrom)) {
-      dispatch({
-        type: "VIO_FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-    }
-
-    if (Boolean(!state.violationTo)) {
-      dispatch({
-        type: "VIO_TO",
-        payload: myDate.toISOString().slice(0, 10),
-      });
-    }
-  };
-
   useEffect(() => {
-    getFirstDay_LastDay();
+    dispatch({
+      type: "VIO_FROM",
+      payload: weekRange()[0],
+    });
+
+    dispatch({
+      type: "VIO_TO",
+      payload: weekRange()[1],
+    });
     load_ctr_machine();
   }, []);
   // const [state.violationTab, setTabValue] = React.useState(state.violationTab);
 
   const handleTabChange = (event, newValue) => {
-    dispatch({ type: "VIOLATION_TAB", payload: newValue });
+    dispatch({
+      type: "VIOLATION_TAB",
+      payload: newValue,
+    });
     dispatch({ type: "RESET_TABLE_PAGE" });
     setLink("");
     setImg("");
@@ -551,7 +611,7 @@ function ViolationLog1() {
             alignItems: "center",
           }}
         >
-          <Grid item xs={6} sm={6} md={2}>
+          <Grid item xs={6} sm={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -579,7 +639,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={6} sm={6} md={2}>
+          <Grid item xs={6} sm={6} lg={typeOfRange === "custom" ? 1 : 2}>
             <FormControl
               variant="outlined"
               className={classes.formControl}
@@ -614,45 +674,86 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={6} sm={6} md={2}>
-            <TextField
-              id="fromDate"
-              label="From"
-              type="date"
-              value={state.violationFrom}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(e) => {
-                e.target.value > state.violationTo
-                  ? Dispatch(openSnackbar_FROM())
-                  : dispatch({ type: "VIO_FROM", payload: e.target.value });
-              }}
-              fullWidth
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            // style={{ justifyContent: "center", marginBottom: "8px" }}
+          >
+            <FormControl
               variant="outlined"
-            />
+              fullWidth
+              style={{ marginLeft: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Date Range
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={typeOfRange}
+                onChange={(e) => handleDateRange(e.target.value)}
+                label="Machine ID"
+                // multiple
+              >
+                <MenuItem value={"weekly"}>Weekly</MenuItem>
+                <MenuItem value={"monthly"}>Monthly</MenuItem>
+                <MenuItem value={"custom"}>Custom</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
 
-          <Grid item xs={6} sm={6} md={2}>
-            <TextField
-              id="toDate"
-              label="To"
-              type="date"
-              value={state.violationTo}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(e) => {
-                e.target.value < state.violationFrom
-                  ? Dispatch(openSnackbar_TO())
-                  : dispatch({ type: "VIO_TO", payload: e.target.value });
-              }}
-              fullWidth
-              variant="outlined"
-            />
-          </Grid>
+          {typeOfRange === "custom" && (
+            <>
+              <Grid item xs={6} sm={6} md={2}>
+                <TextField
+                  id="fromDate"
+                  label="From"
+                  type="date"
+                  value={state.violationFrom}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => {
+                    e.target.value > state.violationTo
+                      ? Dispatch(openSnackbar_FROM())
+                      : dispatch({
+                          type: "VIO_FROM",
+                          payload: e.target.value,
+                        });
+                  }}
+                  fullWidth
+                  variant="outlined"
+                />
+              </Grid>
+
+              <Grid item xs={6} sm={6} md={2}>
+                <TextField
+                  id="toDate"
+                  label="To"
+                  type="date"
+                  value={state.violationTo}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => {
+                    e.target.value < state.violationFrom
+                      ? Dispatch(openSnackbar_TO())
+                      : dispatch({
+                          type: "VIO_TO",
+                          payload: e.target.value,
+                        });
+                  }}
+                  fullWidth
+                  variant="outlined"
+                />
+              </Grid>
+            </>
+          )}
 
           <Grid
             container
@@ -689,7 +790,7 @@ function ViolationLog1() {
             container
             item
             xs={4}
-            md={1}
+            lg={typeOfRange === "custom" ? 1 : 2}
             sm={6}
             style={{ justifyContent: "center" }}
           >
@@ -708,7 +809,7 @@ function ViolationLog1() {
             container
             item
             xs={4}
-            md={1}
+            lg={typeOfRange === "custom" ? 1 : 2}
             sm={6}
             style={{ justifyContent: "center" }}
           >
@@ -906,7 +1007,10 @@ function ViolationLog1() {
                       </Link>
                     ),
                   },
-                  { title: "Violation ID", field: "Id" },
+                  {
+                    title: "Violation ID",
+                    field: "Id",
+                  },
                   // {
                   //   title: "Status",
                   //   field: "query",
@@ -950,25 +1054,46 @@ function ViolationLog1() {
                       ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
-                  { title: "Worker Name", field: "workerName" },
-                  { title: "Worker ID", field: "WorkerID" },
+                  {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
+                  {
+                    title: "Worker ID",
+                    field: "WorkerID",
+                  },
 
                   {
                     title: "Violation Duration(Min.)",
                     field: "UnavailableDuration",
                   },
-                  { title: "Start Time", field: "StartTime" },
+                  {
+                    title: "Start Time",
+                    field: "StartTime",
+                  },
 
-                  { title: "End Time", field: "EndTime" },
-                  { title: "Feed ID", field: "FeedID" },
+                  {
+                    title: "End Time",
+                    field: "EndTime",
+                  },
+                  {
+                    title: "Feed ID",
+                    field: "FeedID",
+                  },
 
-                  { title: "Machine ID", field: "MachineID" },
+                  {
+                    title: "Machine ID",
+                    field: "MachineID",
+                  },
 
                   { title: "Wing", field: "Wing" },
                   { title: "Shift", field: "shift" },
                   // { title: "Violation Reason", field: "violationReason" },
                   // { title: "Action", field: "actionStatus" },
-                  { title: "Supervisor Name", field: "supervisorName" },
+                  {
+                    title: "Supervisor Name",
+                    field: "supervisorName",
+                  },
                 ]}
               />
             </Grid>
@@ -1010,7 +1135,10 @@ function ViolationLog1() {
                       </Link>
                     ),
                   },
-                  { title: "Violation ID", field: "Id" },
+                  {
+                    title: "Violation ID",
+                    field: "Id",
+                  },
                   // {
                   //   title: "Status",
                   // render: (rowData) => {
@@ -1068,7 +1196,10 @@ function ViolationLog1() {
                   //     );
                   //   },
                   // },
-                  { title: "Camera ID", field: "CamID" },
+                  {
+                    title: "Camera ID",
+                    field: "CamID",
+                  },
 
                   // {
                   //   title: "Date",
@@ -1098,10 +1229,19 @@ function ViolationLog1() {
                     title: "Violation Duration(Min.)",
                     field: "CrowdingDuration",
                   },
-                  { title: "Start Time", field: "crowdStartTime" },
-                  { title: "End Time", field: "crowdEndTime" },
+                  {
+                    title: "Start Time",
+                    field: "crowdStartTime",
+                  },
+                  {
+                    title: "End Time",
+                    field: "crowdEndTime",
+                  },
 
-                  { title: "Person(Max)", field: "MaxPerson" },
+                  {
+                    title: "Person(Max)",
+                    field: "MaxPerson",
+                  },
                   // { title: "Person(Min)", field: "MinPerson" },
                   // { title: "Violation Reason", field: "ViolationReason" },
                   { title: "Wing", field: "Wing" },
@@ -1109,7 +1249,10 @@ function ViolationLog1() {
                   // { title: "Violation Reason", field: "violationReason" },
                   // { title: "Action", field: "actionStatus" },
 
-                  { title: "Supervisor Name", field: "supervisorName" },
+                  {
+                    title: "Supervisor Name",
+                    field: "supervisorName",
+                  },
                 ]}
               />
             </Grid>
@@ -1150,7 +1293,10 @@ function ViolationLog1() {
                       </Link>
                     ),
                   },
-                  { title: "Violation ID", field: "Id" },
+                  {
+                    title: "Violation ID",
+                    field: "Id",
+                  },
                   // {
                   //   title: "Status",
                   //   render: (rowData) => {
@@ -1218,23 +1364,41 @@ function ViolationLog1() {
                       return NewDate;
                     },
                   },
-                  { title: "Worker Name", field: "workerName" },
-                  { title: "Worker ID", field: "workerID" },
-                  { title: "Machine ID", field: "machineId" },
+                  {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
+                  {
+                    title: "Worker ID",
+                    field: "workerID",
+                  },
+                  {
+                    title: "Machine ID",
+                    field: "machineId",
+                  },
 
                   {
                     title: "Violation Duration(Min.)",
                     field: "ViolationDuration",
                   },
-                  { title: "Start Time", field: "startTime" },
-                  { title: "End Time", field: "endTime" },
+                  {
+                    title: "Start Time",
+                    field: "startTime",
+                  },
+                  {
+                    title: "End Time",
+                    field: "endTime",
+                  },
 
                   { title: "Wing", field: "wing" },
                   { title: "Shift", field: "shift" },
                   // { title: "Violation Reason", field: "violationReason" },
                   // { title: "Action", field: "actionStatus" },
 
-                  { title: "Supervisor Name", field: "supervisorName" },
+                  {
+                    title: "Supervisor Name",
+                    field: "supervisorName",
+                  },
                 ]}
               />
             </Grid>
@@ -1248,8 +1412,14 @@ function ViolationLog1() {
                 loading={loader}
                 // rowClick={rowClick}
                 columns={[
-                  { title: "Worker ID", field: "workerId" },
-                  { title: "Worker Name", field: "workerName" },
+                  {
+                    title: "Worker ID",
+                    field: "workerId",
+                  },
+                  {
+                    title: "Worker Name",
+                    field: "workerName",
+                  },
 
                   {
                     title: "Machine ID",
@@ -1340,8 +1510,14 @@ function ViolationLog1() {
                     field: "OffMinutes",
                   },
 
-                  { title: "Start Time", field: "startTime" },
-                  { title: "End Time", field: "endTime" },
+                  {
+                    title: "Start Time",
+                    field: "startTime",
+                  },
+                  {
+                    title: "End Time",
+                    field: "endTime",
+                  },
                   {
                     title: "Machine Id",
                     field: "machineId",
@@ -1357,7 +1533,10 @@ function ViolationLog1() {
                   // { title: "Violation Reason", field: "violationReason" },
                   // { title: "Action", field: "actionStatus" },
 
-                  { title: "Supervisor Name", field: "supervisorName" },
+                  {
+                    title: "Supervisor Name",
+                    field: "supervisorName",
+                  },
                 ]}
               />
             </Grid>
@@ -1432,9 +1611,18 @@ function ViolationLog1() {
                   //   field: "OffMinutes",
                   // },
 
-                  { title: "Start Time", field: "startTime" },
-                  { title: "End Time", field: "endTime" },
-                  { title: "Violation Duration", field: "violationDuration" },
+                  {
+                    title: "Start Time",
+                    field: "startTime",
+                  },
+                  {
+                    title: "End Time",
+                    field: "endTime",
+                  },
+                  {
+                    title: "Violation Duration",
+                    field: "violationDuration",
+                  },
                   {
                     title: "Machine Id",
                     field: "machineId",
@@ -1450,7 +1638,10 @@ function ViolationLog1() {
                   // { title: "Violation Reason", field: "violationReason" },
                   // { title: "Action", field: "actionStatus" },
 
-                  { title: "Supervisor Name", field: "supervisorName" },
+                  {
+                    title: "Supervisor Name",
+                    field: "supervisorName",
+                  },
                 ]}
               />
             </Grid>
