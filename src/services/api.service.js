@@ -931,7 +931,7 @@ const updateStitchingWorkerSchedule = async (datas) => {
     shift: datas.shift,
     wing: datas.wing,
     machineId: datas.machineId,
-    machineOnOffStatus: datas.machineOnOff ? 1 : 0,
+    machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
     id: datas.id,
   };
   return await callBackend(

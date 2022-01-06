@@ -14,7 +14,6 @@ import {
   updateStitchingWorkerSchedule,
 } from "../../../services/api.service";
 import axios from "axios";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getYourData } from "../../../services/api.service";
 import {
@@ -40,6 +39,7 @@ import { StitchingContext } from "../../../context/StitchingContext";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import {
+  openSnackbar,
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
@@ -85,9 +85,6 @@ function a11yProps(index) {
 function Schedule(props) {
   // state
   const [file, setFile] = React.useState();
-  const [open, setOpen] = React.useState(false);
-  const [severity, setSeverity] = React.useState(false);
-  const [msg, setMsg] = React.useState(false);
   const [inputData, setInputData] = React.useState({
     filterDateFrom: "",
     filterDateTo: "",
@@ -152,29 +149,12 @@ function Schedule(props) {
 
   const filterData = async () => {
     try {
-      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
-        setMsg("Please include start date and end date");
-        setSeverity("error");
-        setOpen(true);
-      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getYourData(inputData);
-        setData(x.latestScheduleData);
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
-      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getYourData(inputData);
-        setData(x.latestScheduleData);
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
-      } else {
-        setMsg("Wrong date range selected");
-        setSeverity("error");
-        setOpen(true);
-      }
+      const x = await getYourData(inputData);
+      setData(x.latestScheduleData);
+      dispatch({
+        type: "WORKER_SCHEDULE",
+        payload: { data: x.latestScheduleData, loading: false },
+      });
     } catch (err) {}
   };
 
@@ -183,16 +163,10 @@ function Schedule(props) {
     getFirstDay_LastDay();
   }, []);
 
-  const handleClose = (event, reason) => {
-    setOpen(false);
-  };
-
   const copy = async () => {
     try {
       const response = await copyScheduleStitching();
-      setMsg(response.msg);
-      setSeverity("success");
-      setOpen(true);
+      Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
       refreshData();
     } catch (e) {}
   };
@@ -288,9 +262,7 @@ function Schedule(props) {
   const updateSchedule = async () => {
     try {
       const resp = await updateStitchingWorkerSchedule(scheduleData);
-      setMsg(resp.msg);
-      setSeverity("success");
-      setOpen(true);
+      Dispatch(openSnackbar(true, "success", "Schedule Updated Successfully"));
       refreshData();
       setOpenDialog(false);
     } catch (e) {}
@@ -300,9 +272,16 @@ function Schedule(props) {
     try {
       const resp = await addStitchingWorkerSchedule(scheduleInput);
       if (resp?.msg === "Successfully Added") {
-        setMsg(resp.msg);
-        setSeverity("success");
-        setOpen(true);
+        Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
+        setScheduleInput({
+          workerId: "",
+          workerName: "",
+          date: "",
+          wing: "",
+          shift: "",
+          machineId: "",
+          machineOnOffStatus: 0,
+        });
         refreshData();
       }
     } catch (e) {}
@@ -324,18 +303,12 @@ function Schedule(props) {
             if (x) {
               if (x.data) {
                 if (x.data === "File uploaded") {
-                  setMsg("File Uploaded");
-                  setSeverity("success");
-                  setOpen(true);
+                  Dispatch(openSnackbar(true, "success", "File Uploaded"));
                 } else {
-                  setMsg("File Not Uploaded");
-                  setSeverity("error");
-                  setOpen(true);
+                  Dispatch(openSnackbar(true, "error", "Error"));
                 }
               } else {
-                setMsg("Database Error");
-                setSeverity("error");
-                setOpen(true);
+                Dispatch(openSnackbar(true, "error", "Database Error"));
               }
             } else {
               alert("could not connect to internet");
@@ -720,11 +693,6 @@ function Schedule(props) {
           style={{ width: "100%" }}
         />
       </Grid>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity}>
-          {msg}
-        </Alert>
-      </Snackbar>
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -808,12 +776,13 @@ function Schedule(props) {
                 control={
                   <Switch
                     checked={scheduleData.machineOnOffStatus}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log(e);
                       setScheduleData({
                         ...scheduleData,
                         machineOnOffStatus: e.target.checked,
-                      })
-                    }
+                      });
+                    }}
                     name="machineOnOffStatus"
                     color="primary"
                   />

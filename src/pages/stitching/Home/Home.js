@@ -440,7 +440,17 @@ function Home() {
 
     dispatch({ type: "TO", payload: weekRange()[1] });
     load_ctr_machine();
-    loadData();
+  }, []);
+
+  useEffect(() => {
+    function getAlerts() {
+      loadData();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 15000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
