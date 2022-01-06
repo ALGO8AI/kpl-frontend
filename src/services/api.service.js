@@ -350,7 +350,6 @@ const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
     shifts: shift,
     username: localStorage.getItem("kpl_username"),
   };
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/home/workerUtilization",

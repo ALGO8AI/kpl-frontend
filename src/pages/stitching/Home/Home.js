@@ -32,7 +32,7 @@ import DonutChart from "../../../components/donutChart/DonutChart";
 import AreaChart from "../../../components/areaChart/AreaChart";
 import { StitchingContext } from "../../../context/StitchingContext";
 import FeedDonut from "../../../components/donutChart/FeedDonut";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
@@ -42,6 +42,9 @@ import { weekRange } from "../../../Utility/DateRange";
 function Home() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
+
+  // use selector
+  const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
 
   // reducDispatch
   const Dispatch = useDispatch();
@@ -101,18 +104,6 @@ function Home() {
   // refresh data
   const refreshData = async () => {
     try {
-      var myDate = new Date();
-      var newDateWeekBack = new Date(
-        myDate.getTime() - 60 * 60 * 24 * 7 * 1000
-      );
-
-      dispatch({
-        type: "FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-
-      dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
-
       const x = await machineBreakdownData();
       dispatch({
         type: "MACHINE_UTILIZATION",
@@ -175,7 +166,7 @@ function Home() {
         },
       });
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
     }
   };
 
@@ -199,7 +190,7 @@ function Home() {
     try {
       if (state.machineUtilization.loading) {
         const x = await machineBreakdownData();
-        console.log(x);
+        // console.log(x);
         dispatch({
           type: "MACHINE_UTILIZATION",
           payload: { data: x.machineBreakdownData, loading: false },
@@ -266,7 +257,7 @@ function Home() {
 
       if (state.homeCTRTable.loading) {
         const homeCTRTable = await ClpCtrData();
-        console.log(homeCTRTable);
+        // console.log(homeCTRTable);
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
@@ -276,7 +267,7 @@ function Home() {
         });
       }
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
     }
   };
   // load filtered data
@@ -426,13 +417,14 @@ function Home() {
           });
         }
       } catch (err) {
-        console.log(err.message);
+        // console.log(err.message);
       }
     }
   };
 
   // Use Effects
   useEffect(() => {
+    loadData();
     dispatch({
       type: "FROM",
       payload: weekRange()[0],
@@ -443,15 +435,19 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    function getAlerts() {
+    function callAPI() {
+      console.log("API Calling...");
       loadData();
     }
+    function getAlerts() {
+      !filterEnable && callAPI();
+    }
     getAlerts();
-    const interval = setInterval(() => getAlerts(), 15000);
+    const interval = setInterval(() => getAlerts(), 12000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [filterEnable]);
 
   return (
     <Grid
@@ -670,7 +666,12 @@ function Home() {
           variant="contained"
           color="primary"
           style={{ margin: "10px" }}
-          onClick={dateFilter}
+          onClick={() => {
+            Dispatch({
+              type: "ENABLE_HOME_FILTER",
+            });
+            dateFilter();
+          }}
         >
           <FilterListIcon />
           Filter
@@ -691,6 +692,9 @@ function Home() {
           // style={{ margin: "10px" }}
           // onClick={dateFilter}
           onClick={() => {
+            Dispatch({
+              type: "DISABLE_HOME_FILTER",
+            });
             refreshData();
             setInputCTR([]);
             setInputMACHINEid([]);

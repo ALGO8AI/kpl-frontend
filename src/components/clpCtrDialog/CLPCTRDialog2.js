@@ -59,7 +59,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
   const loadCurrentAndUnassigned = async () => {
     try {
       const curr = await getCurrentCTR();
-      console.log(curr?.data);
+      // console.log(curr?.data);
       setCurrentCTR(curr?.data);
       setCTR({
         ...CTR,
@@ -68,9 +68,9 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
       });
       setOldCLP(curr?.data[0]?.Clp);
       localStorage.setItem("Current_CTR", curr?.data[0]?.CtrNo || "N/A");
-      console.log(curr?.data[0]?.CtrNo || "N/A");
+      // console.log(curr?.data[0]?.CtrNo || "N/A");
       const unassign = await getUnassignedCLPCTR();
-      console.log(unassign?.data);
+      // console.log(unassign?.data);
       setUnassignedCTR(unassign?.data);
     } catch (e) {}
   };
@@ -87,7 +87,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
   const fetchCloseCTR = async () => {
     try {
       const resp = await closeCTR({ id: CTR.oldCtrId, CtrNo: CTR.oldCtr });
-      console.log(resp);
+      // console.log(resp);
       setCTRresp(resp.msg);
       handleCloseCTR();
       loadCurrentAndUnassigned();
@@ -111,7 +111,7 @@ function CLPCTRDialog2({ open, handleCloseCTR }) {
           <Button
             onClick={() => {
               handleCloseCTR();
-              console.log(CTR);
+              // console.log(CTR);
             }}
           >
             <i class="fa fa-times" aria-hidden="true"></i>
