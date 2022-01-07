@@ -147,7 +147,6 @@ export default function Home() {
     try {
       const ctr = await ctr_machineID();
       const tableIds = await getAllTableId();
-      // console.log(tableIds);
       setClpCtr(ctr?.clpctr);
       setMachineID(tableIds?.data);
       dispatch({

@@ -12,6 +12,7 @@ import {
   addCheckingWorkerSchedule,
   copyScheduleChecking,
   deleteCheckingWorkerSchedule,
+  getAllTableId,
   getAllWorketrListChecking,
   getCheckingSchedule,
   updateCheckingWorkerSchedule,
@@ -91,10 +92,16 @@ function Schedule(props) {
   const [severity, setSeverity] = React.useState(false);
   const [msg, setMsg] = React.useState(false);
 
-  const { state } = React.useContext(CheckingContext);
+  const { state, dispatch } = React.useContext(CheckingContext);
 
   const loadData = async () => {
     try {
+      const tableIds = await getAllTableId();
+      dispatch({
+        type: "TABLE_ID",
+        payload: tableIds?.data,
+      });
+
       const worker = await getAllWorketrListChecking();
       // console.log();
       setWorkerList(worker?.data);
@@ -504,11 +511,13 @@ function Schedule(props) {
                 <em>None</em>
               </MenuItem>
               {state?.tableIDs?.length > 0 &&
-                state?.tableIDs?.map((item, index) => (
-                  <MenuItem value={item.tableId} key={index}>
-                    {item.tableId}
-                  </MenuItem>
-                ))}
+                state?.tableIDs
+                  ?.sort((a, b) => (a?.tableId > b?.tableId ? 1 : -1))
+                  ?.map((item, index) => (
+                    <MenuItem value={item.tableId} key={index}>
+                      {item.tableId}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
 

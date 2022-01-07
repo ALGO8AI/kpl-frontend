@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import {
   addStitchingWorkerSchedule,
   copyScheduleStitching,
+  ctr_machineID,
   getAllWorketrList,
   updateStitchingWorkerSchedule,
 } from "../../../services/api.service";
@@ -125,8 +126,12 @@ function Schedule(props) {
 
   const loadData = async () => {
     try {
+      const ctr = await ctr_machineID();
+      dispatch({
+        type: "MACHINE_ID",
+        payload: ctr.machineID,
+      });
       const worker = await getAllWorketrList();
-      // console.log();
       setWorkerList(worker.data);
       if (state.workerSchedule.loading) {
         const x = await getYourData();
@@ -470,11 +475,13 @@ function Schedule(props) {
                 <em>None</em>
               </MenuItem>
               {state.machineIDs.length > 0 &&
-                state.machineIDs.map((item, index) => (
-                  <MenuItem value={item.machineID} key={index}>
-                    {item.machineID}
-                  </MenuItem>
-                ))}
+                state.machineIDs
+                  ?.sort((a, b) => (a?.machineID > b?.machineID ? 1 : -1))
+                  .map((item, index) => (
+                    <MenuItem value={item.machineID} key={index}>
+                      {item.machineID}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
           <TextField
