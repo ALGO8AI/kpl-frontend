@@ -32,6 +32,9 @@ function BarcodeDetails() {
   const history = useHistory();
   const fetchBagIds = async () => {
     try {
+      const tableID = await getAllTableId();
+      // console.log(tableID);
+      setMachineID(tableID?.data);
       var curr = new Date(); // get current date
       // console.log(new Date().toISOString().slice(0, 10));
       var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
@@ -57,9 +60,7 @@ function BarcodeDetails() {
         state.bagIdFrom || firstDay,
         state.bagIdTo || new Date().toISOString().slice(0, 10)
       );
-      const tableID = await getAllTableId();
-      // console.log(tableID);
-      setMachineID(tableID?.data);
+
       // console.log(resp);
       const data = [...resp.unUsedIds, ...resp.usedIds];
       dispatch({
