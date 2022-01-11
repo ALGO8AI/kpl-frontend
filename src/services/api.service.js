@@ -532,7 +532,6 @@ const stitchingAlert = async (data) => {
 };
 
 const stitchingNotification = async (data) => {
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/stitching/notifConfig/notifMode",
@@ -1723,6 +1722,15 @@ export const deleteCheckingSupervisorSchedule = async (data) => {
   return await callBackend(
     "POST",
     "routes/checkingSupervisorSchedule/deleteSupervisor",
+    true,
+    data
+  );
+};
+
+export const deleteStitchingWorkerSchedule = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/addScheduleDetailStitching/delete",
     true,
     data
   );

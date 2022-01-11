@@ -11,6 +11,7 @@ import {
   addStitchingWorkerSchedule,
   copyScheduleStitching,
   ctr_machineID,
+  deleteStitchingWorkerSchedule,
   getAllWorketrList,
   updateStitchingWorkerSchedule,
 } from "../../../services/api.service";
@@ -202,6 +203,26 @@ function Schedule(props) {
     } catch (e) {}
   };
 
+  const deleteSchedule = async (id) => {
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete the schedule?"
+      );
+      if (confirm) {
+        const resp = await deleteStitchingWorkerSchedule({ id });
+        if (resp?.message) {
+          setOpen(true);
+          setMsg("Successfully Deleted");
+          loadData();
+        }
+      } else {
+        setOpen(true);
+        setMsg("Operation Cancelled");
+        setSeverity("error");
+      }
+    } catch (e) {}
+  };
+
   const [columns, setColumns] = useState([
     {
       title: "Date",
@@ -255,6 +276,26 @@ function Schedule(props) {
           }}
         >
           EDIT
+        </button>
+      ),
+    },
+    {
+      title: "Delete",
+      render: (x) => (
+        <button
+          style={{
+            color: "#0e4a7b",
+            textDecoration: "underline",
+            backgroundColor: "white",
+            padding: "8px 16px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+          onClick={() => deleteSchedule(x.id)}
+        >
+          DELETE
         </button>
       ),
     },
