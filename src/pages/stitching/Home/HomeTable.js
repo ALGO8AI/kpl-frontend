@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HomeTable({ data, column }) {
-  console.log(data);
   const classes = useStyles();
 
   return (

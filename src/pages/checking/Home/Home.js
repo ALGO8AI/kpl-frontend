@@ -33,10 +33,10 @@ import AreaChartChecking from "../../../components/areaChart/AreaChartChecking";
 import DefectDonutChart from "../../../components/donutChart/DefectDonutChart";
 import { useDispatch } from "react-redux";
 import {
-  openSnackbar,
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
+import { weekRange } from "../../../Utility/DateRange";
 
 export default function Home() {
   // context
@@ -47,10 +47,56 @@ export default function Home() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // React dispatch
   const Dispatch = useDispatch();
+
   // Functions
+
+  // handle date range
+  const handleDateRange = (value) => {
+    var myDate = new Date();
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    var newDateMonthBack = new Date(
+      myDate.getTime() - 60 * 60 * 24 * 30 * 1000
+    );
+    setTypeOfRange(value);
+    switch (value) {
+      case "weekly":
+        dispatch({
+          type: "FROM",
+          payload: newDateWeekBack.toISOString().slice(0, 10),
+        });
+        dispatch({
+          type: "TO",
+          payload: myDate.toISOString().slice(0, 10),
+        });
+        break;
+      case "monthly":
+        dispatch({
+          type: "FROM",
+          payload: newDateMonthBack.toISOString().slice(0, 10),
+        });
+        dispatch({
+          type: "TO",
+          payload: myDate.toISOString().slice(0, 10),
+        });
+        break;
+      case "custom":
+        dispatch({
+          type: "FROM",
+          payload: weekRange()[0],
+        });
+        dispatch({
+          type: "TO",
+          payload: weekRange()[1],
+        });
+        break;
+      default:
+        return null;
+    }
+  };
 
   // refresh
   const refreshData = async () => {
@@ -71,19 +117,28 @@ export default function Home() {
       const defect = await defectChartData();
       dispatch({
         type: "DEFECT_CHART",
-        payload: { data: defect, loading: false },
+        payload: {
+          data: defect,
+          loading: false,
+        },
       });
 
       const y = await checkingWorkerUtilizationData();
       dispatch({
         type: "WORKER_UTILIZATION",
-        payload: { data: y.workerUtilization, loading: false },
+        payload: {
+          data: y.workerUtilization,
+          loading: false,
+        },
       });
 
       const z = await crowdingInstanceCheckingData();
       dispatch({
         type: "CROWDING_INSTANCE",
-        payload: { data: z.crowdingInstancesData, loading: false },
+        payload: {
+          data: z.crowdingInstancesData,
+          loading: false,
+        },
       });
 
       const homeWorkerTable = await checkingHomeWorker();
@@ -125,22 +180,6 @@ export default function Home() {
       console.log(err.message);
     }
   };
-  // get week days function
-  const getFirstDay_LastDay = async () => {
-    var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-
-    if (Boolean(!state.from)) {
-      dispatch({
-        type: "FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-    }
-
-    if (Boolean(!state.to)) {
-      dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
-    }
-  };
 
   // load ctr filter dropdown data
   const load_ctr_table = async () => {
@@ -170,7 +209,10 @@ export default function Home() {
         console.log(defect);
         dispatch({
           type: "DEFECT_CHART",
-          payload: { data: defect, loading: false },
+          payload: {
+            data: defect,
+            loading: false,
+          },
         });
       }
 
@@ -179,7 +221,10 @@ export default function Home() {
         console.log(y);
         dispatch({
           type: "WORKER_UTILIZATION",
-          payload: { data: y?.workerUtilization, loading: false },
+          payload: {
+            data: y?.workerUtilization,
+            loading: false,
+          },
         });
       }
 
@@ -188,7 +233,10 @@ export default function Home() {
         console.log(z);
         dispatch({
           type: "CROWDING_INSTANCE",
-          payload: { data: z?.crowdingInstancesData, loading: false },
+          payload: {
+            data: z?.crowdingInstancesData,
+            loading: false,
+          },
         });
       }
 
@@ -259,7 +307,10 @@ export default function Home() {
         );
         dispatch({
           type: "DEFECT_CHART",
-          payload: { data: defect, loading: false },
+          payload: {
+            data: defect,
+            loading: false,
+          },
         });
         const x = await checkingWorkerUtilizationData(
           state.from,
@@ -272,7 +323,10 @@ export default function Home() {
         );
         dispatch({
           type: "WORKER_UTILIZATION",
-          payload: { data: x?.workerUtilization, loading: false },
+          payload: {
+            data: x?.workerUtilization,
+            loading: false,
+          },
         });
 
         const y = await crowdingInstanceCheckingData(
@@ -282,7 +336,10 @@ export default function Home() {
         );
         dispatch({
           type: "CROWDING_INSTANCE",
-          payload: { data: y?.crowdingInstancesData, loading: false },
+          payload: {
+            data: y?.crowdingInstancesData,
+            loading: false,
+          },
         });
 
         const homeWorkerTable = await checkingHomeWorker(
@@ -368,7 +425,15 @@ export default function Home() {
 
   // Use Effects
   useEffect(() => {
-    getFirstDay_LastDay();
+    dispatch({
+      type: "FROM",
+      payload: weekRange()[0],
+    });
+
+    dispatch({
+      type: "TO",
+      payload: weekRange()[1],
+    });
     load_ctr_table();
     loadData();
   }, []);
@@ -385,7 +450,7 @@ export default function Home() {
         item
         xs={6}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center" }}
       >
         <FormControl
@@ -418,7 +483,7 @@ export default function Home() {
         item
         xs={6}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center" }}
       >
         <FormControl
@@ -439,11 +504,13 @@ export default function Home() {
             // multiple
           >
             {machineID &&
-              machineID.map((item, index) => (
-                <MenuItem value={item.tableId} key={index}>
-                  {item.tableId}
-                </MenuItem>
-              ))}
+              machineID
+                ?.sort((a, b) => (a?.tableId > b?.tableId ? 1 : -1))
+                .map((item, index) => (
+                  <MenuItem value={item.tableId} key={index}>
+                    {item.tableId}
+                  </MenuItem>
+                ))}
           </Select>
         </FormControl>
       </Grid>
@@ -454,68 +521,106 @@ export default function Home() {
         xs={6}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", marginRight: "8px" }}
       >
-        <TextField
-          key="from"
-          id="fromDate"
-          label="From"
-          value={state.from}
-          type="date"
-          style={{ marginRight: "6px" }}
-          InputLabelProps={{
-            shrink: true,
-          }}
+        <FormControl
           variant="outlined"
-          // onChange={(e) => dispatch({ type: "FROM", payload: e.target.value })}
-          onChange={(e) => {
-            e.target.value > state.to
-              ? Dispatch(openSnackbar_FROM())
-              : dispatch({
-                  type: "FROM",
-                  payload: e.target.value,
-                });
-          }}
           fullWidth
-        />
+          style={{ marginRight: "6px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Date Range
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={typeOfRange}
+            onChange={(e) => handleDateRange(e.target.value)}
+            label="Machine ID"
+            // multiple
+          >
+            <MenuItem value={"weekly"}>Weekly</MenuItem>
+            <MenuItem value={"monthly"}>Monthly</MenuItem>
+            <MenuItem value={"custom"}>Custom</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
 
-      <Grid
-        container
-        item
-        xs={6}
-        sm={4}
-        lg={2}
-        style={{ justifyContent: "center" }}
-      >
-        <TextField
-          key="to"
-          id="toDate"
-          label="To"
-          type="date"
-          value={state.to}
-          style={{ marginRight: "6px" }}
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          // onChange={(e) => dispatch({ type: "TO", payload: e.target.value })}
+      {typeOfRange === "custom" && (
+        <>
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center" }}
+          >
+            <TextField
+              key="from"
+              id="fromDate"
+              label="From"
+              value={state.from}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              // onChange={(e) => dispatch({ type: "FROM", payload: e.target.value })}
+              onChange={(e) => {
+                e.target.value > state.to
+                  ? Dispatch(openSnackbar_FROM())
+                  : dispatch({
+                      type: "FROM",
+                      payload: e.target.value,
+                    });
+              }}
+              fullWidth
+            />
+          </Grid>
 
-          onChange={(e) => {
-            e.target.value < state.from
-              ? Dispatch(openSnackbar_TO())
-              : dispatch({ type: "TO", payload: e.target.value });
-          }}
-          fullWidth
-        />
-      </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center" }}
+          >
+            <TextField
+              key="to"
+              id="toDate"
+              label="To"
+              type="date"
+              value={state.to}
+              style={{ marginRight: "6px" }}
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              // onChange={(e) => dispatch({ type: "TO", payload: e.target.value })}
+
+              onChange={(e) => {
+                e.target.value < state.from
+                  ? Dispatch(openSnackbar_TO())
+                  : dispatch({
+                      type: "TO",
+                      payload: e.target.value,
+                    });
+              }}
+              fullWidth
+            />
+          </Grid>
+        </>
+      )}
 
       <Grid
         container
         item
         xs={4}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center" }}
       >
         <FormControl
@@ -591,7 +696,11 @@ export default function Home() {
       <Grid container xs={12} spacing={2} style={{ padding: "12px 16px" }}>
         <Grid container item xs={12} sm={6} lg={3}>
           <Paper
-            style={{ width: "100%", padding: "8px", minHeight: "280px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              minHeight: "280px",
+            }}
             elevation={5}
           >
             {state.defectChart.loading ? (
@@ -607,7 +716,11 @@ export default function Home() {
         </Grid>
         <Grid container item xs={12} sm={6} lg={3}>
           <Paper
-            style={{ width: "100%", padding: "8px", minHeight: "280px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              minHeight: "280px",
+            }}
             elevation={5}
           >
             {state.defectChart.loading ? (

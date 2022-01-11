@@ -32,15 +32,19 @@ import DonutChart from "../../../components/donutChart/DonutChart";
 import AreaChart from "../../../components/areaChart/AreaChart";
 import { StitchingContext } from "../../../context/StitchingContext";
 import FeedDonut from "../../../components/donutChart/FeedDonut";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
+import { weekRange } from "../../../Utility/DateRange";
 
 function Home() {
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
+
+  // use selector
+  const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
 
   // reducDispatch
   const Dispatch = useDispatch();
@@ -53,39 +57,53 @@ function Home() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // Functions
 
-  // get week days function
-  const getFirstDay_LastDay = async () => {
+  // handle date range
+  const handleDateRange = (value) => {
     var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-    if (Boolean(!state.from)) {
-      dispatch({
-        type: "FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-    }
-
-    if (Boolean(!state.to)) {
-      dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+    setTypeOfRange(value);
+    switch (value) {
+      case "weekly":
+        var newDateWeekBack = new Date(
+          myDate.getTime() - 60 * 60 * 24 * 7 * 1000
+        );
+        dispatch({
+          type: "FROM",
+          payload: newDateWeekBack.toISOString().slice(0, 10),
+        });
+        dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+        break;
+      case "monthly":
+        var newDateMonthBack = new Date(
+          myDate.getTime() - 60 * 60 * 24 * 30 * 1000
+        );
+        dispatch({
+          type: "FROM",
+          payload: newDateMonthBack.toISOString().slice(0, 10),
+        });
+        dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+        break;
+      case "custom":
+        dispatch({
+          type: "FROM",
+          payload: weekRange()[0],
+        });
+        dispatch({
+          type: "TO",
+          payload: weekRange()[1],
+        });
+        break;
+      default:
+        return null;
     }
   };
+
   // refresh data
   const refreshData = async () => {
     try {
-      var myDate = new Date();
-      var newDateWeekBack = new Date(
-        myDate.getTime() - 60 * 60 * 24 * 7 * 1000
-      );
-
-      dispatch({
-        type: "FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
-      });
-
-      dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
-
       const x = await machineBreakdownData();
       dispatch({
         type: "MACHINE_UTILIZATION",
@@ -148,7 +166,7 @@ function Home() {
         },
       });
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
     }
   };
 
@@ -172,7 +190,7 @@ function Home() {
     try {
       if (state.machineUtilization.loading) {
         const x = await machineBreakdownData();
-        console.log(x);
+        // console.log(x);
         dispatch({
           type: "MACHINE_UTILIZATION",
           payload: { data: x.machineBreakdownData, loading: false },
@@ -239,7 +257,7 @@ function Home() {
 
       if (state.homeCTRTable.loading) {
         const homeCTRTable = await ClpCtrData();
-        console.log(homeCTRTable);
+        // console.log(homeCTRTable);
         dispatch({
           type: "HOME_CTR_TABLE",
           payload: {
@@ -249,7 +267,7 @@ function Home() {
         });
       }
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
     }
   };
   // load filtered data
@@ -399,17 +417,37 @@ function Home() {
           });
         }
       } catch (err) {
-        console.log(err.message);
+        // console.log(err.message);
       }
     }
   };
 
   // Use Effects
   useEffect(() => {
-    getFirstDay_LastDay();
-    load_ctr_machine();
     loadData();
+    dispatch({
+      type: "FROM",
+      payload: weekRange()[0],
+    });
+
+    dispatch({ type: "TO", payload: weekRange()[1] });
+    load_ctr_machine();
   }, []);
+
+  useEffect(() => {
+    function callAPI() {
+      console.log("API Calling...");
+      loadData();
+    }
+    function getAlerts() {
+      !filterEnable && callAPI();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 12000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [filterEnable]);
 
   return (
     <Grid
@@ -423,7 +461,7 @@ function Home() {
         item
         xs={6}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
@@ -456,7 +494,7 @@ function Home() {
         item
         xs={6}
         sm={4}
-        lg={2}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <FormControl
@@ -477,11 +515,17 @@ function Home() {
             // multiple
           >
             {machineID &&
-              machineID.map((item, index) => (
-                <MenuItem value={item.machineID} key={index}>
-                  {item.machineID}
-                </MenuItem>
-              ))}
+              machineID
+                .sort((a, b) =>
+                  a.machineID?.split("/")[2][0] > b.machineID?.split("/")[2][0]
+                    ? 1
+                    : -1
+                )
+                .map((item, index) => (
+                  <MenuItem value={item.machineID} key={index}>
+                    {item.machineID}
+                  </MenuItem>
+                ))}
           </Select>
         </FormControl>
       </Grid>
@@ -494,56 +538,91 @@ function Home() {
         lg={2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
-        <TextField
-          key="from"
-          id="fromDate"
-          label="From"
-          value={state.from}
-          type="date"
-          style={{ marginRight: "6px" }}
-          InputLabelProps={{
-            shrink: true,
-          }}
+        <FormControl
           variant="outlined"
-          onChange={(e) => {
-            e.target.value > state.to
-              ? Dispatch(openSnackbar_FROM())
-              : dispatch({
-                  type: "FROM",
-                  payload: e.target.value,
-                });
-          }}
           fullWidth
-        />
+          style={{ marginRight: "6px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Date Range
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={typeOfRange}
+            onChange={(e) => handleDateRange(e.target.value)}
+            label="Machine ID"
+            // multiple
+          >
+            <MenuItem value={"weekly"}>Weekly</MenuItem>
+            <MenuItem value={"monthly"}>Monthly</MenuItem>
+            <MenuItem value={"custom"}>Custom</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
 
-      <Grid
-        container
-        item
-        xs={6}
-        sm={4}
-        lg={2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <TextField
-          key="to"
-          id="toDate"
-          label="To"
-          type="date"
-          value={state.to}
-          style={{ marginRight: "6px" }}
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(e) => {
-            e.target.value < state.from
-              ? Dispatch(openSnackbar_TO())
-              : dispatch({ type: "TO", payload: e.target.value });
-          }}
-          fullWidth
-        />
-      </Grid>
+      {typeOfRange === "custom" && (
+        <>
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center", marginBottom: "8px" }}
+          >
+            <TextField
+              key="from"
+              id="fromDate"
+              label="From"
+              value={state.from}
+              type="date"
+              style={{ marginRight: "6px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              onChange={(e) => {
+                e.target.value > state.to
+                  ? Dispatch(openSnackbar_FROM())
+                  : dispatch({
+                      type: "FROM",
+                      payload: e.target.value,
+                    });
+              }}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={6}
+            sm={4}
+            lg={2}
+            style={{ justifyContent: "center", marginBottom: "8px" }}
+          >
+            <TextField
+              key="to"
+              id="toDate"
+              label="To"
+              type="date"
+              value={state.to}
+              style={{ marginRight: "6px" }}
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={(e) => {
+                e.target.value < state.from
+                  ? Dispatch(openSnackbar_TO())
+                  : dispatch({ type: "TO", payload: e.target.value });
+              }}
+              fullWidth
+            />
+          </Grid>
+        </>
+      )}
 
       <Grid
         container
@@ -580,14 +659,19 @@ function Home() {
         // sm={12}
         xs={4}
         sm={4}
-        lg={1}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
           variant="contained"
           color="primary"
           style={{ margin: "10px" }}
-          onClick={dateFilter}
+          onClick={() => {
+            Dispatch({
+              type: "ENABLE_HOME_FILTER",
+            });
+            dateFilter();
+          }}
         >
           <FilterListIcon />
           Filter
@@ -599,7 +683,7 @@ function Home() {
         // sm={12}
         xs={4}
         sm={4}
-        lg={1}
+        lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center", marginBottom: "8px" }}
       >
         <Button
@@ -608,6 +692,9 @@ function Home() {
           // style={{ margin: "10px" }}
           // onClick={dateFilter}
           onClick={() => {
+            Dispatch({
+              type: "DISABLE_HOME_FILTER",
+            });
             refreshData();
             setInputCTR([]);
             setInputMACHINEid([]);

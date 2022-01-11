@@ -350,7 +350,6 @@ const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
     shifts: shift,
     username: localStorage.getItem("kpl_username"),
   };
-  console.log(data);
   return await callBackend(
     "POST",
     "routes/KPI/home/workerUtilization",
@@ -930,7 +929,7 @@ const updateStitchingWorkerSchedule = async (datas) => {
     shift: datas.shift,
     wing: datas.wing,
     machineId: datas.machineId,
-    machineOnOffStatus: datas.machineOnOff ? 1 : 0,
+    machineOnOffStatus: datas.machineOnOffStatus ? 1 : 0,
     id: datas.id,
   };
   return await callBackend(

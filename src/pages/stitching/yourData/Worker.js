@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
-import { Snackbar } from "@material-ui/core";
+// import { Snackbar } from "@material-ui/core";
 import "./Worker.scss";
 import MaterialTable from "material-table";
 import TextField from "@material-ui/core/TextField";
@@ -19,6 +19,8 @@ import {
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import { StitchingContext } from "../../../context/StitchingContext";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,6 +52,9 @@ function Worker(props) {
   const [workerData, setWorkerData] = useState([]);
   const [edit, setEdit] = useState(false);
   const { state, dispatch } = React.useContext(StitchingContext);
+
+  // REDUX DISPATCH
+  const Dispatch = useDispatch();
 
   const loadData = async () => {
     try {
@@ -153,6 +158,7 @@ function Worker(props) {
     try {
       const resp = await AddWorkerStitching(userdata);
       setWorkerData([...workerData, userdata]);
+      Dispatch(openSnackbar(true, "success", "User Added Successfully"));
       setMsg(resp.msg);
       setOpen(true);
       refreshData();
@@ -165,8 +171,7 @@ function Worker(props) {
   const updateImageDetails = async () => {
     try {
       const resp = await workerUpdateStitching(userdata);
-      setMsg(resp.msg);
-      setOpen(true);
+      Dispatch(openSnackbar(true, "success", "User Updated Successfully"));
       refreshData();
       setUserData({ workerName: "", workerId: "", image: "" });
     } catch (e) {}
@@ -178,8 +183,7 @@ function Worker(props) {
       setWorkerData(
         workerData.filter((item) => item.workerId !== userdata.workerId)
       );
-      setMsg("Deleted");
-      setOpen(true);
+      Dispatch(openSnackbar(true, "success", "User Deleted Successfully"));
       refreshData();
       setUserData({ workerName: "", workerId: "", image: "" });
     } catch (e) {}
@@ -330,16 +334,6 @@ function Worker(props) {
           }}
         />
       </Grid>
-
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={() => setOpen(false)}
-      >
-        <Alert onClose={() => setOpen(false)} severity="success">
-          {msg}
-        </Alert>
-      </Snackbar>
     </Grid>
   );
 }

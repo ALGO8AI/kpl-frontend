@@ -71,6 +71,7 @@ const initialState = {
   },
   tableIDs: [],
   CTR: [],
+  tableCurrentPage: 0,
 };
 const CheckingContext = React.createContext(initialState);
 
@@ -154,6 +155,20 @@ let reducer = (state, action) => {
         CTR: action.payload,
       };
     }
+
+    case "SET_TABLE_PAGE": {
+      return {
+        ...state,
+        tableCurrentPage: action.payload,
+      };
+    }
+    case "RESET_TABLE_PAGE": {
+      return {
+        ...state,
+        tableCurrentPage: 0,
+      };
+    }
+
     default:
       return;
   }

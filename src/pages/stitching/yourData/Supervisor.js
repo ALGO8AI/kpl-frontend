@@ -30,6 +30,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import {
+  openSnackbar,
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
@@ -85,20 +86,8 @@ function Supervisor(props) {
   };
   const filterData = async () => {
     try {
-      if (!inputData.filterDateFrom || !inputData.filterDateTo) {
-        setMsg("Please include start date and end date");
-        setOpen(true);
-      } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getStitchingSupervisorSchedule(inputData);
-        setWorkerData(x.data);
-      } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getStitchingSupervisorSchedule(inputData);
-        setWorkerData(x.data);
-      } else {
-        setMsg("Wrong date range selected");
-
-        setOpen(true);
-      }
+      const x = await getStitchingSupervisorSchedule(inputData);
+      setWorkerData(x.data);
     } catch (err) {}
   };
   const getFirstDay_LastDay = async () => {
@@ -231,9 +220,6 @@ function Supervisor(props) {
     }
   };
 
-  const [msg, setMsg] = React.useState("");
-  const [open, setOpen] = useState(false);
-
   //   const submitImageDetails = async () => {
   //     try {
   //       const resp = await AddWorkerStitching(userdata);
@@ -248,9 +234,7 @@ function Supervisor(props) {
   const copy = async () => {
     try {
       const resp = await getStitchingSupervisorCopy();
-      console.log(resp);
-      setMsg(resp.msg);
-      setOpen(true);
+      Dispatch(openSnackbar(true, "success", "Schedule Copied"));
       loadData();
     } catch (e) {
       console.log(e);
@@ -261,8 +245,7 @@ function Supervisor(props) {
     try {
       const resp = await addStitchingSupervisorSingle(data);
       // console.log(resp);
-      setMsg("Added");
-      setOpen(true);
+      Dispatch(openSnackbar(true, "success", "Supervisor Added"));
       loadData();
       setUserData({
         id: "",
@@ -281,10 +264,8 @@ function Supervisor(props) {
   const updateSupervisor = async () => {
     try {
       const resp = await updateStitchingSupervisorSingle(userdata);
-      console.log(resp);
-
-      setMsg("Updated");
-      setOpen(true);
+      setEdit(false);
+      Dispatch(openSnackbar(true, "success", "Schedule Updated"));
       loadData();
       setUserData({
         id: "",
@@ -347,11 +328,13 @@ function Supervisor(props) {
                 <em>None</em>
               </MenuItem>
               {supervisorList.length > 0 &&
-                supervisorList.map((item, index) => (
-                  <MenuItem value={item.workerID} key={index}>
-                    {item.workerID}
-                  </MenuItem>
-                ))}
+                supervisorList
+                  ?.sort((a, b) => (a?.username > b?.username ? 1 : -1))
+                  .map((item, index) => (
+                    <MenuItem value={item.workerID} key={index}>
+                      {item.workerID} - {item.username}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
         )}
@@ -551,7 +534,7 @@ function Supervisor(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {["U+2", "Baffle", "Circular", "Two Row"].map((item, index) => (
+            {["Baffle", "Circular", "Two Row", "U+2"].map((item, index) => (
               <MenuItem value={item} key={index}>
                 {item}
               </MenuItem>
@@ -755,16 +738,6 @@ function Supervisor(props) {
           }}
         />
       </Grid>
-
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={() => setOpen(false)}
-      >
-        <Alert onClose={() => setOpen(false)} severity="success">
-          {msg}
-        </Alert>
-      </Snackbar>
     </Grid>
   );
 }

@@ -35,6 +35,7 @@ function BarcodeDetails() {
       const tableID = await getAllTableId();
       // console.log(tableID);
       setMachineID(tableID?.data);
+
       var curr = new Date(); // get current date
       // console.log(new Date().toISOString().slice(0, 10));
       var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
@@ -180,11 +181,13 @@ function BarcodeDetails() {
               style={{ marginBottom: "1rem" }}
             >
               {machineID &&
-                machineID?.map((item, index) => (
-                  <MenuItem value={item?.tableId} key={index}>
-                    {item?.tableId}
-                  </MenuItem>
-                ))}
+                machineID
+                  ?.sort((a, b) => (a.tableId > b.tableId ? 1 : -1))
+                  ?.map((item, index) => (
+                    <MenuItem value={item?.tableId} key={index}>
+                      {item?.tableId}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
 
