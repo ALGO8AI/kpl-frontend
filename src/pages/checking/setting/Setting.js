@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import "./Setting.scss";
 import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
-import ManageRoles from "./ManageRoles";
+import ManageRoles from "../../stitching/setting/ManageRoles";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
