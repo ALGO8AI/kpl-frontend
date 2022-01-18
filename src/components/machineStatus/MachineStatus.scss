@@ -1,0 +1,13 @@
+.PaperContainer {
+  border: 1px solid red;
+}
+.title {
+  user-select: none;
+  cursor: pointer;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-size: 28px;
+  font-weight: 500;
+}

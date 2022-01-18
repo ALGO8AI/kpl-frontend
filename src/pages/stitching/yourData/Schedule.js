@@ -306,9 +306,21 @@ function Schedule(props) {
   const updateSchedule = async () => {
     try {
       const resp = await updateStitchingWorkerSchedule(scheduleData);
-      Dispatch(openSnackbar(true, "success", "Schedule Updated Successfully"));
-      refreshData();
-      setOpenDialog(false);
+      console.log("Worker Update->", resp);
+
+      if (resp?.msg) {
+        const x = await getYourData();
+        dispatch({
+          type: "WORKER_SCHEDULE",
+          payload: { data: x.latestScheduleData, loading: false },
+        });
+        Dispatch(
+          openSnackbar(true, "success", "Schedule Updated Successfully")
+        );
+        setOpenDialog(false);
+      }
+
+      // refreshData();
     } catch (e) {}
   };
 
@@ -787,7 +799,7 @@ function Schedule(props) {
               />
             </Grid>
             <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
+              {/* <TextField
                 id="outlined-basic"
                 label="Wing"
                 variant="outlined"
@@ -795,10 +807,68 @@ function Schedule(props) {
                 name="wing"
                 onChange={onScheduleDataChange}
                 fullWidth
-              />
-            </Grid>{" "}
+              /> */}
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  Wing
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={scheduleData.wing}
+                  name="wing"
+                  onChange={onScheduleDataChange}
+                  fullWidth
+                  label="Wing"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {["FG2"].map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
             <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  Shift
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={scheduleData.shift}
+                  name="shift"
+                  onChange={(e) =>
+                    setScheduleData({ ...scheduleData, shift: e.target.value })
+                  }
+                  fullWidth
+                  label="Shift"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {["A", "B"].map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/* <TextField
                 id="outlined-basic"
                 label="Shift"
                 variant="outlined"
@@ -808,7 +878,7 @@ function Schedule(props) {
                   setScheduleData({ ...scheduleData, shift: e.target.value })
                 }
                 fullWidth
-              />
+              /> */}
             </Grid>
             <Grid
               md={6}
