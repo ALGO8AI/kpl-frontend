@@ -1735,6 +1735,10 @@ export const deleteStitchingWorkerSchedule = async (data) => {
   );
 };
 
+export const getLiveMachine = async () => {
+  return await callBackend("GET", "routes/KPI/home/liveMachineStatus");
+};
+
 export {
   login,
   getViolation,

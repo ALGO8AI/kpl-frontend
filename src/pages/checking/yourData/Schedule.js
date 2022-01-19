@@ -104,12 +104,13 @@ function Schedule(props) {
       });
 
       const worker = await getAllWorketrListChecking();
-      // console.log();
       setWorkerList(worker?.data);
       const x = await getCheckingSchedule();
-
-      setData(x.data);
-    } catch (err) {}
+      console.log("x=>", x);
+      x?.data?.length > 0 && setData(x.data);
+    } catch (err) {
+      console.log("Err=>", err);
+    }
   };
 
   useEffect(() => {
@@ -326,9 +327,9 @@ function Schedule(props) {
       const resp = await updateCheckingWorkerSchedule(scheduleData);
       console.log(scheduleData);
       console.log(resp);
-      setMsg(resp.msg);
-      setSeverity("success");
-      setOpen(true);
+      // setMsg(resp.msg);
+      // setSeverity("success");
+      // setOpen(true);
       loadData();
       setOpenDialog(false);
     } catch (e) {

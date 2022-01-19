@@ -8,6 +8,7 @@ import Worker from "./Worker";
 import Schedule from "./Schedule";
 import NotificationLog from "../../../components/notificationLog/NotificationLog";
 import Supervisor from "./Supervisor";
+import WorkerSchedule from "./WorkerSchedule";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -71,6 +72,7 @@ function YourData() {
         <Worker columns={["Worker ID", "Worker Name"]} />
       </TabPanel>
       <TabPanel value={value} index={1}>
+        {/* <WorkerSchedule /> */}
         <Schedule />
       </TabPanel>
       <TabPanel value={value} index={2}>

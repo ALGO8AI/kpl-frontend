@@ -1,5 +1,17 @@
-import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@material-ui/core";
+import MaterialTable from "material-table";
+import React, { useEffect, useState } from "react";
 import "./MachineStatus.scss";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
@@ -7,7 +19,9 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import InfoIcon from "@material-ui/icons/Info";
 import Chart from "react-apexcharts";
-import { theme } from "../../Utility/constants";
+import { stitchingLines, theme } from "../../Utility/constants";
+import { getLiveMachine } from "../../services/api.service";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
 const useStyles = makeStyles({
   paper: {
@@ -23,7 +37,101 @@ const useStyles = makeStyles({
 
 function MachineStatusStitch() {
   // state
+  const [data, setData] = useState([]);
   const [machineType, setMachineType] = useState([]);
+  const [openFilter, setOpenFilter] = useState(false);
+  const columns = [
+    {
+      title: "ID",
+      field: "id",
+    },
+    {
+      title: "Machine ID",
+      field: "machineId",
+    },
+    {
+      title: "Status",
+      render: (x) => status[x.status],
+    },
+    {
+      title: "Start Time",
+      field: "startTime",
+    },
+    {
+      title: "End Time",
+      field: "endTime",
+    },
+    {
+      title: "Difference",
+      field: "timeDiff",
+    },
+    {
+      title: "Message",
+      field: "message",
+    },
+  ];
+  const status = {
+    Stopped: <PauseCircleFilledIcon style={{ color: "#FFC014" }} />,
+    Running: <CheckCircleIcon style={{ color: "#05c422" }} />,
+    Offline: <CancelIcon style={{ color: "#C40303" }} />,
+    Disabled: <FiberManualRecordIcon style={{ color: "#727272" }} />,
+    Breakdown: <InfoIcon style={{ color: "#F0983D" }} />,
+  };
+  const [machineData, setMachineData] = useState([
+    {
+      id: 857592,
+      machineId: "FG2/U+2/Orsan6",
+      status: "Stopped",
+      startTime: "13:16:30",
+      endTime: "13:16:39",
+      timeDiff: "00:00:09",
+      message: "Ok",
+    },
+    {
+      id: 735528,
+      machineId: "FG2/U+2/Top3",
+      status: "Stopped",
+      startTime: "10:47:11",
+      endTime: "14:00:02",
+      timeDiff: "03:12:51",
+      message: "ALARMING CONDITION",
+    },
+    {
+      id: 857593,
+      machineId: "FG2/U+2/Orsan4",
+      status: "Running",
+      startTime: "13:16:35",
+      endTime: "13:16:40",
+      timeDiff: "00:00:05",
+      message: "Ok",
+    },
+    {
+      id: 855362,
+      machineId: "FG2/U+2/Top2",
+      status: "Stopped",
+      startTime: "21:25:13",
+      endTime: "13:16:05",
+      timeDiff: "-08:09:08",
+    },
+    {
+      id: 857588,
+      machineId: "FG2/U+2/Orsan5",
+      status: "Stopped",
+      startTime: "13:16:21",
+      endTime: "13:16:41",
+      timeDiff: "00:00:20",
+      message: "Ok",
+    },
+    {
+      id: 857442,
+      machineId: "NEW/DEVICE/Test",
+      status: "Stopped",
+      startTime: "13:09:50",
+      endTime: "13:16:07",
+      timeDiff: "00:06:17",
+      message: "Please take a look",
+    },
+  ]);
 
   // functions
   const AddMachineType = (value) => {
@@ -32,12 +140,37 @@ function MachineStatusStitch() {
       : setMachineType([...machineType, value]);
   };
 
+  useEffect(() => {
+    console.log(machineType.length);
+    machineType.length > 0
+      ? setData(machineData.filter((el) => machineType.includes(el.status)))
+      : setData(machineData);
+  }, [machineType]);
+
+  // getData
+  const loadData = async () => {
+    try {
+      const resp = await getLiveMachine();
+      if (resp?.liveMachineData) {
+        setMachineData(resp?.liveMachineData);
+        setData(resp?.liveMachineData);
+      } else {
+        setData(machineData);
+      }
+    } catch (e) {}
+  };
+
+  // useeffect
+  useEffect(() => {
+    loadData();
+  }, []);
+
   const classes = useStyles();
   return (
     <Grid container spacing={2}>
       <Grid container item xs={12}>
         <Typography style={{ color: theme.BLUE }} variant="h4">
-          Total Number Of Machines : 250
+          Total Number Of Machines : {machineData.length}
         </Typography>
       </Grid>
       <Grid container item xs={12} md={2}>
@@ -101,79 +234,195 @@ function MachineStatusStitch() {
                 },
               ],
             }}
-            series={[50, 50, 50, 50, 50]}
+            series={[
+              machineData.filter((item) => item.status === "Running").length,
+              machineData.filter((item) => item.status === "Stopped").length,
+              machineData.filter((item) => item.status === "Offline").length,
+              machineData.filter((item) => item.status === "Disabled").length,
+              machineData.filter((item) => item.status === "Breakdown").length,
+            ]}
             type="donut"
           />
         </Paper>
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("running") ? 5 : 0}
-          onClick={() => AddMachineType("running")}
+          elevation={machineType.includes("Running") ? 5 : 0}
+          onClick={() => AddMachineType("Running")}
           className={classes.paper}
         >
           <div className="title" style={{ color: "#05c422" }}>
             <CheckCircleIcon style={{ marginRight: "8px" }} /> RUNNING
           </div>
           <div className="title" style={{ color: "#05c422", fontSize: "48px" }}>
-            50
+            {machineData.filter((item) => item.status === "Running").length}
           </div>
         </Paper>
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("stopped") ? 5 : 0}
-          onClick={() => AddMachineType("stopped")}
+          elevation={machineType.includes("Stopped") ? 5 : 0}
+          onClick={() => AddMachineType("Stopped")}
           className={classes.paper}
         >
           <div className="title" style={{ color: "#FFC014" }}>
             <PauseCircleFilledIcon style={{ marginRight: "8px" }} /> STOPPED
           </div>
           <div className="title" style={{ color: "#FFC014", fontSize: "48px" }}>
-            50
+            {machineData.filter((item) => item.status === "Stopped").length}
           </div>
         </Paper>
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("offline") ? 5 : 0}
-          onClick={() => AddMachineType("offline")}
+          elevation={machineType.includes("Offline") ? 5 : 0}
+          onClick={() => AddMachineType("Offline")}
           className={classes.paper}
         >
           <div className="title" style={{ color: "#C40303" }}>
             <CancelIcon style={{ marginRight: "8px" }} /> OFFLINE
           </div>
           <div className="title" style={{ color: "#C40303", fontSize: "48px" }}>
-            50
+            {machineData.filter((item) => item.status === "Offline").length}
           </div>
         </Paper>
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("disabled") ? 5 : 0}
-          onClick={() => AddMachineType("disabled")}
+          elevation={machineType.includes("Disabled") ? 5 : 0}
+          onClick={() => AddMachineType("Disabled")}
           className={classes.paper}
         >
           <div className="title" style={{ color: "#727272" }}>
             <FiberManualRecordIcon style={{ marginRight: "8px" }} /> DISABLED
           </div>
           <div className="title" style={{ color: "#727272", fontSize: "48px" }}>
-            50
+            {machineData.filter((item) => item.status === "Disabled").length}
           </div>
         </Paper>
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("breakdown") ? 5 : 0}
-          onClick={() => AddMachineType("breakdown")}
+          elevation={machineType.includes("Breakdown") ? 5 : 0}
+          onClick={() => AddMachineType("Breakdown")}
           className={classes.paper}
         >
           <div className="title" style={{ color: "#F0983D" }}>
             <InfoIcon style={{ marginRight: "8px" }} /> BREAKDOWN
           </div>
           <div className="title" style={{ color: "#F0983D", fontSize: "48px" }}>
-            50
+            {machineData.filter((item) => item.status === "Breakdown").length}
           </div>
+        </Paper>
+      </Grid>
+      <Grid xs={12} style={{ marginTop: "8px" }}>
+        <Paper elevation={5} style={{ width: "100%", padding: "12px" }}>
+          <Grid container style={{ margin: "24px 0", height: "56px" }}>
+            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: openFilter ? theme.ORANGE : theme.BLUE,
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  height: "100%",
+                }}
+                fullWidth
+                onClick={() => {
+                  setOpenFilter(!openFilter);
+                }}
+              >
+                <FilterListIcon />
+                FILTER
+              </Button>
+            </Grid>
+            <Grid container item xs={12} lg={3}>
+              {openFilter && (
+                <>
+                  <Grid
+                    item
+                    xs={12}
+                    lg={4}
+                    style={{ paddingRight: "12px", height: "100%" }}
+                  >
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel keyid="demo-simple-select-outlined-label">
+                        Wing
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        // value={filterCondition.wing}
+                        // onChange={(e) =>
+                        //   setFilterConditiion({
+                        //     ...filterCondition,
+                        //     wing: e.target.value,
+                        //   })
+                        // }
+                        label="Wing"
+                        style={{ height: "56px" }}
+                        // multiple
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        {["FG2"].map((item, index) => (
+                          <MenuItem value={item} key={index}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12} lg={4} style={{ paddingRight: "12px" }}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel keyid="demo-simple-select-outlined-label">
+                        Line
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        // value={filterCondition.zone}
+                        // onChange={(e) =>
+                        //   setFilterConditiion({
+                        //     ...filterCondition,
+                        //     zone: e.target.value,
+                        //   })
+                        // }
+                        label="Line"
+                        style={{ height: "56px" }}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        {stitchingLines.map((item, index) => (
+                          <MenuItem value={item} key={index}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </>
+              )}
+            </Grid>
+          </Grid>
+          <MaterialTable
+            title={"LIVE MACHINE STATUS"}
+            columns={columns}
+            data={data}
+            options={{
+              exportButton: true,
+              headerStyle: {
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+              },
+              pageSizeOptions: [20, 50, 100, 200],
+              pageSize: 20,
+            }}
+            // onRowClick={rowClick}
+          />
         </Paper>
       </Grid>
     </Grid>

@@ -1,5 +1,7 @@
 const initStore = {
   homeFilterEnable: false,
+  machineStatusFilter: [],
+  length: 0,
 };
 
 const StitchingReducer = (state = initStore, action) => {
@@ -13,6 +15,14 @@ const StitchingReducer = (state = initStore, action) => {
       return {
         ...state,
         homeFilterEnable: false,
+      };
+    case "SET_MACHINE_STATUS_FILTER":
+      return {
+        ...state,
+        machineStatusFilter: state.machineStatusFilter.includes(action.payload)
+          ? state.machineStatusFilter.filter((item) => item !== action.payload)
+          : [...state.machineStatusFilter, action.payload],
+        length: state.machineStatusFilter.length,
       };
     default:
       return state;

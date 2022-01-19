@@ -45,10 +45,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { weekRange } from "../../../Utility/DateRange";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,14 +81,17 @@ function a11yProps(index) {
   };
 }
 
-function Schedule(props) {
+function WorkerSchedule(props) {
+  const { state, dispatch } = React.useContext(StitchingContext);
   // state
   const [file, setFile] = React.useState();
+  const [updateMode, setUpdateMode] = React.useState(false);
   const [inputData, setInputData] = React.useState({
     filterDateFrom: "",
     filterDateTo: "",
   });
-  const { state, dispatch } = React.useContext(StitchingContext);
+  const [workerScheduleData, setWorkerScheduleData] = useState([]);
+  const [workerList, setWorkerList] = React.useState([]);
   const [scheduleInput, setScheduleInput] = React.useState({
     workerId: "",
     workerName: "",
@@ -100,6 +100,7 @@ function Schedule(props) {
     shift: "",
     machineId: "",
     machineOnOffStatus: 0,
+    id: "",
   });
 
   const [value, setValue] = React.useState(0);
@@ -107,19 +108,10 @@ function Schedule(props) {
   // redux dispatch
   const Dispatch = useDispatch();
 
+  // functions
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const [workerList, setWorkerList] = React.useState([]);
-
-  const getFirstDay_LastDay = async () => {
-    var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-    setInputData({
-      filterDateFrom: newDateWeekBack.toISOString().slice(0, 10),
-      filterDateTo: myDate.toISOString().slice(0, 10),
-    });
   };
 
   const loadData = async () => {
@@ -131,49 +123,41 @@ function Schedule(props) {
       });
       const worker = await getAllWorketrList();
       setWorkerList(worker.data);
-      if (state.workerSchedule.loading) {
-        const x = await getYourData();
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
-        // setData(x.latestScheduleData);
-      }
+      const x = await getYourData();
+      setWorkerScheduleData(x.latestScheduleData);
     } catch (err) {}
   };
 
-  const refreshData = async () => {
-    try {
-      const x = await getYourData();
-      dispatch({
-        type: "WORKER_SCHEDULE",
-        payload: { data: x.latestScheduleData, loading: false },
-      });
-      // setData(x.latestScheduleData);
-    } catch (err) {}
-  };
+  // const refreshData = async () => {
+  //   try {
+  //     setWorkerScheduleData([]);
+  //     const x = await getYourData();
+  //     console.log("Reload", x);
+  //     x?.latestScheduleData?.length > 0 &&
+  //       setWorkerScheduleData(x.latestScheduleData);
+  //   } catch (err) {}
+  // };
 
   const filterData = async () => {
     try {
       const x = await getYourData(inputData);
-      setData(x.latestScheduleData);
-      dispatch({
-        type: "WORKER_SCHEDULE",
-        payload: { data: x.latestScheduleData, loading: false },
-      });
+      setWorkerScheduleData(x.latestScheduleData);
     } catch (err) {}
   };
 
   useEffect(() => {
     loadData();
-    getFirstDay_LastDay();
+    setInputData({
+      filterDateFrom: weekRange()[0],
+      filterDateTo: weekRange()[1],
+    });
   }, []);
 
   const copy = async () => {
     try {
       const response = await copyScheduleStitching();
-      Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
-      refreshData();
+      //   Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
+      //   refreshData();
     } catch (e) {}
   };
 
@@ -183,11 +167,13 @@ function Schedule(props) {
         "Are you sure you want to delete the schedule?"
       );
       if (confirm) {
-        console.log(state);
-        const resp = await deleteStitchingWorkerSchedule({ id });
-        if (resp?.message) {
-          Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
-        }
+        // setWorkerScheduleData(
+        //   workerScheduleData.filter((item) => item.id !== id)
+        // );
+        // const resp = await deleteStitchingWorkerSchedule({ id });
+        // if (resp?.message) {
+        //   Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
+        // }
       } else {
         Dispatch(openSnackbar(true, "error", "Operation Cancelled"));
       }
@@ -234,14 +220,15 @@ function Schedule(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            handleClickOpenDialog();
-            setScheduleData({
-              date: new Date(x.Date).toISOString().slice(0, 10),
+            setUpdateMode(true);
+            setScheduleInput({
               workerId: x.workerId,
-              shift: x.shift,
+              workerName: x.workerName,
+              date: new Date(x.Date).toISOString().slice(0, 10),
               wing: x.wing,
+              shift: x.shift,
               machineId: x.machineId,
-              machineOnOffStatus: Boolean(x.machineOnOffStatus),
+              machineOnOffStatus: x.machineOnOffStatus,
               id: x.id,
             });
           }}
@@ -264,37 +251,16 @@ function Schedule(props) {
             cursor: "pointer",
             fontSize: "1rem",
           }}
-          onClick={() => deleteSchedule(x.id)}
+          onClick={() => {
+            console.log(workerScheduleData);
+            // deleteSchedule(x.id);
+          }}
         >
           DELETE
         </button>
       ),
     },
   ]);
-
-  const [data, setData] = useState([]);
-  const [openDialog, setOpenDialog] = React.useState(false);
-  const [scheduleData, setScheduleData] = React.useState({
-    date: "",
-    workerId: "",
-    shift: "",
-    wing: "",
-    machineId: "",
-    id: "",
-    machineOnOffStatus: false,
-  });
-
-  const onScheduleDataChange = (e) => {
-    setScheduleData({ ...scheduleData, [e.target.name]: e.target.value });
-  };
-
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   const handleFileChange = (files) => {
     // console.log(files[0])
@@ -304,55 +270,53 @@ function Schedule(props) {
 
   const updateSchedule = async () => {
     try {
-      const resp = await updateStitchingWorkerSchedule(scheduleData);
+      const resp = await updateStitchingWorkerSchedule(scheduleInput);
       console.log("Worker Update->", resp);
-
       if (resp?.msg) {
-        const x = await getYourData();
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
+        setUpdateMode(false);
+        setScheduleInput({
+          workerId: "",
+          workerName: "",
+          date: "",
+          wing: "",
+          shift: "",
+          machineId: "",
+          machineOnOffStatus: 0,
+          id: "",
         });
-        Dispatch(
-          openSnackbar(true, "success", "Schedule Updated Successfully")
-        );
-        setOpenDialog(false);
+        loadData();
       }
-
-      // refreshData();
     } catch (e) {}
   };
 
   const addSchedule = async () => {
     try {
+      console.log({
+        ...scheduleInput,
+        date: new Date(scheduleInput.date).toISOString(),
+        Date: new Date(scheduleInput.date).toISOString(),
+      });
+      setWorkerScheduleData([
+        {
+          ...scheduleInput,
+          date: new Date(scheduleInput.date).toISOString(),
+          Date: new Date(scheduleInput.date).toISOString(),
+        },
+        ...workerScheduleData,
+      ]);
+
       const resp = await addStitchingWorkerSchedule(scheduleInput);
       if (resp?.msg === "Successfully Added") {
-        // setScheduleInput({
-        //   workerId: "",
-        //   workerName: "",
-        //   date: "",
-        //   wing: "",
-        //   shift: "",
-        //   machineId: "",
-        //   machineOnOffStatus: 0,
-        // });
-        const x = await getYourData();
-        console.log(x.latestScheduleData);
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
         Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const submit = async () => {
     if (file) {
-      // console.log("the selected file is:")
-      // console.log(file)
       const formData = new FormData();
-      // const myFile=file
       formData.append("myFile", file, file.name);
       try {
         // await scheduleUpload(formData)
@@ -363,12 +327,12 @@ function Schedule(props) {
             if (x) {
               if (x.data) {
                 if (x.data === "File uploaded") {
-                  Dispatch(openSnackbar(true, "success", "File Uploaded"));
+                  //   Dispatch(openSnackbar(true, "success", "File Uploaded"));
                 } else {
-                  Dispatch(openSnackbar(true, "error", "Error"));
+                  //   Dispatch(openSnackbar(true, "error", "Error"));
                 }
               } else {
-                Dispatch(openSnackbar(true, "error", "Database Error"));
+                // Dispatch(openSnackbar(true, "error", "Database Error"));
               }
             } else {
               alert("could not connect to internet");
@@ -400,7 +364,7 @@ function Schedule(props) {
   };
 
   return (
-    <Grid container spacing={4} md={12}>
+    <Grid container spacing={4}>
       <Grid item md={4} xs={12} style={{ backgroundColor: "#FFF" }}>
         <AppBar position="static" className="customTab">
           <Tabs
@@ -525,6 +489,7 @@ function Schedule(props) {
               shrink: true,
             }}
             variant="outlined"
+            value={scheduleInput.date}
             onChange={(e) =>
               setScheduleInput({
                 ...scheduleInput,
@@ -547,6 +512,7 @@ function Schedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
+              value={scheduleInput.wing}
               onChange={(e) =>
                 setScheduleInput({
                   ...scheduleInput,
@@ -580,6 +546,7 @@ function Schedule(props) {
               // value={userdata.supervisorName}
               name="supervisorName"
               fullWidth
+              value={scheduleInput.shift}
               onChange={(e) =>
                 setScheduleInput({
                   ...scheduleInput,
@@ -603,7 +570,9 @@ function Schedule(props) {
             style={{ marginBottom: "12px" }}
             control={
               <Switch
-                checked={scheduleInput?.machineOnOffStatus === 1 ? true : false}
+                checked={
+                  Boolean(scheduleInput?.machineOnOffStatus) ? true : false
+                }
                 onChange={(e) =>
                   setScheduleInput({
                     ...scheduleInput,
@@ -616,16 +585,66 @@ function Schedule(props) {
             }
             label="Machine Status"
           />
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            // style={{ margin: "10px" }}
-            onClick={addSchedule}
-          >
-            {/* <FilterListIcon /> */}
-            Save
-          </Button>
+          {/*  */}
+          {updateMode ? (
+            <Grid container xs={12}>
+              <Grid container item xs={6} style={{ padding: "6px" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#fff",
+                    color: "#0e4a7b",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    height: "fit-content",
+                    border: "1px solid #0e4a7b",
+                  }}
+                  onClick={() => {
+                    setUpdateMode(false);
+                    setScheduleInput({
+                      workerId: "",
+                      workerName: "",
+                      date: "",
+                      wing: "",
+                      shift: "",
+                      machineId: "",
+                      machineOnOffStatus: 0,
+                      id: "",
+                    });
+                  }}
+                >
+                  CANCEL
+                </Button>
+              </Grid>
+              <Grid container item xs={6} style={{ padding: "6px" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#0e4a7b",
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    height: "fit-content",
+                    border: "1px solid #0e4a7b",
+                  }}
+                  onClick={updateSchedule}
+                >
+                  UPDATE
+                </Button>
+              </Grid>
+            </Grid>
+          ) : (
+            <Grid container item xs={12} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={addSchedule}
+              >
+                Save
+              </Button>
+            </Grid>
+          )}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <DropzoneArea
@@ -719,7 +738,7 @@ function Schedule(props) {
             md={2}
             style={{ justifyContent: "center", alignItems: "center" }}
           >
-            <Button variant="contained" color="primary" onClick={refreshData}>
+            <Button variant="contained" color="primary" onClick={loadData}>
               <RefreshIcon />
               Refresh
             </Button>
@@ -739,10 +758,11 @@ function Schedule(props) {
         >
           COPY TABLE
         </Button>
+
         <MaterialTable
           title="Schedule Information"
           columns={columns}
-          data={state.workerSchedule.data}
+          data={workerScheduleData}
           options={{
             exportButton: true,
             headerStyle: {
@@ -755,187 +775,8 @@ function Schedule(props) {
           style={{ width: "100%" }}
         />
       </Grid>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        style={{ width: "900px", margin: "auto" }}
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"UPDATE WORKER SCHEDULE"}
-        </DialogTitle>
-        <DialogContentText id="alert-dialog-description">
-          <Grid container item style={{ padding: "12px", minWidth: "600px" }}>
-            <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
-                id="outlined-basic"
-                label="Machine Id"
-                variant="outlined"
-                value={scheduleData.machineId}
-                name="machineId"
-                fullWidth
-                onChange={onScheduleDataChange}
-                disabled
-              />
-            </Grid>
-            <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
-                id="outlined-basic"
-                label="Worker Id"
-                variant="outlined"
-                value={scheduleData.workerId}
-                name="workerId"
-                onChange={onScheduleDataChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
-                id="outlined-basic"
-                label="Date"
-                variant="outlined"
-                value={scheduleData.date}
-                name="date"
-                type="date"
-                onChange={onScheduleDataChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid md={6} style={{ padding: "12px" }}>
-              {/* <TextField
-                id="outlined-basic"
-                label="Wing"
-                variant="outlined"
-                value={scheduleData.wing}
-                name="wing"
-                onChange={onScheduleDataChange}
-                fullWidth
-              /> */}
-              <FormControl
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "12px" }}
-              >
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Wing
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={scheduleData.wing}
-                  name="wing"
-                  onChange={onScheduleDataChange}
-                  fullWidth
-                  label="Wing"
-                  // multiple
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {["FG2"].map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid md={6} style={{ padding: "12px" }}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "12px" }}
-              >
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Shift
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={scheduleData.shift}
-                  name="shift"
-                  onChange={(e) =>
-                    setScheduleData({ ...scheduleData, shift: e.target.value })
-                  }
-                  fullWidth
-                  label="Shift"
-                  // multiple
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {["A", "B"].map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {/* <TextField
-                id="outlined-basic"
-                label="Shift"
-                variant="outlined"
-                value={scheduleData.shift}
-                name="shift"
-                onChange={(e) =>
-                  setScheduleData({ ...scheduleData, shift: e.target.value })
-                }
-                fullWidth
-              /> */}
-            </Grid>
-            <Grid
-              md={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={scheduleData.machineOnOffStatus}
-                    onChange={(e) => {
-                      console.log(e);
-                      setScheduleData({
-                        ...scheduleData,
-                        machineOnOffStatus: e.target.checked,
-                      });
-                    }}
-                    name="machineOnOffStatus"
-                    color="primary"
-                  />
-                }
-                label="Machine Status"
-              />
-            </Grid>
-          </Grid>
-        </DialogContentText>
-
-        <DialogActions>
-          <Button
-            onClick={handleCloseDialog}
-            variant="contained"
-            color="secondary"
-          >
-            CANCEL
-          </Button>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#0e4a7b",
-              color: "#FFF",
-            }}
-            onClick={updateSchedule}
-            autoFocus
-          >
-            UPDATE
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Grid>
   );
 }
 
-export default Schedule;
+export default WorkerSchedule;
