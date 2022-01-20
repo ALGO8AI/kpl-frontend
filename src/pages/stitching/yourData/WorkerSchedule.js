@@ -54,7 +54,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
-import { theme as THEME } from "../../../Utility/constants";
+import { theme as THEME, wings } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -490,7 +490,7 @@ function WorkerSchedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {["FG2"].map((item, index) => (
+              {wings.map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
                 </MenuItem>
