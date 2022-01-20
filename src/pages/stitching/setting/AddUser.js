@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
-import { stitchingLines } from "../../../Utility/constants";
+import { stitchingLines, wings } from "../../../Utility/constants";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 function AddUser({ loadData }) {
@@ -37,11 +37,12 @@ function AddUser({ loadData }) {
     accessibilityChecking: false,
     workerID: "",
     image: "",
-    department: "all",
+    department: "",
     createdBy: "dev",
     modifiedBy: "dev",
     shiftA: false,
     shiftB: false,
+    shiftC: false,
     mobile: "",
     machineBreakdown: false,
     feedUnavailability: false,
@@ -80,11 +81,13 @@ function AddUser({ loadData }) {
       modifiedBy: data.modifiedBy,
       shiftA: data.shiftA ? 1 : 0,
       shiftB: data.shiftB ? 1 : 0,
+      shiftC: data.shiftC ? 1 : 0,
       mobile: data.mobile,
       machineBreakdown: data.machineBreakdown ? 1 : 0,
       feedUnavailability: data.feedUnavailability ? 1 : 0,
       workerNotAvailable: data.workerNotAvailable ? 1 : 0,
       crowding: data.crowding ? 1 : 0,
+      machineViolation: data.machineViolation ? 1 : 0,
       checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
     };
     try {
@@ -107,11 +110,12 @@ function AddUser({ loadData }) {
             accessibilityChecking: false,
             workerID: "",
             image: "",
-            department: "all",
+            department: "",
             createdBy: "dev",
             modifiedBy: "dev",
             shiftA: false,
             shiftB: false,
+            shiftC: false,
             mobile: "",
             machineBreakdown: false,
             feedUnavailability: false,
@@ -139,7 +143,7 @@ function AddUser({ loadData }) {
   };
   return (
     <Grid container justifyContent="flex-end">
-      <Grid item xs={2}>
+      <Grid item xs={12}>
         <Button
           variant="contained"
           fullWidth
@@ -311,152 +315,117 @@ function AddUser({ loadData }) {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={"helper"}>Helper</MenuItem>
-                  <MenuItem value={"manager"}>Manager</MenuItem>
-                  <MenuItem value={"supervisor"}>Supervisor</MenuItem>
-                  <MenuItem value={"wingIncharge"}>Wing Incharge</MenuItem>
+                  {[
+                    { name: "Helper", value: "helper" },
+                    { name: "Manager", value: "manager" },
+                    { name: "Supervisor", value: "supervisor" },
+                    { name: "Wing Incharge", value: "wingIncharge" },
+                    { name: "Director", value: "director" },
+                    { name: "Senior Manager", value: "seniorManager" },
+                    { name: "Assistant Manager", value: "assistantManager" },
+                    { name: "In Charge", value: "incharge" },
+                    { name: "Final Supervisor", value: "finalSupervisor" },
+                    { name: "Kit Supervisor", value: "kitSupervisor" },
+                    { name: "Line Supervisor", value: "lineSupervisor" },
+                    { name: "Fitter", value: "fitter" },
+                    { name: "Electrician", value: "electrician" },
+                  ]
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
-            {data.designation === "supervisor" && (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Supervisor Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"Final Area Supervisor"}>
-                      Final Area Supervisor
-                    </MenuItem>
-                    <MenuItem value={"Kit Area Supervisor"}>
-                      Kit Area Supervisor
-                    </MenuItem>
-                    <MenuItem value={"Line Area Supervisor"}>
-                      Line Area Supervisor
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            )}
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Department
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data.department}
+                  onChange={(e) =>
+                    setData({ ...data, department: e.target.value })
+                  }
+                  label="Department"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {[
+                    { name: "Management", value: "management" },
+                    { name: "FIBC", value: "fibc" },
+                    { name: "Quality", value: "quality" },
+                    { name: "Planning", value: "planning" },
+                    { name: "Improvement Office", value: "improvementOffice" },
+                    { name: "Other", value: "other" },
+                  ]
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem value={item.name} key={index}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
 
-            {data.designation === "manager" && (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Manager Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"admin"}>Admin</MenuItem>
-                    <MenuItem value={"Production Manager"}>
-                      Production Manager
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            )}
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Role
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data.role}
+                  onChange={(e) => setData({ ...data, role: e.target.value })}
+                  label="Role"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {[
+                    { name: "Admin", value: "admin" },
+                    { name: "Non Admin", value: "nonAdmin" },
+                    { name: "User", value: "user" },
+                    { name: "Head User", value: "headUser" },
+                    { name: "Non User", value: "nonUser" },
+                  ]
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem value={item.name} key={index}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
 
-            {data.designation === "wingIncharge" && (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Wing Incharge Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"Manager"}>Manager</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            )}
-
-            {data.designation === "helper" && (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Helper Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"electrician"}>Electrician</MenuItem>
-                    <MenuItem value={"fitter"}>Fitter</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            )}
             <Grid
               item
               xs={12}
@@ -523,7 +492,7 @@ function AddUser({ loadData }) {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {["FG2"].map((item, index) => (
+                  {wings.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       {item}
                     </MenuItem>
@@ -676,6 +645,25 @@ function AddUser({ loadData }) {
                   labelPlacement="end"
                 />
               </Grid>
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data.shiftC}
+                      checked={data.shiftC}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          shiftC: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="C"
+                  labelPlacement="end"
+                />
+              </Grid>
             </Grid>
 
             {/* Responsibility */}
@@ -740,6 +728,25 @@ function AddUser({ loadData }) {
                       />
                     }
                     label="Worker Not Available"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={data.machineViolation}
+                        checked={data.machineViolation}
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            machineViolation: e.target.checked,
+                          })
+                        }
+                      />
+                    }
+                    label="Machine Violation"
                     labelPlacement="end"
                   />
                 </Grid>

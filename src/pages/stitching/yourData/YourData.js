@@ -72,8 +72,8 @@ function YourData() {
         <Worker columns={["Worker ID", "Worker Name"]} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* <WorkerSchedule /> */}
-        <Schedule />
+        <WorkerSchedule />
+        {/* <Schedule /> */}
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Supervisor />

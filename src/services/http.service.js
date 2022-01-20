@@ -2,13 +2,14 @@ const axios = require("axios");
 
 // const localUrl = "http://localhost:5000";
 // const cloudUrl = "http://3.18.22.89:3000"; //dev
-const cloudUrl = "http://kpl.algo8apps.com:3000"; //dev
+const cloudUrlProd = "http://kpl.algo8apps.com:3000"; //dev
+const clouUrlDev = "http://thawing-bayou-72580.herokuapp.com";
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://kpl.algo8apps.com";
 
-const baseUrl = cloudUrl;
-// const baseUrl = localUrl;
+// const baseUrl = cloudUrlProd;
+const baseUrl = clouUrlDev;
 
 const getUrl = (path) => `${baseUrl}/${path}`;
 

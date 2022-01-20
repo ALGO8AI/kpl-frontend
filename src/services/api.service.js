@@ -576,15 +576,20 @@ const FEED_UnavailableViolation = async () => {
   return await callBackend("GET", "routes/KPI/violation/feedRecentIncidents");
 };
 
-const StitchingUserData = async () => {
-  return await callBackend("GET", "routes/admin/manageUser/getUser");
+const StitchingUserData = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/admin/manageUser/getUser",
+    true,
+    data
+  );
 };
 const ctr_machineID = async () => {
   return await callBackend("GET", "routes/KPI/home/clpctrAndMachineID");
 };
 
 const AddNewUser = async (data) => {
-  console.log(data);
+  // console.log(data);
   return await callBackend(
     "POST",
     "routes/admin/manageUser/addUser",

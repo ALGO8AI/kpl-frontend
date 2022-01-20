@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
@@ -42,10 +43,6 @@ function MachineStatusStitch() {
   const [openFilter, setOpenFilter] = useState(false);
   const columns = [
     {
-      title: "ID",
-      field: "id",
-    },
-    {
       title: "Machine ID",
       field: "machineId",
     },
@@ -53,22 +50,36 @@ function MachineStatusStitch() {
       title: "Status",
       render: (x) => status[x.status],
     },
+
     {
-      title: "Start Time",
-      field: "startTime",
+      title: "Utilisation",
+      field: "machineUtilizationPer",
     },
     {
-      title: "End Time",
-      field: "endTime",
+      title: "Line",
+      field: "line",
     },
     {
-      title: "Difference",
-      field: "timeDiff",
+      title: "Wing",
+      field: "wing",
     },
     {
-      title: "Message",
-      field: "message",
+      title: "Tailor Name",
+      field: "workerName",
     },
+
+    // {
+    //   title: "Start Time",
+    //   field: "startTime",
+    // },
+    // {
+    //   title: "End Time",
+    //   field: "endTime",
+    // },
+    // {
+    //   title: "Difference",
+    //   field: "timeDiff",
+    // },
   ];
   const status = {
     Stopped: <PauseCircleFilledIcon style={{ color: "#FFC014" }} />,
@@ -77,61 +88,7 @@ function MachineStatusStitch() {
     Disabled: <FiberManualRecordIcon style={{ color: "#727272" }} />,
     Breakdown: <InfoIcon style={{ color: "#F0983D" }} />,
   };
-  const [machineData, setMachineData] = useState([
-    {
-      id: 857592,
-      machineId: "FG2/U+2/Orsan6",
-      status: "Stopped",
-      startTime: "13:16:30",
-      endTime: "13:16:39",
-      timeDiff: "00:00:09",
-      message: "Ok",
-    },
-    {
-      id: 735528,
-      machineId: "FG2/U+2/Top3",
-      status: "Stopped",
-      startTime: "10:47:11",
-      endTime: "14:00:02",
-      timeDiff: "03:12:51",
-      message: "ALARMING CONDITION",
-    },
-    {
-      id: 857593,
-      machineId: "FG2/U+2/Orsan4",
-      status: "Running",
-      startTime: "13:16:35",
-      endTime: "13:16:40",
-      timeDiff: "00:00:05",
-      message: "Ok",
-    },
-    {
-      id: 855362,
-      machineId: "FG2/U+2/Top2",
-      status: "Stopped",
-      startTime: "21:25:13",
-      endTime: "13:16:05",
-      timeDiff: "-08:09:08",
-    },
-    {
-      id: 857588,
-      machineId: "FG2/U+2/Orsan5",
-      status: "Stopped",
-      startTime: "13:16:21",
-      endTime: "13:16:41",
-      timeDiff: "00:00:20",
-      message: "Ok",
-    },
-    {
-      id: 857442,
-      machineId: "NEW/DEVICE/Test",
-      status: "Stopped",
-      startTime: "13:09:50",
-      endTime: "13:16:07",
-      timeDiff: "00:06:17",
-      message: "Please take a look",
-    },
-  ]);
+  const [machineData, setMachineData] = useState([]);
 
   // functions
   const AddMachineType = (value) => {
@@ -141,7 +98,6 @@ function MachineStatusStitch() {
   };
 
   useEffect(() => {
-    console.log(machineType.length);
     machineType.length > 0
       ? setData(machineData.filter((el) => machineType.includes(el.status)))
       : setData(machineData);
@@ -150,12 +106,32 @@ function MachineStatusStitch() {
   // getData
   const loadData = async () => {
     try {
-      const resp = await getLiveMachine();
-      if (resp?.liveMachineData) {
-        setMachineData(resp?.liveMachineData);
-        setData(resp?.liveMachineData);
-      } else {
-        setData(machineData);
+      const { data1, data2, data3 } = await getLiveMachine();
+      if (data1.length && data3.length) {
+        console.log(
+          data3
+            .map((item) => item[0])
+            .map((item) => ({
+              ...item,
+              ...data1.filter((item2) => item2.machineId === item.machineId)[0],
+            }))
+        );
+        setData(
+          data3
+            .map((item) => item[0])
+            .map((item) => ({
+              ...item,
+              ...data1.filter((item2) => item2.machineId === item.machineId)[0],
+            }))
+        );
+        setMachineData(
+          data3
+            .map((item) => item[0])
+            .map((item) => ({
+              ...item,
+              ...data1.filter((item2) => item2.machineId === item.machineId)[0],
+            }))
+        );
       }
     } catch (e) {}
   };
@@ -186,7 +162,7 @@ function MachineStatusStitch() {
               colors: ["#05c422", "#FFC014", "#C40303", "#727272", "#F0983D"],
               labels: [
                 "RUNNING",
-                "BSTOPPED",
+                "STOPPED",
                 "OFFLINE",
                 "DISABLED",
                 "BREAKDOWN",

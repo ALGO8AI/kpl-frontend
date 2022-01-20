@@ -2,6 +2,7 @@ const initStore = {
   open: false,
   status: "",
   message: "",
+  role: "",
 };
 
 const CommonReducer = (state = initStore, action) => {
@@ -19,6 +20,11 @@ const CommonReducer = (state = initStore, action) => {
         open: false,
         status: "",
         message: "",
+      };
+    case "ADD_ROLE":
+      return {
+        ...state,
+        role: action.payload,
       };
     default:
       return state;

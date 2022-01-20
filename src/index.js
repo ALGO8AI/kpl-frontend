@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import CombineContext from "./context/CombineContext";
 import { Provider } from "react-redux";
 import { Store } from "./redux/Store";
-import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 // import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(

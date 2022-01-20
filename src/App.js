@@ -21,6 +21,7 @@ import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetail
 // import socketIOClient from "socket.io-client";
 import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
 import Cutting from "./pages/cutting/Cutting/Cutting";
+import { useDispatch } from "react-redux";
 // import axios from "axios";
 // const ENDPOINT = "http://3.23.114.42:2020/";
 // const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
@@ -28,6 +29,7 @@ import Cutting from "./pages/cutting/Cutting/Cutting";
 
 function App(props) {
   // console.log(props);
+  const Dispatch = useDispatch();
   const { dispatch } = useContext(KPLContext);
   // useEffect(() => {
   //   console.log("Socket");
@@ -40,6 +42,7 @@ function App(props) {
     // document.html.style.zoom = "75%";
     const ROLE = localStorage.getItem("ROLE");
     ROLE && dispatch({ type: "ADD_ROLE", payload: ROLE });
+    ROLE && Dispatch({ type: "ADD_ROLE", payload: ROLE });
 
     const DESIGNATION = localStorage.getItem("DESIGNATION");
     DESIGNATION && dispatch({ type: "ADD_DESIGNATION", payload: DESIGNATION });

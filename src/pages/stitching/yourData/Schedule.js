@@ -183,13 +183,13 @@ function Schedule(props) {
         "Are you sure you want to delete the schedule?"
       );
       if (confirm) {
-        console.log(state);
         const resp = await deleteStitchingWorkerSchedule({ id });
         if (resp?.message) {
           Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
         }
       } else {
-        Dispatch(openSnackbar(true, "error", "Operation Cancelled"));
+        console.log(state);
+        Dispatch(openSnackbar(true, "error", "Delete Operation Cancelled"));
       }
     } catch (e) {}
   };
@@ -234,6 +234,7 @@ function Schedule(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
+            console.log(x);
             handleClickOpenDialog();
             setScheduleData({
               date: new Date(x.Date).toISOString().slice(0, 10),

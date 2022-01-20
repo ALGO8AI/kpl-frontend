@@ -6,7 +6,14 @@ import { DropzoneArea } from "material-ui-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MaterialTable from "material-table";
 import PropTypes from "prop-types";
-
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 import {
   addStitchingWorkerSchedule,
   copyScheduleStitching,
@@ -34,6 +41,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  withStyles,
 } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -46,6 +54,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
+import { theme as THEME } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,6 +92,35 @@ function a11yProps(index) {
 
 function WorkerSchedule(props) {
   const { state, dispatch } = React.useContext(StitchingContext);
+
+  // table state
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: THEME.BLUE,
+      color: theme.palette.common.white,
+      fontSize: 16,
+    },
+    body: {
+      fontSize: 24,
+    },
+  }))(TableCell);
+  const StyledTableDataCell = withStyles((theme) => ({
+    head: {
+      fontSize: 16,
+    },
+  }))(TableCell);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   // state
   const [file, setFile] = React.useState();
   const [updateMode, setUpdateMode] = React.useState(false);
@@ -110,10 +148,12 @@ function WorkerSchedule(props) {
 
   // functions
 
+  // TABCHANGE
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  // INITIAL DATA CALL
   const loadData = async () => {
     try {
       const ctr = await ctr_machineID();
@@ -128,16 +168,7 @@ function WorkerSchedule(props) {
     } catch (err) {}
   };
 
-  // const refreshData = async () => {
-  //   try {
-  //     setWorkerScheduleData([]);
-  //     const x = await getYourData();
-  //     console.log("Reload", x);
-  //     x?.latestScheduleData?.length > 0 &&
-  //       setWorkerScheduleData(x.latestScheduleData);
-  //   } catch (err) {}
-  // };
-
+  // FILTER
   const filterData = async () => {
     try {
       const x = await getYourData(inputData);
@@ -145,131 +176,35 @@ function WorkerSchedule(props) {
     } catch (err) {}
   };
 
-  useEffect(() => {
-    loadData();
-    setInputData({
-      filterDateFrom: weekRange()[0],
-      filterDateTo: weekRange()[1],
-    });
-  }, []);
-
-  const copy = async () => {
+  // ADDING
+  const addSchedule = async () => {
     try {
-      const response = await copyScheduleStitching();
-      //   Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
-      //   refreshData();
-    } catch (e) {}
-  };
-
-  const deleteSchedule = async (id) => {
-    try {
-      const confirm = window.confirm(
-        "Are you sure you want to delete the schedule?"
-      );
-      if (confirm) {
-        // setWorkerScheduleData(
-        //   workerScheduleData.filter((item) => item.id !== id)
-        // );
-        // const resp = await deleteStitchingWorkerSchedule({ id });
-        // if (resp?.message) {
-        //   Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
-        // }
-      } else {
-        Dispatch(openSnackbar(true, "error", "Operation Cancelled"));
+      setWorkerScheduleData([
+        {
+          ...scheduleInput,
+          date: new Date(scheduleInput.date).toISOString(),
+          Date: new Date(scheduleInput.date).toISOString(),
+        },
+        ...workerScheduleData,
+      ]);
+      const resp = await addStitchingWorkerSchedule(scheduleInput);
+      if (resp?.msg === "Successfully Added") {
+        Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
+        loadData();
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const [columns, setColumns] = useState([
-    {
-      title: "Date",
-      field: "Date",
-      render: (rowData) => {
-        const date1 = new Date(rowData.Date).toLocaleString().split(",");
-        // return date1[0]
-        const dd = date1[0].split("/");
-        return moment(new Date(rowData.Date))
-          .format("DD/MM/YYYY")
-          .toString();
-      },
-    },
-    // { title: "ID", field: "id" },
-
-    { title: "Worker ID", field: "workerId" },
-    { title: "Worker Name", field: "workerName" },
-
-    { title: "Shift", field: "shift" },
-    { title: "Wing", field: "wing" },
-    { title: "Machine ID", field: "machineId" },
-    {
-      title: "Machine Status",
-      render: (x) => (Boolean(x.machineOnOffStatus) ? "On" : "Off"),
-    },
-    {
-      title: "Edit",
-      render: (x) => (
-        <button
-          style={{
-            color: "#0e4a7b",
-            textDecoration: "underline",
-            backgroundColor: "white",
-            padding: "8px 16px",
-            border: "none",
-            outline: "none",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={() => {
-            setUpdateMode(true);
-            setScheduleInput({
-              workerId: x.workerId,
-              workerName: x.workerName,
-              date: new Date(x.Date).toISOString().slice(0, 10),
-              wing: x.wing,
-              shift: x.shift,
-              machineId: x.machineId,
-              machineOnOffStatus: x.machineOnOffStatus,
-              id: x.id,
-            });
-          }}
-        >
-          EDIT
-        </button>
-      ),
-    },
-    {
-      title: "Delete",
-      render: (x) => (
-        <button
-          style={{
-            color: "#0e4a7b",
-            textDecoration: "underline",
-            backgroundColor: "white",
-            padding: "8px 16px",
-            border: "none",
-            outline: "none",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={() => {
-            console.log(workerScheduleData);
-            // deleteSchedule(x.id);
-          }}
-        >
-          DELETE
-        </button>
-      ),
-    },
-  ]);
-
-  const handleFileChange = (files) => {
-    // console.log(files[0])
-    setFile(files[0]);
-    // console.log(file)
-  };
-
+  // UPDATING
   const updateSchedule = async () => {
     try {
+      setWorkerScheduleData(
+        workerScheduleData.map((item) =>
+          item.id !== scheduleInput.id ? item : { ...item, ...scheduleInput }
+        )
+      );
       const resp = await updateStitchingWorkerSchedule(scheduleInput);
       console.log("Worker Update->", resp);
       if (resp?.msg) {
@@ -284,36 +219,56 @@ function WorkerSchedule(props) {
           machineOnOffStatus: 0,
           id: "",
         });
+        Dispatch(
+          openSnackbar(true, "success", "Schedule Updated Successfully")
+        );
+
         loadData();
-      }
-    } catch (e) {}
-  };
-
-  const addSchedule = async () => {
-    try {
-      console.log({
-        ...scheduleInput,
-        date: new Date(scheduleInput.date).toISOString(),
-        Date: new Date(scheduleInput.date).toISOString(),
-      });
-      setWorkerScheduleData([
-        {
-          ...scheduleInput,
-          date: new Date(scheduleInput.date).toISOString(),
-          Date: new Date(scheduleInput.date).toISOString(),
-        },
-        ...workerScheduleData,
-      ]);
-
-      const resp = await addStitchingWorkerSchedule(scheduleInput);
-      if (resp?.msg === "Successfully Added") {
-        Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  // DELETING
+  const deleteSchedule = async (id) => {
+    console.log(workerScheduleData);
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete the schedule?"
+      );
+      if (confirm) {
+        setWorkerScheduleData(
+          workerScheduleData.filter((item) => item.id !== id)
+        );
+        const resp = await deleteStitchingWorkerSchedule({ id });
+        if (resp?.message) {
+          Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
+          loadData();
+        }
+      } else {
+        Dispatch(openSnackbar(true, "error", "Operation Cancelled"));
+      }
+    } catch (e) {}
+  };
+
+  // copy
+  const copy = async () => {
+    try {
+      const response = await copyScheduleStitching();
+      Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
+      loadData();
+    } catch (e) {}
+  };
+
+  // FILE INPUT
+  const handleFileChange = (files) => {
+    // console.log(files[0])
+    setFile(files[0]);
+    // console.log(file)
+  };
+
+  // FILE SUBMISION
   const submit = async () => {
     if (file) {
       const formData = new FormData();
@@ -346,6 +301,7 @@ function WorkerSchedule(props) {
     }
   };
 
+  // DROPDOWN USER SELECTION
   const onUserChange = (e) => {
     const i = workerList.findIndex((item) => item.workerId === e.target.value);
     if (i !== -1) {
@@ -362,6 +318,15 @@ function WorkerSchedule(props) {
       });
     }
   };
+
+  // USE EFFECT
+  useEffect(() => {
+    loadData();
+    setInputData({
+      filterDateFrom: weekRange()[0],
+      filterDateTo: weekRange()[1],
+    });
+  }, []);
 
   return (
     <Grid container spacing={4}>
@@ -755,25 +720,130 @@ function WorkerSchedule(props) {
             border: "1px solid #0e4a7b",
           }}
           onClick={copy}
+          // onClick={() => console.log(workerScheduleData)}
         >
           COPY TABLE
         </Button>
-
-        <MaterialTable
-          title="Schedule Information"
-          columns={columns}
-          data={workerScheduleData}
-          options={{
-            exportButton: true,
-            headerStyle: {
-              backgroundColor: "#0e4a7b",
-              color: "#FFF",
-            },
-            pageSizeOptions: [20, 50, 100, 200],
-            pageSize: 20,
-          }}
-          style={{ width: "100%" }}
-        />
+        <Paper style={{ width: "100%", marginTop: "16px" }}>
+          <TableContainer style={{ width: "100%" }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead style={{ backgroundColor: "red" }}>
+                <TableRow>
+                  {[
+                    "Date",
+                    "Worker ID",
+                    "Worker Name",
+                    "Shift",
+                    "Wing",
+                    "Machine ID",
+                    "Machine Status",
+                    "Edit",
+                    "Delete",
+                  ].map((column) => (
+                    <StyledTableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column}
+                    </StyledTableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {workerScheduleData
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                      >
+                        <StyledTableDataCell>
+                          {moment(new Date(row.Date))
+                            .format("DD/MM/YYYY")
+                            .toString()}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.workerId}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.workerName}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>{row.shift}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.wing}</StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.machineId}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {Boolean(row.machineOnOffStatus) ? "On" : "Off"}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            style={{
+                              color: "#0e4a7b",
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                            onClick={() => {
+                              setUpdateMode(true);
+                              setScheduleInput({
+                                workerId: row.workerId,
+                                workerName: row.workerName,
+                                date: new Date(row.Date)
+                                  .toISOString()
+                                  .slice(0, 10),
+                                wing: row.wing,
+                                shift: row.shift,
+                                machineId: row.machineId,
+                                machineOnOffStatus: row.machineOnOffStatus,
+                                id: row.id,
+                              });
+                            }}
+                          >
+                            EDIT
+                          </button>
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            style={{
+                              color: "#0e4a7b",
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                            onClick={() => deleteSchedule(row.id)}
+                          >
+                            DELETE
+                          </button>
+                        </StyledTableDataCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={workerScheduleData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
       </Grid>
     </Grid>
   );

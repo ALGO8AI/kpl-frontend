@@ -37,6 +37,15 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TableCell,
+  withStyles,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TablePagination,
 } from "@material-ui/core";
 import { CheckingContext } from "../../../context/CheckingContext";
 import {
@@ -45,6 +54,8 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { useDispatch } from "react-redux";
 import { weekRange } from "../../../Utility/DateRange";
+import { theme as THEME, wings } from "../../../Utility/constants";
+import moment from "moment";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -87,6 +98,36 @@ function a11yProps(index) {
 function Schedule(props) {
   // redux dispatch
   const Dispatch = useDispatch();
+
+  // table state
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: THEME.BLUE,
+      color: theme.palette.common.white,
+      fontSize: 16,
+    },
+    body: {
+      fontSize: 24,
+    },
+  }))(TableCell);
+  const StyledTableDataCell = withStyles((theme) => ({
+    head: {
+      fontSize: 16,
+    },
+  }))(TableCell);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  // state
 
   const [file, setFile] = React.useState();
   const [open, setOpen] = React.useState(false);
@@ -176,95 +217,6 @@ function Schedule(props) {
     } catch (e) {}
   };
 
-  const [columns, setColumns] = useState([
-    {
-      title: "Date",
-      field: "Date",
-      render: (rowData) => {
-        const date1 = new Date(rowData.Date).toLocaleString().split(",");
-        // return date1[0]
-        const dd = date1[0].split("/");
-        return dd[1] + "/" + dd[0] + "/" + dd[2];
-      },
-    },
-    // { title: "ID", field: "id" },
-
-    { title: "Worker ID", field: "workerId" },
-    { title: "Worker Name", field: "workerName" },
-
-    { title: "Shift", field: "shift" },
-    { title: "Wing", field: "wing" },
-    { title: "Table ID", field: "tableId" },
-    {
-      title: "Table Status",
-      render: (x) => (Boolean(x.tableOnOff) ? "On" : "Off"),
-    },
-
-    {
-      title: "Edit",
-      render: (x) => (
-        <button
-          style={{
-            color: "#0e4a7b",
-            textDecoration: "underline",
-            backgroundColor: "white",
-            padding: "8px 16px",
-            border: "none",
-            outline: "none",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={() => {
-            handleClickOpenDialog();
-            setScheduleData({
-              date: new Date(x.Date).toISOString().slice(0, 10),
-              workerId: x.workerId,
-              shift: x.shift,
-              wing: x.wing,
-              tableId: x.tableId,
-              id: x.id,
-              tableOnOff: Boolean(x.tableOnOff),
-            });
-          }}
-        >
-          EDIT
-        </button>
-      ),
-    },
-    {
-      title: "Delete",
-      render: (x) => (
-        <button
-          style={{
-            color: "#0e4a7b",
-            textDecoration: "underline",
-            backgroundColor: "white",
-            padding: "8px 16px",
-            border: "none",
-            outline: "none",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={
-            () => deleteSchedule(x.id)
-            // handleClickOpenDialog();
-            // setScheduleData({
-            //   date: new Date(x.Date).toISOString().slice(0, 10),
-            //   workerId: x.workerId,
-            //   shift: x.shift,
-            //   wing: x.wing,
-            //   tableId: x.tableId,
-            //   id: x.id,
-            //   tableOnOff: Boolean(x.tableOnOff),
-            // });
-          }
-        >
-          DELETE
-        </button>
-      ),
-    },
-  ]);
-
   const [data, setData] = useState([]);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [scheduleData, setScheduleData] = React.useState({
@@ -305,7 +257,10 @@ function Schedule(props) {
   });
 
   const onScheduleDataChange = (e) => {
-    setScheduleData({ ...scheduleData, [e.target.name]: e.target.value });
+    setScheduleData({
+      ...scheduleData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleClickOpenDialog = () => {
@@ -600,7 +555,7 @@ function Schedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {["FG2"].map((item, index) => (
+              {wings.map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
                 </MenuItem>
@@ -769,7 +724,10 @@ function Schedule(props) {
             item
             xs={6}
             md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <Button variant="contained" color="primary" onClick={filterData}>
               <FilterListIcon />
@@ -781,7 +739,10 @@ function Schedule(props) {
             item
             xs={6}
             md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <Button variant="contained" color="primary" onClick={loadData}>
               <RefreshIcon />
@@ -803,7 +764,7 @@ function Schedule(props) {
         >
           COPY TABLE
         </Button>
-        <MaterialTable
+        {/* <MaterialTable
           title="Schedule Information"
           columns={columns}
           data={data}
@@ -817,7 +778,124 @@ function Schedule(props) {
             pageSize: 20,
           }}
           style={{ width: "100%" }}
-        />
+        /> */}
+        <Paper style={{ width: "100%", marginTop: "16px" }}>
+          <TableContainer style={{ width: "100%" }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead style={{ backgroundColor: "red" }}>
+                <TableRow>
+                  {[
+                    "Date",
+                    "Worker ID",
+                    "Worker Name",
+                    "Shift",
+                    "Wing",
+                    "Table ID",
+                    "Table Status",
+                    "Edit",
+                    "Delete",
+                  ].map((column) => (
+                    <StyledTableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column}
+                    </StyledTableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                      >
+                        <StyledTableDataCell>
+                          {moment(new Date(row.Date))
+                            .format("DD/MM/YYYY")
+                            .toString()}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.workerId}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.workerName}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>{row.shift}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.wing}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.tableId}</StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {Boolean(row.tableOnOff) ? "On" : "Off"}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            style={{
+                              color: "#0e4a7b",
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                            onClick={() => {
+                              handleClickOpenDialog();
+                              setScheduleData({
+                                date: new Date(row.Date)
+                                  .toISOString()
+                                  .slice(0, 10),
+                                workerId: row.workerId,
+                                shift: row.shift,
+                                wing: row.wing,
+                                tableId: row.tableId,
+                                id: row.id,
+                                tableOnOff: Boolean(row.tableOnOff),
+                              });
+                            }}
+                          >
+                            EDIT
+                          </button>
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            style={{
+                              color: "#0e4a7b",
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                            onClick={() => deleteSchedule(row.id)}
+                          >
+                            DELETE
+                          </button>
+                        </StyledTableDataCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
       </Grid>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity}>
@@ -835,7 +913,14 @@ function Schedule(props) {
           {"UPDATE WORKER SCHEDULE"}
         </DialogTitle>
         <DialogContentText id="alert-dialog-description">
-          <Grid container item style={{ padding: "12px", minWidth: "600px" }}>
+          <Grid
+            container
+            item
+            style={{
+              padding: "12px",
+              minWidth: "600px",
+            }}
+          >
             <Grid md={6} style={{ padding: "12px" }}>
               <TextField
                 id="outlined-basic"
@@ -872,7 +957,35 @@ function Schedule(props) {
               />
             </Grid>
             <Grid md={6} style={{ padding: "12px" }}>
-              <TextField
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "12px" }}
+              >
+                <InputLabel keyid="demo-simple-select-outlined-label">
+                  Wing
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={scheduleData.wing}
+                  name="wing"
+                  onChange={onScheduleDataChange}
+                  fullWidth
+                  label="Wing"
+                  // multiple
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {wings.map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/* <TextField
                 id="outlined-basic"
                 label="Wing"
                 variant="outlined"
@@ -880,7 +993,7 @@ function Schedule(props) {
                 name="wing"
                 onChange={onScheduleDataChange}
                 fullWidth
-              />
+              /> */}
             </Grid>{" "}
             <Grid md={6} style={{ padding: "12px" }}>
               <FormControl
