@@ -153,7 +153,7 @@ function MachineStatusStitch() {
 
   // interval use effect
   useEffect(() => {
-    const interval = setInterval(() => loadData(), 15000);
+    const interval = setInterval(() => loadData(), 30000);
     return () => {
       clearInterval(interval);
     };
