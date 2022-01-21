@@ -207,84 +207,91 @@ export default function Home() {
       if (state?.defectChart?.loading) {
         const defect = await defectChartData();
         console.log(defect);
-        dispatch({
-          type: "DEFECT_CHART",
-          payload: {
-            data: defect,
-            loading: false,
-          },
-        });
+        Boolean(defect) &&
+          dispatch({
+            type: "DEFECT_CHART",
+            payload: {
+              data: defect,
+              loading: false,
+            },
+          });
       }
 
       if (state?.workerUtilization?.loading) {
         const y = await checkingWorkerUtilizationData();
         console.log(y);
-        dispatch({
-          type: "WORKER_UTILIZATION",
-          payload: {
-            data: y?.workerUtilization,
-            loading: false,
-          },
-        });
+        Boolean(y?.workerUtilization) &&
+          dispatch({
+            type: "WORKER_UTILIZATION",
+            payload: {
+              data: y?.workerUtilization,
+              loading: false,
+            },
+          });
       }
 
       if (state?.crowdingInstance?.loading) {
         const z = await crowdingInstanceCheckingData();
         console.log(z);
-        dispatch({
-          type: "CROWDING_INSTANCE",
-          payload: {
-            data: z?.crowdingInstancesData,
-            loading: false,
-          },
-        });
+        Boolean(z?.crowdingInstancesData) &&
+          dispatch({
+            type: "CROWDING_INSTANCE",
+            payload: {
+              data: z?.crowdingInstancesData,
+              loading: false,
+            },
+          });
       }
 
       if (state?.homeWorkerTable?.loading) {
         const homeWorkerTable = await checkingHomeWorker();
         console.log(homeWorkerTable);
-        dispatch({
-          type: "HOME_WORKER_TABLE",
-          payload: {
-            data: homeWorkerTable?.detailedSummaryByWorker,
-            loading: false,
-          },
-        });
+        Boolean(homeWorkerTable?.detailedSummaryByWorker) &&
+          dispatch({
+            type: "HOME_WORKER_TABLE",
+            payload: {
+              data: homeWorkerTable?.detailedSummaryByWorker,
+              loading: false,
+            },
+          });
       }
 
       if (state?.homeDateTable?.loading) {
         const homeDateTable = await checkingHomeDate();
         console.log(homeDateTable);
-        dispatch({
-          type: "HOME_DATE_TABLE",
-          payload: {
-            data: homeDateTable?.detailedSummaryByDate,
-            loading: false,
-          },
-        });
+        Boolean(homeDateTable?.detailedSummaryByDate) &&
+          dispatch({
+            type: "HOME_DATE_TABLE",
+            payload: {
+              data: homeDateTable?.detailedSummaryByDate,
+              loading: false,
+            },
+          });
       }
 
       if (state?.homeCTRTable?.loading) {
         const homeCTRTable = await detailedSummaryByClpCtrChecking();
         console.log(homeCTRTable);
-        dispatch({
-          type: "HOME_CTR_TABLE",
-          payload: {
-            data: homeCTRTable?.data,
-            loading: false,
-          },
-        });
+        Boolean(homeCTRTable?.data) &&
+          dispatch({
+            type: "HOME_CTR_TABLE",
+            payload: {
+              data: homeCTRTable?.data,
+              loading: false,
+            },
+          });
       }
       if (state.homeMachineTable.loading) {
         const homeMachineTable = await checkingHomeByTable();
         console.log(homeMachineTable);
-        dispatch({
-          type: "HOME_MACHINE_TABLE",
-          payload: {
-            data: homeMachineTable?.detailedSummaryByTableId,
-            loading: false,
-          },
-        });
+        Boolean(homeMachineTable?.detailedSummaryByTableId) &&
+          dispatch({
+            type: "HOME_MACHINE_TABLE",
+            payload: {
+              data: homeMachineTable?.detailedSummaryByTableId,
+              loading: false,
+            },
+          });
       }
     } catch (err) {
       console.log(err.message);

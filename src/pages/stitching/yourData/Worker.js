@@ -19,7 +19,7 @@ import {
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import { StitchingContext } from "../../../context/StitchingContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
@@ -111,13 +111,23 @@ function Worker(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            setEdit(true);
-            setUserData({
-              ...userdata,
-              workerName: x.workerName,
-              workerId: x.workerId,
-              image: x.image,
-            });
+            if (role === "Admin" || role === "Non Admin" || role === "User") {
+              setEdit(true);
+              setUserData({
+                ...userdata,
+                workerName: x.workerName,
+                workerId: x.workerId,
+                image: x.image,
+              });
+            } else {
+              Dispatch(
+                openSnackbar(
+                  true,
+                  "success",
+                  `This option is not available to ${role}`
+                )
+              );
+            }
           }}
         >
           EDIT
@@ -125,6 +135,9 @@ function Worker(props) {
       ),
     },
   ];
+
+  const { role } = useSelector((state) => state.Common);
+
   const [userdata, setUserData] = useState({
     workerName: "",
     workerId: "",
@@ -155,16 +168,22 @@ function Worker(props) {
   };
 
   const submitImageDetails = async () => {
-    try {
-      const resp = await AddWorkerStitching(userdata);
-      setWorkerData([...workerData, userdata]);
-      Dispatch(openSnackbar(true, "success", "User Added Successfully"));
-      setMsg(resp.msg);
-      setOpen(true);
-      refreshData();
-      setUserData({ workerName: "", workerId: "", image: "" });
-    } catch (e) {
-      console.log(e.message);
+    if (role === "Admin" || role === "Non Admin" || role === "User") {
+      try {
+        const resp = await AddWorkerStitching(userdata);
+        setWorkerData([...workerData, userdata]);
+        setMsg(resp.msg);
+        setOpen(true);
+        refreshData();
+        setUserData({ workerName: "", workerId: "", image: "" });
+        Dispatch(openSnackbar(true, "success", "User Added Successfully"));
+      } catch (e) {
+        console.log(e.message);
+      }
+    } else {
+      Dispatch(
+        openSnackbar(true, "success", `This option is not available to ${role}`)
+      );
     }
   };
 

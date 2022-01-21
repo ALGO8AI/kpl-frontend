@@ -28,7 +28,7 @@ import { Alert } from "@material-ui/lab";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar,
   openSnackbar_FROM,
@@ -72,8 +72,9 @@ function Supervisor(props) {
   });
   const [supervisorList, setSupervisorList] = useState([]);
 
-  // redux dispatch
+  // redux dispatch & selector
   const Dispatch = useDispatch();
+  const { role } = useSelector((state) => state.Common);
 
   const loadData = async () => {
     try {
@@ -163,19 +164,33 @@ function Supervisor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            setEdit(true);
-            setUserData({
-              ...userdata,
-              id: x.id,
-              supervisorName: x.supervisorName,
-              supervisorId: x.supervisorId,
-              date: new Date(x.date).toISOString().slice(0, 10),
-              shift: x.shift,
-              wing: x.wing,
-              line: x.line,
-              kitSupervisor: x.kitSupervisor === "true" ? true : false,
-              lineSupervisor: x.lineSupervisor === "true" ? true : false,
-            });
+            if (
+              role === "Admin" ||
+              role === "Head User" ||
+              role === "Non Admin"
+            ) {
+              setEdit(true);
+              setUserData({
+                ...userdata,
+                id: x.id,
+                supervisorName: x.supervisorName,
+                supervisorId: x.supervisorId,
+                date: new Date(x.date).toISOString().slice(0, 10),
+                shift: x.shift,
+                wing: x.wing,
+                line: x.line,
+                kitSupervisor: x.kitSupervisor === "true" ? true : false,
+                lineSupervisor: x.lineSupervisor === "true" ? true : false,
+              });
+            } else {
+              Dispatch(
+                openSnackbar(
+                  true,
+                  "error",
+                  `This option is not available to ${role}`
+                )
+              );
+            }
           }}
         >
           EDIT
@@ -242,23 +257,29 @@ function Supervisor(props) {
   };
 
   const addSupervisor = async (data) => {
-    try {
-      const resp = await addStitchingSupervisorSingle(data);
-      // console.log(resp);
-      Dispatch(openSnackbar(true, "success", "Supervisor Added"));
-      loadData();
-      setUserData({
-        id: "",
-        supervisorName: "",
-        supervisorId: "",
-        date: "",
-        shift: "",
-        wing: "",
-        line: "",
-        kitSupervisor: false,
-        lineSupervisor: false,
-      });
-    } catch (err) {}
+    if (role === "Admin" || role === "Head User" || role === "Non Admin") {
+      try {
+        const resp = await addStitchingSupervisorSingle(data);
+        // console.log(resp);
+        Dispatch(openSnackbar(true, "success", "Supervisor Added"));
+        loadData();
+        setUserData({
+          id: "",
+          supervisorName: "",
+          supervisorId: "",
+          date: "",
+          shift: "",
+          wing: "",
+          line: "",
+          kitSupervisor: false,
+          lineSupervisor: false,
+        });
+      } catch (err) {}
+    } else {
+      Dispatch(
+        openSnackbar(true, "error", `This option is not available to ${role}`)
+      );
+    }
   };
 
   const updateSupervisor = async () => {

@@ -273,7 +273,6 @@ function ManageRoles() {
                   color: "white",
                 }}
                 onClick={() => {
-                  console.log(role);
                   if (role === "Admin") {
                     revokeUser(x.username);
                   } else {

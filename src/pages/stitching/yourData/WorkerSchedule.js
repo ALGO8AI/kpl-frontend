@@ -47,7 +47,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { StitchingContext } from "../../../context/StitchingContext";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar,
   openSnackbar_FROM,
@@ -92,6 +92,7 @@ function a11yProps(index) {
 
 function WorkerSchedule(props) {
   const { state, dispatch } = React.useContext(StitchingContext);
+  const { role } = useSelector((state) => state.Common);
 
   // table state
   const StyledTableCell = withStyles((theme) => ({
@@ -178,22 +179,30 @@ function WorkerSchedule(props) {
 
   // ADDING
   const addSchedule = async () => {
-    try {
-      setWorkerScheduleData([
-        {
-          ...scheduleInput,
-          date: new Date(scheduleInput.date).toISOString(),
-          Date: new Date(scheduleInput.date).toISOString(),
-        },
-        ...workerScheduleData,
-      ]);
-      const resp = await addStitchingWorkerSchedule(scheduleInput);
-      if (resp?.msg === "Successfully Added") {
-        Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
-        loadData();
+    if (role === "Admin" || role === "Head User" || role === "User") {
+      try {
+        setWorkerScheduleData([
+          {
+            ...scheduleInput,
+            date: new Date(scheduleInput.date).toISOString(),
+            Date: new Date(scheduleInput.date).toISOString(),
+          },
+          ...workerScheduleData,
+        ]);
+        const resp = await addStitchingWorkerSchedule(scheduleInput);
+        if (resp?.msg === "Successfully Added") {
+          Dispatch(
+            openSnackbar(true, "success", "Schedule Added Successfully")
+          );
+          loadData();
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+    } else {
+      Dispatch(
+        openSnackbar(true, "error", `This option is not available to ${role}`)
+      );
     }
   };
 
@@ -254,11 +263,17 @@ function WorkerSchedule(props) {
 
   // copy
   const copy = async () => {
-    try {
-      const response = await copyScheduleStitching();
-      Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
-      loadData();
-    } catch (e) {}
+    if (role === "Admin" || role === "Head User" || role === "User") {
+      try {
+        const response = await copyScheduleStitching();
+        Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
+        loadData();
+      } catch (e) {}
+    } else {
+      Dispatch(
+        openSnackbar(true, "error", `This option is not available to ${role}`)
+      );
+    }
   };
 
   // FILE INPUT
@@ -793,19 +808,33 @@ function WorkerSchedule(props) {
                               fontSize: "1rem",
                             }}
                             onClick={() => {
-                              setUpdateMode(true);
-                              setScheduleInput({
-                                workerId: row.workerId,
-                                workerName: row.workerName,
-                                date: new Date(row.Date)
-                                  .toISOString()
-                                  .slice(0, 10),
-                                wing: row.wing,
-                                shift: row.shift,
-                                machineId: row.machineId,
-                                machineOnOffStatus: row.machineOnOffStatus,
-                                id: row.id,
-                              });
+                              if (
+                                role === "Admin" ||
+                                role === "Head User" ||
+                                role === "User"
+                              ) {
+                                setUpdateMode(true);
+                                setScheduleInput({
+                                  workerId: row.workerId,
+                                  workerName: row.workerName,
+                                  date: new Date(row.Date)
+                                    .toISOString()
+                                    .slice(0, 10),
+                                  wing: row.wing,
+                                  shift: row.shift,
+                                  machineId: row.machineId,
+                                  machineOnOffStatus: row.machineOnOffStatus,
+                                  id: row.id,
+                                });
+                              } else {
+                                Dispatch(
+                                  openSnackbar(
+                                    true,
+                                    "error",
+                                    `This option is not available to ${role}`
+                                  )
+                                );
+                              }
                             }}
                           >
                             EDIT
@@ -823,7 +852,23 @@ function WorkerSchedule(props) {
                               cursor: "pointer",
                               fontSize: "1rem",
                             }}
-                            onClick={() => deleteSchedule(row.id)}
+                            onClick={() => {
+                              if (
+                                role === "Admin" ||
+                                role === "Head User" ||
+                                role === "User"
+                              ) {
+                                deleteSchedule(row.id);
+                              } else {
+                                Dispatch(
+                                  openSnackbar(
+                                    true,
+                                    "error",
+                                    `This option is not available to ${role}`
+                                  )
+                                );
+                              }
+                            }}
                           >
                             DELETE
                           </button>
