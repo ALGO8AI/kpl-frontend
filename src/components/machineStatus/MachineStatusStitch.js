@@ -67,6 +67,10 @@ function MachineStatusStitch() {
       title: "Tailor Name",
       field: "workerName",
     },
+    {
+      title: "Clp Ctr",
+      field: "clpCtr",
+    },
 
     // {
     //   title: "Start Time",
@@ -145,6 +149,14 @@ function MachineStatusStitch() {
   // useeffect
   useEffect(() => {
     loadData();
+  }, []);
+
+  // interval use effect
+  useEffect(() => {
+    const interval = setInterval(() => loadData(), 15000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const classes = useStyles();
