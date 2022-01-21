@@ -105,35 +105,41 @@ function MachineStatusStitch() {
 
   // getData
   const loadData = async () => {
+    console.log("LOAD DATA");
     try {
       const { data1, data2, data3 } = await getLiveMachine();
-      if (data1.length && data3.length) {
-        console.log(
-          data3
-            .map((item) => item[0])
-            .map((item) => ({
-              ...item,
-              ...data1.filter((item2) => item2.machineId === item.machineId)[0],
-            }))
-        );
-        setData(
-          data3
-            .map((item) => item[0])
-            .map((item) => ({
-              ...item,
-              ...data1.filter((item2) => item2.machineId === item.machineId)[0],
-            }))
-        );
-        setMachineData(
-          data3
-            .map((item) => item[0])
-            .map((item) => ({
-              ...item,
-              ...data1.filter((item2) => item2.machineId === item.machineId)[0],
-            }))
-        );
-      }
-    } catch (e) {}
+      // console.log(data1, data2, data3);
+      // console.log(data1.length, data2.length, data3.length);
+      // if (data1.length && data3.length) {
+      // console.log(
+      //   "MAPPING",
+      //   data3
+      //     // .map((item) => item)
+      //     .map((item) => ({
+      //       ...item,
+      //       ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
+      //     }))
+      // );
+      setData(
+        data3
+          // .map((item) => item)
+          .map((item) => ({
+            ...item,
+            ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
+          }))
+      );
+      setMachineData(
+        data3
+          // .map((item) => item)
+          .map((item) => ({
+            ...item,
+            ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
+          }))
+      );
+      // }
+    } catch (e) {
+      console.log("ERROR", e);
+    }
   };
 
   // useeffect
