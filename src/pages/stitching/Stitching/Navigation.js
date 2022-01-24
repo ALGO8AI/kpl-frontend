@@ -225,7 +225,7 @@ export default function Navigation() {
             to="/stitching/videoWall"
           >
             <VideocamIcon className={classes.icon} />
-            Live Machine
+            Video Wall
           </NavLink>
         </ListItem>
         <Divider />

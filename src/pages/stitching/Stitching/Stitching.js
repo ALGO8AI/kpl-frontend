@@ -8,7 +8,8 @@ import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
 import { Annotation } from "../layoutView/annotation/Annotation";
 import ViolationDetail from "../violationDetails/ViolationDetail";
-import LiveMachine from "../liveMachine/LiveMachine";
+// import LiveMachine from "../liveMachine/LiveMachine";
+import VideoWall from "../videoWall/VideoWall";
 import ComingSoon from "../layoutView/ComingSoon";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
@@ -18,7 +19,8 @@ function Stitching(props) {
   const pages = {
     home: <Home />,
     violationLog: <ViolationLog />,
-    videoWall: <LiveMachine />,
+    videoWall: <VideoWall />,
+    // videoWall: <LiveMachine />,
     setting: <Setting />,
     viewdetails: <ViewDetails />,
     layoutView: <ComingSoon />,

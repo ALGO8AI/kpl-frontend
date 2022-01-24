@@ -11,7 +11,7 @@ const cloudUrlTemp = "http://13.126.115.120:5000"; //temp
 const videoWall = "http://kpl.algo8apps.com";
 
 // const baseUrl = cloudUrlProd;
-const baseUrl = cloudUrlTemp;
+const baseUrl = clouUrlDev;
 
 const getUrl = (path) => `${baseUrl}/${path}`;
 
