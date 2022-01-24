@@ -15,13 +15,8 @@ import {
   stitchingNotification,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
-import { useSelector } from "react-redux";
 
 function AlertAndNotification() {
-  // selector
-  const { role } = useSelector((state) => state.Common);
-
-  // state
   const [manager, setManager] = useState({
     mail: false,
     text: false,
@@ -1159,21 +1154,19 @@ function AlertAndNotification() {
         </Grid>
         <Grid container item xs={12}>
           <Grid md={11}></Grid>
-          {(role === "Admin" || role === "Non Admin") && (
-            <Grid md={1}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#0e4a7b",
-                  color: "#FFF",
-                  marginTop: "12px",
-                }}
-                onClick={submitHandler}
-              >
-                Apply
-              </Button>
-            </Grid>
-          )}
+          <Grid md={1}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+                marginTop: "12px",
+              }}
+              onClick={submitHandler}
+            >
+              Apply
+            </Button>
+          </Grid>
         </Grid>
         <Grid item xs={9}>
           <Snackbar

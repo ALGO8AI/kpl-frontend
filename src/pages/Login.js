@@ -14,7 +14,6 @@ import { login } from "../services/api.service";
 import { Link, useHistory } from "react-router-dom";
 import { KPLContext } from "../context/ViolationContext";
 import Blank from "./Blank";
-import { useDispatch } from "react-redux";
 
 const ColorButton = withStyles(() => ({
   root: {
@@ -39,7 +38,6 @@ function Login() {
   const [msg, setMsg] = useState("");
 
   const { dispatch } = React.useContext(KPLContext);
-  const Dispatch = useDispatch();
 
   // Snackbar close function
   const handleClose = (event, reason) => {
@@ -60,7 +58,6 @@ function Login() {
             if (x.msg.status === 201) {
               localStorage.setItem("KPL Auth", true);
               dispatch({ type: "ADD_ROLE", payload: x.data.role });
-              Dispatch({ type: "ADD_ROLE", payload: x.data.role });
               localStorage.setItem("ROLE", x.data.role);
               dispatch({
                 type: "ADD_DESIGNATION",

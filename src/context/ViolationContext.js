@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 
 const initialState = {
   CTRDialog: false,
+
   role: "",
   designation: "",
   profile: "",

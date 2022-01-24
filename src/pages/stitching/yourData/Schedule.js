@@ -186,10 +186,11 @@ function Schedule(props) {
         const resp = await deleteStitchingWorkerSchedule({ id });
         if (resp?.message) {
           Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
+          refreshData();
         }
       } else {
-        console.log(state);
-        Dispatch(openSnackbar(true, "error", "Delete Operation Cancelled"));
+        Dispatch(openSnackbar(true, "error", "Operation Cancelled"));
+        refreshData();
       }
     } catch (e) {}
   };
@@ -234,7 +235,6 @@ function Schedule(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            console.log(x);
             handleClickOpenDialog();
             setScheduleData({
               date: new Date(x.Date).toISOString().slice(0, 10),
@@ -306,21 +306,9 @@ function Schedule(props) {
   const updateSchedule = async () => {
     try {
       const resp = await updateStitchingWorkerSchedule(scheduleData);
-      console.log("Worker Update->", resp);
-
-      if (resp?.msg) {
-        const x = await getYourData();
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
-        Dispatch(
-          openSnackbar(true, "success", "Schedule Updated Successfully")
-        );
-        setOpenDialog(false);
-      }
-
-      // refreshData();
+      Dispatch(openSnackbar(true, "success", "Schedule Updated Successfully"));
+      refreshData();
+      setOpenDialog(false);
     } catch (e) {}
   };
 
@@ -328,22 +316,17 @@ function Schedule(props) {
     try {
       const resp = await addStitchingWorkerSchedule(scheduleInput);
       if (resp?.msg === "Successfully Added") {
-        // setScheduleInput({
-        //   workerId: "",
-        //   workerName: "",
-        //   date: "",
-        //   wing: "",
-        //   shift: "",
-        //   machineId: "",
-        //   machineOnOffStatus: 0,
-        // });
-        const x = await getYourData();
-        console.log(x.latestScheduleData);
-        dispatch({
-          type: "WORKER_SCHEDULE",
-          payload: { data: x.latestScheduleData, loading: false },
-        });
         Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
+        setScheduleInput({
+          workerId: "",
+          workerName: "",
+          date: "",
+          wing: "",
+          shift: "",
+          machineId: "",
+          machineOnOffStatus: 0,
+        });
+        refreshData();
       }
     } catch (e) {}
   };
@@ -804,7 +787,7 @@ function Schedule(props) {
               />
             </Grid>
             <Grid md={6} style={{ padding: "12px" }}>
-              {/* <TextField
+              <TextField
                 id="outlined-basic"
                 label="Wing"
                 variant="outlined"
@@ -812,68 +795,10 @@ function Schedule(props) {
                 name="wing"
                 onChange={onScheduleDataChange}
                 fullWidth
-              /> */}
-              <FormControl
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "12px" }}
-              >
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Wing
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={scheduleData.wing}
-                  name="wing"
-                  onChange={onScheduleDataChange}
-                  fullWidth
-                  label="Wing"
-                  // multiple
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {["FG2"].map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+              />
+            </Grid>{" "}
             <Grid md={6} style={{ padding: "12px" }}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "12px" }}
-              >
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Shift
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={scheduleData.shift}
-                  name="shift"
-                  onChange={(e) =>
-                    setScheduleData({ ...scheduleData, shift: e.target.value })
-                  }
-                  fullWidth
-                  label="Shift"
-                  // multiple
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {["A", "B"].map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {/* <TextField
+              <TextField
                 id="outlined-basic"
                 label="Shift"
                 variant="outlined"
@@ -883,7 +808,7 @@ function Schedule(props) {
                   setScheduleData({ ...scheduleData, shift: e.target.value })
                 }
                 fullWidth
-              /> */}
+              />
             </Grid>
             <Grid
               md={6}

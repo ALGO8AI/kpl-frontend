@@ -8,6 +8,7 @@ import "./Setting.scss";
 import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
+import AddUser from "./AddUser";
 import { StitchingContext } from "../../../context/StitchingContext";
 import ComingSoon from "../layoutView/ComingSoon";
 
@@ -77,7 +78,10 @@ function Setting() {
         <AlertAndNotification />
       </TabPanel>
       <TabPanel value={state.settingTab} index={1}>
-        <ManageRoles />
+        <Grid container item xs={12}>
+          <ManageRoles />
+        </Grid>
+        <AddUser />
       </TabPanel>
       {/* <TabPanel value={value} index={2}>
         <div className="overlay">
