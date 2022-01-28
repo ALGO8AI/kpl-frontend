@@ -777,9 +777,14 @@ function WorkerSchedule(props) {
                         key={row.code}
                       >
                         <StyledTableDataCell>
-                          {moment(new Date(row.Date))
+                          {`${new Date(row.Date).getUTCDate()}/${new Date(
+                            row.Date
+                          ).getMonth() + 1}/${new Date(
+                            row.Date
+                          ).getFullYear()}`}
+                          {/* {moment(new Date(row.Date))
                             .format("DD/MM/YYYY")
-                            .toString()}
+                            .toString()} */}
                         </StyledTableDataCell>
                         <StyledTableDataCell>
                           {row.workerId}
