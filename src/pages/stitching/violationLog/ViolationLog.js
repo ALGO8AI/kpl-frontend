@@ -1049,9 +1049,12 @@ function ViolationLog1() {
                       //   .toString();
                       // return NewDate;
                       const d = rowData.DateTime;
-                      return `${new Date(d).getUTCDate()}/${new Date(
-                        d
-                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
+                      return `${new Date(d).toLocaleDateString().split("/")[1]}/
+                        ${new Date(d).toLocaleDateString().split("/")[0]}/
+                        ${new Date(d).toLocaleDateString().split("/")[2]}`;
+                      // return `${new Date(d).getUTCDate()}/${new Date(
+                      //   d
+                      // ).getMonth() + 1}/${new Date(d).getFullYear()}`;
                     },
                   },
                   {
