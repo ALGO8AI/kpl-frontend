@@ -152,7 +152,7 @@ function ManageRoles() {
     try {
       const x = await StitchingUserData({});
       console.log(x);
-      setTableData(x.userData);
+      setTableData(x?.userData);
       setColumns([
         {
           title: "User ID",
@@ -582,7 +582,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Username"
                 variant="outlined"
-                value={data.username}
+                value={data?.username}
                 fullWidth
                 onChange={(e) => setData({ ...data, username: e.target.value })}
                 // disabled
@@ -603,7 +603,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                value={data.password}
+                value={data?.password}
                 fullWidth
                 disabled
               />
@@ -624,7 +624,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Email"
                 variant="outlined"
-                value={data.email}
+                value={data?.email}
                 // disabled
                 onChange={(e) => setData({ ...data, email: e.target.value })}
               />
@@ -647,7 +647,7 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.designation}
+                  value={data?.designation}
                   onChange={(e) =>
                     setData({ ...data, designation: e.target.value })
                   }
@@ -699,7 +699,7 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.department}
+                  value={data?.department}
                   onChange={(e) =>
                     setData({ ...data, department: e.target.value })
                   }
@@ -744,7 +744,7 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.role}
+                  value={data?.role}
                   onChange={(e) => setData({ ...data, role: e.target.value })}
                   label="Role"
                 >
@@ -786,7 +786,7 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.zone}
+                  value={data?.zone}
                   onChange={(e) => setData({ ...data, zone: e.target.value })}
                   label="Line"
                 >
@@ -819,7 +819,7 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.wing}
+                  value={data?.wing}
                   onChange={(e) => setData({ ...data, wing: e.target.value })}
                   label="Wing"
                 >
@@ -879,7 +879,7 @@ function ManageRoles() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      value={data.accessibilityCutting == 1 ? true : false}
+                      value={data?.accessibilityCutting == 1 ? true : false}
                       checked={data.accessibilityCutting == 1 ? true : false}
                       color="primary"
                       onChange={(e) =>
@@ -898,7 +898,7 @@ function ManageRoles() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      value={data.accessibilityStitching == 1 ? true : false}
+                      value={data?.accessibilityStitching == 1 ? true : false}
                       checked={data.accessibilityStitching == 1 ? true : false}
                       color="primary"
                       onChange={(e) =>
@@ -917,7 +917,7 @@ function ManageRoles() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      value={data.accessibilityChecking == 1 ? true : false}
+                      value={data?.accessibilityChecking == 1 ? true : false}
                       checked={data.accessibilityChecking == 1 ? true : false}
                       color="primary"
                       onChange={(e) =>
@@ -945,7 +945,7 @@ function ManageRoles() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      value={data.shiftA == 1 ? true : false}
+                      value={data?.shiftA == 1 ? true : false}
                       checked={data.shiftA == 1 ? true : false}
                       color="primary"
                       onChange={(e) =>
@@ -964,7 +964,7 @@ function ManageRoles() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      value={data.shiftB == 1 ? true : false}
+                      value={data?.shiftB == 1 ? true : false}
                       checked={data.shiftB == 1 ? true : false}
                       color="primary"
                       onChange={(e) =>
@@ -984,7 +984,7 @@ function ManageRoles() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      value={data.shiftC == 1 ? true : false}
+                      value={data?.shiftC == 1 ? true : false}
                       checked={data.shiftC == 1 ? true : false}
                       color="primary"
                       onChange={(e) =>
@@ -1013,7 +1013,7 @@ function ManageRoles() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={data.machineBreakdown == 1 ? true : false}
+                        value={data?.machineBreakdown == 1 ? true : false}
                         checked={data.machineBreakdown == 1 ? true : false}
                         color="primary"
                         onChange={(e) =>
@@ -1032,7 +1032,7 @@ function ManageRoles() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={data.feedUnavailability == 1 ? true : false}
+                        value={data?.feedUnavailability == 1 ? true : false}
                         checked={data.feedUnavailability == 1 ? true : false}
                         color="primary"
                         onChange={(e) =>
@@ -1051,7 +1051,7 @@ function ManageRoles() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={data.workerNotAvailable == 1 ? true : false}
+                        value={data?.workerNotAvailable == 1 ? true : false}
                         checked={data.workerNotAvailable == 1 ? true : false}
                         color="primary"
                         onChange={(e) =>
@@ -1070,7 +1070,7 @@ function ManageRoles() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={data.machineViolation == 1 ? true : false}
+                        value={data?.machineViolation == 1 ? true : false}
                         checked={data.machineViolation == 1 ? true : false}
                         color="primary"
                         onChange={(e) =>
@@ -1089,7 +1089,7 @@ function ManageRoles() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={data.crowding == 1 ? true : false}
+                        value={data?.crowding == 1 ? true : false}
                         checked={data.crowding == 1 ? true : false}
                         color="primary"
                         onChange={(e) =>
@@ -1108,7 +1108,9 @@ function ManageRoles() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={data.checkerActiveMonitoring == 1 ? true : false}
+                        value={
+                          data?.checkerActiveMonitoring == 1 ? true : false
+                        }
                         checked={
                           data.checkerActiveMonitoring == 1 ? true : false
                         }
