@@ -443,7 +443,7 @@ function Home() {
       !filterEnable && callAPI();
     }
     getAlerts();
-    const interval = setInterval(() => getAlerts(), 12000);
+    const interval = setInterval(() => getAlerts(), 60000);
     return () => {
       clearInterval(interval);
     };
