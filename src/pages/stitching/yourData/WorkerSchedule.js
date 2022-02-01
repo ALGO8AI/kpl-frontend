@@ -777,14 +777,31 @@ function WorkerSchedule(props) {
                         key={row.code}
                       >
                         <StyledTableDataCell>
-                          {`${new Date(row.Date).getUTCDate()}/${new Date(
+                          {/* {`${new Date(row.Date).getUTCDate()}/${new Date(
                             row.Date
                           ).getMonth() + 1}/${new Date(
                             row.Date
-                          ).getFullYear()}`}
+                          ).getFullYear()}`} */}
                           {/* {moment(new Date(row.Date))
                             .format("DD/MM/YYYY")
                             .toString()} */}
+                          {
+                            new Date(row.Date)
+                              .toLocaleDateString()
+                              .split("/")[1]
+                          }
+                          /
+                          {
+                            new Date(row.Date)
+                              .toLocaleDateString()
+                              .split("/")[0]
+                          }
+                          /
+                          {
+                            new Date(row.Date)
+                              .toLocaleDateString()
+                              .split("/")[2]
+                          }
                         </StyledTableDataCell>
                         <StyledTableDataCell>
                           {row.workerId}
@@ -822,9 +839,46 @@ function WorkerSchedule(props) {
                                 setScheduleInput({
                                   workerId: row.workerId,
                                   workerName: row.workerName,
-                                  date: new Date(row.Date)
-                                    .toISOString()
-                                    .slice(0, 10),
+                                  date: `${
+                                    new Date(row.Date)
+                                      .toLocaleDateString()
+                                      .split("/")[2]
+                                  }-${
+                                    +new Date(row.Date)
+                                      .toLocaleDateString()
+                                      .split("/")[0]?.length === 1
+                                      ? +0 +
+                                        new Date(row.Date)
+                                          .toLocaleDateString()
+                                          .split("/")[0]
+                                      : new Date(row.Date)
+                                          .toLocaleDateString()
+                                          .split("/")[0]
+                                  }-${
+                                    +new Date(row.Date)
+                                      .toLocaleDateString()
+                                      .split("/")[1]?.length === 1
+                                      ? +0 +
+                                        new Date(row.Date)
+                                          .toLocaleDateString()
+                                          .split("/")[1]
+                                      : new Date(row.Date)
+                                          .toLocaleDateString()
+                                          .split("/")[1]
+                                  }`,
+                                  // date: `${
+                                  // new Date(row.Data)
+                                  //   .toLocaleDateString()
+                                  //   .split("/")[2]
+                                  // }-${
+                                  //   new Date(row.Data)
+                                  //     .toLocaleDateString()
+                                  //     .split("/")[0]
+                                  // }-${
+                                  //   new Date()
+                                  //     .toLocaleDateString(row.Data)
+                                  //     .split("/")[1]
+                                  // }`,
                                   wing: row.wing,
                                   shift: row.shift,
                                   machineId: row.machineId,
