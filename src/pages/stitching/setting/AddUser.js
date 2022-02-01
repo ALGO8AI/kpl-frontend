@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import {
   Button,
   Checkbox,
@@ -255,10 +256,30 @@ function AddUser({ loadData }) {
               }}
             >
               <TextField
-                error={!data?.email}
+                error={
+                  !Boolean(
+                    String(data.email)
+                      .toLowerCase()
+                      .match(
+                        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                      )
+                  )
+                }
+                helperText={
+                  Boolean(
+                    String(data.email)
+                      .toLowerCase()
+                      .match(
+                        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                      )
+                  )
+                    ? null
+                    : "Enter Valid Email"
+                }
                 required
                 fullWidth
                 id="outlined-basic"
+                type="email"
                 label="Email"
                 variant="outlined"
                 value={data.email}
@@ -277,7 +298,15 @@ function AddUser({ loadData }) {
               }}
             >
               <TextField
-                error={!data?.mobile}
+                error={data.mobile.length > 10 || data.mobile.length < 10}
+                helperText={
+                  data.mobile.length > 10 || data.mobile.length < 10
+                    ? "Must be 10 digit"
+                    : null
+                }
+                inputProps={{
+                  maxLength: 10,
+                }}
                 required
                 fullWidth
                 id="outlined-basic"
