@@ -125,7 +125,7 @@ function AddUser({ loadData }) {
             checkerActiveMonitoring: false,
           });
           handleClose();
-          Dispatch(openSnackbar(true, "success", "User Added Successfully"));
+          Dispatch(openSnackbar(true, "success", x.message));
         } else {
           Dispatch(openSnackbar(true, "error", "Try Again"));
         }
