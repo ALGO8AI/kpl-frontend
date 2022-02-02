@@ -433,7 +433,7 @@ function ManageRoles() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {["A", "B"].map((item, index) => (
+                  {["A", "B", "C"].map((item, index) => (
                     <MenuItem value={item} key={index}>
                       {item}
                     </MenuItem>
