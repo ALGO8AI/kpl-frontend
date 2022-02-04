@@ -45,6 +45,7 @@ function Home() {
 
   // use selector
   const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
+  const role = useSelector((state) => state?.Common.role);
 
   // reducDispatch
   const Dispatch = useDispatch();
@@ -188,84 +189,84 @@ function Home() {
   // load initial table data
   const loadData = async () => {
     try {
-      if (state.machineUtilization.loading) {
-        const x = await machineBreakdownData();
-        // console.log(x);
-        dispatch({
-          type: "MACHINE_UTILIZATION",
-          payload: { data: x.machineBreakdownData, loading: false },
-        });
-      }
+      // if (state.machineUtilization.loading) {
+      const x = await machineBreakdownData();
+      // console.log(x);
+      dispatch({
+        type: "MACHINE_UTILIZATION",
+        payload: { data: x.machineBreakdownData, loading: false },
+      });
+      // }
 
-      if (state.workerUtilization.loading) {
-        const y = await workerUtilizationData();
-        dispatch({
-          type: "WORKER_UTILIZATION",
-          payload: { data: y.workerUtilization, loading: false },
-        });
-      }
+      // if (state.workerUtilization.loading) {
+      const y = await workerUtilizationData();
+      dispatch({
+        type: "WORKER_UTILIZATION",
+        payload: { data: y.workerUtilization, loading: false },
+      });
+      // }
 
-      if (state.crowdingInstance.loading) {
-        const z = await crowdingInstanceData();
-        dispatch({
-          type: "CROWDING_INSTANCE",
-          payload: { data: z.crowdingInstancesData, loading: false },
-        });
-      }
+      // if (state.crowdingInstance.loading) {
+      const z = await crowdingInstanceData();
+      dispatch({
+        type: "CROWDING_INSTANCE",
+        payload: { data: z.crowdingInstancesData, loading: false },
+      });
+      // }
 
-      if (state.feedUtilization.loading) {
-        const x = await feedInstanceData();
+      // if (state.feedUtilization.loading) {
+      const xy = await feedInstanceData();
 
-        dispatch({
-          type: "FEED_UTILIZATION",
-          payload: { data: x.feedUtilization, loading: false },
-        });
-      }
-      if (state.homeWorkerTable.loading) {
-        const homeWorkerTable = await summaryByWorkerData();
-        dispatch({
-          type: "HOME_WORKER_TABLE",
-          payload: {
-            data: homeWorkerTable.detailedSummaryByWorker,
-            loading: false,
-          },
-        });
-      }
+      dispatch({
+        type: "FEED_UTILIZATION",
+        payload: { data: xy.feedUtilization, loading: false },
+      });
+      // }
+      // if (state.homeWorkerTable.loading) {
+      const homeWorkerTable = await summaryByWorkerData();
+      dispatch({
+        type: "HOME_WORKER_TABLE",
+        payload: {
+          data: homeWorkerTable.detailedSummaryByWorker,
+          loading: false,
+        },
+      });
+      // }
 
-      if (state.homeDateTable.loading) {
-        const homeDateTable = await summaryByViolationData();
-        dispatch({
-          type: "HOME_DATE_TABLE",
-          payload: {
-            data: homeDateTable.detailedSummaryByViolation.violationSummary,
-            loading: false,
-          },
-        });
-      }
-      if (state.homeMachineTable.loading) {
-        const homeMachineTable = await machineData();
-        dispatch({
-          type: "HOME_MACHINE_TABLE",
-          payload: {
-            data:
-              homeMachineTable.detailedSummaryByMachineId
-                .violationSummaryByMachineId,
-            loading: false,
-          },
-        });
-      }
+      // if (state.homeDateTable.loading) {
+      const homeDateTable = await summaryByViolationData();
+      dispatch({
+        type: "HOME_DATE_TABLE",
+        payload: {
+          data: homeDateTable.detailedSummaryByViolation.violationSummary,
+          loading: false,
+        },
+      });
+      // }
+      // if (state.homeMachineTable.loading) {
+      const homeMachineTable = await machineData();
+      dispatch({
+        type: "HOME_MACHINE_TABLE",
+        payload: {
+          data:
+            homeMachineTable.detailedSummaryByMachineId
+              .violationSummaryByMachineId,
+          loading: false,
+        },
+      });
+      // }
 
-      if (state.homeCTRTable.loading) {
-        const homeCTRTable = await ClpCtrData();
-        // console.log(homeCTRTable);
-        dispatch({
-          type: "HOME_CTR_TABLE",
-          payload: {
-            data: homeCTRTable,
-            loading: false,
-          },
-        });
-      }
+      // if (state.homeCTRTable.loading) {
+      const homeCTRTable = await ClpCtrData();
+      // console.log(homeCTRTable);
+      dispatch({
+        type: "HOME_CTR_TABLE",
+        payload: {
+          data: homeCTRTable,
+          loading: false,
+        },
+      });
+      // }
     } catch (err) {
       // console.log(err.message);
     }
@@ -624,34 +625,47 @@ function Home() {
         </>
       )}
 
-      <Grid
-        container
-        item
-        xs={4}
-        sm={4}
-        lg={2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <FormControl
-          variant="outlined"
-          fullWidth
-          style={{ marginRight: "6px" }}
+      {role === "Admin" || role === "Non Admin" ? (
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={2}
+          style={{ justifyContent: "center", marginBottom: "8px" }}
         >
-          <InputLabel id="demo-simple-select-outlined-label">Shift</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            multiple
-            value={inputSHIFT}
-            onChange={(e) => setInputSHIFT(e.target.value)}
-            label="Shift"
-            // multiple
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
           >
-            <MenuItem value="A">A</MenuItem>
-            <MenuItem value="B">B</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputSHIFT}
+              onChange={(e) => setInputSHIFT(e.target.value)}
+              label="Shift"
+              // multiple
+            >
+              <MenuItem value="A">A</MenuItem>
+              <MenuItem value="B">B</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+      ) : (
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={2}
+          style={{ justifyContent: "center", marginBottom: "8px" }}
+        ></Grid>
+      )}
 
       <Grid
         container

@@ -31,7 +31,7 @@ import { StitchingContext } from "../../../context/StitchingContext";
 
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
 import WorkerPerformanceTable from "./WorkerPerformanceTable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
@@ -98,6 +98,9 @@ function ViolationLog1() {
 
   // redux dispatch
   const Dispatch = useDispatch();
+
+  // selector
+  const role = useSelector((state) => state?.Common.role);
 
   // state
   const [loader, setLoader] = useState(false);
@@ -755,36 +758,47 @@ function ViolationLog1() {
             </>
           )}
 
-          <Grid
-            container
-            item
-            xs={4}
-            sm={6}
-            lg={2}
-            style={{ justifyContent: "center" }}
-          >
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginRight: "6px" }}
+          {role === "Admin" || role === "Non Admin" ? (
+            <Grid
+              container
+              item
+              xs={4}
+              sm={6}
+              lg={2}
+              style={{ justifyContent: "center" }}
             >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Shift
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputSHIFT}
-                onChange={(e) => setInputSHIFT(e.target.value)}
-                label="Shift"
-                // multiple
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginRight: "6px" }}
               >
-                <MenuItem value="A">A</MenuItem>
-                <MenuItem value="B">B</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Shift
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  multiple
+                  value={inputSHIFT}
+                  onChange={(e) => setInputSHIFT(e.target.value)}
+                  label="Shift"
+                  // multiple
+                >
+                  <MenuItem value="A">A</MenuItem>
+                  <MenuItem value="B">B</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          ) : (
+            <Grid
+              container
+              item
+              xs={4}
+              sm={6}
+              lg={2}
+              style={{ justifyContent: "center" }}
+            ></Grid>
+          )}
 
           <Grid
             container
