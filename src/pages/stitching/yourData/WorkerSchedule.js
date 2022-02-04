@@ -835,30 +835,30 @@ function WorkerSchedule(props) {
                                   workerName: row.workerName,
                                   date: `${
                                     new Date(row.Date)
-                                      .toLocaleDateString()
+                                      .toLocaleDateString('en-GB')
                                       .split("/")[2]
                                   }-${
                                     +new Date(row.Date)
-                                      .toLocaleDateString()
-                                      .split("/")[0]?.length === 1
-                                      ? +0 +
-                                        new Date(row.Date)
-                                          .toLocaleDateString()
-                                          .split("/")[0]
-                                      : new Date(row.Date)
-                                          .toLocaleDateString()
-                                          .split("/")[0]
-                                  }-${
-                                    +new Date(row.Date)
-                                      .toLocaleDateString()
+                                      .toLocaleDateString('en-GB')
                                       .split("/")[1]?.length === 1
                                       ? +0 +
                                         new Date(row.Date)
-                                          .toLocaleDateString()
+                                          .toLocaleDateString('en-GB')
                                           .split("/")[1]
                                       : new Date(row.Date)
-                                          .toLocaleDateString()
+                                          .toLocaleDateString('en-GB')
                                           .split("/")[1]
+                                  }-${
+                                    +new Date(row.Date)
+                                      .toLocaleDateString('en-GB')
+                                      .split("/")[0]?.length === 1
+                                      ? +0 +
+                                        new Date(row.Date)
+                                          .toLocaleDateString('en-GB')
+                                          .split("/")[0]
+                                      : new Date(row.Date)
+                                          .toLocaleDateString('en-GB')
+                                          .split("/")[0]
                                   }`,
                                   // date: `${
                                   // new Date(row.Data)
