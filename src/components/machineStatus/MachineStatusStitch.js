@@ -142,16 +142,7 @@ function MachineStatusStitch() {
   const refreshData = async () => {
     try {
       const { data1, data2 } = await getLiveMachine();
-      if (data2.length === 0) {
-        setData({
-          ...data,
-          data1,
-        });
-        setMachineData({
-          ...machineData,
-          data1,
-        });
-      } else {
+      if (data1.length !== 0 && data2.length !== 0) {
         setData({
           data1,
           data2,
