@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 function MachineStatusStitch() {
   // state
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({ data1: [], data2: [] });
   const [machineType, setMachineType] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const columns = [
@@ -52,8 +52,9 @@ function MachineStatusStitch() {
     },
 
     {
-      title: "Utilisation",
-      field: "machineUtilizationPer",
+      title: "Utilisation %",
+      field: "utilization%",
+      render: (x) => x["utilization%"].toFixed(2),
     },
     {
       title: "Line",
@@ -69,7 +70,7 @@ function MachineStatusStitch() {
     },
     {
       title: "Clp Ctr",
-      field: "clpCtr",
+      field: "clpctr",
     },
 
     // {
@@ -92,7 +93,7 @@ function MachineStatusStitch() {
     Disabled: <FiberManualRecordIcon style={{ color: "#727272" }} />,
     Breakdown: <InfoIcon style={{ color: "#F0983D" }} />,
   };
-  const [machineData, setMachineData] = useState([]);
+  const [machineData, setMachineData] = useState({ data1: [], data2: [] });
 
   // functions
   const AddMachineType = (value) => {
@@ -103,15 +104,31 @@ function MachineStatusStitch() {
 
   useEffect(() => {
     machineType.length > 0
-      ? setData(machineData.filter((el) => machineType.includes(el.status)))
-      : setData(machineData);
+      ? setData({
+          ...data,
+          data2: machineData?.data2?.filter((el) =>
+            machineType.includes(el.status)
+          ),
+        })
+      : setData({
+          ...data,
+          data2: machineData?.data2,
+        });
   }, [machineType]);
 
   // getData
   const loadData = async () => {
     console.log("LOAD DATA");
     try {
-      const { data1, data2, data3 } = await getLiveMachine();
+      const { data1, data2 } = await getLiveMachine();
+      setData({
+        data1,
+        data2,
+      });
+      setMachineData({
+        data1,
+        data2,
+      });
       // console.log(data1, data2, data3);
       // console.log(data1.length, data2.length, data3.length);
       // if (data1.length && data3.length) {
@@ -124,22 +141,22 @@ function MachineStatusStitch() {
       //       ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
       //     }))
       // );
-      setData(
-        data3
-          // .map((item) => item)
-          .map((item) => ({
-            ...item,
-            ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
-          }))
-      );
-      setMachineData(
-        data3
-          // .map((item) => item)
-          .map((item) => ({
-            ...item,
-            ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
-          }))
-      );
+      // setData(
+      //   data3
+      //     // .map((item) => item)
+      //     .map((item) => ({
+      //       ...item,
+      //       ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
+      //     }))
+      // );
+      // setMachineData(
+      //   data3
+      //     // .map((item) => item)
+      //     .map((item) => ({
+      //       ...item,
+      //       ...data1.filter((item2) => item2.machineId === item?.machineId)[0],
+      //     }))
+      // );
       // }
     } catch (e) {
       console.log("ERROR", e);
@@ -153,7 +170,7 @@ function MachineStatusStitch() {
 
   // interval use effect
   useEffect(() => {
-    const interval = setInterval(() => loadData(), 30000);
+    const interval = setInterval(() => loadData(), 15000);
     return () => {
       clearInterval(interval);
     };
@@ -229,11 +246,16 @@ function MachineStatusStitch() {
               ],
             }}
             series={[
-              machineData.filter((item) => item.status === "Running").length,
-              machineData.filter((item) => item.status === "Stopped").length,
-              machineData.filter((item) => item.status === "Offline").length,
-              machineData.filter((item) => item.status === "Disabled").length,
-              machineData.filter((item) => item.status === "Breakdown").length,
+              machineData?.data1?.filter((item) => item.status === "Running")
+                .length,
+              machineData?.data1?.filter((item) => item.status === "Stopped")
+                .length,
+              machineData?.data1?.filter((item) => item.status === "Offline")
+                .length,
+              machineData?.data1?.filter((item) => item.status === "Disabled")
+                .length,
+              machineData?.data1?.filter((item) => item.status === "Breakdown")
+                .length,
             ]}
             type="donut"
           />
@@ -241,7 +263,7 @@ function MachineStatusStitch() {
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("Running") ? 5 : 0}
+          elevation={machineType?.includes("Running") ? 5 : 0}
           onClick={() => AddMachineType("Running")}
           className={classes.paper}
         >
@@ -249,13 +271,16 @@ function MachineStatusStitch() {
             <CheckCircleIcon style={{ marginRight: "8px" }} /> RUNNING
           </div>
           <div className="title" style={{ color: "#05c422", fontSize: "48px" }}>
-            {machineData.filter((item) => item.status === "Running").length}
+            {
+              machineData?.data1?.filter((item) => item.status === "Running")
+                .length
+            }
           </div>
         </Paper>
       </Grid>
       <Grid container item xs={12} md={2}>
         <Paper
-          elevation={machineType.includes("Stopped") ? 5 : 0}
+          elevation={machineType?.includes("Stopped") ? 5 : 0}
           onClick={() => AddMachineType("Stopped")}
           className={classes.paper}
         >
@@ -263,7 +288,10 @@ function MachineStatusStitch() {
             <PauseCircleFilledIcon style={{ marginRight: "8px" }} /> STOPPED
           </div>
           <div className="title" style={{ color: "#FFC014", fontSize: "48px" }}>
-            {machineData.filter((item) => item.status === "Stopped").length}
+            {
+              machineData?.data1?.filter((item) => item.status === "Stopped")
+                .length
+            }
           </div>
         </Paper>
       </Grid>
@@ -277,7 +305,10 @@ function MachineStatusStitch() {
             <CancelIcon style={{ marginRight: "8px" }} /> OFFLINE
           </div>
           <div className="title" style={{ color: "#C40303", fontSize: "48px" }}>
-            {machineData.filter((item) => item.status === "Offline").length}
+            {
+              machineData?.data1?.filter((item) => item.status === "Offline")
+                .length
+            }
           </div>
         </Paper>
       </Grid>
@@ -291,7 +322,10 @@ function MachineStatusStitch() {
             <FiberManualRecordIcon style={{ marginRight: "8px" }} /> DISABLED
           </div>
           <div className="title" style={{ color: "#727272", fontSize: "48px" }}>
-            {machineData.filter((item) => item.status === "Disabled").length}
+            {
+              machineData?.data1?.filter((item) => item.status === "Disabled")
+                .length
+            }
           </div>
         </Paper>
       </Grid>
@@ -305,7 +339,10 @@ function MachineStatusStitch() {
             <InfoIcon style={{ marginRight: "8px" }} /> BREAKDOWN
           </div>
           <div className="title" style={{ color: "#F0983D", fontSize: "48px" }}>
-            {machineData.filter((item) => item.status === "Breakdown").length}
+            {
+              machineData?.data1?.filter((item) => item.status === "Breakdown")
+                .length
+            }
           </div>
         </Paper>
       </Grid>
@@ -405,7 +442,7 @@ function MachineStatusStitch() {
           <MaterialTable
             title={"LIVE MACHINE STATUS"}
             columns={columns}
-            data={data}
+            data={data?.data2}
             options={{
               exportButton: true,
               headerStyle: {
