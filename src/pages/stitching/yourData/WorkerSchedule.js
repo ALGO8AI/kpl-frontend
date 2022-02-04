@@ -777,15 +777,9 @@ function WorkerSchedule(props) {
                         key={row.code}
                       >
                         <StyledTableDataCell>
-                          {/* {`${new Date(row.Date).getUTCDate()}/${new Date(
-                            row.Date
-                          ).getMonth() + 1}/${new Date(
-                            row.Date
-                          ).getFullYear()}`} */}
-                          {/* {moment(new Date(row.Date))
-                            .format("DD/MM/YYYY")
-                            .toString()} */}
-                          {
+                          {new Date(row.Date).toLocaleDateString("en-GB")}
+
+                          {/* {
                             new Date(row.Date)
                               .toLocaleDateString()
                               .split("/")[1]
@@ -801,7 +795,7 @@ function WorkerSchedule(props) {
                             new Date(row.Date)
                               .toLocaleDateString()
                               .split("/")[2]
-                          }
+                          } */}
                         </StyledTableDataCell>
                         <StyledTableDataCell>
                           {row.workerId}
