@@ -19,12 +19,14 @@ import moment from "moment";
 import React, { useState } from "react";
 import { getNotificationLog } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import { useDispatch } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../Utility/DateRange";
+import { theme } from "../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -208,15 +210,36 @@ function NotificationLog() {
             </Grid>
           </>
         )}
-        <Grid container item xs={12} md={2}>
+        <Grid container item xs={12} md={1} style={{ paddingRight: "12px" }}>
           <Button
             variant="contained"
-            color="primary"
-            style={{ margin: "10px" }}
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
             onClick={filterLogs}
           >
             <FilterListIcon />
             Filter
+          </Button>
+        </Grid>
+        <Grid container item xs={12} md={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={getLogs}
+          >
+            <RefreshIcon />
+            Refresh
           </Button>
         </Grid>
       </Grid>

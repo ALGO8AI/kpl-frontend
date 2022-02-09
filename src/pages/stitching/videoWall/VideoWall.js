@@ -5,7 +5,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  withStyles,
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import VideoTile from "../../../components/videoTile/VideoTile";
@@ -14,19 +13,7 @@ import Loader from "../../../components/loader/Loader";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Alert } from "@material-ui/lab";
 import RefreshIcon from "@material-ui/icons/Refresh";
-
-const CustomButton = withStyles(() => ({
-  root: {
-    color: "white",
-    backgroundColor: "#0e4a7b",
-    border: "2px solid #0e4a7b",
-    "&:hover": {
-      backgroundColor: "white",
-      color: "#0e4a7b",
-      border: "2px solid #0e4a7b",
-    },
-  },
-}))(Button);
+import { theme } from "../../../Utility/constants";
 
 function VideoWall() {
   // STATE
@@ -49,35 +36,73 @@ function VideoWall() {
 
   return (
     <Grid container xs={12} spacing={2} style={{ margin: "12px 0px" }}>
-      <Grid container item xs={12} sm={1}>
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Current CTR"
+      <Grid container item xs={12} style={{ marginBottom: "12px" }}>
+        <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              label="Current CTR"
+            >
+              <MenuItem>Wing 1</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              label="Current CTR"
+            >
+              <MenuItem value=""></MenuItem>
+              {["U+2", "Baffle", "Circular", "Two Row"].map((item, i) => (
+                <MenuItem value={item} key={i}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
           >
-            <MenuItem>Wing 1</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid container item xs={12} sm={1}>
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Current CTR"
+            <FilterListIcon />
+            Filter
+          </Button>
+        </Grid>
+        <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
           >
-            <MenuItem value=""></MenuItem>
-            {["U+2", "Baffle", "Circular", "Two Row"].map((item, i) => (
-              <MenuItem value={item} key={i}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            <RefreshIcon />
+            Refresh
+          </Button>
+        </Grid>
+        <Grid xs={12} lg={4} style={{}}></Grid>
+        <Grid xs={12} lg={4} style={{ paddingRight: "12px" }}>
+          <Alert>
+            If Video is not available, refresh the page! To view extended video,
+            Click on video.
+          </Alert>
+        </Grid>
       </Grid>
 
       {/* <Grid container item xs={12} sm={1}>
@@ -94,24 +119,7 @@ function VideoWall() {
           </Select>
         </FormControl>
       </Grid> */}
-      <Grid container item xs={12} sm={2}>
-        <CustomButton>
-          <FilterListIcon />
-          Filter
-        </CustomButton>
-      </Grid>
-      <Grid container item xs={12} sm={5}>
-        <Alert>
-          If Video is not available, refresh the page! To view extended video,
-          Click on video.
-        </Alert>
-      </Grid>
-      <Grid container item xs={12} sm={2}>
-        <CustomButton onClick={() => window.location.reload()}>
-          <RefreshIcon />
-          Refresh
-        </CustomButton>
-      </Grid>
+
       {videos ? (
         videos?.data?.map((x, index) => {
           return (

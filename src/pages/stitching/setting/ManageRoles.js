@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
@@ -15,8 +16,18 @@ import {
   Select,
   TextField,
   Typography,
+  withStyles,
 } from "@material-ui/core";
 import MaterialTable from "material-table";
+import PropTypes from "prop-types";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 import React, { useState, useEffect } from "react";
 import {
   revokeUserAccess,
@@ -25,12 +36,45 @@ import {
   UnrevokeUserAccess,
 } from "../../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { theme, stitchingLines, wings } from "../../../Utility/constants";
+import {
+  theme as THEME,
+  stitchingLines,
+  wings,
+} from "../../../Utility/constants";
 import AddUser from "./AddUser";
 import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
 
 function ManageRoles() {
+  // table state
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: THEME.BLUE,
+      color: theme.palette.common.white,
+      fontSize: 16,
+    },
+    body: {
+      fontSize: 24,
+    },
+  }))(TableCell);
+  const StyledTableDataCell = withStyles((theme) => ({
+    head: {
+      fontSize: 16,
+    },
+  }))(TableCell);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   // dispatch
   const Dispatch = useDispatch();
 
@@ -39,15 +83,16 @@ function ManageRoles() {
 
   // state
   const [columns, setColumns] = useState([]);
+  const [revokeActive, setRevokeActive] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [data, setData] = useState({});
   const [open, setOpen] = React.useState(false);
-  const [openFilter, setOpenFilter] = useState(false);
   const [filterCondition, setFilterConditiion] = useState({
     wing: [],
     line: [],
     shift: [],
   });
+  const [selected, setSelected] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -95,9 +140,12 @@ function ManageRoles() {
       role: data.role,
       zone: data.zone,
       wing: data.wing,
-      accessibilityCutting: data.accessibilityCutting ? 1 : 0,
-      accessibilityStitching: data.accessibilityStitching ? 1 : 0,
-      accessibilityChecking: data.accessibilityChecking ? 1 : 0,
+      // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
+      // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
+      // accessibilityChecking: data.accessibilityChecking ? 1 : 0,
+      accessibilityCutting: 1,
+      accessibilityStitching: 1,
+      accessibilityChecking: 1,
       workerID: data.workerID,
       image: data.image,
       department: data.department,
@@ -162,6 +210,7 @@ function ManageRoles() {
         {
           title: "Username",
           field: "username",
+          type: "boolean",
         },
 
         {
@@ -313,182 +362,223 @@ function ManageRoles() {
   return (
     <>
       {/* <Grid container> */}
-      <Grid container style={{ margin: "24px 0", height: "56px" }}>
+      <Grid container style={{ margin: "12px 0" }}>
+        <Grid
+          item
+          xs={12}
+          lg={1}
+          style={{
+            paddingRight: "12px",
+            height: "100%",
+          }}
+        >
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Wing
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={filterCondition.wing}
+              onChange={(e) =>
+                setFilterConditiion({
+                  ...filterCondition,
+                  wing: e.target.value,
+                })
+              }
+              label="Wing"
+              style={{ height: "56px" }}
+              multiple
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {wings.map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Line
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={filterCondition.line}
+              onChange={(e) =>
+                setFilterConditiion({
+                  ...filterCondition,
+                  line: e.target.value,
+                })
+              }
+              multiple
+              label="Line"
+              style={{ height: "56px" }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {stitchingLines.map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={filterCondition.shift}
+              multiple
+              onChange={(e) =>
+                setFilterConditiion({
+                  ...filterCondition,
+                  shift: e.target.value,
+                })
+              }
+              label="Shift"
+              style={{ height: "56px" }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {["A", "B", "C"].map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
           <Button
             variant="contained"
             style={{
-              backgroundColor: openFilter ? theme.ORANGE : theme.BLUE,
+              backgroundColor: THEME.BLUE,
               color: "#FFF",
               whiteSpace: "nowrap",
               height: "100%",
             }}
             fullWidth
-            onClick={() => {
-              setOpenFilter(!openFilter);
-              refreshData();
-            }}
+            onClick={filterData}
           >
             <FilterListIcon />
-            {openFilter ? "CLOSE FILTER" : "OPEN FILTER"}
+            FILTER
           </Button>
         </Grid>
-        {/* <Grid container item xs={12} lg={8}> */}
-        {!openFilter && (
-          <>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-          </>
-        )}
-        {openFilter && (
-          <>
-            <Grid
-              item
-              xs={12}
-              lg={1}
-              style={{ paddingRight: "12px", height: "100%" }}
-            >
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Wing
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={filterCondition.wing}
-                  onChange={(e) =>
-                    setFilterConditiion({
-                      ...filterCondition,
-                      wing: e.target.value,
-                    })
-                  }
-                  label="Wing"
-                  style={{ height: "56px" }}
-                  multiple
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {wings.map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Line
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={filterCondition.line}
-                  onChange={(e) =>
-                    setFilterConditiion({
-                      ...filterCondition,
-                      line: e.target.value,
-                    })
-                  }
-                  multiple
-                  label="Line"
-                  style={{ height: "56px" }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {stitchingLines.map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel keyid="demo-simple-select-outlined-label">
-                  Shift
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={filterCondition.shift}
-                  multiple
-                  onChange={(e) =>
-                    setFilterConditiion({
-                      ...filterCondition,
-                      shift: e.target.value,
-                    })
-                  }
-                  label="Shift"
-                  style={{ height: "56px" }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {["A", "B", "C"].map((item, index) => (
-                    <MenuItem value={item} key={index}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: theme.BLUE,
-                  color: "#FFF",
-                  whiteSpace: "nowrap",
-                  height: "100%",
-                }}
-                fullWidth
-                onClick={filterData}
-              >
-                SEARCH
-              </Button>
-            </Grid>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: theme.BLUE,
-                  color: "#FFF",
-                  whiteSpace: "nowrap",
-                  height: "100%",
-                }}
-                fullWidth
-                onClick={refreshData}
-              >
-                REFRESH
-              </Button>
-            </Grid>
-          </>
-        )}
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: THEME.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={refreshData}
+          >
+            <RefreshIcon />
+            REFRESH
+          </Button>
+        </Grid>
+        {/* </>
+        )} */}
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
         {/* <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid> */}
+        {/* <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid> */}
         {/* </Grid> */}
         {role === "Admin" && (
-          <Grid container item xs={12} lg={1}>
-            <AddUser loadData={loadData} />
-          </Grid>
+          <>
+            <Grid container item xs={12} lg={1}>
+              <AddUser loadData={loadData} />
+            </Grid>
+            <Grid container item xs={12} lg={1} style={{ paddingLeft: "12px" }}>
+              <Button
+                disableElevation
+                variant="contained"
+                fullWidth
+                style={{
+                  backgroundColor: "transparent",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  height: "100%",
+                }}
+                onClick={() => setRevokeActive((prev) => !prev)}
+              >
+                <PersonAddDisabledIcon
+                  style={{
+                    color: "#0e4a7b",
+                    fontSize: 32,
+                  }}
+                />
+                {/* ADD USER */}
+              </Button>
+            </Grid>
+          </>
         )}
       </Grid>
+      {revokeActive && (
+        <Grid container style={{ marginBottom: "24px" }}>
+          <Grid
+            item
+            xs={12}
+            lg={1}
+            style={{
+              paddingRight: "12px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h4" style={{ color: THEME.ORANGE }}>
+              {selected.length}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            lg={1}
+            style={{
+              paddingRight: "12px",
+              height: "100%",
+            }}
+          >
+            <Button
+              disableElevation
+              variant="contained"
+              fullWidth
+              style={{
+                backgroundColor: THEME.ORANGE,
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                height: "52px",
+              }}
+              onClick={() => setRevokeActive((prev) => !prev)}
+            >
+              REVOKE
+            </Button>
+          </Grid>
+        </Grid>
+      )}
       <Grid container item xs={12}>
-        <MaterialTable
+        {/* <MaterialTable
           title="Manage Roles"
           columns={columns}
           data={tableData}
@@ -500,9 +590,236 @@ function ManageRoles() {
             },
             pageSizeOptions: [20, 50, 100, 200],
             pageSize: 20,
+            selection: true,
+          }}
+          // onSelectionChange={(event, rows) => console.log(event)}
+          onSelectionChange={(e, rowData) => {
+            rowData.tableData.checked = true;
           }}
           style={{ width: "100%" }}
-        />
+        /> */}
+        <Paper style={{ width: "100%", marginTop: "16px" }}>
+          <TableContainer style={{ width: "100%" }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead style={{ backgroundColor: "red" }}>
+                <TableRow>
+                  {revokeActive && (
+                    <StyledTableCell>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            style={{
+                              color: THEME.ORANGE,
+                            }}
+                            checked={
+                              tableData.length > 0 &&
+                              selected.length === tableData.length
+                            }
+                            onChange={(event) => {
+                              console.log(event);
+                              if (event.target.checked) {
+                                const newSelecteds = tableData.map(
+                                  (n) => n.username
+                                );
+                                setSelected(newSelecteds);
+                                return;
+                              }
+                              setSelected([]);
+                            }}
+                            inputProps={{
+                              "aria-label": "select all desserts",
+                            }}
+                          />
+                        }
+                      />
+                    </StyledTableCell>
+                  )}
+                  {[
+                    "User ID",
+                    "Username",
+                    "Role",
+                    "Shift A",
+                    "Shift B",
+                    // "Shift C",
+                    "Line",
+                    "Wing",
+                    "Email",
+                    "Mobile",
+                    "Update",
+                    "Revoke",
+                  ].map((column) => (
+                    <StyledTableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column}
+                    </StyledTableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tableData
+                  .sort((a, b) => (a.username > b.username ? 1 : -1))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                      >
+                        {revokeActive && (
+                          <StyledTableDataCell>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: THEME.ORANGE,
+                                  }}
+                                  checked={selected.includes(row?.username)}
+                                  onChange={(event) => {
+                                    selected.includes(row.username)
+                                      ? setSelected((prev) =>
+                                          prev.filter(
+                                            (item) => item !== row.username
+                                          )
+                                        )
+                                      : setSelected((prev) => [
+                                          ...prev,
+                                          row.username,
+                                        ]);
+                                  }}
+                                  inputProps={{
+                                    "aria-label": "select all desserts",
+                                  }}
+                                />
+                              }
+                            />
+                          </StyledTableDataCell>
+                        )}
+                        <StyledTableDataCell>
+                          {row.workerID}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.username}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>{row.role}</StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {Boolean(row.shiftA) ? (
+                            <p style={{ color: "rgb(74, 170, 22)" }}>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </p>
+                          ) : (
+                            <p style={{ color: "rgb(249, 54, 54)" }}>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </p>
+                          )}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {Boolean(row.shiftB) ? (
+                            <p style={{ color: "rgb(74, 170, 22)" }}>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </p>
+                          ) : (
+                            <p style={{ color: "rgb(249, 54, 54)" }}>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </p>
+                          )}
+                        </StyledTableDataCell>
+                        {/* <StyledTableDataCell>
+                          {Boolean(row.shiftC) ? (
+                            <p style={{ color: "rgb(74, 170, 22)" }}>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </p>
+                          ) : (
+                            <p style={{ color: "rgb(249, 54, 54)" }}>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </p>
+                          )}
+                        </StyledTableDataCell> */}
+                        <StyledTableDataCell>{row.zone}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.wing}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.email}</StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.mobileNumber}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            onClick={() => {
+                              if (role === "Admin") {
+                                handleClickOpen();
+                                setData(row);
+                              } else {
+                                Dispatch(
+                                  openSnackbar(
+                                    true,
+                                    "error",
+                                    "Only Accessible to admin."
+                                  )
+                                );
+                              }
+                            }}
+                            style={{
+                              color: THEME.blue,
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            UPDATE
+                          </button>
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            onClick={() => {
+                              if (role === "Admin") {
+                                revokeUser(row.username);
+                              } else {
+                                Dispatch(
+                                  openSnackbar(
+                                    true,
+                                    "error",
+                                    "Only Accessible to admin."
+                                  )
+                                );
+                              }
+                            }}
+                            style={{
+                              color: THEME.blue,
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            REVOKE
+                          </button>
+                        </StyledTableDataCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={tableData?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
       </Grid>
       <Dialog
         open={open}
@@ -563,7 +880,10 @@ function ManageRoles() {
                 variant="outlined"
                 value={data.mobileNumber}
                 onChange={(e) =>
-                  setData({ ...data, mobileNumber: e.target.value })
+                  setData({
+                    ...data,
+                    mobileNumber: e.target.value,
+                  })
                 }
               />
             </Grid>
@@ -584,7 +904,12 @@ function ManageRoles() {
                 variant="outlined"
                 value={data?.username}
                 fullWidth
-                onChange={(e) => setData({ ...data, username: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    username: e.target.value,
+                  })
+                }
                 // disabled
               />
             </Grid>
@@ -626,7 +951,12 @@ function ManageRoles() {
                 variant="outlined"
                 value={data?.email}
                 // disabled
-                onChange={(e) => setData({ ...data, email: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    email: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
@@ -649,7 +979,10 @@ function ManageRoles() {
                   id="demo-simple-select-outlined"
                   value={data?.designation}
                   onChange={(e) =>
-                    setData({ ...data, designation: e.target.value })
+                    setData({
+                      ...data,
+                      designation: e.target.value,
+                    })
                   }
                   label="Designation"
                 >
@@ -658,18 +991,51 @@ function ManageRoles() {
                   </MenuItem>
                   {[
                     { name: "Helper", value: "helper" },
-                    { name: "Manager", value: "manager" },
-                    { name: "Supervisor", value: "supervisor" },
-                    { name: "Wing Incharge", value: "wingIncharge" },
-                    { name: "Director", value: "director" },
-                    { name: "Senior Manager", value: "seniorManager" },
-                    { name: "Assistant Manager", value: "assistantManager" },
-                    { name: "In Charge", value: "incharge" },
-                    { name: "Final Supervisor", value: "finalSupervisor" },
-                    { name: "Kit Supervisor", value: "kitSupervisor" },
-                    { name: "Line Supervisor", value: "lineSupervisor" },
+                    {
+                      name: "Manager",
+                      value: "manager",
+                    },
+                    {
+                      name: "Supervisor",
+                      value: "supervisor",
+                    },
+                    {
+                      name: "Wing Incharge",
+                      value: "wingIncharge",
+                    },
+                    {
+                      name: "Director",
+                      value: "director",
+                    },
+                    {
+                      name: "Senior Manager",
+                      value: "seniorManager",
+                    },
+                    {
+                      name: "Assistant Manager",
+                      value: "assistantManager",
+                    },
+                    {
+                      name: "In Charge",
+                      value: "incharge",
+                    },
+                    {
+                      name: "Final Supervisor",
+                      value: "finalSupervisor",
+                    },
+                    {
+                      name: "Kit Supervisor",
+                      value: "kitSupervisor",
+                    },
+                    {
+                      name: "Line Supervisor",
+                      value: "lineSupervisor",
+                    },
                     { name: "Fitter", value: "fitter" },
-                    { name: "Electrician", value: "electrician" },
+                    {
+                      name: "Electrician",
+                      value: "electrician",
+                    },
                   ]
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
                     .map((item, index) => (
@@ -701,7 +1067,10 @@ function ManageRoles() {
                   id="demo-simple-select-outlined"
                   value={data?.department}
                   onChange={(e) =>
-                    setData({ ...data, department: e.target.value })
+                    setData({
+                      ...data,
+                      department: e.target.value,
+                    })
                   }
                   label="Department"
                 >
@@ -709,11 +1078,23 @@ function ManageRoles() {
                     <em>None</em>
                   </MenuItem>
                   {[
-                    { name: "Management", value: "management" },
+                    {
+                      name: "Management",
+                      value: "management",
+                    },
                     { name: "FIBC", value: "fibc" },
-                    { name: "Quality", value: "quality" },
-                    { name: "Planning", value: "planning" },
-                    { name: "Improvement Office", value: "improvementOffice" },
+                    {
+                      name: "Quality",
+                      value: "quality",
+                    },
+                    {
+                      name: "Planning",
+                      value: "planning",
+                    },
+                    {
+                      name: "Improvement Office",
+                      value: "improvementOffice",
+                    },
                     { name: "Other", value: "other" },
                   ]
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -745,7 +1126,12 @@ function ManageRoles() {
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={data?.role}
-                  onChange={(e) => setData({ ...data, role: e.target.value })}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      role: e.target.value,
+                    })
+                  }
                   label="Role"
                 >
                   <MenuItem value="">
@@ -753,10 +1139,19 @@ function ManageRoles() {
                   </MenuItem>
                   {[
                     { name: "Admin", value: "admin" },
-                    { name: "Non Admin", value: "nonAdmin" },
+                    {
+                      name: "Non Admin",
+                      value: "nonAdmin",
+                    },
                     { name: "User", value: "user" },
-                    { name: "Head User", value: "headUser" },
-                    { name: "Non User", value: "nonUser" },
+                    {
+                      name: "Head User",
+                      value: "headUser",
+                    },
+                    {
+                      name: "Non User",
+                      value: "nonUser",
+                    },
                   ]
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
                     .map((item, index) => (
@@ -787,7 +1182,12 @@ function ManageRoles() {
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={data?.zone}
-                  onChange={(e) => setData({ ...data, zone: e.target.value })}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      zone: e.target.value,
+                    })
+                  }
                   label="Line"
                 >
                   <MenuItem value="">
@@ -820,7 +1220,12 @@ function ManageRoles() {
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={data?.wing}
-                  onChange={(e) => setData({ ...data, wing: e.target.value })}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      wing: e.target.value,
+                    })
+                  }
                   label="Wing"
                 >
                   <MenuItem value="">
@@ -869,7 +1274,7 @@ function ManageRoles() {
             ></Grid>
 
             {/* accessibility */}
-            <Grid container item xs={12} style={{ alignItems: "center" }}>
+            {/* <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
                   Accessibility
@@ -932,7 +1337,7 @@ function ManageRoles() {
                   labelPlacement="end"
                 />
               </Grid>
-            </Grid>
+            </Grid> */}
 
             {/* shift */}
             <Grid container item xs={12} style={{ alignItems: "center" }}>
@@ -980,7 +1385,7 @@ function ManageRoles() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={3}>
+              {/* <Grid item xs={12} md={3}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -998,7 +1403,7 @@ function ManageRoles() {
                   label="C"
                   labelPlacement="end"
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
 
             {/* Responsibility */}

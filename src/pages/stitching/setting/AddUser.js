@@ -17,9 +17,11 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
-import { stitchingLines, wings } from "../../../Utility/constants";
+import { stitchingLines, theme, wings } from "../../../Utility/constants";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+
 function AddUser({ loadData }) {
   const Dispatch = useDispatch();
 
@@ -29,7 +31,7 @@ function AddUser({ loadData }) {
     username: "",
     password: "",
     email: "",
-    designation: "supervisor",
+    designation: "",
     role: "",
     zone: "",
     wing: "",
@@ -72,9 +74,12 @@ function AddUser({ loadData }) {
       role: data.role,
       zone: data.zone,
       wing: data.wing,
-      accessibilityCutting: data.accessibilityCutting ? 1 : 0,
-      accessibilityStitching: data.accessibilityStitching ? 1 : 0,
-      accessibilityChecking: data.accessibilityChecking ? 1 : 0,
+      // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
+      // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
+      // accessibilityChecking: data.accessibilityChecking ? 1 : 0,
+      accessibilityCutting: 1,
+      accessibilityStitching: 1,
+      accessibilityChecking: 1,
       workerID: data.workerID,
       image: data.image,
       department: data.department,
@@ -146,17 +151,19 @@ function AddUser({ loadData }) {
     <Grid container justifyContent="flex-end">
       <Grid item xs={12}>
         <Button
+          disableElevation
           variant="contained"
           fullWidth
           style={{
-            backgroundColor: "#0e4a7b",
+            backgroundColor: "transparent",
             color: "#FFF",
             whiteSpace: "nowrap",
             height: "100%",
           }}
           onClick={handleClickOpen}
         >
-          ADD USER
+          {/* ADD USER */}
+          <PersonAddIcon style={{ color: "#0e4a7b", fontSize: 32 }} />
         </Button>
       </Grid>
       <Dialog
@@ -191,6 +198,8 @@ function AddUser({ loadData }) {
             >
               <TextField
                 error={!data?.workerID}
+                helperText="Should only have numbers"
+                type="number"
                 required
                 fullWidth
                 id="outlined-basic"
@@ -212,7 +221,23 @@ function AddUser({ loadData }) {
               }}
             >
               <TextField
-                error={!data?.username}
+                error={
+                  !Boolean(
+                    !String(data.username)
+                      .toLowerCase()
+                      .match(/^-?\d*\.?\d*$/)
+                  )
+                }
+                helperText={
+                  Boolean(
+                    !String(data.username)
+                      .toLowerCase()
+                      .match(/^-?\d*\.?\d*$/)
+                  )
+                    ? null
+                    : "Username can't have numbers."
+                }
+                // error={!data?.username}
                 required
                 id="outlined-basic"
                 label="Username"
@@ -235,6 +260,7 @@ function AddUser({ loadData }) {
             >
               <TextField
                 error={!data?.password}
+                helperText="Required"
                 required
                 id="outlined-basic"
                 label="Password"
@@ -340,6 +366,8 @@ function AddUser({ loadData }) {
                     setData({ ...data, designation: e.target.value })
                   }
                   label="Designation"
+                  error={!data?.designation}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -391,6 +419,8 @@ function AddUser({ loadData }) {
                     setData({ ...data, department: e.target.value })
                   }
                   label="Department"
+                  error={!data?.department}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -434,6 +464,8 @@ function AddUser({ loadData }) {
                   value={data.role}
                   onChange={(e) => setData({ ...data, role: e.target.value })}
                   label="Role"
+                  error={!data?.role}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -484,6 +516,8 @@ function AddUser({ loadData }) {
                   value={data.zone}
                   onChange={(e) => setData({ ...data, zone: e.target.value })}
                   label="Line"
+                  error={!data?.zone}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -517,6 +551,8 @@ function AddUser({ loadData }) {
                   value={data.wing}
                   onChange={(e) => setData({ ...data, wing: e.target.value })}
                   label="Wing"
+                  error={!data?.wing}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -564,7 +600,7 @@ function AddUser({ loadData }) {
             ></Grid>
 
             {/* accessibility */}
-            <Grid container item xs={12} style={{ alignItems: "center" }}>
+            {/* <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
                   Accessibility
@@ -627,7 +663,7 @@ function AddUser({ loadData }) {
                   labelPlacement="end"
                 />
               </Grid>
-            </Grid>
+            </Grid> */}
 
             {/* Shift */}
             <Grid container item xs={12} style={{ alignItems: "center" }}>
@@ -674,7 +710,7 @@ function AddUser({ loadData }) {
                   labelPlacement="end"
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              {/* <Grid item xs={12} md={3}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -692,7 +728,7 @@ function AddUser({ loadData }) {
                   label="C"
                   labelPlacement="end"
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
 
             {/* Responsibility */}
@@ -829,9 +865,13 @@ function AddUser({ loadData }) {
           </Button>
           <Button
             variant="contained"
-            color="primary"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
             onClick={submitUserForm}
-            autoFocus
           >
             SAVE
           </Button>

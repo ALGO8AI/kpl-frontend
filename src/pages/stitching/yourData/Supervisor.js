@@ -34,6 +34,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
+import { theme } from "../../../Utility/constants";
 
 // import { Switch } from "react-router";
 
@@ -659,7 +660,7 @@ function Supervisor(props) {
             marginBottom: "12px",
           }}
         >
-          <Grid container item xs={6} md={4}>
+          <Grid container item xs={6} md={2}>
             <TextField
               key="from"
               id="fromDate"
@@ -682,7 +683,7 @@ function Supervisor(props) {
               fullWidth
             />
           </Grid>
-          <Grid container item xs={6} md={4}>
+          <Grid container item xs={6} md={2}>
             <TextField
               key="to"
               id="fromDate"
@@ -705,26 +706,35 @@ function Supervisor(props) {
               fullWidth
             />
           </Grid>
-          <Grid
-            container
-            item
-            xs={6}
-            md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
-          >
-            <Button variant="contained" color="primary" onClick={filterData}>
+          <Grid container item xs={6} md={4}></Grid>
+          <Grid container item xs={6} md={2} style={{ paddingRight: "12px" }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: theme.BLUE,
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                height: "100%",
+              }}
+              fullWidth
+              onClick={filterData}
+            >
               <FilterListIcon />
               Filter
             </Button>
           </Grid>
-          <Grid
-            container
-            item
-            xs={6}
-            md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
-          >
-            <Button variant="contained" color="primary" onClick={loadData}>
+          <Grid container item xs={6} md={2} style={{ paddingRight: "12px" }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: theme.BLUE,
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                height: "100%",
+              }}
+              fullWidth
+              onClick={loadData}
+            >
               <RefreshIcon />
               Refresh
             </Button>

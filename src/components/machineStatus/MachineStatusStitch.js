@@ -23,6 +23,7 @@ import Chart from "react-apexcharts";
 import { stitchingLines, theme } from "../../Utility/constants";
 import { getLiveMachine } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const useStyles = makeStyles({
   paper: {
@@ -92,11 +93,11 @@ function MachineStatusStitch() {
     // },
   ];
   const status = {
-    Stopped: <PauseCircleFilledIcon style={{ color: "#FFC014" }} />,
-    Running: <CheckCircleIcon style={{ color: "#05c422" }} />,
-    Offline: <CancelIcon style={{ color: "#C40303" }} />,
-    Disabled: <FiberManualRecordIcon style={{ color: "#727272" }} />,
-    Breakdown: <InfoIcon style={{ color: "#F0983D" }} />,
+    Stopped: <PauseCircleFilledIcon style={{ color: "#F6E00A" }} />,
+    Running: <CheckCircleIcon style={{ color: "#11DF30" }} />,
+    Offline: <CancelIcon style={{ color: "#898989" }} />,
+    Disabled: <FiberManualRecordIcon style={{ color: "#DF5C1A" }} />,
+    Breakdown: <InfoIcon style={{ color: "#FF0000" }} />,
   };
   const [machineData, setMachineData] = useState({ data1: [], data2: [] });
 
@@ -188,7 +189,7 @@ function MachineStatusStitch() {
               dataLabels: {
                 enabled: false,
               },
-              colors: ["#05c422", "#FFC014", "#C40303", "#727272", "#F0983D"],
+              colors: ["#11DF30", "#F6E00A", "#898989", "#DF5C1A", "#FF0000"],
               labels: [
                 "RUNNING",
                 "STOPPED",
@@ -261,10 +262,10 @@ function MachineStatusStitch() {
           onClick={() => AddMachineType("Running")}
           className={classes.paper}
         >
-          <div className="title" style={{ color: "#05c422" }}>
+          <div className="title" style={{ color: "#11DF30" }}>
             <CheckCircleIcon style={{ marginRight: "8px" }} /> RUNNING
           </div>
-          <div className="title" style={{ color: "#05c422", fontSize: "48px" }}>
+          <div className="title" style={{ color: "#11DF30", fontSize: "48px" }}>
             {
               machineData?.data1?.filter((item) => item.status === "Running")
                 .length
@@ -278,10 +279,10 @@ function MachineStatusStitch() {
           onClick={() => AddMachineType("Stopped")}
           className={classes.paper}
         >
-          <div className="title" style={{ color: "#FFC014" }}>
+          <div className="title" style={{ color: "#F6E00A" }}>
             <PauseCircleFilledIcon style={{ marginRight: "8px" }} /> STOPPED
           </div>
-          <div className="title" style={{ color: "#FFC014", fontSize: "48px" }}>
+          <div className="title" style={{ color: "#F6E00A", fontSize: "48px" }}>
             {
               machineData?.data1?.filter((item) => item.status === "Stopped")
                 .length
@@ -295,10 +296,10 @@ function MachineStatusStitch() {
           onClick={() => AddMachineType("Offline")}
           className={classes.paper}
         >
-          <div className="title" style={{ color: "#C40303" }}>
+          <div className="title" style={{ color: "#898989" }}>
             <CancelIcon style={{ marginRight: "8px" }} /> OFFLINE
           </div>
-          <div className="title" style={{ color: "#C40303", fontSize: "48px" }}>
+          <div className="title" style={{ color: "#898989", fontSize: "48px" }}>
             {
               machineData?.data1?.filter((item) => item.status === "Offline")
                 .length
@@ -312,10 +313,10 @@ function MachineStatusStitch() {
           onClick={() => AddMachineType("Disabled")}
           className={classes.paper}
         >
-          <div className="title" style={{ color: "#727272" }}>
+          <div className="title" style={{ color: "#DF5C1A" }}>
             <FiberManualRecordIcon style={{ marginRight: "8px" }} /> DISABLED
           </div>
-          <div className="title" style={{ color: "#727272", fontSize: "48px" }}>
+          <div className="title" style={{ color: "#DF5C1A", fontSize: "48px" }}>
             {
               machineData?.data1?.filter((item) => item.status === "Disabled")
                 .length
@@ -329,10 +330,10 @@ function MachineStatusStitch() {
           onClick={() => AddMachineType("Breakdown")}
           className={classes.paper}
         >
-          <div className="title" style={{ color: "#F0983D" }}>
+          <div className="title" style={{ color: "#FF0000" }}>
             <InfoIcon style={{ marginRight: "8px" }} /> BREAKDOWN
           </div>
-          <div className="title" style={{ color: "#F0983D", fontSize: "48px" }}>
+          <div className="title" style={{ color: "#FF0000", fontSize: "48px" }}>
             {
               machineData?.data1?.filter((item) => item.status === "Breakdown")
                 .length
@@ -343,94 +344,125 @@ function MachineStatusStitch() {
       <Grid xs={12} style={{ marginTop: "8px" }}>
         <Paper elevation={5} style={{ width: "100%", padding: "12px" }}>
           <Grid container style={{ margin: "24px 0", height: "56px" }}>
-            <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: openFilter ? theme.ORANGE : theme.BLUE,
-                  color: "#FFF",
-                  whiteSpace: "nowrap",
-                  height: "100%",
-                }}
-                fullWidth
-                onClick={() => {
-                  setOpenFilter(!openFilter);
-                }}
-              >
-                <FilterListIcon />
-                FILTER
-              </Button>
-            </Grid>
-            <Grid container item xs={12} lg={3}>
-              {openFilter && (
-                <>
-                  <Grid
-                    item
-                    xs={12}
-                    lg={4}
-                    style={{ paddingRight: "12px", height: "100%" }}
+            <Grid container item xs={12} lg={4}>
+              <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
+                <FormControl variant="outlined" fullWidth>
+                  <InputLabel keyid="demo-simple-select-outlined-label">
+                    Wing
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    // value={filterCondition.wing}
+                    // onChange={(e) =>
+                    //   setFilterConditiion({
+                    //     ...filterCondition,
+                    //     wing: e.target.value,
+                    //   })
+                    // }
+                    label="Wing"
+                    style={{ height: "56px" }}
+                    // multiple
                   >
-                    <FormControl variant="outlined" fullWidth>
-                      <InputLabel keyid="demo-simple-select-outlined-label">
-                        Wing
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-outlined-label"
-                        id="demo-simple-select-outlined"
-                        // value={filterCondition.wing}
-                        // onChange={(e) =>
-                        //   setFilterConditiion({
-                        //     ...filterCondition,
-                        //     wing: e.target.value,
-                        //   })
-                        // }
-                        label="Wing"
-                        style={{ height: "56px" }}
-                        // multiple
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        {["FG2"].map((item, index) => (
-                          <MenuItem value={item} key={index}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {["FG2"].map((item, index) => (
+                      <MenuItem value={item} key={index}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
+                <FormControl variant="outlined" fullWidth>
+                  <InputLabel keyid="demo-simple-select-outlined-label">
+                    Line
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    // value={filterCondition.zone}
+                    // onChange={(e) =>
+                    //   setFilterConditiion({
+                    //     ...filterCondition,
+                    //     zone: e.target.value,
+                    //   })
+                    // }
+                    label="Line"
+                    style={{ height: "56px" }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {stitchingLines.map((item, index) => (
+                      <MenuItem value={item} key={index}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: theme.BLUE,
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    height: "100%",
+                  }}
+                  fullWidth
+                >
+                  <FilterListIcon />
+                  FILTER
+                </Button>
+              </Grid>
+              <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: theme.BLUE,
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    height: "100%",
+                  }}
+                  fullWidth
+                >
+                  <RefreshIcon />
+                  REFRESH
+                </Button>
+              </Grid>
+              {/* <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
 
-                  <Grid item xs={12} lg={4} style={{ paddingRight: "12px" }}>
-                    <FormControl variant="outlined" fullWidth>
-                      <InputLabel keyid="demo-simple-select-outlined-label">
-                        Line
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-outlined-label"
-                        id="demo-simple-select-outlined"
-                        // value={filterCondition.zone}
-                        // onChange={(e) =>
-                        //   setFilterConditiion({
-                        //     ...filterCondition,
-                        //     zone: e.target.value,
-                        //   })
-                        // }
-                        label="Line"
-                        style={{ height: "56px" }}
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        {stitchingLines.map((item, index) => (
-                          <MenuItem value={item} key={index}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </>
-              )}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                lg={4}
+                style={{ paddingRight: "12px", height: "100%" }}
+              >
+
+              </Grid>
+              <Grid item xs={12} lg={4} style={{ paddingRight: "12px" }}>
+                
+              </Grid>
+              <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: theme.BLUE,
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    height: "100%",
+                  }}
+                  fullWidth
+                >
+                  <FilterListIcon />
+                  FILTER
+                </Button>
+              </Grid> */}
             </Grid>
           </Grid>
           <MaterialTable

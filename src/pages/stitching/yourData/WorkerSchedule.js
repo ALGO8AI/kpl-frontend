@@ -54,7 +54,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
-import { theme as THEME, wings } from "../../../Utility/constants";
+import { theme, theme as THEME, wings } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -617,7 +617,14 @@ function WorkerSchedule(props) {
             <Grid container item xs={12} style={{ padding: "6px" }}>
               <Button
                 variant="contained"
-                color="primary"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                }}
                 fullWidth
                 onClick={addSchedule}
               >
@@ -651,9 +658,11 @@ function WorkerSchedule(props) {
           style={{
             padding: "4px",
             marginBottom: "12px",
+            maxHeight: "72px",
+            overflow: "hidden",
           }}
         >
-          <Grid container item xs={6} md={4}>
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
             <TextField
               key="from"
               id="fromDate"
@@ -676,7 +685,7 @@ function WorkerSchedule(props) {
               fullWidth
             />
           </Grid>
-          <Grid container item xs={6} md={4}>
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
             <TextField
               key="to"
               id="fromDate"
@@ -698,31 +707,64 @@ function WorkerSchedule(props) {
               }}
               fullWidth
             />
-          </Grid>
-          <Grid
-            container
-            item
-            xs={6}
-            md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
-          >
-            <Button variant="contained" color="primary" onClick={filterData}>
+          </Grid>{" "}
+          <Grid item xs={12} lg={4} style={{ paddingRight: "12px" }}></Grid>{" "}
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: theme.BLUE,
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                height: "100%",
+              }}
+              fullWidth
+              onClick={filterData}
+            >
               <FilterListIcon />
               Filter
             </Button>
-          </Grid>
-          <Grid
-            container
-            item
-            xs={6}
-            md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
-          >
-            <Button variant="contained" color="primary" onClick={loadData}>
+          </Grid>{" "}
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: theme.BLUE,
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                height: "100%",
+              }}
+              fullWidth
+              onClick={loadData}
+            >
               <RefreshIcon />
               Refresh
             </Button>
           </Grid>
+          {/* <Grid container item xs={6} md={4}>
+            
+          </Grid>
+          <Grid container item xs={6} md={4}>
+            
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            md={2}
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
+            
+          </Grid> */}
         </Grid>
         <Button
           variant="contained"
@@ -835,29 +877,29 @@ function WorkerSchedule(props) {
                                   workerName: row.workerName,
                                   date: `${
                                     new Date(row.Date)
-                                      .toLocaleDateString('en-GB')
+                                      .toLocaleDateString("en-GB")
                                       .split("/")[2]
                                   }-${
                                     +new Date(row.Date)
-                                      .toLocaleDateString('en-GB')
+                                      .toLocaleDateString("en-GB")
                                       .split("/")[1]?.length === 1
                                       ? +0 +
                                         new Date(row.Date)
-                                          .toLocaleDateString('en-GB')
+                                          .toLocaleDateString("en-GB")
                                           .split("/")[1]
                                       : new Date(row.Date)
-                                          .toLocaleDateString('en-GB')
+                                          .toLocaleDateString("en-GB")
                                           .split("/")[1]
                                   }-${
                                     +new Date(row.Date)
-                                      .toLocaleDateString('en-GB')
+                                      .toLocaleDateString("en-GB")
                                       .split("/")[0]?.length === 1
                                       ? +0 +
                                         new Date(row.Date)
-                                          .toLocaleDateString('en-GB')
+                                          .toLocaleDateString("en-GB")
                                           .split("/")[0]
                                       : new Date(row.Date)
-                                          .toLocaleDateString('en-GB')
+                                          .toLocaleDateString("en-GB")
                                           .split("/")[0]
                                   }`,
                                   // date: `${

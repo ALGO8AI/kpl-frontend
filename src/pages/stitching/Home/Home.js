@@ -38,6 +38,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
+import { theme } from "../../../Utility/constants";
 
 function Home() {
   // context
@@ -457,121 +458,93 @@ function Home() {
       alignItems="center"
       style={{ padding: "18px 6px 4px 6px" }}
     >
-      <Grid
-        container
-        item
-        xs={6}
-        sm={4}
-        lg={typeOfRange === "custom" ? 1 : 2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <FormControl
-          variant="outlined"
-          fullWidth
-          style={{ marginRight: "6px" }}
-        >
-          <InputLabel keyid="demo-simple-select-outlined-label">CTR</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            multiple
-            value={inputCTR}
-            onChange={(e) => setInputCTR(e.target.value)}
-            label="CTR"
-            // multiple
+      <Grid container item xs={12} style={{ marginBottom: "12px" }}>
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
           >
-            {clpCtr &&
-              clpCtr.map((item, index) => (
-                <MenuItem value={item.ctrs} key={index}>
-                  {item.ctrs}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid
-        container
-        item
-        xs={6}
-        sm={4}
-        lg={typeOfRange === "custom" ? 1 : 2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <FormControl
-          variant="outlined"
-          fullWidth
-          style={{ marginRight: "6px" }}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Machine ID
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            multiple
-            value={inputMACHINEid}
-            onChange={(e) => setInputMACHINEid(e.target.value)}
-            label="Machine ID"
-            // multiple
-          >
-            {machineID &&
-              machineID
-                .sort((a, b) =>
-                  a.machineID?.split("/")[2][0] > b.machineID?.split("/")[2][0]
-                    ? 1
-                    : -1
-                )
-                .map((item, index) => (
-                  <MenuItem value={item.machineID} key={index}>
-                    {item.machineID}
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              CTR
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputCTR}
+              onChange={(e) => setInputCTR(e.target.value)}
+              label="CTR"
+              // multiple
+            >
+              {clpCtr &&
+                clpCtr.map((item, index) => (
+                  <MenuItem value={item.ctrs} key={index}>
+                    {item.ctrs}
                   </MenuItem>
                 ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid
-        container
-        item
-        xs={6}
-        sm={4}
-        lg={2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <FormControl
-          variant="outlined"
-          fullWidth
-          style={{ marginRight: "6px" }}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Date Range
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={typeOfRange}
-            onChange={(e) => handleDateRange(e.target.value)}
-            label="Machine ID"
-            // multiple
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
           >
-            <MenuItem value={"weekly"}>Weekly</MenuItem>
-            <MenuItem value={"monthly"}>Monthly</MenuItem>
-            <MenuItem value={"custom"}>Custom</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-
-      {typeOfRange === "custom" && (
-        <>
-          <Grid
-            container
-            item
-            xs={6}
-            sm={4}
-            lg={2}
-            style={{ justifyContent: "center", marginBottom: "8px" }}
+            <InputLabel id="demo-simple-select-outlined-label">
+              Machine ID
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputMACHINEid}
+              onChange={(e) => setInputMACHINEid(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              {machineID &&
+                machineID
+                  .sort((a, b) =>
+                    a.machineID?.split("/")[2][0] >
+                    b.machineID?.split("/")[2][0]
+                      ? 1
+                      : -1
+                  )
+                  .map((item, index) => (
+                    <MenuItem value={item.machineID} key={index}>
+                      {item.machineID}
+                    </MenuItem>
+                  ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
           >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Date Range
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={typeOfRange}
+              onChange={(e) => handleDateRange(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              <MenuItem value={"weekly"}>Weekly</MenuItem>
+              <MenuItem value={"monthly"}>Monthly</MenuItem>
+              <MenuItem value={"custom"}>Custom</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        {typeOfRange === "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
             <TextField
               key="from"
               id="fromDate"
@@ -594,15 +567,9 @@ function Home() {
               fullWidth
             />
           </Grid>
-
-          <Grid
-            container
-            item
-            xs={6}
-            sm={4}
-            lg={2}
-            style={{ justifyContent: "center", marginBottom: "8px" }}
-          >
+        )}
+        {typeOfRange === "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
             <TextField
               key="to"
               id="toDate"
@@ -622,103 +589,88 @@ function Home() {
               fullWidth
             />
           </Grid>
-        </>
-      )}
-
-      {role === "Admin" || role === "Non Admin" ? (
-        <Grid
-          container
-          item
-          xs={4}
-          sm={4}
-          lg={2}
-          style={{ justifyContent: "center", marginBottom: "8px" }}
-        >
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel id="demo-simple-select-outlined-label">
-              Shift
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputSHIFT}
-              onChange={(e) => setInputSHIFT(e.target.value)}
-              label="Shift"
-              // multiple
+        )}
+        {role === "Admin" || role === "Non Admin" ? (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
             >
-              <MenuItem value="A">A</MenuItem>
-              <MenuItem value="B">B</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      ) : (
-        <Grid
-          container
-          item
-          xs={4}
-          sm={4}
-          lg={2}
-          style={{ justifyContent: "center", marginBottom: "8px" }}
-        ></Grid>
-      )}
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+              >
+                <MenuItem value="A">A</MenuItem>
+                <MenuItem value="B">B</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        ) : (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        )}
 
-      <Grid
-        container
-        item
-        // sm={12}
-        xs={4}
-        sm={4}
-        lg={typeOfRange === "custom" ? 1 : 2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ margin: "10px" }}
-          onClick={() => {
-            Dispatch({
-              type: "ENABLE_HOME_FILTER",
-            });
-            dateFilter();
-          }}
-        >
-          <FilterListIcon />
-          Filter
-        </Button>
+        {typeOfRange !== "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>
+        )}
+        {typeOfRange !== "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>
+        )}
+
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={() => {
+              Dispatch({
+                type: "ENABLE_HOME_FILTER",
+              });
+              dateFilter();
+            }}
+          >
+            <FilterListIcon />
+            Filter
+          </Button>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={() => {
+              Dispatch({
+                type: "DISABLE_HOME_FILTER",
+              });
+              refreshData();
+              setInputCTR([]);
+              setInputMACHINEid([]);
+              setInputSHIFT([]);
+            }}
+          >
+            <RefreshIcon />
+            Refresh
+          </Button>
+        </Grid>
       </Grid>
-      <Grid
-        container
-        item
-        // sm={12}
-        xs={4}
-        sm={4}
-        lg={typeOfRange === "custom" ? 1 : 2}
-        style={{ justifyContent: "center", marginBottom: "8px" }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          // style={{ margin: "10px" }}
-          // onClick={dateFilter}
-          onClick={() => {
-            Dispatch({
-              type: "DISABLE_HOME_FILTER",
-            });
-            refreshData();
-            setInputCTR([]);
-            setInputMACHINEid([]);
-            setInputSHIFT([]);
-          }}
-        >
-          <RefreshIcon />
-          Refresh
-        </Button>
-      </Grid>
+
       {/* <GraphData
         workerUtilization={workerUtilization}
         crowdingInstance={crowdingInstance}

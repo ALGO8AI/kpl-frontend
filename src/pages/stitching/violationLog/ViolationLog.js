@@ -37,6 +37,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
+import { theme } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -602,8 +603,216 @@ function ViolationLog1() {
         handleClose={handleCloseDialog}
         link={linkDialog}
       />
-      <Grid container>
-        <Grid
+      {/* FROM HOME */}
+      <Grid container item xs={12} style={{ marginBottom: "12px" }}>
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              CTR
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputCTR}
+              onChange={(e) => setInputCTR(e.target.value)}
+              label="CTR"
+              // multiple
+            >
+              {clpCtr &&
+                clpCtr.map((item, index) => (
+                  <MenuItem value={item.ctrs} key={index}>
+                    {item.ctrs}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Machine ID
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputMACHINEid}
+              onChange={(e) => setInputMACHINEid(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              {machineID &&
+                machineID
+                  .sort((a, b) =>
+                    a.machineID?.split("/")[2][0] >
+                    b.machineID?.split("/")[2][0]
+                      ? 1
+                      : -1
+                  )
+                  .map((item, index) => (
+                    <MenuItem value={item.machineID} key={index}>
+                      {item.machineID}
+                    </MenuItem>
+                  ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Date Range
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={typeOfRange}
+              onChange={(e) => handleDateRange(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              <MenuItem value={"weekly"}>Weekly</MenuItem>
+              <MenuItem value={"monthly"}>Monthly</MenuItem>
+              <MenuItem value={"custom"}>Custom</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        {typeOfRange === "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+            <TextField
+              id="fromDate"
+              label="From"
+              type="date"
+              value={state.violationFrom}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={(e) => {
+                e.target.value > state.violationTo
+                  ? Dispatch(openSnackbar_FROM())
+                  : dispatch({
+                      type: "VIO_FROM",
+                      payload: e.target.value,
+                    });
+              }}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+        )}
+        {typeOfRange === "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+            <TextField
+              id="toDate"
+              label="To"
+              type="date"
+              value={state.violationTo}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={(e) => {
+                e.target.value < state.violationFrom
+                  ? Dispatch(openSnackbar_TO())
+                  : dispatch({
+                      type: "VIO_TO",
+                      payload: e.target.value,
+                    });
+              }}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+        )}
+        {role === "Admin" || role === "Non Admin" ? (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+                // multiple
+              >
+                <MenuItem value="A">A</MenuItem>
+                <MenuItem value="B">B</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        ) : (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        )}
+
+        {typeOfRange !== "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>
+        )}
+        {typeOfRange !== "custom" && (
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>
+        )}
+
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={dateFilter}
+          >
+            <FilterListIcon />
+            Filter
+          </Button>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: theme.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={() => {
+              refreshData();
+              setInputCTR([]);
+              setInputMACHINEid([]);
+              setInputSHIFT([]);
+            }}
+          >
+            <RefreshIcon />
+            Refresh
+          </Button>
+        </Grid>
+      </Grid>
+      {/* Original */}
+
+      {/* <Grid
           container
           item
           xs={12}
@@ -615,66 +824,11 @@ function ViolationLog1() {
           }}
         >
           <Grid item xs={6} sm={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              fullWidth
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                CTR
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputCTR}
-                onChange={(e) => setInputCTR(e.target.value)}
-                label="CTR"
-                // multiple
-              >
-                {clpCtr &&
-                  clpCtr.map((item, index) => (
-                    <MenuItem value={item.ctrs} key={index}>
-                      {item.ctrs}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            
           </Grid>
 
           <Grid item xs={6} sm={6} lg={typeOfRange === "custom" ? 1 : 2}>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              fullWidth
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Machine ID
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputMACHINEid}
-                onChange={(e) => setInputMACHINEid(e.target.value)}
-                label="Machine ID"
-                // multiple
-              >
-                {machineID &&
-                  machineID
-                    .sort((a, b) =>
-                      a.machineID?.split("/")[2][0] >
-                      b.machineID?.split("/")[2][0]
-                        ? 1
-                        : -1
-                    )
-                    .map((item, index) => (
-                      <MenuItem value={item.machineID} key={index}>
-                        {item.machineID}
-                      </MenuItem>
-                    ))}
-              </Select>
-            </FormControl>
+            
           </Grid>
 
           <Grid
@@ -685,75 +839,17 @@ function ViolationLog1() {
             lg={2}
             // style={{ justifyContent: "center", marginBottom: "8px" }}
           >
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginLeft: "6px" }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Date Range
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={typeOfRange}
-                onChange={(e) => handleDateRange(e.target.value)}
-                label="Machine ID"
-                // multiple
-              >
-                <MenuItem value={"weekly"}>Weekly</MenuItem>
-                <MenuItem value={"monthly"}>Monthly</MenuItem>
-                <MenuItem value={"custom"}>Custom</MenuItem>
-              </Select>
-            </FormControl>
+            
           </Grid>
 
           {typeOfRange === "custom" && (
             <>
               <Grid item xs={6} sm={6} md={2}>
-                <TextField
-                  id="fromDate"
-                  label="From"
-                  type="date"
-                  value={state.violationFrom}
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(e) => {
-                    e.target.value > state.violationTo
-                      ? Dispatch(openSnackbar_FROM())
-                      : dispatch({
-                          type: "VIO_FROM",
-                          payload: e.target.value,
-                        });
-                  }}
-                  fullWidth
-                  variant="outlined"
-                />
+                
               </Grid>
 
               <Grid item xs={6} sm={6} md={2}>
-                <TextField
-                  id="toDate"
-                  label="To"
-                  type="date"
-                  value={state.violationTo}
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(e) => {
-                    e.target.value < state.violationFrom
-                      ? Dispatch(openSnackbar_TO())
-                      : dispatch({
-                          type: "VIO_TO",
-                          payload: e.target.value,
-                        });
-                  }}
-                  fullWidth
-                  variant="outlined"
-                />
+               
               </Grid>
             </>
           )}
@@ -767,27 +863,7 @@ function ViolationLog1() {
               lg={2}
               style={{ justifyContent: "center" }}
             >
-              <FormControl
-                variant="outlined"
-                fullWidth
-                style={{ marginRight: "6px" }}
-              >
-                <InputLabel id="demo-simple-select-outlined-label">
-                  Shift
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  multiple
-                  value={inputSHIFT}
-                  onChange={(e) => setInputSHIFT(e.target.value)}
-                  label="Shift"
-                  // multiple
-                >
-                  <MenuItem value="A">A</MenuItem>
-                  <MenuItem value="B">B</MenuItem>
-                </Select>
-              </FormControl>
+              
             </Grid>
           ) : (
             <Grid
@@ -842,131 +918,9 @@ function ViolationLog1() {
               Refresh
             </Button>
           </Grid>
-        </Grid>
-      </Grid>
+        </Grid> */}
 
       <Grid container>
-        {/* <Grid xs={12} style={{ textAlign: "center" }}>
-          <Typography
-            variant="body2"
-            style={{ padding: "2px", color: "#f68f1d" }}
-          >
-            Select to view the violation video
-            <br />
-            Note: If The video is unable to play, it might be under Process.
-          </Typography>
-        </Grid> */}
-        {/* <Grid container item xs={12} md={4} style={{ padding: "12px" }}>
-          {idLabel ? (
-            <Grid
-              xs={12}
-              style={{
-                // backgroundColor: "#f68f1d",
-                // color: "white",
-                fontWeight: "600",
-                fontSize: "16px",
-                textAlign: "center",
-                alignItems: "center",
-                justifyContent: "center",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <Typography
-                variant="body1"
-                style={{ padding: "6px", color: "#f68f1d" }}
-              >
-                {" "}
-                Violation Id:{" "}
-                <span srtle={{ fontWeight: "bold" }}>{idLabel}</span>
-              </Typography>
-              {link && (
-                <ReactPlayer
-                  key={link}
-                  url={link.replace(".avi", ".mp4")}
-                  controls={true}
-                  //  muted={true}
-                  //  playing={false}
-                  width="80%"
-                  height="auto"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                />
-              )}
-            </Grid>
-          ) : null}
-        </Grid> */}
-
-        {/* <Grid
-          container
-          item
-          xs={12}
-          sm={6}
-          md={4}
-          style={{
-            padding: "12px",
-            textAlign: "center",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          {img ? (
-            <>
-              {" "}
-              <Typography
-                variant="body1"
-                style={{ padding: "6px", color: "#f68f1d" }}
-              >
-                {" "}
-                Snapshot 1
-              </Typography>
-              <img
-                src={img}
-                onClick={() => getLink(img)}
-                style={{ width: "80%" }}
-                alt="profile"
-              />
-            </>
-          ) : null}
-        </Grid>
-        <Grid
-          container
-          item
-          xs={12}
-          sm={6}
-          md={4}
-          style={{
-            padding: "12px",
-            textAlign: "center",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          {img ? (
-            <>
-              {" "}
-              <Typography
-                variant="body1"
-                style={{ padding: "6px", color: "#f68f1d" }}
-              >
-                {" "}
-                Snapshot 2
-              </Typography>{" "}
-              <img
-                src={img}
-                onClick={() => getLink(img)}
-                style={{ width: "80%" }}
-                alt="profile"
-              />
-            </>
-          ) : null}
-        </Grid> */}
-
         <Grid item xs={12} md={12} style={{ padding: "1rem" }}>
           <AppBar position="static" className="customTab">
             <Tabs
@@ -1025,35 +979,6 @@ function ViolationLog1() {
                     title: "Violation ID",
                     field: "Id",
                   },
-                  // {
-                  //   title: "Status",
-                  //   field: "query",
-                  //   render: (rowData) => {
-                  //     return rowData.query === "Not Resolved" ? (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(249, 54, 54)",
-                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Not Resolved
-                  //       </p>
-                  //     ) : (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(74, 170, 22)",
-                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Resolved
-                  //       </p>
-                  //     );
-                  //   },
-                  // },
                   {
                     title: "Date",
                     field: "DateTime",

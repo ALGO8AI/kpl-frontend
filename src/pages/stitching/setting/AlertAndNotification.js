@@ -20,6 +20,16 @@ import { useSelector } from "react-redux";
 function AlertAndNotification() {
   // selector
   const { role } = useSelector((state) => state.Common);
+  const [disable, setDisable] = useState(false);
+
+  useState(() => {
+    if (role === "Admin" || role === "Non Admin") {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+    console.log(role);
+  }, [role]);
 
   // state
   const [manager, setManager] = useState({
@@ -344,6 +354,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={manager.mail}
                     checked={manager.mail}
@@ -359,6 +370,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={manager.text}
                     checked={manager.text}
@@ -374,6 +386,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={manager.push}
                     checked={manager.push}
@@ -393,6 +406,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={wingIncharge.mail}
                     checked={wingIncharge.mail}
@@ -411,6 +425,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={wingIncharge.text}
                     checked={wingIncharge.text}
@@ -429,6 +444,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={wingIncharge.push}
                     checked={wingIncharge.push}
@@ -451,6 +467,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={helper.mail}
                     checked={helper.mail}
@@ -466,6 +483,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={helper.text}
                     checked={helper.text}
@@ -481,6 +499,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={helper.push}
                     checked={helper.push}
@@ -500,6 +519,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={supervisor.mail}
                     checked={supervisor.mail}
@@ -515,6 +535,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={supervisor.text}
                     checked={supervisor.text}
@@ -530,6 +551,7 @@ function AlertAndNotification() {
               <Grid className="custom-checkbox" item xs={2}>
                 <label className="NotificationBadge">
                   <input
+                    disabled={disable}
                     type="checkbox"
                     value={supervisor.push}
                     checked={supervisor.push}
@@ -576,6 +598,7 @@ function AlertAndNotification() {
           <Grid className="custom-checkbox" item xs={2}>
             <label className="NotificationBadge">
               <input
+                disabled={disable}
                 type="checkbox"
                 value={crowding.alert}
                 checked={crowding.alert}
@@ -595,6 +618,7 @@ function AlertAndNotification() {
 
           <Grid container item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -609,6 +633,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -623,6 +648,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -638,6 +664,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -697,6 +724,7 @@ function AlertAndNotification() {
           <Grid className="custom-checkbox" item xs={2}>
             <label className="NotificationBadge">
               <input
+                disabled={disable}
                 type="checkbox"
                 value={workerIdle.alert}
                 checked={workerIdle.alert}
@@ -716,6 +744,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -730,6 +759,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -744,6 +774,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -759,6 +790,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -821,6 +853,7 @@ function AlertAndNotification() {
           <Grid className="custom-checkbox" item xs={2}>
             <label className="NotificationBadge">
               <input
+                disabled={disable}
                 type="checkbox"
                 value={feed.alert}
                 checked={feed.alert}
@@ -840,6 +873,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -852,6 +886,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -866,6 +901,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -879,6 +915,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -934,6 +971,7 @@ function AlertAndNotification() {
           <Grid className="custom-checkbox" item xs={2}>
             <label className="NotificationBadge">
               <input
+                disabled={disable}
                 type="checkbox"
                 value={machineBreak.alert}
                 checked={machineBreak.alert}
@@ -953,6 +991,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -968,6 +1007,7 @@ function AlertAndNotification() {
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
+              disabled={disable}
               label="Duration"
               variant="outlined"
               placeholder="in Mins"
@@ -984,6 +1024,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -999,6 +1040,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -1057,6 +1099,7 @@ function AlertAndNotification() {
           <Grid className="custom-checkbox" item xs={2}>
             <label className="NotificationBadge">
               <input
+                disabled={disable}
                 type="checkbox"
                 value={activeMonitor.alert}
                 checked={activeMonitor.alert}
@@ -1077,6 +1120,7 @@ function AlertAndNotification() {
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
               id="outlined-basic"
+              disabled={disable}
               label="Duration"
               variant="outlined"
               placeholder="in Mins"
@@ -1090,6 +1134,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -1107,6 +1152,7 @@ function AlertAndNotification() {
           </Grid>
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -1122,6 +1168,7 @@ function AlertAndNotification() {
 
           <Grid item xs={2} style={{ padding: "4px 16px" }}>
             <TextField
+              disabled={disable}
               id="outlined-basic"
               label="Duration"
               variant="outlined"
@@ -1198,6 +1245,11 @@ function AlertAndNotification() {
       <Grid container item xs={4}>
         <AddUser />
       </Grid> */}
+      {disable ? (
+        <Snackbar open={true}>
+          <Alert severity={"error"}>Only Accessible to Admin & Non Admin</Alert>
+        </Snackbar>
+      ) : null}
     </Grid>
   );
 }
