@@ -453,7 +453,7 @@ function ManageRoles() {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {["A", "B", "C"].map((item, index) => (
+              {["A", "B"].map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
                 </MenuItem>
@@ -995,10 +995,10 @@ function ManageRoles() {
                       name: "Manager",
                       value: "manager",
                     },
-                    {
-                      name: "Supervisor",
-                      value: "supervisor",
-                    },
+                    // {
+                    //   name: "Supervisor",
+                    //   value: "supervisor",
+                    // },
                     {
                       name: "Wing Incharge",
                       value: "wingIncharge",

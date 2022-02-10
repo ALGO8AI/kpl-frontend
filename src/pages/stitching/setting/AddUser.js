@@ -61,10 +61,18 @@ function AddUser({ loadData }) {
       return Dispatch(openSnackbar(true, "error", "Email required."));
     } else if (!data?.workerID) {
       return Dispatch(openSnackbar(true, "error", "Worker ID required."));
-    } else if (!data?.mobile) {
-      return Dispatch(openSnackbar(true, "error", "Mobile required."));
     } else if (!data?.password) {
       return Dispatch(openSnackbar(true, "error", "Password required."));
+    } else if (!data?.designation) {
+      return Dispatch(openSnackbar(true, "error", "Designation required."));
+    } else if (!data?.department) {
+      return Dispatch(openSnackbar(true, "error", "Department required."));
+    } else if (!data?.role) {
+      return Dispatch(openSnackbar(true, "error", "Role required."));
+    } else if (!data?.zone) {
+      return Dispatch(openSnackbar(true, "error", "Line required."));
+    } else if (!data?.wing) {
+      return Dispatch(openSnackbar(true, "error", "Wing required."));
     }
     const DATA = {
       username: data.username,
@@ -375,7 +383,7 @@ function AddUser({ loadData }) {
                   {[
                     { name: "Helper", value: "helper" },
                     { name: "Manager", value: "manager" },
-                    { name: "Supervisor", value: "supervisor" },
+                    // { name: "Supervisor", value: "supervisor" },
                     { name: "Wing Incharge", value: "wingIncharge" },
                     { name: "Director", value: "director" },
                     { name: "Senior Manager", value: "seniorManager" },
