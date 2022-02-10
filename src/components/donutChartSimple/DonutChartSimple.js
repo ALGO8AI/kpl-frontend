@@ -211,7 +211,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                 }}
               >
                 {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
-                  ? data[0]["max(scheduleHours)"]
+                  ? Number(data[0]["max(scheduleHours)"])?.toFixed(2)
                   : 0}
               </h6>
             </div>
@@ -260,7 +260,7 @@ function DonutChartSimple({ data, payload_data, link }) {
                 }}
               >
                 {data?.length > 0 && Boolean(data[0].MachineOffTime)
-                  ? data[0].MachineOffTime
+                  ? Number(data[0].MachineOffTime)?.toFixed(2)
                   : 0}
               </h6>
             </div>
@@ -308,8 +308,8 @@ function DonutChartSimple({ data, payload_data, link }) {
                 }}
               >
                 {data?.length > 0 && Boolean(data[0].breakdownTime)
-                  ? data[0].breakdownTime.toFixed(2)
-                  : 0}
+                  ? Number(data[0].breakdownTime)?.toFixed(2)
+                  : 0.0}
               </h6>
             </div>
           </div>
@@ -329,7 +329,7 @@ function DonutChartSimple({ data, payload_data, link }) {
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
-              ? data[0]["max(scheduleHours)"]
+              ? Number(data[0]["max(scheduleHours)"])?.toFixed(2)
               : 0}
           </span>
         </Typography>
@@ -347,7 +347,7 @@ function DonutChartSimple({ data, payload_data, link }) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {data?.length > 0 && Boolean(data[0].utilizationPercentage)
-              ? data[0].utilizationPercentage + "%"
+              ? Number(data[0].utilizationPercentage)?.toFixed(2) + "%"
               : 0}
           </span>
         </Typography>

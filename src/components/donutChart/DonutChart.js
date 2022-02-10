@@ -236,7 +236,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.totalTime}
+                {Number(props.totalTime)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -283,7 +283,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.idleDueToWorkerUnavailable}
+                {Number(props.idleDueToWorkerUnavailable)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -329,7 +329,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {props.other}
+                {Number(props.other)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -384,7 +384,7 @@ function DonutChart(props) {
         >
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {props.totalTime}
+            {Number(props.totalTime)?.toFixed(2)}
           </span>
         </Typography>
 
@@ -401,7 +401,7 @@ function DonutChart(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {props?.utilizationPercentage + "%"}
+            {Number(props?.utilizationPercentage)?.toFixed(2) + "%"}
           </span>
         </Typography>
       </div>

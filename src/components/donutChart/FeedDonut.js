@@ -205,7 +205,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.data?.totalTime}
+                {Number(props?.data?.totalTime)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -252,7 +252,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.data?.feedUnavailibilityDuration}
+                {Number(props?.data?.feedUnavailibilityDuration)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -298,7 +298,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.data?.balanceHours}
+                {Number(props?.data?.balanceHours)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -317,7 +317,7 @@ function FeedDonut(props) {
         >
           Total Scheduled Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {props?.data?.totalTime}
+            {Number(props?.data?.totalTime)?.toFixed(2)}
           </span>
         </Typography>
 
@@ -334,7 +334,7 @@ function FeedDonut(props) {
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {props?.data?.utilizationPercentage + "%"}
+            {Number(props?.data?.utilizationPercentage)?.toFixed(2) + "%"}
           </span>
         </Typography>
       </div>
