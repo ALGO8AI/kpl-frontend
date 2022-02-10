@@ -57,6 +57,10 @@ function AddUser({ loadData }) {
   const submitUserForm = async () => {
     if (!data?.username) {
       return Dispatch(openSnackbar(true, "error", "Username required."));
+    } else if (/\d/.test(data?.username)) {
+      return Dispatch(
+        openSnackbar(true, "error", "Username can't contains numbers.")
+      );
     } else if (!data?.email) {
       return Dispatch(openSnackbar(true, "error", "Email required."));
     } else if (!data?.workerID) {
