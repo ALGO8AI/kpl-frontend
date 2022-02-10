@@ -102,12 +102,18 @@ function ManageRoles() {
     setOpen(false);
   };
 
-  const revokeUser = async (name) => {
+  const revokeUser = async () => {
+    if (selected.length === 0) {
+      return Dispatch(openSnackbar(true, "error", "No User Selected"));
+    }
     try {
-      var txt = window.confirm("User access will be revoked, continue?");
+      var txt = window.confirm(
+        `${selected.length} Users access will be revoked, continue?`
+      );
       if (txt) {
-        const resp = await revokeUserAccess(name);
+        const resp = await revokeUserAccess(selected);
         if (resp?.msg) {
+          setSelected([]);
           Dispatch(
             openSnackbar(true, "success", "User Access Revoked Successfully")
           );
@@ -570,7 +576,15 @@ function ManageRoles() {
                 whiteSpace: "nowrap",
                 height: "52px",
               }}
-              onClick={() => setRevokeActive((prev) => !prev)}
+              onClick={() => {
+                if (role === "Admin") {
+                  revokeUser();
+                } else {
+                  Dispatch(
+                    openSnackbar(true, "error", "Only Accessible to admin.")
+                  );
+                }
+              }}
             >
               REVOKE
             </Button>
@@ -646,7 +660,7 @@ function ManageRoles() {
                     "Email",
                     "Mobile",
                     "Update",
-                    "Revoke",
+                    // "Revoke",
                   ].map((column) => (
                     <StyledTableCell
                       key={column.id}
@@ -775,7 +789,7 @@ function ManageRoles() {
                             UPDATE
                           </button>
                         </StyledTableDataCell>
-                        <StyledTableDataCell>
+                        {/* <StyledTableDataCell>
                           <button
                             onClick={() => {
                               if (role === "Admin") {
@@ -803,7 +817,7 @@ function ManageRoles() {
                           >
                             REVOKE
                           </button>
-                        </StyledTableDataCell>
+                        </StyledTableDataCell> */}
                       </TableRow>
                     );
                   })}
