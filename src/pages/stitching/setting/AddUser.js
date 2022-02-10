@@ -57,11 +57,13 @@ function AddUser({ loadData }) {
   const submitUserForm = async () => {
     if (!data?.username) {
       return Dispatch(openSnackbar(true, "error", "Username required."));
-    } else if (/\d/.test(data?.username)) {
-      return Dispatch(
-        openSnackbar(true, "error", "Username can't contains numbers.")
-      );
-    } else if (!data?.email) {
+    }
+    // else if (/\d/.test(data?.username)) {
+    //   return Dispatch(
+    //     openSnackbar(true, "error", "Username can't contains numbers.")
+    //   );
+    // }
+    else if (!data?.email) {
       return Dispatch(openSnackbar(true, "error", "Email required."));
     } else if (!data?.workerID) {
       return Dispatch(openSnackbar(true, "error", "Worker ID required."));
@@ -234,20 +236,16 @@ function AddUser({ loadData }) {
             >
               <TextField
                 error={
-                  !Boolean(
-                    !String(data.username)
-                      .toLowerCase()
-                      .match(/^-?\d*\.?\d*$/)
-                  )
+                  !data?.username
+                    ? true
+                    : /\d/.test(data?.username)
+                    ? true
+                    : false
                 }
                 helperText={
-                  Boolean(
-                    !String(data.username)
-                      .toLowerCase()
-                      .match(/^-?\d*\.?\d*$/)
-                  )
-                    ? null
-                    : "Username can't have numbers."
+                  /\d/.test(data?.username)
+                    ? "Username can't have numeric value"
+                    : "Required"
                 }
                 // error={!data?.username}
                 required
@@ -311,7 +309,7 @@ function AddUser({ loadData }) {
                         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
                       )
                   )
-                    ? null
+                    ? "Valid Email"
                     : "Enter Valid Email"
                 }
                 required
@@ -345,7 +343,7 @@ function AddUser({ loadData }) {
                 inputProps={{
                   maxLength: 10,
                 }}
-                required
+                // required
                 fullWidth
                 id="outlined-basic"
                 label="Mobile"
@@ -872,7 +870,15 @@ function AddUser({ loadData }) {
         </DialogContentText>
 
         <DialogActions>
-          <Button onClick={handleClose} variant="contained" color="secondary">
+          <Button
+            onClick={handleClose}
+            variant="contained"
+            style={{
+              backgroundColor: "#fff",
+              color: "#0e4a7bF",
+              border: "1px solid #0e4a7b",
+            }}
+          >
             CANCEL
           </Button>
           <Button
@@ -882,6 +888,7 @@ function AddUser({ loadData }) {
               color: "#FFF",
               whiteSpace: "nowrap",
               height: "100%",
+              border: "1px solid #0e4a7b",
             }}
             onClick={submitUserForm}
           >

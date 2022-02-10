@@ -396,9 +396,6 @@ function ManageRoles() {
               style={{ height: "56px" }}
               multiple
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               {wings.map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -426,9 +423,6 @@ function ManageRoles() {
               label="Line"
               style={{ height: "56px" }}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               {stitchingLines.map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -456,9 +450,6 @@ function ManageRoles() {
               label="Shift"
               style={{ height: "56px" }}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               {["A", "B"].map((item, index) => (
                 <MenuItem value={item} key={index}>
                   {item}
@@ -1553,13 +1544,22 @@ function ManageRoles() {
         </DialogContentText>
 
         <DialogActions>
-          <Button onClick={handleClose} variant="contained" color="secondary">
+          <Button
+            onClick={handleClose}
+            variant="contained"
+            style={{
+              backgroundColor: "#fff",
+              color: "#0e4a7bF",
+              border: "1px solid #0e4a7b",
+            }}
+          >
             CANCEL
           </Button>
           <Button
             variant="contained"
             style={{
               backgroundColor: "#0e4a7b",
+              border: "1px solid #0e4a7b",
               color: "#FFF",
             }}
             onClick={() => {
