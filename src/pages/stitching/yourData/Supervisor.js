@@ -199,6 +199,42 @@ function Supervisor(props) {
         </button>
       ),
     },
+    {
+      title: "Delete",
+      render: (x) => (
+        <button
+          style={{
+            color: "#0e4a7b",
+            textDecoration: "underline",
+            backgroundColor: "white",
+            padding: "8px 16px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+          onClick={() => {
+            if (
+              role === "Admin" ||
+              role === "Head User" ||
+              role === "Non Admin"
+            ) {
+              deleteSUpervisor(x.id);
+            } else {
+              Dispatch(
+                openSnackbar(
+                  true,
+                  "error",
+                  `This option is not available to ${role}`
+                )
+              );
+            }
+          }}
+        >
+          DELETE
+        </button>
+      ),
+    },
   ];
   const [userdata, setUserData] = useState({
     id: "",
@@ -304,14 +340,14 @@ function Supervisor(props) {
     } catch (err) {}
   };
 
-  const deleteSUpervisor = async () => {
+  const deleteSUpervisor = async (id) => {
     try {
       const confirm = window.confirm(
         "Are you sure you want to delete the schedule?"
       );
       if (confirm) {
         const resp = await deleteStitchingSupervisorSchedule({
-          id: userdata.id,
+          id,
         });
         console.log(resp);
         if (resp?.data) {
@@ -661,22 +697,6 @@ function Supervisor(props) {
                 onClick={updateSupervisor}
               >
                 UPDATE
-              </Button>
-            </Grid>
-            <Grid container item xs={12} style={{ padding: "6px" }}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#b53f3f",
-                  color: "#FFF",
-                  whiteSpace: "nowrap",
-                  width: "100%",
-                  height: "fit-content",
-                  border: "1px solid #b53f3f",
-                }}
-                onClick={deleteSUpervisor}
-              >
-                DELETE
               </Button>
             </Grid>
           </Grid>
