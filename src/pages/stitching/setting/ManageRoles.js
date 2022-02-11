@@ -904,6 +904,7 @@ function ManageRoles() {
               }}
             >
               <TextField
+                disabled
                 id="outlined-basic"
                 label="Username"
                 variant="outlined"
@@ -950,6 +951,7 @@ function ManageRoles() {
               }}
             >
               <TextField
+                disabled
                 fullWidth
                 id="outlined-basic"
                 label="Email"

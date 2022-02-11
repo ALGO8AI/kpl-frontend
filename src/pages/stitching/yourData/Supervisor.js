@@ -23,6 +23,7 @@ import {
   addStitchingSupervisorSingle,
   updateStitchingSupervisorSingle,
   getAllSupervisorList,
+  deleteStitchingSupervisorSchedule,
 } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -301,6 +302,38 @@ function Supervisor(props) {
         lineSupervisor: false,
       });
     } catch (err) {}
+  };
+
+  const deleteSUpervisor = async () => {
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete the schedule?"
+      );
+      if (confirm) {
+        const resp = await deleteStitchingSupervisorSchedule({
+          id: userdata.id,
+        });
+        console.log(resp);
+        if (resp?.data) {
+          Dispatch(openSnackbar(true, "success", "Schedule Deleted"));
+          setUserData({
+            id: "",
+            supervisorName: "",
+            supervisorId: "",
+            date: "",
+            shift: "",
+            wing: "",
+            line: "",
+            kitSupervisor: false,
+            lineSupervisor: false,
+          });
+          setEdit(false);
+          loadData();
+        }
+      } else {
+        Dispatch(openSnackbar(true, "error", "Operation Cancelled"));
+      }
+    } catch (e) {}
   };
 
   return (
@@ -628,6 +661,22 @@ function Supervisor(props) {
                 onClick={updateSupervisor}
               >
                 UPDATE
+              </Button>
+            </Grid>
+            <Grid container item xs={12} style={{ padding: "6px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#b53f3f",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  height: "fit-content",
+                  border: "1px solid #b53f3f",
+                }}
+                onClick={deleteSUpervisor}
+              >
+                DELETE
               </Button>
             </Grid>
           </Grid>

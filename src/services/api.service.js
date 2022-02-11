@@ -1731,6 +1731,15 @@ export const deleteCheckingSupervisorSchedule = async (data) => {
   );
 };
 
+export const deleteStitchingSupervisorSchedule = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/stitching/supervisorSchedule/delete",
+    true,
+    data
+  );
+};
+
 export const deleteStitchingWorkerSchedule = async (data) => {
   return await callBackend(
     "POST",
