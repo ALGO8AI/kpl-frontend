@@ -36,15 +36,24 @@ function VideoWall() {
 
   return (
     <Grid container xs={12} spacing={2} style={{ margin: "12px 0px" }}>
-      <Grid container item xs={12} style={{ marginBottom: "12px" }}>
-        <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
+      <Grid
+        container
+        item
+        xs={12}
+        style={{
+          marginBottom: "12px",
+        }}
+      >
+        {/* <Grid
+          xs={12}
+          lg={1}
+          style={{
+            paddingRight: "12px",
+          }}
+        >
           <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              label="Current CTR"
-            >
+            <Select label="Current CTR">
               <MenuItem>Wing 1</MenuItem>
             </Select>
           </FormControl>
@@ -65,8 +74,8 @@ function VideoWall() {
               ))}
             </Select>
           </FormControl>
-        </Grid>
-        <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
+        </Grid> */}
+        {/* <Grid xs={12} lg={1} style={{ paddingRight: "12px" }}>
           <Button
             variant="contained"
             style={{
@@ -96,8 +105,8 @@ function VideoWall() {
             Refresh
           </Button>
         </Grid>
-        <Grid xs={12} lg={4} style={{}}></Grid>
-        <Grid xs={12} lg={4} style={{ paddingRight: "12px" }}>
+        <Grid xs={12} lg={4} style={{}}></Grid> */}
+        <Grid xs={12} lg={5} style={{ paddingRight: "12px" }}>
           <Alert>
             If Video is not available, refresh the page! To view extended video,
             Click on video.

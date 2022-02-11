@@ -662,7 +662,7 @@ function WorkerSchedule(props) {
             overflow: "hidden",
           }}
         >
-          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
             <TextField
               key="from"
               id="fromDate"
@@ -685,7 +685,7 @@ function WorkerSchedule(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <Grid item xs={12} lg={3} style={{ paddingRight: "12px" }}>
             <TextField
               key="to"
               id="fromDate"
@@ -708,7 +708,7 @@ function WorkerSchedule(props) {
               fullWidth
             />
           </Grid>{" "}
-          <Grid item xs={12} lg={4} style={{ paddingRight: "12px" }}></Grid>{" "}
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>{" "}
           <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
             <Button
               variant="contained"

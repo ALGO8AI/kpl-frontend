@@ -729,7 +729,7 @@ function Supervisor(props) {
             marginBottom: "12px",
           }}
         >
-          <Grid container item xs={6} md={2}>
+          <Grid container item xs={6} md={3}>
             <TextField
               key="from"
               id="fromDate"
@@ -752,7 +752,7 @@ function Supervisor(props) {
               fullWidth
             />
           </Grid>
-          <Grid container item xs={6} md={2}>
+          <Grid container item xs={6} md={3}>
             <TextField
               key="to"
               id="fromDate"
@@ -775,7 +775,7 @@ function Supervisor(props) {
               fullWidth
             />
           </Grid>
-          <Grid container item xs={6} md={4}></Grid>
+          <Grid container item xs={6} md={2}></Grid>
           <Grid container item xs={6} md={2} style={{ paddingRight: "12px" }}>
             <Button
               variant="contained"
