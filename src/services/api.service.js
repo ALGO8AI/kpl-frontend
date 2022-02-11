@@ -1744,6 +1744,14 @@ export const getLiveMachine = async () => {
   return await callBackend("GET", "routes/KPI/home/liveMachineStatus");
 };
 
+export const getDynamicMachineList = async (data) => {
+  return await callBackend("POST", "routes/KPI/home/machineId", true, data);
+};
+
+export const getDynamicClpCtrList = async (data) => {
+  return await callBackend("POST", "routes/KPI/home/clpctr", true, data);
+};
+
 export {
   login,
   getViolation,

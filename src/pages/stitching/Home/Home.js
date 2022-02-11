@@ -15,12 +15,14 @@ import {
   crowdingInstanceData,
   ctr_machineID,
   feedInstanceData,
+  getDynamicMachineList,
   // homepageData,
   machineBreakdownData,
   machineData,
   summaryByViolationData,
   summaryByWorkerData,
   workerUtilizationData,
+  getDynamicClpCtrList,
 } from "../../../services/api.service";
 // import GraphData from "./GraphData";
 import TableData from "./TableData";
@@ -62,6 +64,39 @@ function Home() {
   const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // Functions
+  const getMachineDynamic = async () => {
+    console.log("DYNAMIC MACHINE FILTER CALL");
+    const body = {
+      filterDateFrom: state?.from,
+      filterDateTo: state?.to,
+    };
+
+    try {
+      const resp = await getDynamicMachineList(body);
+      setMachineID(resp?.allMachines);
+    } catch (e) {}
+  };
+
+  const getCTRDynamic = async () => {
+    try {
+      console.log("DYNAMIC CLPFILTER CALL");
+      const body = {
+        machineId: inputMACHINEid,
+        filterDateFrom: state?.from,
+        filterDateTo: state?.to,
+      };
+      const resp = await getDynamicClpCtrList(body);
+      setClpCtr(resp?.clpctr);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getCTRDynamic();
+  }, [state?.from, state?.to, inputMACHINEid]);
+
+  useEffect(() => {
+    getMachineDynamic();
+  }, [state?.from, state?.to]);
 
   // handle date range
   const handleDateRange = (value) => {
@@ -77,6 +112,7 @@ function Home() {
           payload: newDateWeekBack.toISOString().slice(0, 10),
         });
         dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+
         break;
       case "monthly":
         var newDateMonthBack = new Date(
@@ -87,6 +123,7 @@ function Home() {
           payload: newDateMonthBack.toISOString().slice(0, 10),
         });
         dispatch({ type: "TO", payload: myDate.toISOString().slice(0, 10) });
+
         break;
       case "custom":
         dispatch({
@@ -97,6 +134,7 @@ function Home() {
           type: "TO",
           payload: weekRange()[1],
         });
+
         break;
       default:
         return null;
@@ -176,8 +214,6 @@ function Home() {
   const load_ctr_machine = async () => {
     try {
       const ctr = await ctr_machineID();
-      setClpCtr(ctr.clpctr);
-      setMachineID(ctr.machineID);
       dispatch({
         type: "MACHINE_ID",
         payload: ctr.machineID,
@@ -459,67 +495,6 @@ function Home() {
       style={{ padding: "18px 6px 4px 6px" }}
     >
       <Grid container item xs={12} style={{ marginBottom: "12px" }}>
-        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel keyid="demo-simple-select-outlined-label">
-              CTR
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputCTR}
-              onChange={(e) => setInputCTR(e.target.value)}
-              label="CTR"
-              // multiple
-            >
-              {clpCtr &&
-                clpCtr.map((item, index) => (
-                  <MenuItem value={item.ctrs} key={index}>
-                    {item.ctrs}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel id="demo-simple-select-outlined-label">
-              Machine ID
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputMACHINEid}
-              onChange={(e) => setInputMACHINEid(e.target.value)}
-              label="Machine ID"
-              // multiple
-            >
-              {machineID &&
-                machineID
-                  .sort((a, b) =>
-                    a.machineID?.split("/")[2][0] >
-                    b.machineID?.split("/")[2][0]
-                      ? 1
-                      : -1
-                  )
-                  .map((item, index) => (
-                    <MenuItem value={item.machineID} key={index}>
-                      {item.machineID}
-                    </MenuItem>
-                  ))}
-            </Select>
-          </FormControl>
-        </Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
           <FormControl
             variant="outlined"
@@ -590,6 +565,68 @@ function Home() {
             />
           </Grid>
         )}
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Machine ID
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputMACHINEid}
+              onChange={(e) => setInputMACHINEid(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              {machineID &&
+                machineID
+                  .sort((a, b) =>
+                    a.machineID?.split("/")[2][0] >
+                    b.machineID?.split("/")[2][0]
+                      ? 1
+                      : -1
+                  )
+                  .map((item, index) => (
+                    <MenuItem value={item.machineID} key={index}>
+                      {item.machineID}
+                    </MenuItem>
+                  ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              CTR
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputCTR}
+              onChange={(e) => setInputCTR(e.target.value)}
+              label="CTR"
+              // multiple
+            >
+              {clpCtr &&
+                clpCtr.map((item, index) => (
+                  <MenuItem value={item.ctrs} key={index}>
+                    {item.ctrs}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
         {role === "Admin" || role === "Non Admin" ? (
           <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
             <FormControl

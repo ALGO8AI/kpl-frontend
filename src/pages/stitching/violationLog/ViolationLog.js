@@ -20,6 +20,8 @@ import {
   ctr_machineID,
   getMachineViolation,
   getMachineBreakdown,
+  getDynamicMachineList,
+  getDynamicClpCtrList,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -131,6 +133,39 @@ function ViolationLog1() {
   const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // functions
+  const getMachineDynamic = async () => {
+    console.log("DYNAMIC MACHINE FILTER CALL");
+    const body = {
+      filterDateFrom: state?.violationFrom,
+      filterDateTo: state?.violationTo,
+    };
+
+    try {
+      const resp = await getDynamicMachineList(body);
+      setMachineID(resp?.allMachines);
+    } catch (e) {}
+  };
+
+  const getCTRDynamic = async () => {
+    try {
+      console.log("DYNAMIC CLPFILTER CALL");
+      const body = {
+        machineId: inputMACHINEid,
+        filterDateFrom: state?.violationFrom,
+        filterDateTo: state?.violationTo,
+      };
+      const resp = await getDynamicClpCtrList(body);
+      setClpCtr(resp?.clpctr);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getCTRDynamic();
+  }, [state?.violationFrom, state?.violationTo, inputMACHINEid]);
+
+  useEffect(() => {
+    getMachineDynamic();
+  }, [state?.violationFrom, state?.violationTo]);
 
   // handle date range
   const handleDateRange = (value) => {
@@ -427,8 +462,8 @@ function ViolationLog1() {
   const load_ctr_machine = async () => {
     try {
       const ctr = await ctr_machineID();
-      setClpCtr(ctr.clpctr);
-      setMachineID(ctr.machineID);
+      // setClpCtr(ctr.clpctr);
+      // setMachineID(ctr.machineID);
 
       // if (state.feed.loading) {
       const feed = await feedUnavailableViolation(
@@ -605,67 +640,6 @@ function ViolationLog1() {
       />
       {/* FROM HOME */}
       <Grid container item xs={12} style={{ marginBottom: "12px" }}>
-        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel keyid="demo-simple-select-outlined-label">
-              CTR
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputCTR}
-              onChange={(e) => setInputCTR(e.target.value)}
-              label="CTR"
-              // multiple
-            >
-              {clpCtr &&
-                clpCtr.map((item, index) => (
-                  <MenuItem value={item.ctrs} key={index}>
-                    {item.ctrs}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel id="demo-simple-select-outlined-label">
-              Machine ID
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputMACHINEid}
-              onChange={(e) => setInputMACHINEid(e.target.value)}
-              label="Machine ID"
-              // multiple
-            >
-              {machineID &&
-                machineID
-                  .sort((a, b) =>
-                    a.machineID?.split("/")[2][0] >
-                    b.machineID?.split("/")[2][0]
-                      ? 1
-                      : -1
-                  )
-                  .map((item, index) => (
-                    <MenuItem value={item.machineID} key={index}>
-                      {item.machineID}
-                    </MenuItem>
-                  ))}
-            </Select>
-          </FormControl>
-        </Grid>
         <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
           <FormControl
             variant="outlined"
@@ -737,6 +711,69 @@ function ViolationLog1() {
             />
           </Grid>
         )}
+
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Machine ID
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputMACHINEid}
+              onChange={(e) => setInputMACHINEid(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              {machineID &&
+                machineID
+                  .sort((a, b) =>
+                    a.machineID?.split("/")[2][0] >
+                    b.machineID?.split("/")[2][0]
+                      ? 1
+                      : -1
+                  )
+                  .map((item, index) => (
+                    <MenuItem value={item.machineID} key={index}>
+                      {item.machineID}
+                    </MenuItem>
+                  ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              CTR
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputCTR}
+              onChange={(e) => setInputCTR(e.target.value)}
+              label="CTR"
+              // multiple
+            >
+              {clpCtr &&
+                clpCtr.map((item, index) => (
+                  <MenuItem value={item.ctrs} key={index}>
+                    {item.ctrs}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
         {role === "Admin" || role === "Non Admin" ? (
           <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
             <FormControl
