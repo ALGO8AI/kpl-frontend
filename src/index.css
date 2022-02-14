@@ -200,3 +200,7 @@
 #simple-tabpanel-4 {
   overflow: unset !important;
 }
+.MuiDivider-root {
+  width: 100% !important;
+  background-color: rgb(14, 74, 123) !important;
+}

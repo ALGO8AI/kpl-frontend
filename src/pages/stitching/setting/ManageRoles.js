@@ -8,6 +8,7 @@ import {
   DialogActions,
   DialogContentText,
   DialogTitle,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -1370,7 +1371,7 @@ function ManageRoles() {
             <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Shift*
+                  Select Shifts*
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -1388,7 +1389,7 @@ function ManageRoles() {
                       }
                     />
                   }
-                  label="A"
+                  label="Shift A"
                   labelPlacement="end"
                 />
               </Grid>
@@ -1407,7 +1408,7 @@ function ManageRoles() {
                       }
                     />
                   }
-                  label="B"
+                  label="Shift B"
                   labelPlacement="end"
                 />
               </Grid>
@@ -1432,6 +1433,7 @@ function ManageRoles() {
                 />
               </Grid> */}
             </Grid>
+            <Divider variant="fullWidth" />
 
             {/* Responsibility */}
             <Grid container item xs={12} style={{ alignItems: "flex-start" }}>

@@ -14,6 +14,7 @@ import {
   Select,
   TextField,
   Typography,
+  Divider,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
@@ -748,7 +749,7 @@ function AddUser({ loadData }) {
             <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Shift*
+                  Select Shifts*
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -766,7 +767,7 @@ function AddUser({ loadData }) {
                       }
                     />
                   }
-                  label="A"
+                  label="Shift A"
                   labelPlacement="end"
                 />
               </Grid>
@@ -785,7 +786,7 @@ function AddUser({ loadData }) {
                       }
                     />
                   }
-                  label="B"
+                  label="Shift B"
                   labelPlacement="end"
                 />
               </Grid>
@@ -809,7 +810,7 @@ function AddUser({ loadData }) {
                 />
               </Grid> */}
             </Grid>
-
+            <Divider variant="fullWidth" />
             {/* Responsibility */}
             <Grid container item xs={12} style={{ alignItems: "flex-start" }}>
               <Grid item xs={12} md={3}>
