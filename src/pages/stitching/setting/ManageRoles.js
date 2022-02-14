@@ -1371,7 +1371,7 @@ function ManageRoles() {
             <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Select Shifts*
+                  Select Shifts<span style={{ color: "red" }}>*</span>
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -1439,7 +1439,7 @@ function ManageRoles() {
             <Grid container item xs={12} style={{ alignItems: "flex-start" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Responsible For*
+                  Responsible For<span style={{ color: "red" }}>*</span>
                 </Typography>
               </Grid>
               <Grid container item xs={12} md={9}>
