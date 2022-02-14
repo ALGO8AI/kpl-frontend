@@ -777,7 +777,7 @@ function ManageRoles() {
                               fontSize: "1rem",
                             }}
                           >
-                            UPDATE
+                            EDIT
                           </button>
                         </StyledTableDataCell>
                         {/* <StyledTableDataCell>
@@ -878,12 +878,22 @@ function ManageRoles() {
               }}
             >
               <TextField
+                error={
+                  data?.mobileNumber?.length > 10 ||
+                  data?.mobileNumber?.length < 10
+                }
+                helperText={
+                  data?.mobileNumber?.length > 10 ||
+                  data?.mobileNumber?.length < 10
+                    ? "Must be 10 digit"
+                    : null
+                }
                 fullWidth
                 id="outlined-basic"
                 label="Mobile"
                 type="number"
                 variant="outlined"
-                value={data.mobileNumber}
+                value={data?.mobileNumber}
                 onChange={(e) =>
                   setData({
                     ...data,
@@ -992,6 +1002,8 @@ function ManageRoles() {
                     })
                   }
                   label="Designation"
+                  error={!data?.designation}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1080,6 +1092,8 @@ function ManageRoles() {
                     })
                   }
                   label="Department"
+                  error={!data?.department}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1140,6 +1154,8 @@ function ManageRoles() {
                     })
                   }
                   label="Role"
+                  error={!data?.role}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1196,6 +1212,8 @@ function ManageRoles() {
                     })
                   }
                   label="Line"
+                  error={!data?.zone}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1234,6 +1252,8 @@ function ManageRoles() {
                     })
                   }
                   label="Wing"
+                  error={!data?.wing}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1350,7 +1370,7 @@ function ManageRoles() {
             <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Shift
+                  Shift*
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -1417,7 +1437,7 @@ function ManageRoles() {
             <Grid container item xs={12} style={{ alignItems: "flex-start" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Responsible For
+                  Responsible For*
                 </Typography>
               </Grid>
               <Grid container item xs={12} md={9}>
@@ -1553,6 +1573,7 @@ function ManageRoles() {
               backgroundColor: "#fff",
               color: "#0e4a7bF",
               border: "1px solid #0e4a7b",
+              width: "90px",
             }}
           >
             CANCEL
@@ -1563,6 +1584,7 @@ function ManageRoles() {
               backgroundColor: "#0e4a7b",
               border: "1px solid #0e4a7b",
               color: "#FFF",
+              width: "90px",
             }}
             onClick={() => {
               submitHandler();

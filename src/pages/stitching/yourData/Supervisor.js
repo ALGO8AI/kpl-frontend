@@ -177,7 +177,22 @@ function Supervisor(props) {
                 id: x.id,
                 supervisorName: x.supervisorName,
                 supervisorId: x.supervisorId,
-                date: new Date(x.date).toISOString().slice(0, 10),
+                // date: new Date(x.date).toISOString().slice(0, 10),
+                date: `${
+                  new Date(x.date).toLocaleDateString("en-GB").split("/")[2]
+                }-${
+                  +new Date(x.date).toLocaleDateString("en-GB").split("/")[1]
+                    ?.length === 1
+                    ? +0 +
+                      new Date(x.date).toLocaleDateString("en-GB").split("/")[1]
+                    : new Date(x.date).toLocaleDateString("en-GB").split("/")[1]
+                }-${
+                  +new Date(x.date).toLocaleDateString("en-GB").split("/")[0]
+                    ?.length === 1
+                    ? +0 +
+                      new Date(x.date).toLocaleDateString("en-GB").split("/")[0]
+                    : new Date(x.date).toLocaleDateString("en-GB").split("/")[0]
+                }`,
                 shift: x.shift,
                 wing: x.wing,
                 line: x.line,

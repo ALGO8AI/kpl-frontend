@@ -26,6 +26,7 @@ function AddUser({ loadData }) {
   const Dispatch = useDispatch();
 
   // state
+  const [openConfirm, setOpenCOnfirm] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState({
     username: "",
@@ -54,21 +55,29 @@ function AddUser({ loadData }) {
     checkerActiveMonitoring: false,
   });
 
-  const submitUserForm = async () => {
-    if (!data?.username) {
-      return Dispatch(openSnackbar(true, "error", "Username required."));
-    }
-    // else if (/\d/.test(data?.username)) {
-    //   return Dispatch(
-    //     openSnackbar(true, "error", "Username can't contains numbers.")
-    //   );
-    // }
-    else if (!data?.email) {
-      return Dispatch(openSnackbar(true, "error", "Email required."));
-    } else if (!data?.workerID) {
+  const openConfirmDialog = () => {
+    if (!data?.workerID) {
       return Dispatch(openSnackbar(true, "error", "Worker ID required."));
+    } else if (!data?.username) {
+      return Dispatch(openSnackbar(true, "error", "Username required."));
+    } else if (/\d/.test(data?.username)) {
+      return Dispatch(
+        openSnackbar(true, "error", "Username can't contains numbers.")
+      );
     } else if (!data?.password) {
       return Dispatch(openSnackbar(true, "error", "Password required."));
+    } else if (!data?.email) {
+      return Dispatch(openSnackbar(true, "error", "Email required."));
+    } else if (
+      !Boolean(
+        data.email
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+          )
+      )
+    ) {
+      return Dispatch(openSnackbar(true, "error", "Enter valid email."));
     } else if (!data?.designation) {
       return Dispatch(openSnackbar(true, "error", "Designation required."));
     } else if (!data?.department) {
@@ -79,6 +88,64 @@ function AddUser({ loadData }) {
       return Dispatch(openSnackbar(true, "error", "Line required."));
     } else if (!data?.wing) {
       return Dispatch(openSnackbar(true, "error", "Wing required."));
+    } else if (!data?.shiftA && !data?.shiftB) {
+      return Dispatch(openSnackbar(true, "error", "Shift required."));
+    } else if (
+      !data?.machineBreakdown &&
+      !data?.feedUnavailability &&
+      !data?.workerNotAvailable &&
+      !data?.machineViolation &&
+      !data?.crowding &&
+      !data?.checkerActiveMonitoring
+    ) {
+      return Dispatch(openSnackbar(true, "error", "Responsibility required."));
+    } else setOpenCOnfirm(true);
+  };
+
+  const submitUserForm = async () => {
+    if (!data?.workerID) {
+      return Dispatch(openSnackbar(true, "error", "Worker ID required."));
+    } else if (!data?.username) {
+      return Dispatch(openSnackbar(true, "error", "Username required."));
+    } else if (/\d/.test(data?.username)) {
+      return Dispatch(
+        openSnackbar(true, "error", "Username can't contains numbers.")
+      );
+    } else if (!data?.password) {
+      return Dispatch(openSnackbar(true, "error", "Password required."));
+    } else if (!data?.email) {
+      return Dispatch(openSnackbar(true, "error", "Email required."));
+    } else if (
+      !Boolean(
+        data.email
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+          )
+      )
+    ) {
+      return Dispatch(openSnackbar(true, "error", "Enter valid email."));
+    } else if (!data?.designation) {
+      return Dispatch(openSnackbar(true, "error", "Designation required."));
+    } else if (!data?.department) {
+      return Dispatch(openSnackbar(true, "error", "Department required."));
+    } else if (!data?.role) {
+      return Dispatch(openSnackbar(true, "error", "Role required."));
+    } else if (!data?.zone) {
+      return Dispatch(openSnackbar(true, "error", "Line required."));
+    } else if (!data?.wing) {
+      return Dispatch(openSnackbar(true, "error", "Wing required."));
+    } else if (!data?.shiftA && !data?.shiftB) {
+      return Dispatch(openSnackbar(true, "error", "Shift required."));
+    } else if (
+      !data?.machineBreakdown &&
+      !data?.feedUnavailability &&
+      !data?.workerNotAvailable &&
+      !data?.machineViolation &&
+      !data?.crowding &&
+      !data?.checkerActiveMonitoring
+    ) {
+      return Dispatch(openSnackbar(true, "error", "Responsibility required."));
     }
     const DATA = {
       username: data.username,
@@ -111,44 +178,46 @@ function AddUser({ loadData }) {
       checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
     };
     try {
-      var txt = window.confirm("User will be added, continue?");
-      if (txt) {
-        const x = await AddNewUser(DATA);
-        if (x.message) {
-          loadData();
-          setData({
-            ...data,
-            username: "",
-            password: "",
-            email: "",
-            designation: "supervisor",
-            role: "",
-            zone: "",
-            wing: "",
-            accessibilityCutting: false,
-            accessibilityStitching: false,
-            accessibilityChecking: false,
-            workerID: "",
-            image: "",
-            department: "",
-            createdBy: "dev",
-            modifiedBy: "dev",
-            shiftA: false,
-            shiftB: false,
-            shiftC: false,
-            mobile: "",
-            machineBreakdown: false,
-            feedUnavailability: false,
-            workerNotAvailable: false,
-            crowding: false,
-            checkerActiveMonitoring: false,
-          });
-          handleClose();
-          Dispatch(openSnackbar(true, "success", x.message));
-        } else {
-          Dispatch(openSnackbar(true, "error", "Try Again"));
-        }
+      // var txt = window.confirm("User will be added, continue?");
+      // if (txt) {
+      const x = await AddNewUser(DATA);
+      if (x.message !== "Username or Email Already Exists") {
+        loadData();
+        setData({
+          ...data,
+          username: "",
+          password: "",
+          email: "",
+          designation: "supervisor",
+          role: "",
+          zone: "",
+          wing: "",
+          accessibilityCutting: false,
+          accessibilityStitching: false,
+          accessibilityChecking: false,
+          workerID: "",
+          image: "",
+          department: "",
+          createdBy: "dev",
+          modifiedBy: "dev",
+          shiftA: false,
+          shiftB: false,
+          shiftC: false,
+          mobile: "",
+          machineBreakdown: false,
+          feedUnavailability: false,
+          workerNotAvailable: false,
+          crowding: false,
+          checkerActiveMonitoring: false,
+        });
+        handleClose();
+        setOpenCOnfirm(false);
+        Dispatch(openSnackbar(true, "success", x.message));
+      } else {
+        // Dispatch(openSnackbar(true, "error", "Try Again"));
+        Dispatch(openSnackbar(true, "success", x.message));
       }
+      // }
     } catch (err) {
       console.log(err.message);
     }
@@ -679,7 +748,7 @@ function AddUser({ loadData }) {
             <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Shift
+                  Shift*
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -745,7 +814,7 @@ function AddUser({ loadData }) {
             <Grid container item xs={12} style={{ alignItems: "flex-start" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Responsible For
+                  Responsible For*
                 </Typography>
               </Grid>
               <Grid container item xs={12} md={9}>
@@ -877,6 +946,7 @@ function AddUser({ loadData }) {
               backgroundColor: "#fff",
               color: "#0e4a7bF",
               border: "1px solid #0e4a7b",
+              width: "90px",
             }}
           >
             CANCEL
@@ -889,15 +959,198 @@ function AddUser({ loadData }) {
               whiteSpace: "nowrap",
               height: "100%",
               border: "1px solid #0e4a7b",
+              width: "90px",
             }}
-            onClick={submitUserForm}
+            onClick={openConfirmDialog}
+            // onClick={submitUserForm}
           >
             SAVE
           </Button>
         </DialogActions>
       </Dialog>
+      <ConfirmDialog
+        open={openConfirm}
+        handleClose={() => setOpenCOnfirm(false)}
+        submit={submitUserForm}
+        data={data}
+      />
     </Grid>
   );
 }
 
+function ConfirmDialog({ open, handleClose, submit, data }) {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      style={{ maxWidth: "1200px", margin: "auto" }}
+    >
+      <DialogTitle id="alert-dialog-title">
+        <p>
+          Are you sure you want to add{" "}
+          <span style={{ color: theme.ORANGE }}>{data?.username}</span> ?
+        </p>
+      </DialogTitle>
+      <DialogContentText id="alert-dialog-description">
+        <Grid
+          container
+          xs={12}
+          spacing={2}
+          style={{
+            alignItems: "center",
+            justifyContent: "space-around",
+            padding: "1.5rem 1rem",
+          }}
+        >
+          <KeyValue keyname={"Worker Id"} value={data?.workerID} />
+          <KeyValue keyname={"Username"} value={data?.username} />
+          <KeyValue keyname={"Email"} value={data?.email} />
+          {data?.mobile && <KeyValue keyname={"Mobile"} value={data?.mobile} />}
+          <KeyValue keyname={"Designation"} value={data?.designation} />
+          <KeyValue keyname={"Department"} value={data?.department} />
+          <KeyValue keyname={"Role"} value={data?.role} />
+          <KeyValue keyname={"Line"} value={data?.zone} />
+          <KeyValue keyname={"Wing"} value={data?.wing} />
+          {/* shift */}
+          <Grid item xs={4}>
+            <p>Shift</p>
+          </Grid>
+          <Grid container item xs={8}>
+            <Grid item xs={4}>
+              <p>
+                A{" "}
+                {data?.shiftA ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                B{" "}
+                {data?.shiftB ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}></Grid>
+          </Grid>
+          {/* responsible */}
+          <Grid item xs={4}>
+            <p>Responsible For</p>
+          </Grid>
+          <Grid container item xs={8}>
+            <Grid item xs={4}>
+              <p>
+                Machine Breakdown{" "}
+                {data?.machineBreakdown ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Feed Unavailability{" "}
+                {data?.feedUnavailability ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Worker Not Available{" "}
+                {data?.workerNotAvailable ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Machine Violation{" "}
+                {data?.machineViolation ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Crowding{" "}
+                {data?.crowding ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Checker Active Monitoring{" "}
+                {data?.checkerActiveMonitoring ? (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                ) : (
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                )}
+              </p>
+            </Grid>
+          </Grid>
+        </Grid>
+      </DialogContentText>
+
+      <DialogActions>
+        <Button
+          onClick={handleClose}
+          variant="contained"
+          style={{
+            backgroundColor: "#fff",
+            color: "#0e4a7bF",
+            border: "1px solid #0e4a7b",
+            width: "90px",
+          }}
+        >
+          EDIT
+        </Button>
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: theme.BLUE,
+            color: "#FFF",
+            whiteSpace: "nowrap",
+            height: "100%",
+            border: "1px solid #0e4a7b",
+            width: "90px",
+          }}
+          onClick={submit}
+        >
+          SAVE
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+function KeyValue({ keyname, value }) {
+  return (
+    <>
+      <Grid item xs={4}>
+        <p>{keyname}</p>
+      </Grid>
+      <Grid item xs={8}>
+        <p>{value}</p>
+      </Grid>
+    </>
+  );
+}
 export default AddUser;

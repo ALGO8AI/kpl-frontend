@@ -474,6 +474,7 @@ export default function Navigation() {
               {" "}
               {state.profile.username}
             </Typography>
+
             {localStorage.getItem("Current_CTR") && (
               <Typography
                 variant="h5"
@@ -483,6 +484,25 @@ export default function Navigation() {
                 CTR : {localStorage.getItem("Current_CTR")}
               </Typography>
             )}
+            <Typography
+              variant="h6"
+              style={{ margin: "4px 12px", color: "#0e4a7b" }}
+            >
+              {" "}
+              Shift :{" "}
+              {state.profile.shiftA
+                ? 6 > Number(new Date().toTimeString().slice(0, 2)) ||
+                  Number(new Date().toTimeString().slice(0, 2)) < 14
+                  ? "A"
+                  : null
+                : null}
+              {state.profile.shiftB
+                ? 14 > Number(new Date().toTimeString().slice(0, 2)) ||
+                  Number(new Date().toTimeString().slice(0, 2)) < 22
+                  ? "B"
+                  : null
+                : null}
+            </Typography>
 
             <SupportButton onClick={handleClickOpenCTR}>
               Change CTR
