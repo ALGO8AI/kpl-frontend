@@ -146,6 +146,12 @@ function TableData({
                   // hide: true,
                 },
                 {
+                  headerName: "Machine Utilization %",
+                  field: "MachinetilizationPercentage",
+                  width: 270,
+                  // hide: true,
+                },
+                {
                   headerName: "Idle Hrs.",
                   field: "idleHours",
                   width: 210,
@@ -154,13 +160,25 @@ function TableData({
                 {
                   headerName: "Feed Unavailable Hrs.",
                   field: "feedUnav",
-                  width: 210,
+                  width: 270,
                   // hide: true,
                 },
                 {
                   headerName: "Worker Unavailable Hrs.",
                   field: "workerUnav",
-                  width: 210,
+                  width: 270,
+                  // hide: true,
+                },
+                {
+                  headerName: "Breakdown Hrs.",
+                  field: "breakdownTime",
+                  width: 270,
+                  // hide: true,
+                },
+                {
+                  headerName: "Offtime Hrs.",
+                  field: "offTime",
+                  width: 270,
                   // hide: true,
                 },
               ]}
@@ -300,6 +318,16 @@ function TableData({
                 {
                   headerName: "Machine Utilization %",
                   field: "machineUtilizationPer",
+                  width: 240,
+                },
+                {
+                  headerName: "Worker Utilization %",
+                  field: "workerUtilPercentage",
+                  width: 240,
+                },
+                {
+                  headerName: "Feed Utilization %",
+                  field: "feedUtilPercentage",
                   width: 240,
                 },
                 {
