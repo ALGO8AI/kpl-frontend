@@ -181,6 +181,12 @@ function TableData({
                   width: 270,
                   // hide: true,
                 },
+                {
+                  headerName: "Uptime Hrs.",
+                  field: "uptime",
+                  width: 270,
+                  // hide: true,
+                },
               ]}
             />
           </Grid>
@@ -240,6 +246,12 @@ function TableData({
                   headerName: "Feed Utilization %",
                   field: "feedUnavPercentage",
                   width: 210,
+                  // hide: true,
+                },
+                {
+                  headerName: "Machine Utilization %",
+                  field: "utilizationPercentage",
+                  width: 270,
                   // hide: true,
                 },
                 // {
@@ -339,6 +351,16 @@ function TableData({
                   headerName: "Breakdown Hrs.",
                   field: "breakdownTimeDuration",
                   width: 210,
+                },
+                {
+                  headerName: "Worker Unavailable Hrs.",
+                  field: "workerUnav",
+                  width: 240,
+                },
+                {
+                  headerName: "Feed Unavailable Hrs.",
+                  field: "feedUnav",
+                  width: 240,
                 },
                 // { headerName: "Machine Breakdown Hrs.", field: "scheduledHours" },
 

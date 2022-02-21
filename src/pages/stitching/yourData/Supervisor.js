@@ -166,11 +166,7 @@ function Supervisor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            if (
-              role === "Admin" ||
-              role === "Head User" ||
-              role === "Non Admin"
-            ) {
+            if (role === "Admin" || role === "Head User") {
               setEdit(true);
               setUserData({
                 ...userdata,
@@ -229,11 +225,7 @@ function Supervisor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            if (
-              role === "Admin" ||
-              role === "Head User" ||
-              role === "Non Admin"
-            ) {
+            if (role === "Admin" || role === "Head User") {
               deleteSUpervisor(x.id);
             } else {
               Dispatch(

@@ -491,13 +491,13 @@ export default function Navigation() {
               {" "}
               Shift :{" "}
               {Boolean(state.profile.shiftA)
-                ? 6 < Number(new Date().toTimeString().slice(0, 2)) &&
+                ? 6 <= Number(new Date().toTimeString().slice(0, 2)) &&
                   Number(new Date().toTimeString().slice(0, 2)) < 14
                   ? "A"
                   : null
                 : null}
               {Boolean(state.profile.shiftB)
-                ? 14 < Number(new Date().toTimeString().slice(0, 2)) &&
+                ? 14 <= Number(new Date().toTimeString().slice(0, 2)) &&
                   Number(new Date().toTimeString().slice(0, 2)) < 22
                   ? "B"
                   : null
