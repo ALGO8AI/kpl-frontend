@@ -327,7 +327,7 @@ function Schedule(props) {
   const addSchedule = async () => {
     try {
       const resp = await addStitchingWorkerSchedule(scheduleInput);
-      if (resp?.msg === "Successfully Added") {
+      if (resp?.msg) {
         // setScheduleInput({
         //   workerId: "",
         //   workerName: "",
@@ -343,7 +343,7 @@ function Schedule(props) {
           type: "WORKER_SCHEDULE",
           payload: { data: x.latestScheduleData, loading: false },
         });
-        Dispatch(openSnackbar(true, "success", "Schedule Added Successfully"));
+        Dispatch(openSnackbar(true, "success", resp?.msg));
       }
     } catch (e) {}
   };
