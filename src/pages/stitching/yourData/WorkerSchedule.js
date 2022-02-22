@@ -190,10 +190,8 @@ function WorkerSchedule(props) {
           ...workerScheduleData,
         ]);
         const resp = await addStitchingWorkerSchedule(scheduleInput);
-        if (resp?.msg === "Successfully Added") {
-          Dispatch(
-            openSnackbar(true, "success", "Schedule Added Successfully")
-          );
+        if (resp?.msg) {
+          Dispatch(openSnackbar(true, "success", resp?.msg));
           loadData();
         }
       } catch (e) {
