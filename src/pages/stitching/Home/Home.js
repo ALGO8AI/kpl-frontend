@@ -481,7 +481,7 @@ function Home() {
       !filterEnable && callAPI();
     }
     getAlerts();
-    const interval = setInterval(() => getAlerts(), 60000);
+    const interval = setInterval(() => getAlerts(), 120000);
     return () => {
       clearInterval(interval);
     };
