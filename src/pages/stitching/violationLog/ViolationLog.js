@@ -732,12 +732,12 @@ function ViolationLog1() {
             >
               {machineID &&
                 machineID
-                  .sort((a, b) =>
-                    a.machineID?.split("/")[2][0] >
-                    b.machineID?.split("/")[2][0]
-                      ? 1
-                      : -1
-                  )
+                  // .sort((a, b) =>
+                  //   a.machineID?.split("/")[2][0] >
+                  //   b.machineID?.split("/")[2][0]
+                  //     ? 1
+                  //     : -1
+                  // )
                   .map((item, index) => (
                     <MenuItem value={item.machineID} key={index}>
                       {item.machineID}
