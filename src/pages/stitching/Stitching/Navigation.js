@@ -489,8 +489,9 @@ export default function Navigation() {
               style={{ margin: "4px 12px", color: "#0e4a7b" }}
             >
               {" "}
-              Shift :{" "}
-              {Boolean(state.profile.shiftA)
+              Shift : {Boolean(state.profile.shiftA) ? "A" : null}{" "}
+              {Boolean(state.profile.shiftB) ? "B" : null}
+              {/* {Boolean(state.profile.shiftA)
                 ? 6 <= Number(new Date().toTimeString().slice(0, 2)) &&
                   Number(new Date().toTimeString().slice(0, 2)) < 14
                   ? "A"
@@ -501,7 +502,7 @@ export default function Navigation() {
                   Number(new Date().toTimeString().slice(0, 2)) < 22
                   ? "B"
                   : null
-                : null}
+                : null} */}
             </Typography>
 
             <SupportButton onClick={handleClickOpenCTR}>
