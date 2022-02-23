@@ -284,6 +284,12 @@ function TableData({
                   width: 210,
                   // hide: true,
                 },
+                {
+                  headerName: "Machine On Hrs.",
+                  field: "machineOnTime",
+                  width: 210,
+                  // hide: true,
+                },
                 // { headerName: "Shift", field: "shift" },
               ]}
             />

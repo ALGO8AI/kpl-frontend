@@ -79,8 +79,11 @@ function Supervisor(props) {
   const { role } = useSelector((state) => state.Common);
 
   const loadData = async () => {
+    const bodyData = {
+      username: localStorage.getItem("kpl_username"),
+    };
     try {
-      const x = await getStitchingSupervisorSchedule();
+      const x = await getStitchingSupervisorSchedule(bodyData);
       // console.log(x.data);
       setWorkerData(x.data);
       const supData = await getAllSupervisorList();
