@@ -176,7 +176,7 @@ function MachineStatusStitch() {
     <Grid container spacing={2}>
       <Grid container item xs={12}>
         <Typography style={{ color: theme.BLUE }} variant="h4">
-          Total Number Of Machines : {machineData.length}
+          Total Number Of Machines : {machineData?.data2?.length}
         </Typography>
       </Grid>
       <Grid container item xs={12} md={2}>
