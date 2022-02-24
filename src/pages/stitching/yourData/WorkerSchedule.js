@@ -448,13 +448,11 @@ function WorkerSchedule(props) {
                 <em>None</em>
               </MenuItem>
               {state.machineIDs.length > 0 &&
-                state.machineIDs
-                  ?.sort((a, b) => (a?.machineID > b?.machineID ? 1 : -1))
-                  .map((item, index) => (
-                    <MenuItem value={item.machineID} key={index}>
-                      {item.machineID}
-                    </MenuItem>
-                  ))}
+                state.machineIDs.map((item, index) => (
+                  <MenuItem value={item.machineID} key={index}>
+                    {item.machineID}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <TextField
