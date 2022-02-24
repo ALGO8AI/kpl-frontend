@@ -112,6 +112,7 @@ function WorkerSchedule(props) {
   }))(TableCell);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [search, setSearch] = React.useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -648,7 +649,17 @@ function WorkerSchedule(props) {
           </div>
         </TabPanel>
       </Grid>
-      <Grid container item md={8} xs={12}>
+      <Grid
+        container
+        item
+        md={8}
+        xs={12}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flexWrap: "unset",
+        }}
+      >
         <Grid
           container
           item
@@ -706,7 +717,6 @@ function WorkerSchedule(props) {
               fullWidth
             />
           </Grid>{" "}
-          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>{" "}
           <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
             <Button
               variant="contained"
@@ -738,6 +748,14 @@ function WorkerSchedule(props) {
               <RefreshIcon />
               Refresh
             </Button>
+          </Grid>
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+            <TextField
+              label="Search"
+              variant="outlined"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </Grid>
           {/* <Grid container item xs={6} md={4}>
             
@@ -771,7 +789,7 @@ function WorkerSchedule(props) {
             color: "#FFF",
             whiteSpace: "nowrap",
             width: "100%",
-            height: "fit-content",
+            height: "48px",
             border: "1px solid #0e4a7b",
           }}
           onClick={copy}
@@ -808,6 +826,12 @@ function WorkerSchedule(props) {
               <TableBody>
                 {workerScheduleData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .filter(
+                    (item) =>
+                      item?.workerId.toString().includes(search.toString()) ||
+                      item?.workerName.toString().includes(search.toString()) ||
+                      item?.machineId.toString().includes(search.toString())
+                  )
                   .map((row) => {
                     return (
                       <TableRow
