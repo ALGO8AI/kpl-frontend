@@ -241,15 +241,15 @@ function MachineStatusStitch() {
               ],
             }}
             series={[
-              machineData?.data1?.filter((item) => item.status === "Running")
+              machineData?.data2?.filter((item) => item.status === "Running")
                 .length,
-              machineData?.data1?.filter((item) => item.status === "Stopped")
+              machineData?.data2?.filter((item) => item.status === "Stopped")
                 .length,
-              machineData?.data1?.filter((item) => item.status === "Offline")
+              machineData?.data2?.filter((item) => item.status === "Offline")
                 .length,
-              machineData?.data1?.filter((item) => item.status === "Disabled")
+              machineData?.data2?.filter((item) => item.status === "Disabled")
                 .length,
-              machineData?.data1?.filter((item) => item.status === "Breakdown")
+              machineData?.data2?.filter((item) => item.status === "Breakdown")
                 .length,
             ]}
             type="donut"
@@ -267,7 +267,7 @@ function MachineStatusStitch() {
           </div>
           <div className="title" style={{ color: "#11DF30", fontSize: "48px" }}>
             {
-              machineData?.data1?.filter((item) => item.status === "Running")
+              machineData?.data2?.filter((item) => item.status === "Running")
                 .length
             }
           </div>
@@ -284,7 +284,7 @@ function MachineStatusStitch() {
           </div>
           <div className="title" style={{ color: "#F6E00A", fontSize: "48px" }}>
             {
-              machineData?.data1?.filter((item) => item.status === "Stopped")
+              machineData?.data2?.filter((item) => item.status === "Stopped")
                 .length
             }
           </div>
@@ -301,7 +301,7 @@ function MachineStatusStitch() {
           </div>
           <div className="title" style={{ color: "#898989", fontSize: "48px" }}>
             {
-              machineData?.data1?.filter((item) => item.status === "Offline")
+              machineData?.data2?.filter((item) => item.status === "Offline")
                 .length
             }
           </div>
@@ -318,7 +318,7 @@ function MachineStatusStitch() {
           </div>
           <div className="title" style={{ color: "#DF5C1A", fontSize: "48px" }}>
             {
-              machineData?.data1?.filter((item) => item.status === "Disabled")
+              machineData?.data2?.filter((item) => item.status === "Disabled")
                 .length
             }
           </div>
@@ -335,7 +335,7 @@ function MachineStatusStitch() {
           </div>
           <div className="title" style={{ color: "#FF0000", fontSize: "48px" }}>
             {
-              machineData?.data1?.filter((item) => item.status === "Breakdown")
+              machineData?.data2?.filter((item) => item.status === "Breakdown")
                 .length
             }
           </div>
