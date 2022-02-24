@@ -285,7 +285,7 @@ function TableData({
                   // hide: true,
                 },
                 {
-                  headerName: "Machine Ontime Hrs.",
+                  headerName: "Machine Uptime Hrs.",
                   field: "machineOnTime",
                   width: 210,
                   // hide: true,
@@ -349,7 +349,7 @@ function TableData({
                   width: 240,
                 },
                 {
-                  headerName: "Runtime Hrs.",
+                  headerName: "Machine Uptime Hrs.",
                   field: "runTimeDuration",
                   width: 210,
                 },
