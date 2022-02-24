@@ -170,19 +170,19 @@ function TableData({
                   // hide: true,
                 },
                 {
-                  headerName: "Breakdown Hrs.",
+                  headerName: "Machine Breakdown Hrs.",
                   field: "breakdownTime",
                   width: 270,
                   // hide: true,
                 },
                 {
-                  headerName: "Offtime Hrs.",
+                  headerName: "Machine Offtime Hrs.",
                   field: "offTime",
                   width: 270,
                   // hide: true,
                 },
                 {
-                  headerName: "Uptime Hrs.",
+                  headerName: "Machine Uptime Hrs.",
                   field: "uptime",
                   width: 270,
                   // hide: true,
@@ -273,19 +273,19 @@ function TableData({
                   // hide: true,
                 },
                 {
-                  headerName: "Breakdown Time Hrs.",
+                  headerName: "Machine Breakdown Hrs.",
                   field: "breakdownTime",
                   width: 240,
                   // hide: true,
                 },
                 {
-                  headerName: "Machine Off Hrs.",
+                  headerName: "Machine Offtime Hrs.",
                   field: "MachineOffTime",
                   width: 210,
                   // hide: true,
                 },
                 {
-                  headerName: "Machine On Hrs.",
+                  headerName: "Machine Ontime Hrs.",
                   field: "machineOnTime",
                   width: 210,
                   // hide: true,
@@ -354,7 +354,7 @@ function TableData({
                   width: 210,
                 },
                 {
-                  headerName: "Breakdown Hrs.",
+                  headerName: "Machine Breakdown Hrs.",
                   field: "breakdownTimeDuration",
                   width: 210,
                 },
@@ -425,7 +425,7 @@ function TableData({
                 //   // hide: true,
                 // },
                 {
-                  headerName: "Off Time Hrs.",
+                  headerName: "Machine Offtime Hrs.",
                   field: "offTimeDuration",
                   width: 210,
                   // hide: true,

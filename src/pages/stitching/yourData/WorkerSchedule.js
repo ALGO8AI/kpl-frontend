@@ -747,14 +747,7 @@ function WorkerSchedule(props) {
               Refresh
             </Button>
           </Grid>
-          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
-            <TextField
-              label="Search"
-              variant="outlined"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </Grid>
+          <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>
           {/* <Grid container item xs={6} md={4}>
             
           </Grid>
@@ -795,7 +788,45 @@ function WorkerSchedule(props) {
         >
           COPY TABLE
         </Button>
-        <Paper style={{ width: "100%", marginTop: "16px" }}>
+        <Grid
+          component={Paper}
+          container
+          item
+          xs={12}
+          style={{
+            width: "100%",
+            marginTop: "16px",
+            display: "flex",
+            flexDirection: "column",
+            flexWrap: "unset",
+          }}
+        >
+          <Grid
+            container
+            item
+            xs={12}
+            style={{
+              alignItems: "center",
+              padding: "6px 12px",
+              maxHeight: "60px",
+            }}
+          >
+            <Grid container item xs={12} lg={4} style={{}}>
+              <h3 style={{ fontSize: "1.25rem", color: "#0e4a7b" }}>
+                Worker Schedule
+              </h3>
+            </Grid>
+            <Grid container item xs={12} lg={4}></Grid>
+            <Grid container item xs={12} lg={4}>
+              <TextField
+                label="Search"
+                variant="standard"
+                value={search}
+                fullWidth
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Grid>
+          </Grid>
           <TableContainer style={{ width: "100%" }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead style={{ backgroundColor: "red" }}>
@@ -999,7 +1030,7 @@ function WorkerSchedule(props) {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </Paper>
+        </Grid>
       </Grid>
     </Grid>
   );
