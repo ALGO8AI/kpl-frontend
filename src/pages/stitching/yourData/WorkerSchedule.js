@@ -181,14 +181,14 @@ function WorkerSchedule(props) {
   const addSchedule = async () => {
     if (role === "Admin" || role === "Head User" || role === "User") {
       try {
-        setWorkerScheduleData([
-          {
-            ...scheduleInput,
-            date: new Date(scheduleInput.date).toISOString(),
-            Date: new Date(scheduleInput.date).toISOString(),
-          },
-          ...workerScheduleData,
-        ]);
+        // setWorkerScheduleData([
+        //   {
+        //     ...scheduleInput,
+        //     date: new Date(scheduleInput.date).toISOString(),
+        //     Date: new Date(scheduleInput.date).toISOString(),
+        //   },
+        //   ...workerScheduleData,
+        // ]);
         const resp = await addStitchingWorkerSchedule(scheduleInput);
         if (resp?.msg) {
           Dispatch(openSnackbar(true, "success", resp?.msg));
