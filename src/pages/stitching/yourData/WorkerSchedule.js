@@ -917,7 +917,7 @@ function WorkerSchedule(props) {
                               fontSize: "1rem",
                             }}
                             onClick={() => {
-                              if (role === "Admin" || role === "Head User") {
+                              if (role === "Admin" || role === "Head User"|| role === "User") {
                                 setUpdateMode(true);
                                 setScheduleInput({
                                   workerId: row.workerId,
