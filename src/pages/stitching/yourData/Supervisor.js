@@ -315,7 +315,7 @@ function Supervisor(props) {
       try {
         const resp = await addStitchingSupervisorSingle(data);
         // console.log(resp);
-        Dispatch(openSnackbar(true, "success", "Supervisor Added"));
+        Dispatch(openSnackbar(true, "success", resp.msg));
         loadData();
         setUserData({
           id: "",
