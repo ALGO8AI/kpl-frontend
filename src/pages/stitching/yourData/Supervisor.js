@@ -295,12 +295,18 @@ function Supervisor(props) {
   //   };
 
   const copy = async () => {
-    try {
-      const resp = await getStitchingSupervisorCopy();
-      Dispatch(openSnackbar(true, "success", "Schedule Copied"));
-      loadData();
-    } catch (e) {
-      console.log(e);
+    if (role === "Admin" || role === "Head User" || role === "Non Admin") {
+      try {
+        const resp = await getStitchingSupervisorCopy();
+        Dispatch(openSnackbar(true, "success", resp?.msg));
+        loadData();
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      Dispatch(
+        openSnackbar(true, "error", `This option is not available to ${role}`)
+      );
     }
   };
 

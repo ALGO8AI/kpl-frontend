@@ -265,7 +265,7 @@ function WorkerSchedule(props) {
     if (role === "Admin" || role === "Head User" || role === "User") {
       try {
         const response = await copyScheduleStitching();
-        Dispatch(openSnackbar(true, "success", "Schedule Copied Successfully"));
+        Dispatch(openSnackbar(true, "success", response?.msg));
         loadData();
       } catch (e) {}
     } else {
@@ -917,7 +917,11 @@ function WorkerSchedule(props) {
                               fontSize: "1rem",
                             }}
                             onClick={() => {
-                              if (role === "Admin" || role === "Head User"|| role === "User") {
+                              if (
+                                role === "Admin" ||
+                                role === "Head User" ||
+                                role === "User"
+                              ) {
                                 setUpdateMode(true);
                                 setScheduleInput({
                                   workerId: row.workerId,
