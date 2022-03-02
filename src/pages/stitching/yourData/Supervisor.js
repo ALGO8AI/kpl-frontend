@@ -71,6 +71,7 @@ function Supervisor(props) {
   const [inputData, setInputData] = React.useState({
     filterDateFrom: "",
     filterDateTo: "",
+    username: localStorage.getItem("kpl_username"),
   });
   const [supervisorList, setSupervisorList] = useState([]);
 
@@ -100,6 +101,8 @@ function Supervisor(props) {
     var myDate = new Date();
     var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
     setInputData({
+      username: localStorage.getItem("kpl_username"),
+
       filterDateFrom: newDateWeekBack.toISOString().slice(0, 10),
       filterDateTo: myDate.toISOString().slice(0, 10),
     });

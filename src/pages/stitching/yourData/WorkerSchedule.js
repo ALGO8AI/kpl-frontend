@@ -129,6 +129,7 @@ function WorkerSchedule(props) {
   const [inputData, setInputData] = React.useState({
     filterDateFrom: "",
     filterDateTo: "",
+    username: localStorage.getItem("kpl_username"),
   });
   const [workerScheduleData, setWorkerScheduleData] = useState([]);
   const [workerList, setWorkerList] = React.useState([]);
@@ -165,7 +166,9 @@ function WorkerSchedule(props) {
       });
       const worker = await getAllWorketrList();
       setWorkerList(worker.data);
-      const x = await getYourData();
+      const x = await getYourData({
+        username: localStorage.getItem("kpl_username"),
+      });
       setWorkerScheduleData(x.latestScheduleData);
     } catch (err) {}
   };
@@ -337,6 +340,7 @@ function WorkerSchedule(props) {
   useEffect(() => {
     loadData();
     setInputData({
+      username: localStorage.getItem("kpl_username"),
       filterDateFrom: weekRange()[0],
       filterDateTo: weekRange()[1],
     });

@@ -252,10 +252,7 @@ const videoWallCutting = async () => {
   return await callBackend("GET", "routes/videoWall/cutting");
 };
 
-const getYourData = async () => {
-  const data = {
-    username: localStorage.getItem("kpl_username"),
-  };
+const getYourData = async (data) => {
   return await callBackend("POST", "routes/yourData", true, data);
 };
 
