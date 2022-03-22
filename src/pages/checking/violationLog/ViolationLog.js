@@ -1216,9 +1216,7 @@ function ViolationLog1() {
                             );
                             localStorage.setItem(
                               "VIOLATION-STATUS",
-                              returnStatusDefect(
-                                rowData.actionStatus.toLowerCase()
-                              )
+                              "Okay Bag"
                             );
                           }}
                         >
@@ -1227,7 +1225,7 @@ function ViolationLog1() {
                       ),
                   },
                   {
-                    title: "Violation ID",
+                    title: "Log ID",
                     field: "Id",
                   },
 

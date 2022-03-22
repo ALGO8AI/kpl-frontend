@@ -17,7 +17,7 @@ import Navigation from "./Navigation";
 function Checking(props) {
   const pages = {
     home: <Home />,
-    violationLog: <ViolationLog />,
+    logs: <ViolationLog />,
     videoWall: <VideoWall />,
     setting: <Setting />,
     layoutView: <LayoutView />,

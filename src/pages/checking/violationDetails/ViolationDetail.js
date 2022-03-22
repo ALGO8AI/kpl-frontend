@@ -621,7 +621,7 @@ function ViolationDetail(props) {
       case "incorrect violation":
         return "Link-btn-grey";
       case "Okay Bag":
-        return "Link-btn-yellow";
+        return "Link-btn-green";
       case "rejected":
         return "Link-btn-red";
       case "not-repaired":
@@ -694,7 +694,7 @@ function ViolationDetail(props) {
                     //   marginRight: "12px",
                     cursor: "pointer",
                   }}
-                  onClick={() => history.push("/checking/violationLog")}
+                  onClick={() => history.push("/checking/logs")}
                 >
                   <span>
                     <i
@@ -703,7 +703,7 @@ function ViolationDetail(props) {
                       style={{ marginRight: "8px" }}
                     ></i>
                   </span>
-                  {localStorage.getItem("VIOLATION-TYPE")}
+                  Log Details
                 </Typography>
               </Grid>
               <Grid container item xs={4} md={3}>
@@ -744,7 +744,7 @@ function ViolationDetail(props) {
               {/* DATE & ID */}
               <Grid ontainer item xs={12} className={"Header"}>
                 <h3 style={{ color: "black" }}>
-                  Violation Id : {props.id} <br />
+                  Log Id : {props.id} <br />
                   {data?.bagId && <>Bag Id : {data?.bagId}</>}
                 </h3>
                 <p style={{ color: "black" }}>
@@ -999,7 +999,7 @@ function ViolationDetail(props) {
                       variant="h6"
                       className="Key"
                     >
-                      VIOLATION CLOSED
+                      CLOSED BY
                     </Grid>
                     <Grid
                       xs={6}
@@ -1091,7 +1091,7 @@ function ViolationDetail(props) {
                   variant="h5"
                   style={{ fontWeight: "bold", marginBottom: "12px" }}
                 >
-                  Violation Reason
+                  Reason
                 </Typography>
                 <FormControl
                   fullWidth

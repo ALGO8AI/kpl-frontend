@@ -35,7 +35,7 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
       {!loading ? (
         data?.length > 0 ? (
           <MaterialTable
-            title={"Violation Details"}
+            title={"Details"}
             columns={columns}
             data={data}
             onChangePage={(e) =>

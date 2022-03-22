@@ -221,10 +221,10 @@ export default function Navigation() {
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
-            to="/checking/violationLog"
+            to="/checking/logs"
           >
             <NotInterestedIcon className={classes.icon} />
-            Violation Log
+            Logs
           </NavLink>
         </ListItem>
         <Divider />
