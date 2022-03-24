@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BagID2 from "../BagID/BagID2";
 import Feedback from "../feedback/Feedback";
 import Home from "../Home/Home";
+import HomeV2 from "../Home/HomeV2";
 import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
@@ -17,6 +18,7 @@ import Navigation from "./Navigation";
 function Checking(props) {
   const pages = {
     home: <Home />,
+    home2: <HomeV2 />,
     logs: <ViolationLog />,
     videoWall: <VideoWall />,
     setting: <Setting />,

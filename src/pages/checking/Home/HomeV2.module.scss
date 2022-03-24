@@ -1,0 +1,83 @@
+@import "../../../index.scss";
+.ChartContainer {
+  //   border: 1px solid red;
+  padding: 12px;
+  margin: 16px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .Card {
+    @include paper;
+    width: 100%;
+    padding: 12px;
+    background-color: white;
+    // height: 200px;
+    h3 {
+      font-size: 24px;
+      font-weight: 600;
+      color: $primary-blue;
+      margin-bottom: 12px;
+    }
+    .Content {
+      width: 100%;
+      display: flex;
+      margin-bottom: 12px;
+      .Left,
+      .Right1,
+      .Right2,
+      .Right3 {
+        width: 50%;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .Center {
+        width: 100%;
+      }
+      .Right1 {
+        flex-direction: column;
+        h4 {
+          color: $primary-blue;
+          font-size: 16px;
+          font-weight: 600;
+          display: flex;
+          margin-bottom: 12px;
+          span {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: $primary-blue;
+            display: block;
+            margin-right: 4px;
+          }
+          &:nth-child(1) {
+            color: $primary-blue;
+          }
+          &:nth-child(2) {
+            color: $primary-blue;
+          }
+        }
+      }
+      .Right2 {
+        flex-direction: column;
+        .Data {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          .Dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+          }
+          p {
+            font-size: 16px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}

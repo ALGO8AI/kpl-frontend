@@ -1,4 +1,12 @@
 $primary-blue: #0e4a7b;
+$primary-orange: #f68f1d;
+$boxShadow: 2px 3px 10px 2px rgba(43, 43, 43, 0.1);
+
+@mixin paper {
+  box-shadow: $boxShadow;
+  border-radius: 8px;
+  border: none;
+}
 
 .print-container {
   display: flex;
