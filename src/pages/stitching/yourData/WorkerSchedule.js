@@ -183,7 +183,12 @@ function WorkerSchedule(props) {
 
   // ADDING
   const addSchedule = async () => {
-    if (role === "Admin" || role === "Head User" || role === "User") {
+    if (
+      role === "Admin" ||
+      role === "Head User" ||
+      role === "User" ||
+      role === "Line Supervisor"
+    ) {
       try {
         // setWorkerScheduleData([
         //   {
@@ -924,7 +929,8 @@ function WorkerSchedule(props) {
                               if (
                                 role === "Admin" ||
                                 role === "Head User" ||
-                                role === "User"
+                                role === "User" ||
+                                role === "Line Supervisor"
                               ) {
                                 setUpdateMode(true);
                                 setScheduleInput({
@@ -1006,7 +1012,8 @@ function WorkerSchedule(props) {
                               if (
                                 role === "Admin" ||
                                 role === "Head User" ||
-                                role === "User"
+                                role === "User" ||
+                                role === "Line Supervisor"
                               ) {
                                 deleteSchedule(row.id);
                               } else {

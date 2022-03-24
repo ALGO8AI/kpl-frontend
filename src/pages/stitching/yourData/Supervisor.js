@@ -172,7 +172,11 @@ function Supervisor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            if (role === "Admin" || role === "Head User") {
+            if (
+              role === "Admin" ||
+              role === "Head User" ||
+              role === "Line Supervisor"
+            ) {
               setEdit(true);
               setUserData({
                 ...userdata,
@@ -231,7 +235,11 @@ function Supervisor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            if (role === "Admin" || role === "Head User") {
+            if (
+              role === "Admin" ||
+              role === "Head User" ||
+              role === "Line Supervisor"
+            ) {
               deleteSUpervisor(x.id);
             } else {
               Dispatch(
@@ -298,7 +306,12 @@ function Supervisor(props) {
   //   };
 
   const copy = async () => {
-    if (role === "Admin" || role === "Head User" || role === "Non Admin") {
+    if (
+      role === "Admin" ||
+      role === "Head User" ||
+      role === "Non Admin" ||
+      role === "Line Supervisor"
+    ) {
       try {
         const resp = await getStitchingSupervisorCopy();
         Dispatch(openSnackbar(true, "success", resp?.msg));

@@ -111,7 +111,12 @@ function Worker(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            if (role === "Admin" || role === "Non Admin" || role === "User") {
+            if (
+              role === "Admin" ||
+              role === "Non Admin" ||
+              role === "User" ||
+              role === "Line Supervisor"
+            ) {
               setEdit(true);
               setUserData({
                 ...userdata,
@@ -168,7 +173,12 @@ function Worker(props) {
   };
 
   const submitImageDetails = async () => {
-    if (role === "Admin" || role === "Non Admin" || role === "User") {
+    if (
+      role === "Admin" ||
+      role === "Non Admin" ||
+      role === "User" ||
+      role === "Line Supervisor"
+    ) {
       try {
         const resp = await AddWorkerStitching(userdata);
         setWorkerData([...workerData, userdata]);
