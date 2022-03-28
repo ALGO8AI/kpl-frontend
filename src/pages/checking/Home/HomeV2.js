@@ -34,8 +34,6 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { theme } from "../../../Utility/constants";
 import ReactApexChart from "react-apexcharts";
-import Loader from "../../../components/loader/Loader";
-import AreaChartChecking from "../../../components/areaChart/AreaChartChecking";
 import TableData from "./TableData";
 
 export default function HomeV2() {
