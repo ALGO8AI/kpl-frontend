@@ -1,4 +1,4 @@
-import { AppBar, Grid, Tab, Tabs } from "@material-ui/core";
+import { AppBar, Grid, Tab, Tabs, Paper } from "@material-ui/core";
 import moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
@@ -52,12 +52,18 @@ function TableData({
   };
   return (
     <>
-      <Grid container item xs={12} style={{ padding: "12px" }}>
-        <AppBar position="static" className="customTab">
+      <Grid
+        container
+        item
+        xs={12}
+        style={{ padding: "12px" }}
+        component={Paper}
+        // elevation={5}
+      >
+        <AppBar position="static">
           <Tabs
             value={tabValue}
             onChange={handleTabChange}
-            aria-label="simple tabs example"
             variant="scrollable"
             scrollButtons="auto"
           >

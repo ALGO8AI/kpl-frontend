@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   FormControl,
@@ -7,6 +8,7 @@ import {
   Paper,
   Select,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import {
@@ -34,6 +36,7 @@ import { theme } from "../../../Utility/constants";
 import ReactApexChart from "react-apexcharts";
 import Loader from "../../../components/loader/Loader";
 import AreaChartChecking from "../../../components/areaChart/AreaChartChecking";
+import TableData from "./TableData";
 
 export default function HomeV2() {
   // context
@@ -718,35 +721,41 @@ export default function HomeV2() {
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           <Top5Defects />
         </Grid>
-        <Grid
-          className={Styles.ChartContainer}
-          xs={12}
-          sm={12}
-          md={3}
-          lg={3}
-        ></Grid>
-        <Grid
-          className={Styles.ChartContainer}
-          xs={12}
-          sm={12}
-          md={4}
-          lg={4}
-        ></Grid>
-        <Grid
-          className={Styles.ChartContainer}
-          xs={12}
-          sm={12}
-          md={4}
-          lg={4}
-        ></Grid>
-        <Grid
-          className={Styles.ChartContainer}
-          xs={12}
-          sm={12}
-          md={4}
-          lg={4}
-        ></Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <DefectTrend />
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={4} lg={4}>
+          <CheckingEfficiency />
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={4} lg={4}>
+          <CheckingPerformance />
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={4} lg={4}>
+          <PDIdefect />
+        </Grid>
       </Grid>
+      {/* comparison table */}
+      <Grid container item xs={12} style={{ padding: "12px" }}>
+        <Grid
+          component={Paper}
+          elevation={5}
+          item
+          xs={12}
+          style={{ padding: "8px" }}
+          className={Styles.SummaryTable_Container}
+        >
+          <Typography variant="h6">Wing-wise comparative summary</Typography>
+          {/* table */}
+          <WingWiseTable />
+        </Grid>
+      </Grid>
+      {/* tab view */}
+      <TableData
+        homeWorkerTable={state.homeWorkerTable.data}
+        homeDateTable={state.homeDateTable.data}
+        homeMachineTable={state.homeMachineTable.data}
+        homeCTRTable={state.homeCTRTable.data}
+      />
     </Grid>
   );
 }
@@ -877,7 +886,193 @@ function DefectPercentageDonut() {
 
 // chart 3
 function Top5Defects() {
-  const series = [13, 87];
+  const DATA = {
+    series: [
+      {
+        name: "Defects",
+        data: [1, 2, 3, 4, 5],
+      },
+    ],
+    options: {
+      chart: {
+        height: 350,
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 10,
+          dataLabels: {
+            position: "top",
+            formatter: function(val, opt) {
+              return `${val}%`;
+            },
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function(val, opt) {
+          return val + "%";
+        },
+      },
+      colors: ["#f68f1d"],
+      tooltip: {
+        x: {
+          formatter: undefined,
+          title: {
+            formatter: (value) => `${value} %`,
+          },
+        },
+        y: {
+          formatter: undefined,
+          title: {
+            formatter: (seriesName) => `${seriesName} %`,
+          },
+        },
+      },
+
+      xaxis: {
+        categories: [1, 2, 3, 4, 5],
+        position: "bottom",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        title: {
+          text: "Top 5 Defects",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Percentage",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
+      },
+    },
+  };
+  return (
+    <div className={Styles.Card}>
+      <h3>Top 5 Defects</h3>
+      <div className={Styles.Content}>
+        <div className={Styles.Center}>
+          <ReactApexChart
+            options={DATA.options}
+            series={DATA.series}
+            type="bar"
+            width={"100%"}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// chart 4
+function DefectTrend() {
+  const DATA = {
+    series: [
+      {
+        name: "Defects",
+        data: [1, 2, 3, 4, 5],
+      },
+    ],
+    options: {
+      chart: {
+        height: 350,
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 10,
+          dataLabels: {
+            position: "top",
+            formatter: function(val, opt) {
+              return `${val}%`;
+            },
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function(val, opt) {
+          return val + "%";
+        },
+      },
+      colors: ["#f68f1d"],
+      tooltip: {
+        x: {
+          formatter: undefined,
+          title: {
+            formatter: (value) => `${value} %`,
+          },
+        },
+        y: {
+          formatter: undefined,
+          title: {
+            formatter: (seriesName) => `${seriesName} %`,
+          },
+        },
+      },
+
+      xaxis: {
+        categories: [1, 2, 3, 4, 5],
+        position: "bottom",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        // title: {
+        //   text: "Top 5 Defects",
+        //   style: {
+        //     color: "#0e4a7b",
+        //     fontSize: "12px",
+        //     fontWeight: 400,
+        //   },
+        // },
+      },
+      yaxis: {
+        title: {
+          text: "Percentage",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
+      },
+    },
+  };
+  return (
+    <div className={Styles.Card}>
+      <h3>Defect % Trend</h3>
+      <div className={Styles.Content}>
+        <div className={Styles.Center}>
+          <ReactApexChart
+            options={DATA.options}
+            series={DATA.series}
+            type="line"
+            width={"100%"}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Chart 5
+function CheckingEfficiency() {
+  const series = [32, 68];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -889,13 +1084,13 @@ function Top5Defects() {
     chart: {
       type: "donut",
     },
-    labels: ["Defected", "Not Defected"],
+    labels: [],
   };
   return (
     <div className={Styles.Card}>
-      <h3>Top 5</h3>
+      <h3>Checking Efficiency %</h3>
       <div className={Styles.Content}>
-        <div className={Styles.Center}>
+        <div className={Styles.Left}>
           <ReactApexChart
             options={options}
             series={series}
@@ -903,7 +1098,211 @@ function Top5Defects() {
             width={200}
           />
         </div>
+        <div className={Styles.Right2}>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Scheduled Time</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>8 hrs</p>
+          </div>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Operation Time</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>5 hrs</p>
+          </div>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Bags Checked</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>200</p>
+          </div>
+          <hr />
+        </div>
       </div>
     </div>
+  );
+}
+
+// Chart 5
+function CheckingPerformance() {
+  const series = [45, 55];
+  const options = {
+    colors: ["#094573", "#ffce38", "#ffa643"],
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    chart: {
+      type: "donut",
+    },
+    labels: [],
+  };
+  return (
+    <div className={Styles.Card}>
+      <h3>Checking Performance %</h3>
+      <div className={Styles.Content}>
+        <div className={Styles.Left}>
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="donut"
+            width={200}
+          />
+        </div>
+        <div className={Styles.Right2}>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Available Time</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>6 hrs</p>
+          </div>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Operation Time</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>5 hrs</p>
+          </div>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Bags Checked</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>100</p>
+          </div>
+          <hr />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Chart 6
+function PDIdefect() {
+  const series = [12, 88];
+  const options = {
+    colors: ["#094573", "#ffce38", "#ffa643"],
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    chart: {
+      type: "donut",
+    },
+    labels: [],
+  };
+  return (
+    <div className={Styles.Card}>
+      <h3>PDI Defect %</h3>
+      <div className={Styles.Content}>
+        <div className={Styles.Left}>
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="donut"
+            width={200}
+          />
+        </div>
+        <div className={Styles.Right2}>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Batch Checked</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>25</p>
+          </div>
+          <div className={Styles.Data}>
+            <p style={{ color: "grey" }}>Abnormalities</p>
+            <p style={{ color: "grey" }}>:</p>
+            <p style={{ color: "grey" }}>3</p>
+          </div>
+          <hr />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// comparative table
+function WingWiseTable() {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {[
+            "",
+            "Wing 1",
+            "Wing 2",
+            "Wing 3",
+            "Wing 4",
+            "Wing 5",
+            "Wing 6",
+            "Wing 7",
+          ].map((item, index) => (
+            <th key={index}>{item}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {[
+          {
+            type: "Repaired Bags %",
+            wing1: 8,
+            wing2: 7,
+            wing3: 6,
+            wing4: 12,
+            wing5: 11,
+            wing6: 5,
+            wing7: 9,
+          },
+          {
+            type: "Defects %",
+            wing1: 8,
+            wing2: 7,
+            wing3: 6,
+            wing4: 12,
+            wing5: 11,
+            wing6: 5,
+            wing7: 9,
+          },
+          {
+            type: "Checking Efficiency %",
+            wing1: 8,
+            wing2: 7,
+            wing3: 6,
+            wing4: 12,
+            wing5: 11,
+            wing6: 5,
+            wing7: 9,
+          },
+          {
+            type: "Checking Performance %",
+            wing1: 8,
+            wing2: 7,
+            wing3: 6,
+            wing4: 12,
+            wing5: 11,
+            wing6: 5,
+            wing7: 9,
+          },
+          {
+            type: "PDI Defects %",
+            wing1: 8,
+            wing2: 7,
+            wing3: 6,
+            wing4: 12,
+            wing5: 11,
+            wing6: 5,
+            wing7: 9,
+          },
+        ].map((item, index) => (
+          <tr>
+            <td>{item.type}</td>
+            <td>{item.wing1}</td>
+            <td>{item.wing2}</td>
+            <td>{item.wing3}</td>
+            <td>{item.wing4}</td>
+            <td>{item.wing5}</td>
+            <td>{item.wing6}</td>
+            <td>{item.wing7}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
