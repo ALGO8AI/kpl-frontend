@@ -235,7 +235,7 @@ export default function Navigation() {
             to="/checking/videoWall"
           >
             <VideocamIcon className={classes.icon} />
-            Video Wall
+            Live Table
           </NavLink>
         </ListItem>
         <Divider />
