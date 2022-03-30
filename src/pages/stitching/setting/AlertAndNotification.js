@@ -23,7 +23,7 @@ function AlertAndNotification() {
   const [disable, setDisable] = useState(false);
 
   useState(() => {
-    if (role === "Admin" || role === "Non Admin") {
+    if (role === "Admin" || role === "admin" || role === "Non Admin") {
       setDisable(false);
     } else {
       setDisable(true);
@@ -1206,7 +1206,7 @@ function AlertAndNotification() {
         </Grid>
         <Grid container item xs={12}>
           <Grid md={11}></Grid>
-          {(role === "Admin" || role === "Non Admin") && (
+          {(role === "Admin" || role === "admin" || role === "Non Admin") && (
             <Grid md={1}>
               <Button
                 variant="contained"

@@ -113,6 +113,7 @@ function Worker(props) {
           onClick={() => {
             if (
               role === "Admin" ||
+              role === "admin" ||
               role === "Non Admin" ||
               role === "User" ||
               role === "Line Supervisor"
@@ -175,6 +176,7 @@ function Worker(props) {
   const submitImageDetails = async () => {
     if (
       role === "Admin" ||
+      role === "admin" ||
       role === "Non Admin" ||
       role === "User" ||
       role === "Line Supervisor"

@@ -185,6 +185,7 @@ function WorkerSchedule(props) {
   const addSchedule = async () => {
     if (
       role === "Admin" ||
+      role === "admin" ||
       role === "Head User" ||
       role === "User" ||
       role === "Line Supervisor"
@@ -270,7 +271,12 @@ function WorkerSchedule(props) {
 
   // copy
   const copy = async () => {
-    if (role === "Admin" || role === "Head User" || role === "User") {
+    if (
+      role === "Admin" ||
+      role === "admin" ||
+      role === "Head User" ||
+      role === "User"
+    ) {
       try {
         const response = await copyScheduleStitching();
         Dispatch(openSnackbar(true, "success", response?.msg));
@@ -928,6 +934,7 @@ function WorkerSchedule(props) {
                             onClick={() => {
                               if (
                                 role === "Admin" ||
+                                role === "admin" ||
                                 role === "Head User" ||
                                 role === "User" ||
                                 role === "Line Supervisor"
@@ -1011,6 +1018,7 @@ function WorkerSchedule(props) {
                             onClick={() => {
                               if (
                                 role === "Admin" ||
+                                role === "admin" ||
                                 role === "Head User" ||
                                 role === "User" ||
                                 role === "Line Supervisor"

@@ -174,6 +174,7 @@ function Supervisor(props) {
           onClick={() => {
             if (
               role === "Admin" ||
+              role === "admin" ||
               role === "Head User" ||
               role === "Line Supervisor"
             ) {
@@ -237,6 +238,7 @@ function Supervisor(props) {
           onClick={() => {
             if (
               role === "Admin" ||
+              role === "admin" ||
               role === "Head User" ||
               role === "Line Supervisor"
             ) {
@@ -308,6 +310,7 @@ function Supervisor(props) {
   const copy = async () => {
     if (
       role === "Admin" ||
+      role === "admin" ||
       role === "Head User" ||
       role === "Non Admin" ||
       role === "Line Supervisor"
@@ -327,7 +330,12 @@ function Supervisor(props) {
   };
 
   const addSupervisor = async (data) => {
-    if (role === "Admin" || role === "Head User" || role === "Non Admin") {
+    if (
+      role === "Admin" ||
+      role === "admin" ||
+      role === "Head User" ||
+      role === "Non Admin"
+    ) {
       try {
         const resp = await addStitchingSupervisorSingle(data);
         // console.log(resp);

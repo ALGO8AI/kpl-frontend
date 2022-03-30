@@ -300,7 +300,7 @@ function ManageRoles() {
                 fontSize: "1rem",
               }}
               onClick={() => {
-                if (role === "Admin") {
+                if (role === "Admin" || role === "admin") {
                   handleClickOpen();
                   setData(x);
                 } else {
@@ -329,7 +329,7 @@ function ManageRoles() {
                   color: "white",
                 }}
                 onClick={() => {
-                  if (role === "Admin") {
+                  if (role === "Admin" || role === "admin") {
                     revokeUser(x.username);
                   } else {
                     Dispatch(
@@ -501,7 +501,7 @@ function ManageRoles() {
         {/* <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid> */}
         {/* <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid> */}
         {/* </Grid> */}
-        {role === "Admin" && (
+        {(role === "Admin" || role === "admin") && (
           <>
             <Grid container item xs={12} lg={1}>
               <AddUser loadData={loadData} />
@@ -569,7 +569,7 @@ function ManageRoles() {
                 height: "52px",
               }}
               onClick={() => {
-                if (role === "Admin") {
+                if (role === "Admin" || role === "admin") {
                   revokeUser();
                 } else {
                   Dispatch(
@@ -754,7 +754,7 @@ function ManageRoles() {
                         <StyledTableDataCell>
                           <button
                             onClick={() => {
-                              if (role === "Admin") {
+                              if (role === "Admin" || role === "admin") {
                                 handleClickOpen();
                                 setData(row);
                               } else {

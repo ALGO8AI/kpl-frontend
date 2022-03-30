@@ -40,6 +40,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
+import { modifyPrevDate } from "../../../Utility/Utility";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -1241,9 +1242,7 @@ function ViolationLog1() {
                       // const NewDate = moment(new Date(rowData.dateTime))
                       //   .format("DD/MM/YYYY")
                       //   .toString();
-                      return new Date(rowData.dateTime)
-                        .toUTCString()
-                        .slice(5, 16);
+                      return modifyPrevDate(rowData.dateTime);
                     },
                   },
                   {
@@ -1630,10 +1629,8 @@ function ViolationLog1() {
                       // const NewDate = moment(new Date(rowData.dateTime))
                       //   .format("DD/MM/YYYY")
                       //   .toString();
-                      const d = rowData.dateTime;
-                      return `${new Date(d).getUTCDate()}/${new Date(
-                        d
-                      ).getMonth() + 1}/${new Date(d).getFullYear()}`;
+                      // const d = rowData.dateTime;
+                      return modifyPrevDate(rowData.dateTime);
                     },
                   },
                   {
