@@ -53,7 +53,7 @@ function VideoCard({ data, onClick }) {
       xs={12}
       sm={4}
       // md={2}
-      to={`/checking/violationDetails/${data.Id}`}
+      to={`/checking/logs/${data.Id}`}
       className="Recent"
     >
       <Grid
@@ -299,7 +299,7 @@ function ViolationDetail(props) {
       setMsg(x.msg);
       setOpen1(true);
       setTimeout(() => {
-        history.push("/checking/violationLog");
+        history.push("/checking/logs");
       }, 2000);
     } catch (e) {
       console.log(e);
