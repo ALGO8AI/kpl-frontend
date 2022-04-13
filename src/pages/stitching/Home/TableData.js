@@ -480,7 +480,7 @@ function TableData({
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
                 },
-                { headerName: "CLPCTR", field: "clp", width: 240 },
+                { headerName: "CLPCTR", field: "CLPCTR", width: 240 },
                 {
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
@@ -529,6 +529,15 @@ function TableData({
                 {
                   headerName: "Feed Unavailable Hrs.",
                   field: "feedUnavailableHours",
+                  width:
+                    table1?.current?.offsetWidth > 1280
+                      ? table1?.current?.offsetWidth / 5
+                      : 1280 / 5,
+                  hide: true,
+                },
+                {
+                  headerName: "Machine Offtime Hrs.",
+                  field: "machineOfftimeHrs",
                   width:
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
