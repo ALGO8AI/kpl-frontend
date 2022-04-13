@@ -89,9 +89,9 @@ function TableData({
                   ...rest
                 } = row;
                 return {
-                  id: workerId,
-                  feedUnavPercentage: feedUnavPercentage.toFixed(2),
-                  workerUnavPercentage: workerUnavPercentage.toFixed(2),
+                  id: i + 1,
+                  feedUnavPercentage: feedUnavPercentage?.toFixed(2),
+                  workerUnavPercentage: workerUnavPercentage?.toFixed(2),
                   ...rest,
                 };
               })}
@@ -100,6 +100,7 @@ function TableData({
                   field: "id",
                   headerName: "Worker ID",
                   width: 150,
+                  hide: true,
                 },
                 // { headerName: "Worker ID", field: "workerId" },
                 {
@@ -199,7 +200,7 @@ function TableData({
               data={homeDateTable.map((row, i) => {
                 const { date, ...rest } = row;
                 return {
-                  id: i,
+                  id: i + 1,
                   date: moment(new Date(date))
                     .format("DD/MM/YYYY")
                     .toString(),
@@ -306,7 +307,7 @@ function TableData({
                   ...rest
                 } = row;
                 return {
-                  id: i,
+                  id: i + 1,
                   utilizationPercentage: `${Math.round(
                     utilizationPercentage
                   )} %`,
@@ -462,10 +463,10 @@ function TableData({
                   ...rest
                 } = row;
                 return {
-                  id: i,
+                  id: i + 1,
                   clp: CLPCTR,
-                  workerUnavPercentage: workerUnavPercentage.toFixed(2),
-                  feedUnavPercentage: feedUnavPercentage.toFixed(2),
+                  workerUnavPercentage: workerUnavPercentage?.toFixed(2),
+                  feedUnavPercentage: feedUnavPercentage?.toFixed(2),
                   ...rest,
                 };
               })}

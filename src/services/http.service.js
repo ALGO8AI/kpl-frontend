@@ -13,6 +13,7 @@ const videoWall = "http://kpl.algo8apps.com";
 
 // const baseUrl = cloudUrlProd;
 const baseUrl = cloudUrlVPN;
+// const baseUrl = "http://kpl.algo8apps.com:5006";
 
 const getUrl = (path) => `${baseUrl}/${path}`;
 
