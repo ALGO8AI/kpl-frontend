@@ -13,6 +13,7 @@ import ComingSoon from "../layoutView/ComingSoon";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useDispatch, useSelector } from "react-redux";
+import AnalyticsPage from "../Analytics/AnalyticsPage";
 
 function Stitching(props) {
   const pages = {
@@ -26,7 +27,8 @@ function Stitching(props) {
     annotation: <Annotation />,
     yourData: <YourData />,
     violationDetails: <ViolationDetail id={props.match.params.id} />,
-    analytics: <Analytics />,
+    // analytics: <Analytics />,
+    analytics: <AnalyticsPage />,
   };
 
   const page = pages[props.match.params.page];
