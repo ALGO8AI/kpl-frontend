@@ -288,12 +288,12 @@ function TableData({
                 //   field: "workerUnavPercentage",
                 // },
 
-                {
-                  width: 240,
-                  headerName: "Worker Unavailable %",
-                  field: "workerUnavPercentage",
-                  // hide: true,
-                },
+                // {
+                //   width: 240,
+                //   headerName: "Worker Unavailable %",
+                //   field: "workerUnavPercentage",
+                //   // hide: true,
+                // },
                 // {
                 //   width: 240,
                 //   headerName: "Worker Unavailable Hrs.",
@@ -385,11 +385,11 @@ function TableData({
                 //   headerName: "Worker Unavailable Hrs.",
                 //   field: "workerUnav",
                 // },
-                {
-                  width: 240,
-                  headerName: "Worker Unavailable %",
-                  field: "workerUnavPercentage",
-                },
+                // {
+                //   width: 240,
+                //   headerName: "Worker Unavailable %",
+                //   field: "workerUnavPercentage",
+                // },
                 {
                   width: 240,
                   headerName: "Total Bags Checked",
