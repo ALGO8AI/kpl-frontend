@@ -54,7 +54,7 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { useDispatch } from "react-redux";
 import { weekRange } from "../../../Utility/DateRange";
-import { theme as THEME, wings } from "../../../Utility/constants";
+import { shifts, theme as THEME, wings } from "../../../Utility/constants";
 import moment from "moment";
 
 function Alert(props) {
@@ -402,7 +402,7 @@ function Schedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {workerList.length > 0 &&
+              {workerList?.length > 0 &&
                 workerList
                   ?.sort((a, b) => (a.workerName > b.workerName ? 1 : -1))
                   ?.map((item, index) => (
@@ -586,8 +586,8 @@ function Schedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {["A", "B"].map((item, index) => (
-                <MenuItem value={item} key={index}>
+              {shifts.map((item, index) => (
+                <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
               ))}

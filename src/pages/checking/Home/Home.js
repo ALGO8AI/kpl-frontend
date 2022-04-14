@@ -37,6 +37,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
+import { shifts } from "../../../Utility/constants";
 
 export default function Home() {
   // context
@@ -645,8 +646,11 @@ export default function Home() {
             label="Shift"
             // multiple
           >
-            <MenuItem value="A">A</MenuItem>
-            <MenuItem value="B">B</MenuItem>
+            {shifts.map((item, index) => (
+              <MenuItem key={index} value={item}>
+                {item}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>

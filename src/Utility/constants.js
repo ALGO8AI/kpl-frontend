@@ -5,3 +5,4 @@ export const theme = {
 
 export const stitchingLines = ["Baffle", "Circular", "Two Row", "U+2"];
 export const wings = ["A", "B", "C", "D", "E", "CFG", "FG2"];
+export const shifts = ["A", "B", "C"];

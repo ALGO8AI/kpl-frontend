@@ -41,6 +41,7 @@ import {
   theme as THEME,
   stitchingLines,
   wings,
+  shifts,
 } from "../../../Utility/constants";
 import AddUser from "./AddUser";
 import { useDispatch, useSelector } from "react-redux";
@@ -451,8 +452,8 @@ function ManageRoles() {
               label="Shift"
               style={{ height: "56px" }}
             >
-              {["A", "B"].map((item, index) => (
-                <MenuItem value={item} key={index}>
+              {shifts.map((item, index) => (
+                <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
               ))}

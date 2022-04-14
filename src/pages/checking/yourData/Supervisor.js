@@ -34,6 +34,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
+import { shifts } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -398,7 +399,7 @@ function Supervisor(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {supervisorList.length > 0 &&
+              {supervisorList?.length > 0 &&
                 supervisorList
                   .sort((a, b) => (a.username > b.username ? 1 : -1))
                   .map((item, index) => (
@@ -569,8 +570,8 @@ function Supervisor(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {["A", "B"].map((item, index) => (
-              <MenuItem value={item} key={index}>
+            {shifts.map((item, index) => (
+              <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>
             ))}

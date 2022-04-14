@@ -41,6 +41,7 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
 import { modifyPrevDate } from "../../../Utility/Utility";
+import { shifts } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -919,8 +920,11 @@ function ViolationLog1() {
                 label="Shift"
                 // multiple
               >
-                <MenuItem value="A">A</MenuItem>
-                <MenuItem value="B">B</MenuItem>
+                {shifts.map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

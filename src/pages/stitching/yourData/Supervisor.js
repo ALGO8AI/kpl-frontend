@@ -35,7 +35,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
-import { theme } from "../../../Utility/constants";
+import { shifts, theme } from "../../../Utility/constants";
 
 // import { Switch } from "react-router";
 
@@ -639,8 +639,8 @@ function Supervisor(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {["A", "B"].map((item, index) => (
-              <MenuItem value={item} key={index}>
+            {shifts.map((item, index) => (
+              <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>
             ))}
