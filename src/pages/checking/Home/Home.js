@@ -742,7 +742,7 @@ export default function Home() {
           </Paper>
         </Grid>
 
-        <Grid container item xs={12} sm={6} lg={3}>
+        {/* <Grid container item xs={12} sm={6} lg={3}>
           <Paper
             style={{
               width: "100%",
@@ -792,7 +792,7 @@ export default function Home() {
               />
             )}
           </Paper>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <TableData
