@@ -1158,9 +1158,9 @@ function ViolationLog1() {
               variant="scrollable"
               scrollButtons="auto"
             >
-              {/* <Tab label="Defects" {...a11yProps(0)} />
-              <Tab label="Worker Violation" {...a11yProps(1)} /> */}
-              <Tab label="Crowding Violation" {...a11yProps(2)} />
+              <Tab label="Defects" {...a11yProps(0)} />
+              {/* <Tab label="Worker Violation" {...a11yProps(1)} />
+              <Tab label="Crowding Violation" {...a11yProps(2)} /> */}
               <Tab label="Checker Performance" {...a11yProps(3)} />
               <Tab label="Tailor Summary" {...a11yProps(4)} />
               <Tab label="Production Summary" {...a11yProps(5)} />
@@ -1310,7 +1310,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={state.violationTab} index={2}>
+          {/* <TabPanel value={state.violationTab} index={2}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.crowd.data}
@@ -1430,7 +1430,7 @@ function ViolationLog1() {
               />
             </Grid>
           </TabPanel>
-          {/* <TabPanel value={state.violationTab} index={1}>
+          <TabPanel value={state.violationTab} index={1}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.worker.data}
@@ -1548,7 +1548,7 @@ function ViolationLog1() {
             </Grid>
           </TabPanel> */}
 
-          {/* <TabPanel value={state.violationTab} index={0}>
+          <TabPanel value={state.violationTab} index={0}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
               <ViolationTable
                 data={state.defects.data}
@@ -1696,7 +1696,7 @@ function ViolationLog1() {
                 ]}
               />
             </Grid>
-          </TabPanel> */}
+          </TabPanel>
 
           <TabPanel value={state.violationTab} index={3}>
             <Grid container item xs={12} style={{ padding: "12px" }}>
