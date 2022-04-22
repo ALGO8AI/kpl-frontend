@@ -298,9 +298,9 @@ function ViolationDetail(props) {
       console.log(x);
       setMsg(x.msg);
       setOpen1(true);
-      setTimeout(() => {
-        history.push("/checking/logs");
-      }, 2000);
+      // setTimeout(() => {
+      //   history.push("/checking/logs");
+      // }, 2000);
     } catch (e) {
       console.log(e);
     }
@@ -331,9 +331,9 @@ function ViolationDetail(props) {
       setMsg(x.msg);
       setOpen1(true);
       setOpen(false);
-      setTimeout(() => {
-        history.push("/checking/violationLog");
-      }, 2000);
+      // setTimeout(() => {
+      //   history.push("/checking/logs");
+      // }, 2000);
       // } else {
       //   setOpen(false);
       // }
