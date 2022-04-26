@@ -365,7 +365,7 @@ const checkingWorkerUtilizationData = async (
   shifts
 ) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -793,7 +793,7 @@ const detailedSummaryByClpCtrChecking = async (
   shifts
 ) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1510,7 +1510,7 @@ const deleteTailor = async (name, Tid, id) => {
 
 const defectChartData = async (fromDate, toDate, ctr, table, shifts) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: table,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1579,7 +1579,7 @@ const checkingViolationClosedByUpdate = async (volId, closedBySupervisor) => {
 
 const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1596,7 +1596,7 @@ const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
 
 const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,
@@ -1613,7 +1613,7 @@ const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
 
 const checkingHomeByTable = async (fromDate, toDate, ctr, machine, shifts) => {
   const data = {
-    clpctr: [],
+    clpctr: ctr,
     tableId: machine,
     filterDateFrom: fromDate,
     filterDateTo: toDate,

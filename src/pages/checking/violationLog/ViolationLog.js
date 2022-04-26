@@ -30,7 +30,14 @@ import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
 import * as moment from "moment";
 // import { ViolationContext } from "../../context/ViolationContext";
-import { AppBar, InputLabel, Tab, Tabs, TextField } from "@material-ui/core";
+import {
+  AppBar,
+  Checkbox,
+  InputLabel,
+  Tab,
+  Tabs,
+  TextField,
+} from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
 import { CheckingContext } from "../../../context/CheckingContext";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
@@ -42,6 +49,9 @@ import {
 import { weekRange } from "../../../Utility/DateRange";
 import { modifyPrevDate } from "../../../Utility/Utility";
 import { shifts } from "../../../Utility/constants";
+import { Autocomplete } from "@material-ui/lab";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -98,6 +108,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ViolationLog1() {
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const { state, dispatch } = React.useContext(CheckingContext);
 
   // Reduc Dispatch
@@ -193,6 +205,7 @@ function ViolationLog1() {
   const classes = useStyles();
 
   const refreshData = async () => {
+    setInputCTR([]);
     setLoader(true);
     dispatch({
       type: "VIO_FROM",
@@ -753,7 +766,63 @@ function ViolationLog1() {
           }}
         >
           <Grid item xs={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
-            <FormControl
+            <Autocomplete
+              fullWidth
+              multiple
+              options={clpCtr}
+              // value={inputCTR}
+              disableCloseOnSelect
+              getOptionLabel={(option) => option.ctrs}
+              renderOption={(option, { selected }) => (
+                <React.Fragment>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option.ctrs}
+                </React.Fragment>
+              )}
+              // style={{ width: 500 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="CTR"
+                  placeholder="CTR"
+                />
+              )}
+              onChange={(e, t) => {
+                setInputCTR(t.map((item) => item.ctrs));
+              }}
+            />
+            {/* <Autocomplete
+              multiple
+              value={inputCTR}
+              id="combo-box-demo"
+              options={clpCtr}
+              getOptionLabel={(option) => `${option.ctrs}`}
+              fullWidth
+              renderInput={(params) => (
+                <TextField {...params} label="New CTR" variant="outlined" />
+              )}
+              onChange={(e, t) => {
+                console.log(e);
+                console.log(t?.ctrs);
+                // const current = clpCtr.findIndex(
+                //   (item) => item?.crts === t?.crts
+                // );
+                // console.log(current);
+                setInputCTR([t?.ctrs]);
+                // setCTR({
+                //   ...CTR,
+                //   CtrNo: unassignedCTR[current]?.CtrNo,
+                //   id: unassignedCTR[current]?.id,
+                // });
+              }}
+            /> */}
+            {/* <FormControl
               variant="outlined"
               className={classes.formControl}
               fullWidth
@@ -777,7 +846,7 @@ function ViolationLog1() {
                     </MenuItem>
                   ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
           </Grid>
 
           <Grid item xs={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>

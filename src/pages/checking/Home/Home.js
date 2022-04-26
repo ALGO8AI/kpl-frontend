@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
+  Checkbox,
   FormControl,
   Grid,
   InputLabel,
@@ -38,8 +39,13 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
 import { shifts } from "../../../Utility/constants";
+import { Autocomplete } from "@material-ui/lab";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 export default function Home() {
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
   // context
   const { state, dispatch } = React.useContext(CheckingContext);
   // State
@@ -461,7 +467,38 @@ export default function Home() {
         lg={typeOfRange === "custom" ? 1 : 2}
         style={{ justifyContent: "center" }}
       >
-        <FormControl
+        <Autocomplete
+          fullWidth
+          multiple
+          options={clpCtr}
+          // value={inputCTR}
+          disableCloseOnSelect
+          getOptionLabel={(option) => option.ctrs}
+          renderOption={(option, { selected }) => (
+            <React.Fragment>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option.ctrs}
+            </React.Fragment>
+          )}
+          // style={{ width: 500 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="CTR"
+              placeholder="CTR"
+            />
+          )}
+          onChange={(e, t) => {
+            setInputCTR(t.map((item) => item.ctrs));
+          }}
+        />
+        {/* <FormControl
           variant="outlined"
           fullWidth
           style={{ marginRight: "6px" }}
@@ -483,7 +520,7 @@ export default function Home() {
                 </MenuItem>
               ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
       </Grid>
 
       <Grid
