@@ -86,12 +86,17 @@ function TableData({
               data={
                 homeWorkerTable?.length > 0 &&
                 homeWorkerTable?.map((row, i) => {
-                  const { checkerID, ...rest } = row;
-                  return { id: checkerID, ...rest };
+                  return { id: i, ...row };
                 })
               }
               columns={[
-                { width: 180, headerName: "Checker ID", field: "id" },
+                {
+                  field: "id",
+                  headerName: "DataTableID",
+                  hide: true,
+                  width: 240,
+                },
+                { width: 180, headerName: "Checker ID", field: "checkerID" },
                 {
                   width: 180,
                   headerName: "Checker Name",
