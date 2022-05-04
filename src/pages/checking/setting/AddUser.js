@@ -38,6 +38,7 @@ function AddUser({ load }) {
     modifiedBy: "dev",
     shiftA: false,
     shiftB: false,
+    shiftC: false,
     mobile: "",
     machineBreakdown: false,
     feedUnavailability: false,
@@ -66,6 +67,7 @@ function AddUser({ load }) {
       modifiedBy: data.modifiedBy,
       shiftA: data.shiftA ? 1 : 0,
       shiftB: data.shiftB ? 1 : 0,
+      shiftC: data.shiftC ? 1 : 0,
       mobile: data.mobile,
       machineBreakdown: data.machineBreakdown ? 1 : 0,
       feedUnavailability: data.feedUnavailability ? 1 : 0,
@@ -570,6 +572,34 @@ function AddUser({ load }) {
                   />
                 }
                 label="Shift B"
+                labelPlacement="end"
+              />
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                // justifyContent: "center",
+              }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={data.shiftC}
+                    checked={data.shiftC}
+                    color="primary"
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        shiftC: e.target.checked,
+                      })
+                    }
+                  />
+                }
+                label="Shift C"
                 labelPlacement="end"
               />
             </Grid>

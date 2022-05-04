@@ -643,6 +643,11 @@ function ViolationLog1() {
       payload: weekRange()[1],
     });
     load_ctr_machine();
+
+    const interval = setInterval(() => load_ctr_machine(), 20000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
   const [tabValue, setTabValue] = React.useState(state.violationTab);
 
@@ -1223,7 +1228,7 @@ function ViolationLog1() {
           </Grid>
         </Grid> */}
         <Grid item xs={12} md={12} style={{ padding: "1rem" }}>
-          <AppBar position="static" className="customTab">
+          <AppBar position="sticky" className="customTab">
             <Tabs
               value={state.violationTab}
               onChange={handleTabChange}

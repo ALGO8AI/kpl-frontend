@@ -790,7 +790,7 @@ function AddUser({ loadData }) {
                   labelPlacement="end"
                 />
               </Grid>
-              {/* <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={3}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -805,10 +805,10 @@ function AddUser({ loadData }) {
                       }
                     />
                   }
-                  label="C"
+                  label="Shift C"
                   labelPlacement="end"
                 />
-              </Grid> */}
+              </Grid>
             </Grid>
             <Divider variant="fullWidth" />
             {/* Responsibility */}
