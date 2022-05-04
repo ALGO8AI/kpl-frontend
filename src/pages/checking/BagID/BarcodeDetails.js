@@ -14,11 +14,19 @@ import {
 // import { Alert } from "@material-ui/lab";
 import MaterialTable from "material-table";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
-import { getAllTableId, getBagData } from "../../../services/api.service";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import {
+  deleteBarCode,
+  getAllTableId,
+  getBagData,
+} from "../../../services/api.service";
 
 function BarcodeDetails() {
+  // DISPATCH
+  const Dispatch = useDispatch();
   const { state, dispatch } = React.useContext(CheckingContext);
   const [filter, setFilter] = React.useState("");
   const [tempFilter, setTempFilter] = React.useState("");
@@ -101,18 +109,21 @@ function BarcodeDetails() {
     fetchBagIds();
   }, []);
 
-  // const deleteBarCodes = async () => {
-  //   try {
-  //     const resp = await deleteBarCode(selectedBarcode);
-  //     if (resp?.msg === "BagId successfully Deleted") {
-  //       setOpen(true);
-  //       setMsg(resp?.msg);
-  //       fetchBagIds();
-  //     }
-  //   } catch (e) {
-  //     // console.log(e);
-  //   }
-  // };
+  const deleteBarCodes = async () => {
+    try {
+      const resp = await deleteBarCode(selectedBarcode);
+      console.log(resp);
+      if (resp?.msg === "BagId successfully Deleted") {
+        Dispatch(openSnackbar(true, "success", resp.msg));
+        // setOpen(true);
+        // setMsg(resp?.msg);
+        setSelectedBarcode([]);
+        fetchBagIds();
+      }
+    } catch (e) {
+      // console.log(e);
+    }
+  };
 
   return (
     <>
@@ -283,7 +294,7 @@ function BarcodeDetails() {
                   marginLeft: "12px",
                   padding: "12px",
                 }}
-                onClick={dateFilter}
+                onClick={deleteBarCodes}
               >
                 DELETE
               </Button>
