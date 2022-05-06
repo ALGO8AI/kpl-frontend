@@ -644,7 +644,7 @@ function ViolationLog1() {
     });
     load_ctr_machine();
 
-    const interval = setInterval(() => load_ctr_machine(), 20000);
+    const interval = setInterval(() => load_ctr_machine(), 60000);
     return () => {
       clearInterval(interval);
     };

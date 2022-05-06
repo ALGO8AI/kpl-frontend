@@ -562,6 +562,10 @@ function ViolationLog1() {
       payload: weekRange()[1],
     });
     load_ctr_machine();
+    const interval = setInterval(() => load_ctr_machine(), 60000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
   // const [state.violationTab, setTabValue] = React.useState(state.violationTab);
 

@@ -450,6 +450,10 @@ export default function Home() {
     });
     load_ctr_table();
     loadData();
+    const interval = setInterval(() => loadData(), 60000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
