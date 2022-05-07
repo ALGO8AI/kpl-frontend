@@ -96,6 +96,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ViolationLog1() {
+  const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
+
   // context
   const { state, dispatch } = React.useContext(StitchingContext);
 
@@ -320,6 +322,9 @@ function ViolationLog1() {
   };
 
   const dateFilter = async () => {
+    Dispatch({
+      type: "ENABLE_HOME_FILTER",
+    });
     try {
       setLoader(true);
       const machineBreak = await getMachineBreakdown(
@@ -562,12 +567,23 @@ function ViolationLog1() {
       payload: weekRange()[1],
     });
     load_ctr_machine();
-    const interval = setInterval(() => load_ctr_machine(), 60000);
+  }, []);
+  // const [state.violationTab, setTabValue] = React.useState(state.violationTab);
+
+  useEffect(() => {
+    function callAPI() {
+      // console.log("API Calling...");
+      load_ctr_machine();
+    }
+    function getAlerts() {
+      !filterEnable && callAPI();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 60000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
-  // const [state.violationTab, setTabValue] = React.useState(state.violationTab);
+  }, [filterEnable]);
 
   const handleTabChange = (event, newValue) => {
     dispatch({
@@ -847,6 +863,9 @@ function ViolationLog1() {
               setInputCTR([]);
               setInputMACHINEid([]);
               setInputSHIFT([]);
+              Dispatch({
+                type: "DISABLE_HOME_FILTER",
+              });
             }}
           >
             <RefreshIcon />

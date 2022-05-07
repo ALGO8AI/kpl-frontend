@@ -470,10 +470,6 @@ function Home() {
 
     dispatch({ type: "TO", payload: weekRange()[1] });
     load_ctr_machine();
-    const interval = setInterval(() => loadData(), 60000);
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   useEffect(() => {

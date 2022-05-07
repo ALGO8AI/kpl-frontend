@@ -41,7 +41,7 @@ import {
 import ViolationTable from "./ViolationTable";
 import { CheckingContext } from "../../../context/CheckingContext";
 import ImageDialog from "../../../components/imageDialog/ImageDialog";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
@@ -114,6 +114,9 @@ function ViolationLog1() {
 
   // Reduc Dispatch
   const Dispatch = useDispatch();
+
+  // use selector
+  const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
 
   // states
 
@@ -205,6 +208,9 @@ function ViolationLog1() {
   const classes = useStyles();
 
   const refreshData = async () => {
+    Dispatch({
+      type: "DISABLE_HOME_FILTER",
+    });
     setInputCTR([]);
     setLoader(true);
     dispatch({
@@ -334,6 +340,9 @@ function ViolationLog1() {
   };
 
   const dateFilter = async () => {
+    Dispatch({
+      type: "ENABLE_HOME_FILTER",
+    });
     try {
       setLoader(true);
 
@@ -644,11 +653,27 @@ function ViolationLog1() {
     });
     load_ctr_machine();
 
-    const interval = setInterval(() => load_ctr_machine(), 60000);
+    // const interval = setInterval(() => load_ctr_machine(), 60000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
+  }, []);
+
+  useEffect(() => {
+    function callAPI() {
+      console.log("API Calling...");
+      load_ctr_machine();
+    }
+    function getAlerts() {
+      !filterEnable && callAPI();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 60000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [filterEnable]);
+
   const [tabValue, setTabValue] = React.useState(state.violationTab);
 
   const handleTabChange = (event, newValue) => {

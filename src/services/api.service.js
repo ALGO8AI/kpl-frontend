@@ -253,7 +253,11 @@ const videoWallCutting = async () => {
 };
 
 const getYourData = async (data) => {
-  return await callBackend("POST", "routes/yourData", true, data);
+  const formData = {
+    ...data,
+    username: localStorage.getItem("kpl_username"),
+  };
+  return await callBackend("POST", "routes/yourData", true, formData);
 };
 
 const getViolationDetailData = async (id) => {

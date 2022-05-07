@@ -32,7 +32,7 @@ import { CheckingContext } from "../../../context/CheckingContext";
 import DonutChartChecking from "../../../components/donutChart/DonutChartChecking";
 import AreaChartChecking from "../../../components/areaChart/AreaChartChecking";
 import DefectDonutChart from "../../../components/donutChart/DefectDonutChart";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
@@ -56,6 +56,8 @@ export default function Home() {
   const [inputSHIFT, setInputSHIFT] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("weekly");
 
+  // use selector
+  const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
   // React dispatch
   const Dispatch = useDispatch();
 
@@ -310,6 +312,9 @@ export default function Home() {
     else if (!state.to) alert("To Date not Selected!");
     else {
       try {
+        Dispatch({
+          type: "ENABLE_HOME_FILTER",
+        });
         const defect = await defectChartData(
           state.from,
           state.to,
@@ -450,11 +455,26 @@ export default function Home() {
     });
     load_ctr_table();
     loadData();
-    const interval = setInterval(() => loadData(), 60000);
+    // const interval = setInterval(() => loadData(), 60000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
+  }, []);
+
+  useEffect(() => {
+    function callAPI() {
+      console.log("API Calling...");
+      loadData();
+    }
+    function getAlerts() {
+      !filterEnable && callAPI();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 60000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [filterEnable]);
 
   return (
     <Grid
@@ -570,7 +590,10 @@ export default function Home() {
         xs={6}
         sm={4}
         lg={2}
-        style={{ justifyContent: "center", marginRight: "8px" }}
+        style={{
+          justifyContent: "center",
+          marginRight: "8px",
+        }}
       >
         <FormControl
           variant="outlined"
@@ -734,6 +757,9 @@ export default function Home() {
             setInputCTR([]);
             setInputMACHINEid([]);
             setInputSHIFT([]);
+            Dispatch({
+              type: "DISABLE_HOME_FILTER",
+            });
           }}
         >
           <RefreshIcon />
