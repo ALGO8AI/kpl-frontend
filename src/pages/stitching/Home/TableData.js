@@ -122,7 +122,7 @@ function TableData({
                 // { headerName: "Total Working Hrs.", field: "totalWorkingHours" },
                 {
                   headerName: "Scheduled Hrs.",
-                  field: "scheduledHours",
+                  field: "scheduleHours",
                   width: 180,
                 },
                 // {
@@ -152,12 +152,12 @@ function TableData({
                   width: 270,
                   // hide: true,
                 },
-                {
-                  headerName: "Idle Hrs.",
-                  field: "idleHours",
-                  width: 210,
-                  hide: true,
-                },
+                // {
+                //   headerName: "Idle Hrs.",
+                //   field: "idleHours",
+                //   width: 210,
+                //   hide: true,
+                // },
                 {
                   headerName: "Feed Unavailable Hrs.",
                   field: "feedUnav",
@@ -480,7 +480,7 @@ function TableData({
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
                 },
-                { headerName: "CLPCTR", field: "CLPCTR", width: 240 },
+                { headerName: "CLPCTR", field: "clp", width: 240 },
                 {
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
@@ -516,10 +516,10 @@ function TableData({
                       : 1280 / 5,
                   // hide: true,
                 },
-                { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
+                // { headerName: "Idle Hrs.", field: "idleHours", width: 240 },
                 {
                   headerName: "Worker Unavailable Hrs.",
-                  field: "WorkerUnavailableHours",
+                  field: "workerUnav",
                   width:
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
@@ -528,7 +528,7 @@ function TableData({
                 },
                 {
                   headerName: "Feed Unavailable Hrs.",
-                  field: "feedUnavailableHours",
+                  field: "feedUnav",
                   width:
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
@@ -537,7 +537,7 @@ function TableData({
                 },
                 {
                   headerName: "Machine Offtime Hrs.",
-                  field: "machineOfftimeHrs",
+                  field: "offTimeDuration",
                   width:
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
