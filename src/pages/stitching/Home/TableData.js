@@ -490,13 +490,13 @@ function TableData({
                       : 1280 / 5,
                 },
                 {
-                  headerName: "% Utilization",
+                  headerName: "Machine Utilization %",
                   field: "utilizationPercentage",
                   width:
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
-                  hide: true,
+                  // hide: true,
                 },
                 {
                   headerName: "Worker Utilization %",
@@ -524,7 +524,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
-                  hide: true,
+                  // hide: true,
                 },
                 {
                   headerName: "Feed Unavailable Hrs.",
@@ -533,7 +533,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
-                  hide: true,
+                  // hide: true,
                 },
                 {
                   headerName: "Machine Offtime Hrs.",
@@ -542,7 +542,7 @@ function TableData({
                     table1?.current?.offsetWidth > 1280
                       ? table1?.current?.offsetWidth / 5
                       : 1280 / 5,
-                  hide: true,
+                  // hide: true,
                 },
               ]}
             />

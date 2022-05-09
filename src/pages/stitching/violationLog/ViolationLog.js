@@ -866,6 +866,7 @@ function ViolationLog1() {
               Dispatch({
                 type: "DISABLE_HOME_FILTER",
               });
+              setTypeOfRange("weekly");
             }}
           >
             <RefreshIcon />
