@@ -229,15 +229,15 @@ function NotificationLogChecking() {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label="Crowd Data" {...a11yProps(0)} />
-            <Tab label="Worker Data" {...a11yProps(1)} />
-            <Tab label="Defect Data" {...a11yProps(2)} />
+            {/* <Tab label="Crowd Data" {...a11yProps(0)} />
+            <Tab label="Worker Data" {...a11yProps(1)} /> */}
+            <Tab label="Defect Data" {...a11yProps(0)} />
 
             {/* <Tab label="Worker Data" {...a11yProps(2)} />
             <Tab label="Machine Data" {...a11yProps(3)} /> */}
           </Tabs>
         </AppBar>
-        <TabPanel value={value} index={0}>
+        {/* <TabPanel value={value} index={0}>
           {data?.crowdData?.length > 0 && (
             <Grid
               container
@@ -604,8 +604,8 @@ function NotificationLogChecking() {
               />
             </Grid>
           )}
-        </TabPanel>
-        <TabPanel value={value} index={2}>
+        </TabPanel> */}
+        <TabPanel value={value} index={0}>
           {data?.defectData?.length > 0 && (
             <Grid
               container
