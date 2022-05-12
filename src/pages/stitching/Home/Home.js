@@ -128,7 +128,7 @@ function Home() {
       case "custom":
         dispatch({
           type: "FROM",
-          payload: weekRange()[0],
+          payload: weekRange()[1],
         });
         dispatch({
           type: "TO",
@@ -143,6 +143,12 @@ function Home() {
 
   // refresh data
   const refreshData = async () => {
+    dispatch({
+      type: "FROM",
+      payload: weekRange()[1],
+    });
+
+    dispatch({ type: "TO", payload: weekRange()[1] });
     try {
       const x = await machineBreakdownData();
       dispatch({
