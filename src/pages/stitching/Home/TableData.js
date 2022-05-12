@@ -121,7 +121,7 @@ function TableData({
                 },
                 // { headerName: "Total Working Hrs.", field: "totalWorkingHours" },
                 {
-                  headerName: "Available Hrs.",
+                  headerName: "Schedule Hrs.",
                   field: "scheduleHours",
                   width: 180,
                 },
@@ -227,7 +227,7 @@ function TableData({
                   width: 120,
                 },
                 {
-                  headerName: "Available Hrs.",
+                  headerName: "Schedule Hrs.",
                   field: "scheduledHours",
                   width: 180,
                 },
@@ -330,7 +330,7 @@ function TableData({
                   width: 150,
                 },
                 {
-                  headerName: "Available Hrs.",
+                  headerName: "Schedule Hrs.",
                   field: "scheduledHours",
                   width: 180,
                 },
@@ -482,7 +482,7 @@ function TableData({
                 },
                 { headerName: "CLPCTR", field: "clp", width: 240 },
                 {
-                  headerName: "Available Hrs.",
+                  headerName: "Schedule Hrs.",
                   field: "scheduledHours",
                   width:
                     table1?.current?.offsetWidth > 1280
