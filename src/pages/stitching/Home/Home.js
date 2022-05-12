@@ -61,7 +61,7 @@ function Home() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
-  const [typeOfRange, setTypeOfRange] = useState("weekly");
+  const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // Functions
   const getMachineDynamic = async () => {
@@ -465,7 +465,7 @@ function Home() {
     loadData();
     dispatch({
       type: "FROM",
-      payload: weekRange()[0],
+      payload: weekRange()[1],
     });
 
     dispatch({ type: "TO", payload: weekRange()[1] });
