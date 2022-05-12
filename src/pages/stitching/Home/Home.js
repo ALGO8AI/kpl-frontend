@@ -696,7 +696,7 @@ function Home() {
             }}
             fullWidth
             onClick={() => {
-              setTypeOfRange("weekly");
+              setTypeOfRange("custom");
               Dispatch({
                 type: "DISABLE_HOME_FILTER",
               });
