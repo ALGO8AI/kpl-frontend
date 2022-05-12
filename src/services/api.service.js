@@ -345,7 +345,13 @@ const violationCommentChecking = async (
   );
 };
 
-const workerUtilizationData = async (fromDate, toDate, ctr, machine, shift) => {
+const workerUtilizationData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shift
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -384,7 +390,11 @@ const checkingWorkerUtilizationData = async (
     data
   );
 };
-const crowdingInstanceData = async (fromDate, toDate, shifts) => {
+const crowdingInstanceData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  shifts
+) => {
   return await callBackend(
     "POST",
     "routes/KPI/home/crowdingInstanceData",
@@ -398,7 +408,13 @@ const crowdingInstanceData = async (fromDate, toDate, shifts) => {
   );
 };
 
-const feedInstanceData = async (fromDate, toDate, ctr, machine, shift) => {
+const feedInstanceData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shift
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -430,8 +446,8 @@ const crowdingInstanceCheckingData = async (fromDate, toDate, shifts) => {
 };
 
 const summaryByViolationData = async (
-  fromDate,
-  toDate,
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
   shifts
@@ -452,7 +468,13 @@ const summaryByViolationData = async (
   );
 };
 
-const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
+const summaryByWorkerData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -468,7 +490,13 @@ const summaryByWorkerData = async (fromDate, toDate, ctr, machine, shifts) => {
     data
   );
 };
-const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
+const machineData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -485,7 +513,13 @@ const machineData = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
-const ClpCtrData = async (fromDate, toDate, ctr, machine, shifts) => {
+const ClpCtrData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -621,7 +655,12 @@ const getStitchingNotification = async () => {
   );
 };
 
-const machineBreakdownData = async (fromDate, toDate, machine, shift) => {
+const machineBreakdownData = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  machine,
+  shift
+) => {
   const data = {
     machineId: machine,
     filterDateFrom: fromDate,

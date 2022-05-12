@@ -56,14 +56,14 @@ function LiveMachine() {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label="Video Wall" {...a11yProps(0)} />
-          <Tab label="Machine Status" {...a11yProps(1)} />
+          <Tab label="Machine Status" {...a11yProps(0)} />
+          <Tab label="Video Wall" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={1}>
         <VideoWall />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={0}>
         <MachineStatusStitch />
       </TabPanel>
     </Grid>

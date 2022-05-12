@@ -382,7 +382,7 @@ function DonutChart(props) {
             color: "#f68f1d",
           }}
         >
-          Total Scheduled Hours{" "}
+          Total Available Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {Number(props.totalTime)?.toFixed(2)}
           </span>
