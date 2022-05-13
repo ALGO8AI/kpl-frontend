@@ -135,13 +135,13 @@ function TableData({
                 //   hide: true,
                 // },
                 {
-                  headerName: "Feed Utilization %",
+                  headerName: "Feed Availability %",
                   field: "feedUnavPercentage",
                   width: 210,
                   // hide: true,
                 },
                 {
-                  headerName: "Worker Utilization %",
+                  headerName: "Worker Availability %",
                   field: "workerUnavPercentage",
                   width: 210,
                   // hide: true,
@@ -238,13 +238,13 @@ function TableData({
                   hide: true,
                 },
                 {
-                  headerName: "Worker Utilization %",
+                  headerName: "Worker Availability %",
                   field: "workerUnavPercentage",
                   width: 210,
                   // hide: true,
                 },
                 {
-                  headerName: "Feed Utilization %",
+                  headerName: "Feed Availability %",
                   field: "feedUnavPercentage",
                   width: 210,
                   // hide: true,
@@ -340,12 +340,12 @@ function TableData({
                   width: 240,
                 },
                 {
-                  headerName: "Worker Utilization %",
+                  headerName: "Worker Availability %",
                   field: "workerUtilPercentage",
                   width: 240,
                 },
                 {
-                  headerName: "Feed Utilization %",
+                  headerName: "Feed Availability %",
                   field: "feedUtilPercentage",
                   width: 240,
                 },
@@ -499,7 +499,7 @@ function TableData({
                   // hide: true,
                 },
                 {
-                  headerName: "Worker Utilization %",
+                  headerName: "Worker Availability %",
                   field: "workerUnavPercentage",
                   width:
                     table1?.current?.offsetWidth > 1280
@@ -508,7 +508,7 @@ function TableData({
                   // hide: true,
                 },
                 {
-                  headerName: "Feed Utilization %",
+                  headerName: "Feed Availability %",
                   field: "feedUnavPercentage",
                   width:
                     table1?.current?.offsetWidth > 1280

@@ -323,10 +323,8 @@ function Home() {
         const x = await workerUtilizationData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         // console.log(x);
@@ -347,10 +345,8 @@ function Home() {
         const feed = await feedInstanceData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
 
@@ -363,9 +359,7 @@ function Home() {
         const z = await machineBreakdownData(
           state.from,
           state.to,
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputMACHINEid,
           inputSHIFT
         );
 
@@ -377,10 +371,8 @@ function Home() {
         const homeWorkerTable = await summaryByWorkerData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
@@ -396,10 +388,8 @@ function Home() {
         const homeDateTable = await summaryByViolationData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (
@@ -418,10 +408,8 @@ function Home() {
         const homeMachineTable = await machineData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (
@@ -442,10 +430,8 @@ function Home() {
         const homeCTRTable = await ClpCtrData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.machineID),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (
@@ -651,7 +637,7 @@ function Home() {
                 onChange={(e) => setInputSHIFT(e.target.value)}
                 label="Shift"
               >
-                {["A", "B"].map((item, index) => (
+                {["A", "B", "C"].map((item, index) => (
                   <MenuItem key={index} value={item}>
                     {item}
                   </MenuItem>

@@ -467,7 +467,7 @@ function WorkerSchedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {state.machineIDs.length > 0 &&
+              {state?.machineIDs?.length > 0 &&
                 state.machineIDs.map((item, index) => (
                   <MenuItem value={item.machineID} key={index}>
                     {item.machineID}
@@ -556,7 +556,7 @@ function WorkerSchedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {["A", "B"].map((item, index) => (
+              {["A", "B", "C"].map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>

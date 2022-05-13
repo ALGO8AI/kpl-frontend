@@ -156,7 +156,7 @@ function DonutChart(props) {
             dispatch({ type: "VIOLATION_TAB", payload: props.payload_data })
           }
         >
-          Worker Utilization
+          Worker Availability
         </Typography>
       </div>
       <div className="donutCard">

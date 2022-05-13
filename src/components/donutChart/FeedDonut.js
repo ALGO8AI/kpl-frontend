@@ -140,7 +140,7 @@ function FeedDonut(props) {
             dispatch({ type: "VIOLATION_TAB", payload: props.payload_data })
           }
         >
-          Feed Utilization
+          Feed Availability
         </Typography>
       </div>
       <div className="donutCard">

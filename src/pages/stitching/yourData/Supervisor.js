@@ -639,7 +639,7 @@ function Supervisor(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {["A", "B"].map((item, index) => (
+            {["A", "B", "C"].map((item, index) => (
               <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>
