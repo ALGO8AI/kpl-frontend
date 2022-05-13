@@ -398,7 +398,7 @@ function DonutChart(props) {
             color: "#f68f1d",
           }}
         >
-          % Utilization{" "}
+          % Availability{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
             {Number(props?.utilizationPercentage)?.toFixed(2) + "%"}

@@ -331,7 +331,7 @@ function FeedDonut(props) {
             color: "#f68f1d",
           }}
         >
-          % Utilization{" "}
+          % Availability{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
             {Number(props?.data?.utilizationPercentage)?.toFixed(2) + "%"}
