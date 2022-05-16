@@ -330,9 +330,7 @@ function ViolationLog1() {
       const machineBreak = await getMachineBreakdown(
         state.violationFrom,
         state.violationTo,
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID),
+        inputMACHINEid,
         inputSHIFT
       );
       // console.log(machineBreak);
@@ -346,9 +344,7 @@ function ViolationLog1() {
       const machineViolation = await getMachineViolation(
         state.violationFrom,
         state.violationTo,
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID),
+        inputMACHINEid,
         inputSHIFT
       );
       // console.log(machineBreak);
@@ -362,10 +358,8 @@ function ViolationLog1() {
       const feed = await feedUnavailableViolation(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       if (feed.feedUnavailableData !== "no data") {
@@ -386,10 +380,8 @@ function ViolationLog1() {
       const crowd = await crowdingViolation(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       if (crowd.crowdingData !== "no data") {
@@ -410,10 +402,8 @@ function ViolationLog1() {
       const worker = await workerUnavailableViolation(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       if (worker.workerUnavailableDurationData !== "no data") {
@@ -437,10 +427,8 @@ function ViolationLog1() {
       const by_worker = await violationByWorkerF(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.machineID),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       if (by_worker.violationByWorkerData !== "no data") {

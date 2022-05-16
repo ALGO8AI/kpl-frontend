@@ -318,10 +318,8 @@ export default function Home() {
         const defect = await defectChartData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         dispatch({
@@ -334,10 +332,8 @@ export default function Home() {
         const x = await checkingWorkerUtilizationData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         dispatch({
@@ -364,10 +360,8 @@ export default function Home() {
         const homeWorkerTable = await checkingHomeWorker(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeWorkerTable !== "no data") {
@@ -383,10 +377,8 @@ export default function Home() {
         const homeDateTable = await checkingHomeDate(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeDateTable.detailedSummaryByDate !== "no data") {
@@ -402,10 +394,8 @@ export default function Home() {
         const homeMachineTable = await checkingHomeByTable(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeMachineTable?.detailedSummaryByTableId !== "no data") {
@@ -421,10 +411,8 @@ export default function Home() {
         const homeCTRTable = await detailedSummaryByClpCtrChecking(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeCTRTable !== "no data") {

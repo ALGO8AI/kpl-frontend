@@ -349,10 +349,8 @@ function ViolationLog1() {
       const crowd = await crowdingViolationChecking(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : [],
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       console.log(crowd);
@@ -369,10 +367,8 @@ function ViolationLog1() {
       const defects = await defectsViolation(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : [],
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       // console.log(defects?.data);
@@ -389,10 +385,8 @@ function ViolationLog1() {
       const prodSum = await productionSummary(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : [],
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       // console.table("Prod SUmmary");
@@ -410,10 +404,8 @@ function ViolationLog1() {
       const tailorSum = await tailorSummary(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : [],
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       const def = tailorSum?.defectCols?.map((item) => item.defectName);
@@ -463,10 +455,8 @@ function ViolationLog1() {
       const worker = await workerUnavailableViolationChecking(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : [],
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       // console.log(worker?.workerUnavailableDurationData);
@@ -483,10 +473,8 @@ function ViolationLog1() {
       const by_worker = await violationByWorkerFChecking(
         state.violationFrom,
         state.violationTo,
-        inputCTR.length > 0 ? inputCTR : [],
-        inputMACHINEid.length > 0
-          ? inputMACHINEid
-          : machineID.map((item) => item.tableId),
+        inputCTR,
+        inputMACHINEid,
         inputSHIFT
       );
       // console.log(by_worker?.violationByWorkerData);
