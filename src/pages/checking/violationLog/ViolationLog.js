@@ -1269,7 +1269,7 @@ function ViolationLog1() {
                 loading={loader}
                 columns={[
                   {
-                    field: "view",
+                    field: "actionStatus",
                     title: "Details",
                     render: (rowData) =>
                       rowData?.defectName ? (
@@ -1328,11 +1328,8 @@ function ViolationLog1() {
                   },
                   {
                     title: "Date",
-                    field: "DateTime",
+                    field: "dateTime",
                     render: (rowData) => {
-                      // const NewDate = moment(new Date(rowData.dateTime))
-                      //   .format("DD/MM/YYYY")
-                      //   .toString();
                       return modifyPrevDate(rowData.dateTime);
                     },
                   },
@@ -1648,7 +1645,7 @@ function ViolationLog1() {
                 loading={loader}
                 columns={[
                   {
-                    field: "view",
+                    field: "actionStatus",
                     title: "Details",
                     render: (rowData) => (
                       <Link
@@ -1715,7 +1712,7 @@ function ViolationLog1() {
                   },
                   {
                     title: "Date",
-                    field: "DateTime",
+                    field: "dateTime",
                     render: (rowData) => {
                       // const NewDate = moment(new Date(rowData.dateTime))
                       //   .format("DD/MM/YYYY")
