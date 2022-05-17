@@ -11,6 +11,7 @@ import NotificationLog from "../../../components/notificationLog/NotificationLog
 import Supervisor from "./Supervisor";
 import WorkerSchedule from "./WorkerSchedule";
 import { useSelector } from "react-redux";
+import WorkerScheduleV2 from "./WorkerScheduleV2";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,6 +79,7 @@ function YourData() {
             <Tab label="Worker Schedule" {...a11yProps(1)} />
             <Tab label="Supervisor Schedule" {...a11yProps(2)} />
             <Tab label="Notification Log" {...a11yProps(3)} />
+            <Tab label="Worker Schedule V2" {...a11yProps(4)} />
           </Tabs>
         )}
       </AppBar>
@@ -94,12 +96,17 @@ function YourData() {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <WorkerSchedule />
+            {/* <WorkerScheduleV2 /> */}
           </TabPanel>
           <TabPanel value={value} index={2}>
             <Supervisor />
           </TabPanel>
           <TabPanel value={value} index={3}>
             <NotificationLog />
+          </TabPanel>
+          <TabPanel value={value} index={4}>
+            {/* <WorkerSchedule /> */}
+            <WorkerScheduleV2 />
           </TabPanel>
         </>
       )}
