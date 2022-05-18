@@ -458,6 +458,7 @@ function AddUser({ loadData }) {
                     // { name: "Supervisor", value: "supervisor" },
                     { name: "Wing Incharge", value: "wingIncharge" },
                     { name: "Director", value: "director" },
+                    { name: "Engineer", value: "engineer" },
                     { name: "Senior Manager", value: "seniorManager" },
                     { name: "Assistant Manager", value: "assistantManager" },
                     { name: "In Charge", value: "incharge" },

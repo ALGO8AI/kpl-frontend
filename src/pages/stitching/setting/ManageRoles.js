@@ -1028,6 +1028,7 @@ function ManageRoles() {
                       name: "Director",
                       value: "director",
                     },
+                    { name: "Engineer", value: "engineer" },
                     {
                       name: "Senior Manager",
                       value: "seniorManager",
