@@ -35,6 +35,7 @@ import {
 import { theme } from "../../../Utility/constants";
 import ReactApexChart from "react-apexcharts";
 import TableData from "./TableData";
+import Loader from "../../../components/loader/Loader";
 
 export default function HomeV2() {
   // context
@@ -45,7 +46,7 @@ export default function HomeV2() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
-  const [typeOfRange, setTypeOfRange] = useState("weekly");
+  const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // React dispatch
   const Dispatch = useDispatch();
@@ -98,17 +99,15 @@ export default function HomeV2() {
 
   // refresh
   const refreshData = async () => {
-    var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
-
+    setTypeOfRange("custom");
     dispatch({
       type: "FROM",
-      payload: newDateWeekBack.toISOString().slice(0, 10),
+      payload: weekRange()[1],
     });
 
     dispatch({
       type: "TO",
-      payload: myDate.toISOString().slice(0, 10),
+      payload: weekRange()[1],
     });
 
     try {
@@ -304,10 +303,8 @@ export default function HomeV2() {
         const defect = await defectChartData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         dispatch({
@@ -320,10 +317,8 @@ export default function HomeV2() {
         const x = await checkingWorkerUtilizationData(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         dispatch({
@@ -350,10 +345,8 @@ export default function HomeV2() {
         const homeWorkerTable = await checkingHomeWorker(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeWorkerTable !== "no data") {
@@ -369,10 +362,8 @@ export default function HomeV2() {
         const homeDateTable = await checkingHomeDate(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeDateTable.detailedSummaryByDate !== "no data") {
@@ -388,10 +379,8 @@ export default function HomeV2() {
         const homeMachineTable = await checkingHomeByTable(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeMachineTable?.detailedSummaryByTableId !== "no data") {
@@ -407,10 +396,8 @@ export default function HomeV2() {
         const homeCTRTable = await detailedSummaryByClpCtrChecking(
           state.from,
           state.to,
-          inputCTR.length > 0 ? inputCTR : clpCtr.map((item) => item.ctrs),
-          inputMACHINEid.length > 0
-            ? inputMACHINEid
-            : machineID.map((item) => item.tableId),
+          inputCTR,
+          inputMACHINEid,
           inputSHIFT
         );
         if (homeCTRTable !== "no data") {
@@ -432,7 +419,7 @@ export default function HomeV2() {
   useEffect(() => {
     dispatch({
       type: "FROM",
-      payload: weekRange()[0],
+      payload: weekRange()[1],
     });
 
     dispatch({
@@ -653,6 +640,7 @@ export default function HomeV2() {
             >
               <MenuItem value="A">A</MenuItem>
               <MenuItem value="B">B</MenuItem>
+              <MenuItem value="C">C</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -714,10 +702,18 @@ export default function HomeV2() {
           <RepairedBahgDonut />
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <DefectPercentageDonut />
+          {state.defectChart.loading ? (
+            <Loader />
+          ) : (
+            <DefectPercentageDonut data={state?.defectChart?.data} />
+          )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <Top5Defects />
+          {state.defectChart.loading ? (
+            <Loader />
+          ) : (
+            <Top5Defects data={state?.defectChart?.data} />
+          )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           <DefectTrend />
@@ -833,8 +829,7 @@ function RepairedBahgDonut() {
 }
 
 // chart 2
-function DefectPercentageDonut() {
-  const series = [13, 87];
+function DefectPercentageDonut(props) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -846,7 +841,7 @@ function DefectPercentageDonut() {
     chart: {
       type: "donut",
     },
-    labels: ["Defected", "Not Defected"],
+    labels: ["Total Bags Checked", "Defective", "Non-Defective"],
   };
   return (
     <div className={Styles.Card}>
@@ -855,15 +850,25 @@ function DefectPercentageDonut() {
         <div className={Styles.Left}>
           <ReactApexChart
             options={options}
-            series={series}
+            series={[
+              Boolean(props.data?.totalBagsChecked)
+                ? props.data?.totalBagsChecked
+                : 0,
+              Boolean(props.data?.defectCount) ? props?.data?.defectCount : 0,
+              Boolean(props.data?.totalBagsChecked)
+                ? props.data?.totalBagsChecked - props.data?.defectCount
+                : 0,
+            ]}
             type="donut"
             width={200}
           />
         </div>
         <div className={Styles.Right2}>
           <div className={Styles.Data}>
-            <p style={{ color: "grey" }}>Total Bags</p>
-            <p style={{ color: "grey" }}>100</p>
+            <p style={{ color: "grey" }}>% Defects</p>
+            <p style={{ color: "grey" }}>
+              {props.data?.totalDefectPercentage + "%"}
+            </p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -873,8 +878,30 @@ function DefectPercentageDonut() {
                 backgroundColor: "#094573",
               }}
             ></div>
-            <p style={{ color: "#094573" }}>Defected</p>
-            <p style={{ color: "#094573" }}>13</p>
+            <p style={{ color: "#094573" }}>Total</p>
+            <p style={{ color: "#094573" }}>{props?.data?.totalBagsChecked}</p>
+          </div>
+          <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#ffce38",
+              }}
+            ></div>
+            <p style={{ color: "#ffce38" }}>Defected</p>
+            <p style={{ color: "#ffce38" }}>{props?.data?.defectCount}</p>
+          </div>
+          <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#ffa643",
+              }}
+            ></div>
+            <p style={{ color: "#ffa643" }}>Non Defected</p>
+            <p style={{ color: "#ffa643" }}>
+              {props?.data?.totalBagsChecked - props?.data?.defectCount}
+            </p>
           </div>
         </div>
       </div>
@@ -883,12 +910,12 @@ function DefectPercentageDonut() {
 }
 
 // chart 3
-function Top5Defects() {
+function Top5Defects({ data }) {
   const DATA = {
     series: [
       {
         name: "Defects",
-        data: [1, 2, 3, 4, 5],
+        data: data?.data?.map((item) => item.defectPercentage),
       },
     ],
     options: {
@@ -929,7 +956,7 @@ function Top5Defects() {
       },
 
       xaxis: {
-        categories: [1, 2, 3, 4, 5],
+        categories: data?.data?.map((item) => item.defectName),
         position: "bottom",
         axisBorder: {
           show: false,
