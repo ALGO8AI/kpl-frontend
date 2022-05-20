@@ -195,6 +195,7 @@ export default function Home() {
   const load_ctr_table = async () => {
     try {
       const ctr = await ctr_machineID();
+      console.log("CTR", ctr);
       const tableIds = await getAllTableId();
       setClpCtr(ctr?.clpctr);
       setMachineID(tableIds?.data);
@@ -486,7 +487,7 @@ export default function Home() {
           options={clpCtr}
           // value={inputCTR}
           disableCloseOnSelect
-          getOptionLabel={(option) => option.ctrs}
+          getOptionLabel={(option) => option?.ctrs}
           renderOption={(option, { selected }) => (
             <React.Fragment>
               <Checkbox
@@ -495,7 +496,7 @@ export default function Home() {
                 style={{ marginRight: 8 }}
                 checked={selected}
               />
-              {option.ctrs}
+              {option?.ctrs}
             </React.Fragment>
           )}
           // style={{ width: 500 }}
@@ -508,7 +509,7 @@ export default function Home() {
             />
           )}
           onChange={(e, t) => {
-            setInputCTR(t.map((item) => item.ctrs));
+            setInputCTR(t?.map((item) => item?.ctrs));
           }}
         />
         {/* <FormControl

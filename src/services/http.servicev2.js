@@ -2,18 +2,13 @@
 const axios = require("axios");
 
 // const localUrl = "http://localhost:5000";
-// const cloudUrl = "http://3.18.22.89:3000"; //dev
-const cloudUrlProd = "http://kpl.algo8apps.com:3000"; //dev
-const clouUrlDev = "http://thawing-bayou-72580.herokuapp.com";
-const cloudUrlTemp = "http://13.126.115.120:5000"; //temp
-const cloudUrlVPN = "http://120.120.120.147:5000"; //VPN
-const cloudUrlVPN_TEMP = "http://120.120.120.147:5004"; //VPN
+const cloudUrl = "http://kpl-checking.herokuapp.com"; //dev
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://kpl.algo8apps.com";
 
 // const baseUrl = cloudUrlProd;
-const baseUrl = cloudUrlVPN;
+const baseUrl = cloudUrl;
 // const baseUrl = "http://kpl.algo8apps.com:5006";
 
 const getUrl = (path) => `${baseUrl}/${path}`;
@@ -26,7 +21,7 @@ const getConfig = (formData) => {
   return { headers };
 };
 
-const callBackend = async (
+const callBackendV2 = async (
   type,
   path,
   auth = true,
@@ -62,4 +57,4 @@ const callBackend = async (
   }
 };
 
-export { callBackend, videoWall };
+export { callBackendV2, videoWall };

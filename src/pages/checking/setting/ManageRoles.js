@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
@@ -7,6 +8,7 @@ import {
   DialogActions,
   DialogContentText,
   DialogTitle,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -15,8 +17,18 @@ import {
   Select,
   TextField,
   Typography,
+  withStyles,
 } from "@material-ui/core";
 import MaterialTable from "material-table";
+import PropTypes from "prop-types";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 import React, { useState, useEffect } from "react";
 import {
   revokeUserAccess,
@@ -24,12 +36,66 @@ import {
   UpdateStitchingUserData,
   UnrevokeUserAccess,
 } from "../../../services/api.service";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import {
+  theme as THEME,
+  stitchingLines,
+  wings,
+  shifts,
+} from "../../../Utility/constants";
 import AddUser from "./AddUser";
+import { useDispatch, useSelector } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
+import { checkingManageRoles } from "../../../services/checking.api";
 
 function ManageRoles() {
+  // table state
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: THEME.BLUE,
+      color: theme.palette.common.white,
+      fontSize: 16,
+    },
+    body: {
+      fontSize: 24,
+    },
+  }))(TableCell);
+  const StyledTableDataCell = withStyles((theme) => ({
+    head: {
+      fontSize: 16,
+    },
+  }))(TableCell);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  // dispatch
+  const Dispatch = useDispatch();
+
+  // selector
+  const { role } = useSelector((state) => state.Common);
+
+  // state
   const [columns, setColumns] = useState([]);
-  const [data, setData] = useState([]);
+  const [revokeActive, setRevokeActive] = useState(false);
+  const [tableData, setTableData] = useState([]);
+  const [data, setData] = useState({});
   const [open, setOpen] = React.useState(false);
+  const [filterCondition, setFilterConditiion] = useState({
+    wing: [],
+    line: [],
+    shift: [],
+  });
+  const [selected, setSelected] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -39,13 +105,23 @@ function ManageRoles() {
     setOpen(false);
   };
 
-  const revokeUser = async (name) => {
+  const revokeUser = async () => {
+    if (selected.length === 0) {
+      return Dispatch(openSnackbar(true, "error", "No User Selected"));
+    }
     try {
-      var txt = window.confirm("User access will be revoked, continue?");
+      var txt = window.confirm(
+        `${selected.length} Users access will be revoked, continue?`
+      );
       if (txt) {
-        const resp = await revokeUserAccess(name);
-        alert(resp.msg);
-        loadData();
+        const resp = await revokeUserAccess(selected);
+        if (resp?.msg) {
+          setSelected([]);
+          Dispatch(
+            openSnackbar(true, "success", "User Access Revoked Successfully")
+          );
+          loadData();
+        }
       }
     } catch (e) {}
   };
@@ -55,7 +131,8 @@ function ManageRoles() {
       var txt = window.confirm("User access will be un-revoked, continue?");
       if (txt) {
         const resp = await UnrevokeUserAccess(name);
-        alert(resp.msg);
+        console.log(resp);
+        Dispatch(openSnackbar(true, "success", "User Unrevoked Successfully"));
         loadData();
       }
     } catch (e) {}
@@ -72,9 +149,12 @@ function ManageRoles() {
       role: data.role,
       zone: data.zone,
       wing: data.wing,
-      accessibilityCutting: data.accessibilityCutting ? 1 : 0,
-      accessibilityStitching: data.accessibilityStitching ? 1 : 0,
-      accessibilityChecking: data.accessibilityChecking ? 1 : 0,
+      // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
+      // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
+      // accessibilityChecking: data.accessibilityChecking ? 1 : 0,
+      accessibilityCutting: 1,
+      accessibilityStitching: 1,
+      accessibilityChecking: 1,
       workerID: data.workerID,
       image: data.image,
       department: data.department,
@@ -82,33 +162,54 @@ function ManageRoles() {
       modifiedBy: data.modifiedBy,
       shiftA: data.shiftA ? 1 : 0,
       shiftB: data.shiftB ? 1 : 0,
+      shiftC: data.shiftC ? 1 : 0,
       mobileNumber: data.mobileNumber,
       machineBreakdown: data.machineBreakdown ? 1 : 0,
       feedUnavailability: data.feedUnavailability ? 1 : 0,
       workerNotAvailable: data.workerNotAvailable ? 1 : 0,
       crowding: data.crowding ? 1 : 0,
       checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
+      machineViolation: data.machineViolation ? 1 : 0,
     };
     console.log(DATA);
     try {
       var txt = window.confirm("User will be updated, continue?");
       if (txt) {
         const x = await UpdateStitchingUserData(DATA);
-        console.log(x);
-        alert(x.msg);
-        loadData();
+        if (x?.msg) {
+          Dispatch(openSnackbar(true, "success", "User Updated Successfully"));
+          loadData();
+        } else {
+          Dispatch(openSnackbar(true, "error", "Try Again."));
+          loadData();
+        }
       }
     } catch (err) {
       console.log(err);
     }
   };
+  const filterData = async () => {
+    try {
+      const x = await checkingManageRoles(filterCondition);
+      console.log(x);
+      setTableData(x.userData);
+    } catch (e) {}
+  };
+
+  const refreshData = async () => {
+    try {
+      const x = await checkingManageRoles({});
+      console.log(x);
+      setTableData(x.userData);
+    } catch (e) {}
+  };
 
   const loadData = async () => {
     console.log("loaddata");
     try {
-      const x = await StitchingUserData();
+      const x = await checkingManageRoles({});
       console.log(x);
-      setData(x.userData);
+      setTableData(x?.userData);
       setColumns([
         {
           title: "User ID",
@@ -118,6 +219,7 @@ function ManageRoles() {
         {
           title: "Username",
           field: "username",
+          type: "boolean",
         },
 
         {
@@ -153,7 +255,20 @@ function ManageRoles() {
               </p>
             ),
         },
-
+        {
+          title: "Shift C",
+          field: "shiftC",
+          render: (rowData) =>
+            Boolean(rowData.shiftC) ? (
+              <p style={{ color: "rgb(74, 170, 22)" }}>
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </p>
+            ) : (
+              <p style={{ color: "rgb(249, 54, 54)" }}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </p>
+            ),
+        },
         {
           title: "Line",
           field: "zone",
@@ -187,8 +302,14 @@ function ManageRoles() {
                 fontSize: "1rem",
               }}
               onClick={() => {
-                handleClickOpen();
-                setData(x);
+                if (role === "Admin" || role === "admin") {
+                  handleClickOpen();
+                  setData(x);
+                } else {
+                  Dispatch(
+                    openSnackbar(true, "error", "Only Accessible to admin.")
+                  );
+                }
               }}
             >
               EDIT
@@ -209,7 +330,15 @@ function ManageRoles() {
                   fontSize: "1rem",
                   color: "white",
                 }}
-                onClick={() => revokeUser(x.username)}
+                onClick={() => {
+                  if (role === "Admin" || role === "admin") {
+                    revokeUser(x.username);
+                  } else {
+                    Dispatch(
+                      openSnackbar(true, "error", "Only Accessible to admin.")
+                    );
+                  }
+                }}
               >
                 REVOKE
               </Button>
@@ -229,25 +358,6 @@ function ManageRoles() {
               </Button>
             ),
         },
-        // {
-        //   title: "Unrevoke",
-        //   field: "uid",
-        //   render: (x) => (
-        //     <Button
-        //       variant="contained"
-        //       style={{
-        //         backgroundColor: "#0e4a7b",
-        //         padding: "8px 12px",
-        //         cursor: "pointer",
-        //         fontSize: "1rem",
-        //         color: "white",
-        //       }}
-        //       onClick={() => unRevokeUser(x.username)}
-        //     >
-        //       UNREVOKE
-        //     </Button>
-        //   ),
-        // },
       ]);
       console.log(x);
     } catch (err) {
@@ -261,29 +371,470 @@ function ManageRoles() {
   return (
     <>
       {/* <Grid container> */}
-      {/* <Grid container item md={12}> */}
-      <MaterialTable
-        title="Manage Roles"
-        columns={columns}
-        data={data}
-        options={{
-          exportButton: true,
-          headerStyle: {
-            backgroundColor: "#0e4a7b",
-            color: "#FFF",
-          },
-          pageSizeOptions: [20, 50, 100, 200],
-          pageSize: 20,
-        }}
-        style={{ marginTop: "50px", width: "100%" }}
-      />
-      {/* </Grid> */}
+      <Grid container style={{ margin: "12px 0" }}>
+        <Grid
+          item
+          xs={12}
+          lg={1}
+          style={{
+            paddingRight: "12px",
+            height: "100%",
+          }}
+        >
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Wing
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={filterCondition.wing}
+              onChange={(e) =>
+                setFilterConditiion({
+                  ...filterCondition,
+                  wing: e.target.value,
+                })
+              }
+              label="Wing"
+              style={{ height: "56px" }}
+              multiple
+            >
+              {wings.map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Line
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={filterCondition.line}
+              onChange={(e) =>
+                setFilterConditiion({
+                  ...filterCondition,
+                  line: e.target.value,
+                })
+              }
+              multiple
+              label="Line"
+              style={{ height: "56px" }}
+            >
+              {stitchingLines.map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={filterCondition.shift}
+              multiple
+              onChange={(e) =>
+                setFilterConditiion({
+                  ...filterCondition,
+                  shift: e.target.value,
+                })
+              }
+              label="Shift"
+              style={{ height: "56px" }}
+            >
+              {shifts.map((item, index) => (
+                <MenuItem key={index} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: THEME.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={filterData}
+          >
+            <FilterListIcon />
+            FILTER
+          </Button>
+        </Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: THEME.BLUE,
+              color: "#FFF",
+              whiteSpace: "nowrap",
+              height: "100%",
+            }}
+            fullWidth
+            onClick={refreshData}
+          >
+            <RefreshIcon />
+            REFRESH
+          </Button>
+        </Grid>
+        {/* </>
+        )} */}
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        {/* <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid> */}
+        {/* <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid> */}
+        {/* </Grid> */}
+        {(role === "Admin" || role === "admin") && (
+          <>
+            <Grid container item xs={12} lg={1}>
+              <AddUser loadData={loadData} />
+            </Grid>
+            <Grid container item xs={12} lg={1} style={{ paddingLeft: "12px" }}>
+              <Button
+                disableElevation
+                variant="contained"
+                fullWidth
+                style={{
+                  backgroundColor: "transparent",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  height: "100%",
+                }}
+                onClick={() => setRevokeActive((prev) => !prev)}
+              >
+                <PersonAddDisabledIcon
+                  style={{
+                    color: "#0e4a7b",
+                    fontSize: 32,
+                  }}
+                />
+                {/* ADD USER */}
+              </Button>
+            </Grid>
+          </>
+        )}
+      </Grid>
+      {revokeActive && (
+        <Grid container style={{ marginBottom: "24px" }}>
+          <Grid
+            item
+            xs={12}
+            lg={1}
+            style={{
+              paddingRight: "12px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h4" style={{ color: THEME.ORANGE }}>
+              {selected.length}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            lg={1}
+            style={{
+              paddingRight: "12px",
+              height: "100%",
+            }}
+          >
+            <Button
+              disableElevation
+              variant="contained"
+              fullWidth
+              style={{
+                backgroundColor: THEME.ORANGE,
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                height: "52px",
+              }}
+              onClick={() => {
+                if (role === "Admin" || role === "admin") {
+                  revokeUser();
+                } else {
+                  Dispatch(
+                    openSnackbar(true, "error", "Only Accessible to admin.")
+                  );
+                }
+              }}
+            >
+              REVOKE
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+      <Grid container item xs={12}>
+        {/* <MaterialTable
+          title="Manage Roles"
+          columns={columns}
+          data={tableData}
+          options={{
+            exportButton: true,
+            headerStyle: {
+              backgroundColor: "#0e4a7b",
+              color: "#FFF",
+            },
+            pageSizeOptions: [20, 50, 100, 200],
+            pageSize: 20,
+            selection: true,
+          }}
+          // onSelectionChange={(event, rows) => console.log(event)}
+          onSelectionChange={(e, rowData) => {
+            rowData.tableData.checked = true;
+          }}
+          style={{ width: "100%" }}
+        /> */}
+        <Paper style={{ width: "100%", marginTop: "16px" }}>
+          <TableContainer style={{ width: "100%" }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead style={{ backgroundColor: "red" }}>
+                <TableRow>
+                  {revokeActive && (
+                    <StyledTableCell>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            style={{
+                              color: THEME.ORANGE,
+                            }}
+                            checked={
+                              tableData.length > 0 &&
+                              selected.length === tableData.length
+                            }
+                            onChange={(event) => {
+                              console.log(event);
+                              if (event.target.checked) {
+                                const newSelecteds = tableData.map(
+                                  (n) => n.username
+                                );
+                                setSelected(newSelecteds);
+                                return;
+                              }
+                              setSelected([]);
+                            }}
+                            inputProps={{
+                              "aria-label": "select all desserts",
+                            }}
+                          />
+                        }
+                      />
+                    </StyledTableCell>
+                  )}
+                  {[
+                    "User ID",
+                    "Username",
+                    "Role",
+                    "Shift A",
+                    "Shift B",
+                    // "Shift C",
+                    "Line",
+                    "Wing",
+                    "Email",
+                    "Mobile",
+                    "Update",
+                    // "Revoke",
+                  ].map((column) => (
+                    <StyledTableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column}
+                    </StyledTableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tableData
+                  ?.sort((a, b) => (a.username > b.username ? 1 : -1))
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                      >
+                        {revokeActive && (
+                          <StyledTableDataCell>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: THEME.ORANGE,
+                                  }}
+                                  checked={selected.includes(row?.username)}
+                                  onChange={(event) => {
+                                    selected.includes(row.username)
+                                      ? setSelected((prev) =>
+                                          prev.filter(
+                                            (item) => item !== row.username
+                                          )
+                                        )
+                                      : setSelected((prev) => [
+                                          ...prev,
+                                          row.username,
+                                        ]);
+                                  }}
+                                  inputProps={{
+                                    "aria-label": "select all desserts",
+                                  }}
+                                />
+                              }
+                            />
+                          </StyledTableDataCell>
+                        )}
+                        <StyledTableDataCell>
+                          {row.workerID}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.username}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>{row.role}</StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {Boolean(row.shiftA) ? (
+                            <p style={{ color: "rgb(74, 170, 22)" }}>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </p>
+                          ) : (
+                            <p style={{ color: "rgb(249, 54, 54)" }}>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </p>
+                          )}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {Boolean(row.shiftB) ? (
+                            <p style={{ color: "rgb(74, 170, 22)" }}>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </p>
+                          ) : (
+                            <p style={{ color: "rgb(249, 54, 54)" }}>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </p>
+                          )}
+                        </StyledTableDataCell>
+                        {/* <StyledTableDataCell>
+                          {Boolean(row.shiftC) ? (
+                            <p style={{ color: "rgb(74, 170, 22)" }}>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </p>
+                          ) : (
+                            <p style={{ color: "rgb(249, 54, 54)" }}>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </p>
+                          )}
+                        </StyledTableDataCell> */}
+                        <StyledTableDataCell>{row.zone}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.wing}</StyledTableDataCell>
+                        <StyledTableDataCell>{row.email}</StyledTableDataCell>
+                        <StyledTableDataCell>
+                          {row.mobileNumber}
+                        </StyledTableDataCell>
+                        <StyledTableDataCell>
+                          <button
+                            onClick={() => {
+                              if (role === "Admin" || role === "admin") {
+                                handleClickOpen();
+                                setData(row);
+                              } else {
+                                Dispatch(
+                                  openSnackbar(
+                                    true,
+                                    "error",
+                                    "Only Accessible to admin."
+                                  )
+                                );
+                              }
+                            }}
+                            style={{
+                              color: THEME.blue,
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            EDIT
+                          </button>
+                        </StyledTableDataCell>
+                        {/* <StyledTableDataCell>
+                          <button
+                            onClick={() => {
+                              if (role === "Admin") {
+                                revokeUser(row.username);
+                              } else {
+                                Dispatch(
+                                  openSnackbar(
+                                    true,
+                                    "error",
+                                    "Only Accessible to admin."
+                                  )
+                                );
+                              }
+                            }}
+                            style={{
+                              color: THEME.blue,
+                              textDecoration: "underline",
+                              backgroundColor: "white",
+                              padding: "8px 16px",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            REVOKE
+                          </button>
+                        </StyledTableDataCell> */}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={tableData?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Grid>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        style={{ width: "900px", margin: "auto" }}
+        style={{ maxWidth: "1200px", margin: "auto" }}
       >
         <DialogTitle id="alert-dialog-title">{"UPDATE USER DATA"}</DialogTitle>
         <DialogContentText id="alert-dialog-description">
@@ -297,9 +848,11 @@ function ManageRoles() {
               padding: "1.5rem 1rem",
             }}
           >
-            <Grid
+            {/* <Grid
               item
-              xs={6}
+              xs={12}
+              md={6}
+              lg={3}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -307,18 +860,83 @@ function ManageRoles() {
               }}
             >
               <TextField
+                disabled
+                fullWidth
+                id="outlined-basic"
+                label="User Id"
+                variant="outlined"
+                value={data.workerID}
+                onChange={(e) => setData({ ...data, workerID: e.target.value })}
+              />
+            </Grid> */}
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextField
+                error={
+                  data?.mobileNumber?.length > 10 ||
+                  data?.mobileNumber?.length < 10
+                }
+                helperText={
+                  data?.mobileNumber?.length > 10 ||
+                  data?.mobileNumber?.length < 10
+                    ? "Must be 10 digit"
+                    : null
+                }
+                fullWidth
+                id="outlined-basic"
+                label="Mobile"
+                type="number"
+                variant="outlined"
+                value={data?.mobileNumber}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    mobileNumber: e.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextField
+                disabled
                 id="outlined-basic"
                 label="Username"
                 variant="outlined"
-                value={data.username}
+                value={data?.username}
                 fullWidth
-                onChange={(e) => setData({ ...data, username: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    username: e.target.value,
+                  })
+                }
                 // disabled
               />
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
+              md={6}
+              lg={3}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -329,7 +947,7 @@ function ManageRoles() {
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                value={data.password}
+                value={data?.password}
                 fullWidth
                 disabled
               />
@@ -337,6 +955,8 @@ function ManageRoles() {
             <Grid
               item
               xs={12}
+              md={6}
+              lg={3}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -344,18 +964,26 @@ function ManageRoles() {
               }}
             >
               <TextField
+                disabled
                 fullWidth
                 id="outlined-basic"
                 label="Email"
                 variant="outlined"
-                value={data.email}
+                value={data?.email}
                 // disabled
-                onChange={(e) => setData({ ...data, email: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    email: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
+              md={6}
+              lg={3}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -369,548 +997,599 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.designation}
+                  value={data?.designation}
                   onChange={(e) =>
-                    setData({ ...data, designation: e.target.value })
+                    setData({
+                      ...data,
+                      designation: e.target.value,
+                    })
                   }
                   label="Designation"
+                  error={!data?.designation}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={"helper"}>Helper</MenuItem>
-                  <MenuItem value={"manager"}>Manager</MenuItem>
-                  <MenuItem value={"supervisor"}>Supervisor</MenuItem>
-                  <MenuItem value={"wing incharge"}>wing Incharge</MenuItem>
+                  {[
+                    { name: "Helper", value: "helper" },
+                    {
+                      name: "Manager",
+                      value: "manager",
+                    },
+                    // {
+                    //   name: "Supervisor",
+                    //   value: "supervisor",
+                    // },
+                    {
+                      name: "Wing Incharge",
+                      value: "wingIncharge",
+                    },
+                    {
+                      name: "Director",
+                      value: "director",
+                    },
+                    { name: "Engineer", value: "engineer" },
+                    {
+                      name: "Senior Manager",
+                      value: "seniorManager",
+                    },
+                    {
+                      name: "Assistant Manager",
+                      value: "assistantManager",
+                    },
+                    {
+                      name: "In Charge",
+                      value: "incharge",
+                    },
+                    {
+                      name: "Final Supervisor",
+                      value: "finalSupervisor",
+                    },
+                    {
+                      name: "Kit Supervisor",
+                      value: "kitSupervisor",
+                    },
+                    {
+                      name: "Line Supervisor",
+                      value: "lineSupervisor",
+                    },
+                    { name: "Fitter", value: "fitter" },
+                    {
+                      name: "Electrician",
+                      value: "electrician",
+                    },
+                  ]
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
 
-            {data.designation === "supervisor" && (
-              <Grid
-                item
-                xs={6}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Supervisor Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Department
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data?.department}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      department: e.target.value,
+                    })
+                  }
+                  label="Department"
+                  error={!data?.department}
+                  required
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {[
+                    {
+                      name: "Management",
+                      value: "management",
+                    },
+                    { name: "FIBC", value: "fibc" },
+                    {
+                      name: "Quality",
+                      value: "quality",
+                    },
+                    {
+                      name: "Planning",
+                      value: "planning",
+                    },
+                    {
+                      name: "Improvement Office",
+                      value: "improvementOffice",
+                    },
+                    { name: "Other", value: "other" },
+                  ]
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem value={item.name} key={index}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Role
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data?.role}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      role: e.target.value,
+                    })
+                  }
+                  label="Role"
+                  error={!data?.role}
+                  required
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {[
+                    { name: "Admin", value: "admin" },
+                    {
+                      name: "Non Admin",
+                      value: "nonAdmin",
+                    },
+                    { name: "User", value: "user" },
+                    {
+                      name: "Head User",
+                      value: "headUser",
+                    },
+                    {
+                      name: "Non User",
+                      value: "nonUser",
+                    },
+                  ]
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((item, index) => (
+                      <MenuItem value={item.name} key={index}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Line
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data?.zone}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      zone: e.target.value,
+                    })
+                  }
+                  label="Line"
+                  error={!data?.zone}
+                  required
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {stitchingLines.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                      {item}
                     </MenuItem>
-                    <MenuItem value={"Final Area Supervisor"}>
-                      Final Area Supervisor
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Wing
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data?.wing}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      wing: e.target.value,
+                    })
+                  }
+                  label="Wing"
+                  error={!data?.wing}
+                  required
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {wings.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                      {item}
                     </MenuItem>
-                    <MenuItem value={"Kit Area Supervisor"}>
-                      Kit Area Supervisor
-                    </MenuItem>
-                    <MenuItem value={"Line Area Supervisor"}>
-                      Line Area Supervisor
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            ></Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            ></Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            ></Grid>
+
+            {/* accessibility */}
+            {/* <Grid container item xs={12} style={{ alignItems: "center" }}>
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  Accessibility
+                </Typography>
               </Grid>
-            )}
-
-            {data.designation === "manager" && (
-              <Grid
-                item
-                xs={6}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Manager Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"admin"}>Admin</MenuItem>
-                    <MenuItem value={"Production Manager"}>
-                      Production Manager
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.accessibilityCutting == 1 ? true : false}
+                      checked={data.accessibilityCutting == 1 ? true : false}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          accessibilityCutting: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Cutting"
+                  labelPlacement="end"
+                />
               </Grid>
-            )}
-
-            {data.designation === "wing incharge" && (
-              <Grid
-                item
-                xs={6}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Wing Incharge Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"Manager"}>Manager</MenuItem>
-                  </Select>
-                </FormControl>
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.accessibilityStitching == 1 ? true : false}
+                      checked={data.accessibilityStitching == 1 ? true : false}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          accessibilityStitching: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Stitching"
+                  labelPlacement="end"
+                />
               </Grid>
-            )}
-
-            {data.designation === "helper" && (
-              <Grid
-                item
-                xs={6}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Helper Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={data.role}
-                    onChange={(e) => setData({ ...data, role: e.target.value })}
-                    label="Designation"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"electrician"}>Electrician</MenuItem>
-                    <MenuItem value={"fitter"}>Fitter</MenuItem>
-                  </Select>
-                </FormControl>
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.accessibilityChecking == 1 ? true : false}
+                      checked={data.accessibilityChecking == 1 ? true : false}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          accessibilityChecking: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Checking"
+                  labelPlacement="end"
+                />
               </Grid>
-            )}
+            </Grid> */}
 
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Line"
-                variant="outlined"
-                value={data.zone}
-                onChange={(e) => setData({ ...data, zone: e.target.value })}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Wing"
-                variant="outlined"
-                value={data.wing}
-                onChange={(e) => setData({ ...data, wing: e.target.value })}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="User Id"
-                variant="outlined"
-                value={data.workerID}
-                onChange={(e) => setData({ ...data, workerID: e.target.value })}
-              />
-            </Grid>
+            {/* shift */}
+            <Grid container item xs={12} style={{ alignItems: "center" }}>
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  Select Shifts<span style={{ color: "red" }}>*</span>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.shiftA == 1 ? true : false}
+                      checked={data.shiftA == 1 ? true : false}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          shiftA: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Shift A"
+                  labelPlacement="end"
+                />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.shiftB == 1 ? true : false}
+                      checked={data.shiftB == 1 ? true : false}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          shiftB: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Shift B"
+                  labelPlacement="end"
+                />
+              </Grid>
 
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Mobile"
-                type="number"
-                variant="outlined"
-                value={data.mobileNumber}
-                onChange={(e) =>
-                  setData({ ...data, mobileNumber: e.target.value })
-                }
-              />
+              <Grid item xs={12} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.shiftC == 1 ? true : false}
+                      checked={data.shiftC == 1 ? true : false}
+                      color="primary"
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          shiftC: e.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Shift C"
+                  labelPlacement="end"
+                />
+              </Grid>
             </Grid>
+            <Divider variant="fullWidth" />
 
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.accessibilityCutting == 1 ? true : false}
-                    checked={data.accessibilityCutting == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        accessibilityCutting: e.target.checked,
-                      })
+            {/* Responsibility */}
+            <Grid container item xs={12} style={{ alignItems: "flex-start" }}>
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6" style={{ color: "#f68f1d" }}>
+                  Responsible For<span style={{ color: "red" }}>*</span>
+                </Typography>
+              </Grid>
+              <Grid container item xs={12} md={9}>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={data?.machineBreakdown == 1 ? true : false}
+                        checked={data.machineBreakdown == 1 ? true : false}
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            machineBreakdown: e.target.checked,
+                          })
+                        }
+                      />
                     }
+                    label="Machine Breakdown"
+                    labelPlacement="end"
                   />
-                }
-                label="Accessibility Cutting"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.accessibilityStitching == 1 ? true : false}
-                    checked={data.accessibilityStitching == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        accessibilityStitching: e.target.checked,
-                      })
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={data?.feedUnavailability == 1 ? true : false}
+                        checked={data.feedUnavailability == 1 ? true : false}
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            feedUnavailability: e.target.checked,
+                          })
+                        }
+                      />
                     }
+                    label="Feed Unavailability"
+                    labelPlacement="end"
                   />
-                }
-                label="Accessibility Stitching"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.accessibilityChecking == 1 ? true : false}
-                    checked={data.accessibilityChecking == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        accessibilityChecking: e.target.checked,
-                      })
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={data?.workerNotAvailable == 1 ? true : false}
+                        checked={data.workerNotAvailable == 1 ? true : false}
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            workerNotAvailable: e.target.checked,
+                          })
+                        }
+                      />
                     }
+                    label="Worker Not Available"
+                    labelPlacement="end"
                   />
-                }
-                label="Accessibility Checking"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                SHIFT
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.shiftA == 1 ? true : false}
-                    checked={data.shiftA == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        shiftA: e.target.checked,
-                      })
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={data?.machineViolation == 1 ? true : false}
+                        checked={data.machineViolation == 1 ? true : false}
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            machineViolation: e.target.checked,
+                          })
+                        }
+                      />
                     }
+                    label="Machine Violation"
+                    labelPlacement="end"
                   />
-                }
-                label="Shift A"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.shiftB == 1 ? true : false}
-                    checked={data.shiftB == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        shiftB: e.target.checked,
-                      })
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={data?.crowding == 1 ? true : false}
+                        checked={data.crowding == 1 ? true : false}
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            crowding: e.target.checked,
+                          })
+                        }
+                      />
                     }
+                    label="Crowding"
+                    labelPlacement="end"
                   />
-                }
-                label="Shift B"
-                labelPlacement="end"
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                RESPONSIBLE FOR
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.machineBreakdown == 1 ? true : false}
-                    checked={data.machineBreakdown == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        machineBreakdown: e.target.checked,
-                      })
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={
+                          data?.checkerActiveMonitoring == 1 ? true : false
+                        }
+                        checked={
+                          data.checkerActiveMonitoring == 1 ? true : false
+                        }
+                        color="primary"
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            checkerActiveMonitoring: e.target.checked,
+                          })
+                        }
+                      />
                     }
+                    label="Checker Active Monitoring"
+                    labelPlacement="end"
                   />
-                }
-                label="Machine Breakdown"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.feedUnavailability == 1 ? true : false}
-                    checked={data.feedUnavailability == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        feedUnavailability: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label="Feed Unavailability"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.workerNotAvailable == 1 ? true : false}
-                    checked={data.workerNotAvailable == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        workerNotAvailable: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label="Worker Not Available"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.crowding == 1 ? true : false}
-                    checked={data.crowding == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        crowding: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label="Crowding"
-                labelPlacement="end"
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={data.checkerActiveMonitoring == 1 ? true : false}
-                    checked={data.checkerActiveMonitoring == 1 ? true : false}
-                    color="primary"
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        checkerActiveMonitoring: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label="Checker Active Monitoring"
-                labelPlacement="end"
-              />
+                </Grid>
+                <Grid item xs={12} md={4}></Grid>
+              </Grid>
             </Grid>
           </Grid>
         </DialogContentText>
 
         <DialogActions>
-          <Button onClick={handleClose} variant="contained" color="secondary">
+          <Button
+            onClick={handleClose}
+            variant="contained"
+            style={{
+              backgroundColor: "#fff",
+              color: "#0e4a7bF",
+              border: "1px solid #0e4a7b",
+              width: "90px",
+            }}
+          >
             CANCEL
           </Button>
           <Button
             variant="contained"
             style={{
               backgroundColor: "#0e4a7b",
+              border: "1px solid #0e4a7b",
               color: "#FFF",
+              width: "90px",
             }}
             onClick={() => {
               submitHandler();
@@ -937,7 +1616,6 @@ function ManageRoles() {
         </Snackbar>
       </Grid> */}
       {/* </Grid> */}
-      <AddUser load={loadData} />
     </>
   );
 }

@@ -1269,7 +1269,7 @@ function ViolationLog1() {
                 loading={loader}
                 columns={[
                   {
-                    field: "actionStatus",
+                    field: "actionStatusV2",
                     title: "Details",
                     render: (rowData) =>
                       rowData?.defectName ? (
@@ -1316,6 +1316,10 @@ function ViolationLog1() {
                         </Link>
                       ),
                   },
+                  // {
+                  //   title: "Status",
+                  //   field: "actionStatusV2",
+                  // },
                   {
                     title: "Log ID",
                     field: "Id",
@@ -1645,7 +1649,7 @@ function ViolationLog1() {
                 loading={loader}
                 columns={[
                   {
-                    field: "actionStatus",
+                    field: "actionStatusV2",
                     title: "Details",
                     render: (rowData) => (
                       <Link
@@ -1671,6 +1675,10 @@ function ViolationLog1() {
                       </Link>
                     ),
                   },
+                  // {
+                  //   title: "Status",
+                  //   field: "actionStatusV2",
+                  // },
                   {
                     title: "Violation ID",
                     field: "Id",
