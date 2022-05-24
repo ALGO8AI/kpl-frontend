@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
@@ -22,7 +23,7 @@ import {
   defectChartData,
   getAllTableId,
 } from "../../../services/api.service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { weekRange } from "../../../Utility/DateRange";
 import Styles from "./HomeV2.module.scss";
@@ -36,6 +37,15 @@ import { theme } from "../../../Utility/constants";
 import ReactApexChart from "react-apexcharts";
 import TableData from "./TableData";
 import Loader from "../../../components/loader/Loader";
+import {
+  byClpCtrTableV3,
+  byDateTableV3,
+  byWorkerTableV3,
+  getAllTableIdV3,
+  homeDefectChartV3,
+  homeRepairedChartV3,
+  top5DefectesV3,
+} from "../../../redux/CheckingReducer/CheckingV3Action";
 
 export default function HomeV2() {
   // context
@@ -50,6 +60,16 @@ export default function HomeV2() {
 
   // React dispatch
   const Dispatch = useDispatch();
+  // React Selector
+  const {
+    allTableId,
+    defectedbags,
+    top5Defectes,
+    byWorkerTable,
+    byClpCtrTable,
+    byDateTable,
+    repairedbags,
+  } = useSelector((state) => state?.CheckV3);
 
   // Functions
 
@@ -109,73 +129,6 @@ export default function HomeV2() {
       type: "TO",
       payload: weekRange()[1],
     });
-
-    try {
-      const defect = await defectChartData();
-      dispatch({
-        type: "DEFECT_CHART",
-        payload: {
-          data: defect,
-          loading: false,
-        },
-      });
-
-      const y = await checkingWorkerUtilizationData();
-      dispatch({
-        type: "WORKER_UTILIZATION",
-        payload: {
-          data: y.workerUtilization,
-          loading: false,
-        },
-      });
-
-      const z = await crowdingInstanceCheckingData();
-      dispatch({
-        type: "CROWDING_INSTANCE",
-        payload: {
-          data: z.crowdingInstancesData,
-          loading: false,
-        },
-      });
-
-      const homeWorkerTable = await checkingHomeWorker();
-      dispatch({
-        type: "HOME_WORKER_TABLE",
-        payload: {
-          data: homeWorkerTable?.detailedSummaryByWorker,
-          loading: false,
-        },
-      });
-
-      const homeDateTable = await checkingHomeDate();
-      dispatch({
-        type: "HOME_DATE_TABLE",
-        payload: {
-          data: homeDateTable.detailedSummaryByDate,
-          loading: false,
-        },
-      });
-
-      const homeMachineTable = await checkingHomeByTable();
-      dispatch({
-        type: "HOME_MACHINE_TABLE",
-        payload: {
-          data: homeMachineTable?.detailedSummaryByTableId,
-          loading: false,
-        },
-      });
-
-      const homeCTRTable = await detailedSummaryByClpCtrChecking();
-      dispatch({
-        type: "HOME_CTR_TABLE",
-        payload: {
-          data: homeCTRTable?.data,
-          loading: false,
-        },
-      });
-    } catch (err) {
-      console.log(err.message);
-    }
   };
 
   // load ctr filter dropdown data
@@ -199,221 +152,18 @@ export default function HomeV2() {
   };
 
   // load initial table data
-  const loadData = async () => {
-    try {
-      if (state?.defectChart?.loading) {
-        const defect = await defectChartData();
-        console.log(defect);
-        Boolean(defect) &&
-          dispatch({
-            type: "DEFECT_CHART",
-            payload: {
-              data: defect,
-              loading: false,
-            },
-          });
-      }
-
-      if (state?.workerUtilization?.loading) {
-        const y = await checkingWorkerUtilizationData();
-        console.log(y);
-        Boolean(y?.workerUtilization) &&
-          dispatch({
-            type: "WORKER_UTILIZATION",
-            payload: {
-              data: y?.workerUtilization,
-              loading: false,
-            },
-          });
-      }
-
-      if (state?.crowdingInstance?.loading) {
-        const z = await crowdingInstanceCheckingData();
-        console.log(z);
-        Boolean(z?.crowdingInstancesData) &&
-          dispatch({
-            type: "CROWDING_INSTANCE",
-            payload: {
-              data: z?.crowdingInstancesData,
-              loading: false,
-            },
-          });
-      }
-
-      if (state?.homeWorkerTable?.loading) {
-        const homeWorkerTable = await checkingHomeWorker();
-        console.log(homeWorkerTable);
-        Boolean(homeWorkerTable?.detailedSummaryByWorker) &&
-          dispatch({
-            type: "HOME_WORKER_TABLE",
-            payload: {
-              data: homeWorkerTable?.detailedSummaryByWorker,
-              loading: false,
-            },
-          });
-      }
-
-      if (state?.homeDateTable?.loading) {
-        const homeDateTable = await checkingHomeDate();
-        console.log(homeDateTable);
-        Boolean(homeDateTable?.detailedSummaryByDate) &&
-          dispatch({
-            type: "HOME_DATE_TABLE",
-            payload: {
-              data: homeDateTable?.detailedSummaryByDate,
-              loading: false,
-            },
-          });
-      }
-
-      if (state?.homeCTRTable?.loading) {
-        const homeCTRTable = await detailedSummaryByClpCtrChecking();
-        console.log(homeCTRTable);
-        Boolean(homeCTRTable?.data) &&
-          dispatch({
-            type: "HOME_CTR_TABLE",
-            payload: {
-              data: homeCTRTable?.data,
-              loading: false,
-            },
-          });
-      }
-      if (state.homeMachineTable.loading) {
-        const homeMachineTable = await checkingHomeByTable();
-        console.log(homeMachineTable);
-        Boolean(homeMachineTable?.detailedSummaryByTableId) &&
-          dispatch({
-            type: "HOME_MACHINE_TABLE",
-            payload: {
-              data: homeMachineTable?.detailedSummaryByTableId,
-              loading: false,
-            },
-          });
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
+  const loadData = () => {
+    console.log("CheckingV3");
+    Dispatch(getAllTableIdV3());
+    Dispatch(homeRepairedChartV3());
+    Dispatch(homeDefectChartV3());
+    Dispatch(top5DefectesV3());
+    Dispatch(byWorkerTableV3());
+    Dispatch(byClpCtrTableV3());
+    Dispatch(byDateTableV3());
   };
   // load filtered data
-  const dateFilter = async () => {
-    if (!state.from) alert("From Date not Selected!");
-    else if (!state.to) alert("To Date not Selected!");
-    else {
-      try {
-        const defect = await defectChartData(
-          state.from,
-          state.to,
-          inputCTR,
-          inputMACHINEid,
-          inputSHIFT
-        );
-        dispatch({
-          type: "DEFECT_CHART",
-          payload: {
-            data: defect,
-            loading: false,
-          },
-        });
-        const x = await checkingWorkerUtilizationData(
-          state.from,
-          state.to,
-          inputCTR,
-          inputMACHINEid,
-          inputSHIFT
-        );
-        dispatch({
-          type: "WORKER_UTILIZATION",
-          payload: {
-            data: x?.workerUtilization,
-            loading: false,
-          },
-        });
-
-        const y = await crowdingInstanceCheckingData(
-          state.from,
-          state.to,
-          inputSHIFT
-        );
-        dispatch({
-          type: "CROWDING_INSTANCE",
-          payload: {
-            data: y?.crowdingInstancesData,
-            loading: false,
-          },
-        });
-
-        const homeWorkerTable = await checkingHomeWorker(
-          state.from,
-          state.to,
-          inputCTR,
-          inputMACHINEid,
-          inputSHIFT
-        );
-        if (homeWorkerTable !== "no data") {
-          dispatch({
-            type: "HOME_WORKER_TABLE",
-            payload: {
-              data: homeWorkerTable?.detailedSummaryByWorker,
-              loading: false,
-            },
-          });
-        }
-
-        const homeDateTable = await checkingHomeDate(
-          state.from,
-          state.to,
-          inputCTR,
-          inputMACHINEid,
-          inputSHIFT
-        );
-        if (homeDateTable.detailedSummaryByDate !== "no data") {
-          dispatch({
-            type: "HOME_DATE_TABLE",
-            payload: {
-              data: homeDateTable?.detailedSummaryByDate,
-              loading: false,
-            },
-          });
-        }
-
-        const homeMachineTable = await checkingHomeByTable(
-          state.from,
-          state.to,
-          inputCTR,
-          inputMACHINEid,
-          inputSHIFT
-        );
-        if (homeMachineTable?.detailedSummaryByTableId !== "no data") {
-          dispatch({
-            type: "HOME_MACHINE_TABLE",
-            payload: {
-              data: homeMachineTable?.detailedSummaryByTableId,
-              loading: false,
-            },
-          });
-        }
-
-        const homeCTRTable = await detailedSummaryByClpCtrChecking(
-          state.from,
-          state.to,
-          inputCTR,
-          inputMACHINEid,
-          inputSHIFT
-        );
-        if (homeCTRTable !== "no data") {
-          dispatch({
-            type: "HOME_CTR_TABLE",
-            payload: {
-              data: homeCTRTable?.data,
-              loading: false,
-            },
-          });
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
-  };
+  const dateFilter = async () => {};
 
   // Use Effects
   useEffect(() => {
@@ -426,7 +176,7 @@ export default function HomeV2() {
       type: "TO",
       payload: weekRange()[1],
     });
-    load_ctr_table();
+    // load_ctr_table();
     loadData();
   }, []);
   return (
@@ -498,14 +248,12 @@ export default function HomeV2() {
               label="Machine ID"
               // multiple
             >
-              {machineID &&
-                machineID
-                  ?.sort((a, b) => (a?.tableId > b?.tableId ? 1 : -1))
-                  .map((item, index) => (
-                    <MenuItem value={item.tableId} key={index}>
-                      {item.tableId}
-                    </MenuItem>
-                  ))}
+              {allTableId?.length > 0 &&
+                allTableId.map((item, index) => (
+                  <MenuItem value={item.tableId} key={index}>
+                    {item.tableId}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Grid>
@@ -699,20 +447,24 @@ export default function HomeV2() {
       {/* charts */}
       <Grid container item xs={12} sm={12} lg={12}>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <RepairedBahgDonut />
-        </Grid>
-        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          {state.defectChart.loading ? (
+          {repairedbags?.length === 0 ? (
             <Loader />
           ) : (
-            <DefectPercentageDonut data={state?.defectChart?.data} />
+            <RepairedBagDonut data={repairedbags} />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          {state.defectChart.loading ? (
+          {defectedbags?.length === 0 ? (
             <Loader />
           ) : (
-            <Top5Defects data={state?.defectChart?.data} />
+            <DefectPercentageDonut data={defectedbags} />
+          )}
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          {top5Defectes?.length === 0 ? (
+            <Loader />
+          ) : (
+            <Top5Defects data={top5Defectes} />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
@@ -745,10 +497,10 @@ export default function HomeV2() {
       </Grid>
       {/* tab view */}
       <TableData
-        homeWorkerTable={state.homeWorkerTable.data}
-        homeDateTable={state.homeDateTable.data}
+        homeWorkerTable={byWorkerTable}
+        homeDateTable={byDateTable}
         homeMachineTable={state.homeMachineTable.data}
-        homeCTRTable={state.homeCTRTable.data}
+        homeCTRTable={byClpCtrTable}
       />
     </Grid>
   );
@@ -757,8 +509,7 @@ export default function HomeV2() {
 // components
 
 // Chart 1
-function RepairedBahgDonut() {
-  const series = [8, 12, 80];
+function RepairedBagDonut({ data }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -779,7 +530,7 @@ function RepairedBahgDonut() {
         <div className={Styles.Left}>
           <ReactApexChart
             options={options}
-            series={series}
+            series={[data[0]?.noo, data[1]?.noo, data[2]?.noo]}
             type="donut"
             width={200}
           />
@@ -787,7 +538,9 @@ function RepairedBahgDonut() {
         <div className={Styles.Right2}>
           <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Total Bags</p>
-            <p style={{ color: "grey" }}>100</p>
+            <p style={{ color: "grey" }}>
+              {data[0]?.noo + data[1]?.noo + data[2]?.noo}
+            </p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -798,7 +551,7 @@ function RepairedBahgDonut() {
               }}
             ></div>
             <p style={{ color: "#094573" }}>Repaired Bags</p>
-            <p style={{ color: "#094573" }}>8</p>
+            <p style={{ color: "#094573" }}>{data[0]?.noo}</p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -809,7 +562,7 @@ function RepairedBahgDonut() {
               }}
             ></div>
             <p style={{ color: "#ffce38" }}>Rejected Bags</p>
-            <p style={{ color: "#ffce38" }}>12</p>
+            <p style={{ color: "#ffce38" }}>{data[1]?.noo}</p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -820,7 +573,7 @@ function RepairedBahgDonut() {
               }}
             ></div>
             <p style={{ color: "#ffa643" }}>Okay Bags</p>
-            <p style={{ color: "#ffa643" }}>80</p>
+            <p style={{ color: "#ffa643" }}>{data[2]?.noo}</p>
           </div>
         </div>
       </div>
@@ -829,7 +582,7 @@ function RepairedBahgDonut() {
 }
 
 // chart 2
-function DefectPercentageDonut(props) {
+function DefectPercentageDonut({ data }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -851,25 +604,29 @@ function DefectPercentageDonut(props) {
           <ReactApexChart
             options={options}
             series={[
-              Boolean(props.data?.totalBagsChecked)
-                ? props.data?.totalBagsChecked
-                : 0,
-              Boolean(props.data?.defectCount) ? props?.data?.defectCount : 0,
-              Boolean(props.data?.totalBagsChecked)
-                ? props.data?.totalBagsChecked - props.data?.defectCount
-                : 0,
+              data[1][0]["Total Bags"],
+              data[0][0]["Total Defects"],
+              data[1][0]["Total Bags"] - data[0][0]["Total Defects"],
+
+              // Boolean(props.data?.totalBagsChecked)
+              //   ? props.data?.totalBagsChecked
+              //   : 0,
+              // Boolean(props.data?.defectCount) ? props?.data?.defectCount : 0,
+              // Boolean(props.data?.totalBagsChecked)
+              //   ? props.data?.totalBagsChecked - props.data?.defectCount
+              //   : 0,
             ]}
             type="donut"
             width={200}
           />
         </div>
         <div className={Styles.Right2}>
-          <div className={Styles.Data}>
+          {/* <div className={Styles.Data}>
             <p style={{ color: "grey" }}>% Defects</p>
             <p style={{ color: "grey" }}>
               {props.data?.totalDefectPercentage + "%"}
             </p>
-          </div>
+          </div> */}
           <hr />
           <div className={Styles.Data}>
             <div
@@ -879,7 +636,7 @@ function DefectPercentageDonut(props) {
               }}
             ></div>
             <p style={{ color: "#094573" }}>Total</p>
-            <p style={{ color: "#094573" }}>{props?.data?.totalBagsChecked}</p>
+            <p style={{ color: "#094573" }}>{data[1][0]["Total Bags"]}</p>
           </div>
           <div className={Styles.Data}>
             <div
@@ -889,7 +646,7 @@ function DefectPercentageDonut(props) {
               }}
             ></div>
             <p style={{ color: "#ffce38" }}>Defected</p>
-            <p style={{ color: "#ffce38" }}>{props?.data?.defectCount}</p>
+            <p style={{ color: "#ffce38" }}>{data[0][0]["Total Defects"]}</p>
           </div>
           <div className={Styles.Data}>
             <div
@@ -900,7 +657,7 @@ function DefectPercentageDonut(props) {
             ></div>
             <p style={{ color: "#ffa643" }}>Non Defected</p>
             <p style={{ color: "#ffa643" }}>
-              {props?.data?.totalBagsChecked - props?.data?.defectCount}
+              {data[1][0]["Total Bags"] - data[0][0]["Total Defects"]}
             </p>
           </div>
         </div>
@@ -915,7 +672,7 @@ function Top5Defects({ data }) {
     series: [
       {
         name: "Defects",
-        data: data?.data?.map((item) => item.defectPercentage),
+        data: data?.map((item) => item.defectPercentage),
       },
     ],
     options: {
@@ -956,7 +713,7 @@ function Top5Defects({ data }) {
       },
 
       xaxis: {
-        categories: data?.data?.map((item) => item.defectName),
+        categories: data?.map((item) => item.defectName),
         position: "bottom",
         axisBorder: {
           show: false,

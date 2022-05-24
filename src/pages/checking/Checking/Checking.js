@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import React from "react";
@@ -6,20 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import BagID2 from "../BagID/BagID2";
 import Feedback from "../feedback/Feedback";
 import Home from "../Home/Home";
-import HomeV2 from "../Home/HomeV2";
+import HomeV3 from "../Home/HomeV3";
 import LayoutView from "../layoutView/LayoutView";
 import Setting from "../setting/Setting";
 import VideoWall from "../videoWall/VideoWall";
 import ViolationDetail from "../violationDetails/ViolationDetail";
 import ViolationLog from "../violationLog/ViolationLog";
+import ViolationLogV3 from "../violationLog/ViolationLogV3";
 import YourData from "../yourData/YourData";
 import Navigation from "./Navigation";
 
 function Checking(props) {
   const pages = {
-    home: <Home />,
-    home2: <HomeV2 />,
-    logs: <ViolationLog />,
+    home: <HomeV3 />,
+    home2: <HomeV3 />,
+    logs: <ViolationLogV3 />,
     videoWall: <VideoWall />,
     setting: <Setting />,
     layoutView: <LayoutView />,

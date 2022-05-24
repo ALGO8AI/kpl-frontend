@@ -69,8 +69,8 @@ function TableData({
           >
             <Tab label="By Worker" {...a11yProps(0)} />
             <Tab label="By Date" {...a11yProps(1)} />
-            <Tab label="By Table" {...a11yProps(2)} />
-            <Tab label="By CLP-CTR" {...a11yProps(3)} />
+            {/* <Tab label="By Table" {...a11yProps(2)} /> */}
+            <Tab label="By CLP-CTR" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
 
@@ -244,7 +244,7 @@ function TableData({
             />
           </Grid>
         </TabPanel>
-        <TabPanel value={tabValue} index={2}>
+        {/* <TabPanel value={tabValue} index={2}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
               // data={homeMachineTable}
@@ -339,9 +339,9 @@ function TableData({
               ]}
             />
           </Grid>
-        </TabPanel>
+        </TabPanel> */}
 
-        <TabPanel value={tabValue} index={3}>
+        <TabPanel value={tabValue} index={2}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
               // data={homeCTRTable}

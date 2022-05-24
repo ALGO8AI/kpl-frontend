@@ -29,6 +29,7 @@ import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { FormControl, InputLabel, Paper, Typography } from "@material-ui/core";
+import { getCheckingViolationDetailDataV3 } from "../../../services/checking.api";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -187,7 +188,7 @@ function ViolationDetail(props) {
   };
   const getData = async () => {
     try {
-      const x = await getCheckingViolationDetailData(props.id);
+      const x = await getCheckingViolationDetailDataV3(props.id);
       console.log(x);
       setData(x.volIdData[0]);
       setNewSupervisor(x.volIdData[0].supervisor);
@@ -972,7 +973,7 @@ function ViolationDetail(props) {
                           // multiple
                         >
                           {/* <option value=""></option> */}
-                          {supervisor.length > 0 &&
+                          {supervisor?.length > 0 &&
                             supervisor
                               ?.sort((a, b) =>
                                 a?.username > b?.username ? 1 : -1
@@ -1026,7 +1027,7 @@ function ViolationDetail(props) {
                           // label="Supervisor"
                           // multiple
                         >
-                          {supervisor.length > 0 &&
+                          {supervisor?.length > 0 &&
                             supervisor
                               ?.sort((a, b) =>
                                 a.username > b.username ? 1 : -1
