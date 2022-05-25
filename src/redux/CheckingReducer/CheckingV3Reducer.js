@@ -9,6 +9,7 @@ const initStore = {
   allTableId: [],
   defectsLogs: [],
   productionLogs: [],
+  notificationLogs: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,6 +11,7 @@ import Supervisor from "./Supervisor";
 import NotificationLogChecking from "../../../components/notificationLog/NotificationLogChecking";
 import WorkerChecking from "./Worker";
 import Worker from "../../stitching/yourData/Worker";
+import Tailor from "./Tailor";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,8 +80,8 @@ function YourData() {
         <Supervisor />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        {/* <Tailor /> */}
-        <Worker columns={["Tailor ID", "Tailor Name"]} />
+        <Tailor />
+        {/* <Worker columns={["Tailor ID", "Tailor Name"]} /> */}
       </TabPanel>
       <TabPanel value={value} index={4}>
         <NotificationLogChecking />

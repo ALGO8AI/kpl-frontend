@@ -10,13 +10,19 @@ import "./Worker.scss";
 import MaterialTable from "material-table";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import {
-  AddWorkerChecking,
-  getCheckingWorkerData,
-  workerUpdateChecking,
-  workerDeleteChecking,
-} from "../../../services/api.service";
+// import {
+//   AddWorkerChecking,
+//   getCheckingWorkerData,
+//   workerUpdateChecking,
+//   workerDeleteChecking,
+// } from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
+import {
+  AddWorkerCheckingV3,
+  getCheckingWorkerDataV3,
+  workerDeleteCheckingV3,
+  workerUpdateCheckingV3,
+} from "../../../services/checking.api";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,7 +56,7 @@ function WorkerChecking(props) {
 
   const loadData = async () => {
     try {
-      const x = await getCheckingWorkerData();
+      const x = await getCheckingWorkerDataV3();
       console.log(x);
       setWorkerData(x.data);
     } catch (err) {}
@@ -131,7 +137,7 @@ function WorkerChecking(props) {
 
   const submitImageDetails = async () => {
     try {
-      const resp = await AddWorkerChecking(userdata);
+      const resp = await AddWorkerCheckingV3(userdata);
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
@@ -144,12 +150,13 @@ function WorkerChecking(props) {
 
   const updateImageDetails = async () => {
     try {
-      const resp = await workerUpdateChecking(userdata);
+      const resp = await workerUpdateCheckingV3(userdata);
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
       setUserData({ name: "", workerId: "", workerImage: "" });
+      setEdit(false);
     } catch (e) {
       // console.log(e.message);
     }
@@ -157,12 +164,15 @@ function WorkerChecking(props) {
 
   const deleteImageDetails = async () => {
     try {
-      const resp = await workerDeleteChecking({ workerId: userdata.workerId });
+      const resp = await workerDeleteCheckingV3({
+        workerId: userdata.workerId,
+      });
       loadData();
       setUserData({ name: "", workerId: "", workerImage: "" });
       // console.log(resp);
       setMsg("Deleted");
       setOpen(true);
+      setEdit(false);
     } catch (e) {
       console.log(e.message);
     }

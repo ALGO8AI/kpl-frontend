@@ -16,14 +16,6 @@ import MaterialTable from "material-table";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import {
-  getCheckingSupervisorSchedule,
-  getCheckingSupervisorCopy,
-  addCheckingSupervisorSingle,
-  updateCheckingSupervisorSingle,
-  getAllSupervisorList,
-  deleteCheckingSupervisorSchedule,
-} from "../../../services/api.service";
 import { Alert } from "@material-ui/lab";
 import moment from "moment";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -35,6 +27,14 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { shifts } from "../../../Utility/constants";
+import {
+  addCheckingSupervisorSingleV3,
+  deleteCheckingSupervisorScheduleV3,
+  getAllSupervisorListV3,
+  getCheckingSupervisorCopyV3,
+  getCheckingSupervisorScheduleV3,
+  updateCheckingSupervisorSingleV3,
+} from "../../../services/checking.api";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,9 +84,9 @@ function Supervisor(props) {
 
   const loadData = async () => {
     try {
-      const x = await getCheckingSupervisorSchedule();
+      const x = await getCheckingSupervisorScheduleV3();
       setWorkerData(x.data);
-      const supData = await getAllSupervisorList();
+      const supData = await getAllSupervisorListV3();
       setSupervisorList(supData);
     } catch (err) {}
   };
@@ -97,11 +97,11 @@ function Supervisor(props) {
         setMsg("Please include start date and end date");
         setOpen(true);
       } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getCheckingSupervisorSchedule(inputData);
+        const x = await getCheckingSupervisorScheduleV3(inputData);
         // console.log(x);
         setWorkerData(x.data);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getCheckingSupervisorSchedule(inputData);
+        const x = await getCheckingSupervisorScheduleV3(inputData);
         // console.log(x);
         setWorkerData(x.data);
       } else {
@@ -260,8 +260,8 @@ function Supervisor(props) {
 
   const copy = async () => {
     try {
-      const resp = await getCheckingSupervisorCopy();
-      console.log(resp);
+      const resp = await getCheckingSupervisorCopyV3();
+      // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
@@ -272,7 +272,7 @@ function Supervisor(props) {
 
   const addSupervisor = async (data) => {
     try {
-      const resp = await addCheckingSupervisorSingle(data);
+      const resp = await addCheckingSupervisorSingleV3(data);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
@@ -292,7 +292,7 @@ function Supervisor(props) {
 
   const updateSupervisor = async (data) => {
     try {
-      const resp = await updateCheckingSupervisorSingle(data);
+      const resp = await updateCheckingSupervisorSingleV3(data);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
@@ -317,11 +317,11 @@ function Supervisor(props) {
         "Are you sure you want to delete the schedule?"
       );
       if (confirm) {
-        const resp = await deleteCheckingSupervisorSchedule({
+        const resp = await deleteCheckingSupervisorScheduleV3({
           id: userdata.id,
         });
         if (resp.message) {
-          setMsg("Successfully Deleted");
+          setMsg(resp.message);
           setOpen(true);
           setUserData({
             id: "",

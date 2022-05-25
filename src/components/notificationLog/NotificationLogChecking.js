@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 import {
@@ -21,11 +22,12 @@ import React, { useEffect, useState } from "react";
 import { getNotificationLogChecking } from "../../services/api.service";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { weekRange } from "../../Utility/DateRange";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../redux/CommonReducer/CommonAction";
+import { notificationLogsV3 } from "../../redux/CheckingReducer/CheckingV3Action";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,10 +72,13 @@ function NotificationLogChecking() {
     setValue(newValue);
   };
 
-  const [data, setData] = useState();
   const [filterDateFrom, setFilterDateFrom] = useState();
   const [filterDateTo, setFilterDateTo] = useState();
-  const [typeOfRange, setTypeOfRange] = useState("weekly");
+  const [typeOfRange, setTypeOfRange] = useState("custom");
+
+  // selector
+  // React Selector
+  const { notificationLogs } = useSelector((state) => state?.CheckV3);
 
   // functions
   // handle date range
@@ -94,8 +99,8 @@ function NotificationLogChecking() {
         setFilterDateTo(myDate.toISOString().slice(0, 10));
         break;
       case "custom":
-        setFilterDateFrom(newDateWeekBack.toISOString().slice(0, 10));
-        setFilterDateTo(myDate.toISOString().slice(0, 10));
+        setFilterDateFrom(weekRange()[1]);
+        setFilterDateTo(weekRange()[1]);
         break;
       default:
         return null;
@@ -104,16 +109,7 @@ function NotificationLogChecking() {
 
   const getLogs = async () => {
     try {
-      var myDate = new Date();
-      var newDateWeekBack = new Date(
-        myDate.getTime() - 60 * 60 * 24 * 7 * 1000
-      );
-      const resp = await getNotificationLogChecking(
-        newDateWeekBack.toISOString().slice(0, 10),
-        myDate.toISOString().slice(0, 10)
-      );
-      // console.log(resp);
-      setData(resp);
+      Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1]));
     } catch (err) {
       // console.log(err);
     }
@@ -121,17 +117,12 @@ function NotificationLogChecking() {
 
   useEffect(() => {
     getLogs();
-    setFilterDateFrom(weekRange()[0]);
+    setFilterDateFrom(weekRange()[1]);
     setFilterDateTo(weekRange()[1]);
   }, []);
   const filterLogs = async () => {
     try {
-      const resp = await getNotificationLogChecking(
-        filterDateFrom,
-        filterDateTo
-      );
-      // console.log(resp);
-      setData(resp);
+      Dispatch(notificationLogsV3(filterDateFrom, filterDateTo));
     } catch (err) {
       // console.log(err);
     }
@@ -175,7 +166,9 @@ function NotificationLogChecking() {
                 label="From"
                 value={filterDateFrom}
                 type="date"
-                style={{ marginRight: "6px" }}
+                style={{
+                  marginRight: "6px",
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -194,7 +187,9 @@ function NotificationLogChecking() {
                 label="To"
                 value={filterDateTo}
                 type="date"
-                style={{ marginRight: "6px" }}
+                style={{
+                  marginRight: "6px",
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -607,7 +602,7 @@ function NotificationLogChecking() {
           )}
         </TabPanel> */}
         <TabPanel value={value} index={0}>
-          {data?.defectData?.length > 0 && (
+          {notificationLogs?.defectData?.length > 0 && (
             <Grid
               container
               item
@@ -622,7 +617,7 @@ function NotificationLogChecking() {
                   Toolbar: GridToolbar,
                 }}
                 // rows={data}
-                rows={data?.defectData?.map((row, i) => {
+                rows={notificationLogs?.defectData?.map((row, i) => {
                   const { dateTime, defectName, ...rest } = row;
                   return {
                     id: i,

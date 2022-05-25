@@ -272,3 +272,27 @@ export const productionLogsV3 = (
     });
   } catch (e) {}
 };
+
+export const notificationLogsV3 = (filterDateFrom, filterDateTo) => async (
+  dispatch
+) => {
+  try {
+    const formField = {
+      filterDateFrom,
+      filterDateTo,
+    };
+    const resp = await callBackendV2(
+      "POST",
+      "routes/checking/notifLog",
+      true,
+      formField
+    );
+    dispatch({
+      type: "SET_CHECKING_V3",
+      payload: {
+        key: "notificationLogs",
+        value: resp,
+      },
+    });
+  } catch (e) {}
+};

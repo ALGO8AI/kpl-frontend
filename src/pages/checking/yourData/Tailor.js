@@ -10,13 +10,14 @@ import "./Worker.scss";
 import MaterialTable from "material-table";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import {
-  getTailorDetails,
-  addTailor,
-  updateTailor,
-  deleteTailor,
-} from "../../../services/api.service";
+
 import { Alert } from "@material-ui/lab";
+import {
+  addTailorV3,
+  deleteTailorV3,
+  getTailorDetailsV3,
+  updateTailorV3,
+} from "../../../services/checking.api";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,7 +51,7 @@ function Tailor(props) {
 
   const loadData = async () => {
     try {
-      const x = await getTailorDetails();
+      const x = await getTailorDetailsV3();
       console.log(x);
       setWorkerData(x.data);
     } catch (err) {}
@@ -118,7 +119,7 @@ function Tailor(props) {
 
   const submitImageDetails = async () => {
     try {
-      const resp = await addTailor(userdata.name, userdata.workerId);
+      const resp = await addTailorV3(userdata.name, userdata.workerId);
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
@@ -131,12 +132,13 @@ function Tailor(props) {
 
   const updateImageDetails = async () => {
     try {
-      const resp = await updateTailor(userdata.name, userdata.workerId);
+      const resp = await updateTailorV3(userdata.name, userdata.workerId);
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
       setUserData({ name: "", workerId: "", workerImage: "", id: "" });
+      setEdit(false);
     } catch (e) {
       // console.log(e.message);
     }
@@ -144,7 +146,7 @@ function Tailor(props) {
 
   const deleteImageDetails = async () => {
     try {
-      const resp = await deleteTailor(
+      const resp = await deleteTailorV3(
         userdata.name,
         userdata.workerId,
         userdata.id
@@ -152,8 +154,9 @@ function Tailor(props) {
       loadData();
       setUserData({ name: "", workerId: "", workerImage: "", id: "" });
       // console.log(resp);
-      setMsg("Deleted");
+      setMsg(resp?.msg);
       setOpen(true);
+      setEdit(false);
     } catch (e) {
       console.log(e.message);
     }
