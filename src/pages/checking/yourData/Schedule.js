@@ -205,7 +205,7 @@ function Schedule(props) {
         const resp = await deleteCheckingWorkerSchedule({ id });
         if (resp?.msg) {
           setOpen(true);
-          setMsg("Successfully Deleted");
+          setMsg(resp?.msg);
           // setSeverity("success");
           loadData();
         }
@@ -280,13 +280,13 @@ function Schedule(props) {
   const updateSchedule = async () => {
     try {
       const resp = await updateCheckingWorkerSchedule(scheduleData);
-      console.log(scheduleData);
-      console.log(resp);
-      // setMsg(resp.msg);
-      // setSeverity("success");
-      // setOpen(true);
-      loadData();
-      setOpenDialog(false);
+      if (resp?.msg) {
+        setMsg(resp.msg);
+        setSeverity("success");
+        setOpen(true);
+        loadData();
+        setOpenDialog(false);
+      }
     } catch (e) {
       console.log(e.message);
     }
@@ -295,7 +295,7 @@ function Schedule(props) {
   const addSchedule = async () => {
     try {
       const resp = await addCheckingWorkerSchedule(scheduleInput);
-      if (resp?.msg === "Successfully New Schedule Updated") {
+      if (resp?.msg) {
         setMsg(resp.msg);
         setSeverity("success");
         setOpen(true);
