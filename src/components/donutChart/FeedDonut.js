@@ -149,9 +149,9 @@ function FeedDonut(props) {
             <Chart
               options={options}
               series={[
-                Boolean(props?.data?.totalTime) ? props?.data?.totalTime : 0,
+                Boolean(props?.data?.totalTime) ? +props?.data?.totalTime : 0,
                 Boolean(props?.data?.feedUnavailibilityDuration)
-                  ? props?.data?.feedUnavailibilityDuration
+                  ? +props?.data?.feedUnavailibilityDuration
                   : 0,
                 Boolean(props?.data?.balanceHours)
                   ? +props?.data?.balanceHours

@@ -132,7 +132,7 @@ function ViolationLog1() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
-  const [typeOfRange, setTypeOfRange] = useState("weekly");
+  const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // functions
   const getMachineDynamic = async () => {
@@ -203,7 +203,7 @@ function ViolationLog1() {
       case "custom":
         dispatch({
           type: "VIO_FROM",
-          payload: weekRange()[0],
+          payload: weekRange()[1],
         });
         dispatch({
           type: "VIO_TO",
@@ -239,12 +239,12 @@ function ViolationLog1() {
 
       dispatch({
         type: "VIO_FROM",
-        payload: newDateWeekBack.toISOString().slice(0, 10),
+        payload: weekRange()[1],
       });
 
       dispatch({
         type: "VIO_TO",
-        payload: myDate.toISOString().slice(0, 10),
+        payload: weekRange()[1],
       });
 
       const feed = await feedUnavailableViolation();
@@ -547,7 +547,7 @@ function ViolationLog1() {
   useEffect(() => {
     dispatch({
       type: "VIO_FROM",
-      payload: weekRange()[0],
+      payload: weekRange()[1],
     });
 
     dispatch({
@@ -854,7 +854,7 @@ function ViolationLog1() {
               Dispatch({
                 type: "DISABLE_HOME_FILTER",
               });
-              setTypeOfRange("weekly");
+              setTypeOfRange("custom");
             }}
           >
             <RefreshIcon />

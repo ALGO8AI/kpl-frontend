@@ -165,9 +165,9 @@ function DonutChart(props) {
             <Chart
               options={options}
               series={[
-                Boolean(props.totalTime) ? props.totalTime : 0,
+                Boolean(props.totalTime) ? +props.totalTime : 0,
                 Boolean(props.idleDueToWorkerUnavailable)
-                  ? props.idleDueToWorkerUnavailable
+                  ? +props.idleDueToWorkerUnavailable
                   : 0,
 
                 Boolean(props.other) ? +props.other : 0,
