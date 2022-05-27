@@ -7,7 +7,7 @@ const cloudUrlProd = "http://kpl.algo8apps.com:3000"; //dev
 const clouUrlDev = "http://thawing-bayou-72580.herokuapp.com";
 const cloudUrlTemp = "http://13.126.115.120:5000"; //temp
 const cloudUrlVPN = "http://120.120.120.147:5000"; //VPN
-const cloudUrlVPN_TEMP = "http://120.120.120.147:5004"; //VPN
+const cloudUrlVPN_TEMP = "http://120.120.120.147:9205"; //VPN
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://kpl.algo8apps.com";
