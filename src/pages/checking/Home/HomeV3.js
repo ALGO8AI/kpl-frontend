@@ -129,6 +129,7 @@ export default function HomeV2() {
       type: "TO",
       payload: weekRange()[1],
     });
+    loadData();
   };
 
   // load ctr filter dropdown data
@@ -163,7 +164,50 @@ export default function HomeV2() {
     Dispatch(byDateTableV3());
   };
   // load filtered data
-  const dateFilter = async () => {};
+  const dateFilter = async () => {
+    Dispatch(
+      homeRepairedChartV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT
+      )
+    );
+    Dispatch(
+      homeDefectChartV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT
+      )
+    );
+    Dispatch(
+      top5DefectesV3(state.from, state.to, inputCTR, inputMACHINEid, inputSHIFT)
+    );
+    Dispatch(
+      byWorkerTableV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT
+      )
+    );
+    Dispatch(
+      byClpCtrTableV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT
+      )
+    );
+    Dispatch(
+      byDateTableV3(state.from, state.to, inputCTR, inputMACHINEid, inputSHIFT)
+    );
+  };
 
   // Use Effects
   useEffect(() => {

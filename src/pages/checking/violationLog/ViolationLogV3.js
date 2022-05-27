@@ -152,7 +152,7 @@ function ViolationLogV3() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
-  const [typeOfRange, setTypeOfRange] = useState("weekly");
+  const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // functions
 
@@ -190,7 +190,7 @@ function ViolationLogV3() {
       case "custom":
         dispatch({
           type: "VIO_FROM",
-          payload: weekRange()[0],
+          payload: weekRange()[1],
         });
         dispatch({
           type: "VIO_TO",
@@ -215,9 +215,40 @@ function ViolationLogV3() {
   };
   const classes = useStyles();
 
-  const refreshData = async () => {};
+  const refreshData = async () => {
+    setTypeOfRange("custom");
+    dispatch({
+      type: "VIO_FROM",
+      payload: weekRange()[1],
+    });
 
-  const dateFilter = async () => {};
+    dispatch({
+      type: "VIO_TO",
+      payload: weekRange()[1],
+    });
+    loadInitialData();
+  };
+
+  const dateFilter = async () => {
+    Dispatch(
+      defectsLogsV3(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT
+      )
+    );
+    Dispatch(
+      productionLogsV3(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT
+      )
+    );
+  };
 
   const loadInitialData = async () => {
     Dispatch(defectsLogsV3());
@@ -227,7 +258,7 @@ function ViolationLogV3() {
   useEffect(() => {
     dispatch({
       type: "VIO_FROM",
-      payload: weekRange()[0],
+      payload: weekRange()[1],
     });
 
     dispatch({

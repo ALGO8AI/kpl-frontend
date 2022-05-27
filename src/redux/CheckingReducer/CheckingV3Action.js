@@ -1,9 +1,19 @@
 import { callBackendV2 } from "../../services/http.servicev2";
 
-export const homeDefectChartV3 = (data) => async (dispatch) => {
+export const homeDefectChartV3 = (
+  filterDateFrom,
+  filterDateTo,
+  clpctr,
+  tableId,
+  shifts
+) => async (dispatch) => {
   try {
     const formField = {
-      ...data,
+      clpctr,
+      tableId,
+      filterDateFrom,
+      filterDateTo,
+      shifts,
       username: localStorage.getItem("kpl_username"),
     };
     const resp = await callBackendV2(
@@ -24,10 +34,20 @@ export const homeDefectChartV3 = (data) => async (dispatch) => {
   }
 };
 
-export const homeRepairedChartV3 = (data) => async (dispatch) => {
+export const homeRepairedChartV3 = (
+  filterDateFrom,
+  filterDateTo,
+  clpctr,
+  tableId,
+  shifts
+) => async (dispatch) => {
   try {
     const formField = {
-      ...data,
+      clpctr,
+      tableId,
+      filterDateFrom,
+      filterDateTo,
+      shifts,
       username: localStorage.getItem("kpl_username"),
     };
     const resp = await callBackendV2(
@@ -91,10 +111,20 @@ export const getAllTableIdV3 = () => async (dispatch) => {
   }
 };
 
-export const top5DefectesV3 = (data) => async (dispatch) => {
+export const top5DefectesV3 = (
+  filterDateFrom,
+  filterDateTo,
+  clpctr,
+  tableId,
+  shifts
+) => async (dispatch) => {
   try {
     const formField = {
-      ...data,
+      clpctr,
+      tableId,
+      filterDateFrom,
+      filterDateTo,
+      shifts,
       username: localStorage.getItem("kpl_username"),
     };
     const resp = await callBackendV2(
