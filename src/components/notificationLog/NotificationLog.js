@@ -78,7 +78,7 @@ function NotificationLog() {
   // handle date range
   const handleDateRange = (value) => {
     var myDate = new Date();
-    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
+    var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 6 * 1000);
     var newDateMonthBack = new Date(
       myDate.getTime() - 60 * 60 * 24 * 30 * 1000
     );

@@ -176,7 +176,7 @@ function ViolationLog1() {
     switch (value) {
       case "weekly":
         var newDateWeekBack = new Date(
-          myDate.getTime() - 60 * 60 * 24 * 7 * 1000
+          myDate.getTime() - 60 * 60 * 24 * 6 * 1000
         );
         dispatch({
           type: "VIO_FROM",
