@@ -48,7 +48,7 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
 import { modifyPrevDate } from "../../../Utility/Utility";
-import { shifts } from "../../../Utility/constants";
+import { shifts, stitchingLines } from "../../../Utility/constants";
 import { Autocomplete } from "@material-ui/lab";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -152,6 +152,7 @@ function ViolationLogV3() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // functions
@@ -519,7 +520,7 @@ function ViolationLogV3() {
             item
             xs={6}
             sm={4}
-            lg={2}
+            lg={1}
             // style={{ justifyContent: "center", marginBottom: "8px" }}
           >
             <FormControl
@@ -626,6 +627,40 @@ function ViolationLogV3() {
                 // multiple
               >
                 {shifts.map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={4}
+            sm={4}
+            lg={typeOfRange === "custom" ? 1 : 2}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Line
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputLINE}
+                onChange={(e) => setInputLINE(e.target.value)}
+                label="Line"
+                // multiple
+              >
+                {stitchingLines.map((item, index) => (
                   <MenuItem key={index} value={item}>
                     {item}
                   </MenuItem>
