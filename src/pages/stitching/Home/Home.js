@@ -85,6 +85,7 @@ function Home() {
         machineId: inputMACHINEid,
         filterDateFrom: state?.from,
         filterDateTo: state?.to,
+        shift: inputSHIFT,
       };
       const resp = await getDynamicClpCtrList(body);
       setClpCtr(resp?.clpctr);
@@ -93,7 +94,7 @@ function Home() {
 
   useEffect(() => {
     getCTRDynamic();
-  }, [state?.from, state?.to, inputMACHINEid]);
+  }, [state?.from, state?.to, inputMACHINEid, inputSHIFT]);
 
   useEffect(() => {
     getMachineDynamic();
@@ -558,6 +559,35 @@ function Home() {
             />
           </Grid>
         )}
+        {role === "Admin" || role === "Non Admin" ? (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+              >
+                {["A", "B", "C"].map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        ) : (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        )}
         <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
           <FormControl
             variant="outlined"
@@ -619,36 +649,6 @@ function Home() {
             </Select>
           </FormControl>
         </Grid>
-
-        {role === "Admin" || role === "Non Admin" ? (
-          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginRight: "6px" }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Shift
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputSHIFT}
-                onChange={(e) => setInputSHIFT(e.target.value)}
-                label="Shift"
-              >
-                {["A", "B", "C"].map((item, index) => (
-                  <MenuItem key={index} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        ) : (
-          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-        )}
 
         {typeOfRange !== "custom" && (
           <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>

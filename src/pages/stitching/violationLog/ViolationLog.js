@@ -155,6 +155,7 @@ function ViolationLog1() {
         machineId: inputMACHINEid,
         filterDateFrom: state?.violationFrom,
         filterDateTo: state?.violationTo,
+        shift: inputSHIFT,
       };
       const resp = await getDynamicClpCtrList(body);
       setClpCtr(resp?.clpctr);
@@ -163,7 +164,7 @@ function ViolationLog1() {
 
   useEffect(() => {
     getCTRDynamic();
-  }, [state?.violationFrom, state?.violationTo, inputMACHINEid]);
+  }, [state?.violationFrom, state?.violationTo, inputMACHINEid, inputSHIFT]);
 
   useEffect(() => {
     getMachineDynamic();
@@ -719,6 +720,36 @@ function ViolationLog1() {
             />
           </Grid>
         )}
+        {role === "Admin" || role === "Non Admin" ? (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Shift
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputSHIFT}
+                onChange={(e) => setInputSHIFT(e.target.value)}
+                label="Shift"
+                // multiple
+              >
+                {["A", "B", "C"].map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        ) : (
+          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
+        )}
 
         <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
           <FormControl
@@ -781,37 +812,6 @@ function ViolationLog1() {
             </Select>
           </FormControl>
         </Grid>
-
-        {role === "Admin" || role === "Non Admin" ? (
-          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginRight: "6px" }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Shift
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputSHIFT}
-                onChange={(e) => setInputSHIFT(e.target.value)}
-                label="Shift"
-                // multiple
-              >
-                {["A", "B", "C"].map((item, index) => (
-                  <MenuItem key={index} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        ) : (
-          <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}></Grid>
-        )}
 
         {typeOfRange !== "custom" && (
           <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>
