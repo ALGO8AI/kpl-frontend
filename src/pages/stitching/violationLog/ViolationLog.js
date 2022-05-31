@@ -140,6 +140,7 @@ function ViolationLog1() {
     const body = {
       filterDateFrom: state?.violationFrom,
       filterDateTo: state?.violationTo,
+      shift: inputSHIFT,
     };
 
     try {
@@ -155,7 +156,6 @@ function ViolationLog1() {
         machineId: inputMACHINEid,
         filterDateFrom: state?.violationFrom,
         filterDateTo: state?.violationTo,
-        shift: inputSHIFT,
       };
       const resp = await getDynamicClpCtrList(body);
       setClpCtr(resp?.clpctr);
@@ -164,11 +164,11 @@ function ViolationLog1() {
 
   useEffect(() => {
     getCTRDynamic();
-  }, [state?.violationFrom, state?.violationTo, inputMACHINEid, inputSHIFT]);
+  }, [state?.violationFrom, state?.violationTo, inputMACHINEid]);
 
   useEffect(() => {
     getMachineDynamic();
-  }, [state?.violationFrom, state?.violationTo]);
+  }, [state?.violationFrom, state?.violationTo, inputSHIFT]);
 
   // handle date range
   const handleDateRange = (value) => {
@@ -331,7 +331,9 @@ function ViolationLog1() {
       const machineBreak = await getMachineBreakdown(
         state.violationFrom,
         state.violationTo,
-        inputMACHINEid,
+        inputMACHINEid.length === 0
+          ? machineID?.map((item) => item?.machineID)
+          : inputMACHINEid,
         inputSHIFT
       );
       // console.log(machineBreak);
@@ -345,7 +347,9 @@ function ViolationLog1() {
       const machineViolation = await getMachineViolation(
         state.violationFrom,
         state.violationTo,
-        inputMACHINEid,
+        inputMACHINEid.length === 0
+          ? machineID?.map((item) => item?.machineID)
+          : inputMACHINEid,
         inputSHIFT
       );
       // console.log(machineBreak);
@@ -360,7 +364,9 @@ function ViolationLog1() {
         state.violationFrom,
         state.violationTo,
         inputCTR,
-        inputMACHINEid,
+        inputMACHINEid.length === 0
+          ? machineID?.map((item) => item?.machineID)
+          : inputMACHINEid,
         inputSHIFT
       );
       if (feed.feedUnavailableData !== "no data") {
@@ -382,7 +388,9 @@ function ViolationLog1() {
         state.violationFrom,
         state.violationTo,
         inputCTR,
-        inputMACHINEid,
+        inputMACHINEid.length === 0
+          ? machineID?.map((item) => item?.machineID)
+          : inputMACHINEid,
         inputSHIFT
       );
       if (crowd.crowdingData !== "no data") {
@@ -404,7 +412,9 @@ function ViolationLog1() {
         state.violationFrom,
         state.violationTo,
         inputCTR,
-        inputMACHINEid,
+        inputMACHINEid.length === 0
+          ? machineID?.map((item) => item?.machineID)
+          : inputMACHINEid,
         inputSHIFT
       );
       if (worker.workerUnavailableDurationData !== "no data") {
@@ -429,7 +439,9 @@ function ViolationLog1() {
         state.violationFrom,
         state.violationTo,
         inputCTR,
-        inputMACHINEid,
+        inputMACHINEid.length === 0
+          ? machineID?.map((item) => item?.machineID)
+          : inputMACHINEid,
         inputSHIFT
       );
       if (by_worker.violationByWorkerData !== "no data") {

@@ -70,6 +70,7 @@ function Home() {
     const body = {
       filterDateFrom: state?.from,
       filterDateTo: state?.to,
+      shift: inputSHIFT,
     };
 
     try {
@@ -85,7 +86,6 @@ function Home() {
         machineId: inputMACHINEid,
         filterDateFrom: state?.from,
         filterDateTo: state?.to,
-        shift: inputSHIFT,
       };
       const resp = await getDynamicClpCtrList(body);
       setClpCtr(resp?.clpctr);
@@ -94,11 +94,11 @@ function Home() {
 
   useEffect(() => {
     getCTRDynamic();
-  }, [state?.from, state?.to, inputMACHINEid, inputSHIFT]);
+  }, [state?.from, state?.to, inputMACHINEid]);
 
   useEffect(() => {
     getMachineDynamic();
-  }, [state?.from, state?.to]);
+  }, [state?.from, state?.to, inputSHIFT]);
 
   // handle date range
   const handleDateRange = (value) => {
@@ -326,7 +326,9 @@ function Home() {
           state.from,
           state.to,
           inputCTR,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
         // console.log(x);
@@ -348,7 +350,9 @@ function Home() {
           state.from,
           state.to,
           inputCTR,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
 
@@ -361,7 +365,9 @@ function Home() {
         const z = await machineBreakdownData(
           state.from,
           state.to,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
 
@@ -374,7 +380,9 @@ function Home() {
           state.from,
           state.to,
           inputCTR,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
         if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
@@ -391,7 +399,9 @@ function Home() {
           state.from,
           state.to,
           inputCTR,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
         if (
@@ -411,7 +421,9 @@ function Home() {
           state.from,
           state.to,
           inputCTR,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
         if (
@@ -433,7 +445,9 @@ function Home() {
           state.from,
           state.to,
           inputCTR,
-          inputMACHINEid,
+          inputMACHINEid.length === 0
+            ? machineID?.map((item) => item?.machineID)
+            : inputMACHINEid,
           inputSHIFT
         );
         if (
