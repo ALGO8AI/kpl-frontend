@@ -33,7 +33,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
-import { theme } from "../../../Utility/constants";
+import { stitchingLines, theme } from "../../../Utility/constants";
 import ReactApexChart from "react-apexcharts";
 import TableData from "./TableData";
 import Loader from "../../../components/loader/Loader";
@@ -56,6 +56,7 @@ export default function HomeV2() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // React dispatch
@@ -307,7 +308,7 @@ export default function HomeV2() {
           item
           xs={6}
           sm={4}
-          lg={2}
+          lg={1}
           style={{
             justifyContent: "center",
             marginRight: "8px",
@@ -433,6 +434,38 @@ export default function HomeV2() {
               <MenuItem value="A">A</MenuItem>
               <MenuItem value="B">B</MenuItem>
               <MenuItem value="C">C</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={typeOfRange === "custom" ? 1 : 2}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputLINE}
+              onChange={(e) => setInputLINE(e.target.value)}
+              label="Line"
+              // multiple
+            >
+              {stitchingLines.map((item, index) => (
+                <MenuItem key={index} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
