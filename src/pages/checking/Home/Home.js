@@ -718,7 +718,7 @@ export default function Home() {
           </Select>
         </FormControl>
       </Grid>
-      <Grid
+      {/* <Grid
         container
         item
         xs={4}
@@ -748,7 +748,7 @@ export default function Home() {
             ))}
           </Select>
         </FormControl>
-      </Grid>
+      </Grid> */}
 
       <Grid
         container

@@ -827,7 +827,7 @@ function ViolationLog1() {
           </FormControl>
         </Grid>
 
-        <Grid
+        {/* <Grid
           container
           item
           xs={4}
@@ -857,7 +857,7 @@ function ViolationLog1() {
               ))}
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         {typeOfRange !== "custom" && (
           <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}></Grid>

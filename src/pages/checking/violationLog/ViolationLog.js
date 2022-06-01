@@ -1024,7 +1024,7 @@ function ViolationLog1() {
             </FormControl>
           </Grid>
 
-          <Grid
+          {/* <Grid
             container
             item
             xs={4}
@@ -1056,7 +1056,7 @@ function ViolationLog1() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
 
           <Grid
             container

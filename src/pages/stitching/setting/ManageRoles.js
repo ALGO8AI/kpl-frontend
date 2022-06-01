@@ -87,7 +87,9 @@ function ManageRoles() {
   const [columns, setColumns] = useState([]);
   const [revokeActive, setRevokeActive] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    zone: [],
+  });
   const [open, setOpen] = React.useState(false);
   const [filterCondition, setFilterConditiion] = useState({
     wing: [],
@@ -146,7 +148,7 @@ function ManageRoles() {
       email: data.email,
       designation: data.designation,
       role: data.role,
-      zone: data.zone,
+      zone: data.zone.join(","),
       wing: data.wing,
       // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
       // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
@@ -303,7 +305,10 @@ function ManageRoles() {
               onClick={() => {
                 if (role === "Admin" || role === "admin") {
                   handleClickOpen();
-                  setData(x);
+                  setData({
+                    ...data,
+                    x,
+                  });
                 } else {
                   Dispatch(
                     openSnackbar(true, "error", "Only Accessible to admin.")
@@ -757,7 +762,7 @@ function ManageRoles() {
                             onClick={() => {
                               if (role === "Admin" || role === "admin") {
                                 handleClickOpen();
-                                setData(row);
+                                setData({ ...row, ...data });
                               } else {
                                 Dispatch(
                                   openSnackbar(
@@ -1217,6 +1222,7 @@ function ManageRoles() {
                   label="Line"
                   error={!data?.zone}
                   required
+                  multiple
                 >
                   <MenuItem value="">
                     <em>None</em>
