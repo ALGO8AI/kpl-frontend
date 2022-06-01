@@ -472,10 +472,7 @@ function ViolationLog1() {
       // setMachineID(ctr.machineID);
 
       // if (state.feed.loading) {
-      const feed = await feedUnavailableViolation(
-        state.violationFrom,
-        state.violationTo
-      );
+      const feed = await feedUnavailableViolation();
       console.log(feed.feedUnavailableData);
       dispatch({
         type: "FEED_VIO",
@@ -508,10 +505,7 @@ function ViolationLog1() {
       // }
 
       // if (state.crowd.loading) {
-      const crowd = await crowdingViolation(
-        state.violationFrom,
-        state.violationTo
-      );
+      const crowd = await crowdingViolation();
       if (crowd.crowdingData !== "no data") {
         dispatch({
           type: "CROWD_VIO",

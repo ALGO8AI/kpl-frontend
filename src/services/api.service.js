@@ -73,8 +73,8 @@ const homeDateFilter = async (fromDate, toDate) => {
 };
 
 const workerUnavailableViolation = async (
-  fromDate,
-  toDate,
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
   shifts
@@ -120,8 +120,8 @@ const workerUnavailableViolationChecking = async (
 };
 
 const feedUnavailableViolation = async (
-  fromDate,
-  toDate,
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
   shifts
@@ -143,7 +143,13 @@ const feedUnavailableViolation = async (
   );
 };
 
-const crowdingViolation = async (fromDate, toDate, ctr, machine, shifts) => {
+const crowdingViolation = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -183,7 +189,13 @@ const crowdingViolationChecking = async (
   );
 };
 
-const violationByWorkerF = async (fromDate, toDate, ctr, machine, shifts) => {
+const violationByWorkerF = async (
+  fromDate = new Date().toISOString().slice(0, 10),
+  toDate = new Date().toISOString().slice(0, 10),
+  ctr,
+  machine,
+  shifts
+) => {
   const data = {
     clpctr: ctr,
     machineId: machine,
@@ -724,8 +736,8 @@ const AddWorkerChecking = async (data) => {
   return await callBackend("POST", "routes/addWorkerChecking", true, data);
 };
 const getMachineBreakdown = async (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   machineId,
   shifts
 ) => {
@@ -744,8 +756,8 @@ const getMachineBreakdown = async (
   );
 };
 export const getMachineViolation = async (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   machineId,
   shifts
 ) => {
