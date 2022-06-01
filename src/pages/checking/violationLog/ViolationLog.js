@@ -48,7 +48,7 @@ import {
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
 import { modifyPrevDate } from "../../../Utility/Utility";
-import { shifts } from "../../../Utility/constants";
+import { shifts, stitchingLines } from "../../../Utility/constants";
 import { Autocomplete } from "@material-ui/lab";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -144,6 +144,7 @@ function ViolationLog1() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // functions
@@ -208,6 +209,7 @@ function ViolationLog1() {
   const classes = useStyles();
 
   const refreshData = async () => {
+    setInputLINE([]);
     Dispatch({
       type: "DISABLE_HOME_FILTER",
     });
@@ -351,9 +353,10 @@ function ViolationLog1() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
-      console.log(crowd);
+      // console.log(crowd);
       if (crowd?.crowdingData !== "no data") {
         dispatch({
           type: "CROWD_VIO",
@@ -369,7 +372,8 @@ function ViolationLog1() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       // console.log(defects?.data);
 
@@ -387,7 +391,8 @@ function ViolationLog1() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       // console.table("Prod SUmmary");
       // console.table(defects);
@@ -406,7 +411,8 @@ function ViolationLog1() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       const def = tailorSum?.defectCols?.map((item) => item.defectName);
       const resp = tailorSum?.tailorSummary?.map((item, i) => {
@@ -457,7 +463,8 @@ function ViolationLog1() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       // console.log(worker?.workerUnavailableDurationData);
       if (worker?.workerUnavailableDurationData !== "no data") {
@@ -475,7 +482,8 @@ function ViolationLog1() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       // console.log(by_worker?.violationByWorkerData);
       if (by_worker?.violationByWorkerData !== "no data") {
@@ -1008,6 +1016,40 @@ function ViolationLog1() {
                 // multiple
               >
                 {shifts.map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={4}
+            sm={4}
+            lg={1}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Line
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputLINE}
+                onChange={(e) => setInputLINE(e.target.value)}
+                label="Line"
+                // multiple
+              >
+                {stitchingLines.map((item, index) => (
                   <MenuItem key={index} value={item}>
                     {item}
                   </MenuItem>

@@ -39,7 +39,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
-import { shifts, theme } from "../../../Utility/constants";
+import { shifts, stitchingLines, theme } from "../../../Utility/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -132,6 +132,7 @@ function ViolationLog1() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
 
   // functions
@@ -231,6 +232,7 @@ function ViolationLog1() {
   const classes = useStyles();
 
   const refreshData = async () => {
+    setInputLINE([]);
     try {
       setLoader(true);
       var myDate = new Date();
@@ -334,7 +336,8 @@ function ViolationLog1() {
         inputMACHINEid.length === 0
           ? machineID?.map((item) => item?.machineID)
           : inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       // console.log(machineBreak);
       dispatch({
@@ -350,7 +353,8 @@ function ViolationLog1() {
         inputMACHINEid.length === 0
           ? machineID?.map((item) => item?.machineID)
           : inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       // console.log(machineBreak);
       dispatch({
@@ -367,7 +371,8 @@ function ViolationLog1() {
         inputMACHINEid.length === 0
           ? machineID?.map((item) => item?.machineID)
           : inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       if (feed.feedUnavailableData !== "no data") {
         dispatch({
@@ -391,7 +396,8 @@ function ViolationLog1() {
         inputMACHINEid.length === 0
           ? machineID?.map((item) => item?.machineID)
           : inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       if (crowd.crowdingData !== "no data") {
         dispatch({
@@ -415,7 +421,8 @@ function ViolationLog1() {
         inputMACHINEid.length === 0
           ? machineID?.map((item) => item?.machineID)
           : inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       if (worker.workerUnavailableDurationData !== "no data") {
         dispatch({
@@ -442,7 +449,8 @@ function ViolationLog1() {
         inputMACHINEid.length === 0
           ? machineID?.map((item) => item?.machineID)
           : inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       );
       if (by_worker.violationByWorkerData !== "no data") {
         dispatch({
@@ -791,7 +799,7 @@ function ViolationLog1() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -815,6 +823,38 @@ function ViolationLog1() {
                     {item.ctrs}
                   </MenuItem>
                 ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={1}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputLINE}
+              onChange={(e) => setInputLINE(e.target.value)}
+              label="Line"
+              // multiple
+            >
+              {stitchingLines.map((item, index) => (
+                <MenuItem key={index} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

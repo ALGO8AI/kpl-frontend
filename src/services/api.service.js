@@ -77,7 +77,8 @@ const workerUnavailableViolation = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -86,6 +87,7 @@ const workerUnavailableViolation = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -100,7 +102,8 @@ const workerUnavailableViolationChecking = async (
   toDate,
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -109,6 +112,7 @@ const workerUnavailableViolationChecking = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   console.log(data);
   return await callBackend(
@@ -124,7 +128,8 @@ const feedUnavailableViolation = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -133,6 +138,7 @@ const feedUnavailableViolation = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   console.log(data);
   return await callBackend(
@@ -148,7 +154,8 @@ const crowdingViolation = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -157,6 +164,7 @@ const crowdingViolation = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -171,7 +179,8 @@ const crowdingViolationChecking = async (
   toDate,
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -180,6 +189,7 @@ const crowdingViolationChecking = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -194,7 +204,8 @@ const violationByWorkerF = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -203,6 +214,7 @@ const violationByWorkerF = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -217,7 +229,8 @@ const violationByWorkerFChecking = async (
   toDate,
   ctr,
   table,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -226,6 +239,7 @@ const violationByWorkerFChecking = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -362,7 +376,8 @@ const workerUtilizationData = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shift
+  shift,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -371,6 +386,7 @@ const workerUtilizationData = async (
     filterDateTo: toDate,
     shifts: shift,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -384,7 +400,8 @@ const checkingWorkerUtilizationData = async (
   toDate,
   ctr,
   table,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -393,6 +410,7 @@ const checkingWorkerUtilizationData = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   console.log(data);
   return await callBackend(
@@ -405,7 +423,8 @@ const checkingWorkerUtilizationData = async (
 const crowdingInstanceData = async (
   fromDate = new Date().toISOString().slice(0, 10),
   toDate = new Date().toISOString().slice(0, 10),
-  shifts
+  shifts,
+  lines = []
 ) => {
   return await callBackend(
     "POST",
@@ -416,6 +435,7 @@ const crowdingInstanceData = async (
       filterDateTo: toDate,
       username: localStorage.getItem("kpl_username"),
       shifts,
+      lines: lines.join(","),
     }
   );
 };
@@ -425,7 +445,8 @@ const feedInstanceData = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shift
+  shift,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -434,6 +455,7 @@ const feedInstanceData = async (
     filterDateTo: toDate,
     shifts: shift,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -443,7 +465,12 @@ const feedInstanceData = async (
   );
 };
 
-const crowdingInstanceCheckingData = async (fromDate, toDate, shifts) => {
+const crowdingInstanceCheckingData = async (
+  fromDate,
+  toDate,
+  shifts,
+  lines = []
+) => {
   return await callBackend(
     "POST",
     "routes/checking/KPI/home/crowdingInstanceData",
@@ -453,6 +480,7 @@ const crowdingInstanceCheckingData = async (fromDate, toDate, shifts) => {
       filterDateTo: toDate,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      lines: lines.join(","),
     }
   );
 };
@@ -462,7 +490,8 @@ const summaryByViolationData = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -471,6 +500,7 @@ const summaryByViolationData = async (
     filterDateTo: toDate,
     shifts: shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -485,7 +515,8 @@ const summaryByWorkerData = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -494,6 +525,7 @@ const summaryByWorkerData = async (
     filterDateTo: toDate,
     shifts: shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -507,7 +539,8 @@ const machineData = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -516,6 +549,7 @@ const machineData = async (
     filterDateTo: toDate,
     shifts: shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -530,7 +564,8 @@ const ClpCtrData = async (
   toDate = new Date().toISOString().slice(0, 10),
   ctr,
   machine,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -539,6 +574,7 @@ const ClpCtrData = async (
     filterDateTo: toDate,
     shifts: shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
 
   return await callBackend(
@@ -671,7 +707,8 @@ const machineBreakdownData = async (
   fromDate = new Date().toISOString().slice(0, 10),
   toDate = new Date().toISOString().slice(0, 10),
   machine,
-  shift
+  shift,
+  lines = []
 ) => {
   const data = {
     machineId: machine,
@@ -679,6 +716,7 @@ const machineBreakdownData = async (
     filterDateTo: toDate,
     shifts: shift,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -739,7 +777,8 @@ const getMachineBreakdown = async (
   filterDateFrom = new Date().toISOString().slice(0, 10),
   filterDateTo = new Date().toISOString().slice(0, 10),
   machineId,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     filterDateFrom,
@@ -747,6 +786,7 @@ const getMachineBreakdown = async (
     machineId,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -759,7 +799,8 @@ export const getMachineViolation = async (
   filterDateFrom = new Date().toISOString().slice(0, 10),
   filterDateTo = new Date().toISOString().slice(0, 10),
   machineId,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     filterDateFrom,
@@ -767,6 +808,7 @@ export const getMachineViolation = async (
     machineId,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -845,7 +887,8 @@ const detailedSummaryByClpCtrChecking = async (
   toDate,
   ctr,
   table,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -854,6 +897,7 @@ const detailedSummaryByClpCtrChecking = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1476,7 +1520,14 @@ const getAllWorketrListChecking = async () => {
   return await callBackend("GET", "routes/checking/worker/all");
 };
 
-const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {
+const defectsViolation = async (
+  fromDate,
+  toDate,
+  ctr,
+  tableId,
+  shifts,
+  lines = []
+) => {
   const data = {
     clpctr: ctr,
     tableId: tableId,
@@ -1484,6 +1535,7 @@ const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1498,7 +1550,8 @@ export const productionSummary = async (
   toDate,
   ctr,
   tableId,
-  shifts
+  shifts,
+  lines = []
 ) => {
   const data = {
     clpctr: ctr,
@@ -1507,6 +1560,7 @@ export const productionSummary = async (
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1563,7 +1617,14 @@ const deleteTailor = async (name, Tid, id) => {
   return await callBackend("POST", "routes/checking/tailor/delete", true, data);
 };
 
-const defectChartData = async (fromDate, toDate, ctr, table, shifts) => {
+const defectChartData = async (
+  fromDate,
+  toDate,
+  ctr,
+  table,
+  shifts,
+  lines = []
+) => {
   const data = {
     clpctr: ctr,
     tableId: table,
@@ -1571,6 +1632,7 @@ const defectChartData = async (fromDate, toDate, ctr, table, shifts) => {
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1632,7 +1694,14 @@ const checkingViolationClosedByUpdate = async (volId, closedBySupervisor) => {
   );
 };
 
-const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
+const checkingHomeWorker = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts,
+  lines = []
+) => {
   const data = {
     clpctr: ctr,
     tableId: machine,
@@ -1640,6 +1709,7 @@ const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1649,7 +1719,14 @@ const checkingHomeWorker = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
-const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
+const checkingHomeDate = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts,
+  lines = []
+) => {
   const data = {
     clpctr: ctr,
     tableId: machine,
@@ -1657,6 +1734,7 @@ const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1666,7 +1744,14 @@ const checkingHomeDate = async (fromDate, toDate, ctr, machine, shifts) => {
   );
 };
 
-const checkingHomeByTable = async (fromDate, toDate, ctr, machine, shifts) => {
+const checkingHomeByTable = async (
+  fromDate,
+  toDate,
+  ctr,
+  machine,
+  shifts,
+  lines = []
+) => {
   const data = {
     clpctr: ctr,
     tableId: machine,
@@ -1674,6 +1759,7 @@ const checkingHomeByTable = async (fromDate, toDate, ctr, machine, shifts) => {
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",
@@ -1745,7 +1831,14 @@ const addCheckingWorkerSchedule = async (form) => {
   );
 };
 
-const tailorSummary = async (fromDate, toDate, ctr, table, shifts) => {
+const tailorSummary = async (
+  fromDate,
+  toDate,
+  ctr,
+  table,
+  shifts,
+  lines = []
+) => {
   const data = {
     clpctr: ctr,
     tableId: table,
@@ -1753,6 +1846,7 @@ const tailorSummary = async (fromDate, toDate, ctr, table, shifts) => {
     filterDateTo: toDate,
     shifts,
     username: localStorage.getItem("kpl_username"),
+    lines: lines.join(","),
   };
   return await callBackend(
     "POST",

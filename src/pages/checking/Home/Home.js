@@ -39,7 +39,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
-import { shifts } from "../../../Utility/constants";
+import { shifts, stitchingLines } from "../../../Utility/constants";
 import { Autocomplete } from "@material-ui/lab";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -55,6 +55,7 @@ export default function Home() {
   const [inputCTR, setInputCTR] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("weekly");
 
   // use selector
@@ -110,6 +111,7 @@ export default function Home() {
 
   // refresh
   const refreshData = async () => {
+    setInputLINE([]);
     var myDate = new Date();
     var newDateWeekBack = new Date(myDate.getTime() - 60 * 60 * 24 * 7 * 1000);
 
@@ -125,6 +127,7 @@ export default function Home() {
 
     try {
       const defect = await defectChartData();
+      console.count(defect);
       dispatch({
         type: "DEFECT_CHART",
         payload: {
@@ -322,7 +325,8 @@ export default function Home() {
           state.to,
           inputCTR,
           inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         dispatch({
           type: "DEFECT_CHART",
@@ -336,7 +340,8 @@ export default function Home() {
           state.to,
           inputCTR,
           inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         dispatch({
           type: "WORKER_UTILIZATION",
@@ -349,7 +354,8 @@ export default function Home() {
         const y = await crowdingInstanceCheckingData(
           state.from,
           state.to,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         dispatch({
           type: "CROWDING_INSTANCE",
@@ -364,7 +370,8 @@ export default function Home() {
           state.to,
           inputCTR,
           inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (homeWorkerTable !== "no data") {
           dispatch({
@@ -381,7 +388,8 @@ export default function Home() {
           state.to,
           inputCTR,
           inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (homeDateTable.detailedSummaryByDate !== "no data") {
           dispatch({
@@ -398,7 +406,8 @@ export default function Home() {
           state.to,
           inputCTR,
           inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (homeMachineTable?.detailedSummaryByTableId !== "no data") {
           dispatch({
@@ -415,7 +424,8 @@ export default function Home() {
           state.to,
           inputCTR,
           inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (homeCTRTable !== "no data") {
           dispatch({
@@ -701,6 +711,37 @@ export default function Home() {
             // multiple
           >
             {shifts.map((item, index) => (
+              <MenuItem key={index} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid
+        container
+        item
+        xs={4}
+        sm={4}
+        lg={1}
+        style={{ justifyContent: "center" }}
+      >
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginRight: "6px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            multiple
+            value={inputLINE}
+            onChange={(e) => setInputLINE(e.target.value)}
+            label="Line"
+            // multiple
+          >
+            {stitchingLines.map((item, index) => (
               <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>

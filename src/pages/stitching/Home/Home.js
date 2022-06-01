@@ -41,7 +41,7 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
-import { shifts, theme } from "../../../Utility/constants";
+import { shifts, stitchingLines, theme } from "../../../Utility/constants";
 
 function Home() {
   // context
@@ -63,6 +63,7 @@ function Home() {
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [inputSHIFT, setInputSHIFT] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
+  const [inputLINE, setInputLINE] = useState([]);
 
   // Functions
   const getMachineDynamic = async () => {
@@ -145,6 +146,7 @@ function Home() {
 
   // refresh data
   const refreshData = async () => {
+    setInputLINE([]);
     dispatch({
       type: "FROM",
       payload: weekRange()[1],
@@ -329,7 +331,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         // console.log(x);
         dispatch({
@@ -337,7 +340,12 @@ function Home() {
           payload: { data: x.workerUtilization, loading: false },
         });
 
-        const y = await crowdingInstanceData(state.from, state.to, inputSHIFT);
+        const y = await crowdingInstanceData(
+          state.from,
+          state.to,
+          inputSHIFT,
+          inputLINE
+        );
         // console.log(`y ${y}`);
 
         dispatch({
@@ -353,7 +361,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
 
         dispatch({
@@ -368,7 +377,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
 
         dispatch({
@@ -383,7 +393,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (homeWorkerTable.detailedSummaryByWorker !== "no data") {
           dispatch({
@@ -402,7 +413,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (
           homeDateTable.detailedSummaryByViolation.violationSummary !==
@@ -424,7 +436,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (
           homeMachineTable.detailedSummaryByMachineId
@@ -448,7 +461,8 @@ function Home() {
           inputMACHINEid.length === 0
             ? machineID?.map((item) => item?.machineID)
             : inputMACHINEid,
-          inputSHIFT
+          inputSHIFT,
+          inputLINE
         );
         if (
           homeCTRTable.detailedSummaryByClpCtr.detailedSummaryByClpCtr !==
@@ -636,7 +650,7 @@ function Home() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} lg={2} style={{ paddingRight: "12px" }}>
+        <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
           <FormControl
             variant="outlined"
             fullWidth
@@ -660,6 +674,37 @@ function Home() {
                     {item.ctrs}
                   </MenuItem>
                 ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={1}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputLINE}
+              onChange={(e) => setInputLINE(e.target.value)}
+              label="Line"
+              // multiple
+            >
+              {stitchingLines.map((item, index) => (
+                <MenuItem key={index} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
