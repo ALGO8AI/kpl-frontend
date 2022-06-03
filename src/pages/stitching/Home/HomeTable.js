@@ -1,7 +1,6 @@
 import { LinearProgress, makeStyles } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import React from "react";
-import Loader from "../../../components/loader/Loader";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -16,9 +15,7 @@ function HomeTable({ data, column, loading }) {
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : data?.length > 0 ? (
+      {data?.length > 0 ? (
         // <MaterialTable
         //   title="Detail Summary"
         //   columns={columns}
@@ -31,6 +28,11 @@ function HomeTable({ data, column, loading }) {
         // />
 
         <div style={{ width: "100%", minHeight: "900px" }}>
+          {loading && (
+            <div className={classes.root} style={{ marginBottom: "12px" }}>
+              <LinearProgress />
+            </div>
+          )}
           <DataGrid
             components={{
               Toolbar: GridToolbar,

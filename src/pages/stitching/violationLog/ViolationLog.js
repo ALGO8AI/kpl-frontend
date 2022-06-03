@@ -526,10 +526,7 @@ function ViolationLog1() {
       // }
 
       // if (state.worker.loading) {
-      const worker = await workerUnavailableViolation(
-        state.violationFrom,
-        state.violationTo
-      );
+      const worker = await workerUnavailableViolation();
       if (worker.workerUnavailableDurationData !== "no data") {
         dispatch({
           type: "WORKER_VIO",

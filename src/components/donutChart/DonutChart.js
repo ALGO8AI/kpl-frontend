@@ -150,6 +150,9 @@ function DonutChart(props) {
             textDecoration: "none",
             fontSize: "20px",
             fontWeight: "500",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
           component={Link}
           to={props.link}
@@ -157,28 +160,27 @@ function DonutChart(props) {
             dispatch({ type: "VIOLATION_TAB", payload: props.payload_data })
           }
         >
-          Worker Availability
+          Worker Availability{"  "}
+          {props?.loading && (
+            <Loader style={{ color: "white", marginLeft: "8px" }} />
+          )}
         </Typography>
       </div>
       <div className="donutCard">
         <div className="leftTile">
           <div className="chart">
-            {props?.loading ? (
-              <Loader />
-            ) : (
-              <Chart
-                options={options}
-                series={[
-                  Boolean(props.totalTime) ? +props.totalTime : 0,
-                  Boolean(props.idleDueToWorkerUnavailable)
-                    ? +props.idleDueToWorkerUnavailable
-                    : 0,
+            <Chart
+              options={options}
+              series={[
+                Boolean(props.totalTime) ? +props.totalTime : 0,
+                Boolean(props.idleDueToWorkerUnavailable)
+                  ? +props.idleDueToWorkerUnavailable
+                  : 0,
 
-                  Boolean(props.other) ? +props.other : 0,
-                ]}
-                type="donut"
-              />
-            )}
+                Boolean(props.other) ? +props.other : 0,
+              ]}
+              type="donut"
+            />
             {/* <p>
             % Actual Working Hour{" "}
             {Math.round(
@@ -241,11 +243,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.loading ? (
-                  <Loader />
-                ) : (
-                  Number(props.totalTime)?.toFixed(2)
-                )}
+                {Number(props.totalTime)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -292,11 +290,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.loading ? (
-                  <Loader />
-                ) : (
-                  Number(props.idleDueToWorkerUnavailable)?.toFixed(2)
-                )}
+                {Number(props.idleDueToWorkerUnavailable)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -342,7 +336,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.loading ? <Loader /> : Number(props.other)?.toFixed(2)}
+                {Number(props.other)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -397,7 +391,7 @@ function DonutChart(props) {
         >
           Total Available Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {props?.loading ? <Loader /> : Number(props.totalTime)?.toFixed(2)}
+            {Number(props.totalTime)?.toFixed(2)}
           </span>
         </Typography>
 
@@ -414,11 +408,7 @@ function DonutChart(props) {
           % Availability{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {props?.loading ? (
-              <Loader />
-            ) : (
-              Number(props?.utilizationPercentage)?.toFixed(2) + "%"
-            )}
+            {Number(props?.utilizationPercentage)?.toFixed(2) + "%"}
           </span>
         </Typography>
       </div>

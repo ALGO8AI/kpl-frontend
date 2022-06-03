@@ -120,6 +120,9 @@ function AreaChart(props) {
             textDecoration: "none",
             fontSize: "20px",
             fontWeight: "500",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
           component={Link}
           to={props.link}
@@ -128,22 +131,15 @@ function AreaChart(props) {
           }
         >
           Crowding Instance
+          {"  "}
+          {props?.loading && (
+            <Loader style={{ color: "white", marginLeft: "8px" }} />
+          )}
         </Typography>
       </div>
       <div className="GraphCardSimple">
-        <div
-          className="chart"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {props?.loading ? (
-            <Loader />
-          ) : (
-            <Chart options={options} series={series} type="line" height={200} />
-          )}
+        <div className="chart">
+          <Chart options={options} series={series} type="line" height={200} />
         </div>
       </div>
       <Typography
@@ -157,9 +153,7 @@ function AreaChart(props) {
         }}
       >
         Total Crowding Instances:{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {props?.loading ? <Loader /> : instance}
-        </span>
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>{instance}</span>
       </Typography>
       <Typography
         variant="h6"
@@ -173,7 +167,7 @@ function AreaChart(props) {
       >
         Crowding Duration:{" "}
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {props?.loading ? <Loader /> : duration.toFixed(2) + "Hrs."}
+          {duration.toFixed(2) + "Hrs."}
         </span>
       </Typography>
     </>

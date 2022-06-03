@@ -134,6 +134,9 @@ function FeedDonut(props) {
             textDecoration: "none",
             fontSize: "20px",
             fontWeight: "500",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
           component={Link}
           to={props.link}
@@ -141,29 +144,28 @@ function FeedDonut(props) {
             dispatch({ type: "VIOLATION_TAB", payload: props.payload_data })
           }
         >
-          Feed Availability
+          Feed Availability{"  "}
+          {props?.loading && (
+            <Loader style={{ color: "white", marginLeft: "8px" }} />
+          )}
         </Typography>
       </div>
       <div className="donutCard">
         <div className="leftTile">
           <div className="chart">
-            {props.loading ? (
-              <Loader />
-            ) : (
-              <Chart
-                options={options}
-                series={[
-                  Boolean(props?.data?.totalTime) ? +props?.data?.totalTime : 0,
-                  Boolean(props?.data?.feedUnavailibilityDuration)
-                    ? +props?.data?.feedUnavailibilityDuration
-                    : 0,
-                  Boolean(props?.data?.balanceHours)
-                    ? +props?.data?.balanceHours
-                    : 0,
-                ]}
-                type="donut"
-              />
-            )}
+            <Chart
+              options={options}
+              series={[
+                Boolean(props?.data?.totalTime) ? +props?.data?.totalTime : 0,
+                Boolean(props?.data?.feedUnavailibilityDuration)
+                  ? +props?.data?.feedUnavailibilityDuration
+                  : 0,
+                Boolean(props?.data?.balanceHours)
+                  ? +props?.data?.balanceHours
+                  : 0,
+              ]}
+              type="donut"
+            />
           </div>
         </div>
         <div className="rightTile">
@@ -210,11 +212,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.loading ? (
-                  <Loader />
-                ) : (
-                  Number(props?.data?.totalTime)?.toFixed(2)
-                )}
+                {Number(props?.data?.totalTime)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -261,11 +259,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.loading ? (
-                  <Loader />
-                ) : (
-                  Number(props?.data?.feedUnavailibilityDuration)?.toFixed(2)
-                )}
+                {Number(props?.data?.feedUnavailibilityDuration)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -311,11 +305,7 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {props?.loading ? (
-                  <Loader />
-                ) : (
-                  Number(props?.data?.balanceHours)?.toFixed(2)
-                )}
+                {Number(props?.data?.balanceHours)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -334,11 +324,7 @@ function FeedDonut(props) {
         >
           Total Available Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {props?.loading ? (
-              <Loader />
-            ) : (
-              Number(props?.data?.totalTime)?.toFixed(2)
-            )}
+            {Number(props?.data?.totalTime)?.toFixed(2)}
           </span>
         </Typography>
 
@@ -355,11 +341,7 @@ function FeedDonut(props) {
           % Availability{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {props?.loading ? (
-              <Loader />
-            ) : (
-              Number(props?.data?.utilizationPercentage)?.toFixed(2) + "%"
-            )}
+            {Number(props?.data?.utilizationPercentage)?.toFixed(2) + "%"}
           </span>
         </Typography>
       </div>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import "../donutChart/DonutChart.scss";
-import CircularProgress from "@material-ui/core/CircularProgress";
+
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { StitchingContext } from "../../context/StitchingContext";
@@ -137,6 +137,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
             textDecoration: "none",
             fontSize: "20px",
             fontWeight: "500",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
           component={Link}
           to={link}
@@ -144,31 +147,28 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
             dispatch({ type: "VIOLATION_TAB", payload: payload_data })
           }
         >
-          Machine Utilization
+          Machine Utilization {"  "}{" "}
+          {loading && <Loader style={{ color: "white", marginLeft: "8px" }} />}
         </Typography>
       </div>
       <div className="donutCard">
         <div className="leftTile">
           <div className="chart">
-            {loading ? (
-              <Loader />
-            ) : (
-              <Chart
-                options={options}
-                series={[
-                  data?.length && Boolean(data[0]["max(scheduleHours)"])
-                    ? +data[0]["max(scheduleHours)"]
-                    : 0,
-                  data?.length && Boolean(data[0].MachineOffTime)
-                    ? +data[0].MachineOffTime
-                    : 0,
-                  data?.length && Boolean(data[0].breakdownTime)
-                    ? +data[0].breakdownTime
-                    : 0,
-                ]}
-                type="donut"
-              />
-            )}
+            <Chart
+              options={options}
+              series={[
+                data?.length && Boolean(data[0]["max(scheduleHours)"])
+                  ? +data[0]["max(scheduleHours)"]
+                  : 0,
+                data?.length && Boolean(data[0].MachineOffTime)
+                  ? +data[0].MachineOffTime
+                  : 0,
+                data?.length && Boolean(data[0].breakdownTime)
+                  ? +data[0].breakdownTime
+                  : 0,
+              ]}
+              type="donut"
+            />
           </div>
         </div>
         <div className="rightTile">
@@ -215,14 +215,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
                   fontSize: "14px",
                 }}
               >
-                {loading ? (
-                  <Loader />
-                ) : data?.length > 0 &&
-                  Boolean(data[0]["max(scheduleHours)"]) ? (
-                  Number(data[0]["max(scheduleHours)"])?.toFixed(2)
-                ) : (
-                  0
-                )}
+                {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
+                  ? Number(data[0]["max(scheduleHours)"])?.toFixed(2)
+                  : 0}
               </h6>
             </div>
           </div>
@@ -269,13 +264,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
                   fontSize: "14px",
                 }}
               >
-                {loading ? (
-                  <Loader />
-                ) : data?.length > 0 && Boolean(data[0].MachineOffTime) ? (
-                  Number(data[0].MachineOffTime)?.toFixed(2)
-                ) : (
-                  0
-                )}
+                {data?.length > 0 && Boolean(data[0].MachineOffTime)
+                  ? Number(data[0].MachineOffTime)?.toFixed(2)
+                  : 0}
               </h6>
             </div>
           </div>
@@ -321,13 +312,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
                   fontSize: "14px",
                 }}
               >
-                {loading ? (
-                  <Loader />
-                ) : data?.length > 0 && Boolean(data[0].breakdownTime) ? (
-                  Number(data[0].breakdownTime)?.toFixed(2)
-                ) : (
-                  0.0
-                )}
+                {data?.length > 0 && Boolean(data[0].breakdownTime)
+                  ? Number(data[0].breakdownTime)?.toFixed(2)
+                  : 0.0}
               </h6>
             </div>
           </div>
@@ -346,13 +333,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
         >
           Total Available Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {loading ? (
-              <Loader />
-            ) : data?.length > 0 && Boolean(data[0]["max(scheduleHours)"]) ? (
-              Number(data[0]["max(scheduleHours)"])?.toFixed(2)
-            ) : (
-              0
-            )}
+            {data?.length > 0 && Boolean(data[0]["max(scheduleHours)"])
+              ? Number(data[0]["max(scheduleHours)"])?.toFixed(2)
+              : 0}
           </span>
         </Typography>
 
@@ -368,13 +351,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
         >
           % Utilization{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {loading ? (
-              <Loader />
-            ) : data?.length > 0 && Boolean(data[0].utilizationPercentage) ? (
-              Number(data[0].utilizationPercentage)?.toFixed(2) + "%"
-            ) : (
-              0
-            )}
+            {data?.length > 0 && Boolean(data[0].utilizationPercentage)
+              ? Number(data[0].utilizationPercentage)?.toFixed(2) + "%"
+              : 0}
           </span>
         </Typography>
       </div>
