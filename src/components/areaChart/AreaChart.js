@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
 import { StitchingContext } from "../../context/StitchingContext";
+import Loader from "../loader/Loader";
 import "./AreaChart.scss";
 function AreaChart(props) {
   // DISPATCH
@@ -130,8 +131,19 @@ function AreaChart(props) {
         </Typography>
       </div>
       <div className="GraphCardSimple">
-        <div className="chart">
-          <Chart options={options} series={series} type="line" height={200} />
+        <div
+          className="chart"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {props?.loading ? (
+            <Loader />
+          ) : (
+            <Chart options={options} series={series} type="line" height={200} />
+          )}
         </div>
       </div>
       <Typography
@@ -145,7 +157,9 @@ function AreaChart(props) {
         }}
       >
         Total Crowding Instances:{" "}
-        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>{instance}</span>
+        <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
+          {props?.loading ? <Loader /> : instance}
+        </span>
       </Typography>
       <Typography
         variant="h6"
@@ -159,7 +173,7 @@ function AreaChart(props) {
       >
         Crowding Duration:{" "}
         <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-          {duration.toFixed(2) + "Hrs."}
+          {props?.loading ? <Loader /> : duration.toFixed(2) + "Hrs."}
         </span>
       </Typography>
     </>

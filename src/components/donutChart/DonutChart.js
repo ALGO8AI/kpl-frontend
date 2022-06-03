@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { StitchingContext } from "../../context/StitchingContext";
+import Loader from "../loader/Loader";
 
 const useStyles = makeStyles((theme) => ({
   // formControl: {
@@ -162,18 +163,22 @@ function DonutChart(props) {
       <div className="donutCard">
         <div className="leftTile">
           <div className="chart">
-            <Chart
-              options={options}
-              series={[
-                Boolean(props.totalTime) ? +props.totalTime : 0,
-                Boolean(props.idleDueToWorkerUnavailable)
-                  ? +props.idleDueToWorkerUnavailable
-                  : 0,
+            {props?.loading ? (
+              <Loader />
+            ) : (
+              <Chart
+                options={options}
+                series={[
+                  Boolean(props.totalTime) ? +props.totalTime : 0,
+                  Boolean(props.idleDueToWorkerUnavailable)
+                    ? +props.idleDueToWorkerUnavailable
+                    : 0,
 
-                Boolean(props.other) ? +props.other : 0,
-              ]}
-              type="donut"
-            />
+                  Boolean(props.other) ? +props.other : 0,
+                ]}
+                type="donut"
+              />
+            )}
             {/* <p>
             % Actual Working Hour{" "}
             {Math.round(
@@ -236,7 +241,11 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {Number(props.totalTime)?.toFixed(2)}
+                {props?.loading ? (
+                  <Loader />
+                ) : (
+                  Number(props.totalTime)?.toFixed(2)
+                )}
               </h6>
             </div>
           </div>
@@ -283,7 +292,11 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {Number(props.idleDueToWorkerUnavailable)?.toFixed(2)}
+                {props?.loading ? (
+                  <Loader />
+                ) : (
+                  Number(props.idleDueToWorkerUnavailable)?.toFixed(2)
+                )}
               </h6>
             </div>
           </div>
@@ -329,7 +342,7 @@ function DonutChart(props) {
                   fontSize: "14px",
                 }}
               >
-                {Number(props.other)?.toFixed(2)}
+                {props?.loading ? <Loader /> : Number(props.other)?.toFixed(2)}
               </h6>
             </div>
           </div>
@@ -384,7 +397,7 @@ function DonutChart(props) {
         >
           Total Available Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {Number(props.totalTime)?.toFixed(2)}
+            {props?.loading ? <Loader /> : Number(props.totalTime)?.toFixed(2)}
           </span>
         </Typography>
 
@@ -401,7 +414,11 @@ function DonutChart(props) {
           % Availability{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Number(props?.utilizationPercentage)?.toFixed(2) + "%"}
+            {props?.loading ? (
+              <Loader />
+            ) : (
+              Number(props?.utilizationPercentage)?.toFixed(2) + "%"
+            )}
           </span>
         </Typography>
       </div>

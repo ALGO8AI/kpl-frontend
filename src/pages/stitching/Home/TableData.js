@@ -46,6 +46,7 @@ function TableData({
   homeDateTable,
   homeMachineTable,
   homeCTRTable,
+  loading,
 }) {
   const [tabValue, setTabValue] = React.useState(0);
   const table1 = React.useRef(null);
@@ -81,6 +82,7 @@ function TableData({
             ref={table1}
           >
             <HomeTable
+              loading={loading}
               data={homeWorkerTable?.map((row, i) => {
                 const {
                   workerId,
@@ -196,6 +198,7 @@ function TableData({
         <TabPanel value={tabValue} index={1}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
+              loading={loading}
               // data={homeDateTable}
               data={homeDateTable.map((row, i) => {
                 const { date, ...rest } = row;
@@ -299,6 +302,7 @@ function TableData({
         <TabPanel value={tabValue} index={2}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
+              loading={loading}
               // data={homeMachineTable}
               data={homeMachineTable.map((row, i) => {
                 const {
@@ -454,6 +458,7 @@ function TableData({
         <TabPanel value={tabValue} index={3}>
           <Grid container item xs={12} style={{ padding: "12px" }}>
             <HomeTable
+              loading={loading}
               // data={homeCTRTable}
               data={homeCTRTable?.map((row, i) => {
                 const {

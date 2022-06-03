@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { StitchingContext } from "../../context/StitchingContext";
+import Loader from "../loader/Loader";
 
 const useStyles = makeStyles((theme) => ({
   // formControl: {
@@ -146,19 +147,23 @@ function FeedDonut(props) {
       <div className="donutCard">
         <div className="leftTile">
           <div className="chart">
-            <Chart
-              options={options}
-              series={[
-                Boolean(props?.data?.totalTime) ? +props?.data?.totalTime : 0,
-                Boolean(props?.data?.feedUnavailibilityDuration)
-                  ? +props?.data?.feedUnavailibilityDuration
-                  : 0,
-                Boolean(props?.data?.balanceHours)
-                  ? +props?.data?.balanceHours
-                  : 0,
-              ]}
-              type="donut"
-            />
+            {props.loading ? (
+              <Loader />
+            ) : (
+              <Chart
+                options={options}
+                series={[
+                  Boolean(props?.data?.totalTime) ? +props?.data?.totalTime : 0,
+                  Boolean(props?.data?.feedUnavailibilityDuration)
+                    ? +props?.data?.feedUnavailibilityDuration
+                    : 0,
+                  Boolean(props?.data?.balanceHours)
+                    ? +props?.data?.balanceHours
+                    : 0,
+                ]}
+                type="donut"
+              />
+            )}
           </div>
         </div>
         <div className="rightTile">
@@ -205,7 +210,11 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {Number(props?.data?.totalTime)?.toFixed(2)}
+                {props?.loading ? (
+                  <Loader />
+                ) : (
+                  Number(props?.data?.totalTime)?.toFixed(2)
+                )}
               </h6>
             </div>
           </div>
@@ -252,7 +261,11 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {Number(props?.data?.feedUnavailibilityDuration)?.toFixed(2)}
+                {props?.loading ? (
+                  <Loader />
+                ) : (
+                  Number(props?.data?.feedUnavailibilityDuration)?.toFixed(2)
+                )}
               </h6>
             </div>
           </div>
@@ -298,7 +311,11 @@ function FeedDonut(props) {
                   fontSize: "14px",
                 }}
               >
-                {Number(props?.data?.balanceHours)?.toFixed(2)}
+                {props?.loading ? (
+                  <Loader />
+                ) : (
+                  Number(props?.data?.balanceHours)?.toFixed(2)
+                )}
               </h6>
             </div>
           </div>
@@ -317,7 +334,11 @@ function FeedDonut(props) {
         >
           Total Available Hours{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
-            {Number(props?.data?.totalTime)?.toFixed(2)}
+            {props?.loading ? (
+              <Loader />
+            ) : (
+              Number(props?.data?.totalTime)?.toFixed(2)
+            )}
           </span>
         </Typography>
 
@@ -334,7 +355,11 @@ function FeedDonut(props) {
           % Availability{" "}
           <span style={{ fontWeight: "bold", color: "#0e4a7b" }}>
             {" "}
-            {Number(props?.data?.utilizationPercentage)?.toFixed(2) + "%"}
+            {props?.loading ? (
+              <Loader />
+            ) : (
+              Number(props?.data?.utilizationPercentage)?.toFixed(2) + "%"
+            )}
           </span>
         </Typography>
       </div>

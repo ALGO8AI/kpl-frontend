@@ -64,6 +64,7 @@ function Home() {
   const [inputSHIFT, setInputSHIFT] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
   const [inputLINE, setInputLINE] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false);
 
   // Functions
   const getMachineDynamic = async () => {
@@ -235,6 +236,8 @@ function Home() {
 
   // load initial table data
   const loadData = async () => {
+    setDataLoading(true);
+
     try {
       // if (state.machineUtilization.loading) {
       const x = await machineBreakdownData();
@@ -314,7 +317,10 @@ function Home() {
         },
       });
       // }
+      setDataLoading(false);
     } catch (err) {
+      setDataLoading(false);
+
       // console.log(err.message);
     }
   };
@@ -324,6 +330,7 @@ function Home() {
     else if (!state.to) alert("To Date not Selected!");
     else {
       try {
+        setDataLoading(true);
         const x = await workerUtilizationData(
           state.from,
           state.to,
@@ -476,7 +483,9 @@ function Home() {
             },
           });
         }
+        setDataLoading(false);
       } catch (err) {
+        setDataLoading(false);
         // console.log(err.message);
       }
     }
@@ -605,7 +614,7 @@ function Home() {
                 onChange={(e) => setInputSHIFT(e.target.value)}
                 label="Shift"
               >
-                {["A", "B", "C"].map((item, index) => (
+                {["A", "B"].map((item, index) => (
                   <MenuItem key={index} value={item}>
                     {item}
                   </MenuItem>
@@ -782,6 +791,7 @@ function Home() {
                 data={state.machineUtilization?.data}
                 payload_data={3}
                 link={"/stitching/violationLog"}
+                loading={dataLoading}
               />
             )}
           </Paper>
@@ -802,6 +812,7 @@ function Home() {
                 data={state?.feedUtilization?.data}
                 payload_data={0}
                 link={"/stitching/violationLog"}
+                loading={dataLoading}
               />
             )}
           </Paper>
@@ -832,6 +843,7 @@ function Home() {
                 }
                 payload_data={2}
                 link={"/stitching/violationLog"}
+                loading={dataLoading}
               />
             )}
           </Paper>
@@ -853,6 +865,7 @@ function Home() {
                 data={state.crowdingInstance.data}
                 payload_data={1}
                 link={"/stitching/violationLog"}
+                loading={dataLoading}
               />
             )}
           </Paper>
@@ -867,6 +880,7 @@ function Home() {
           state.homeCTRTable?.data?.detailedSummaryByClpCtr
             ?.detailedSummaryByClpCtr
         }
+        loading={dataLoading}
       />
     </Grid>
   );
