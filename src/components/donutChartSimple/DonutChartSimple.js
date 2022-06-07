@@ -47,12 +47,8 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: [
-      "Total Available Hours",
-      "Machine OffTime",
-      "Machine Breakdown Time",
-    ],
+    colors: ["#094573", "#a97f00", "#F9B263"],
+    labels: ["Machine Uptime", "Machine OffTime", "Machine Breakdown Time"],
 
     plotOptions: {
       pie: {
@@ -158,7 +154,9 @@ function DonutChartSimple({ data, payload_data, link, loading }) {
               options={options}
               series={[
                 data?.length && Boolean(data[0]["max(scheduleHours)"])
-                  ? +data[0]["max(scheduleHours)"]
+                  ? Number(data[0]["max(scheduleHours)"]).toFixed(2) -
+                    Number(data[0].MachineOffTime).toFixed(2) -
+                    Number(data[0].breakdownTime).toFixed(2)
                   : 0,
                 data?.length && Boolean(data[0].MachineOffTime)
                   ? +data[0].MachineOffTime

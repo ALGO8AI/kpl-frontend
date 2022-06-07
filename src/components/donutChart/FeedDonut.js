@@ -57,8 +57,8 @@ function FeedDonut(props) {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total Available Hours", "Feed Unavailable", "Balance Hours"],
+    colors: ["#a97f00", "#F9B263"],
+    labels: ["Feed Unavailable Hours", "Feed Available Hours"],
 
     plotOptions: {
       pie: {
@@ -83,7 +83,7 @@ function FeedDonut(props) {
     legend: {
       show: false,
       labels: {
-        colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
+        colors: ["#a97f00", "#F9B263"],
         useSeriesColors: false,
       },
     },
@@ -156,7 +156,6 @@ function FeedDonut(props) {
             <Chart
               options={options}
               series={[
-                Boolean(props?.data?.totalTime) ? +props?.data?.totalTime : 0,
                 Boolean(props?.data?.feedUnavailibilityDuration)
                   ? +props?.data?.feedUnavailibilityDuration
                   : 0,

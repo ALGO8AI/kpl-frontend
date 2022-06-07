@@ -62,8 +62,8 @@ function DonutChart(props) {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
-    labels: ["Total working hours", "Worker Unavailable", "Balance Hours"],
+    colors: ["#a97f00", "#F9B263"],
+    labels: ["Worker Unavailable Hours", "Worker Avavilable Hours"],
 
     plotOptions: {
       pie: {
@@ -88,7 +88,7 @@ function DonutChart(props) {
     legend: {
       show: false,
       labels: {
-        colors: ["#094573", "#ffce38", "#ffa643", "#f16230"],
+        colors: ["#a97f00", "#F9B263"],
         useSeriesColors: false,
       },
     },
@@ -172,7 +172,7 @@ function DonutChart(props) {
             <Chart
               options={options}
               series={[
-                Boolean(props.totalTime) ? +props.totalTime : 0,
+                // Boolean(props.totalTime) ? +props.totalTime : 0,
                 Boolean(props.idleDueToWorkerUnavailable)
                   ? +props.idleDueToWorkerUnavailable
                   : 0,
