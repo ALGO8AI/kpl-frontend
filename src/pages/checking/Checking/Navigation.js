@@ -161,8 +161,8 @@ export default function Navigation() {
       console.log(ctr);
       setCtrDrop(ctr);
       const notification = await getStitchingNotification();
-      console.log(notification.data);
-      setNotification(notification.data);
+      console.log(notification?.data);
+      setNotification(notification?.data);
     } catch (err) {}
   };
   const handleClickOpenCTR = () => {
@@ -541,16 +541,17 @@ export default function Navigation() {
         open={Boolean(anchorE2)}
         onClose={handleClose2}
       >
-        {notification.map((option, index) => (
-          <MenuItem
-            key={index}
-            selected={index === selectedIndex2}
-            onClick={(event) => handleMenuItemClick2(event, option.id)}
-            style={{ backgroundColor: "#FFCBE4" }}
-          >
-            {option.text}
-          </MenuItem>
-        ))}
+        {notification?.length !== 0 &&
+          notification?.map((option, index) => (
+            <MenuItem
+              key={index}
+              selected={index === selectedIndex2}
+              onClick={(event) => handleMenuItemClick2(event, option.id)}
+              style={{ backgroundColor: "#FFCBE4" }}
+            >
+              {option?.text}
+            </MenuItem>
+          ))}
       </Menu>
       <CLPCTRDialog2 open={open} handleCloseCTR={handleCloseCTR} />
       <ProfileBox
