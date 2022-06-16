@@ -130,7 +130,7 @@ function WorkerScheduleV2() {
         ...CTR[id],
       };
       const resp = await saveWorkerScheduleV3(formData);
-      setMsg(resp.msg);
+      setMsg(resp.message);
       setSeverity("success");
       setOpen(true);
     } catch (e) {
