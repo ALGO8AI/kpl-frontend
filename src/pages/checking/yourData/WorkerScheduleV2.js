@@ -153,16 +153,28 @@ function WorkerScheduleV2() {
     } catch (e) {}
   };
 
-  const setNewCtr = (e, t, id) => {
-    // console.log(id);
-    const current = clpCtr.findIndex((item) => item?.CtrNo === t?.CtrNo);
+  const setNewCtr = (t, id) => {
+    console.log(t);
+    const current = clpCtr.findIndex((item) => item?.CtrNo === t);
+    console.log(current);
     setCTR({
       ...CTR,
       [id]: {
-        clpctr: clpCtr[current]?.CtrNo,
+        clpctr: `${clpCtr[current]?.Clp}-${clpCtr[current]?.CtrNo}`,
         ctrId: clpCtr[current]?.id,
+        ctr: clpCtr[current]?.CtrNo,
       },
     });
+    const newScheduleData = scheduleData.map((item) =>
+      item?.id === id
+        ? {
+            ...item,
+            ctr: clpCtr[current]?.CtrNo,
+          }
+        : item
+    );
+    // console.log(newScheduleData);
+    setScheduleData(newScheduleData);
   };
 
   // use effect
@@ -378,7 +390,7 @@ function WorkerScheduleV2() {
                       /> */}
                     </TableCell>
                     <TableCell>
-                      <Autocomplete
+                      {/* <Autocomplete
                         // id="combo-box-demo"
                         onChange={(e, t) => setNewCtr(e, t, item?.id)}
                         options={clpCtr}
@@ -393,7 +405,35 @@ function WorkerScheduleV2() {
                             variant="outlined"
                           />
                         )}
-                      />
+                      /> */}
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginBottom: "12px" }}
+                      >
+                        {/* <InputLabel keyid="demo-simple-select-outlined-label">
+                          Wing
+                        </InputLabel> */}
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={item?.ctr}
+                          name="supervisorName"
+                          fullWidth
+                          onChange={(e) => setNewCtr(e.target.value, item?.id)}
+                          label=""
+                          // multiple
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {clpCtr?.map((item, index) => (
+                            <MenuItem value={item.CtrNo} key={index}>
+                              {item.Clp}-{item.CtrNo}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </TableCell>
                     <TableCell>
                       <Button
