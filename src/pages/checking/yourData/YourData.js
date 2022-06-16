@@ -69,14 +69,15 @@ function YourData() {
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
           <Tab label="Tailor Detail" {...a11yProps(3)} />
           <Tab label="Notification log" {...a11yProps(4)} />
-          <Tab label="Worker Schedule V2" {...a11yProps(5)} />
+          {/* <Tab label="Worker Schedule V2" {...a11yProps(5)} /> */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <WorkerChecking />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Schedule />
+        {/* <Schedule /> */}
+        <WorkerScheduleV2 />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Supervisor />
@@ -88,9 +89,9 @@ function YourData() {
       <TabPanel value={value} index={4}>
         <NotificationLogChecking />
       </TabPanel>
-      <TabPanel value={value} index={5}>
+      {/* <TabPanel value={value} index={5}>
         <WorkerScheduleV2 />
-      </TabPanel>
+      </TabPanel> */}
     </Grid>
   );
 }
