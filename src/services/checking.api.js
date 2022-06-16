@@ -155,7 +155,7 @@ export const getAllSupervisorListV3 = async () => {
 export const saveWorkerScheduleV3 = async (data) => {
   return await callBackendV2(
     "POST",
-    "routes/checkingSheduleSingleUpdate/addSchedule",
+    "routes/addScheduleDetailChecking/addSchedule",
     true,
     data
   );
