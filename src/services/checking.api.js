@@ -167,3 +167,10 @@ export const copyWorkerScheduleV3 = async () => {
     "routes/checkingSheduleSingleUpdate/copyTable"
   );
 };
+
+export const bagCount = async () => {
+  return await callBackendV2(
+    "GET",
+    "routes/checking/bagId/tableWiseRemainingBagIdCount"
+  );
+};

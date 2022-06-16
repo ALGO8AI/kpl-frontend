@@ -1,9 +1,24 @@
-import { Button, Grid, TextField } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@material-ui/core";
 import MaterialTable from "material-table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { generateBagIds } from "../../../services/api.service";
+import { bagCount } from "../../../services/checking.api";
+import { theme } from "../../../Utility/constants";
 
 function GenerateBarcode() {
   const { state, dispatch } = React.useContext(CheckingContext);
@@ -15,6 +30,9 @@ function GenerateBarcode() {
     tableNo: "",
     respData: "",
   });
+
+  const [tableWiseData, setTableWiseData] = useState([]);
+
   const saveBagID = async () => {
     try {
       const resp = await generateBagIds(bagData.lotSize, bagData.tableNo);
@@ -26,6 +44,21 @@ function GenerateBarcode() {
       console.log(err.message);
     }
   };
+
+  const loadData = async () => {
+    try {
+      const resp = await bagCount();
+      console.log(resp?.data);
+      setTableWiseData(resp?.data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   // const [filter, setFilter] = React.useState("");
   return (
     <Grid container>
@@ -37,7 +70,75 @@ function GenerateBarcode() {
         sm={4}
         style={{ height: "min-content", padding: "12px" }}
       >
-        <TextField
+        <TableContainer component={Paper} style={{ marginBottom: "12px" }}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow
+                style={{
+                  backgroundColor: theme.BLUE,
+                  color: "white",
+                }}
+              >
+                {["Table ID", "Unused Barcode Count", ""].map((item, index) => (
+                  <TableCell
+                    key={index}
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    {item}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableWiseData.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.tableId}</TableCell>
+                  <TableCell>{item.remainingBagCount}</TableCell>
+                  <TableCell>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // value={data.accessibilityChecking}
+                          // checked={data.accessibilityChecking}
+                          color="primary"
+                          // onChange={(e) =>
+                          //   setData({
+                          //     ...data,
+                          //     accessibilityChecking: e.target.checked,
+                          //   })
+                          // }
+                        />
+                      }
+                      labelPlacement="end"
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button
+          autoFocus
+          // onClick={saveBagID}
+          variant="contained"
+          style={{
+            backgroundColor: "#0e4a7b",
+            color: "#FFF",
+            whiteSpace: "nowrap",
+            width: "100%",
+            height: "fit-content",
+            border: "1px solid #0e4a7b",
+            // marginLeft: "12px",
+            padding: "12px",
+            martinTop: "12px",
+          }}
+          // disabled={!bagData.lotSize || !bagData.tableNo}
+        >
+          GENERATE REMAINING BARCODE
+        </Button>
+        {/* <TextField
           variant="outlined"
           fullWidth
           value={bagData.lotSize}
@@ -95,7 +196,7 @@ function GenerateBarcode() {
           >
             GENERATE
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
         <MaterialTable
