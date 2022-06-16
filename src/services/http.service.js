@@ -2,7 +2,7 @@
 const axios = require("axios");
 
 // const localUrl = "http://localhost:5000";
-// const cloudUrl = "http://3.18.22.89:3000"; //dev
+const cloudUrl = "http://3.17.151.86:5000";
 const cloudUrlProd = "http://kpl.algo8apps.com:3000"; //dev
 const clouUrlDev = "http://thawing-bayou-72580.herokuapp.com";
 const cloudUrlTemp = "http://13.126.115.120:5000"; //temp
@@ -13,7 +13,7 @@ const cloudUrlVPN_TEMP = "http://120.120.120.147:5004"; //VPN
 const videoWall = "http://kpl.algo8apps.com";
 
 // const baseUrl = cloudUrlProd;
-const baseUrl = cloudUrlVPN;
+const baseUrl = cloudUrl;
 // const baseUrl = "http://kpl.algo8apps.com:5006";
 
 const getUrl = (path) => `${baseUrl}/${path}`;

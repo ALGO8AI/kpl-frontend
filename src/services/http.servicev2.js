@@ -2,7 +2,8 @@
 const axios = require("axios");
 
 // const localUrl = "http://localhost:5000";
-const cloudUrl = "http://kpl-checking.herokuapp.com"; //dev
+// const cloudUrl = "http://kpl-checking.herokuapp.com"; //dev
+const cloudUrl = "http://3.17.151.86:5000";
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://kpl.algo8apps.com";

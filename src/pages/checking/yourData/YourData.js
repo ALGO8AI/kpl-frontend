@@ -12,6 +12,7 @@ import NotificationLogChecking from "../../../components/notificationLog/Notific
 import WorkerChecking from "./Worker";
 import Worker from "../../stitching/yourData/Worker";
 import Tailor from "./Tailor";
+import WorkerScheduleV2 from "./WorkerScheduleV2";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,6 +69,7 @@ function YourData() {
           <Tab label="Supervisor Schedule" {...a11yProps(2)} />
           <Tab label="Tailor Detail" {...a11yProps(3)} />
           <Tab label="Notification log" {...a11yProps(4)} />
+          <Tab label="Worker Schedule V2" {...a11yProps(5)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -85,6 +87,9 @@ function YourData() {
       </TabPanel>
       <TabPanel value={value} index={4}>
         <NotificationLogChecking />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <WorkerScheduleV2 />
       </TabPanel>
     </Grid>
   );

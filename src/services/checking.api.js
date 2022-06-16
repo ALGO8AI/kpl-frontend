@@ -151,3 +151,19 @@ export const deleteCheckingSupervisorScheduleV3 = async (data) => {
 export const getAllSupervisorListV3 = async () => {
   return await callBackendV2("POST", "routes/supervisor/allSupervisors", true);
 };
+
+export const saveWorkerScheduleV3 = async (data) => {
+  return await callBackendV2(
+    "POST",
+    "routes/checkingSheduleSingleUpdate/addSchedule",
+    true,
+    data
+  );
+};
+
+export const copyWorkerScheduleV3 = async () => {
+  return await callBackendV2(
+    "GET",
+    "routes/checkingSheduleSingleUpdate/copyTable"
+  );
+};

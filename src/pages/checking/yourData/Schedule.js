@@ -434,8 +434,8 @@ function Schedule(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {workerList.length > 0 &&
-                workerList.map((item, index) => (
+              {workerList?.length > 0 &&
+                workerList?.map((item, index) => (
                   <MenuItem value={item.workerName} key={index}>
                     {item.workerName}
                   </MenuItem>
