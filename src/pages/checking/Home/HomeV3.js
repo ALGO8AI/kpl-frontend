@@ -606,7 +606,11 @@ export default function HomeV2() {
           {repairedbags?.length === 0 ? (
             <Loader />
           ) : (
-            <RepairedBagDonut data={repairedbags} loading={loading} />
+            <RepairedBagDonut
+              data={repairedbags}
+              loading={loading}
+              defectedbags={defectedbags}
+            />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
@@ -676,7 +680,7 @@ export default function HomeV2() {
 // components
 
 // Chart 1
-function RepairedBagDonut({ data, loading }) {
+function RepairedBagDonut({ data, loading, defectedbags }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643", "#c47171"],
     dataLabels: {
@@ -688,7 +692,7 @@ function RepairedBagDonut({ data, loading }) {
     chart: {
       type: "donut",
     },
-    labels: ["Repaired", "Rejected", "Okay", "Not Repaired"],
+    labels: ["Repaired", "Rejected", "Not Repaired"],
   };
   return (
     <div className={Styles.Card}>
@@ -698,7 +702,7 @@ function RepairedBagDonut({ data, loading }) {
         <div className={Styles.Left}>
           <ReactApexChart
             options={options}
-            series={[data[1]?.noo, data[2]?.noo, data[3]?.noo, data[0]?.noo]}
+            series={[data[1]?.noo, data[2]?.noo, data[0]?.noo]}
             type="donut"
             width={200}
           />
@@ -707,7 +711,7 @@ function RepairedBagDonut({ data, loading }) {
           <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Total Bags</p>
             <p style={{ color: "grey" }}>
-              {data[0]?.noo + data[1]?.noo + data[2]?.noo + data[3]?.noo}
+              {data[0]?.noo + data[1]?.noo + data[2]?.noo}
             </p>
           </div>
           <hr />
@@ -733,7 +737,7 @@ function RepairedBagDonut({ data, loading }) {
             <p style={{ color: "#ffce38" }}>{data[2]?.noo}</p>
           </div>
           <hr />
-          <div className={Styles.Data}>
+          {/* <div className={Styles.Data}>
             <div
               className={Styles.Dot}
               style={{
@@ -743,16 +747,16 @@ function RepairedBagDonut({ data, loading }) {
             <p style={{ color: "#ffa643" }}>Okay Bags</p>
             <p style={{ color: "#ffa643" }}>{data[3]?.noo}</p>
           </div>
-          <hr />
+          <hr /> */}
           <div className={Styles.Data}>
             <div
               className={Styles.Dot}
               style={{
-                backgroundColor: "#c47171",
+                backgroundColor: "#ffa643",
               }}
             ></div>
-            <p style={{ color: "#c47171" }}>Not Repaired</p>
-            <p style={{ color: "#c47171" }}>{data[0]?.noo}</p>
+            <p style={{ color: "#ffa643" }}>Not Repaired</p>
+            <p style={{ color: "#ffa643" }}>{data[0]?.noo}</p>
           </div>
         </div>
       </div>
@@ -763,7 +767,10 @@ function RepairedBagDonut({ data, loading }) {
         }}
       >
         Repaired Bags %{" "}
-        {((data[1]?.noo / (data[0]?.noo + data[2]?.noo)) * 100).toFixed(2)}
+        {(
+          (data[1]?.noo / (data[0]?.noo + data[2]?.noo + data[1]?.noo)) *
+          100
+        ).toFixed(2)}
       </h3>
     </div>
   );
