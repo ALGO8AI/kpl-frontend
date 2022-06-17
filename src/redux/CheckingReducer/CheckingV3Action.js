@@ -15,6 +15,7 @@ export const homeDefectChartV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -49,6 +50,7 @@ export const homeRepairedChartV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -126,6 +128,7 @@ export const top5DefectesV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -137,6 +140,22 @@ export const top5DefectesV3 = (
       type: "SET_CHECKING_V3",
       payload: {
         key: "top5Defectes",
+        value: resp?.data,
+      },
+    });
+  } catch (e) {}
+};
+
+export const top3DefectesV3 = () => async (dispatch) => {
+  try {
+    const resp = await callBackendV2(
+      "GET",
+      "routes/checking/KPI/home/mostFrequentDefects"
+    );
+    dispatch({
+      type: "SET_CHECKING_V3",
+      payload: {
+        key: "top3Defectes",
         value: resp?.data,
       },
     });
@@ -158,6 +177,7 @@ export const byWorkerTableV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -190,6 +210,7 @@ export const byClpCtrTableV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -222,6 +243,7 @@ export const byDateTableV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -254,6 +276,7 @@ export const defectsLogsV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -286,6 +309,7 @@ export const productionLogsV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",

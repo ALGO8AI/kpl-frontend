@@ -73,6 +73,7 @@ function Login() {
               localStorage.setItem("DESIGNATION", x.data.designation);
               localStorage.setItem("PROFILE", JSON.stringify(x.data));
               localStorage.setItem("kpl_username", x.data.username);
+              localStorage.setItem("kpl_wing", x.data.wing);
 
               history.push("/menu");
             } else {

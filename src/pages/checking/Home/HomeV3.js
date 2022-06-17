@@ -44,8 +44,10 @@ import {
   getAllTableIdV3,
   homeDefectChartV3,
   homeRepairedChartV3,
+  top3DefectesV3,
   top5DefectesV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
+import { toBeValid } from "@testing-library/jest-dom/dist/matchers";
 
 export default function HomeV2() {
   // context
@@ -58,6 +60,7 @@ export default function HomeV2() {
   const [inputSHIFT, setInputSHIFT] = useState([]);
   const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
+  const [loading, setLoading] = useState(false);
 
   // React dispatch
   const Dispatch = useDispatch();
@@ -70,6 +73,7 @@ export default function HomeV2() {
     byClpCtrTable,
     byDateTable,
     repairedbags,
+    top3Defectes,
   } = useSelector((state) => state?.CheckV3);
 
   // Functions
@@ -156,16 +160,21 @@ export default function HomeV2() {
   // load initial table data
   const loadData = () => {
     console.log("CheckingV3");
+    setLoading(true);
     Dispatch(getAllTableIdV3());
     Dispatch(homeRepairedChartV3());
     Dispatch(homeDefectChartV3());
     Dispatch(top5DefectesV3());
+    Dispatch(top3DefectesV3());
     Dispatch(byWorkerTableV3());
     Dispatch(byClpCtrTableV3());
     Dispatch(byDateTableV3());
+    setLoading(false);
   };
   // load filtered data
   const dateFilter = async () => {
+    setLoading(true);
+
     Dispatch(
       homeRepairedChartV3(
         state.from,
@@ -208,6 +217,7 @@ export default function HomeV2() {
     Dispatch(
       byDateTableV3(state.from, state.to, inputCTR, inputMACHINEid, inputSHIFT)
     );
+    setLoading(false);
   };
 
   // Use Effects
@@ -527,34 +537,42 @@ export default function HomeV2() {
           {repairedbags?.length === 0 ? (
             <Loader />
           ) : (
-            <RepairedBagDonut data={repairedbags} />
+            <RepairedBagDonut data={repairedbags} loading={loading} />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {defectedbags?.length === 0 ? (
             <Loader />
           ) : (
-            <DefectPercentageDonut data={defectedbags} />
+            <DefectPercentageDonut data={defectedbags} loading={loading} />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {top5Defectes?.length === 0 ? (
             <Loader />
           ) : (
-            <Top5Defects data={top5Defectes} />
+            <Top5Defects data={top5Defectes} loading={loading} />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <DefectTrend />
+          {top3Defectes?.length === 0 ? (
+            <Loader />
+          ) : (
+            <Top3Defects data={top3Defectes} loading={loading} />
+          )}
         </Grid>
-        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={4} lg={4}>
-          <CheckingEfficiency />
+
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <CheckingEfficiency loading={loading} />
         </Grid>
-        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={4} lg={4}>
-          <CheckingPerformance />
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <CheckingPerformance loading={loading} />
         </Grid>
-        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={4} lg={4}>
-          <PDIdefect />
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <PDIdefect loading={loading} />
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <DefectTrend loading={loading} />
         </Grid>
       </Grid>
       {/* comparison table */}
@@ -586,9 +604,9 @@ export default function HomeV2() {
 // components
 
 // Chart 1
-function RepairedBagDonut({ data }) {
+function RepairedBagDonut({ data, loading }) {
   const options = {
-    colors: ["#094573", "#ffce38", "#ffa643"],
+    colors: ["#094573", "#ffce38", "#ffa643", "#c47171"],
     dataLabels: {
       enabled: false,
     },
@@ -598,16 +616,17 @@ function RepairedBagDonut({ data }) {
     chart: {
       type: "donut",
     },
-    labels: ["Repaired", "Rejected", "Okay"],
+    labels: ["Repaired", "Rejected", "Okay", "Not Repaired"],
   };
   return (
     <div className={Styles.Card}>
       <h3>Repaired Bags %</h3>
+      {loading && <Loader />}
       <div className={Styles.Content}>
         <div className={Styles.Left}>
           <ReactApexChart
             options={options}
-            series={[data[0]?.noo, data[1]?.noo, data[2]?.noo]}
+            series={[data[1]?.noo, data[2]?.noo, data[3]?.noo, data[0]?.noo]}
             type="donut"
             width={200}
           />
@@ -616,7 +635,7 @@ function RepairedBagDonut({ data }) {
           <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Total Bags</p>
             <p style={{ color: "grey" }}>
-              {data[0]?.noo + data[1]?.noo + data[2]?.noo}
+              {data[0]?.noo + data[1]?.noo + data[2]?.noo + data[3]?.noo}
             </p>
           </div>
           <hr />
@@ -628,7 +647,7 @@ function RepairedBagDonut({ data }) {
               }}
             ></div>
             <p style={{ color: "#094573" }}>Repaired Bags</p>
-            <p style={{ color: "#094573" }}>{data[0]?.noo}</p>
+            <p style={{ color: "#094573" }}>{data[1]?.noo}</p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -639,7 +658,7 @@ function RepairedBagDonut({ data }) {
               }}
             ></div>
             <p style={{ color: "#ffce38" }}>Rejected Bags</p>
-            <p style={{ color: "#ffce38" }}>{data[1]?.noo}</p>
+            <p style={{ color: "#ffce38" }}>{data[2]?.noo}</p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -650,16 +669,39 @@ function RepairedBagDonut({ data }) {
               }}
             ></div>
             <p style={{ color: "#ffa643" }}>Okay Bags</p>
-            <p style={{ color: "#ffa643" }}>{data[2]?.noo}</p>
+            <p style={{ color: "#ffa643" }}>{data[3]?.noo}</p>
+          </div>
+          <hr />
+          <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#c47171",
+              }}
+            ></div>
+            <p style={{ color: "#c47171" }}>Not Repaired</p>
+            <p style={{ color: "#c47171" }}>{data[0]?.noo}</p>
           </div>
         </div>
       </div>
+      <h3
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+        }}
+      >
+        Repaired Bags %{" "}
+        {(
+          (data[1]?.noo / (data[0]?.noo + data[2]?.noo + data[3]?.noo)) *
+          100
+        ).toFixed(2)}
+      </h3>
     </div>
   );
 }
 
 // chart 2
-function DefectPercentageDonut({ data }) {
+function DefectPercentageDonut({ data, loading }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -676,6 +718,8 @@ function DefectPercentageDonut({ data }) {
   return (
     <div className={Styles.Card}>
       <h3>Defect %</h3>
+      {loading && <Loader />}
+
       <div className={Styles.Content}>
         <div className={Styles.Left}>
           <ReactApexChart
@@ -739,17 +783,29 @@ function DefectPercentageDonut({ data }) {
           </div>
         </div>
       </div>
+      <h3
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+        }}
+      >
+        Defects %{" "}
+        {(
+          (data[0][0]["Total Defects"] / data[1][0]["Total Bags"]) *
+          100
+        ).toFixed(2)}
+      </h3>
     </div>
   );
 }
 
 // chart 3
-function Top5Defects({ data }) {
+function Top5Defects({ data, loading }) {
   const DATA = {
     series: [
       {
         name: "Defects",
-        data: data?.map((item) => item.defectPercentage),
+        data: data?.map((item) => item.defectCount),
       },
     ],
     options: {
@@ -762,7 +818,7 @@ function Top5Defects({ data }) {
           dataLabels: {
             position: "top",
             formatter: function(val, opt) {
-              return `${val}%`;
+              return `${val}`;
             },
           },
         },
@@ -770,7 +826,7 @@ function Top5Defects({ data }) {
       dataLabels: {
         enabled: true,
         formatter: function(val, opt) {
-          return val + "%";
+          return val;
         },
       },
       colors: ["#f68f1d"],
@@ -778,13 +834,13 @@ function Top5Defects({ data }) {
         x: {
           formatter: undefined,
           title: {
-            formatter: (value) => `${value} %`,
+            formatter: (value) => `${value}`,
           },
         },
         y: {
           formatter: undefined,
           title: {
-            formatter: (seriesName) => `${seriesName} %`,
+            formatter: (seriesName) => `${seriesName}`,
           },
         },
       },
@@ -809,7 +865,7 @@ function Top5Defects({ data }) {
       },
       yaxis: {
         title: {
-          text: "Percentage",
+          text: "Count",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
@@ -822,6 +878,101 @@ function Top5Defects({ data }) {
   return (
     <div className={Styles.Card}>
       <h3>Top 5 Defects</h3>
+      {loading && <Loader />}
+
+      <div className={Styles.Content}>
+        <div className={Styles.Center}>
+          <ReactApexChart
+            options={DATA.options}
+            series={DATA.series}
+            type="bar"
+            width={"100%"}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Top3Defects({ data, loading }) {
+  const DATA = {
+    series: [
+      {
+        name: "Defects",
+        data: data?.map((item) => item.defectCount),
+      },
+    ],
+    options: {
+      chart: {
+        height: 350,
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 10,
+          dataLabels: {
+            position: "top",
+            formatter: function(val, opt) {
+              return `${val}`;
+            },
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function(val, opt) {
+          return val;
+        },
+      },
+      colors: ["#f68f1d"],
+      tooltip: {
+        x: {
+          formatter: undefined,
+          title: {
+            formatter: (value) => `${value}`,
+          },
+        },
+        y: {
+          formatter: undefined,
+          title: {
+            formatter: (seriesName) => `${seriesName}`,
+          },
+        },
+      },
+
+      xaxis: {
+        categories: data?.map((item) => item.defectName),
+        position: "bottom",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        title: {
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Count",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+        },
+      },
+    },
+  };
+  return (
+    <div className={Styles.Card}>
+      <h3>Top 3 Defects</h3>
+      {loading && <Loader />}
+
       <div className={Styles.Content}>
         <div className={Styles.Center}>
           <ReactApexChart
@@ -837,7 +988,7 @@ function Top5Defects({ data }) {
 }
 
 // chart 4
-function DefectTrend() {
+function DefectTrend({ loading }) {
   const DATA = {
     series: [
       {
@@ -915,6 +1066,8 @@ function DefectTrend() {
   return (
     <div className={Styles.Card}>
       <h3>Defect % Trend</h3>
+      {loading && <Loader />}
+
       <div className={Styles.Content}>
         <div className={Styles.Center}>
           <ReactApexChart
@@ -930,7 +1083,7 @@ function DefectTrend() {
 }
 
 // Chart 5
-function CheckingEfficiency() {
+function CheckingEfficiency({ loading }) {
   const series = [32, 68];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
@@ -948,6 +1101,8 @@ function CheckingEfficiency() {
   return (
     <div className={Styles.Card}>
       <h3>Checking Efficiency %</h3>
+      {loading && <Loader />}
+
       <div className={Styles.Content}>
         <div className={Styles.Left}>
           <ReactApexChart
@@ -981,7 +1136,7 @@ function CheckingEfficiency() {
 }
 
 // Chart 5
-function CheckingPerformance() {
+function CheckingPerformance({ loading }) {
   const series = [45, 55];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
@@ -999,6 +1154,8 @@ function CheckingPerformance() {
   return (
     <div className={Styles.Card}>
       <h3>Checking Performance %</h3>
+      {loading && <Loader />}
+
       <div className={Styles.Content}>
         <div className={Styles.Left}>
           <ReactApexChart
@@ -1032,7 +1189,7 @@ function CheckingPerformance() {
 }
 
 // Chart 6
-function PDIdefect() {
+function PDIdefect({ loading }) {
   const series = [12, 88];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
@@ -1050,6 +1207,8 @@ function PDIdefect() {
   return (
     <div className={Styles.Card}>
       <h3>PDI Defect %</h3>
+      {loading && <Loader />}
+
       <div className={Styles.Content}>
         <div className={Styles.Left}>
           <ReactApexChart

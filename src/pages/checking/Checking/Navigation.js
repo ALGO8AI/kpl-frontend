@@ -486,7 +486,12 @@ export default function Navigation() {
             >
               <AccountCircle />
             </IconButton>
-
+            <Typography
+              variant="h5"
+              style={{ margin: "4px 12px", color: "#f68f1d" }}
+            >
+              Wing : {state?.profile?.wing}
+            </Typography>
             <Typography
               variant="h4"
               style={{ margin: "4px 12px", color: "#f68f1d" }}

@@ -2,6 +2,7 @@ const initStore = {
   repairedbags: [],
   defectedbags: [],
   top5Defectes: [],
+  top3Defectes: [],
   mostFrequentDefects: [],
   byWorkerTable: [],
   byClpCtrTable: [],
