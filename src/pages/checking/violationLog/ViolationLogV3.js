@@ -25,6 +25,8 @@ import {
   getAllTableId,
   tailorSummary,
   productionSummary,
+  getDynamicTableList,
+  getDynamicClpCtrListChecking,
 } from "../../../services/api.service";
 import { Link } from "react-router-dom";
 // import "./ViolationLog.css";
@@ -384,6 +386,42 @@ function ViolationLogV3() {
         return "Link-btn-orange";
     }
   };
+
+  const getTableDynamic = async () => {
+    console.log("DYNAMIC MACHINE FILTER CALL");
+    const body = {
+      filterDateFrom: state.violationFrom,
+      filterDateTo: state.violationTo,
+      shift: inputSHIFT,
+    };
+
+    try {
+      const resp = await getDynamicTableList(body);
+      setMachineID(resp?.allMachines);
+    } catch (e) {}
+  };
+
+  const getCTRDynamic = async () => {
+    try {
+      console.log("DYNAMIC CLPFILTER CALL");
+      const body = {
+        tableId: inputMACHINEid,
+        filterDateFrom: state.violationFrom,
+        filterDateTo: state.violationTo,
+      };
+      const resp = await getDynamicClpCtrListChecking(body);
+      setClpCtr(resp?.clpctr);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getCTRDynamic();
+  }, [state.violationFrom, state.violationTo, inputMACHINEid]);
+
+  useEffect(() => {
+    getTableDynamic();
+  }, [state.violationFrom, state.violationTo, inputSHIFT]);
+
   return (
     <>
       <ImageDialog
@@ -404,117 +442,6 @@ function ViolationLogV3() {
             alignItems: "center",
           }}
         >
-          <Grid item xs={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
-            {/* <Autocomplete
-              fullWidth
-              multiple
-              options={clpCtr}
-              // value={inputCTR}
-              disableCloseOnSelect
-              getOptionLabel={(option) => option.ctrs}
-              renderOption={(option, { selected }) => (
-                <React.Fragment>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
-                  {option.ctrs}
-                </React.Fragment>
-              )}
-              // style={{ width: 500 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="CTR"
-                  placeholder="CTR"
-                />
-              )}
-              onChange={(e, t) => {
-                setInputCTR(t.map((item) => item.ctrs));
-              }}
-            /> */}
-            {/* <Autocomplete
-              multiple
-              value={inputCTR}
-              id="combo-box-demo"
-              options={clpCtr}
-              getOptionLabel={(option) => `${option.ctrs}`}
-              fullWidth
-              renderInput={(params) => (
-                <TextField {...params} label="New CTR" variant="outlined" />
-              )}
-              onChange={(e, t) => {
-                console.log(e);
-                console.log(t?.ctrs);
-                // const current = clpCtr.findIndex(
-                //   (item) => item?.crts === t?.crts
-                // );
-                // console.log(current);
-                setInputCTR([t?.ctrs]);
-                // setCTR({
-                //   ...CTR,
-                //   CtrNo: unassignedCTR[current]?.CtrNo,
-                //   id: unassignedCTR[current]?.id,
-                // });
-              }}
-            /> */}
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              fullWidth
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                CTR
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputCTR}
-                onChange={(e) => setInputCTR(e.target.value)}
-                label="CTR"
-                // multiple
-              >
-                {clpCtr &&
-                  clpCtr.map((item, index) => (
-                    <MenuItem value={item.ctrs} key={index}>
-                      {item.ctrs}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              fullWidth
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Table ID
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputMACHINEid}
-                onChange={(e) => setInputMACHINEid(e.target.value)}
-                label="Table ID"
-                // multiple
-              >
-                {allTableId?.length !== 0 &&
-                  allTableId.map((item, index) => (
-                    <MenuItem value={item.tableId} key={index}>
-                      {item.tableId}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid
             container
             item
@@ -634,8 +561,119 @@ function ViolationLogV3() {
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              fullWidth
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Table ID
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputMACHINEid}
+                onChange={(e) => setInputMACHINEid(e.target.value)}
+                label="Table ID"
+                // multiple
+              >
+                {machineID?.length !== 0 &&
+                  machineID.map((item, index) => (
+                    <MenuItem value={item.tableId} key={index}>
+                      {item.tableId}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
-          <Grid
+          <Grid item xs={6} md={2} lg={typeOfRange === "custom" ? 1 : 2}>
+            {/* <Autocomplete
+              fullWidth
+              multiple
+              options={clpCtr}
+              // value={inputCTR}
+              disableCloseOnSelect
+              getOptionLabel={(option) => option.ctrs}
+              renderOption={(option, { selected }) => (
+                <React.Fragment>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option.ctrs}
+                </React.Fragment>
+              )}
+              // style={{ width: 500 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="CTR"
+                  placeholder="CTR"
+                />
+              )}
+              onChange={(e, t) => {
+                setInputCTR(t.map((item) => item.ctrs));
+              }}
+            /> */}
+            {/* <Autocomplete
+              multiple
+              value={inputCTR}
+              id="combo-box-demo"
+              options={clpCtr}
+              getOptionLabel={(option) => `${option.ctrs}`}
+              fullWidth
+              renderInput={(params) => (
+                <TextField {...params} label="New CTR" variant="outlined" />
+              )}
+              onChange={(e, t) => {
+                console.log(e);
+                console.log(t?.ctrs);
+                // const current = clpCtr.findIndex(
+                //   (item) => item?.crts === t?.crts
+                // );
+                // console.log(current);
+                setInputCTR([t?.ctrs]);
+                // setCTR({
+                //   ...CTR,
+                //   CtrNo: unassignedCTR[current]?.CtrNo,
+                //   id: unassignedCTR[current]?.id,
+                // });
+              }}
+            /> */}
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              fullWidth
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                CTR
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputCTR}
+                onChange={(e) => setInputCTR(e.target.value)}
+                label="CTR"
+                // multiple
+              >
+                {clpCtr &&
+                  clpCtr.map((item, index) => (
+                    <MenuItem value={item.ctr} key={index}>
+                      {item.ctr}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* <Grid
             container
             item
             xs={4}
@@ -667,7 +705,7 @@ function ViolationLogV3() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
 
           <Grid
             container

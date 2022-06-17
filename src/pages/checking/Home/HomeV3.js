@@ -22,6 +22,10 @@ import {
   checkingWorkerUtilizationData,
   defectChartData,
   getAllTableId,
+  getDynamicClpCtrList,
+  getDynamicMachineList,
+  getDynamicTableList,
+  getDynamicClpCtrListChecking,
 } from "../../../services/api.service";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckingContext } from "../../../context/CheckingContext";
@@ -234,6 +238,42 @@ export default function HomeV2() {
     // load_ctr_table();
     loadData();
   }, []);
+
+  const getTableDynamic = async () => {
+    console.log("DYNAMIC MACHINE FILTER CALL");
+    const body = {
+      filterDateFrom: state?.from,
+      filterDateTo: state?.to,
+      shift: inputSHIFT,
+    };
+
+    try {
+      const resp = await getDynamicTableList(body);
+      setMachineID(resp?.allMachines);
+    } catch (e) {}
+  };
+
+  const getCTRDynamic = async () => {
+    try {
+      console.log("DYNAMIC CLPFILTER CALL");
+      const body = {
+        tableId: inputMACHINEid,
+        filterDateFrom: state?.from,
+        filterDateTo: state?.to,
+      };
+      const resp = await getDynamicClpCtrListChecking(body);
+      setClpCtr(resp?.clpctr);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getCTRDynamic();
+  }, [state?.from, state?.to, inputMACHINEid]);
+
+  useEffect(() => {
+    getTableDynamic();
+  }, [state?.from, state?.to, inputSHIFT]);
+
   return (
     <Grid
       sm={12}
@@ -243,76 +283,6 @@ export default function HomeV2() {
     >
       {/* filter */}
       <Grid container item xs={12}>
-        <Grid
-          container
-          item
-          xs={6}
-          sm={4}
-          lg={typeOfRange === "custom" ? 1 : 2}
-          style={{ justifyContent: "center" }}
-        >
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel keyid="demo-simple-select-outlined-label">
-              CTR
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputCTR}
-              onChange={(e) => setInputCTR(e.target.value)}
-              label="CTR"
-              // multiple
-            >
-              {clpCtr &&
-                clpCtr.map((item, index) => (
-                  <MenuItem value={item.ctrs} key={index}>
-                    {item.ctrs}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid
-          container
-          item
-          xs={6}
-          sm={4}
-          lg={typeOfRange === "custom" ? 1 : 2}
-          style={{ justifyContent: "center" }}
-        >
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel id="demo-simple-select-outlined-label">
-              Table ID
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputMACHINEid}
-              onChange={(e) => setInputMACHINEid(e.target.value)}
-              label="Machine ID"
-              // multiple
-            >
-              {allTableId?.length > 0 &&
-                allTableId.map((item, index) => (
-                  <MenuItem value={item.tableId} key={index}>
-                    {item.tableId}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
         <Grid
           container
           item
@@ -451,6 +421,76 @@ export default function HomeV2() {
         <Grid
           container
           item
+          xs={6}
+          sm={4}
+          lg={typeOfRange === "custom" ? 1 : 2}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Table ID
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputMACHINEid}
+              onChange={(e) => setInputMACHINEid(e.target.value)}
+              label="Machine ID"
+              // multiple
+            >
+              {machineID?.length > 0 &&
+                machineID.map((item, index) => (
+                  <MenuItem value={item.tableId} key={index}>
+                    {item.tableId}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid
+          container
+          item
+          xs={6}
+          sm={4}
+          lg={typeOfRange === "custom" ? 1 : 2}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel keyid="demo-simple-select-outlined-label">
+              CTR
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputCTR}
+              onChange={(e) => setInputCTR(e.target.value)}
+              label="CTR"
+              // multiple
+            >
+              {clpCtr &&
+                clpCtr.map((item, index) => (
+                  <MenuItem value={item.ctr} key={index}>
+                    {item.ctr}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/* <Grid
+          container
+          item
           xs={4}
           sm={4}
           lg={typeOfRange === "custom" ? 1 : 2}
@@ -478,7 +518,7 @@ export default function HomeV2() {
               ))}
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid
           container

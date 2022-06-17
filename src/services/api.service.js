@@ -1801,8 +1801,26 @@ export const getDynamicMachineList = async (data) => {
   return await callBackend("POST", "routes/KPI/home/machineId", true, data);
 };
 
+export const getDynamicTableList = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/tableId",
+    true,
+    data
+  );
+};
+
 export const getDynamicClpCtrList = async (data) => {
   return await callBackend("POST", "routes/KPI/home/clpctr", true, data);
+};
+
+export const getDynamicClpCtrListChecking = async (data) => {
+  return await callBackend(
+    "POST",
+    "routes/checking/KPI/home/clpctr",
+    true,
+    data
+  );
 };
 
 export {
