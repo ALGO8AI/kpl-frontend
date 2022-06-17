@@ -1,8 +1,8 @@
 import { callBackendV2 } from "../../services/http.servicev2";
 
 export const homeDefectChartV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
@@ -35,8 +35,8 @@ export const homeDefectChartV3 = (
 };
 
 export const homeRepairedChartV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
@@ -112,8 +112,8 @@ export const getAllTableIdV3 = () => async (dispatch) => {
 };
 
 export const top5DefectesV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
@@ -144,8 +144,8 @@ export const top5DefectesV3 = (
 };
 
 export const byWorkerTableV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
@@ -176,8 +176,8 @@ export const byWorkerTableV3 = (
 };
 
 export const byClpCtrTableV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
@@ -208,8 +208,8 @@ export const byClpCtrTableV3 = (
 };
 
 export const byDateTableV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
