@@ -190,6 +190,7 @@ function ManageRoles() {
   };
   const filterData = async () => {
     try {
+      setSelected([]);
       const x = await checkingManageRoles(filterCondition);
       console.log(x);
       setTableData(x.userData);
@@ -198,6 +199,12 @@ function ManageRoles() {
 
   const refreshData = async () => {
     try {
+      setFilterConditiion({
+        wing: [],
+        line: [],
+        shift: [],
+      });
+      setSelected([]);
       const x = await checkingManageRoles({});
       console.log(x);
       setTableData(x.userData);

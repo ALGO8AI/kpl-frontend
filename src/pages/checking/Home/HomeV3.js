@@ -1039,7 +1039,7 @@ function Top3Defects({ data, loading }) {
   };
   return (
     <div className={Styles.Card}>
-      <h3>Top 3 Defects</h3>
+      <h3>Most 3 Frequent Defects</h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>

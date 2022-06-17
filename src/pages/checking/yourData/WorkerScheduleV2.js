@@ -171,12 +171,26 @@ function WorkerScheduleV2() {
           ?.tableOnOff
           ? "1"
           : "0",
+        ctr: userData?.ctr,
         ...CTR[id],
       };
+      if (!formData?.workerId) {
+        setSeverity("error");
+        setMsg("Please select worker");
+        setOpen(true);
+        return;
+      }
+      if (!formData?.ctr) {
+        setSeverity("error");
+        setMsg("Please select ctr");
+        setOpen(true);
+        return;
+      }
       const resp = await saveWorkerScheduleV3(formData);
       setMsg(resp.message);
       setSeverity("success");
       setOpen(true);
+      loadData();
     } catch (e) {
       console.log(e);
       setMsg(e.message);
@@ -382,14 +396,12 @@ function WorkerScheduleV2() {
                       </FormControl> */}
                           </TableCell>
                           <TableCell>
-                            <FormControl
+                            {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
                             >
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Wing
-                        </InputLabel> */}
+                            
                               <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -404,7 +416,6 @@ function WorkerScheduleV2() {
                                   )
                                 }
                                 label=""
-                                // multiple
                               >
                                 <MenuItem value="">
                                   <em>None</em>
@@ -415,7 +426,8 @@ function WorkerScheduleV2() {
                                   </MenuItem>
                                 ))}
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
+                            {item?.wing}
                           </TableCell>
                           <TableCell>{item?.tableId}</TableCell>
                           <TableCell>
@@ -642,14 +654,12 @@ function WorkerScheduleV2() {
                       </FormControl> */}
                           </TableCell>
                           <TableCell>
-                            <FormControl
+                            {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
                             >
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Wing
-                        </InputLabel> */}
+                           
                               <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -664,7 +674,6 @@ function WorkerScheduleV2() {
                                   )
                                 }
                                 label=""
-                                // multiple
                               >
                                 <MenuItem value="">
                                   <em>None</em>
@@ -675,7 +684,8 @@ function WorkerScheduleV2() {
                                   </MenuItem>
                                 ))}
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
+                            {item?.wing}
                           </TableCell>
                           <TableCell>{item?.tableId}</TableCell>
                           <TableCell>
@@ -902,14 +912,12 @@ function WorkerScheduleV2() {
                       </FormControl> */}
                           </TableCell>
                           <TableCell>
-                            <FormControl
+                            {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
                             >
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Wing
-                        </InputLabel> */}
+                              
                               <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -924,7 +932,7 @@ function WorkerScheduleV2() {
                                   )
                                 }
                                 label=""
-                                // multiple
+                                multiple
                               >
                                 <MenuItem value="">
                                   <em>None</em>
@@ -935,7 +943,8 @@ function WorkerScheduleV2() {
                                   </MenuItem>
                                 ))}
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
+                            {item?.wing}
                           </TableCell>
                           <TableCell>{item?.tableId}</TableCell>
                           <TableCell>
