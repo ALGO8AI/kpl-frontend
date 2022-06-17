@@ -671,7 +671,7 @@ function DefectPercentageDonut({ data }) {
     chart: {
       type: "donut",
     },
-    labels: ["Total Bags Checked", "Defective", "Non-Defective"],
+    labels: ["Total Bags Checked", "Defective", "Okay Bags"],
   };
   return (
     <div className={Styles.Card}>
@@ -732,7 +732,7 @@ function DefectPercentageDonut({ data }) {
                 backgroundColor: "#ffa643",
               }}
             ></div>
-            <p style={{ color: "#ffa643" }}>Non Defected</p>
+            <p style={{ color: "#ffa643" }}>Okay Bags</p>
             <p style={{ color: "#ffa643" }}>
               {data[1][0]["Total Bags"] - data[0][0]["Total Defects"]}
             </p>
