@@ -164,7 +164,7 @@ export const saveWorkerScheduleV3 = async (data) => {
 export const copyWorkerScheduleV3 = async () => {
   return await callBackendV2(
     "GET",
-    "routes/checkingSheduleSingleUpdate/copyTable"
+    "routes/addScheduleDetailChecking/copyTable"
   );
 };
 
