@@ -128,6 +128,12 @@ export default function HomeV2() {
 
   // refresh
   const refreshData = async () => {
+    setInputCTR([]);
+    setInputMACHINEid([]);
+    setInputSHIFT([]);
+    Dispatch({
+      type: "DISABLE_HOME_FILTER",
+    });
     setTypeOfRange("custom");
     dispatch({
       type: "FROM",
@@ -178,7 +184,9 @@ export default function HomeV2() {
   // load filtered data
   const dateFilter = async () => {
     setLoading(true);
-
+    Dispatch({
+      type: "ENABLE_HOME_FILTER",
+    });
     Dispatch(
       homeRepairedChartV3(
         state.from,
@@ -236,8 +244,25 @@ export default function HomeV2() {
       payload: weekRange()[1],
     });
     // load_ctr_table();
-    loadData();
   }, []);
+
+  // use selector
+  const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
+
+  useEffect(() => {
+    function callAPI() {
+      console.log("API CALL");
+      loadData();
+    }
+    function getAlerts() {
+      !filterEnable && callAPI();
+    }
+    getAlerts();
+    const interval = setInterval(() => getAlerts(), 60000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [filterEnable]);
 
   const getTableDynamic = async () => {
     console.log("DYNAMIC MACHINE FILTER CALL");
@@ -325,7 +350,9 @@ export default function HomeV2() {
               xs={6}
               sm={4}
               lg={2}
-              style={{ justifyContent: "center" }}
+              style={{
+                justifyContent: "center",
+              }}
             >
               <TextField
                 key="from"
@@ -357,7 +384,9 @@ export default function HomeV2() {
               xs={6}
               sm={4}
               lg={2}
-              style={{ justifyContent: "center" }}
+              style={{
+                justifyContent: "center",
+              }}
             >
               <TextField
                 key="to"
@@ -625,6 +654,9 @@ export default function HomeV2() {
           style={{ padding: "8px" }}
           className={Styles.SummaryTable_Container}
         >
+          <div className={Styles.Overlap}>
+            <h3 className={Styles.overlapTitle}>Coming Soon</h3>
+          </div>
           <Typography variant="h6">Wing-wise comparative summary</Typography>
           {/* table */}
           <WingWiseTable />
@@ -731,10 +763,7 @@ function RepairedBagDonut({ data, loading }) {
         }}
       >
         Repaired Bags %{" "}
-        {(
-          (data[1]?.noo / (data[0]?.noo + data[2]?.noo + data[3]?.noo)) *
-          100
-        ).toFixed(2)}
+        {((data[1]?.noo / (data[0]?.noo + data[2]?.noo)) * 100).toFixed(2)}
       </h3>
     </div>
   );
@@ -845,7 +874,7 @@ function Top5Defects({ data, loading }) {
     series: [
       {
         name: "Defects",
-        data: data?.map((item) => item.defectCount),
+        data: data?.map((item) => item?.defectPercentage),
       },
     ],
     options: {
@@ -858,7 +887,7 @@ function Top5Defects({ data, loading }) {
           dataLabels: {
             position: "top",
             formatter: function(val, opt) {
-              return `${val}`;
+              return `${val} %`;
             },
           },
         },
@@ -866,7 +895,7 @@ function Top5Defects({ data, loading }) {
       dataLabels: {
         enabled: true,
         formatter: function(val, opt) {
-          return val;
+          return `${val} %`;
         },
       },
       colors: ["#f68f1d"],
@@ -874,13 +903,13 @@ function Top5Defects({ data, loading }) {
         x: {
           formatter: undefined,
           title: {
-            formatter: (value) => `${value}`,
+            formatter: (value) => `${value} %`,
           },
         },
         y: {
           formatter: undefined,
           title: {
-            formatter: (seriesName) => `${seriesName}`,
+            formatter: (seriesName) => `${seriesName} %`,
           },
         },
       },
@@ -905,7 +934,7 @@ function Top5Defects({ data, loading }) {
       },
       yaxis: {
         title: {
-          text: "Count",
+          text: "Percentage",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
@@ -939,7 +968,7 @@ function Top3Defects({ data, loading }) {
     series: [
       {
         name: "Defects",
-        data: data?.map((item) => item.defectCount),
+        data: data?.map((item) => item?.defectPercentage),
       },
     ],
     options: {
@@ -952,7 +981,7 @@ function Top3Defects({ data, loading }) {
           dataLabels: {
             position: "top",
             formatter: function(val, opt) {
-              return `${val}`;
+              return `${val} %`;
             },
           },
         },
@@ -960,7 +989,7 @@ function Top3Defects({ data, loading }) {
       dataLabels: {
         enabled: true,
         formatter: function(val, opt) {
-          return val;
+          return `${val} %`;
         },
       },
       colors: ["#f68f1d"],
@@ -968,13 +997,13 @@ function Top3Defects({ data, loading }) {
         x: {
           formatter: undefined,
           title: {
-            formatter: (value) => `${value}`,
+            formatter: (value) => `${value} %`,
           },
         },
         y: {
           formatter: undefined,
           title: {
-            formatter: (seriesName) => `${seriesName}`,
+            formatter: (seriesName) => `${seriesName} %`,
           },
         },
       },
@@ -998,7 +1027,7 @@ function Top3Defects({ data, loading }) {
       },
       yaxis: {
         title: {
-          text: "Count",
+          text: "Percentage",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
@@ -1105,6 +1134,9 @@ function DefectTrend({ loading }) {
   };
   return (
     <div className={Styles.Card}>
+      <div className={Styles.Overlap}>
+        <h3 className={Styles.overlapTitle}>Coming Soon</h3>
+      </div>
       <h3>Defect % Trend</h3>
       {loading && <Loader />}
 
@@ -1140,6 +1172,9 @@ function CheckingEfficiency({ loading }) {
   };
   return (
     <div className={Styles.Card}>
+      <div className={Styles.Overlap}>
+        <h3 className={Styles.overlapTitle}>Coming Soon</h3>
+      </div>
       <h3>Checking Efficiency %</h3>
       {loading && <Loader />}
 
@@ -1193,6 +1228,9 @@ function CheckingPerformance({ loading }) {
   };
   return (
     <div className={Styles.Card}>
+      <div className={Styles.Overlap}>
+        <h3 className={Styles.overlapTitle}>Coming Soon</h3>
+      </div>
       <h3>Checking Performance %</h3>
       {loading && <Loader />}
 
@@ -1246,6 +1284,9 @@ function PDIdefect({ loading }) {
   };
   return (
     <div className={Styles.Card}>
+      <div className={Styles.Overlap}>
+        <h3 className={Styles.overlapTitle}>Coming Soon</h3>
+      </div>
       <h3>PDI Defect %</h3>
       {loading && <Loader />}
 
@@ -1279,88 +1320,90 @@ function PDIdefect({ loading }) {
 // comparative table
 function WingWiseTable() {
   return (
-    <table>
-      <thead>
-        <tr>
-          {[
-            "",
-            "Wing 1",
-            "Wing 2",
-            "Wing 3",
-            "Wing 4",
-            "Wing 5",
-            "Wing 6",
-            "Wing 7",
-          ].map((item, index) => (
-            <th key={index}>{item}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {[
-          {
-            type: "Repaired Bags %",
-            wing1: 8,
-            wing2: 7,
-            wing3: 6,
-            wing4: 12,
-            wing5: 11,
-            wing6: 5,
-            wing7: 9,
-          },
-          {
-            type: "Defects %",
-            wing1: 8,
-            wing2: 7,
-            wing3: 6,
-            wing4: 12,
-            wing5: 11,
-            wing6: 5,
-            wing7: 9,
-          },
-          {
-            type: "Checking Efficiency %",
-            wing1: 8,
-            wing2: 7,
-            wing3: 6,
-            wing4: 12,
-            wing5: 11,
-            wing6: 5,
-            wing7: 9,
-          },
-          {
-            type: "Checking Performance %",
-            wing1: 8,
-            wing2: 7,
-            wing3: 6,
-            wing4: 12,
-            wing5: 11,
-            wing6: 5,
-            wing7: 9,
-          },
-          {
-            type: "PDI Defects %",
-            wing1: 8,
-            wing2: 7,
-            wing3: 6,
-            wing4: 12,
-            wing5: 11,
-            wing6: 5,
-            wing7: 9,
-          },
-        ].map((item, index) => (
+    <div className={Styles.TableContainer}>
+      <table>
+        <thead>
           <tr>
-            <td>{item.type}</td>
-            <td>{item.wing1}</td>
-            <td>{item.wing2}</td>
-            <td>{item.wing3}</td>
-            <td>{item.wing4}</td>
-            <td>{item.wing5}</td>
-            <td>{item.wing6}</td>
-            <td>{item.wing7}</td>
+            {[
+              "",
+              "Wing 1",
+              "Wing 2",
+              "Wing 3",
+              "Wing 4",
+              "Wing 5",
+              "Wing 6",
+              "Wing 7",
+            ].map((item, index) => (
+              <th key={index}>{item}</th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {[
+            {
+              type: "Repaired Bags %",
+              wing1: 8,
+              wing2: 7,
+              wing3: 6,
+              wing4: 12,
+              wing5: 11,
+              wing6: 5,
+              wing7: 9,
+            },
+            {
+              type: "Defects %",
+              wing1: 8,
+              wing2: 7,
+              wing3: 6,
+              wing4: 12,
+              wing5: 11,
+              wing6: 5,
+              wing7: 9,
+            },
+            {
+              type: "Checking Efficiency %",
+              wing1: 8,
+              wing2: 7,
+              wing3: 6,
+              wing4: 12,
+              wing5: 11,
+              wing6: 5,
+              wing7: 9,
+            },
+            {
+              type: "Checking Performance %",
+              wing1: 8,
+              wing2: 7,
+              wing3: 6,
+              wing4: 12,
+              wing5: 11,
+              wing6: 5,
+              wing7: 9,
+            },
+            {
+              type: "PDI Defects %",
+              wing1: 8,
+              wing2: 7,
+              wing3: 6,
+              wing4: 12,
+              wing5: 11,
+              wing6: 5,
+              wing7: 9,
+            },
+          ].map((item, index) => (
+            <tr>
+              <td>{item.type}</td>
+              <td>{item.wing1}</td>
+              <td>{item.wing2}</td>
+              <td>{item.wing3}</td>
+              <td>{item.wing4}</td>
+              <td>{item.wing5}</td>
+              <td>{item.wing6}</td>
+              <td>{item.wing7}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

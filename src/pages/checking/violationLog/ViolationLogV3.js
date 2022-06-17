@@ -219,6 +219,12 @@ function ViolationLogV3() {
   const classes = useStyles();
 
   const refreshData = async () => {
+    setInputCTR([]);
+    setInputMACHINEid([]);
+    setInputSHIFT([]);
+    Dispatch({
+      type: "DISABLE_HOME_FILTER",
+    });
     setTypeOfRange("custom");
     dispatch({
       type: "VIO_FROM",
@@ -233,6 +239,9 @@ function ViolationLogV3() {
   };
 
   const dateFilter = async () => {
+    Dispatch({
+      type: "ENABLE_HOME_FILTER",
+    });
     Dispatch(
       defectsLogsV3(
         state.violationFrom,
@@ -273,6 +282,7 @@ function ViolationLogV3() {
 
   useEffect(() => {
     function callAPI() {
+      console.log("API CALL");
       loadInitialData();
     }
     function getAlerts() {
