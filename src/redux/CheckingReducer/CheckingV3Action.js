@@ -240,8 +240,8 @@ export const byDateTableV3 = (
 };
 
 export const defectsLogsV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
@@ -272,8 +272,8 @@ export const defectsLogsV3 = (
 };
 
 export const productionLogsV3 = (
-  filterDateFrom,
-  filterDateTo,
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
   shifts
