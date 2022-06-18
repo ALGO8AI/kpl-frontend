@@ -71,7 +71,7 @@ function GenerateBarcode() {
         sm={4}
         style={{ height: "min-content", padding: "12px" }}
       >
-        <TableContainer component={Paper} style={{ marginBottom: "12px" }}>
+        {/* <TableContainer component={Paper} style={{ marginBottom: "12px" }}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow
@@ -101,15 +101,7 @@ function GenerateBarcode() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          // value={data.accessibilityChecking}
-                          // checked={data.accessibilityChecking}
                           color="primary"
-                          // onChange={(e) =>
-                          //   setData({
-                          //     ...data,
-                          //     accessibilityChecking: e.target.checked,
-                          //   })
-                          // }
                         />
                       }
                       labelPlacement="end"
@@ -122,7 +114,6 @@ function GenerateBarcode() {
         </TableContainer>
         <Button
           autoFocus
-          // onClick={saveBagID}
           variant="contained"
           style={{
             backgroundColor: "#0e4a7b",
@@ -131,15 +122,13 @@ function GenerateBarcode() {
             width: "100%",
             height: "fit-content",
             border: "1px solid #0e4a7b",
-            // marginLeft: "12px",
             padding: "12px",
             martinTop: "12px",
           }}
-          // disabled={!bagData.lotSize || !bagData.tableNo}
         >
           GENERATE REMAINING BARCODE
-        </Button>
-        {/* <TextField
+        </Button> */}
+        <TextField
           variant="outlined"
           fullWidth
           value={bagData.lotSize}
@@ -197,7 +186,7 @@ function GenerateBarcode() {
           >
             GENERATE
           </Button>
-        </Grid> */}
+        </Grid>
       </Grid>
       <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
         <MaterialTable
