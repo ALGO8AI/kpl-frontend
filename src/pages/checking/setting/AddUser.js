@@ -35,7 +35,7 @@ function AddUser({ loadData }) {
     email: "",
     designation: "",
     role: "",
-    zone: "",
+    zone: [],
     wing: "",
     accessibilityCutting: false,
     accessibilityStitching: false,
@@ -154,7 +154,7 @@ function AddUser({ loadData }) {
       email: data.email,
       designation: data.designation,
       role: data.role,
-      zone: data.zone,
+      zone: data.zone.join(","),
       wing: data.wing,
       // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
       // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
@@ -191,7 +191,7 @@ function AddUser({ loadData }) {
           email: "",
           designation: "supervisor",
           role: "",
-          zone: "",
+          zone: [],
           wing: "",
           accessibilityCutting: false,
           accessibilityStitching: false,
@@ -599,6 +599,7 @@ function AddUser({ loadData }) {
                   label="Line"
                   error={!data?.zone}
                   required
+                  multiple
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1013,7 +1014,7 @@ function ConfirmDialog({ open, handleClose, submit, data }) {
           <KeyValue keyname={"Designation"} value={data?.designation} />
           <KeyValue keyname={"Department"} value={data?.department} />
           <KeyValue keyname={"Role"} value={data?.role} />
-          <KeyValue keyname={"Line"} value={data?.zone} />
+          <KeyValue keyname={"Line"} value={data?.zone?.join(",")} />
           <KeyValue keyname={"Wing"} value={data?.wing} />
           {/* shift */}
           <Grid item xs={4}>
