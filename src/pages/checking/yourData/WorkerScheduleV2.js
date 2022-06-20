@@ -601,9 +601,6 @@ function WorkerScheduleV2() {
                                 label=""
                                 // multiple
                               >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
                                 {workerList.length > 0 &&
                                   workerList
                                     ?.sort((a, b) =>
@@ -859,9 +856,6 @@ function WorkerScheduleV2() {
                                 label=""
                                 // multiple
                               >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
                                 {workerList.length > 0 &&
                                   workerList
                                     ?.sort((a, b) =>
