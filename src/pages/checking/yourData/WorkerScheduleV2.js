@@ -216,9 +216,9 @@ function WorkerScheduleV2() {
     } catch (e) {}
   };
 
-  const setNewCtr = (t, id) => {
-    console.log(t);
-    const current = clpCtr.findIndex((item) => item?.CtrNo === t);
+  const setNewCtr = (e, t, id) => {
+    console.log(e);
+    const current = clpCtr.findIndex((item) => item?.CtrNo === t?.CtrNo);
     console.log(current);
     setCTR({
       ...CTR,
@@ -469,30 +469,29 @@ function WorkerScheduleV2() {
                       /> */}
                           </TableCell>
                           <TableCell>
-                            {/* <Autocomplete
-                        // id="combo-box-demo"
-                        onChange={(e, t) => setNewCtr(e, t, item?.id)}
-                        options={clpCtr}
-                        getOptionLabel={(option) =>
-                          `${option.Clp}-${option.CtrNo}`
-                        }
-                        style={{ width: 150 }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            // label="CTR"
-                            variant="outlined"
-                          />
-                        )}
-                      /> */}
-                            <FormControl
+                            <Autocomplete
+                              // id="combo-box-demo"
+                              onChange={(e, t) => setNewCtr(e, t, item?.id)}
+                              options={clpCtr}
+                              getOptionLabel={(option) =>
+                                `${option.Clp}-${option.CtrNo}`
+                              }
+                              style={{ width: 150 }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label={item?.ctr}
+                                  variant="outlined"
+                                  placeholder={item?.ctr}
+                                />
+                              )}
+                            />
+                            {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
                             >
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Wing
-                        </InputLabel> */}
+                             
                               <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -503,7 +502,6 @@ function WorkerScheduleV2() {
                                   setNewCtr(e.target.value, item?.id)
                                 }
                                 label=""
-                                // multiple
                               >
                                 <MenuItem value="">
                                   <em>None</em>
@@ -514,7 +512,7 @@ function WorkerScheduleV2() {
                                   </MenuItem>
                                 ))}
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
                           </TableCell>
                           <TableCell>
                             <Button
@@ -724,30 +722,28 @@ function WorkerScheduleV2() {
                       /> */}
                           </TableCell>
                           <TableCell>
-                            {/* <Autocomplete
-                        // id="combo-box-demo"
-                        onChange={(e, t) => setNewCtr(e, t, item?.id)}
-                        options={clpCtr}
-                        getOptionLabel={(option) =>
-                          `${option.Clp}-${option.CtrNo}`
-                        }
-                        style={{ width: 150 }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            // label="CTR"
-                            variant="outlined"
-                          />
-                        )}
-                      /> */}
-                            <FormControl
+                            <Autocomplete
+                              // id="combo-box-demo"
+                              onChange={(e, t) => setNewCtr(e, t, item?.id)}
+                              options={clpCtr}
+                              getOptionLabel={(option) =>
+                                `${option.Clp}-${option.CtrNo}`
+                              }
+                              style={{ width: 150 }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label={item?.ctr}
+                                  variant="outlined"
+                                  placeholder={item?.ctr}
+                                />
+                              )}
+                            />
+                            {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
                             >
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Wing
-                        </InputLabel> */}
                               <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -758,7 +754,6 @@ function WorkerScheduleV2() {
                                   setNewCtr(e.target.value, item?.id)
                                 }
                                 label=""
-                                // multiple
                               >
                                 <MenuItem value="">
                                   <em>None</em>
@@ -769,7 +764,7 @@ function WorkerScheduleV2() {
                                   </MenuItem>
                                 ))}
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
                           </TableCell>
                           <TableCell>
                             <Button
@@ -980,30 +975,29 @@ function WorkerScheduleV2() {
                       /> */}
                           </TableCell>
                           <TableCell>
-                            {/* <Autocomplete
-                        // id="combo-box-demo"
-                        onChange={(e, t) => setNewCtr(e, t, item?.id)}
-                        options={clpCtr}
-                        getOptionLabel={(option) =>
-                          `${option.Clp}-${option.CtrNo}`
-                        }
-                        style={{ width: 150 }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            // label="CTR"
-                            variant="outlined"
-                          />
-                        )}
-                      /> */}
-                            <FormControl
+                            <Autocomplete
+                              // id="combo-box-demo"
+                              onChange={(e, t) => setNewCtr(e, t, item?.id)}
+                              options={clpCtr}
+                              getOptionLabel={(option) =>
+                                `${option.Clp}-${option.CtrNo}`
+                              }
+                              style={{ width: 150 }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label={item?.ctr}
+                                  variant="outlined"
+                                  placeholder={item?.ctr}
+                                />
+                              )}
+                            />
+                            {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
                             >
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Wing
-                        </InputLabel> */}
+                            
                               <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
@@ -1014,7 +1008,6 @@ function WorkerScheduleV2() {
                                   setNewCtr(e.target.value, item?.id)
                                 }
                                 label=""
-                                // multiple
                               >
                                 <MenuItem value="">
                                   <em>None</em>
@@ -1025,7 +1018,7 @@ function WorkerScheduleV2() {
                                   </MenuItem>
                                 ))}
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
                           </TableCell>
                           <TableCell>
                             <Button
