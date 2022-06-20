@@ -179,8 +179,13 @@ function WorkerScheduleV2() {
         setMsg("Please select worker");
         setOpen(true);
         return;
-      }
-      if (!formData?.ctr) {
+      } else if (
+        !formData?.ctr ||
+        formData?.ctr === "" ||
+        formData?.ctr === undefined ||
+        formData?.ctr === "undefined" ||
+        formData?.ctr === null
+      ) {
         setSeverity("error");
         setMsg("Please select ctr");
         setOpen(true);
@@ -341,9 +346,6 @@ function WorkerScheduleV2() {
                                 label=""
                                 // multiple
                               >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
                                 {workerList.length > 0 &&
                                   workerList
                                     ?.sort((a, b) =>

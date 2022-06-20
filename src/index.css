@@ -73,6 +73,15 @@
   background-color: rgba(74, 170, 22, 0.2);
   border-radius: 5px;
 }
+
+.Link-btn-blue {
+  text-decoration: none;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  color: rgb(9, 75, 255);
+  background-color: rgba(9, 75, 255, 0.2);
+  border-radius: 5px;
+}
 .Link-btn-yellow {
   text-decoration: none;
   padding: 8px 12px !important;

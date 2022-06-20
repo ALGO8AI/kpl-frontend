@@ -618,7 +618,7 @@ function ViolationDetail(props) {
       case "Not Repaired":
         return "Link-btn-orange";
       case "Repaired":
-        return "Link-btn-green";
+        return "Link-btn-blue";
       case "incorrect violation":
         return "Link-btn-grey";
       case "Okay Bag":
@@ -629,6 +629,8 @@ function ViolationDetail(props) {
         return "Link-btn-orange";
       case "repaired":
         return "Link-btn-green";
+      case "closed":
+        return "Link-btn-blue";
       default:
         return "Link-btn-red";
     }

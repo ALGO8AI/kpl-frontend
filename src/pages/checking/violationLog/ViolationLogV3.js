@@ -391,7 +391,7 @@ function ViolationLogV3() {
       case "repaired":
         return "Link-btn-green";
       case "closed":
-        return "Link-btn-green";
+        return "Link-btn-blue";
       default:
         return "Link-btn-orange";
     }

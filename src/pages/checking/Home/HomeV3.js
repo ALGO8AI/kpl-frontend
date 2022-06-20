@@ -709,7 +709,7 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
         </div>
         <div className={Styles.Right2}>
           <div className={Styles.Data}>
-            <p style={{ color: "grey" }}>Total Bags</p>
+            <p style={{ color: "grey" }}>Bags For Repairing</p>
             <p style={{ color: "grey" }}>
               {data[0]?.noo + data[1]?.noo + data[2]?.noo}
             </p>
@@ -768,7 +768,8 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
       >
         Repaired Bags %{" "}
         {(
-          (data[1]?.noo / (data[0]?.noo + data[2]?.noo + data[1]?.noo)) *
+          ((data[0]?.noo + data[1]?.noo + data[2]?.noo) /
+            (data[0]?.noo + data[2]?.noo + data[1]?.noo + data[3]?.noo)) *
           100
         ).toFixed(2)}
       </h3>
@@ -832,7 +833,7 @@ function DefectPercentageDonut({ data, loading }) {
                 backgroundColor: "#094573",
               }}
             ></div>
-            <p style={{ color: "#094573" }}>Total</p>
+            <p style={{ color: "#094573" }}>Total Bags</p>
             <p style={{ color: "#094573" }}>{data[1][0]["Total Bags"]}</p>
           </div>
           <div className={Styles.Data}>
@@ -842,7 +843,7 @@ function DefectPercentageDonut({ data, loading }) {
                 backgroundColor: "#ffce38",
               }}
             ></div>
-            <p style={{ color: "#ffce38" }}>Defected</p>
+            <p style={{ color: "#ffce38" }}>No. Of Defects</p>
             <p style={{ color: "#ffce38" }}>{data[0][0]["Total Defects"]}</p>
           </div>
           <div className={Styles.Data}>
