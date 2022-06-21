@@ -114,7 +114,9 @@ function GenerateBarcode() {
                     control={
                       <Checkbox
                         color="primary"
-                        checked={selectedTable.length === tableWiseData.length}
+                        checked={
+                          selectedTable?.length === tableWiseData?.length
+                        }
                         onChange={(e) => {
                           e.target.checked
                             ? setSelectedTable(tableWiseData)
@@ -128,37 +130,38 @@ function GenerateBarcode() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableWiseData.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{item.tableId}</TableCell>
-                  <TableCell>{item.remainingBagCount}</TableCell>
+              {tableWiseData?.length !== 0 &&
+                tableWiseData?.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{item?.tableId}</TableCell>
+                    <TableCell>{item?.remainingBagCount}</TableCell>
 
-                  <TableCell>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={selectedTable
-                            .map((x) => x.tableId)
-                            .includes(item.tableId)}
-                          onChange={(e) => {
-                            selectedTable
-                              .map((x) => x.tableId)
-                              .includes(item.tableId)
-                              ? setSelectedTable(
-                                  selectedTable.filter(
-                                    (y) => y.tableId !== item.tableId
+                    <TableCell>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            checked={selectedTable
+                              ?.map((x) => x?.tableId)
+                              ?.includes(item?.tableId)}
+                            onChange={(e) => {
+                              selectedTable
+                                ?.map((x) => x?.tableId)
+                                ?.includes(item?.tableId)
+                                ? setSelectedTable(
+                                    selectedTable?.filter(
+                                      (y) => y?.tableId !== item?.tableId
+                                    )
                                   )
-                                )
-                              : setSelectedTable([...selectedTable, item]);
-                          }}
-                        />
-                      }
-                      labelPlacement="end"
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+                                : setSelectedTable([...selectedTable, item]);
+                            }}
+                          />
+                        }
+                        labelPlacement="end"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
