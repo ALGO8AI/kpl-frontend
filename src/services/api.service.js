@@ -998,7 +998,9 @@ const getCheckingSchedule = async (formData) => {
     "POST",
     "routes/checking/schedule/scheduleDetail",
     true,
-    formData
+    {
+      wing: localStorage.getItem("kpl_wing"),
+    }
   );
 };
 

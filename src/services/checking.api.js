@@ -170,7 +170,20 @@ export const copyWorkerScheduleV3 = async () => {
 
 export const bagCount = async () => {
   return await callBackendV2(
-    "GET",
-    "routes/checking/bagId/tableWiseRemainingBagIdCount"
+    "POST",
+    "routes/checking/bagId/tableWiseRemainingBagIdCount",
+    true,
+    {
+      wing: localStorage.getItem("kpl_wing"),
+    }
+  );
+};
+
+export const createBarcodeV2 = async (formData) => {
+  return await callBackendV2(
+    "POST",
+    "routes/checking/bagId/autoGenerateBagId",
+    true,
+    formData
   );
 };
