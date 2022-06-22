@@ -142,13 +142,14 @@ export const top5DefectesV3 = (
       true,
       formField
     );
-    dispatch({
-      type: "SET_CHECKING_V3",
-      payload: {
-        key: "top5Defectes",
-        value: resp?.data,
-      },
-    });
+    resp?.data &&
+      dispatch({
+        type: "SET_CHECKING_V3",
+        payload: {
+          key: "top5Defectes",
+          value: resp?.data,
+        },
+      });
   } catch (e) {}
 };
 
@@ -193,13 +194,14 @@ export const top3DefectesV3 = () => async (dispatch) => {
       "GET",
       "routes/checking/KPI/home/mostFrequentDefects"
     );
-    dispatch({
-      type: "SET_CHECKING_V3",
-      payload: {
-        key: "top3Defectes",
-        value: resp?.data,
-      },
-    });
+    resp?.data &&
+      dispatch({
+        type: "SET_CHECKING_V3",
+        payload: {
+          key: "top3Defectes",
+          value: resp?.data,
+        },
+      });
   } catch (e) {}
 };
 
