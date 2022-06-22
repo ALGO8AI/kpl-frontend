@@ -730,7 +730,11 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
         <div className={Styles.Left}>
           <ReactApexChart
             options={options}
-            series={[data[1]?.noo, data[2]?.noo, data[0]?.noo]}
+            series={[
+              Boolean(data[1]?.noo) ? data[1]?.noo : 0,
+              Boolean(data[2]?.noo) ? data[2]?.noo : 0,
+              Boolean(data[0]?.noo) ? data[0]?.noo : 0,
+            ]}
             type="donut"
             width={200}
           />
@@ -830,9 +834,13 @@ function DefectPercentageDonut({ data, loading }) {
           <ReactApexChart
             options={options}
             series={[
-              data[1][0]["Total Bags"],
-              data[0][0]["Total Defects"],
-              data[1][0]["Total Bags"] - data[0][0]["Total Defects"],
+              Boolean(data[1][0]["Total Bags"]) ? data[1][0]["Total Bags"] : 0,
+              Boolean(data[0][0]["Total Defects"])
+                ? data[0][0]["Total Defects"]
+                : 0,
+              Boolean(data[0][0]["Total Defects"])
+                ? data[1][0]["Total Bags"] - data[0][0]["Total Defects"]
+                : 0,
 
               // Boolean(props.data?.totalBagsChecked)
               //   ? props.data?.totalBagsChecked
@@ -1054,6 +1062,7 @@ function Top3Defects({ data, loading }) {
           show: false,
         },
         title: {
+          text: "Defect Name",
           style: {
             color: "#0e4a7b",
             fontSize: "12px",
@@ -1146,6 +1155,14 @@ function DefectTrend({ loading, data }) {
         },
         axisTicks: {
           show: false,
+        },
+        title: {
+          text: "Week",
+          style: {
+            color: "#0e4a7b",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
         },
         // title: {
         //   text: "Top 5 Defects",

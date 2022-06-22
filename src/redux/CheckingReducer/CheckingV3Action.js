@@ -6,7 +6,7 @@ export const homeDefectChartV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -43,7 +43,7 @@ export const homeRepairedChartV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -123,7 +123,7 @@ export const top5DefectesV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -190,7 +190,7 @@ export const byWorkerTableV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -225,7 +225,7 @@ export const byClpCtrTableV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -260,7 +260,7 @@ export const byDateTableV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -295,7 +295,7 @@ export const defectsLogsV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -330,7 +330,7 @@ export const productionLogsV3 = (
   clpctr,
   tableId,
   shifts,
-  line
+  line = localStorage.getItem("kpl_line")?.split(",")
 ) => async (dispatch) => {
   try {
     const formField = {

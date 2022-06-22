@@ -24,6 +24,7 @@ import {
   AppBar,
   Tabs,
   Tab,
+  Typography,
 } from "@material-ui/core";
 import { theme, wings } from "../../../Utility/constants";
 import { StitchingContext } from "../../../context/StitchingContext";
@@ -92,6 +93,8 @@ function WorkerScheduleV2() {
   });
   const [temp, setTemp] = useState(false);
   const [value, setValue] = React.useState(0);
+
+  const [wingWiseShift, setWingWiseShift] = useState({});
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -210,9 +213,10 @@ function WorkerScheduleV2() {
 
   const copySchedule = async () => {
     try {
-      const resp = await copyWorkerScheduleV3();
-      console.log(resp);
-      loadData();
+      // const resp = await copyWorkerScheduleV3();
+      // console.log(resp);
+      // loadData();
+      console.log(wingWiseShift);
     } catch (e) {}
   };
 
@@ -243,6 +247,10 @@ function WorkerScheduleV2() {
   // use effect
   useEffect(() => {
     loadData();
+    localStorage
+      .getItem("kpl_line")
+      .split(",")
+      .map((item) => setWingWiseShift((prev) => ({ ...prev, [item]: 0 })));
   }, []);
 
   return (
@@ -277,95 +285,146 @@ function WorkerScheduleV2() {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label="Shift A" {...a11yProps(0)} />
-            <Tab label="Shift B" {...a11yProps(1)} />
-            <Tab label="Shift C" {...a11yProps(2)} />
+            {localStorage.getItem("kpl_line") &&
+              localStorage
+                .getItem("kpl_line")
+                ?.split(",")
+                .map((item, index) => (
+                  <Tab label={item} {...a11yProps(index)} />
+                ))}
           </Tabs>
         </AppBar>
-        <TabPanel value={value} index={0}>
-          <Grid container item xs={12}>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow
-                    style={{
-                      backgroundColor: theme.BLUE,
-                      color: "white",
+        {localStorage.getItem("kpl_line") &&
+          localStorage
+            .getItem("kpl_line")
+            ?.split(",")
+            .map((line_item, line_index) => (
+              <TabPanel value={value} index={line_index}>
+                <AppBar position="static" className="customTab">
+                  <Tabs
+                    value={wingWiseShift[line_item]}
+                    onChange={(e, t) => {
+                      console.log(t);
+                      setWingWiseShift({
+                        ...wingWiseShift,
+                        [line_item]: t,
+                      });
                     }}
+                    aria-label="simple tabs example"
+                    variant="scrollable"
+                    scrollButtons="auto"
                   >
-                    {[
-                      "ID",
-                      "Date",
-                      "Worker ID - Name",
-                      "Worker Name",
-                      "Shift",
-                      "Wing",
-                      "Table ID",
-                      "Table Status",
-                      "CLP-CTR",
-                      "Save",
-                    ].map((item, index) => (
-                      <TableCell
-                        key={index}
-                        style={{
-                          color: "white",
-                        }}
-                      >
-                        {item}
-                      </TableCell>
+                    {["A", "B", "C"].map((shift_item, shift_index) => (
+                      <Tab label={shift_item} {...a11yProps(shift_index)} />
                     ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {scheduleData?.length > 0 &&
-                    scheduleData
-                      ?.filter((item) => item?.shift === "A")
-                      .map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{item?.id}</TableCell>
-                          <TableCell>
-                            {new Date(item?.dateTime).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell>
-                            <FormControl variant="outlined" fullWidth>
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
+                  </Tabs>
+                </AppBar>
+                {["A", "B", "C"].map((shift_item, shift_Index) => (
+                  <TabPanel
+                    value={wingWiseShift[line_item]}
+                    index={shift_Index}
+                  >
+                    <Typography variant="h6" style={{ margin: "1rem" }}>
+                      LINE : {line_item}
+                    </Typography>
+                    <Typography variant="h6" style={{ margin: "1rem" }}>
+                      SHIFT : {shift_item}
+                    </Typography>
+                    <Grid container item xs={12}>
+                      <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                          <TableHead>
+                            <TableRow
+                              style={{
+                                backgroundColor: theme.BLUE,
+                                color: "white",
+                              }}
+                            >
+                              {[
+                                "ID",
+                                "Date",
+                                "Worker ID - Name",
+                                "Worker Name",
+                                "Shift",
+                                "Line",
+                                "Wing",
+                                "Table ID",
+                                "Table Status",
+                                "CLP-CTR",
+                                "Save",
+                              ].map((item, index) => (
+                                <TableCell
+                                  key={index}
+                                  style={{
+                                    color: "white",
+                                  }}
+                                >
+                                  {item}
+                                </TableCell>
+                              ))}
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {scheduleData?.length > 0 &&
+                              scheduleData
+                                ?.filter(
+                                  (item) =>
+                                    item?.shift === shift_item &&
+                                    item?.line === line_item
+                                )
+                                .map((item, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell>{item?.id}</TableCell>
+                                    <TableCell>
+                                      {new Date(
+                                        item?.dateTime
+                                      ).toLocaleDateString()}
+                                    </TableCell>
+                                    <TableCell>
+                                      <FormControl variant="outlined" fullWidth>
+                                        {/* <InputLabel keyid="demo-simple-select-outlined-label">
                           Worker Id
                         </InputLabel> */}
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item.workerId}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(event) =>
-                                  changeWorkerIdAndName(
-                                    item.id,
-                                    event.target.value
-                                  )
-                                }
-                                label=""
-                                // multiple
-                              >
-                                {workerList.length > 0 &&
-                                  workerList
-                                    ?.sort((a, b) =>
-                                      a?.workerName > b?.workerName ? 1 : -1
-                                    )
-                                    ?.map((item, index) => (
-                                      <MenuItem
-                                        value={item.workerId}
-                                        key={index}
-                                      >
-                                        {item.workerId} - {item?.workerName}
-                                      </MenuItem>
-                                    ))}
-                              </Select>
-                            </FormControl>
-                          </TableCell>
-                          <TableCell>{item?.workerName?.trim()}</TableCell>
-                          <TableCell>
-                            {item?.shift}
-                            {/* <FormControl
+                                        <Select
+                                          labelId="demo-simple-select-outlined-label"
+                                          id="demo-simple-select-outlined"
+                                          value={item.workerId}
+                                          name="supervisorName"
+                                          fullWidth
+                                          onChange={(event) =>
+                                            changeWorkerIdAndName(
+                                              item.id,
+                                              event.target.value
+                                            )
+                                          }
+                                          label=""
+                                          // multiple
+                                        >
+                                          {workerList.length > 0 &&
+                                            workerList
+                                              ?.sort((a, b) =>
+                                                a?.workerName > b?.workerName
+                                                  ? 1
+                                                  : -1
+                                              )
+                                              ?.map((item, index) => (
+                                                <MenuItem
+                                                  value={item.workerId}
+                                                  key={index}
+                                                >
+                                                  {item.workerId} -{" "}
+                                                  {item?.workerName}
+                                                </MenuItem>
+                                              ))}
+                                        </Select>
+                                      </FormControl>
+                                    </TableCell>
+                                    <TableCell>
+                                      {item?.workerName?.trim()}
+                                    </TableCell>
+                                    <TableCell>
+                                      {item?.shift}
+                                      {/* <FormControl
                         variant="outlined"
                         fullWidth
                         style={{ marginBottom: "12px" }}
@@ -396,9 +455,11 @@ function WorkerScheduleV2() {
                           ))}
                         </Select>
                       </FormControl> */}
-                          </TableCell>
-                          <TableCell>
-                            {/* <FormControl
+                                    </TableCell>
+                                    <TableCell>{item?.line}</TableCell>
+
+                                    <TableCell>
+                                      {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
@@ -429,29 +490,29 @@ function WorkerScheduleV2() {
                                 ))}
                               </Select>
                             </FormControl> */}
-                            {item?.wing}
-                          </TableCell>
-                          <TableCell>{item?.tableId}</TableCell>
-                          <TableCell>
-                            <FormControlLabel
-                              // style={{ marginBottom: "12px" }}
-                              control={
-                                <Switch
-                                  checked={item?.tableOnOff}
-                                  onChange={(e) =>
-                                    changeTablesParameters(
-                                      item?.id,
-                                      "tableOnOff",
-                                      e.target.checked
-                                    )
-                                  }
-                                  name="machineOnOffStatus"
-                                  color="primary"
-                                />
-                              }
-                              label="Table Status"
-                            />
-                            {/* <Switch
+                                      {item?.wing}
+                                    </TableCell>
+                                    <TableCell>{item?.tableId}</TableCell>
+                                    <TableCell>
+                                      <FormControlLabel
+                                        // style={{ marginBottom: "12px" }}
+                                        control={
+                                          <Switch
+                                            checked={item?.tableOnOff}
+                                            onChange={(e) =>
+                                              changeTablesParameters(
+                                                item?.id,
+                                                "tableOnOff",
+                                                e.target.checked
+                                              )
+                                            }
+                                            name="machineOnOffStatus"
+                                            color="primary"
+                                          />
+                                        }
+                                        label="Table Status"
+                                      />
+                                      {/* <Switch
                         // checked={Math.random() > 0.5 ? true : false}
                         checked={temp}
                         onChange={(e) => setTemp(e.target.value)}
@@ -467,26 +528,28 @@ function WorkerScheduleV2() {
                         name="checkedB"
                         inputProps={{ "aria-label": "primary checkbox" }}
                       /> */}
-                          </TableCell>
-                          <TableCell>
-                            <Autocomplete
-                              // id="combo-box-demo"
-                              onChange={(e, t) => setNewCtr(e, t, item?.id)}
-                              options={clpCtr}
-                              getOptionLabel={(option) =>
-                                `${option.Clp}-${option.CtrNo}`
-                              }
-                              style={{ width: 150 }}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  label={item?.ctr}
-                                  variant="outlined"
-                                  placeholder={item?.ctr}
-                                />
-                              )}
-                            />
-                            {/* <FormControl
+                                    </TableCell>
+                                    <TableCell>
+                                      <Autocomplete
+                                        // id="combo-box-demo"
+                                        onChange={(e, t) =>
+                                          setNewCtr(e, t, item?.id)
+                                        }
+                                        options={clpCtr}
+                                        getOptionLabel={(option) =>
+                                          `${option.Clp}-${option.CtrNo}`
+                                        }
+                                        style={{ width: 150 }}
+                                        renderInput={(params) => (
+                                          <TextField
+                                            {...params}
+                                            label={item?.ctr}
+                                            variant="outlined"
+                                            placeholder={item?.ctr}
+                                          />
+                                        )}
+                                      />
+                                      {/* <FormControl
                               variant="outlined"
                               fullWidth
                               style={{ marginBottom: "12px" }}
@@ -513,534 +576,31 @@ function WorkerScheduleV2() {
                                 ))}
                               </Select>
                             </FormControl> */}
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              onClick={() => saveTable(item?.id)}
-                              fullWidth
-                              variant="contained"
-                              style={{
-                                backgroundColor: theme.BLUE,
-                                color: "white",
-                                padding: "12px",
-                              }}
-                            >
-                              SAVE
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Grid container item xs={12}>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow
-                    style={{
-                      backgroundColor: theme.BLUE,
-                      color: "white",
-                    }}
-                  >
-                    {[
-                      "ID",
-                      "Date",
-                      "Worker ID - Name",
-                      "Worker Name",
-                      "Shift",
-                      "Wing",
-                      "Table ID",
-                      "Table Status",
-                      "CLP-CTR",
-                      "Save",
-                    ].map((item, index) => (
-                      <TableCell
-                        key={index}
-                        style={{
-                          color: "white",
-                        }}
-                      >
-                        {item}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {scheduleData?.length > 0 &&
-                    scheduleData
-                      ?.filter((item) => item?.shift === "B")
-                      .map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{item?.id}</TableCell>
-                          <TableCell>
-                            {new Date(item?.dateTime).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell>
-                            <FormControl variant="outlined" fullWidth>
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Worker Id
-                        </InputLabel> */}
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item.workerId}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(event) =>
-                                  changeWorkerIdAndName(
-                                    item.id,
-                                    event.target.value
-                                  )
-                                }
-                                label=""
-                                // multiple
-                              >
-                                {workerList.length > 0 &&
-                                  workerList
-                                    ?.sort((a, b) =>
-                                      a?.workerName > b?.workerName ? 1 : -1
-                                    )
-                                    ?.map((item, index) => (
-                                      <MenuItem
-                                        value={item.workerId}
-                                        key={index}
+                                    </TableCell>
+                                    <TableCell>
+                                      <Button
+                                        onClick={() => saveTable(item?.id)}
+                                        fullWidth
+                                        variant="contained"
+                                        style={{
+                                          backgroundColor: theme.BLUE,
+                                          color: "white",
+                                          padding: "12px",
+                                        }}
                                       >
-                                        {item.workerId} - {item?.workerName}
-                                      </MenuItem>
-                                    ))}
-                              </Select>
-                            </FormControl>
-                          </TableCell>
-                          <TableCell>{item?.workerName?.trim()}</TableCell>
-                          <TableCell>
-                            {item?.shift}
-                            {/* <FormControl
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginBottom: "12px" }}
-                      >
-                       
-                        <Select
-                          labelId="demo-simple-select-outlined-label"
-                          id="demo-simple-select-outlined"
-                          value={item?.shift}
-                          name="supervisorName"
-                          fullWidth
-                          onChange={(e) =>
-                            changeTablesParameters(
-                              item.id,
-                              "shift",
-                              e.target.value
-                            )
-                          }
-                          label=""
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {["A", "B", "C"].map((item, index) => (
-                            <MenuItem key={index} value={item}>
-                              {item}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl> */}
-                          </TableCell>
-                          <TableCell>
-                            {/* <FormControl
-                              variant="outlined"
-                              fullWidth
-                              style={{ marginBottom: "12px" }}
-                            >
-                           
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item?.wing}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(e) =>
-                                  changeTablesParameters(
-                                    item.id,
-                                    "wing",
-                                    e.target.value
-                                  )
-                                }
-                                label=""
-                              >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
-                                {wings.map((item, index) => (
-                                  <MenuItem value={item} key={index}>
-                                    {item}
-                                  </MenuItem>
+                                        SAVE
+                                      </Button>
+                                    </TableCell>
+                                  </TableRow>
                                 ))}
-                              </Select>
-                            </FormControl> */}
-                            {item?.wing}
-                          </TableCell>
-                          <TableCell>{item?.tableId}</TableCell>
-                          <TableCell>
-                            <FormControlLabel
-                              // style={{ marginBottom: "12px" }}
-                              control={
-                                <Switch
-                                  checked={item?.tableOnOff}
-                                  onChange={(e) =>
-                                    changeTablesParameters(
-                                      item?.id,
-                                      "tableOnOff",
-                                      e.target.checked
-                                    )
-                                  }
-                                  name="machineOnOffStatus"
-                                  color="primary"
-                                />
-                              }
-                              label="Table Status"
-                            />
-                            {/* <Switch
-                        // checked={Math.random() > 0.5 ? true : false}
-                        checked={temp}
-                        onChange={(e) => setTemp(e.target.value)}
-                        // onChange={(e) =>
-                        //   changeTablesParameters(
-                        //     item?.id,
-                        //     "tableOnOff",
-                        //     e.target.checked
-                        //   )
-                        // }
-                        // checked={item?.tableOnOff}
-                        color="primary"
-                        name="checkedB"
-                        inputProps={{ "aria-label": "primary checkbox" }}
-                      /> */}
-                          </TableCell>
-                          <TableCell>
-                            <Autocomplete
-                              // id="combo-box-demo"
-                              onChange={(e, t) => setNewCtr(e, t, item?.id)}
-                              options={clpCtr}
-                              getOptionLabel={(option) =>
-                                `${option.Clp}-${option.CtrNo}`
-                              }
-                              style={{ width: 150 }}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  label={item?.ctr}
-                                  variant="outlined"
-                                  placeholder={item?.ctr}
-                                />
-                              )}
-                            />
-                            {/* <FormControl
-                              variant="outlined"
-                              fullWidth
-                              style={{ marginBottom: "12px" }}
-                            >
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item?.ctr}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(e) =>
-                                  setNewCtr(e.target.value, item?.id)
-                                }
-                                label=""
-                              >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
-                                {clpCtr?.map((item, index) => (
-                                  <MenuItem value={item.CtrNo} key={index}>
-                                    {item.Clp}-{item.CtrNo}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl> */}
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              onClick={() => saveTable(item?.id)}
-                              fullWidth
-                              variant="contained"
-                              style={{
-                                backgroundColor: theme.BLUE,
-                                color: "white",
-                                padding: "12px",
-                              }}
-                            >
-                              SAVE
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <Grid container item xs={12}>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow
-                    style={{
-                      backgroundColor: theme.BLUE,
-                      color: "white",
-                    }}
-                  >
-                    {[
-                      "ID",
-                      "Date",
-                      "Worker ID - Name",
-                      "Worker Name",
-                      "Shift",
-                      "Wing",
-                      "Table ID",
-                      "Table Status",
-                      "CLP-CTR",
-                      "Save",
-                    ].map((item, index) => (
-                      <TableCell
-                        key={index}
-                        style={{
-                          color: "white",
-                        }}
-                      >
-                        {item}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {scheduleData?.length > 0 &&
-                    scheduleData
-                      ?.filter((item) => item?.shift === "C")
-                      .map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{item?.id}</TableCell>
-                          <TableCell>
-                            {new Date(item?.dateTime).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell>
-                            <FormControl variant="outlined" fullWidth>
-                              {/* <InputLabel keyid="demo-simple-select-outlined-label">
-                          Worker Id
-                        </InputLabel> */}
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item.workerId}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(event) =>
-                                  changeWorkerIdAndName(
-                                    item.id,
-                                    event.target.value
-                                  )
-                                }
-                                label=""
-                                // multiple
-                              >
-                                {workerList.length > 0 &&
-                                  workerList
-                                    ?.sort((a, b) =>
-                                      a?.workerName > b?.workerName ? 1 : -1
-                                    )
-                                    ?.map((item, index) => (
-                                      <MenuItem
-                                        value={item.workerId}
-                                        key={index}
-                                      >
-                                        {item.workerId} - {item?.workerName}
-                                      </MenuItem>
-                                    ))}
-                              </Select>
-                            </FormControl>
-                          </TableCell>
-                          <TableCell>{item?.workerName?.trim()}</TableCell>
-                          <TableCell>
-                            {item?.shift}
-                            {/* <FormControl
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginBottom: "12px" }}
-                      >
-                       
-                        <Select
-                          labelId="demo-simple-select-outlined-label"
-                          id="demo-simple-select-outlined"
-                          value={item?.shift}
-                          name="supervisorName"
-                          fullWidth
-                          onChange={(e) =>
-                            changeTablesParameters(
-                              item.id,
-                              "shift",
-                              e.target.value
-                            )
-                          }
-                          label=""
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {["A", "B", "C"].map((item, index) => (
-                            <MenuItem key={index} value={item}>
-                              {item}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl> */}
-                          </TableCell>
-                          <TableCell>
-                            {/* <FormControl
-                              variant="outlined"
-                              fullWidth
-                              style={{ marginBottom: "12px" }}
-                            >
-                              
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item?.wing}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(e) =>
-                                  changeTablesParameters(
-                                    item.id,
-                                    "wing",
-                                    e.target.value
-                                  )
-                                }
-                                label=""
-                                multiple
-                              >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
-                                {wings.map((item, index) => (
-                                  <MenuItem value={item} key={index}>
-                                    {item}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl> */}
-                            {item?.wing}
-                          </TableCell>
-                          <TableCell>{item?.tableId}</TableCell>
-                          <TableCell>
-                            <FormControlLabel
-                              // style={{ marginBottom: "12px" }}
-                              control={
-                                <Switch
-                                  checked={item?.tableOnOff}
-                                  onChange={(e) =>
-                                    changeTablesParameters(
-                                      item?.id,
-                                      "tableOnOff",
-                                      e.target.checked
-                                    )
-                                  }
-                                  name="machineOnOffStatus"
-                                  color="primary"
-                                />
-                              }
-                              label="Table Status"
-                            />
-                            {/* <Switch
-                        // checked={Math.random() > 0.5 ? true : false}
-                        checked={temp}
-                        onChange={(e) => setTemp(e.target.value)}
-                        // onChange={(e) =>
-                        //   changeTablesParameters(
-                        //     item?.id,
-                        //     "tableOnOff",
-                        //     e.target.checked
-                        //   )
-                        // }
-                        // checked={item?.tableOnOff}
-                        color="primary"
-                        name="checkedB"
-                        inputProps={{ "aria-label": "primary checkbox" }}
-                      /> */}
-                          </TableCell>
-                          <TableCell>
-                            <Autocomplete
-                              // id="combo-box-demo"
-                              onChange={(e, t) => setNewCtr(e, t, item?.id)}
-                              options={clpCtr}
-                              getOptionLabel={(option) =>
-                                `${option.Clp}-${option.CtrNo}`
-                              }
-                              style={{ width: 150 }}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  label={item?.ctr}
-                                  variant="outlined"
-                                  placeholder={item?.ctr}
-                                />
-                              )}
-                            />
-                            {/* <FormControl
-                              variant="outlined"
-                              fullWidth
-                              style={{ marginBottom: "12px" }}
-                            >
-                            
-                              <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={item?.ctr}
-                                name="supervisorName"
-                                fullWidth
-                                onChange={(e) =>
-                                  setNewCtr(e.target.value, item?.id)
-                                }
-                                label=""
-                              >
-                                <MenuItem value="">
-                                  <em>None</em>
-                                </MenuItem>
-                                {clpCtr?.map((item, index) => (
-                                  <MenuItem value={item.CtrNo} key={index}>
-                                    {item.Clp}-{item.CtrNo}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl> */}
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              onClick={() => saveTable(item?.id)}
-                              fullWidth
-                              variant="contained"
-                              style={{
-                                backgroundColor: theme.BLUE,
-                                color: "white",
-                                padding: "12px",
-                              }}
-                            >
-                              SAVE
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </TabPanel>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Grid>
+                  </TabPanel>
+                ))}
+              </TabPanel>
+            ))}
       </Grid>
 
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

@@ -1000,6 +1000,7 @@ const getCheckingSchedule = async (formData) => {
     true,
     {
       wing: localStorage.getItem("kpl_wing"),
+      line: localStorage.getItem("kpl_line")?.split(","),
     }
   );
 };
