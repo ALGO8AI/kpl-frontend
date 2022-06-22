@@ -6,6 +6,7 @@ const initStore = {
   mostFrequentDefects: [],
   defectTrends: [],
   byWorkerTable: [],
+  checkerEfficiency: [],
   byClpCtrTable: [],
   byDateTable: [],
   allTableId: [],

@@ -13,7 +13,7 @@ const cloudUrlVPN_TEMP = "http://120.120.120.147:7980"; //VPN
 const videoWall = "http://kpl.algo8apps.com";
 
 // const baseUrl = cloudUrlProd;
-const baseUrl = cloudUrl;
+const baseUrl = cloudUrlVPN_TEMP;
 // const baseUrl = "http://kpl.algo8apps.com:5006";
 
 const getUrl = (path) => `${baseUrl}/${path}`;

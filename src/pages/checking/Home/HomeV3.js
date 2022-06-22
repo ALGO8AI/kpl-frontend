@@ -45,6 +45,7 @@ import {
   byClpCtrTableV3,
   byDateTableV3,
   byWorkerTableV3,
+  checkerEfficiencyV3,
   defectTrendV3,
   getAllTableIdV3,
   homeDefectChartV3,
@@ -80,6 +81,7 @@ export default function HomeV2() {
     repairedbags,
     top3Defectes,
     defectTrends,
+    checkerEfficiency,
   } = useSelector((state) => state?.CheckV3);
 
   // Functions
@@ -176,6 +178,7 @@ export default function HomeV2() {
     Dispatch(getAllTableIdV3());
     Dispatch(homeRepairedChartV3());
     Dispatch(homeDefectChartV3());
+    Dispatch(checkerEfficiencyV3());
     Dispatch(top5DefectesV3());
     Dispatch(top3DefectesV3());
     Dispatch(byWorkerTableV3());
@@ -210,6 +213,17 @@ export default function HomeV2() {
         inputLINE
       )
     );
+    Dispatch(
+      checkerEfficiencyV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE
+      )
+    );
+
     Dispatch(
       top5DefectesV3(
         state.from,
@@ -660,13 +674,11 @@ export default function HomeV2() {
         </Grid>
 
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <CheckingEfficiency loading={loading} />
-        </Grid>
-        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <CheckingPerformance loading={loading} />
-        </Grid>
-        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <PDIdefect loading={loading} />
+          {checkerEfficiency?.length === 0 ? (
+            <Loader />
+          ) : (
+            <CheckingEfficiency loading={loading} data={checkerEfficiency} />
+          )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {defectTrends?.length === 0 ? (
@@ -674,6 +686,12 @@ export default function HomeV2() {
           ) : (
             <DefectTrend loading={loading} data={defectTrends} />
           )}
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <CheckingPerformance loading={loading} />
+        </Grid>
+        <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
+          <PDIdefect loading={loading} />
         </Grid>
       </Grid>
       {/* comparison table */}
@@ -731,9 +749,9 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
           <ReactApexChart
             options={options}
             series={[
-              Boolean(data[1]?.noo) ? data[1]?.noo : 0,
-              Boolean(data[2]?.noo) ? data[2]?.noo : 0,
-              Boolean(data[0]?.noo) ? data[0]?.noo : 0,
+              Boolean(data) ? data[1]?.noo : 0,
+              Boolean(data) ? data[2]?.noo : 0,
+              Boolean(data) ? data[0]?.noo : 0,
             ]}
             type="donut"
             width={200}
@@ -743,7 +761,7 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
           <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Bags For Repairing</p>
             <p style={{ color: "grey" }}>
-              {data[0]?.noo + data[1]?.noo + data[2]?.noo}
+              {data && data[0]?.noo + data[1]?.noo + data[2]?.noo}
             </p>
           </div>
           <hr />
@@ -755,7 +773,7 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
               }}
             ></div>
             <p style={{ color: "#094573" }}>Repaired Bags</p>
-            <p style={{ color: "#094573" }}>{data[1]?.noo}</p>
+            <p style={{ color: "#094573" }}>{data && data[1]?.noo}</p>
           </div>
           <hr />
           <div className={Styles.Data}>
@@ -766,7 +784,7 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
               }}
             ></div>
             <p style={{ color: "#ffce38" }}>Rejected Bags</p>
-            <p style={{ color: "#ffce38" }}>{data[2]?.noo}</p>
+            <p style={{ color: "#ffce38" }}>{data && data[2]?.noo}</p>
           </div>
           <hr />
           {/* <div className={Styles.Data}>
@@ -788,7 +806,7 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
               }}
             ></div>
             <p style={{ color: "#ffa643" }}>Not Repaired</p>
-            <p style={{ color: "#ffa643" }}>{data[0]?.noo}</p>
+            <p style={{ color: "#ffa643" }}>{data && data[0]?.noo}</p>
           </div>
         </div>
       </div>
@@ -799,11 +817,12 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
         }}
       >
         Repaired Bags %{" "}
-        {(
-          ((data[0]?.noo + data[1]?.noo + data[2]?.noo) /
-            (data[0]?.noo + data[2]?.noo + data[1]?.noo + data[3]?.noo)) *
-          100
-        ).toFixed(2)}
+        {data &&
+          (
+            ((data[0]?.noo + data[1]?.noo + data[2]?.noo) /
+              (data[0]?.noo + data[2]?.noo + data[1]?.noo + data[3]?.noo)) *
+            100
+          ).toFixed(2)}
       </h3>
     </div>
   );
@@ -834,11 +853,9 @@ function DefectPercentageDonut({ data, loading }) {
           <ReactApexChart
             options={options}
             series={[
-              Boolean(data[1][0]["Total Bags"]) ? data[1][0]["Total Bags"] : 0,
-              Boolean(data[0][0]["Total Defects"])
-                ? data[0][0]["Total Defects"]
-                : 0,
-              Boolean(data[0][0]["Total Defects"])
+              Boolean(data) ? data[1][0]["Total Bags"] : 0,
+              Boolean(data) ? data[0][0]["Total Defects"] : 0,
+              Boolean(data)
                 ? data[1][0]["Total Bags"] - data[0][0]["Total Defects"]
                 : 0,
 
@@ -870,7 +887,9 @@ function DefectPercentageDonut({ data, loading }) {
               }}
             ></div>
             <p style={{ color: "#094573" }}>Total Bags</p>
-            <p style={{ color: "#094573" }}>{data[1][0]["Total Bags"]}</p>
+            <p style={{ color: "#094573" }}>
+              {data && data[1][0]["Total Bags"]}
+            </p>
           </div>
           <div className={Styles.Data}>
             <div
@@ -880,7 +899,9 @@ function DefectPercentageDonut({ data, loading }) {
               }}
             ></div>
             <p style={{ color: "#ffce38" }}>No. Of Defects</p>
-            <p style={{ color: "#ffce38" }}>{data[0][0]["Total Defects"]}</p>
+            <p style={{ color: "#ffce38" }}>
+              {data && data[0][0]["Total Defects"]}
+            </p>
           </div>
           <div className={Styles.Data}>
             <div
@@ -891,7 +912,7 @@ function DefectPercentageDonut({ data, loading }) {
             ></div>
             <p style={{ color: "#ffa643" }}>Okay Bags</p>
             <p style={{ color: "#ffa643" }}>
-              {data[1][0]["Total Bags"] - data[0][0]["Total Defects"]}
+              {data && data[1][0]["Total Bags"] - data[0][0]["Total Defects"]}
             </p>
           </div>
         </div>
@@ -903,10 +924,11 @@ function DefectPercentageDonut({ data, loading }) {
         }}
       >
         Defects %{" "}
-        {(
-          (data[0][0]["Total Defects"] / data[1][0]["Total Bags"]) *
-          100
-        ).toFixed(2)}
+        {data &&
+          (
+            (data[0][0]["Total Defects"] / data[1][0]["Total Bags"]) *
+            100
+          ).toFixed(2)}
       </h3>
     </div>
   );
@@ -1208,8 +1230,11 @@ function DefectTrend({ loading, data }) {
 }
 
 // Chart 5
-function CheckingEfficiency({ loading }) {
-  const series = [32, 68];
+function CheckingEfficiency({ loading, data }) {
+  const series = [
+    Boolean(data) ? data[0]?.checkerEfficiency : 0,
+    Boolean(data) ? 100 - data[0]?.checkerEfficiency : 0,
+  ];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -1221,13 +1246,13 @@ function CheckingEfficiency({ loading }) {
     chart: {
       type: "donut",
     },
-    labels: [],
+    labels: ["Efficiency", "Non-Efficiency"],
   };
   return (
     <div className={Styles.Card}>
-      <div className={Styles.Overlap}>
+      {/* <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
-      </div>
+      </div> */}
       <h3>Checking Efficiency %</h3>
       {loading && <Loader />}
 
@@ -1242,6 +1267,30 @@ function CheckingEfficiency({ loading }) {
         </div>
         <div className={Styles.Right2}>
           <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#094573",
+              }}
+            ></div>
+            <p style={{ color: "#094573" }}>Efficient</p>
+            <p style={{ color: "#094573" }}>
+              {data && data[0]?.checkerEfficiency}
+            </p>
+          </div>
+          <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#ffce38",
+              }}
+            ></div>
+            <p style={{ color: "#ffce38" }}>Non-Efficient</p>
+            <p style={{ color: "#ffce38" }}>
+              {data && 100 - data[0]?.checkerEfficiency}
+            </p>
+          </div>
+          {/* <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Scheduled Time</p>
             <p style={{ color: "grey" }}>:</p>
             <p style={{ color: "grey" }}>8 hrs</p>
@@ -1250,12 +1299,12 @@ function CheckingEfficiency({ loading }) {
             <p style={{ color: "grey" }}>Operation Time</p>
             <p style={{ color: "grey" }}>:</p>
             <p style={{ color: "grey" }}>5 hrs</p>
-          </div>
-          <div className={Styles.Data}>
+          </div> */}
+          {/* <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Bags Checked</p>
             <p style={{ color: "grey" }}>:</p>
             <p style={{ color: "grey" }}>200</p>
-          </div>
+          </div> */}
           <hr />
         </div>
       </div>

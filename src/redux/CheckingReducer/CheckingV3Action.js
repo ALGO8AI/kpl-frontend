@@ -152,6 +152,41 @@ export const top5DefectesV3 = (
   } catch (e) {}
 };
 
+export const checkerEfficiencyV3 = (
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
+  clpctr,
+  tableId,
+  shifts,
+  line = localStorage.getItem("kpl_line")?.split(",")
+) => async (dispatch) => {
+  try {
+    const formField = {
+      clpctr,
+      tableId,
+      filterDateFrom,
+      filterDateTo,
+      shifts,
+      username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
+      line,
+    };
+    const resp = await callBackendV2(
+      "POST",
+      "routes/checking/KPI/home/checkerEfficiency",
+      true,
+      formField
+    );
+    dispatch({
+      type: "SET_CHECKING_V3",
+      payload: {
+        key: "checkerEfficiency",
+        value: resp?.data,
+      },
+    });
+  } catch (e) {}
+};
+
 export const top3DefectesV3 = () => async (dispatch) => {
   try {
     const resp = await callBackendV2(
