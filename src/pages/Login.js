@@ -74,6 +74,7 @@ function Login() {
               localStorage.setItem("PROFILE", JSON.stringify(x.data));
               localStorage.setItem("kpl_username", x.data.username);
               localStorage.setItem("kpl_wing", x.data.wing);
+              localStorage.setItem("kpl_line", x.data.zone);
 
               history.push("/menu");
             } else {

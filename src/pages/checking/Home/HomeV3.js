@@ -45,6 +45,7 @@ import {
   byClpCtrTableV3,
   byDateTableV3,
   byWorkerTableV3,
+  defectTrendV3,
   getAllTableIdV3,
   homeDefectChartV3,
   homeRepairedChartV3,
@@ -78,6 +79,7 @@ export default function HomeV2() {
     byDateTable,
     repairedbags,
     top3Defectes,
+    defectTrends,
   } = useSelector((state) => state?.CheckV3);
 
   // Functions
@@ -179,6 +181,7 @@ export default function HomeV2() {
     Dispatch(byWorkerTableV3());
     Dispatch(byClpCtrTableV3());
     Dispatch(byDateTableV3());
+    Dispatch(defectTrendV3());
     setLoading(false);
   };
   // load filtered data
@@ -193,7 +196,8 @@ export default function HomeV2() {
         state.to,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       )
     );
     Dispatch(
@@ -202,11 +206,19 @@ export default function HomeV2() {
         state.to,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       )
     );
     Dispatch(
-      top5DefectesV3(state.from, state.to, inputCTR, inputMACHINEid, inputSHIFT)
+      top5DefectesV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE
+      )
     );
     Dispatch(
       byWorkerTableV3(
@@ -214,7 +226,8 @@ export default function HomeV2() {
         state.to,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       )
     );
     Dispatch(
@@ -223,11 +236,19 @@ export default function HomeV2() {
         state.to,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       )
     );
     Dispatch(
-      byDateTableV3(state.from, state.to, inputCTR, inputMACHINEid, inputSHIFT)
+      byDateTableV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE
+      )
     );
     setLoading(false);
   };
@@ -308,6 +329,41 @@ export default function HomeV2() {
     >
       {/* filter */}
       <Grid container item xs={12}>
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={typeOfRange === "custom" ? 1 : 2}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputLINE}
+              onChange={(e) => setInputLINE(e.target.value)}
+              label="Line"
+              // multiple
+            >
+              {localStorage.getItem("kpl_line") &&
+                localStorage
+                  .getItem("kpl_line")
+                  ?.split(",")
+                  ?.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+            </Select>
+          </FormControl>
+        </Grid>
         <Grid
           container
           item
@@ -517,38 +573,6 @@ export default function HomeV2() {
           </FormControl>
         </Grid>
 
-        {/* <Grid
-          container
-          item
-          xs={4}
-          sm={4}
-          lg={typeOfRange === "custom" ? 1 : 2}
-          style={{ justifyContent: "center" }}
-        >
-          <FormControl
-            variant="outlined"
-            fullWidth
-            style={{ marginRight: "6px" }}
-          >
-            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              multiple
-              value={inputLINE}
-              onChange={(e) => setInputLINE(e.target.value)}
-              label="Line"
-              // multiple
-            >
-              {stitchingLines.map((item, index) => (
-                <MenuItem key={index} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid> */}
-
         <Grid
           container
           item
@@ -645,7 +669,11 @@ export default function HomeV2() {
           <PDIdefect loading={loading} />
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <DefectTrend loading={loading} />
+          {defectTrends?.length === 0 ? (
+            <Loader />
+          ) : (
+            <DefectTrend loading={loading} data={defectTrends} />
+          )}
         </Grid>
       </Grid>
       {/* comparison table */}
@@ -1065,12 +1093,12 @@ function Top3Defects({ data, loading }) {
 }
 
 // chart 4
-function DefectTrend({ loading }) {
+function DefectTrend({ loading, data }) {
   const DATA = {
     series: [
       {
         name: "Defects",
-        data: [1, 2, 3, 4, 5],
+        data: data?.map((item) => item?.defectPercentage),
       },
     ],
     options: {
@@ -1111,7 +1139,7 @@ function DefectTrend({ loading }) {
       },
 
       xaxis: {
-        categories: [1, 2, 3, 4, 5],
+        categories: data?.map((item) => item?.weekk),
         position: "bottom",
         axisBorder: {
           show: false,
@@ -1142,9 +1170,9 @@ function DefectTrend({ loading }) {
   };
   return (
     <div className={Styles.Card}>
-      <div className={Styles.Overlap}>
+      {/* <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
-      </div>
+      </div> */}
       <h3>Defect % Trend</h3>
       {loading && <Loader />}
 

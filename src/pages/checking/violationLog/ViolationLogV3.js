@@ -248,7 +248,8 @@ function ViolationLogV3() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       )
     );
     Dispatch(
@@ -257,7 +258,8 @@ function ViolationLogV3() {
         state.violationTo,
         inputCTR,
         inputMACHINEid,
-        inputSHIFT
+        inputSHIFT,
+        inputLINE
       )
     );
   };
@@ -452,6 +454,43 @@ function ViolationLogV3() {
             alignItems: "center",
           }}
         >
+          <Grid
+            container
+            item
+            xs={4}
+            sm={4}
+            lg={typeOfRange === "custom" ? 1 : 2}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Line
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputLINE}
+                onChange={(e) => setInputLINE(e.target.value)}
+                label="Line"
+                // multiple
+              >
+                {localStorage.getItem("kpl_line") &&
+                  localStorage
+                    .getItem("kpl_line")
+                    ?.split(",")
+                    ?.map((item, index) => (
+                      <MenuItem key={index} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid
             container
             item
@@ -682,40 +721,6 @@ function ViolationLogV3() {
               </Select>
             </FormControl>
           </Grid>
-
-          {/* <Grid
-            container
-            item
-            xs={4}
-            sm={4}
-            lg={typeOfRange === "custom" ? 1 : 2}
-            style={{ justifyContent: "center" }}
-          >
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginRight: "6px" }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Line
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                multiple
-                value={inputLINE}
-                onChange={(e) => setInputLINE(e.target.value)}
-                label="Line"
-                // multiple
-              >
-                {stitchingLines.map((item, index) => (
-                  <MenuItem key={index} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid> */}
 
           <Grid
             container

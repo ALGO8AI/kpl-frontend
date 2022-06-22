@@ -4,6 +4,7 @@ const initStore = {
   top5Defectes: [],
   top3Defectes: [],
   mostFrequentDefects: [],
+  defectTrends: [],
   byWorkerTable: [],
   byClpCtrTable: [],
   byDateTable: [],

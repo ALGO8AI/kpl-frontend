@@ -5,7 +5,8 @@ export const homeDefectChartV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -16,6 +17,7 @@ export const homeDefectChartV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -40,7 +42,8 @@ export const homeRepairedChartV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -51,6 +54,7 @@ export const homeRepairedChartV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -118,7 +122,8 @@ export const top5DefectesV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -129,6 +134,7 @@ export const top5DefectesV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -162,12 +168,29 @@ export const top3DefectesV3 = () => async (dispatch) => {
   } catch (e) {}
 };
 
+export const defectTrendV3 = () => async (dispatch) => {
+  try {
+    const resp = await callBackendV2(
+      "GET",
+      "routes/checking/KPI/home/defectsPercentageTrend"
+    );
+    dispatch({
+      type: "SET_CHECKING_V3",
+      payload: {
+        key: "defectTrends",
+        value: resp?.data,
+      },
+    });
+  } catch (e) {}
+};
+
 export const byWorkerTableV3 = (
   filterDateFrom = new Date().toISOString().slice(0, 10),
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -178,6 +201,7 @@ export const byWorkerTableV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -200,7 +224,8 @@ export const byClpCtrTableV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -211,6 +236,7 @@ export const byClpCtrTableV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -233,7 +259,8 @@ export const byDateTableV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -244,6 +271,7 @@ export const byDateTableV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -266,7 +294,8 @@ export const defectsLogsV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -277,6 +306,7 @@ export const defectsLogsV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
@@ -299,7 +329,8 @@ export const productionLogsV3 = (
   filterDateTo = new Date().toISOString().slice(0, 10),
   clpctr,
   tableId,
-  shifts
+  shifts,
+  line
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -310,6 +341,7 @@ export const productionLogsV3 = (
       shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",
