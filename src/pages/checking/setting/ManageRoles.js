@@ -88,7 +88,9 @@ function ManageRoles() {
   const [columns, setColumns] = useState([]);
   const [revokeActive, setRevokeActive] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    line: [],
+  });
   const [open, setOpen] = React.useState(false);
   const [filterCondition, setFilterConditiion] = useState({
     wing: [],
@@ -147,7 +149,7 @@ function ManageRoles() {
       email: data.email,
       designation: data.designation,
       role: data.role,
-      zone: data.zone,
+      zone: data.zone?.filter((item) => item !== "")?.join(","),
       wing: data.wing,
       // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
       // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
@@ -311,7 +313,10 @@ function ManageRoles() {
               onClick={() => {
                 if (role === "Admin" || role === "admin") {
                   handleClickOpen();
-                  setData(x);
+                  setData({
+                    ...data,
+                    x,
+                  });
                 } else {
                   Dispatch(
                     openSnackbar(true, "error", "Only Accessible to admin.")
@@ -764,8 +769,9 @@ function ManageRoles() {
                           <button
                             onClick={() => {
                               if (role === "Admin" || role === "admin") {
+                                console.log(row);
                                 handleClickOpen();
-                                setData(row);
+                                setData({ ...data, ...row });
                               } else {
                                 Dispatch(
                                   openSnackbar(
@@ -1015,9 +1021,6 @@ function ManageRoles() {
                   error={!data?.designation}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {[
                     { name: "Helper", value: "helper" },
                     {
@@ -1106,9 +1109,6 @@ function ManageRoles() {
                   error={!data?.department}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {[
                     {
                       name: "Management",
@@ -1168,9 +1168,6 @@ function ManageRoles() {
                   error={!data?.role}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {[
                     { name: "Admin", value: "admin" },
                     {
@@ -1215,7 +1212,11 @@ function ManageRoles() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data?.zone}
+                  value={
+                    typeof data?.zone === "string"
+                      ? data?.zone?.split(",")
+                      : data?.zone
+                  }
                   onChange={(e) =>
                     setData({
                       ...data,
@@ -1225,10 +1226,8 @@ function ManageRoles() {
                   label="Line"
                   error={!data?.zone}
                   required
+                  multiple
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {stitchingLines.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       {item}
@@ -1266,9 +1265,6 @@ function ManageRoles() {
                   error={!data?.wing}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {wings.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       {item}

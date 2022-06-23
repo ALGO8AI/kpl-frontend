@@ -449,9 +449,6 @@ function AddUser({ loadData }) {
                   error={!data?.designation}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {[
                     { name: "Helper", value: "helper" },
                     { name: "Manager", value: "manager" },
@@ -503,9 +500,6 @@ function AddUser({ loadData }) {
                   error={!data?.department}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {[
                     { name: "Management", value: "management" },
                     { name: "FIBC", value: "fibc" },
@@ -548,9 +542,6 @@ function AddUser({ loadData }) {
                   error={!data?.role}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {[
                     { name: "Admin", value: "admin" },
                     { name: "Non Admin", value: "nonAdmin" },
@@ -601,9 +592,6 @@ function AddUser({ loadData }) {
                   required
                   multiple
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {stitchingLines.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       {item}
@@ -636,9 +624,6 @@ function AddUser({ loadData }) {
                   error={!data?.wing}
                   required
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {wings.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       {item}
