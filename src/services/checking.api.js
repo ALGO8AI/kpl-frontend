@@ -187,3 +187,18 @@ export const createBarcodeV2 = async (formData) => {
     formData
   );
 };
+
+export const getBagIDconfigV3 = async () => {
+  return await callBackendV2("GET", "routes/checking/bagId/saveBagIdConfig");
+};
+
+export const saveBagIDconfigV3 = async (lotSize) => {
+  return await callBackendV2(
+    "POST",
+    "routes/checking/bagId/saveBagIdConfig",
+    true,
+    {
+      lotSize,
+    }
+  );
+};

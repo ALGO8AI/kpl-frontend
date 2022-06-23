@@ -25,13 +25,12 @@ export const homeDefectChartV3 = (
       true,
       formField
     );
-    dispatch({
-      type: "SET_CHECKING_V3",
-      payload: {
-        key: "defectedbags",
-        value: resp?.data,
-      },
-    });
+    console.log("From Null Error", resp.data.length);
+    resp?.data?.length &&
+      dispatch({
+        type: "DEFECTED_BAGS",
+        payload: resp?.data,
+      });
   } catch (e) {
     console.log(e);
   }
@@ -62,13 +61,11 @@ export const homeRepairedChartV3 = (
       true,
       formField
     );
-    dispatch({
-      type: "SET_CHECKING_V3",
-      payload: {
-        key: "repairedbags",
-        value: resp?.data,
-      },
-    });
+    resp?.data?.length &&
+      dispatch({
+        type: "REPAIRED_BAGS",
+        payload: resp?.data,
+      });
     //   dispatch({
     //     type: "SET_CHECKING_V3",
     //     payload: {
@@ -178,13 +175,15 @@ export const checkerEfficiencyV3 = (
       true,
       formField
     );
-    dispatch({
-      type: "SET_CHECKING_V3",
-      payload: {
-        key: "checkerEfficiency",
-        value: resp?.data,
-      },
-    });
+    console.log("checkerEfficiency error", resp.data.length);
+    resp?.data?.length &&
+      dispatch({
+        type: "SET_CHECKING_V3",
+        payload: {
+          key: "checkerEfficiency",
+          value: resp?.data,
+        },
+      });
   } catch (e) {}
 };
 
@@ -357,6 +356,38 @@ export const defectsLogsV3 = (
         key: "defectsLogs",
         value: resp?.data,
       },
+    });
+  } catch (e) {}
+};
+
+export const checkerPerformanceV3 = (
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
+  clpctr,
+  tableId,
+  shifts,
+  line = localStorage.getItem("kpl_line")?.split(",")
+) => async (dispatch) => {
+  try {
+    const formField = {
+      clpctr,
+      tableId,
+      filterDateFrom,
+      filterDateTo,
+      shifts,
+      username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
+      line,
+    };
+    const resp = await callBackendV2(
+      "POST",
+      "routes/checking/KPI/home/checkerPerformance",
+      true,
+      formField
+    );
+    dispatch({
+      type: "CHECKER_PERFORMANCE",
+      payload: resp?.data,
     });
   } catch (e) {}
 };

@@ -13,15 +13,33 @@ const initStore = {
   defectsLogs: [],
   productionLogs: [],
   notificationLogs: [],
+  checkerPerformance: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
+  console.log("ACTION", action.type);
   switch (action.type) {
     case "SET_CHECKING_V3":
       return {
         ...state,
         [action.payload.key]: action.payload.value,
       };
+    case "CHECKER_PERFORMANCE":
+      return {
+        ...state,
+        checkerPerformance: action.payload,
+      };
+    case "REPAIRED_BAGS":
+      return {
+        ...state,
+        repairedbags: action.payload,
+      };
+    case "DEFECTED_BAGS":
+      return {
+        ...state,
+        defectedbags: action.payload,
+      };
+
     default:
       return state;
   }

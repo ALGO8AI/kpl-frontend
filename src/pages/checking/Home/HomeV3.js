@@ -46,6 +46,7 @@ import {
   byDateTableV3,
   byWorkerTableV3,
   checkerEfficiencyV3,
+  checkerPerformanceV3,
   defectTrendV3,
   getAllTableIdV3,
   homeDefectChartV3,
@@ -82,6 +83,7 @@ export default function HomeV2() {
     top3Defectes,
     defectTrends,
     checkerEfficiency,
+    checkerPerformance,
   } = useSelector((state) => state?.CheckV3);
 
   // Functions
@@ -185,6 +187,7 @@ export default function HomeV2() {
     Dispatch(byClpCtrTableV3());
     Dispatch(byDateTableV3());
     Dispatch(defectTrendV3());
+    Dispatch(checkerPerformanceV3());
     setLoading(false);
   };
   // load filtered data
@@ -213,6 +216,17 @@ export default function HomeV2() {
         inputLINE
       )
     );
+    Dispatch(
+      checkerPerformanceV3(
+        state.from,
+        state.to,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE
+      )
+    );
+
     Dispatch(
       checkerEfficiencyV3(
         state.from,
@@ -688,7 +702,11 @@ export default function HomeV2() {
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
-          <CheckingPerformance loading={loading} />
+          {checkerPerformance?.length === 0 ? (
+            <Loader />
+          ) : (
+            <CheckingPerformance loading={loading} data={checkerPerformance} />
+          )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           <PDIdefect loading={loading} />
@@ -1313,8 +1331,11 @@ function CheckingEfficiency({ loading, data }) {
 }
 
 // Chart 5
-function CheckingPerformance({ loading }) {
-  const series = [45, 55];
+function CheckingPerformance({ loading, data }) {
+  const series = [
+    Boolean(data) ? data[0]?.checkerPerformance : 0,
+    Boolean(data) ? 100 - data[0]?.checkerPerformance : 0,
+  ];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -1326,13 +1347,13 @@ function CheckingPerformance({ loading }) {
     chart: {
       type: "donut",
     },
-    labels: [],
+    labels: ["Performance", "Non-Performance"],
   };
   return (
     <div className={Styles.Card}>
-      <div className={Styles.Overlap}>
+      {/* <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
-      </div>
+      </div> */}
       <h3>Checking Performance %</h3>
       {loading && <Loader />}
 
@@ -1347,6 +1368,30 @@ function CheckingPerformance({ loading }) {
         </div>
         <div className={Styles.Right2}>
           <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#094573",
+              }}
+            ></div>
+            <p style={{ color: "#094573" }}>Performance</p>
+            <p style={{ color: "#094573" }}>
+              {data && data[0]?.checkerPerformance}
+            </p>
+          </div>
+          <div className={Styles.Data}>
+            <div
+              className={Styles.Dot}
+              style={{
+                backgroundColor: "#ffce38",
+              }}
+            ></div>
+            <p style={{ color: "#ffce38" }}>Non-Performance</p>
+            <p style={{ color: "#ffce38" }}>
+              {data && 100 - data[0]?.checkerPerformance}
+            </p>
+          </div>
+          {/* <div className={Styles.Data}>
             <p style={{ color: "grey" }}>Available Time</p>
             <p style={{ color: "grey" }}>:</p>
             <p style={{ color: "grey" }}>6 hrs</p>
@@ -1360,7 +1405,7 @@ function CheckingPerformance({ loading }) {
             <p style={{ color: "grey" }}>Bags Checked</p>
             <p style={{ color: "grey" }}>:</p>
             <p style={{ color: "grey" }}>100</p>
-          </div>
+          </div> */}
           <hr />
         </div>
       </div>

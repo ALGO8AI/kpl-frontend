@@ -20,7 +20,12 @@ import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 import { generateBagIds } from "../../../services/api.service";
-import { bagCount, createBarcodeV2 } from "../../../services/checking.api";
+import {
+  bagCount,
+  createBarcodeV2,
+  getBagIDconfigV3,
+  saveBagIDconfigV3,
+} from "../../../services/checking.api";
 import { theme } from "../../../Utility/constants";
 
 function GenerateBarcode() {
@@ -37,6 +42,7 @@ function GenerateBarcode() {
 
   const [tableWiseData, setTableWiseData] = useState([]);
   const [selectedTable, setSelectedTable] = useState([]);
+  const [config, setConfig] = useState(0);
 
   const saveBagID = async () => {
     try {
@@ -70,9 +76,22 @@ function GenerateBarcode() {
       const resp = await bagCount();
       console.log(resp?.data);
       setTableWiseData(resp?.data);
+      const resp2 = await getBagIDconfigV3();
+      console.log("RESP2", resp2);
+      setConfig(resp2?.data[0]?.maxCount);
     } catch (e) {
       console.log(e.message);
     }
+  };
+
+  const saveConfig = async () => {
+    try {
+      const resp = await saveBagIDconfigV3(config);
+      Dispatch(openSnackbar(true, "success", resp.message));
+      const resp2 = await bagCount();
+      console.log(resp2?.data);
+      setTableWiseData(resp2?.data);
+    } catch (e) {}
   };
 
   useEffect(() => {
@@ -90,6 +109,34 @@ function GenerateBarcode() {
         sm={4}
         style={{ height: "min-content", padding: "12px" }}
       >
+        <Grid
+          container
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "12px",
+          }}
+        >
+          <Grid item xs={4}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              value={config}
+              onChange={(e) => setConfig(e.target.value)}
+              type="number"
+              label="Max Count"
+              // style={{ marginBottom: "1rem" }}
+            />
+          </Grid>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <Button variant="contained" onClick={saveConfig}>
+              SAVE CONFIG
+            </Button>
+          </Grid>
+        </Grid>
         <TableContainer component={Paper} style={{ marginBottom: "12px" }}>
           <Table aria-label="simple table">
             <TableHead>

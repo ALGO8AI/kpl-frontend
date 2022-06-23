@@ -213,10 +213,13 @@ function WorkerScheduleV2() {
 
   const copySchedule = async () => {
     try {
-      // const resp = await copyWorkerScheduleV3();
-      // console.log(resp);
-      // loadData();
-      console.log(wingWiseShift);
+      const resp = await copyWorkerScheduleV3();
+      console.log(resp);
+      setMsg(resp?.msg);
+      setSeverity("success");
+      setOpen(true);
+      loadData();
+      // console.log(wingWiseShift);
     } catch (e) {}
   };
 
