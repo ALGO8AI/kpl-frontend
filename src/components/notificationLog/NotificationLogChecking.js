@@ -27,10 +27,7 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../redux/CommonReducer/CommonAction";
-import {
-  notificationLogsV3,
-  workerLogsV3,
-} from "../../redux/CheckingReducer/CheckingV3Action";
+import { notificationLogsV3 } from "../../redux/CheckingReducer/CheckingV3Action";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -115,7 +112,6 @@ function NotificationLogChecking() {
   const getLogs = async () => {
     try {
       Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1]));
-      Dispatch(workerLogsV3(weekRange()[1], weekRange()[1]));
     } catch (err) {
       // console.log(err);
     }
@@ -129,7 +125,6 @@ function NotificationLogChecking() {
   const filterLogs = async () => {
     try {
       Dispatch(notificationLogsV3(filterDateFrom, filterDateTo));
-      Dispatch(workerLogsV3(filterDateFrom, filterDateTo));
     } catch (err) {
       // console.log(err);
     }
@@ -266,7 +261,7 @@ function NotificationLogChecking() {
             {/* <Tab label="Crowd Data" {...a11yProps(0)} />
             <Tab label="Worker Data" {...a11yProps(1)} /> */}
             <Tab label="Defect Data" {...a11yProps(0)} />
-            <Tab label="Checker Details" {...a11yProps(1)} />
+            {/* <Tab label="Checker Details" {...a11yProps(1)} /> */}
 
             {/* <Tab label="Worker Data" {...a11yProps(2)} />
             <Tab label="Machine Data" {...a11yProps(3)} /> */}
@@ -834,7 +829,7 @@ function NotificationLogChecking() {
             </Grid>
           )}
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        {/* <TabPanel value={value} index={1}>
           {workerLog?.length > 0 && (
             <Grid
               container
@@ -913,7 +908,7 @@ function NotificationLogChecking() {
               />
             </Grid>
           )}
-        </TabPanel>
+        </TabPanel> */}
 
         {/* <TabPanel value={value} index={2}>
           {data?.workerData?.length > 0 && (

@@ -467,15 +467,24 @@ export const notificationLogsV3 = (filterDateFrom, filterDateTo) => async (
   } catch (e) {}
 };
 
-export const workerLogsV3 = (filterDateFrom, filterDateTo) => async (
-  dispatch
-) => {
+export const workerLogsV3 = (
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
+  clpctr,
+  tableId,
+  shifts,
+  line = localStorage.getItem("kpl_line")?.split(",")
+) => async (dispatch) => {
   try {
     const formField = {
+      clpctr,
+      tableId,
       filterDateFrom,
       filterDateTo,
+      shifts,
       username: localStorage.getItem("kpl_username"),
       wing: localStorage.getItem("kpl_wing"),
+      line,
     };
     const resp = await callBackendV2(
       "POST",

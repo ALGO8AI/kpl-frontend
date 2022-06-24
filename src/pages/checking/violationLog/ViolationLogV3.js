@@ -58,6 +58,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import {
   defectsLogsV3,
   productionLogsV3,
+  workerLogsV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
 
 function TabPanel(props) {
@@ -123,7 +124,7 @@ function ViolationLogV3() {
   // React dispatch
   const Dispatch = useDispatch();
   // React Selector
-  const { allTableId, defectsLogs, productionLogs } = useSelector(
+  const { allTableId, defectsLogs, productionLogs, workerLog } = useSelector(
     (state) => state?.CheckV3
   );
 
@@ -265,6 +266,17 @@ function ViolationLogV3() {
         inputLINE
       )
     );
+    Dispatch(
+      workerLogsV3(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE
+      )
+    );
+
     setTimeout(() => {
       setDataLoading(false);
     }, 3000);
@@ -274,6 +286,7 @@ function ViolationLogV3() {
     setDataLoading(true);
     Dispatch(defectsLogsV3());
     Dispatch(productionLogsV3());
+    Dispatch(workerLogsV3());
     setTimeout(() => {
       setDataLoading(false);
     }, 3000);
@@ -782,157 +795,9 @@ function ViolationLogV3() {
             >
               <Tab label="Defects" {...a11yProps(0)} />
               <Tab label="Production Summary" {...a11yProps(1)} />
+              <Tab label="Checker Details" {...a11yProps(1)} />
             </Tabs>
           </AppBar>
-
-          <TabPanel value={state.violationTab} index={1}>
-            {dataLoading ? (
-              <Grid item container xs={12}>
-                <LinearProgress style={{ width: "100%" }} />
-              </Grid>
-            ) : (
-              <Grid container item xs={12} style={{ padding: "12px" }}>
-                <ViolationTable
-                  data={productionLogs}
-                  rowClick={rowClick}
-                  selectedRow={selectedRow}
-                  loading={loader}
-                  columns={[
-                    {
-                      field: "actionStatusV2",
-                      title: "Details",
-                      render: (rowData) =>
-                        rowData?.defectName ? (
-                          <Link
-                            to={`/checking/violationDetails/${rowData.Id}`}
-                            className={returnClassNameDefect(
-                              rowData.actionStatus.toLowerCase()
-                            )}
-                            onClick={() => {
-                              localStorage.setItem("VIOLATION", "defects");
-                              localStorage.setItem(
-                                "VIOLATION-TYPE",
-                                "Defect Violation"
-                              );
-                              localStorage.setItem(
-                                "VIOLATION-STATUS",
-                                returnStatusDefect(
-                                  rowData.actionStatus.toLowerCase()
-                                )
-                              );
-                            }}
-                          >
-                            {returnStatusDefect(
-                              rowData.actionStatus.toLowerCase()
-                            )}
-                          </Link>
-                        ) : (
-                          <Link
-                            to={`/checking/violationDetails/${rowData.Id}`}
-                            className={"Link-btn-green"}
-                            onClick={() => {
-                              localStorage.setItem("VIOLATION", "defects");
-                              localStorage.setItem(
-                                "VIOLATION-TYPE",
-                                "Defect Violation"
-                              );
-                              localStorage.setItem(
-                                "VIOLATION-STATUS",
-                                "Okay Bag"
-                              );
-                            }}
-                          >
-                            Okay Bag
-                          </Link>
-                        ),
-                    },
-                    // {
-                    //   title: "Status",
-                    //   field: "actionStatusV2",
-                    // },
-                    {
-                      title: "Log ID",
-                      field: "Id",
-                    },
-
-                    { title: "Bag ID", field: "bagId" },
-                    {
-                      title: "Table No.",
-                      field: "table_no",
-                    },
-                    {
-                      title: "Date",
-                      field: "dateTime",
-                      render: (rowData) => {
-                        return modifyPrevDate(rowData.dateTime);
-                      },
-                    },
-                    {
-                      title: "CTR No.",
-                      field: "ctr_no",
-                    },
-                    {
-                      title: "Time",
-                      field: "time",
-                    },
-
-                    {
-                      title: "Checker ID",
-                      field: "checker_emp_id",
-                    },
-                    {
-                      title: "Checker Name",
-                      field: "checker_name",
-                    },
-
-                    {
-                      title: "Tailor No.",
-                      field: "tailorNumber",
-                      render: (x) => {
-                        return x.tailorNumber
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
-                      },
-                    },
-                    {
-                      title: "Tailor Name",
-                      field: "tailorName",
-                      render: (x) => {
-                        return x.tailorName
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
-                      },
-                    },
-
-                    {
-                      title: "Defect Name",
-                      field: "defectName",
-                      render: (x) => {
-                        return x.defectName
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
-                      },
-                    },
-                    // { title: "Action Status", field: "actionStatus" },
-
-                    { title: "Wing", field: "wing" },
-                    { title: "Line", field: "line" },
-                    { title: "Shift", field: "shift" },
-                    {
-                      title: "Supervisor ID",
-                      field: "supervisorId",
-                    },
-
-                    {
-                      title: "Supervisor Name",
-                      field: "supervisorName",
-                    },
-                  ]}
-                />
-              </Grid>
-            )}
-          </TabPanel>
-
           <TabPanel value={state.violationTab} index={0}>
             {dataLoading ? (
               <Grid item container xs={12}>
@@ -1088,6 +953,214 @@ function ViolationLogV3() {
                     {
                       title: "Supervisor Name",
                       field: "supervisorName",
+                    },
+                  ]}
+                />
+              </Grid>
+            )}
+          </TabPanel>
+          <TabPanel value={state.violationTab} index={1}>
+            {dataLoading ? (
+              <Grid item container xs={12}>
+                <LinearProgress style={{ width: "100%" }} />
+              </Grid>
+            ) : (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <ViolationTable
+                  data={productionLogs}
+                  rowClick={rowClick}
+                  selectedRow={selectedRow}
+                  loading={loader}
+                  columns={[
+                    {
+                      field: "actionStatusV2",
+                      title: "Details",
+                      render: (rowData) =>
+                        rowData?.defectName ? (
+                          <Link
+                            to={`/checking/violationDetails/${rowData.Id}`}
+                            className={returnClassNameDefect(
+                              rowData.actionStatus.toLowerCase()
+                            )}
+                            onClick={() => {
+                              localStorage.setItem("VIOLATION", "defects");
+                              localStorage.setItem(
+                                "VIOLATION-TYPE",
+                                "Defect Violation"
+                              );
+                              localStorage.setItem(
+                                "VIOLATION-STATUS",
+                                returnStatusDefect(
+                                  rowData.actionStatus.toLowerCase()
+                                )
+                              );
+                            }}
+                          >
+                            {returnStatusDefect(
+                              rowData.actionStatus.toLowerCase()
+                            )}
+                          </Link>
+                        ) : (
+                          <Link
+                            to={`/checking/violationDetails/${rowData.Id}`}
+                            className={"Link-btn-green"}
+                            onClick={() => {
+                              localStorage.setItem("VIOLATION", "defects");
+                              localStorage.setItem(
+                                "VIOLATION-TYPE",
+                                "Defect Violation"
+                              );
+                              localStorage.setItem(
+                                "VIOLATION-STATUS",
+                                "Okay Bag"
+                              );
+                            }}
+                          >
+                            Okay Bag
+                          </Link>
+                        ),
+                    },
+                    // {
+                    //   title: "Status",
+                    //   field: "actionStatusV2",
+                    // },
+                    {
+                      title: "Log ID",
+                      field: "Id",
+                    },
+
+                    { title: "Bag ID", field: "bagId" },
+                    {
+                      title: "Table No.",
+                      field: "table_no",
+                    },
+                    {
+                      title: "Date",
+                      field: "dateTime",
+                      render: (rowData) => {
+                        return modifyPrevDate(rowData.dateTime);
+                      },
+                    },
+                    {
+                      title: "CTR No.",
+                      field: "ctr_no",
+                    },
+                    {
+                      title: "Time",
+                      field: "time",
+                    },
+
+                    {
+                      title: "Checker ID",
+                      field: "checker_emp_id",
+                    },
+                    {
+                      title: "Checker Name",
+                      field: "checker_name",
+                    },
+
+                    {
+                      title: "Tailor No.",
+                      field: "tailorNumber",
+                      render: (x) => {
+                        return x.tailorNumber
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+                    {
+                      title: "Tailor Name",
+                      field: "tailorName",
+                      render: (x) => {
+                        return x.tailorName
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+
+                    {
+                      title: "Defect Name",
+                      field: "defectName",
+                      render: (x) => {
+                        return x.defectName
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+                    // { title: "Action Status", field: "actionStatus" },
+
+                    { title: "Wing", field: "wing" },
+                    { title: "Line", field: "line" },
+                    { title: "Shift", field: "shift" },
+                    {
+                      title: "Supervisor ID",
+                      field: "supervisorId",
+                    },
+
+                    {
+                      title: "Supervisor Name",
+                      field: "supervisorName",
+                    },
+                  ]}
+                />
+              </Grid>
+            )}
+          </TabPanel>
+          <TabPanel value={state.violationTab} index={2}>
+            {dataLoading ? (
+              <Grid item container xs={12}>
+                <LinearProgress style={{ width: "100%" }} />
+              </Grid>
+            ) : (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <ViolationTable
+                  data={workerLog}
+                  rowClick={() => {}}
+                  // selectedRow={selectedRow}
+                  loading={loader}
+                  columns={[
+                    {
+                      title: "Date",
+                      field: "dateTime",
+                      render: (rowData) => {
+                        // const NewDate = moment(new Date(rowData.dateTime))
+                        //   .format("DD/MM/YYYY")
+                        //   .toString();
+                        // const d = rowData.dateTime;
+                        return modifyPrevDate(rowData.dateTime);
+                      },
+                    },
+                    {
+                      title: "Checker ID",
+                      field: "checkerID",
+                    },
+                    {
+                      title: "Checker Name",
+                      field: "checkerName",
+                    },
+                    {
+                      title: "Table ID",
+                      field: "tableId",
+                    },
+                    {
+                      title: "Bags Checked",
+                      field: "NoOfBagsChecked",
+                    },
+                    {
+                      title: "Defected Bags",
+                      field: "NoOfDefectedBags",
+                    },
+                    {
+                      title: "Shift",
+                      field: "shift",
+                    },
+                    {
+                      title: "Wing",
+                      field: "wing",
+                    },
+                    {
+                      title: "Line",
+                      field: "line",
                     },
                   ]}
                 />
