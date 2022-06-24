@@ -87,10 +87,7 @@ function WorkerScheduleV2() {
   const [workerList, setWorkerList] = useState([]);
   const [clpCtr, setClpCtr] = useState([]);
   const [scheduleData, setScheduleData] = useState([]);
-  const [CTR, setCTR] = React.useState({
-    clpctr: "",
-    ctrId: "",
-  });
+  const [CTR, setCTR] = React.useState({});
   const [temp, setTemp] = useState(false);
   const [value, setValue] = React.useState(0);
 
@@ -159,6 +156,7 @@ function WorkerScheduleV2() {
   const saveTable = async (id) => {
     try {
       let userData = scheduleData?.filter((item) => item?.id === id)[0];
+      console.log(userData);
       let date = new Date(userData?.dateTime);
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
@@ -175,31 +173,32 @@ function WorkerScheduleV2() {
           ? "1"
           : "0",
         ctr: userData?.ctr,
-        clpcltr: userData?.clpcltr,
+        clpctr: userData?.clpctr,
         ...CTR[id],
       };
-      if (!formData?.workerId) {
-        setSeverity("error");
-        setMsg("Please select worker");
-        setOpen(true);
-        return;
-      } else if (
-        !formData?.ctr ||
-        formData?.ctr === "" ||
-        formData?.ctr === undefined ||
-        formData?.ctr === "undefined" ||
-        formData?.ctr === null
-      ) {
-        setSeverity("error");
-        setMsg("Please select ctr");
-        setOpen(true);
-        return;
-      }
-      const resp = await saveWorkerScheduleV3(formData);
-      setMsg(resp.message);
-      setSeverity("success");
-      setOpen(true);
-      loadData();
+      console.log(formData);
+      // if (!formData?.workerId) {
+      //   setSeverity("error");
+      //   setMsg("Please select worker");
+      //   setOpen(true);
+      //   return;
+      // } else if (
+      //   !formData?.ctr ||
+      //   formData?.ctr === "" ||
+      //   formData?.ctr === undefined ||
+      //   formData?.ctr === "undefined" ||
+      //   formData?.ctr === null
+      // ) {
+      //   setSeverity("error");
+      //   setMsg("Please select ctr");
+      //   setOpen(true);
+      //   return;
+      // }
+      // const resp = await saveWorkerScheduleV3(formData);
+      // setMsg(resp.message);
+      // setSeverity("success");
+      // setOpen(true);
+      // loadData();
     } catch (e) {
       console.log(e);
       setMsg(e.message);
