@@ -204,6 +204,20 @@ export const top3DefectesV3 = () => async (dispatch) => {
   } catch (e) {}
 };
 
+export const wingwiseSummaryV3 = () => async (dispatch) => {
+  try {
+    const resp = await callBackendV2(
+      "GET",
+      "routes/checking/KPI/home/wingWiseSummary"
+    );
+    resp &&
+      dispatch({
+        type: "WING_WISE_SUMMARY",
+        payload: resp?.data,
+      });
+  } catch (e) {}
+};
+
 export const defectTrendV3 = () => async (dispatch) => {
   try {
     const resp = await callBackendV2(

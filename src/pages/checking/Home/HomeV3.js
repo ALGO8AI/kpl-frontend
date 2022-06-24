@@ -53,6 +53,7 @@ import {
   homeRepairedChartV3,
   top3DefectesV3,
   top5DefectesV3,
+  wingwiseSummaryV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
 import { toBeValid } from "@testing-library/jest-dom/dist/matchers";
 
@@ -68,6 +69,7 @@ export default function HomeV2() {
   const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
   const [loading, setLoading] = useState(false);
+  const [localFilter, setLocalFilter] = useState(false);
 
   // React dispatch
   const Dispatch = useDispatch();
@@ -84,6 +86,7 @@ export default function HomeV2() {
     defectTrends,
     checkerEfficiency,
     checkerPerformance,
+    wingWiseSummary,
   } = useSelector((state) => state?.CheckV3);
 
   // Functions
@@ -134,6 +137,7 @@ export default function HomeV2() {
 
   // refresh
   const refreshData = async () => {
+    setLocalFilter(true);
     setInputCTR([]);
     setInputMACHINEid([]);
     setInputSHIFT([]);
@@ -151,6 +155,9 @@ export default function HomeV2() {
       payload: weekRange()[1],
     });
     loadData();
+    setTimeout(() => {
+      setLocalFilter(false);
+    }, 3000);
   };
 
   // load ctr filter dropdown data
@@ -175,7 +182,6 @@ export default function HomeV2() {
 
   // load initial table data
   const loadData = () => {
-    console.log("CheckingV3");
     setLoading(true);
     Dispatch(getAllTableIdV3());
     Dispatch(homeRepairedChartV3());
@@ -183,6 +189,7 @@ export default function HomeV2() {
     Dispatch(checkerEfficiencyV3());
     Dispatch(top5DefectesV3());
     Dispatch(top3DefectesV3());
+    Dispatch(wingwiseSummaryV3());
     Dispatch(byWorkerTableV3());
     Dispatch(byClpCtrTableV3());
     Dispatch(byDateTableV3());
@@ -192,6 +199,8 @@ export default function HomeV2() {
   };
   // load filtered data
   const dateFilter = async () => {
+    console.log("Filter Enabled");
+    setLocalFilter(true);
     setLoading(true);
     Dispatch({
       type: "ENABLE_HOME_FILTER",
@@ -279,6 +288,9 @@ export default function HomeV2() {
       )
     );
     setLoading(false);
+    setTimeout(() => {
+      setLocalFilter(false);
+    }, 3000);
   };
 
   // Use Effects
@@ -319,6 +331,7 @@ export default function HomeV2() {
       filterDateFrom: state?.from,
       filterDateTo: state?.to,
       shift: inputSHIFT,
+      wing: localStorage.getItem("kpl_wing"),
     };
 
     try {
@@ -334,6 +347,7 @@ export default function HomeV2() {
         tableId: inputMACHINEid,
         filterDateFrom: state?.from,
         filterDateTo: state?.to,
+        wing: localStorage.getItem("kpl_wing"),
       };
       const resp = await getDynamicClpCtrListChecking(body);
       setClpCtr(resp?.clpctr);
@@ -662,6 +676,7 @@ export default function HomeV2() {
               data={repairedbags}
               loading={loading}
               defectedbags={defectedbags}
+              localFilter={localFilter}
             />
           )}
         </Grid>
@@ -669,21 +684,33 @@ export default function HomeV2() {
           {defectedbags?.length === 0 ? (
             <Loader />
           ) : (
-            <DefectPercentageDonut data={defectedbags} loading={loading} />
+            <DefectPercentageDonut
+              data={defectedbags}
+              loading={loading}
+              localFilter={localFilter}
+            />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {top5Defectes?.length === 0 ? (
             <Loader />
           ) : (
-            <Top5Defects data={top5Defectes} loading={loading} />
+            <Top5Defects
+              data={top5Defectes}
+              loading={loading}
+              localFilter={localFilter}
+            />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {top3Defectes?.length === 0 ? (
             <Loader />
           ) : (
-            <Top3Defects data={top3Defectes} loading={loading} />
+            <Top3Defects
+              data={top3Defectes}
+              loading={loading}
+              localFilter={localFilter}
+            />
           )}
         </Grid>
 
@@ -691,21 +718,33 @@ export default function HomeV2() {
           {checkerEfficiency?.length === 0 ? (
             <Loader />
           ) : (
-            <CheckingEfficiency loading={loading} data={checkerEfficiency} />
+            <CheckingEfficiency
+              loading={loading}
+              data={checkerEfficiency}
+              localFilter={localFilter}
+            />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {defectTrends?.length === 0 ? (
             <Loader />
           ) : (
-            <DefectTrend loading={loading} data={defectTrends} />
+            <DefectTrend
+              loading={loading}
+              data={defectTrends}
+              localFilter={localFilter}
+            />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
           {checkerPerformance?.length === 0 ? (
             <Loader />
           ) : (
-            <CheckingPerformance loading={loading} data={checkerPerformance} />
+            <CheckingPerformance
+              loading={loading}
+              data={checkerPerformance}
+              localFilter={localFilter}
+            />
           )}
         </Grid>
         <Grid className={Styles.ChartContainer} xs={12} sm={12} md={3} lg={3}>
@@ -722,12 +761,19 @@ export default function HomeV2() {
           style={{ padding: "8px" }}
           className={Styles.SummaryTable_Container}
         >
-          <div className={Styles.Overlap}>
+          {/* <div className={Styles.Overlap}>
             <h3 className={Styles.overlapTitle}>Coming Soon</h3>
-          </div>
-          <Typography variant="h6">Wing-wise comparative summary</Typography>
+          </div> */}
+          <Typography variant="h6">
+            Wing-wise comparative summary{" "}
+            <span>{localFilter && <Loader />}</span>
+          </Typography>
           {/* table */}
-          <WingWiseTable />
+          {wingWiseSummary?.length === 0 ? (
+            <Loader />
+          ) : (
+            <WingWiseTable data={wingWiseSummary} localFilter={localFilter} />
+          )}
         </Grid>
       </Grid>
       {/* tab view */}
@@ -744,7 +790,7 @@ export default function HomeV2() {
 // components
 
 // Chart 1
-function RepairedBagDonut({ data, loading, defectedbags }) {
+function RepairedBagDonut({ data, loading, defectedbags, localFilter }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643", "#c47171"],
     dataLabels: {
@@ -760,7 +806,9 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
   };
   return (
     <div className={Styles.Card}>
-      <h3>Repaired Bags %</h3>
+      <h3>
+        Repaired Bags % <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
       <div className={Styles.Content}>
         <div className={Styles.Left}>
@@ -847,7 +895,7 @@ function RepairedBagDonut({ data, loading, defectedbags }) {
 }
 
 // chart 2
-function DefectPercentageDonut({ data, loading }) {
+function DefectPercentageDonut({ data, loading, localFilter }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -863,7 +911,9 @@ function DefectPercentageDonut({ data, loading }) {
   };
   return (
     <div className={Styles.Card}>
-      <h3>Defect %</h3>
+      <h3>
+        Defect % <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -953,7 +1003,7 @@ function DefectPercentageDonut({ data, loading }) {
 }
 
 // chart 3
-function Top5Defects({ data, loading }) {
+function Top5Defects({ data, loading, localFilter }) {
   const DATA = {
     series: [
       {
@@ -1030,7 +1080,9 @@ function Top5Defects({ data, loading }) {
   };
   return (
     <div className={Styles.Card}>
-      <h3>Top 5 Defects</h3>
+      <h3>
+        Top 5 Defects <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -1047,7 +1099,7 @@ function Top5Defects({ data, loading }) {
   );
 }
 
-function Top3Defects({ data, loading }) {
+function Top3Defects({ data, loading, localFilter }) {
   const DATA = {
     series: [
       {
@@ -1124,7 +1176,9 @@ function Top3Defects({ data, loading }) {
   };
   return (
     <div className={Styles.Card}>
-      <h3>Most 3 Frequent Defects</h3>
+      <h3>
+        Most 3 Frequent Defects <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -1142,7 +1196,7 @@ function Top3Defects({ data, loading }) {
 }
 
 // chart 4
-function DefectTrend({ loading, data }) {
+function DefectTrend({ loading, data, localFilter }) {
   const DATA = {
     series: [
       {
@@ -1230,7 +1284,9 @@ function DefectTrend({ loading, data }) {
       {/* <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
       </div> */}
-      <h3>Defect % Trend</h3>
+      <h3>
+        Defect % Trend <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -1248,7 +1304,7 @@ function DefectTrend({ loading, data }) {
 }
 
 // Chart 5
-function CheckingEfficiency({ loading, data }) {
+function CheckingEfficiency({ loading, data, localFilter }) {
   const series = [
     Boolean(data) ? data[0]?.checkerEfficiency : 0,
     Boolean(data) ? 100 - data[0]?.checkerEfficiency : 0,
@@ -1271,7 +1327,9 @@ function CheckingEfficiency({ loading, data }) {
       {/* <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
       </div> */}
-      <h3>Checking Efficiency %</h3>
+      <h3>
+        Checking Efficiency % <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -1305,7 +1363,7 @@ function CheckingEfficiency({ loading, data }) {
             ></div>
             <p style={{ color: "#ffce38" }}>Non-Efficient</p>
             <p style={{ color: "#ffce38" }}>
-              {data && 100 - data[0]?.checkerEfficiency}
+              {(data && 100 - data[0]?.checkerEfficiency)?.toFixed(2)}
             </p>
           </div>
           {/* <div className={Styles.Data}>
@@ -1331,7 +1389,7 @@ function CheckingEfficiency({ loading, data }) {
 }
 
 // Chart 5
-function CheckingPerformance({ loading, data }) {
+function CheckingPerformance({ loading, data, localFilter }) {
   const series = [
     Boolean(data) ? data[0]?.checkerPerformance : 0,
     Boolean(data) ? 100 - data[0]?.checkerPerformance : 0,
@@ -1354,7 +1412,9 @@ function CheckingPerformance({ loading, data }) {
       {/* <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
       </div> */}
-      <h3>Checking Performance %</h3>
+      <h3>
+        Checking Performance % <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -1388,7 +1448,7 @@ function CheckingPerformance({ loading, data }) {
             ></div>
             <p style={{ color: "#ffce38" }}>Non-Performance</p>
             <p style={{ color: "#ffce38" }}>
-              {data && 100 - data[0]?.checkerPerformance}
+              {(data && 100 - data[0]?.checkerPerformance)?.toFixed(2)}
             </p>
           </div>
           {/* <div className={Styles.Data}>
@@ -1414,7 +1474,7 @@ function CheckingPerformance({ loading, data }) {
 }
 
 // Chart 6
-function PDIdefect({ loading }) {
+function PDIdefect({ loading, localFilter }) {
   const series = [12, 88];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
@@ -1434,7 +1494,9 @@ function PDIdefect({ loading }) {
       <div className={Styles.Overlap}>
         <h3 className={Styles.overlapTitle}>Coming Soon</h3>
       </div>
-      <h3>PDI Defect %</h3>
+      <h3>
+        PDI Defect % <span>{localFilter && <Loader />}</span>
+      </h3>
       {loading && <Loader />}
 
       <div className={Styles.Content}>
@@ -1465,88 +1527,31 @@ function PDIdefect({ loading }) {
 }
 
 // comparative table
-function WingWiseTable() {
+function WingWiseTable({ data }) {
   return (
     <div className={Styles.TableContainer}>
       <table>
         <thead>
           <tr>
             {[
-              "",
-              "Wing 1",
-              "Wing 2",
-              "Wing 3",
-              "Wing 4",
-              "Wing 5",
-              "Wing 6",
-              "Wing 7",
+              "Wing",
+              "Defect %",
+              "Repaired %",
+              "Checker Efficiency",
+              "Checker Performance",
             ].map((item, index) => (
               <th key={index}>{item}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {[
-            {
-              type: "Repaired Bags %",
-              wing1: 8,
-              wing2: 7,
-              wing3: 6,
-              wing4: 12,
-              wing5: 11,
-              wing6: 5,
-              wing7: 9,
-            },
-            {
-              type: "Defects %",
-              wing1: 8,
-              wing2: 7,
-              wing3: 6,
-              wing4: 12,
-              wing5: 11,
-              wing6: 5,
-              wing7: 9,
-            },
-            {
-              type: "Checking Efficiency %",
-              wing1: 8,
-              wing2: 7,
-              wing3: 6,
-              wing4: 12,
-              wing5: 11,
-              wing6: 5,
-              wing7: 9,
-            },
-            {
-              type: "Checking Performance %",
-              wing1: 8,
-              wing2: 7,
-              wing3: 6,
-              wing4: 12,
-              wing5: 11,
-              wing6: 5,
-              wing7: 9,
-            },
-            {
-              type: "PDI Defects %",
-              wing1: 8,
-              wing2: 7,
-              wing3: 6,
-              wing4: 12,
-              wing5: 11,
-              wing6: 5,
-              wing7: 9,
-            },
-          ].map((item, index) => (
+          {data.map((item, index) => (
             <tr>
-              <td>{item.type}</td>
-              <td>{item.wing1}</td>
-              <td>{item.wing2}</td>
-              <td>{item.wing3}</td>
-              <td>{item.wing4}</td>
-              <td>{item.wing5}</td>
-              <td>{item.wing6}</td>
-              <td>{item.wing7}</td>
+              <td>{item?.wing}</td>
+              <td>{item?.defectPer}</td>
+              <td>{item?.repairedPer}</td>
+              <td>{item?.checkerEfficiency}</td>
+              <td>{item?.checkerPerformance}</td>
             </tr>
           ))}
         </tbody>

@@ -14,10 +14,10 @@ const initStore = {
   productionLogs: [],
   notificationLogs: [],
   checkerPerformance: [],
+  wingWiseSummary: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
-  console.log("ACTION", action.type);
   switch (action.type) {
     case "SET_CHECKING_V3":
       return {
@@ -38,6 +38,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         defectedbags: action.payload,
+      };
+    case "WING_WISE_SUMMARY":
+      return {
+        ...state,
+        wingWiseSummary: action.payload,
       };
 
     default:
