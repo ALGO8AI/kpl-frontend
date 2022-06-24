@@ -395,7 +395,7 @@ export default function Navigation() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      <SupportButton onClick={handleClickOpenCTR}>Change CTR</SupportButton>
+      {/* <SupportButton onClick={handleClickOpenCTR}>Change CTR</SupportButton> */}
 
       <SupportButton>
         <HeadsetMicIcon />
@@ -499,7 +499,7 @@ export default function Navigation() {
               {" "}
               {state.profile.username}
             </Typography>
-            {localStorage.getItem("Current_CTR") && (
+            {/* {localStorage.getItem("Current_CTR") && (
               <Typography
                 variant="h5"
                 style={{ margin: "4px 12px", color: "#0e4a7b" }}
@@ -515,7 +515,7 @@ export default function Navigation() {
             <SupportButton>
               <HeadsetMicIcon />
               SUPPORT
-            </SupportButton>
+            </SupportButton> */}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
