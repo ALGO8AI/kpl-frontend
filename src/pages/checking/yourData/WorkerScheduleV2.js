@@ -175,6 +175,7 @@ function WorkerScheduleV2() {
           ? "1"
           : "0",
         ctr: userData?.ctr,
+        clpcltr: userData?.clpcltr,
         ...CTR[id],
       };
       if (!formData?.workerId) {
