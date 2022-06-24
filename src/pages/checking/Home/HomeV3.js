@@ -362,6 +362,10 @@ export default function HomeV2() {
     getTableDynamic();
   }, [state?.from, state?.to, inputSHIFT]);
 
+  useEffect(() => {
+    loadData();
+  }, []);
+
   return (
     <Grid
       sm={12}
