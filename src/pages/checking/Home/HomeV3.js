@@ -331,7 +331,6 @@ export default function HomeV2() {
       filterDateFrom: state?.from,
       filterDateTo: state?.to,
       shift: inputSHIFT,
-      wing: localStorage.getItem("kpl_wing"),
     };
 
     try {
@@ -347,7 +346,6 @@ export default function HomeV2() {
         tableId: inputMACHINEid,
         filterDateFrom: state?.from,
         filterDateTo: state?.to,
-        wing: localStorage.getItem("kpl_wing"),
       };
       const resp = await getDynamicClpCtrListChecking(body);
       setClpCtr(resp?.clpctr);

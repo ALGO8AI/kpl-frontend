@@ -1805,12 +1805,10 @@ export const getDynamicMachineList = async (data) => {
 };
 
 export const getDynamicTableList = async (data) => {
-  return await callBackend(
-    "POST",
-    "routes/checking/KPI/home/tableId",
-    true,
-    data
-  );
+  return await callBackend("POST", "routes/checking/KPI/home/tableId", true, {
+    ...data,
+    wing: localStorage.getItem("kpl_wing"),
+  });
 };
 
 export const getDynamicClpCtrList = async (data) => {
@@ -1818,12 +1816,10 @@ export const getDynamicClpCtrList = async (data) => {
 };
 
 export const getDynamicClpCtrListChecking = async (data) => {
-  return await callBackend(
-    "POST",
-    "routes/checking/KPI/home/clpctr",
-    true,
-    data
-  );
+  return await callBackend("POST", "routes/checking/KPI/home/clpctr", true, {
+    ...data,
+    wing: localStorage.getItem("kpl_wing"),
+  });
 };
 
 export {
