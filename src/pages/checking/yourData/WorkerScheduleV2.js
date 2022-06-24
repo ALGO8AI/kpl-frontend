@@ -177,28 +177,28 @@ function WorkerScheduleV2() {
         ...CTR[id],
       };
       console.log(formData);
-      // if (!formData?.workerId) {
-      //   setSeverity("error");
-      //   setMsg("Please select worker");
-      //   setOpen(true);
-      //   return;
-      // } else if (
-      //   !formData?.ctr ||
-      //   formData?.ctr === "" ||
-      //   formData?.ctr === undefined ||
-      //   formData?.ctr === "undefined" ||
-      //   formData?.ctr === null
-      // ) {
-      //   setSeverity("error");
-      //   setMsg("Please select ctr");
-      //   setOpen(true);
-      //   return;
-      // }
-      // const resp = await saveWorkerScheduleV3(formData);
-      // setMsg(resp.message);
-      // setSeverity("success");
-      // setOpen(true);
-      // loadData();
+      if (!formData?.workerId) {
+        setSeverity("error");
+        setMsg("Please select worker");
+        setOpen(true);
+        return;
+      } else if (
+        !formData?.ctr ||
+        formData?.ctr === "" ||
+        formData?.ctr === undefined ||
+        formData?.ctr === "undefined" ||
+        formData?.ctr === null
+      ) {
+        setSeverity("error");
+        setMsg("Please select ctr");
+        setOpen(true);
+        return;
+      }
+      const resp = await saveWorkerScheduleV3(formData);
+      setMsg(resp.message);
+      setSeverity("success");
+      setOpen(true);
+      loadData();
     } catch (e) {
       console.log(e);
       setMsg(e.message);
