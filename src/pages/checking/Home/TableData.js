@@ -96,16 +96,16 @@ function TableData({
                   hide: true,
                   width: 240,
                 },
-                { width: 180, headerName: "Checker ID", field: "checkerID" },
+                { width: 180, headerName: "Checker ID", field: "checkerId" },
                 {
                   width: 180,
                   headerName: "Checker Name",
                   field: "checkerName",
                   // hide: true,
                 },
+                { width: 180, headerName: "Table Id", field: "tableId" },
                 { width: 150, headerName: "Shift", field: "shift" },
 
-                { width: 180, headerName: "Table Id", field: "tableId" },
                 // { width:240,headerName: "Total Working Hrs.", field: "totalWorkingHours" },
                 {
                   width: 240,
@@ -130,6 +130,7 @@ function TableData({
                 //   field: "utilizationPercentage",
                 //   // hide: true,
                 // },
+
                 {
                   width: 240,
                   headerName: "Total Bags Checked",
@@ -146,6 +147,21 @@ function TableData({
                   headerName: "Defect %",
                   field: "defectPercentage",
                   // hide: true,
+                },
+                {
+                  width: 240,
+                  headerName: "Repaired %",
+                  field: "repairedPer",
+                },
+                {
+                  width: 240,
+                  headerName: "Checker Efficiency",
+                  field: "checkerEfficiency",
+                },
+                {
+                  width: 240,
+                  headerName: "Checker Performance",
+                  field: "checkerPerformance",
                 },
               ]}
             />
