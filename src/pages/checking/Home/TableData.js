@@ -190,6 +190,12 @@ function TableData({
                   headerName: "Scheduled Hrs.",
                   field: "scheduledHours",
                 },
+                {
+                  width: 240,
+                  headerName: "Worker Count",
+                  field: "workerCount",
+                },
+
                 // {
                 //   width: 240,
                 //   headerName: "% Utilization",
@@ -226,6 +232,21 @@ function TableData({
                   width: 240,
 
                   // hide: true,
+                },
+                {
+                  width: 240,
+                  headerName: "Repaired %",
+                  field: "repairedPer",
+                },
+                {
+                  width: 240,
+                  headerName: "Checker Efficiency",
+                  field: "checkerEfficiency",
+                },
+                {
+                  width: 240,
+                  headerName: "Checker Performance",
+                  field: "checkerPerformance",
                 },
                 // { width: 240, headerName: "Idle Hrs.", field: "idleHours" },
 
