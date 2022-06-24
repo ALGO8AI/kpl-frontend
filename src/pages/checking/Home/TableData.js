@@ -163,7 +163,7 @@ function TableData({
                   date: moment(new Date(date))
                     .format("DD/MM/YYYY")
                     .toString(),
-                  workerUnavPercentage: workerUnavPercentage.toFixed(2),
+                  workerUnavPercentage: workerUnavPercentage?.toFixed(2),
                   ...rest,
                 };
               })}
