@@ -448,6 +448,8 @@ export const notificationLogsV3 = (filterDateFrom, filterDateTo) => async (
     const formField = {
       filterDateFrom,
       filterDateTo,
+      username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
     };
     const resp = await callBackendV2(
       "POST",
@@ -462,5 +464,29 @@ export const notificationLogsV3 = (filterDateFrom, filterDateTo) => async (
         value: resp,
       },
     });
+  } catch (e) {}
+};
+
+export const workerLogsV3 = (filterDateFrom, filterDateTo) => async (
+  dispatch
+) => {
+  try {
+    const formField = {
+      filterDateFrom,
+      filterDateTo,
+      username: localStorage.getItem("kpl_username"),
+      wing: localStorage.getItem("kpl_wing"),
+    };
+    const resp = await callBackendV2(
+      "POST",
+      "routes/checking/KPI/violation/violationByWorker",
+      true,
+      formField
+    );
+    resp &&
+      dispatch({
+        type: "WORKER_LOG",
+        payload: resp?.violationByWorkerData,
+      });
   } catch (e) {}
 };

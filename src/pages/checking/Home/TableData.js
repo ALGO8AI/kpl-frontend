@@ -450,6 +450,21 @@ function TableData({
 
                   // hide: true,
                 },
+                {
+                  width: 240,
+                  headerName: "Repair %",
+                  field: "repairedPer",
+                },
+                {
+                  width: 240,
+                  headerName: "Checker Efficiency",
+                  field: "checkerEfficiency",
+                },
+                {
+                  width: 240,
+                  headerName: "Checker Performance",
+                  field: "checkerPerformance",
+                },
 
                 // {
                 //   width: 240,

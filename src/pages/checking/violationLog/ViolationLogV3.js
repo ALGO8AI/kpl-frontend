@@ -38,6 +38,7 @@ import {
   InputLabel,
   Tab,
   Tabs,
+  LinearProgress,
   TextField,
 } from "@material-ui/core";
 import ViolationTable from "./ViolationTable";
@@ -117,6 +118,7 @@ function ViolationLogV3() {
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const { state, dispatch } = React.useContext(CheckingContext);
+  const [dataLoading, setDataLoading] = useState(false);
 
   // React dispatch
   const Dispatch = useDispatch();
@@ -239,6 +241,7 @@ function ViolationLogV3() {
   };
 
   const dateFilter = async () => {
+    setDataLoading(true);
     Dispatch({
       type: "ENABLE_HOME_FILTER",
     });
@@ -262,11 +265,18 @@ function ViolationLogV3() {
         inputLINE
       )
     );
+    setTimeout(() => {
+      setDataLoading(false);
+    }, 3000);
   };
 
   const loadInitialData = async () => {
+    setDataLoading(true);
     Dispatch(defectsLogsV3());
     Dispatch(productionLogsV3());
+    setTimeout(() => {
+      setDataLoading(false);
+    }, 3000);
   };
 
   useEffect(() => {
@@ -776,18 +786,170 @@ function ViolationLogV3() {
           </AppBar>
 
           <TabPanel value={state.violationTab} index={1}>
-            <Grid container item xs={12} style={{ padding: "12px" }}>
-              <ViolationTable
-                data={productionLogs}
-                rowClick={rowClick}
-                selectedRow={selectedRow}
-                loading={loader}
-                columns={[
-                  {
-                    field: "actionStatusV2",
-                    title: "Details",
-                    render: (rowData) =>
-                      rowData?.defectName ? (
+            {dataLoading ? (
+              <Grid item container xs={12}>
+                <LinearProgress style={{ width: "100%" }} />
+              </Grid>
+            ) : (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <ViolationTable
+                  data={productionLogs}
+                  rowClick={rowClick}
+                  selectedRow={selectedRow}
+                  loading={loader}
+                  columns={[
+                    {
+                      field: "actionStatusV2",
+                      title: "Details",
+                      render: (rowData) =>
+                        rowData?.defectName ? (
+                          <Link
+                            to={`/checking/violationDetails/${rowData.Id}`}
+                            className={returnClassNameDefect(
+                              rowData.actionStatus.toLowerCase()
+                            )}
+                            onClick={() => {
+                              localStorage.setItem("VIOLATION", "defects");
+                              localStorage.setItem(
+                                "VIOLATION-TYPE",
+                                "Defect Violation"
+                              );
+                              localStorage.setItem(
+                                "VIOLATION-STATUS",
+                                returnStatusDefect(
+                                  rowData.actionStatus.toLowerCase()
+                                )
+                              );
+                            }}
+                          >
+                            {returnStatusDefect(
+                              rowData.actionStatus.toLowerCase()
+                            )}
+                          </Link>
+                        ) : (
+                          <Link
+                            to={`/checking/violationDetails/${rowData.Id}`}
+                            className={"Link-btn-green"}
+                            onClick={() => {
+                              localStorage.setItem("VIOLATION", "defects");
+                              localStorage.setItem(
+                                "VIOLATION-TYPE",
+                                "Defect Violation"
+                              );
+                              localStorage.setItem(
+                                "VIOLATION-STATUS",
+                                "Okay Bag"
+                              );
+                            }}
+                          >
+                            Okay Bag
+                          </Link>
+                        ),
+                    },
+                    // {
+                    //   title: "Status",
+                    //   field: "actionStatusV2",
+                    // },
+                    {
+                      title: "Log ID",
+                      field: "Id",
+                    },
+
+                    { title: "Bag ID", field: "bagId" },
+                    {
+                      title: "Table No.",
+                      field: "table_no",
+                    },
+                    {
+                      title: "Date",
+                      field: "dateTime",
+                      render: (rowData) => {
+                        return modifyPrevDate(rowData.dateTime);
+                      },
+                    },
+                    {
+                      title: "CTR No.",
+                      field: "ctr_no",
+                    },
+                    {
+                      title: "Time",
+                      field: "time",
+                    },
+
+                    {
+                      title: "Checker ID",
+                      field: "checker_emp_id",
+                    },
+                    {
+                      title: "Checker Name",
+                      field: "checker_name",
+                    },
+
+                    {
+                      title: "Tailor No.",
+                      field: "tailorNumber",
+                      render: (x) => {
+                        return x.tailorNumber
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+                    {
+                      title: "Tailor Name",
+                      field: "tailorName",
+                      render: (x) => {
+                        return x.tailorName
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+
+                    {
+                      title: "Defect Name",
+                      field: "defectName",
+                      render: (x) => {
+                        return x.defectName
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+                    // { title: "Action Status", field: "actionStatus" },
+
+                    { title: "Wing", field: "wing" },
+                    { title: "Line", field: "line" },
+                    { title: "Shift", field: "shift" },
+                    {
+                      title: "Supervisor ID",
+                      field: "supervisorId",
+                    },
+
+                    {
+                      title: "Supervisor Name",
+                      field: "supervisorName",
+                    },
+                  ]}
+                />
+              </Grid>
+            )}
+          </TabPanel>
+
+          <TabPanel value={state.violationTab} index={0}>
+            {dataLoading ? (
+              <Grid item container xs={12}>
+                <LinearProgress style={{ width: "100%" }} />
+              </Grid>
+            ) : (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <ViolationTable
+                  data={defectsLogs}
+                  rowClick={rowClick}
+                  selectedRow={selectedRow}
+                  loading={loader}
+                  columns={[
+                    {
+                      field: "actionStatusV2",
+                      title: "Details",
+                      render: (rowData) => (
                         <Link
                           to={`/checking/violationDetails/${rowData.Id}`}
                           className={returnClassNameDefect(
@@ -811,264 +973,126 @@ function ViolationLogV3() {
                             rowData.actionStatus.toLowerCase()
                           )}
                         </Link>
-                      ) : (
-                        <Link
-                          to={`/checking/violationDetails/${rowData.Id}`}
-                          className={"Link-btn-green"}
-                          onClick={() => {
-                            localStorage.setItem("VIOLATION", "defects");
-                            localStorage.setItem(
-                              "VIOLATION-TYPE",
-                              "Defect Violation"
-                            );
-                            localStorage.setItem(
-                              "VIOLATION-STATUS",
-                              "Okay Bag"
-                            );
-                          }}
-                        >
-                          Okay Bag
-                        </Link>
                       ),
-                  },
-                  // {
-                  //   title: "Status",
-                  //   field: "actionStatusV2",
-                  // },
-                  {
-                    title: "Log ID",
-                    field: "Id",
-                  },
-
-                  { title: "Bag ID", field: "bagId" },
-                  {
-                    title: "Table No.",
-                    field: "table_no",
-                  },
-                  {
-                    title: "Date",
-                    field: "dateTime",
-                    render: (rowData) => {
-                      return modifyPrevDate(rowData.dateTime);
                     },
-                  },
-                  {
-                    title: "CTR No.",
-                    field: "ctr_no",
-                  },
-                  {
-                    title: "Time",
-                    field: "time",
-                  },
-
-                  {
-                    title: "Checker ID",
-                    field: "checker_emp_id",
-                  },
-                  {
-                    title: "Checker Name",
-                    field: "checker_name",
-                  },
-
-                  {
-                    title: "Tailor No.",
-                    field: "tailorNumber",
-                    render: (x) => {
-                      return x.tailorNumber
-                        .split(",")
-                        .map((item, x) => <p>{item}</p>);
+                    // {
+                    //   title: "Status",
+                    //   field: "actionStatusV2",
+                    // },
+                    {
+                      title: "Violation ID",
+                      field: "Id",
                     },
-                  },
-                  {
-                    title: "Tailor Name",
-                    field: "tailorName",
-                    render: (x) => {
-                      return x.tailorName
-                        .split(",")
-                        .map((item, x) => <p>{item}</p>);
+                    // {
+                    //   title: "Status",
+                    //   field: "query",
+                    //   render: (rowData) => {
+                    //     return rowData.query === "Not Resolved" ? (
+                    //       <p
+                    //         style={{
+                    //           color: "rgb(249, 54, 54)",
+                    //           backgroundColor: "rgba(249, 54, 54,0.2)",
+                    //           padding: "4px 8px",
+                    //           borderRadius: "4px",
+                    //         }}
+                    //       >
+                    //         Not Resolved
+                    //       </p>
+                    //     ) : (
+                    //       <p
+                    //         style={{
+                    //           color: "rgb(74, 170, 22)",
+                    //           backgroundColor: "rgba(74, 170, 22,0.2)",
+                    //           padding: "4px 8px",
+                    //           borderRadius: "4px",
+                    //         }}
+                    //       >
+                    //         Resolved
+                    //       </p>
+                    //     );
+                    //   },
+                    // },
+                    // { title: "Violation Reason", field: "ViolationReason" },
+                    { title: "Bag ID", field: "bagId" },
+                    {
+                      title: "Table No.",
+                      field: "table_no",
                     },
-                  },
-
-                  {
-                    title: "Defect Name",
-                    field: "defectName",
-                    render: (x) => {
-                      return x.defectName
-                        .split(",")
-                        .map((item, x) => <p>{item}</p>);
+                    {
+                      title: "Date",
+                      field: "dateTime",
+                      render: (rowData) => {
+                        // const NewDate = moment(new Date(rowData.dateTime))
+                        //   .format("DD/MM/YYYY")
+                        //   .toString();
+                        // const d = rowData.dateTime;
+                        return modifyPrevDate(rowData.dateTime);
+                      },
                     },
-                  },
-                  // { title: "Action Status", field: "actionStatus" },
-
-                  { title: "Wing", field: "wing" },
-                  { title: "Line", field: "line" },
-                  { title: "Shift", field: "shift" },
-                  {
-                    title: "Supervisor ID",
-                    field: "supervisorId",
-                  },
-
-                  {
-                    title: "Supervisor Name",
-                    field: "supervisorName",
-                  },
-                ]}
-              />
-            </Grid>
-          </TabPanel>
-
-          <TabPanel value={state.violationTab} index={0}>
-            <Grid container item xs={12} style={{ padding: "12px" }}>
-              <ViolationTable
-                data={defectsLogs}
-                rowClick={rowClick}
-                selectedRow={selectedRow}
-                loading={loader}
-                columns={[
-                  {
-                    field: "actionStatusV2",
-                    title: "Details",
-                    render: (rowData) => (
-                      <Link
-                        to={`/checking/violationDetails/${rowData.Id}`}
-                        className={returnClassNameDefect(
-                          rowData.actionStatus.toLowerCase()
-                        )}
-                        onClick={() => {
-                          localStorage.setItem("VIOLATION", "defects");
-                          localStorage.setItem(
-                            "VIOLATION-TYPE",
-                            "Defect Violation"
-                          );
-                          localStorage.setItem(
-                            "VIOLATION-STATUS",
-                            returnStatusDefect(
-                              rowData.actionStatus.toLowerCase()
-                            )
-                          );
-                        }}
-                      >
-                        {returnStatusDefect(rowData.actionStatus.toLowerCase())}
-                      </Link>
-                    ),
-                  },
-                  // {
-                  //   title: "Status",
-                  //   field: "actionStatusV2",
-                  // },
-                  {
-                    title: "Violation ID",
-                    field: "Id",
-                  },
-                  // {
-                  //   title: "Status",
-                  //   field: "query",
-                  //   render: (rowData) => {
-                  //     return rowData.query === "Not Resolved" ? (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(249, 54, 54)",
-                  //           backgroundColor: "rgba(249, 54, 54,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Not Resolved
-                  //       </p>
-                  //     ) : (
-                  //       <p
-                  //         style={{
-                  //           color: "rgb(74, 170, 22)",
-                  //           backgroundColor: "rgba(74, 170, 22,0.2)",
-                  //           padding: "4px 8px",
-                  //           borderRadius: "4px",
-                  //         }}
-                  //       >
-                  //         Resolved
-                  //       </p>
-                  //     );
-                  //   },
-                  // },
-                  // { title: "Violation Reason", field: "ViolationReason" },
-                  { title: "Bag ID", field: "bagId" },
-                  {
-                    title: "Table No.",
-                    field: "table_no",
-                  },
-                  {
-                    title: "Date",
-                    field: "dateTime",
-                    render: (rowData) => {
-                      // const NewDate = moment(new Date(rowData.dateTime))
-                      //   .format("DD/MM/YYYY")
-                      //   .toString();
-                      // const d = rowData.dateTime;
-                      return modifyPrevDate(rowData.dateTime);
+                    {
+                      title: "CTR No.",
+                      field: "ctr_no",
                     },
-                  },
-                  {
-                    title: "CTR No.",
-                    field: "ctr_no",
-                  },
-                  {
-                    title: "Time",
-                    field: "time",
-                  },
-
-                  {
-                    title: "Checker ID",
-                    field: "checker_emp_id",
-                  },
-                  {
-                    title: "Checker Name",
-                    field: "checker_name",
-                  },
-
-                  {
-                    title: "Tailor No.",
-                    field: "tailorNumber",
-                    render: (x) => {
-                      return x.tailorNumber
-                        .split(",")
-                        .map((item, x) => <p>{item}</p>);
+                    {
+                      title: "Time",
+                      field: "time",
                     },
-                  },
-                  {
-                    title: "Tailor Name",
-                    field: "tailorName",
-                    render: (x) => {
-                      return x.tailorName
-                        .split(",")
-                        .map((item, x) => <p>{item}</p>);
+
+                    {
+                      title: "Checker ID",
+                      field: "checker_emp_id",
                     },
-                  },
-
-                  {
-                    title: "Defect Name",
-                    field: "defectName",
-                    render: (x) => {
-                      return x.defectName
-                        .split(",")
-                        .map((item, x) => <p>{item}</p>);
+                    {
+                      title: "Checker Name",
+                      field: "checker_name",
                     },
-                  },
-                  // { title: "Action Status", field: "actionStatus" },
 
-                  { title: "Wing", field: "wing" },
-                  { title: "Line", field: "line" },
-                  { title: "Shift", field: "shift" },
-                  {
-                    title: "Supervisor ID",
-                    field: "supervisorId",
-                  },
+                    {
+                      title: "Tailor No.",
+                      field: "tailorNumber",
+                      render: (x) => {
+                        return x.tailorNumber
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+                    {
+                      title: "Tailor Name",
+                      field: "tailorName",
+                      render: (x) => {
+                        return x.tailorName
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
 
-                  {
-                    title: "Supervisor Name",
-                    field: "supervisorName",
-                  },
-                ]}
-              />
-            </Grid>
+                    {
+                      title: "Defect Name",
+                      field: "defectName",
+                      render: (x) => {
+                        return x.defectName
+                          .split(",")
+                          .map((item, x) => <p>{item}</p>);
+                      },
+                    },
+                    // { title: "Action Status", field: "actionStatus" },
+
+                    { title: "Wing", field: "wing" },
+                    { title: "Line", field: "line" },
+                    { title: "Shift", field: "shift" },
+                    {
+                      title: "Supervisor ID",
+                      field: "supervisorId",
+                    },
+
+                    {
+                      title: "Supervisor Name",
+                      field: "supervisorName",
+                    },
+                  ]}
+                />
+              </Grid>
+            )}
           </TabPanel>
         </Grid>
       </Grid>

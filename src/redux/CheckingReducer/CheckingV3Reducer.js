@@ -15,6 +15,7 @@ const initStore = {
   notificationLogs: [],
   checkerPerformance: [],
   wingWiseSummary: [],
+  workerLog: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -43,6 +44,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         wingWiseSummary: action.payload,
+      };
+    case "WORKER_LOG":
+      return {
+        ...state,
+        workerLog: action.payload,
       };
 
     default:

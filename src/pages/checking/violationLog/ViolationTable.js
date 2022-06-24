@@ -2,6 +2,7 @@ import {
   LinearProgress,
   makeStyles,
   CircularProgress,
+  Typography,
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React from "react";
@@ -60,7 +61,9 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
           />
         ) : (
           <div className={classes.root}>
-            <LinearProgress />
+            <Typography variant="h6" align="center">
+              No Data Available.
+            </Typography>
           </div>
         )
       ) : (

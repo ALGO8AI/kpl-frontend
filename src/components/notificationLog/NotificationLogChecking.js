@@ -27,7 +27,10 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../redux/CommonReducer/CommonAction";
-import { notificationLogsV3 } from "../../redux/CheckingReducer/CheckingV3Action";
+import {
+  notificationLogsV3,
+  workerLogsV3,
+} from "../../redux/CheckingReducer/CheckingV3Action";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,7 +81,9 @@ function NotificationLogChecking() {
 
   // selector
   // React Selector
-  const { notificationLogs } = useSelector((state) => state?.CheckV3);
+  const { notificationLogs, workerLog } = useSelector(
+    (state) => state?.CheckV3
+  );
 
   // functions
   // handle date range
@@ -110,6 +115,7 @@ function NotificationLogChecking() {
   const getLogs = async () => {
     try {
       Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1]));
+      Dispatch(workerLogsV3(weekRange()[1], weekRange()[1]));
     } catch (err) {
       // console.log(err);
     }
@@ -123,6 +129,7 @@ function NotificationLogChecking() {
   const filterLogs = async () => {
     try {
       Dispatch(notificationLogsV3(filterDateFrom, filterDateTo));
+      Dispatch(workerLogsV3(filterDateFrom, filterDateTo));
     } catch (err) {
       // console.log(err);
     }
@@ -204,7 +211,17 @@ function NotificationLogChecking() {
             </Grid>
           </>
         )}
-        <Grid container item xs={12} md={2}>
+        <Grid
+          container
+          item
+          xs={12}
+          md={2}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Button
             variant="contained"
             color="primary"
@@ -213,6 +230,27 @@ function NotificationLogChecking() {
           >
             <FilterListIcon />
             Filter
+          </Button>
+        </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          md={2}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "10px" }}
+            onClick={getLogs}
+          >
+            <FilterListIcon />
+            Refresh
           </Button>
         </Grid>
       </Grid>
@@ -228,6 +266,7 @@ function NotificationLogChecking() {
             {/* <Tab label="Crowd Data" {...a11yProps(0)} />
             <Tab label="Worker Data" {...a11yProps(1)} /> */}
             <Tab label="Defect Data" {...a11yProps(0)} />
+            <Tab label="Checker Details" {...a11yProps(1)} />
 
             {/* <Tab label="Worker Data" {...a11yProps(2)} />
             <Tab label="Machine Data" {...a11yProps(3)} /> */}
@@ -788,6 +827,86 @@ function NotificationLogChecking() {
                     field: "wing",
                     headerName: "Wing",
                     width: 120,
+                  },
+                ]}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+          )}
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          {workerLog?.length > 0 && (
+            <Grid
+              container
+              item
+              xs={12}
+              style={{
+                height: "700px",
+                width: "100%",
+              }}
+            >
+              <DataGrid
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+                // rows={data}
+                rows={workerLog?.map((row, i) => {
+                  const { dateTime, ...rest } = row;
+                  return {
+                    id: i,
+                    dateTime: moment(new Date(dateTime))
+                      .format("DD/MM/YYYY")
+                      .toString(),
+                    ...rest,
+                  };
+                })}
+                columns={[
+                  {
+                    field: "dateTime",
+                    headerName: "Date",
+                    width: 150,
+                  },
+                  {
+                    field: "checkerID",
+                    headerName: "Checker ID",
+                    width: 180,
+                  },
+
+                  {
+                    field: "checkerName",
+                    headerName: "Checker Name",
+                    width: 240,
+                  },
+                  {
+                    field: "tableId",
+                    headerName: "Table ID",
+                    width: 240,
+                  },
+                  {
+                    field: "NoOfBagsChecked",
+                    headerName: "Bags Checked",
+                    width: 180,
+                  },
+                  {
+                    field: "NoOfDefectedBags",
+                    headerName: "Defected Bags",
+                    width: 240,
+                  },
+                  {
+                    field: "shift",
+                    headerName: "Shift",
+                    width: 240,
+                  },
+
+                  {
+                    field: "line",
+                    headerName: "Line",
+                    width: 240,
+                  },
+                  {
+                    field: "wing",
+                    headerName: "Wing",
+                    width: 240,
                   },
                 ]}
                 style={{ width: "100%" }}
