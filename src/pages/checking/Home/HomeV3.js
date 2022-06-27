@@ -923,10 +923,11 @@ function DefectPercentageDonut({ data, loading, localFilter }) {
           <ReactApexChart
             options={options}
             series={[
-              Boolean(data) ? data[1][0]["Total Bags"] : 0,
-              Boolean(data) ? data[0][0]["Total Defects"] : 0,
+              Boolean(data) ? Number(data[1][0]["Total Bags"]) : 0,
+              Boolean(data) ? Number(data[0][0]["Total Defects"]) : 0,
               Boolean(data)
-                ? data[1][0]["Total Bags"] - data[0][0]["Total Defects"]
+                ? Number(data[1][0]["Total Bags"]) -
+                  Number(data[0][0]["Total Defects"])
                 : 0,
 
               // Boolean(props.data?.totalBagsChecked)
