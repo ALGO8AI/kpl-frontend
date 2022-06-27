@@ -62,15 +62,15 @@ function Setting() {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label="Alert and Notification" {...a11yProps(0)} />
-          <Tab label=" Manage Roles" {...a11yProps(1)} />
+          <Tab label=" Manage Roles" {...a11yProps(0)} />
+          <Tab label="Alert and Notification" {...a11yProps(1)} />
           <Tab label=" Configurations" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={1}>
         <AlertAndNotification />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={0}>
         <ManageRoles />
         {/* <AddUser /> */}
       </TabPanel>

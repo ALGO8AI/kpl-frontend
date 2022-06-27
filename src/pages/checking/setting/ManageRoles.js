@@ -660,7 +660,7 @@ function ManageRoles() {
                     "Role",
                     "Shift A",
                     "Shift B",
-                    // "Shift C",
+                    "Shift C",
                     "Line",
                     "Wing",
                     "Email",
@@ -748,7 +748,7 @@ function ManageRoles() {
                             </p>
                           )}
                         </StyledTableDataCell>
-                        {/* <StyledTableDataCell>
+                        <StyledTableDataCell>
                           {Boolean(row.shiftC) ? (
                             <p style={{ color: "rgb(74, 170, 22)" }}>
                               <i class="fa fa-check" aria-hidden="true"></i>
@@ -758,7 +758,7 @@ function ManageRoles() {
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </p>
                           )}
-                        </StyledTableDataCell> */}
+                        </StyledTableDataCell>
                         <StyledTableDataCell>{row.zone}</StyledTableDataCell>
                         <StyledTableDataCell>{row.wing}</StyledTableDataCell>
                         <StyledTableDataCell>{row.email}</StyledTableDataCell>
