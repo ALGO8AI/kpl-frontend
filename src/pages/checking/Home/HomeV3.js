@@ -887,8 +887,7 @@ function RepairedBagDonut({ data, loading, defectedbags, localFilter }) {
         Repaired Bags %{" "}
         {data &&
           (
-            ((data[0]?.noo + data[1]?.noo + data[2]?.noo) /
-              (data[0]?.noo + data[2]?.noo + data[1]?.noo + data[3]?.noo)) *
+            ((data[0]?.noo + data[1]?.noo + data[2]?.noo) / data[3]?.noo) *
             100
           ).toFixed(2)}
       </h3>
