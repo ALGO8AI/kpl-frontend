@@ -1309,8 +1309,8 @@ function DefectTrend({ loading, data, localFilter }) {
 // Chart 5
 function CheckingEfficiency({ loading, data, localFilter }) {
   const series = [
-    Boolean(data) ? data[0]?.checkerEfficiency : 0,
-    Boolean(data) ? 100 - data[0]?.checkerEfficiency : 0,
+    Boolean(data) ? Number(data[0]?.checkerEfficiency) : 0,
+    Boolean(data) ? 100 - Number(data[0]?.checkerEfficiency) : 0,
   ];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
@@ -1394,8 +1394,8 @@ function CheckingEfficiency({ loading, data, localFilter }) {
 // Chart 5
 function CheckingPerformance({ loading, data, localFilter }) {
   const series = [
-    Boolean(data) ? data[0]?.checkerPerformance : 0,
-    Boolean(data) ? 100 - data[0]?.checkerPerformance : 0,
+    Boolean(data) ? Number(data[0]?.checkerPerformance) : 0,
+    Boolean(data) ? 100 - Number(data[0]?.checkerPerformance) : 0,
   ];
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
