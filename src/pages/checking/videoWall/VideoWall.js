@@ -180,7 +180,7 @@ function LiveVideo() {
           Refresh
         </CustomButton>
       </Grid>
-      {videos ? (
+      {videos?.length !== 0 ? (
         videos?.map((x, index) => {
           return (
             <VideoTile
