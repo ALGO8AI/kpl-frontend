@@ -41,6 +41,7 @@ import {
 import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
 import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
+import { clpCtrCountV3 } from "../../../services/checking.api";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -135,7 +136,7 @@ export default function Navigation() {
   const { state, dispatch } = React.useContext(KPLContext);
 
   // CUSTOM NOTIFICATION FUNCTION
-  const [ctrDrop, setCtrDrop] = React.useState();
+  const [ctrDrop, setCtrDrop] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [CTR, setCTR] = React.useState({
     currentCtr: "",
@@ -157,9 +158,11 @@ export default function Navigation() {
 
   const loadData = async () => {
     try {
-      const ctr = await ctrDropDown();
-      console.log(ctr);
-      setCtrDrop(ctr);
+      // const ctr = await ctrDropDown();
+      const ctr = await clpCtrCountV3();
+
+      console.log("CTR Count", ctr.data);
+      setCtrDrop(ctr.data);
       const notification = await getStitchingNotification();
       console.log(notification?.data);
       setNotification(notification?.data);
@@ -499,16 +502,18 @@ export default function Navigation() {
               {" "}
               {state.profile.username}
             </Typography>
-            {/* {localStorage.getItem("Current_CTR") && (
+            {ctrDrop?.length > 0 && (
               <Typography
-                variant="h5"
+                variant="h6"
                 style={{ margin: "4px 12px", color: "#0e4a7b" }}
               >
                 {" "}
-                CTR : {localStorage.getItem("Current_CTR")}
+                CTR : {ctrDrop[0]?.ctr}
+                <br />
+                Count : {ctrDrop[0]?.["count(ctr)"]}
               </Typography>
             )}
-            <SupportButton onClick={handleClickOpenCTR}>
+            {/* <SupportButton onClick={handleClickOpenCTR}>
               Change CTR
             </SupportButton>
 

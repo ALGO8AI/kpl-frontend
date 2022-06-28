@@ -6,7 +6,8 @@ export const homeDefectChartV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -16,7 +17,7 @@ export const homeDefectChartV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -42,7 +43,8 @@ export const homeRepairedChartV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -52,8 +54,8 @@ export const homeRepairedChartV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
       line,
+      wing,
     };
     const resp = await callBackendV2(
       "POST",
@@ -120,7 +122,8 @@ export const top5DefectesV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -130,7 +133,7 @@ export const top5DefectesV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -156,7 +159,8 @@ export const checkerEfficiencyV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -166,7 +170,7 @@ export const checkerEfficiencyV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -240,7 +244,8 @@ export const byWorkerTableV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -250,7 +255,7 @@ export const byWorkerTableV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -275,7 +280,8 @@ export const byClpCtrTableV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -285,7 +291,7 @@ export const byClpCtrTableV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -310,7 +316,8 @@ export const byDateTableV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -320,7 +327,7 @@ export const byDateTableV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -345,7 +352,8 @@ export const defectsLogsV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -355,7 +363,7 @@ export const defectsLogsV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -380,7 +388,8 @@ export const checkerPerformanceV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -390,7 +399,7 @@ export const checkerPerformanceV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -412,7 +421,8 @@ export const productionLogsV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -422,7 +432,7 @@ export const productionLogsV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(
@@ -473,7 +483,8 @@ export const workerLogsV3 = (
   clpctr,
   tableId,
   shifts,
-  line = localStorage.getItem("kpl_line")?.split(",")
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
 ) => async (dispatch) => {
   try {
     const formField = {
@@ -483,7 +494,7 @@ export const workerLogsV3 = (
       filterDateTo,
       shifts,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
       line,
     };
     const resp = await callBackendV2(

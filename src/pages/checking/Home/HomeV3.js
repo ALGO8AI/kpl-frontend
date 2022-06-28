@@ -56,6 +56,7 @@ import {
   wingwiseSummaryV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
 import { toBeValid } from "@testing-library/jest-dom/dist/matchers";
+import { wingListV3, wingWiseLine } from "../../../services/checking.api";
 
 export default function HomeV2() {
   // context
@@ -70,6 +71,9 @@ export default function HomeV2() {
   const [typeOfRange, setTypeOfRange] = useState("custom");
   const [loading, setLoading] = useState(false);
   const [localFilter, setLocalFilter] = useState(false);
+  const [wingList, setWingList] = useState([]);
+  const [inputWing, setInputWing] = useState("");
+  const [lineList, setLineList] = useState([]);
 
   // React dispatch
   const Dispatch = useDispatch();
@@ -141,6 +145,8 @@ export default function HomeV2() {
     setInputCTR([]);
     setInputMACHINEid([]);
     setInputSHIFT([]);
+    setInputWing("");
+    setInputLINE([]);
     Dispatch({
       type: "DISABLE_HOME_FILTER",
     });
@@ -181,7 +187,9 @@ export default function HomeV2() {
   };
 
   // load initial table data
-  const loadData = () => {
+  const loadData = async () => {
+    const { data } = await wingListV3();
+    setWingList(data);
     setLoading(true);
     Dispatch(getAllTableIdV3());
     Dispatch(homeRepairedChartV3());
@@ -212,7 +220,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -222,7 +231,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -232,7 +242,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
 
@@ -243,7 +254,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
 
@@ -254,7 +266,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -264,7 +277,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -274,7 +288,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -284,7 +299,8 @@ export default function HomeV2() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     setLoading(false);
@@ -352,9 +368,22 @@ export default function HomeV2() {
     } catch (e) {}
   };
 
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getCTRDynamic();
   }, [state?.from, state?.to, inputMACHINEid]);
+
+  useEffect(() => {
+    getLineDynamic(inputWing);
+  }, [inputWing]);
 
   useEffect(() => {
     getTableDynamic();
@@ -386,6 +415,37 @@ export default function HomeV2() {
             fullWidth
             style={{ marginRight: "6px" }}
           >
+            <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={inputWing}
+              onChange={(e) => setInputWing(e.target.value)}
+              label="Wing"
+              // multiple
+            >
+              {wingList?.length > 0 &&
+                wingList?.map((item, index) => (
+                  <MenuItem key={index} value={item?.wing}>
+                    {item?.wing}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid
+          container
+          item
+          xs={4}
+          sm={4}
+          lg={typeOfRange === "custom" ? 1 : 2}
+          style={{ justifyContent: "center" }}
+        >
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginRight: "6px" }}
+          >
             <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
@@ -396,15 +456,11 @@ export default function HomeV2() {
               label="Line"
               // multiple
             >
-              {localStorage.getItem("kpl_line") &&
-                localStorage
-                  .getItem("kpl_line")
-                  ?.split(",")
-                  ?.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
+              {lineList?.map((item, index) => (
+                <MenuItem key={index} value={item?.line}>
+                  {item?.line}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

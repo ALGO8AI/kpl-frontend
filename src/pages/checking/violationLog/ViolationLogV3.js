@@ -60,6 +60,7 @@ import {
   productionLogsV3,
   workerLogsV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
+import { wingListV3, wingWiseLine } from "../../../services/checking.api";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -160,6 +161,10 @@ function ViolationLogV3() {
   const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
 
+  const [wingList, setWingList] = useState([]);
+  const [inputWing, setInputWing] = useState("");
+  const [lineList, setLineList] = useState([]);
+
   // functions
 
   // handle date range
@@ -225,6 +230,8 @@ function ViolationLogV3() {
     setInputCTR([]);
     setInputMACHINEid([]);
     setInputSHIFT([]);
+    setInputWing("");
+    setInputLINE([]);
     Dispatch({
       type: "DISABLE_HOME_FILTER",
     });
@@ -253,7 +260,8 @@ function ViolationLogV3() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -263,7 +271,8 @@ function ViolationLogV3() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
     Dispatch(
@@ -273,7 +282,8 @@ function ViolationLogV3() {
         inputCTR,
         inputMACHINEid,
         inputSHIFT,
-        inputLINE
+        inputLINE,
+        inputWing
       )
     );
 
@@ -283,6 +293,8 @@ function ViolationLogV3() {
   };
 
   const loadInitialData = async () => {
+    const { data } = await wingListV3();
+    setWingList(data);
     setDataLoading(true);
     Dispatch(defectsLogsV3());
     Dispatch(productionLogsV3());
@@ -449,6 +461,15 @@ function ViolationLogV3() {
     } catch (e) {}
   };
 
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getCTRDynamic();
   }, [state.violationFrom, state.violationTo, inputMACHINEid]);
@@ -456,6 +477,10 @@ function ViolationLogV3() {
   useEffect(() => {
     getTableDynamic();
   }, [state.violationFrom, state.violationTo, inputSHIFT]);
+
+  useEffect(() => {
+    getLineDynamic(inputWing);
+  }, [inputWing]);
 
   return (
     <>
@@ -491,6 +516,39 @@ function ViolationLogV3() {
               style={{ marginRight: "6px" }}
             >
               <InputLabel id="demo-simple-select-outlined-label">
+                Wing
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={inputWing}
+                onChange={(e) => setInputWing(e.target.value)}
+                label="Wing"
+                // multiple
+              >
+                {wingList?.length > 0 &&
+                  wingList?.map((item, index) => (
+                    <MenuItem key={index} value={item?.wing}>
+                      {item?.wing}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={4}
+            sm={4}
+            lg={typeOfRange === "custom" ? 1 : 2}
+            style={{ justifyContent: "center" }}
+          >
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
                 Line
               </InputLabel>
               <Select
@@ -502,15 +560,11 @@ function ViolationLogV3() {
                 label="Line"
                 // multiple
               >
-                {localStorage.getItem("kpl_line") &&
-                  localStorage
-                    .getItem("kpl_line")
-                    ?.split(",")
-                    ?.map((item, index) => (
-                      <MenuItem key={index} value={item}>
-                        {item}
-                      </MenuItem>
-                    ))}
+                {lineList?.map((item, index) => (
+                  <MenuItem key={index} value={item?.line}>
+                    {item?.line}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

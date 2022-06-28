@@ -202,3 +202,20 @@ export const saveBagIDconfigV3 = async (lotSize) => {
     }
   );
 };
+
+export const clpCtrCountV3 = async () => {
+  return await callBackendV2(
+    "GET",
+    "routes/checking/KPI/home/clpctrHavingMaxCount"
+  );
+};
+
+export const wingListV3 = async () => {
+  return await callBackendV2("GET", "routes/checking/KPI/home/wings");
+};
+
+export const wingWiseLine = async (wing) => {
+  return await callBackendV2("POST", "routes/checking/KPI/home/lines", true, {
+    wing: wing ? wing : localStorage.getItem("kpl_wing"),
+  });
+};
