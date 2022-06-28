@@ -26,8 +26,11 @@ import {
   Button,
   Divider,
   Drawer,
+  FormControl,
+  InputLabel,
   List,
   ListItem,
+  Select,
   withStyles,
 } from "@material-ui/core";
 import clsx from "clsx";
@@ -41,7 +44,8 @@ import {
 import CLPCTRDialog2 from "../../../components/clpCtrDialog/CLPCTRDialog2";
 import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
-import { clpCtrCountV3 } from "../../../services/checking.api";
+import { clpCtrCountV3, wingListV3 } from "../../../services/checking.api";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -132,8 +136,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navigation() {
   const history = useHistory();
+  const Dispatch = useDispatch();
 
   const { state, dispatch } = React.useContext(KPLContext);
+  const { wingList, selectedWing } = useSelector((state) => state?.CheckV3);
 
   // CUSTOM NOTIFICATION FUNCTION
   const [ctrDrop, setCtrDrop] = React.useState([]);
@@ -160,8 +166,13 @@ export default function Navigation() {
     try {
       // const ctr = await ctrDropDown();
       const ctr = await clpCtrCountV3();
-
       console.log("CTR Count", ctr.data);
+      const { data } = await wingListV3();
+      Dispatch({
+        type: "SET_WING_LIST",
+        payload: data,
+      });
+      // setWingList(data);
       setCtrDrop(ctr.data);
       const notification = await getStitchingNotification();
       console.log(notification?.data);
@@ -489,12 +500,45 @@ export default function Navigation() {
             >
               <AccountCircle />
             </IconButton>
-            <Typography
+            {/* <Typography
               variant="h5"
               style={{ margin: "4px 12px", color: "#f68f1d" }}
             >
               Wing : {state?.profile?.wing}
-            </Typography>
+            </Typography> */}
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ margin: "1rem", width: "150px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Wing
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={
+                  Boolean(selectedWing)
+                    ? selectedWing
+                    : localStorage.getItem("kpl_wing")
+                }
+                onChange={(e) =>
+                  Dispatch({
+                    type: "SET_SELECTED_WING",
+                    payload: e.target.value,
+                  })
+                }
+                label="Wing"
+                // multiple
+              >
+                {wingList?.length > 0 &&
+                  wingList?.map((item, index) => (
+                    <MenuItem key={index} value={item?.wing}>
+                      {item?.wing}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
             <Typography
               variant="h4"
               style={{ margin: "4px 12px", color: "#f68f1d" }}
@@ -505,12 +549,16 @@ export default function Navigation() {
             {ctrDrop?.length > 0 && (
               <Typography
                 variant="h6"
-                style={{ margin: "4px 12px", color: "#0e4a7b" }}
+                style={{
+                  margin: "4px 12px",
+                  color: "#0e4a7b",
+                  whiteSpace: "nowrap",
+                }}
               >
                 {" "}
                 CTR : {ctrDrop[0]?.ctr}
-                <br />
-                Count : {ctrDrop[0]?.["count(ctr)"]}
+                {/* <br />
+                Count : {ctrDrop[0]?.["count(ctr)"]} */}
               </Typography>
             )}
             {/* <SupportButton onClick={handleClickOpenCTR}>

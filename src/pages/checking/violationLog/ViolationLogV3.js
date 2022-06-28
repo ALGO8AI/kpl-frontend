@@ -125,9 +125,13 @@ function ViolationLogV3() {
   // React dispatch
   const Dispatch = useDispatch();
   // React Selector
-  const { allTableId, defectsLogs, productionLogs, workerLog } = useSelector(
-    (state) => state?.CheckV3
-  );
+  const {
+    allTableId,
+    defectsLogs,
+    productionLogs,
+    workerLog,
+    selectedWing,
+  } = useSelector((state) => state?.CheckV3);
 
   // use selector
   const filterEnable = useSelector((state) => state?.Stitch?.homeFilterEnable);
@@ -160,9 +164,6 @@ function ViolationLogV3() {
   const [inputSHIFT, setInputSHIFT] = useState([]);
   const [inputLINE, setInputLINE] = useState([]);
   const [typeOfRange, setTypeOfRange] = useState("custom");
-
-  const [wingList, setWingList] = useState([]);
-  const [inputWing, setInputWing] = useState("");
   const [lineList, setLineList] = useState([]);
 
   // functions
@@ -230,7 +231,10 @@ function ViolationLogV3() {
     setInputCTR([]);
     setInputMACHINEid([]);
     setInputSHIFT([]);
-    setInputWing("");
+    Dispatch({
+      type: "SET_SELECTED_WING",
+      payload: "",
+    });
     setInputLINE([]);
     Dispatch({
       type: "DISABLE_HOME_FILTER",
@@ -261,7 +265,7 @@ function ViolationLogV3() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        inputWing
+        selectedWing
       )
     );
     Dispatch(
@@ -272,7 +276,7 @@ function ViolationLogV3() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        inputWing
+        selectedWing
       )
     );
     Dispatch(
@@ -283,7 +287,7 @@ function ViolationLogV3() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        inputWing
+        selectedWing
       )
     );
 
@@ -293,8 +297,6 @@ function ViolationLogV3() {
   };
 
   const loadInitialData = async () => {
-    const { data } = await wingListV3();
-    setWingList(data);
     setDataLoading(true);
     Dispatch(defectsLogsV3());
     Dispatch(productionLogsV3());
@@ -314,6 +316,12 @@ function ViolationLogV3() {
       type: "VIO_TO",
       payload: weekRange()[1],
     });
+    return () => {
+      Dispatch({
+        type: "SET_SELECTED_WING",
+        payload: "",
+      });
+    };
     // loadInitialData();
   }, []);
 
@@ -479,8 +487,8 @@ function ViolationLogV3() {
   }, [state.violationFrom, state.violationTo, inputSHIFT]);
 
   useEffect(() => {
-    getLineDynamic(inputWing);
-  }, [inputWing]);
+    getLineDynamic(selectedWing);
+  }, [selectedWing]);
 
   return (
     <>
@@ -502,39 +510,6 @@ function ViolationLogV3() {
             alignItems: "center",
           }}
         >
-          <Grid
-            container
-            item
-            xs={4}
-            sm={4}
-            lg={typeOfRange === "custom" ? 1 : 2}
-            style={{ justifyContent: "center" }}
-          >
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginRight: "6px" }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Wing
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={inputWing}
-                onChange={(e) => setInputWing(e.target.value)}
-                label="Wing"
-                // multiple
-              >
-                {wingList?.length > 0 &&
-                  wingList?.map((item, index) => (
-                    <MenuItem key={index} value={item?.wing}>
-                      {item?.wing}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid
             container
             item

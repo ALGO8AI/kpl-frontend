@@ -276,7 +276,7 @@ function WorkerScheduleV2() {
             padding: "12px",
           }}
         >
-          COPY TABLE
+          SAVE TABLE
         </Button>
       </Grid>
       <Grid container item xs={12}>

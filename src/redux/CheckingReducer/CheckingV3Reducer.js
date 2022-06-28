@@ -16,6 +16,8 @@ const initStore = {
   checkerPerformance: [],
   wingWiseSummary: [],
   workerLog: [],
+  wingList: [],
+  selectedWing: "",
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -49,6 +51,17 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         workerLog: action.payload,
+      };
+    case "SET_WING_LIST": {
+      return {
+        ...state,
+        wingList: action.payload,
+      };
+    }
+    case "SET_SELECTED_WING":
+      return {
+        ...state,
+        selectedWing: action.payload,
       };
 
     default:
