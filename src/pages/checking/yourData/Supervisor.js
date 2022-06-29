@@ -21,7 +21,7 @@ import moment from "moment";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { weekRange } from "../../../Utility/DateRange";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openSnackbar_FROM,
   openSnackbar_TO,
@@ -34,6 +34,7 @@ import {
   getCheckingSupervisorCopyV3,
   getCheckingSupervisorScheduleV3,
   updateCheckingSupervisorSingleV3,
+  wingWiseLine,
 } from "../../../services/checking.api";
 
 function TabPanel(props) {
@@ -76,6 +77,8 @@ TabPanel.propTypes = {
 // }));
 
 function Supervisor(props) {
+  // React Selector
+  const { wingList } = useSelector((state) => state?.CheckV3);
   // Redux Dispatch
   const Dispatch = useDispatch();
   const [workerData, setWorkerData] = useState();
@@ -126,8 +129,14 @@ function Supervisor(props) {
         </p>
       ),
     },
-    { title: "Supervisor Id", field: "supervisorId" },
-    { title: "Supervisor Name", field: "supervisorName" },
+    {
+      title: "Supervisor Id",
+      field: "supervisorId",
+    },
+    {
+      title: "Supervisor Name",
+      field: "supervisorName",
+    },
     {
       title: "Kit Supervisor",
       field: "kitSupervisor",
@@ -212,6 +221,21 @@ function Supervisor(props) {
     filterDateTo: "",
   });
 
+  const [lineList, setLineList] = useState([]);
+
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getLineDynamic(userdata?.wing);
+  }, [userdata?.wing]);
+
   useEffect(() => {
     setInputData({
       filterDateFrom: weekRange()[0],
@@ -220,7 +244,10 @@ function Supervisor(props) {
   }, []);
 
   const onInputChange = (e) => {
-    setUserData({ ...userdata, [e.target.name]: e.target.value });
+    setUserData({
+      ...userdata,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const [msg, setMsg] = React.useState("");
@@ -483,7 +510,10 @@ function Supervisor(props) {
               value={userdata.kitSupervisor}
               checked={userdata.kitSupervisor}
               onChange={(e) =>
-                setUserData({ ...userdata, kitSupervisor: e.target.checked })
+                setUserData({
+                  ...userdata,
+                  kitSupervisor: e.target.checked,
+                })
               }
               name="checkedB"
               color="primary"
@@ -501,7 +531,10 @@ function Supervisor(props) {
               value={userdata.lineSupervisor}
               checked={userdata.lineSupervisor}
               onChange={(e) =>
-                setUserData({ ...userdata, lineSupervisor: e.target.checked })
+                setUserData({
+                  ...userdata,
+                  lineSupervisor: e.target.checked,
+                })
               }
               name="checkedB"
               color="primary"
@@ -541,40 +574,12 @@ function Supervisor(props) {
             label="Wing"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {["FG-2"].map((item, index) => (
-              <MenuItem value={item} key={index}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          variant="outlined"
-          fullWidth
-          style={{ marginBottom: "12px" }}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">Shift</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={userdata.shift}
-            name="shift"
-            onChange={onInputChange}
-            label="Shift"
-            // multiple
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {shifts.map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item}
-              </MenuItem>
-            ))}
+            {wingList?.length !== 0 &&
+              wingList?.map((item, index) => (
+                <MenuItem value={item.wing} key={index}>
+                  {item?.wing}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
 
@@ -593,16 +598,38 @@ function Supervisor(props) {
             label="Line"
             // multiple
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {["Baffle", "Circular", "Two Row", "U+2"].map((item, index) => (
-              <MenuItem value={item} key={index}>
+            {lineList?.length !== 0 &&
+              lineList?.map((item, index) => (
+                <MenuItem value={item?.line} key={index}>
+                  {item?.line}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginBottom: "12px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Shift</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={userdata.shift}
+            name="shift"
+            onChange={onInputChange}
+            label="Shift"
+            // multiple
+          >
+            {shifts.map((item, index) => (
+              <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+
         {/* <label for="myfile" className="inputLabel">
           Select a file:
         </label>
@@ -618,7 +645,10 @@ function Supervisor(props) {
         /> */}
         {userdata.workerImage && (
           <img
-            style={{ width: "100%", padding: "12px" }}
+            style={{
+              width: "100%",
+              padding: "12px",
+            }}
             src={userdata.workerImage}
             alt="User"
           />
@@ -774,7 +804,10 @@ function Supervisor(props) {
             item
             xs={6}
             md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <Button variant="contained" color="primary" onClick={filterData}>
               <FilterListIcon />
@@ -786,7 +819,10 @@ function Supervisor(props) {
             item
             xs={6}
             md={2}
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <Button variant="contained" color="primary" onClick={loadData}>
               <RefreshIcon />

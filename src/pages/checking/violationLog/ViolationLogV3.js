@@ -265,7 +265,7 @@ function ViolationLogV3() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -276,7 +276,7 @@ function ViolationLogV3() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -287,7 +287,7 @@ function ViolationLogV3() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
 

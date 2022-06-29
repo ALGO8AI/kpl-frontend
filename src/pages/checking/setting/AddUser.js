@@ -16,15 +16,19 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
 import { stitchingLines, theme, wings } from "../../../Utility/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import { wingWiseLine } from "../../../services/checking.api";
 
 function AddUser({ loadData }) {
   const Dispatch = useDispatch();
+
+  // React Selector
+  const { wingList } = useSelector((state) => state?.CheckV3);
 
   // state
   const [openConfirm, setOpenCOnfirm] = useState(false);
@@ -55,6 +59,21 @@ function AddUser({ loadData }) {
     crowding: false,
     checkerActiveMonitoring: false,
   });
+
+  const [lineList, setLineList] = useState([]);
+
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getLineDynamic(data?.wing);
+  }, [data?.wing]);
 
   const openConfirmDialog = () => {
     if (!data?.workerID) {
@@ -247,7 +266,12 @@ function AddUser({ loadData }) {
           onClick={handleClickOpen}
         >
           {/* ADD USER */}
-          <PersonAddIcon style={{ color: "#0e4a7b", fontSize: 32 }} />
+          <PersonAddIcon
+            style={{
+              color: "#0e4a7b",
+              fontSize: 32,
+            }}
+          />
         </Button>
       </Grid>
       <Dialog
@@ -255,7 +279,10 @@ function AddUser({ loadData }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        style={{ maxWidth: "1200px", margin: "auto" }}
+        style={{
+          maxWidth: "1200px",
+          margin: "auto",
+        }}
       >
         <DialogTitle id="alert-dialog-title">{"ADD USER"}</DialogTitle>
         <DialogContentText id="alert-dialog-description">
@@ -290,7 +317,12 @@ function AddUser({ loadData }) {
                 label="Worker Id"
                 variant="outlined"
                 value={data.workerID}
-                onChange={(e) => setData({ ...data, workerID: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    workerID: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
@@ -324,7 +356,12 @@ function AddUser({ loadData }) {
                 variant="outlined"
                 value={data.username}
                 fullWidth
-                onChange={(e) => setData({ ...data, username: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    username: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
@@ -347,7 +384,12 @@ function AddUser({ loadData }) {
                 variant="outlined"
                 value={data.password}
                 fullWidth
-                onChange={(e) => setData({ ...data, password: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    password: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
@@ -389,7 +431,12 @@ function AddUser({ loadData }) {
                 label="Email"
                 variant="outlined"
                 value={data.email}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    email: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
@@ -420,7 +467,12 @@ function AddUser({ loadData }) {
                 type="number"
                 variant="outlined"
                 value={data.mobile}
-                onChange={(e) => setData({ ...data, mobile: e.target.value })}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    mobile: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid
@@ -443,27 +495,69 @@ function AddUser({ loadData }) {
                   id="demo-simple-select-outlined"
                   value={data.designation}
                   onChange={(e) =>
-                    setData({ ...data, designation: e.target.value })
+                    setData({
+                      ...data,
+                      designation: e.target.value,
+                    })
                   }
                   label="Designation"
                   error={!data?.designation}
                   required
                 >
                   {[
-                    { name: "Helper", value: "helper" },
-                    { name: "Manager", value: "manager" },
+                    {
+                      name: "Helper",
+                      value: "helper",
+                    },
+                    {
+                      name: "Manager",
+                      value: "manager",
+                    },
                     // { name: "Supervisor", value: "supervisor" },
-                    { name: "Wing Incharge", value: "wingIncharge" },
-                    { name: "Director", value: "director" },
-                    { name: "Engineer", value: "engineer" },
-                    { name: "Senior Manager", value: "seniorManager" },
-                    { name: "Assistant Manager", value: "assistantManager" },
-                    { name: "In Charge", value: "incharge" },
-                    { name: "Final Supervisor", value: "finalSupervisor" },
-                    { name: "Kit Supervisor", value: "kitSupervisor" },
-                    { name: "Line Supervisor", value: "lineSupervisor" },
-                    { name: "Fitter", value: "fitter" },
-                    { name: "Electrician", value: "electrician" },
+                    {
+                      name: "Wing Incharge",
+                      value: "wingIncharge",
+                    },
+                    {
+                      name: "Director",
+                      value: "director",
+                    },
+                    {
+                      name: "Engineer",
+                      value: "engineer",
+                    },
+                    {
+                      name: "Senior Manager",
+                      value: "seniorManager",
+                    },
+                    {
+                      name: "Assistant Manager",
+                      value: "assistantManager",
+                    },
+                    {
+                      name: "In Charge",
+                      value: "incharge",
+                    },
+                    {
+                      name: "Final Supervisor",
+                      value: "finalSupervisor",
+                    },
+                    {
+                      name: "Kit Supervisor",
+                      value: "kitSupervisor",
+                    },
+                    {
+                      name: "Line Supervisor",
+                      value: "lineSupervisor",
+                    },
+                    {
+                      name: "Fitter",
+                      value: "fitter",
+                    },
+                    {
+                      name: "Electrician",
+                      value: "electrician",
+                    },
                   ]
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
                     .map((item, index) => (
@@ -494,19 +588,40 @@ function AddUser({ loadData }) {
                   id="demo-simple-select-outlined"
                   value={data.department}
                   onChange={(e) =>
-                    setData({ ...data, department: e.target.value })
+                    setData({
+                      ...data,
+                      department: e.target.value,
+                    })
                   }
                   label="Department"
                   error={!data?.department}
                   required
                 >
                   {[
-                    { name: "Management", value: "management" },
-                    { name: "FIBC", value: "fibc" },
-                    { name: "Quality", value: "quality" },
-                    { name: "Planning", value: "planning" },
-                    { name: "Improvement Office", value: "improvementOffice" },
-                    { name: "Other", value: "other" },
+                    {
+                      name: "Management",
+                      value: "management",
+                    },
+                    {
+                      name: "FIBC",
+                      value: "fibc",
+                    },
+                    {
+                      name: "Quality",
+                      value: "quality",
+                    },
+                    {
+                      name: "Planning",
+                      value: "planning",
+                    },
+                    {
+                      name: "Improvement Office",
+                      value: "improvementOffice",
+                    },
+                    {
+                      name: "Other",
+                      value: "other",
+                    },
                   ]
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
                     .map((item, index) => (
@@ -537,17 +652,37 @@ function AddUser({ loadData }) {
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={data.role}
-                  onChange={(e) => setData({ ...data, role: e.target.value })}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      role: e.target.value,
+                    })
+                  }
                   label="Role"
                   error={!data?.role}
                   required
                 >
                   {[
-                    { name: "Admin", value: "admin" },
-                    { name: "Non Admin", value: "nonAdmin" },
-                    { name: "User", value: "user" },
-                    { name: "Head User", value: "headUser" },
-                    { name: "Non User", value: "nonUser" },
+                    {
+                      name: "Admin",
+                      value: "admin",
+                    },
+                    {
+                      name: "Non Admin",
+                      value: "nonAdmin",
+                    },
+                    {
+                      name: "User",
+                      value: "user",
+                    },
+                    {
+                      name: "Head User",
+                      value: "headUser",
+                    },
+                    {
+                      name: "Non User",
+                      value: "nonUser",
+                    },
                   ]
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
                     .map((item, index) => (
@@ -570,33 +705,30 @@ function AddUser({ loadData }) {
                 justifyContent: "center",
               }}
             >
-              {/* <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Line"
-                variant="outlined"
-                value={data.zone}
-                onChange={(e) => setData({ ...data, zone: e.target.value })}
-              /> */}
               <FormControl variant="outlined" fullWidth>
                 <InputLabel id="demo-simple-select-outlined-label">
-                  Line
+                  Wing
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.zone}
-                  onChange={(e) => setData({ ...data, zone: e.target.value })}
-                  label="Line"
-                  error={!data?.zone}
+                  value={data.wing}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      wing: e.target.value,
+                    })
+                  }
+                  label="Wing"
+                  error={!data?.wing}
                   required
-                  multiple
                 >
-                  {stitchingLines.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
+                  {wingList?.length !== 0 &&
+                    wingList?.map((item, index) => (
+                      <MenuItem value={item.wing} key={index}>
+                        {item?.wing}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -613,22 +745,29 @@ function AddUser({ loadData }) {
             >
               <FormControl variant="outlined" fullWidth>
                 <InputLabel id="demo-simple-select-outlined-label">
-                  Wing
+                  Line
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={data.wing}
-                  onChange={(e) => setData({ ...data, wing: e.target.value })}
-                  label="Wing"
-                  error={!data?.wing}
+                  value={data.zone}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      zone: e.target.value,
+                    })
+                  }
+                  label="Line"
+                  error={!data?.zone}
                   required
+                  multiple
                 >
-                  {wings.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
+                  {lineList?.length !== 0 &&
+                    lineList?.map((item, index) => (
+                      <MenuItem value={item?.line} key={index}>
+                        {item?.line}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -736,7 +875,8 @@ function AddUser({ loadData }) {
             <Grid container item xs={12} style={{ alignItems: "center" }}>
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Select Shifts<span style={{ color: "red" }}>*</span>
+                  Select Shifts
+                  <span style={{ color: "red" }}>*</span>
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -799,10 +939,18 @@ function AddUser({ loadData }) {
             </Grid>
             <Divider variant="fullWidth" />
             {/* Responsibility */}
-            <Grid container item xs={12} style={{ alignItems: "flex-start" }}>
+            <Grid
+              container
+              item
+              xs={12}
+              style={{
+                alignItems: "flex-start",
+              }}
+            >
               <Grid item xs={12} md={3}>
                 <Typography variant="h6" style={{ color: "#f68f1d" }}>
-                  Responsible For<span style={{ color: "red" }}>*</span>
+                  Responsible For
+                  <span style={{ color: "red" }}>*</span>
                 </Typography>
               </Grid>
               <Grid container item xs={12} md={9}>

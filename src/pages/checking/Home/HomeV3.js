@@ -222,7 +222,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -233,7 +233,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -244,7 +244,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
 
@@ -256,7 +256,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
 
@@ -268,7 +268,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -279,7 +279,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -290,7 +290,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     Dispatch(
@@ -301,7 +301,7 @@ export default function HomeV2() {
         inputMACHINEid,
         inputSHIFT,
         inputLINE,
-        selectedWing
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
     setLoading(false);

@@ -48,7 +48,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
-import { checkingManageRoles } from "../../../services/checking.api";
+import {
+  checkingManageRoles,
+  wingWiseLine,
+} from "../../../services/checking.api";
 
 function ManageRoles() {
   // table state
@@ -83,6 +86,7 @@ function ManageRoles() {
 
   // selector
   const { role } = useSelector((state) => state.Common);
+  const { wingList } = useSelector((state) => state?.CheckV3);
 
   // state
   const [columns, setColumns] = useState([]);
@@ -98,6 +102,20 @@ function ManageRoles() {
     shift: [],
   });
   const [selected, setSelected] = React.useState([]);
+  const [lineList, setLineList] = useState([]);
+
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getLineDynamic(data?.wing);
+  }, [data?.wing]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -1193,7 +1211,44 @@ function ManageRoles() {
                 </Select>
               </FormControl>
             </Grid>
-
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Wing
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={data?.wing}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      wing: e.target.value,
+                    })
+                  }
+                  label="Wing"
+                  error={!data?.wing}
+                  required
+                >
+                  {wingList?.length !== 0 &&
+                    wingList?.map((item, index) => (
+                      <MenuItem value={item.wing} key={index}>
+                        {item?.wing}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
             <Grid
               item
               xs={12}
@@ -1228,51 +1283,16 @@ function ManageRoles() {
                   required
                   multiple
                 >
-                  {stitchingLines.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
+                  {lineList?.length !== 0 &&
+                    lineList?.map((item, index) => (
+                      <MenuItem value={item?.line} key={index}>
+                        {item?.line}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              lg={3}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel id="demo-simple-select-outlined-label">
-                  Wing
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={data?.wing}
-                  onChange={(e) =>
-                    setData({
-                      ...data,
-                      wing: e.target.value,
-                    })
-                  }
-                  label="Wing"
-                  error={!data?.wing}
-                  required
-                >
-                  {wings.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+
             <Grid
               item
               xs={12}
