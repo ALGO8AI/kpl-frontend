@@ -126,17 +126,16 @@ function GenerateBarcode() {
   };
 
   useEffect(() => {
+    setSelectedTable([]);
     loadData();
+  }, [selectedWing, inputLINE]);
+  useEffect(() => {
     return () => {
       Dispatch({
         type: "SET_SELECTED_WING",
         payload: "",
       });
     };
-  }, [selectedWing, inputLINE]);
-
-  useEffect(() => {
-    loadData();
   }, []);
 
   // const [filter, setFilter] = React.useState("");
