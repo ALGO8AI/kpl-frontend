@@ -168,14 +168,12 @@ export const copyWorkerScheduleV3 = async () => {
   );
 };
 
-export const bagCount = async () => {
+export const bagCount = async (data) => {
   return await callBackendV2(
     "POST",
     "routes/checking/bagId/tableWiseRemainingBagIdCount",
     true,
-    {
-      wing: localStorage.getItem("kpl_wing"),
-    }
+    data
   );
 };
 

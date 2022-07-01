@@ -2,9 +2,13 @@
 import {
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +19,7 @@ import {
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
@@ -25,10 +29,12 @@ import {
   createBarcodeV2,
   getBagIDconfigV3,
   saveBagIDconfigV3,
+  wingWiseLine,
 } from "../../../services/checking.api";
 import { theme } from "../../../Utility/constants";
 
 function GenerateBarcode() {
+  const { selectedWing } = useSelector((state) => state?.CheckV3);
   const { state, dispatch } = React.useContext(CheckingContext);
   const Dispatch = useDispatch();
   const history = useHistory();
@@ -43,6 +49,22 @@ function GenerateBarcode() {
   const [tableWiseData, setTableWiseData] = useState([]);
   const [selectedTable, setSelectedTable] = useState([]);
   const [config, setConfig] = useState(0);
+  const [lineList, setLineList] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
+
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getLineDynamic(selectedWing);
+    setInputLINE([]);
+  }, [selectedWing]);
 
   const saveBagID = async () => {
     try {
@@ -56,6 +78,10 @@ function GenerateBarcode() {
       // new code v3
       const resp = await createBarcodeV2({
         data: selectedTable,
+        // wing: Boolean(selectedWing)
+        //   ? selectedWing
+        //   : localStorage.getItem("kpl_wing"),
+        // line: inputLINE,
       });
       console.log(resp);
       dispatch({ type: "BAG-DATA-PRINT", payload: resp.data });
@@ -73,7 +99,12 @@ function GenerateBarcode() {
 
   const loadData = async () => {
     try {
-      const resp = await bagCount();
+      const resp = await bagCount({
+        wing: Boolean(selectedWing)
+          ? selectedWing
+          : localStorage.getItem("kpl_wing"),
+        line: inputLINE,
+      });
       console.log(resp?.data);
       setTableWiseData(resp?.data);
       const resp2 = await getBagIDconfigV3();
@@ -93,6 +124,16 @@ function GenerateBarcode() {
       setTableWiseData(resp2?.data);
     } catch (e) {}
   };
+
+  useEffect(() => {
+    loadData();
+    return () => {
+      Dispatch({
+        type: "SET_SELECTED_WING",
+        payload: "",
+      });
+    };
+  }, [selectedWing, inputLINE]);
 
   useEffect(() => {
     loadData();
@@ -135,6 +176,32 @@ function GenerateBarcode() {
             <Button variant="contained" onClick={saveConfig}>
               SAVE CONFIG
             </Button>
+          </Grid>
+          <Grid container item xs={12} sm={12} style={{ margin: "12px 0" }}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              style={{ marginRight: "6px" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Line
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                multiple
+                value={inputLINE}
+                onChange={(e) => setInputLINE(e.target.value)}
+                label="Line"
+                // multiple
+              >
+                {lineList?.map((item, index) => (
+                  <MenuItem key={index} value={item?.line}>
+                    {item?.line}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
         <TableContainer component={Paper} style={{ marginBottom: "12px" }}>
