@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 // import { Alert } from "@material-ui/lab";
 import MaterialTable from "material-table";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
@@ -22,6 +22,7 @@ import {
   deleteBarCode,
   getAllTableId,
   getBagData,
+  getDynamicTableList,
 } from "../../../services/api.service";
 
 function BarcodeDetails() {
@@ -32,6 +33,7 @@ function BarcodeDetails() {
   const [tempFilter, setTempFilter] = React.useState("");
 
   const [machineID, setMachineID] = useState([]);
+  const [inputShift, setInputShift] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [selectedBarcode, setSelectedBarcode] = useState([]);
   // const [open, setOpen] = useState(false);
@@ -40,10 +42,6 @@ function BarcodeDetails() {
   const history = useHistory();
   const fetchBagIds = async () => {
     try {
-      const tableID = await getAllTableId();
-      // console.log(tableID);
-      setMachineID(tableID?.data);
-
       var curr = new Date(); // get current date
       // console.log(new Date().toISOString().slice(0, 10));
       var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
@@ -125,6 +123,24 @@ function BarcodeDetails() {
     }
   };
 
+  const getTableDynamic = async () => {
+    console.log("DYNAMIC MACHINE FILTER CALL");
+    const body = {
+      filterDateFrom: state.bagIdFrom,
+      filterDateTo: state.bagIdTo,
+      shift: inputShift,
+    };
+
+    try {
+      const resp = await getDynamicTableList(body);
+      setMachineID(resp?.allMachines);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getTableDynamic();
+  }, [state.bagIdFrom, state.bagIdTo, inputShift]);
+
   return (
     <>
       <Grid container>
@@ -174,6 +190,32 @@ function BarcodeDetails() {
             }
             fullWidth
           />
+
+          <FormControl
+            variant="outlined"
+            // className={classes.formControl}
+            fullWidth
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Shift
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              multiple
+              value={inputShift}
+              onChange={(e) => setInputShift(e.target.value)}
+              label="Shift"
+              style={{ marginBottom: "1rem" }}
+            >
+              {["A", "B", "C"]?.map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <FormControl
             variant="outlined"
             // className={classes.formControl}

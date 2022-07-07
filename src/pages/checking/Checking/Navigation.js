@@ -225,6 +225,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/home"
+            id="home"
           >
             <HomeIcon className={classes.icon} />
             Home
@@ -236,6 +237,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/logs"
+            id="logs"
           >
             <NotInterestedIcon className={classes.icon} />
             Logs
@@ -247,6 +249,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/videoWall"
+            id="videoWall"
           >
             <VideocamIcon className={classes.icon} />
             Live Table
@@ -258,6 +261,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/layoutView"
+            id="layoutView"
           >
             <MapIcon className={classes.icon} />
             Layout View
@@ -269,6 +273,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/setting"
+            id="setting"
           >
             <SettingsIcon className={classes.icon} />
             Setting
@@ -280,6 +285,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/yourData"
+            id="yourData"
           >
             <PublishIcon className={classes.icon} />
             Your Data
@@ -291,6 +297,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/bagID"
+            id="bagID"
           >
             <LocalMallIcon className={classes.icon} />
             Bag Id
@@ -302,6 +309,7 @@ export default function Navigation() {
             activeClassName={classes.active}
             className={classes.link}
             to="/checking/feedback"
+            id="feedback"
           >
             <FeedbackIcon className={classes.icon} />
             Feedback
