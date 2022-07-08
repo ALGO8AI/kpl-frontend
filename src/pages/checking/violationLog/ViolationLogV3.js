@@ -448,6 +448,7 @@ function ViolationLogV3() {
       filterDateFrom: state.violationFrom,
       filterDateTo: state.violationTo,
       shift: inputSHIFT,
+      line: inputLINE,
     };
 
     try {
@@ -484,7 +485,7 @@ function ViolationLogV3() {
 
   useEffect(() => {
     getTableDynamic();
-  }, [state.violationFrom, state.violationTo, inputSHIFT]);
+  }, [state.violationFrom, state.violationTo, inputSHIFT, inputLINE]);
 
   useEffect(() => {
     getLineDynamic(selectedWing);
@@ -945,18 +946,18 @@ function ViolationLogV3() {
                       title: "Tailor No.",
                       field: "tailorNumber",
                       render: (x) => {
-                        return x.tailorNumber
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
+                        return x?.tailorNumber
+                          ?.split(",")
+                          ?.map((item, x) => <p>{item}</p>);
                       },
                     },
                     {
                       title: "Tailor Name",
                       field: "tailorName",
                       render: (x) => {
-                        return x.tailorName
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
+                        return x?.tailorName
+                          ?.split(",")
+                          ?.map((item, x) => <p>{item}</p>);
                       },
                     },
 
@@ -964,9 +965,9 @@ function ViolationLogV3() {
                       title: "Defect Name",
                       field: "defectName",
                       render: (x) => {
-                        return x.defectName
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
+                        return x?.defectName
+                          ?.split(",")
+                          ?.map((item, x) => <p>{item}</p>);
                       },
                     },
                     // { title: "Action Status", field: "actionStatus" },

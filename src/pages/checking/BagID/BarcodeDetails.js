@@ -14,7 +14,7 @@ import {
 // import { Alert } from "@material-ui/lab";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
@@ -24,8 +24,11 @@ import {
   getBagData,
   getDynamicTableList,
 } from "../../../services/api.service";
+import { wingWiseLine } from "../../../services/checking.api";
 
 function BarcodeDetails() {
+  const { selectedWing } = useSelector((state) => state?.CheckV3);
+
   // DISPATCH
   const Dispatch = useDispatch();
   const { state, dispatch } = React.useContext(CheckingContext);
@@ -33,12 +36,26 @@ function BarcodeDetails() {
   const [tempFilter, setTempFilter] = React.useState("");
 
   const [machineID, setMachineID] = useState([]);
-  const [inputShift, setInputShift] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
   const [selectedBarcode, setSelectedBarcode] = useState([]);
+  const [lineList, setLineList] = useState([]);
+  const [inputLINE, setInputLINE] = useState([]);
   // const [open, setOpen] = useState(false);
   // const [msg, setMsg] = useState("");
 
+  const getLineDynamic = async (wing) => {
+    try {
+      // console.log("DYNAMIC CLPFILTER CALL");
+
+      const resp = await wingWiseLine(wing);
+      setLineList(resp?.data);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getLineDynamic(selectedWing);
+    setInputLINE([]);
+  }, [selectedWing]);
   const history = useHistory();
   const fetchBagIds = async () => {
     try {
@@ -128,7 +145,8 @@ function BarcodeDetails() {
     const body = {
       filterDateFrom: state.bagIdFrom,
       filterDateTo: state.bagIdTo,
-      shift: inputShift,
+      shift: ["A", "B", "C"],
+      line: inputLINE,
     };
 
     try {
@@ -139,7 +157,16 @@ function BarcodeDetails() {
 
   useEffect(() => {
     getTableDynamic();
-  }, [state.bagIdFrom, state.bagIdTo, inputShift]);
+  }, [state.bagIdFrom, state.bagIdTo, inputLINE]);
+
+  useEffect(() => {
+    return () => {
+      Dispatch({
+        type: "SET_SELECTED_WING",
+        payload: "",
+      });
+    };
+  }, []);
 
   return (
     <>
@@ -196,21 +223,19 @@ function BarcodeDetails() {
             // className={classes.formControl}
             fullWidth
           >
-            <InputLabel id="demo-simple-select-outlined-label">
-              Shift
-            </InputLabel>
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
               multiple
-              value={inputShift}
-              onChange={(e) => setInputShift(e.target.value)}
-              label="Shift"
+              value={inputLINE}
+              onChange={(e) => setInputLINE(e.target.value)}
+              label="Line"
               style={{ marginBottom: "1rem" }}
             >
-              {["A", "B", "C"]?.map((item, index) => (
-                <MenuItem value={item} key={index}>
-                  {item}
+              {lineList?.map((item, index) => (
+                <MenuItem value={item?.line} key={index}>
+                  {item?.line}
                 </MenuItem>
               ))}
             </Select>

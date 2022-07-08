@@ -348,6 +348,7 @@ export default function HomeV2() {
       filterDateFrom: state?.from,
       filterDateTo: state?.to,
       shift: inputSHIFT,
+      line: inputLINE,
     };
 
     try {
@@ -388,7 +389,7 @@ export default function HomeV2() {
 
   useEffect(() => {
     getTableDynamic();
-  }, [state?.from, state?.to, inputSHIFT]);
+  }, [state?.from, state?.to, inputSHIFT, inputLINE]);
 
   useEffect(() => {
     loadData();
