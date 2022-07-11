@@ -48,7 +48,7 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
             }
             options={{
               exportButton: true,
-              pageSizeOptions: [20, 50, 100, 200, data.length],
+              pageSizeOptions: [20, 50, 100, 200, 300, 400, 500, data.length],
               initialPage: state?.tableCurrentPage,
               pageSize: 50,
               rowStyle: (rowData) => ({

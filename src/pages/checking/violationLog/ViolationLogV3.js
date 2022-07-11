@@ -682,9 +682,9 @@ function ViolationLogV3() {
                 // multiple
               >
                 {machineID?.length !== 0 &&
-                  machineID.map((item, index) => (
-                    <MenuItem value={item.tableId} key={index}>
-                      {item.tableId}
+                  machineID?.map((item, index) => (
+                    <MenuItem value={item?.tableId} key={index}>
+                      {item?.tableId}
                     </MenuItem>
                   ))}
               </Select>
@@ -766,9 +766,9 @@ function ViolationLogV3() {
                 // multiple
               >
                 {clpCtr &&
-                  clpCtr.map((item, index) => (
-                    <MenuItem value={item.ctr} key={index}>
-                      {item.ctr}
+                  clpCtr?.map((item, index) => (
+                    <MenuItem value={item?.ctr} key={index}>
+                      {item?.ctr}
                     </MenuItem>
                   ))}
               </Select>
@@ -1093,18 +1093,18 @@ function ViolationLogV3() {
                       title: "Tailor No.",
                       field: "tailorNumber",
                       render: (x) => {
-                        return x.tailorNumber
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
+                        return x?.tailorNumber
+                          ?.split(",")
+                          ?.map((item, x) => <p>{item}</p>);
                       },
                     },
                     {
                       title: "Tailor Name",
                       field: "tailorName",
                       render: (x) => {
-                        return x.tailorName
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
+                        return x?.tailorName
+                          ?.split(",")
+                          ?.map((item, x) => <p>{item}</p>);
                       },
                     },
 
@@ -1112,9 +1112,9 @@ function ViolationLogV3() {
                       title: "Defect Name",
                       field: "defectName",
                       render: (x) => {
-                        return x.defectName
-                          .split(",")
-                          .map((item, x) => <p>{item}</p>);
+                        return x?.defectName
+                          ?.split(",")
+                          ?.map((item, x) => <p>{item}</p>);
                       },
                     },
                     // { title: "Action Status", field: "actionStatus" },
