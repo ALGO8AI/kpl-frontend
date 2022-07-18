@@ -385,8 +385,13 @@ export default function HomeV2() {
   }, [state?.from, state?.to, inputMACHINEid]);
 
   useEffect(() => {
-    Dispatch(getCurrentCTRV3(selectedWing, lineList[0]?.line));
-  }, [selectedWing, lineList]);
+    Dispatch(
+      getCurrentCTRV3(
+        selectedWing,
+        inputLINE?.length === 0 ? lineList[0]?.line : inputLINE[0]
+      )
+    );
+  }, [selectedWing, lineList, inputLINE]);
 
   useEffect(() => {
     getLineDynamic(selectedWing);
