@@ -515,7 +515,7 @@ export const workerLogsV3 = (
 export const getCurrentCTRV3 = (wing, line) => async (dispatch) => {
   try {
     const resp = await clpCtrCountV3({
-      wing,
+      wing: wing ? wing : localStorage.getItem("kpl_wing"),
       line,
     });
     console.log("CTR", resp);
