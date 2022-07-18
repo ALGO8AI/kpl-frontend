@@ -57,6 +57,7 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import {
   defectsLogsV3,
+  getCurrentCTRV3,
   productionLogsV3,
   workerLogsV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
@@ -339,6 +340,15 @@ function ViolationLogV3() {
       clearInterval(interval);
     };
   }, [filterEnable]);
+
+  useEffect(() => {
+    Dispatch(
+      getCurrentCTRV3(
+        selectedWing,
+        inputLINE?.length === 0 ? lineList[0]?.line : inputLINE[0]
+      )
+    );
+  }, [selectedWing, lineList, inputLINE]);
 
   const [tabValue, setTabValue] = React.useState(state.violationTab);
 
