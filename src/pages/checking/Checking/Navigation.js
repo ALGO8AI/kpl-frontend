@@ -46,6 +46,7 @@ import { KPLContext } from "../../../context/ViolationContext";
 import ProfileBox from "../../../components/profileBox/ProfileBox";
 import { clpCtrCountV3, wingListV3 } from "../../../services/checking.api";
 import { useDispatch, useSelector } from "react-redux";
+import { getCurrentCTRV3 } from "../../../redux/CheckingReducer/CheckingV3Action";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -139,7 +140,9 @@ export default function Navigation() {
   const Dispatch = useDispatch();
 
   const { state, dispatch } = React.useContext(KPLContext);
-  const { wingList, selectedWing } = useSelector((state) => state?.CheckV3);
+  const { wingList, selectedWing, currentCTR } = useSelector(
+    (state) => state?.CheckV3
+  );
 
   // CUSTOM NOTIFICATION FUNCTION
   const [ctrDrop, setCtrDrop] = React.useState([]);
@@ -165,15 +168,12 @@ export default function Navigation() {
   const loadData = async () => {
     try {
       // const ctr = await ctrDropDown();
-      const ctr = await clpCtrCountV3();
-      console.log("CTR Count", ctr.data);
       const { data } = await wingListV3();
       Dispatch({
         type: "SET_WING_LIST",
         payload: data,
       });
       // setWingList(data);
-      setCtrDrop(ctr.data);
       const notification = await getStitchingNotification();
       console.log(notification?.data);
       setNotification(notification?.data);
@@ -554,7 +554,7 @@ export default function Navigation() {
               {" "}
               {state.profile.username}
             </Typography>
-            {ctrDrop?.length > 0 && (
+            {currentCTR && (
               <Typography
                 variant="h6"
                 style={{
@@ -564,7 +564,7 @@ export default function Navigation() {
                 }}
               >
                 {" "}
-                CTR : {ctrDrop[0]?.ctr}
+                CTR : {currentCTR}
                 {/* <br />
                 Count : {ctrDrop[0]?.["count(ctr)"]} */}
               </Typography>

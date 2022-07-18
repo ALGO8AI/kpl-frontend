@@ -18,6 +18,7 @@ const initStore = {
   workerLog: [],
   wingList: [],
   selectedWing: "",
+  currentCTR: "",
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -62,6 +63,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         selectedWing: action.payload,
+      };
+    case "SET_CURRENT_CTR":
+      return {
+        ...state,
+        currentCTR: action.payload,
       };
 
     default:

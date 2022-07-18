@@ -49,6 +49,7 @@ import {
   checkerPerformanceV3,
   defectTrendV3,
   getAllTableIdV3,
+  getCurrentCTRV3,
   homeDefectChartV3,
   homeRepairedChartV3,
   top3DefectesV3,
@@ -382,6 +383,10 @@ export default function HomeV2() {
   useEffect(() => {
     getCTRDynamic();
   }, [state?.from, state?.to, inputMACHINEid]);
+
+  useEffect(() => {
+    Dispatch(getCurrentCTRV3(selectedWing, lineList[0]?.line));
+  }, [selectedWing, lineList]);
 
   useEffect(() => {
     getLineDynamic(selectedWing);

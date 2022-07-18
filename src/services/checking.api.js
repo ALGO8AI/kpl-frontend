@@ -201,10 +201,12 @@ export const saveBagIDconfigV3 = async (lotSize) => {
   );
 };
 
-export const clpCtrCountV3 = async () => {
+export const clpCtrCountV3 = async (body) => {
   return await callBackendV2(
-    "GET",
-    "routes/checking/KPI/home/clpctrHavingMaxCount"
+    "POST",
+    "routes/checking/KPI/home/clpctrHavingMaxCount",
+    true,
+    body
   );
 };
 

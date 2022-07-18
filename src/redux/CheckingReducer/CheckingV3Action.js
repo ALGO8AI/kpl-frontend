@@ -1,3 +1,4 @@
+import { clpCtrCountV3 } from "../../services/checking.api";
 import { callBackendV2 } from "../../services/http.servicev2";
 
 export const homeDefectChartV3 = (
@@ -508,5 +509,19 @@ export const workerLogsV3 = (
         type: "WORKER_LOG",
         payload: resp?.violationByWorkerData,
       });
+  } catch (e) {}
+};
+
+export const getCurrentCTRV3 = (wing, line) => async (dispatch) => {
+  try {
+    const resp = await clpCtrCountV3({
+      wing,
+      line,
+    });
+    console.log("CTR", resp);
+    dispatch({
+      type: "SET_CURRENT_CTR",
+      payload: resp?.data[0]?.ctr,
+    });
   } catch (e) {}
 };
