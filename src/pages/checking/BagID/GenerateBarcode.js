@@ -128,7 +128,7 @@ function GenerateBarcode() {
   useEffect(() => {
     setSelectedTable([]);
     loadData();
-  }, [selectedWing, inputLINE]);
+  }, []);
   useEffect(() => {
     return () => {
       Dispatch({
@@ -201,6 +201,26 @@ function GenerateBarcode() {
                 ))}
               </Select>
             </FormControl>
+          </Grid>
+
+          <Grid container item xs={12} sm={12} style={{ margin: "12px 0" }}>
+            <Button
+              onClick={loadData}
+              autoFocus
+              variant="contained"
+              style={{
+                backgroundColor: "#0e4a7b",
+                color: "#FFF",
+                whiteSpace: "nowrap",
+                width: "100%",
+                height: "fit-content",
+                border: "1px solid #0e4a7b",
+                padding: "12px",
+                martinTop: "12px",
+              }}
+            >
+              FILTER
+            </Button>
           </Grid>
         </Grid>
         <TableContainer component={Paper} style={{ marginBottom: "12px" }}>
