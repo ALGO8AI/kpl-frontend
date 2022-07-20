@@ -731,7 +731,7 @@ function ViolationLog1() {
             />
           </Grid>
         )}
-        {role === "Admin" || role === "Non Admin" ? (
+        {role === "Admin" || role === "Non Admin" || role === "Head User" ? (
           <Grid item xs={12} lg={1} style={{ paddingRight: "12px" }}>
             <FormControl
               variant="outlined"
