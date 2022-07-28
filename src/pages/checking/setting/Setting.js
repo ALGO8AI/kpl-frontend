@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 // import "./home.css";
 import PropTypes from "prop-types";
@@ -9,6 +10,7 @@ import "./Setting.scss";
 import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
+import SATconfiguration from "../../../components/SATconfiguration/SATconfiguration";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,7 +66,7 @@ function Setting() {
         >
           <Tab label=" Manage Roles" {...a11yProps(0)} />
           <Tab label="Alert and Notification" {...a11yProps(1)} />
-          <Tab label=" Configurations" {...a11yProps(2)} />
+          <Tab label="SAT Configuration" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={1}>
@@ -75,9 +77,10 @@ function Setting() {
         {/* <AddUser /> */}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <div className="overlay">
+        <SATconfiguration />
+        {/* <div className="overlay">
           <Typography variant="h2">Coming Soon</Typography>
-        </div>
+        </div> */}
       </TabPanel>
     </Grid>
   );
