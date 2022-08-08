@@ -33,8 +33,10 @@ export const getCheckingViolationDetailDataV3 = async (id) => {
   );
 };
 
-export const getCheckingWorkerDataV3 = async () => {
-  return await callBackendV2("GET", "routes/checking/worker/all");
+export const getCheckingWorkerDataV3 = async (
+  wing = localStorage.getItem("kpl_wing")
+) => {
+  return await callBackendV2("GET", `routes/checking/worker/all/${wing}`);
 };
 
 export const workerUpdateCheckingV3 = async (datas) => {
@@ -62,8 +64,8 @@ export const workerDeleteCheckingV3 = async (datas) => {
   );
 };
 
-export const getTailorDetailsV3 = async () => {
-  return await callBackendV2("GET", "routes/checking/tailor");
+export const getTailorDetailsV3 = async (wing) => {
+  return await callBackendV2("GET", `routes/checking/tailor/${wing}`);
 };
 
 export const addTailorV3 = async (name, id) => {

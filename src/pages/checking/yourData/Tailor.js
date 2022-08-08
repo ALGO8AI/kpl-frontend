@@ -5,7 +5,13 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
-import { Snackbar } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+} from "@material-ui/core";
 import "./Worker.scss";
 import MaterialTable from "material-table";
 import TextField from "@material-ui/core/TextField";
@@ -18,6 +24,7 @@ import {
   getTailorDetailsV3,
   updateTailorV3,
 } from "../../../services/checking.api";
+import { useSelector } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,18 +54,19 @@ TabPanel.propTypes = {
 
 function Tailor(props) {
   const [workerData, setWorkerData] = useState();
+  const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
   const [edit, setEdit] = useState(false);
 
-  const loadData = async () => {
+  const loadData = async (Wing) => {
     try {
-      const x = await getTailorDetailsV3();
+      const x = await getTailorDetailsV3(Wing);
       console.log(x);
       setWorkerData(x.data);
     } catch (err) {}
   };
   useEffect(() => {
-    loadData();
-  }, []);
+    loadData(selectedWing || localStorage.getItem("kpl_wing"));
+  }, [selectedWing]);
   const columns = [
     { title: "Tailor ID", field: "tailorId" },
     // {
@@ -107,6 +115,7 @@ function Tailor(props) {
     workerId: "",
     workerImage: "",
     id: "",
+    wing: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -124,7 +133,13 @@ function Tailor(props) {
       setMsg(resp.msg);
       setOpen(true);
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "", id: "" });
+      setUserData({
+        name: "",
+        workerId: "",
+        workerImage: "",
+        id: "",
+        wing: "",
+      });
     } catch (e) {
       // console.log(e.message);
     }
@@ -137,7 +152,13 @@ function Tailor(props) {
       setMsg(resp.msg);
       setOpen(true);
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "", id: "" });
+      setUserData({
+        name: "",
+        workerId: "",
+        workerImage: "",
+        id: "",
+        wing: "",
+      });
       setEdit(false);
     } catch (e) {
       // console.log(e.message);
@@ -152,7 +173,13 @@ function Tailor(props) {
         userdata.id
       );
       loadData();
-      setUserData({ name: "", workerId: "", workerImage: "", id: "" });
+      setUserData({
+        name: "",
+        workerId: "",
+        workerImage: "",
+        id: "",
+        wing: "",
+      });
       // console.log(resp);
       setMsg(resp?.msg);
       setOpen(true);
@@ -185,6 +212,28 @@ function Tailor(props) {
             setUserData({ ...userdata, workerId: e.target.value })
           }
         />
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginBottom: "12px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={userdata.wing}
+            onChange={(e) => setUserData({ ...userdata, wing: e.target.value })}
+            label="Wing"
+            // multiple
+          >
+            {wingList?.length > 0 &&
+              wingList?.map((item, index) => (
+                <MenuItem key={index} value={item?.wing}>
+                  {item?.wing}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         {/* <label for="myfile" className="inputLabel">
           Select a file:
         </label>
@@ -220,7 +269,12 @@ function Tailor(props) {
                 }}
                 onClick={() => {
                   setEdit(false);
-                  setUserData({ name: "", workerId: "", workerImage: "" });
+                  setUserData({
+                    name: "",
+                    workerId: "",
+                    workerImage: "",
+                    wing: "",
+                  });
                 }}
               >
                 CANCEL
