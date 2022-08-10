@@ -1468,7 +1468,7 @@ const getAllWorketrList = async () => {
 const getAllWorketrListChecking = async (
   wing = localStorage.getItem("kpl_wing")
 ) => {
-  return await callBackend("GET", `routes/checking/worker/all`);
+  return await callBackend("GET", `routes/checking/worker/all/${wing}`);
 };
 
 const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {

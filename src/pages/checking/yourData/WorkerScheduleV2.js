@@ -110,9 +110,13 @@ function WorkerScheduleV2() {
         type: "TABLE_ID",
         payload: tableIds?.data,
       });
-      const worker = await getAllWorketrListChecking();
+      const worker = await getAllWorketrListChecking(
+        selectedWing || localStorage.getItem("kpl_wing")
+      );
       setWorkerList(worker?.data);
-      const x = await getCheckingSchedule(selectedWing);
+      const x = await getCheckingSchedule(
+        selectedWing || localStorage.getItem("kpl_wing")
+      );
       setScheduleData(x?.data);
       const unassign = await getUnassignedCLPCTR();
       // console.log(unassign?.data);
