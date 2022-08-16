@@ -988,18 +988,20 @@ const updateStitchingWorkerSchedule = async (datas) => {
   );
 };
 
-const getCheckingWorkerData = async () => {
-  return await callBackend("GET", "routes/checking/worker/all");
+const getCheckingWorkerData = async (
+  wing = localStorage.getItem("kpl_wing")
+) => {
+  return await callBackend("GET", `routes/checking/worker/all/${wing}`);
 };
 
-const getCheckingSchedule = async (formData) => {
-  console.log("formData", formData);
+const getCheckingSchedule = async (wing) => {
+  console.log("wing", wing);
   return await callBackend(
     "POST",
     "routes/checking/schedule/scheduleDetail",
     true,
     {
-      wing: localStorage.getItem("kpl_wing"),
+      wing: wing || localStorage.getItem("kpl_wing"),
       line: localStorage.getItem("kpl_line")?.split(","),
     }
   );
@@ -1463,8 +1465,10 @@ const getAllWorketrList = async () => {
   return await callBackend("GET", "routes/stitching/worker/allWorker");
 };
 
-const getAllWorketrListChecking = async () => {
-  return await callBackend("GET", "routes/checking/worker/all");
+const getAllWorketrListChecking = async (
+  wing = localStorage.getItem("kpl_wing")
+) => {
+  return await callBackend("GET", `routes/checking/worker/all/${wing}`);
 };
 
 const defectsViolation = async (fromDate, toDate, ctr, tableId, shifts) => {

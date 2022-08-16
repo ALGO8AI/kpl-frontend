@@ -5,7 +5,13 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
-import { Snackbar } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+} from "@material-ui/core";
 import "./Worker.scss";
 import MaterialTable from "material-table";
 import TextField from "@material-ui/core/TextField";
@@ -23,6 +29,7 @@ import {
   workerDeleteCheckingV3,
   workerUpdateCheckingV3,
 } from "../../../services/checking.api";
+import { useSelector } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,17 +60,18 @@ TabPanel.propTypes = {
 function WorkerChecking(props) {
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);
+  const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
 
-  const loadData = async () => {
+  const loadData = async (selectedWing) => {
     try {
-      const x = await getCheckingWorkerDataV3();
+      const x = await getCheckingWorkerDataV3(selectedWing);
       console.log(x);
       setWorkerData(x.data);
     } catch (err) {}
   };
   useEffect(() => {
-    loadData();
-  }, []);
+    loadData(selectedWing || localStorage.getItem("kpl_wing"));
+  }, [selectedWing]);
   const columns = [
     { title: "Worker ID", field: "workerId" },
     // {
@@ -110,6 +118,7 @@ function WorkerChecking(props) {
     name: "",
     workerId: "",
     workerImage: "",
+    wing: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -141,8 +150,8 @@ function WorkerChecking(props) {
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
-      loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      loadData(selectedWing);
+      setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
     } catch (e) {
       // console.log(e.message);
     }
@@ -154,8 +163,8 @@ function WorkerChecking(props) {
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
-      loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      loadData(selectedWing);
+      setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
       setEdit(false);
     } catch (e) {
       // console.log(e.message);
@@ -167,8 +176,8 @@ function WorkerChecking(props) {
       const resp = await workerDeleteCheckingV3({
         workerId: userdata.workerId,
       });
-      loadData();
-      setUserData({ name: "", workerId: "", workerImage: "" });
+      loadData(selectedWing);
+      setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
       // console.log(resp);
       setMsg("Deleted");
       setOpen(true);
@@ -201,6 +210,29 @@ function WorkerChecking(props) {
             setUserData({ ...userdata, workerId: e.target.value })
           }
         />
+
+        <FormControl
+          variant="outlined"
+          fullWidth
+          style={{ marginBottom: "12px" }}
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Wing</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={userdata.wing}
+            onChange={(e) => setUserData({ ...userdata, wing: e.target.value })}
+            label="Wing"
+            // multiple
+          >
+            {wingList?.length > 0 &&
+              wingList?.map((item, index) => (
+                <MenuItem key={index} value={item?.wing}>
+                  {item?.wing}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         <label for="myfile" className="inputLabel">
           Select a file:
         </label>

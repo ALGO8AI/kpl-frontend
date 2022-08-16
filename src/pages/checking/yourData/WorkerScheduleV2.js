@@ -38,7 +38,7 @@ import {
 import { Alert, Autocomplete } from "@material-ui/lab";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { getAllTableIdV3 } from "../../../redux/CheckingReducer/CheckingV3Action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   copyWorkerScheduleV3,
   saveWorkerScheduleV3,
@@ -97,6 +97,8 @@ function WorkerScheduleV2() {
     setValue(newValue);
   };
 
+  const { selectedWing } = useSelector((state) => state?.CheckV3);
+
   // dispatch
   const Dispatch = useDispatch();
 
@@ -108,9 +110,13 @@ function WorkerScheduleV2() {
         type: "TABLE_ID",
         payload: tableIds?.data,
       });
-      const worker = await getAllWorketrListChecking();
+      const worker = await getAllWorketrListChecking(
+        selectedWing || localStorage.getItem("kpl_wing")
+      );
       setWorkerList(worker?.data);
-      const x = await getCheckingSchedule();
+      const x = await getCheckingSchedule(
+        selectedWing || localStorage.getItem("kpl_wing")
+      );
       setScheduleData(x?.data);
       const unassign = await getUnassignedCLPCTR();
       // console.log(unassign?.data);
@@ -254,7 +260,7 @@ function WorkerScheduleV2() {
       .getItem("kpl_line")
       .split(",")
       .map((item) => setWingWiseShift((prev) => ({ ...prev, [item]: 0 })));
-  }, []);
+  }, [selectedWing]);
 
   return (
     <Grid container>
@@ -403,7 +409,7 @@ function WorkerScheduleV2() {
                                           label=""
                                           // multiple
                                         >
-                                          {workerList.length > 0 &&
+                                          {workerList?.length > 0 &&
                                             workerList
                                               ?.sort((a, b) =>
                                                 a?.workerName > b?.workerName
