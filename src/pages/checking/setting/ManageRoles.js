@@ -94,6 +94,7 @@ function ManageRoles() {
   const [tableData, setTableData] = useState([]);
   const [data, setData] = useState({
     line: [],
+    isUpdatePassword: 0,
   });
   const [open, setOpen] = React.useState(false);
   const [filterCondition, setFilterConditiion] = useState({
@@ -159,15 +160,20 @@ function ManageRoles() {
   };
 
   const submitHandler = async () => {
+    console.log(data);
     const DATA = {
       id: data.id,
       uid: data.uid,
       username: data.username,
       password: data.password,
+      isUpdatePassword: data?.isUpdatePassword,
       email: data.email,
       designation: data.designation,
       role: data.role,
-      zone: data.zone?.filter((item) => item !== "")?.join(","),
+      zone:
+        typeof data?.zone === "object"
+          ? data.zone?.filter((item) => item !== "")?.join(",")
+          : data?.zone,
       wing: data.wing,
       // accessibilityCutting: data.accessibilityCutting ? 1 : 0,
       // accessibilityStitching: data.accessibilityStitching ? 1 : 0,
@@ -330,6 +336,7 @@ function ManageRoles() {
               }}
               onClick={() => {
                 if (role === "Admin" || role === "admin") {
+                  console.log(data);
                   handleClickOpen();
                   setData({
                     ...data,
@@ -980,7 +987,14 @@ function ManageRoles() {
                 variant="outlined"
                 value={data?.password}
                 fullWidth
-                disabled
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    password: e.target.value,
+                    isUpdatePassword: 1,
+                  })
+                }
+                // disabled
               />
             </Grid>
             <Grid
@@ -995,7 +1009,7 @@ function ManageRoles() {
               }}
             >
               <TextField
-                disabled
+                // disabled
                 fullWidth
                 id="outlined-basic"
                 label="Email"
