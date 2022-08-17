@@ -221,3 +221,11 @@ export const wingWiseLine = async (wing) => {
     wing: wing ? wing : localStorage.getItem("kpl_wing"),
   });
 };
+
+export const addSATquestions = async (body) => {
+  return await callBackendV2("POST", "routes/sat/addQuestions", true, body);
+};
+
+export const getSATquestions = async () => {
+  return await callBackendV2("GET", "routes/sat/getQuestions");
+};

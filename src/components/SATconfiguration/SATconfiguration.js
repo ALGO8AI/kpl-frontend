@@ -10,13 +10,14 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { theme } from "../../Utility/constants";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../redux/CommonReducer/CommonAction";
 import { convertToBase64 } from "../../Utility/Utility";
+import { getSATquestions } from "../../services/checking.api";
 const alphabeticalIndex = {
   0: "A",
   1: "B",
@@ -119,6 +120,41 @@ function SATconfiguration() {
       dispatch(openSnackbar(true, "error", "Invalid Image Type"));
     }
   };
+
+  const fetchData = async () => {
+    try {
+      const { data } = await getSATquestions();
+      console.log(
+        "SAT Ques",
+        data.map((item, index) => ({
+          id: item?.id,
+          question: item?.question,
+          type: item?.types,
+          optionType: "text",
+          options: item?.options,
+          correct: item?.options[Number(item?.answer)],
+          marks: item?.marks,
+        }))
+      );
+      // setQuestions(
+      //   data.map((item, index) => (
+      //     {
+      //       id: item?.id,
+      //       question: item?.question,
+      //       type: item?.types,
+      //       optionType: 'text',
+      //       options: item?.options,
+      //       correct: item?.options[Number(item?.answer)],
+      //       marks:item?.marks
+      //     }
+      //   ))
+      // )
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Grid
