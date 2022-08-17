@@ -317,12 +317,12 @@ function ViolationLogV3() {
       type: "VIO_TO",
       payload: weekRange()[1],
     });
-    return () => {
-      Dispatch({
-        type: "SET_SELECTED_WING",
-        payload: "",
-      });
-    };
+    // return () => {
+    //   Dispatch({
+    //     type: "SET_SELECTED_WING",
+    //     payload: "",
+    //   });
+    // };
     // loadInitialData();
   }, []);
 

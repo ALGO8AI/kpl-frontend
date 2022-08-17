@@ -403,12 +403,12 @@ export default function HomeV2() {
 
   useEffect(() => {
     loadData();
-    return () => {
-      Dispatch({
-        type: "SET_SELECTED_WING",
-        payload: "",
-      });
-    };
+    // return () => {
+    //   Dispatch({
+    //     type: "SET_SELECTED_WING",
+    //     payload: "",
+    //   });
+    // };
   }, []);
 
   return (
