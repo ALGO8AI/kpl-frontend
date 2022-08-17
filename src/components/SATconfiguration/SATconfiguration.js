@@ -17,7 +17,7 @@ import { theme } from "../../Utility/constants";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../redux/CommonReducer/CommonAction";
 import { convertToBase64 } from "../../Utility/Utility";
-import { getSATquestions } from "../../services/checking.api";
+import { addSATquestions, getSATquestions } from "../../services/checking.api";
 const alphabeticalIndex = {
   0: "A",
   1: "B",
@@ -27,32 +27,7 @@ const alphabeticalIndex = {
 function SATconfiguration() {
   // dispatch
   const dispatch = useDispatch();
-  const [questions, setQuestions] = useState([
-    {
-      id: Math.floor(Math.random() * 1111),
-      question: "What is CLp-Ctr?",
-      type: "objective",
-      optionType: "text",
-      options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-      correct: "Option 3",
-      marks: 5,
-    },
-    {
-      id: Math.floor(Math.random() * 1111),
-      question: "What is Barcode?",
-      type: "objective",
-      optionType: "text",
-      options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-      correct: "Option 1",
-      marks: 2,
-    },
-    {
-      id: Math.floor(Math.random() * 1111),
-      question: "What is Line Area Supervisor?",
-      type: "subjective",
-      marks: 10,
-    },
-  ]);
+  const [questions, setQuestions] = useState([]);
 
   const [newQuestion, setNewQuestion] = useState({
     id: Math.floor(Math.random() * 1111),
@@ -67,43 +42,67 @@ function SATconfiguration() {
     marks: "",
   });
 
-  const addNewQuestion = () => {
-    if (newQuestion?.type === "objective") {
-      setQuestions([
-        ...questions,
-        {
-          id: newQuestion.id,
-          question: newQuestion.question,
-          type: newQuestion.type,
-          optionType: newQuestion.optionType,
-          options: [newQuestion.A, newQuestion.B, newQuestion.C, newQuestion.D],
-          correct: newQuestion.correct,
-          marks: newQuestion.marks,
-        },
-      ]);
-    } else {
-      setQuestions([
-        ...questions,
-        {
-          id: newQuestion.id,
-          question: newQuestion.question,
-          type: newQuestion.type,
-          marks: newQuestion.marks,
-        },
-      ]);
+  const addNewQuestion = async () => {
+    try {
+      let optionsArr = [
+        newQuestion.A,
+        newQuestion.B,
+        newQuestion.C,
+        newQuestion.D,
+      ];
+      let correctAnswer = optionsArr.indexOf(newQuestion.correct);
+      let formData = {
+        type: newQuestion.type,
+        question: newQuestion.question,
+        optionType: newQuestion.optionType,
+        optionsArr,
+        correctAnswer,
+        subjectiveAnswer: null,
+        marks: newQuestion.marks,
+      };
+      console.log("SAT NEW QUE", formData);
+      const { data } = await addSATquestions(formData);
+      console.log(data);
+      setNewQuestion({
+        id: Math.floor(Math.random() * 1111),
+        question: "",
+        type: "objective",
+        optionType: "text",
+        A: "",
+        B: "",
+        C: "",
+        D: "",
+        correct: "",
+        marks: "",
+      });
+      fetchData();
+    } catch (e) {
+      console.log(e);
     }
-    setNewQuestion({
-      id: Math.floor(Math.random() * 1111),
-      question: "",
-      type: "objective",
-      optionType: "text",
-      A: "",
-      B: "",
-      C: "",
-      D: "",
-      correct: "",
-      marks: "",
-    });
+    // if (newQuestion?.type === "objective") {
+    //   setQuestions([
+    //     ...questions,
+    //     {
+    //       id: newQuestion.id,
+    //       question: newQuestion.question,
+    //       type: newQuestion.type,
+    //       optionType: newQuestion.optionType,
+    //       options: [newQuestion.A, newQuestion.B, newQuestion.C, newQuestion.D],
+    //       correct: newQuestion.correct,
+    //       marks: newQuestion.marks,
+    //     },
+    //   ]);
+    // } else {
+    //   setQuestions([
+    //     ...questions,
+    //     {
+    //       id: newQuestion.id,
+    //       question: newQuestion.question,
+    //       type: newQuestion.type,
+    //       marks: newQuestion.marks,
+    //     },
+    //   ]);
+    // }
   };
 
   const fileHandler = async (item, e) => {
@@ -124,31 +123,30 @@ function SATconfiguration() {
   const fetchData = async () => {
     try {
       const { data } = await getSATquestions();
+      console.log("DATA", data);
       console.log(
         "SAT Ques",
         data.map((item, index) => ({
           id: item?.id,
           question: item?.question,
           type: item?.types,
-          optionType: "text",
-          options: item?.options,
-          correct: item?.options[Number(item?.answer)],
+          options: JSON.parse(item?.options),
+          correct: JSON.parse(item?.options)[Number(item?.answer)],
           marks: item?.marks,
+          optionType: Boolean(item?.optionType) ? item?.optionType : "text",
         }))
       );
-      // setQuestions(
-      //   data.map((item, index) => (
-      //     {
-      //       id: item?.id,
-      //       question: item?.question,
-      //       type: item?.types,
-      //       optionType: 'text',
-      //       options: item?.options,
-      //       correct: item?.options[Number(item?.answer)],
-      //       marks:item?.marks
-      //     }
-      //   ))
-      // )
+      setQuestions(
+        data.map((item, index) => ({
+          id: item?.id,
+          question: item?.question,
+          type: item?.types,
+          options: JSON.parse(item?.options),
+          correct: JSON.parse(item?.options)[Number(item?.answer)],
+          marks: item?.marks,
+          optionType: Boolean(item?.optionType) ? item?.optionType : "text",
+        }))
+      );
     } catch (e) {}
   };
 
