@@ -689,11 +689,17 @@ const generateBagIds = async (lotSize, tableNo) => {
   );
 };
 
-const getBagData = async (filterDateFrom, filterDateTo, tableId) => {
+const getBagData = async (
+  filterDateFrom,
+  filterDateTo,
+  tableId,
+  wing = localStorage.getItem("kpl_wing")
+) => {
   const data = {
     filterDateFrom,
     filterDateTo,
     tableId,
+    wing,
   };
   console.log(data);
   return await callBackend(

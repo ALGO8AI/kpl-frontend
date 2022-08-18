@@ -104,7 +104,8 @@ function BarcodeDetails() {
       const resp = await getBagData(
         state.bagIdFrom,
         state.bagIdTo,
-        inputMACHINEid
+        inputMACHINEid,
+        selectedWing
       );
 
       // console.log(resp);
@@ -123,7 +124,7 @@ function BarcodeDetails() {
   };
   React.useEffect(() => {
     fetchBagIds();
-  }, []);
+  }, [selectedWing]);
 
   const deleteBarCodes = async () => {
     try {
@@ -160,14 +161,14 @@ function BarcodeDetails() {
     getTableDynamic();
   }, [state.bagIdFrom, state.bagIdTo, inputLINE]);
 
-  useEffect(() => {
-    return () => {
-      Dispatch({
-        type: "SET_SELECTED_WING",
-        payload: "",
-      });
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     Dispatch({
+  //       type: "SET_SELECTED_WING",
+  //       payload: "",
+  //     });
+  //   };
+  // }, []);
 
   return (
     <>
