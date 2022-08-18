@@ -531,12 +531,13 @@ export default function Navigation() {
                     ? selectedWing
                     : localStorage.getItem("kpl_wing")
                 }
-                onChange={(e) =>
+                onChange={(e) => {
                   Dispatch({
                     type: "SET_SELECTED_WING",
                     payload: e.target.value,
-                  })
-                }
+                  });
+                  localStorage.setItem("kpl_wing", e.target.value);
+                }}
                 label="Wing"
                 // multiple
               >

@@ -341,7 +341,7 @@ export default function HomeV2() {
     return () => {
       clearInterval(interval);
     };
-  }, [filterEnable]);
+  }, [filterEnable, selectedWing]);
 
   const getTableDynamic = async () => {
     console.log("DYNAMIC MACHINE FILTER CALL");
@@ -409,7 +409,7 @@ export default function HomeV2() {
     //     payload: "",
     //   });
     // };
-  }, []);
+  }, [selectedWing]);
 
   return (
     <Grid
