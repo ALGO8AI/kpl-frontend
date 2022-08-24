@@ -101,6 +101,7 @@ function Tailor(props) {
               name: x.tailorName,
               workerId: x.tailorId,
               workerImage: x.image,
+              wing: x.wing,
               id: x.id,
             });
           }}
@@ -128,11 +129,15 @@ function Tailor(props) {
 
   const submitImageDetails = async () => {
     try {
-      const resp = await addTailorV3(userdata.name, userdata.workerId);
+      const resp = await addTailorV3(
+        userdata.name,
+        userdata.workerId,
+        userdata.wing
+      );
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
-      loadData();
+      loadData(selectedWing || localStorage.getItem("kpl_wing"));
       setUserData({
         name: "",
         workerId: "",
@@ -147,11 +152,15 @@ function Tailor(props) {
 
   const updateImageDetails = async () => {
     try {
-      const resp = await updateTailorV3(userdata.name, userdata.workerId);
+      const resp = await updateTailorV3(
+        userdata.name,
+        userdata.workerId,
+        userdata.wing
+      );
       // console.log(resp);
       setMsg(resp.msg);
       setOpen(true);
-      loadData();
+      loadData(selectedWing || localStorage.getItem("kpl_wing"));
       setUserData({
         name: "",
         workerId: "",
@@ -172,7 +181,7 @@ function Tailor(props) {
         userdata.workerId,
         userdata.id
       );
-      loadData();
+      loadData(selectedWing || localStorage.getItem("kpl_wing"));
       setUserData({
         name: "",
         workerId: "",
