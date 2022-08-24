@@ -105,7 +105,7 @@ function BarcodeDetails() {
         state.bagIdFrom,
         state.bagIdTo,
         inputMACHINEid,
-        selectedWing
+        selectedWing || localStorage.getItem("kpl_wing")
       );
 
       // console.log(resp);
