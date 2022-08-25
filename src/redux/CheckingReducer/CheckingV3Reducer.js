@@ -20,6 +20,7 @@ const initStore = {
   selectedWing: "",
   currentCTR: "",
   tailorSummary: [],
+  checkerAvailability: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -75,7 +76,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
         ...state,
         tailorSummary: action.payload,
       };
-
+    case "SET_CHECKER_AVAIL":
+      return {
+        ...state,
+        checkerAvailability: action.payload,
+      };
     default:
       return state;
   }

@@ -56,6 +56,7 @@ import { Autocomplete } from "@material-ui/lab";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import {
+  checkerAvailabilityV3,
   defectsLogsV3,
   getCurrentCTRV3,
   productionLogsV3,
@@ -134,6 +135,7 @@ function ViolationLogV3() {
     workerLog,
     selectedWing,
     tailorSummary,
+    checkerAvailability,
   } = useSelector((state) => state?.CheckV3);
 
   // use selector
@@ -304,6 +306,17 @@ function ViolationLogV3() {
         Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
+    Dispatch(
+      checkerAvailabilityV3(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE,
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
+      )
+    );
 
     setTimeout(() => {
       setDataLoading(false);
@@ -316,6 +329,7 @@ function ViolationLogV3() {
     Dispatch(productionLogsV3());
     Dispatch(workerLogsV3());
     Dispatch(tailorSummaryV3());
+    Dispatch(checkerAvailabilityV3());
     setTimeout(() => {
       setDataLoading(false);
     }, 3000);
@@ -851,6 +865,7 @@ function ViolationLogV3() {
               <Tab label="Production Summary" {...a11yProps(1)} />
               <Tab label="Checker Details" {...a11yProps(2)} />
               <Tab label="Tailor Summary" {...a11yProps(3)} />
+              <Tab label="Checker Availability" {...a11yProps(4)} />
             </Tabs>
           </AppBar>
           <TabPanel value={state.violationTab} index={0}>
@@ -1251,20 +1266,238 @@ function ViolationLogV3() {
                       },
                     },
                     {
+                      title: "Tailor ID",
+                      field: "tailorId",
+                    },
+                    {
                       title: "Tailor Name",
                       field: "tailorName",
                     },
                     {
-                      title: "Defect Name",
-                      field: "defectName",
+                      title: "Shift",
+                      field: "shift",
                     },
                     {
-                      title: "Defect Count",
-                      field: "defectCount",
+                      title: "Herackle -3 Layer",
+                      field: "Herackle -3 Layer",
+                    },
+                    {
+                      title: "Herackle - Open Stitch",
+                      field: "Herackle - Open Stitch",
+                    },
+                    {
+                      title: "Herackle- Loop Size",
+                      field: "Herackle- Loop Size",
+                    },
+                    {
+                      title: "Herackle- Fabric Pressed",
+                      field: "Herackle- Fabric Pressed",
+                    },
+                    {
+                      title: "Safety- Open Stitch",
+                      field: "Safety- Open Stitch",
+                    },
+                    {
+                      title: "Safety - Stitch Miss",
+                      field: "Safety - Stitch Miss",
+                    },
+                    {
+                      title: "Safety - Corner damage",
+                      field: "Safety - Corner damage",
+                    },
+                    {
+                      title: "Safety - Stitching Overlapped",
+                      field: "Safety - Stitching Overlapped",
+                    },
+                    {
+                      title: "Safety- Filler cord issue",
+                      field: "Safety- Filler cord issue",
+                    },
+                    {
+                      title: "Safety Fabric pressed issue",
+                      field: "Safety Fabric pressed issue",
+                    },
+                    {
+                      title: "Discharge -Stitch Open",
+                      field: "Discharge -Stitch Open",
+                    },
+                    {
+                      title: "Discharge - Corner issue",
+                      field: "Discharge - Corner issue",
+                    },
+                    {
+                      title: "Discharge -Knotting issue",
+                      field: "Discharge -Knotting issue",
+                    },
+                    {
+                      title: "Discharge -Tie position",
+                      field: "Discharge -Tie position",
+                    },
+                    {
+                      title: "Discharge -Tie issue",
+                      field: "Discharge -Tie issue",
+                    },
+                    {
+                      title: "Discharge - Fabric pressed issue",
+                      field: "Discharge - Fabric pressed issue",
+                    },
+                    {
+                      title: "Top - Open Stitch",
+                      field: "Top - Open Stitch",
+                    },
+                    {
+                      title: "Top - Filler cord",
+                      field: "Top - Filler cord",
+                    },
+                    {
+                      title: "Top - Tie position",
+                      field: "Top - Tie position",
+                    },
+                    {
+                      title: "Top -Tie issue",
+                      field: "Top -Tie issue",
+                    },
+                    {
+                      title: "Top- Corner damage",
+                      field: "Top- Corner damage",
+                    },
+                    {
+                      title: "Top- Filler cord damageCut",
+                      field: "Top- Filler cord damageCut",
+                    },
+                    {
+                      title: "Top - LabelDoc Pkt",
+                      field: "Top - LabelDoc Pkt",
+                    },
+                    {
+                      title: "Accs. - Open Stitch",
+                      field: "Accs. - Open Stitch",
+                    },
+                    {
+                      title: "Accs. - Stitch Miss",
+                      field: "Accs. - Stitch Miss",
+                    },
+                    {
+                      title: "Accs. -  Stitching overlap",
+                      field: "Accs. -  Stitching overlap",
+                    },
+                    // {
+                    //   title: "Accs. - Stitching overlap",
+                    //   field: "Accs. - Stitching overlap",
+                    // },
+                    {
+                      title: "Contamination",
+                      field: "Contamination",
+                    },
+                    {
+                      title: "Document pocket position",
+                      field: "Document pocket position",
+                    },
+                    {
+                      title: "Folding issue",
+                      field: "Folding issue",
+                    },
+                    {
+                      title: "Juki issue",
+                      field: "Juki issue",
+                    },
+                    {
+                      title: "Baffle issue",
+                      field: "Baffle issue",
+                    },
+                    {
+                      title: "Other Loops",
+                      field: "Other Loops",
+                    },
+                    {
+                      title: "Defective Fabric",
+                      field: "Defective Fabric",
+                    },
+                    {
+                      title: "Defective Webbing",
+                      field: "Defective Webbing",
+                    },
+                    {
+                      title: "Fabric Fray",
+                      field: "Fabric Fray",
+                    },
+                    {
+                      title: "Heat Cutter Damage",
+                      field: "Defective Webbing",
+                    },
+                    {
+                      title: "Machine Damage",
+                      field: "Machine Damage",
+                    },
+                  ]}
+                />
+              </Grid>
+            )}
+          </TabPanel>
+          <TabPanel value={state.violationTab} index={4}>
+            {dataLoading ? (
+              <Grid item container xs={12}>
+                <LinearProgress style={{ width: "100%" }} />
+              </Grid>
+            ) : (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <ViolationTable
+                  data={checkerAvailability}
+                  rowClick={() => {}}
+                  // selectedRow={selectedRow}
+                  loading={loader}
+                  columns={[
+                    {
+                      title: "Date",
+                      field: "date",
+                      render: (rowData) => {
+                        // const NewDate = moment(new Date(rowData.dateTime))
+                        //   .format("DD/MM/YYYY")
+                        //   .toString();
+                        // const d = rowData.dateTime;
+                        return modifyPrevDate(rowData.date);
+                      },
+                    },
+
+                    {
+                      title: "Checker ID",
+                      field: "checkerId",
+                    },
+                    {
+                      title: "Checker Name",
+                      field: "checkerName",
+                    },
+                    {
+                      title: "Table ID",
+                      field: "tableId",
                     },
                     {
                       title: "Shift",
                       field: "shift",
+                    },
+                    {
+                      title: "Reason",
+                      field: "reason",
+                    },
+                    {
+                      title: "Unavailable Mins.",
+                      field: "unavailableDuration",
+                    },
+                    {
+                      title: "Start Time",
+                      field: "startTime",
+                    },
+                    {
+                      title: "End Time",
+                      field: "endTime",
+                    },
+                    {
+                      title: "Wing",
+                      field: "wing",
+                    },
+                    {
+                      title: "Supervisor",
+                      field: "supervisor",
                     },
                   ]}
                 />
