@@ -24,7 +24,8 @@ import {
   getTailorDetailsV3,
   updateTailorV3,
 } from "../../../services/checking.api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +57,7 @@ function Tailor(props) {
   const [workerData, setWorkerData] = useState();
   const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
   const [edit, setEdit] = useState(false);
+  const dispatch = useDispatch();
 
   const loadData = async (Wing) => {
     try {
@@ -129,6 +131,9 @@ function Tailor(props) {
 
   const submitImageDetails = async () => {
     try {
+      if (!userdata.name || !userdata.workerId || !userdata.wing) {
+        return dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+      }
       const resp = await addTailorV3(
         userdata.name,
         userdata.workerId,
