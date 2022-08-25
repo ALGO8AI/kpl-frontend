@@ -59,6 +59,7 @@ import {
   defectsLogsV3,
   getCurrentCTRV3,
   productionLogsV3,
+  tailorSummaryV3,
   workerLogsV3,
 } from "../../../redux/CheckingReducer/CheckingV3Action";
 import { wingListV3, wingWiseLine } from "../../../services/checking.api";
@@ -132,6 +133,7 @@ function ViolationLogV3() {
     productionLogs,
     workerLog,
     selectedWing,
+    tailorSummary,
   } = useSelector((state) => state?.CheckV3);
 
   // use selector
@@ -291,6 +293,17 @@ function ViolationLogV3() {
         Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
+    Dispatch(
+      tailorSummaryV3(
+        state.violationFrom,
+        state.violationTo,
+        inputCTR,
+        inputMACHINEid,
+        inputSHIFT,
+        inputLINE,
+        Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
+      )
+    );
 
     setTimeout(() => {
       setDataLoading(false);
@@ -302,6 +315,7 @@ function ViolationLogV3() {
     Dispatch(defectsLogsV3());
     Dispatch(productionLogsV3());
     Dispatch(workerLogsV3());
+    Dispatch(tailorSummaryV3());
     setTimeout(() => {
       setDataLoading(false);
     }, 3000);
@@ -835,7 +849,8 @@ function ViolationLogV3() {
             >
               <Tab label="Defects" {...a11yProps(0)} />
               <Tab label="Production Summary" {...a11yProps(1)} />
-              <Tab label="Checker Details" {...a11yProps(1)} />
+              <Tab label="Checker Details" {...a11yProps(2)} />
+              <Tab label="Tailor Summary" {...a11yProps(3)} />
             </Tabs>
           </AppBar>
           <TabPanel value={state.violationTab} index={0}>
@@ -1205,6 +1220,51 @@ function ViolationLogV3() {
                     {
                       title: "Line",
                       field: "line",
+                    },
+                  ]}
+                />
+              </Grid>
+            )}
+          </TabPanel>
+          <TabPanel value={state.violationTab} index={3}>
+            {dataLoading ? (
+              <Grid item container xs={12}>
+                <LinearProgress style={{ width: "100%" }} />
+              </Grid>
+            ) : (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <ViolationTable
+                  data={tailorSummary}
+                  rowClick={() => {}}
+                  // selectedRow={selectedRow}
+                  loading={loader}
+                  columns={[
+                    {
+                      title: "Date",
+                      field: "dateTime",
+                      render: (rowData) => {
+                        // const NewDate = moment(new Date(rowData.dateTime))
+                        //   .format("DD/MM/YYYY")
+                        //   .toString();
+                        // const d = rowData.dateTime;
+                        return modifyPrevDate(rowData.dateTime);
+                      },
+                    },
+                    {
+                      title: "Tailor Name",
+                      field: "tailorName",
+                    },
+                    {
+                      title: "Defect Name",
+                      field: "defectName",
+                    },
+                    {
+                      title: "Defect Count",
+                      field: "defectCount",
+                    },
+                    {
+                      title: "Shift",
+                      field: "shift",
                     },
                   ]}
                 />

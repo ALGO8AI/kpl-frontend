@@ -19,6 +19,7 @@ const initStore = {
   wingList: [],
   selectedWing: "",
   currentCTR: "",
+  tailorSummary: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -68,6 +69,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         currentCTR: action.payload,
+      };
+    case "SET_TAILOR_SUMMARY":
+      return {
+        ...state,
+        tailorSummary: action.payload,
       };
 
     default:

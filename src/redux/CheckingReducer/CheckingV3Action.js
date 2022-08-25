@@ -512,6 +512,41 @@ export const workerLogsV3 = (
   } catch (e) {}
 };
 
+export const tailorSummaryV3 = (
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10),
+  clpctr,
+  tableId,
+  shifts,
+  line = localStorage.getItem("kpl_line")?.split(","),
+  wing = localStorage.getItem("kpl_wing")
+) => async (dispatch) => {
+  try {
+    const formField = {
+      clpctr,
+      tableId,
+      filterDateFrom,
+      filterDateTo,
+      shifts,
+      username: localStorage.getItem("kpl_username"),
+      wing,
+      line,
+    };
+    const resp = await callBackendV2(
+      "POST",
+      "routes/checking/KPI/violation/tailorSummary",
+      true,
+      formField
+    );
+    console.log("Tailor Summary", resp);
+    resp &&
+      dispatch({
+        type: "SET_TAILOR_SUMMARY",
+        payload: resp?.tailorSummary,
+      });
+  } catch (e) {}
+};
+
 export const getCurrentCTRV3 = (wing, line) => async (dispatch) => {
   try {
     const resp = await clpCtrCountV3({
