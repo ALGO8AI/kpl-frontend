@@ -22,10 +22,7 @@ import { ViewDetails } from "./pages/stitching/layoutView/viewDetails/viewDetail
 import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
 import Cutting from "./pages/cutting/Cutting/Cutting";
 import { useDispatch } from "react-redux";
-// import axios from "axios";
-// const ENDPOINT = "http://3.23.114.42:2020/";
-// const publicVapidKey = 'BM2GFExoYFS2vpAT4bc99Utb1e9MbNlZudCeiZcTa4iVIBXmtZKXMxQhnnsmo3Ab4xz_1KbRGSLIp_AXo7j6YHs'
-// const socket = socketIOClient(ENDPOINT);
+
 
 function App(props) {
   // console.log(props);

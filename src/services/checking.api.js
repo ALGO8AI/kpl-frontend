@@ -68,19 +68,21 @@ export const getTailorDetailsV3 = async (wing) => {
   return await callBackendV2("GET", `routes/checking/tailor/${wing}`);
 };
 
-export const addTailorV3 = async (name, id) => {
+export const addTailorV3 = async (name, id, wing) => {
   const data = {
     tailorName: name,
     tailorId: id,
+    wing,
     img: "",
   };
   return await callBackendV2("POST", "routes/checking/tailor/add", true, data);
 };
 
-export const updateTailorV3 = async (name, id) => {
+export const updateTailorV3 = async (name, id, wing) => {
   const data = {
     tailorName: name,
     tailorId: id,
+    wing,
     img: "",
   };
   return await callBackendV2(

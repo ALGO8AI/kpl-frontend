@@ -129,7 +129,7 @@ function GenerateBarcode() {
   useEffect(() => {
     setSelectedTable([]);
     loadData();
-  }, []);
+  }, [selectedWing]);
   useEffect(() => {
     return () => {
       Dispatch({

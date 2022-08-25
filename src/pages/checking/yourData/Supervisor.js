@@ -23,6 +23,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import { weekRange } from "../../../Utility/DateRange";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  openSnackbar,
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
@@ -297,9 +298,19 @@ function Supervisor(props) {
     }
   };
 
-  const addSupervisor = async (data) => {
+  const addSupervisor = async () => {
     try {
-      const resp = await addCheckingSupervisorSingleV3(data);
+      if (
+        !userdata.supervisorName ||
+        !userdata.supervisorId ||
+        !userdata.date ||
+        !userdata.wing ||
+        !userdata.line ||
+        !userdata?.shift
+      ) {
+        return Dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+      }
+      const resp = await addCheckingSupervisorSingleV3(userdata);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
@@ -730,7 +741,7 @@ function Supervisor(props) {
                 height: "fit-content",
                 border: "1px solid #0e4a7b",
               }}
-              onClick={() => addSupervisor(userdata)}
+              onClick={addSupervisor}
             >
               SAVE
             </Button>

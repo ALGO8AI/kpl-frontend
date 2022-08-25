@@ -29,7 +29,8 @@ import {
   workerDeleteCheckingV3,
   workerUpdateCheckingV3,
 } from "../../../services/checking.api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,6 +62,7 @@ function WorkerChecking(props) {
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);
   const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
+  const dispatch = useDispatch();
 
   const loadData = async (selectedWing) => {
     try {
@@ -146,6 +148,9 @@ function WorkerChecking(props) {
 
   const submitImageDetails = async () => {
     try {
+      if (!userdata.name || !userdata.workerId || !userdata.wing) {
+        return dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+      }
       const resp = await AddWorkerCheckingV3(userdata);
       // console.log(resp);
       setMsg(resp.msg);
