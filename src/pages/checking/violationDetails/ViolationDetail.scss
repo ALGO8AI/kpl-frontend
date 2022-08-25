@@ -1,3 +1,4 @@
+@import "../../../index.scss";
 // one class
 .mb-16 {
   margin-bottom: 1rem !important;
@@ -45,6 +46,35 @@
         .Value {
           color: black !important;
           margin-bottom: 8px;
+        }
+      }
+    }
+  }
+}
+
+.TableContainer {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    thead {
+      th {
+        font-size: 16px;
+        font-weight: 600;
+        color: $primary-blue;
+        padding: 8px;
+        text-align: left;
+        background-color: #004b7f1a;
+      }
+    }
+    tbody {
+      tr {
+        margin: "4px 0";
+        td {
+          font-size: 16px;
+          font-weight: 600;
+          // color: $primary-blue;
+          padding: 8px;
+          text-align: left;
         }
       }
     }

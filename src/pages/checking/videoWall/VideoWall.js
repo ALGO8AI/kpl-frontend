@@ -83,14 +83,14 @@ export default function VideoWall() {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label="Video Wall" {...a11yProps(0)} />
-          <Tab label="Table Status" {...a11yProps(1)} />
+          <Tab label="Table Status" {...a11yProps(0)} />
+          <Tab label="Video Wall" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={1}>
         <LiveVideo />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={0}>
         <TableStatus />
       </TabPanel>
     </Grid>
@@ -106,6 +106,7 @@ function LiveVideo() {
   const loadData = async () => {
     try {
       const x = await videoWallChecking();
+      console.log(x);
       setVideos(x);
     } catch (err) {}
   };

@@ -1183,6 +1183,10 @@ function ViolationLogV3() {
                       field: "tableId",
                     },
                     {
+                      title: "Ctr No",
+                      field: "ctr_no",
+                    },
+                    {
                       title: "Bags Checked",
                       field: "NoOfBagsChecked",
                     },

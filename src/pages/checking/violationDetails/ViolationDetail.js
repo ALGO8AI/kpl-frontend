@@ -29,7 +29,10 @@ import ReactPlayer from "react-player";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { FormControl, InputLabel, Paper, Typography } from "@material-ui/core";
-import { getCheckingViolationDetailDataV3 } from "../../../services/checking.api";
+import {
+  getBagIdHistory,
+  getCheckingViolationDetailDataV3,
+} from "../../../services/checking.api";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -165,6 +168,7 @@ function ViolationDetail(props) {
   const [supervisor, setSupervisor] = useState("");
   const [newSupervisor, setNewSupervisor] = useState("");
   const [closedBy, setClosedBy] = useState("");
+  const [historyData, setHistoryData] = useState([]);
 
   const getRecentData = async () => {
     const typeOfViolation = localStorage.getItem("VIOLATION");
@@ -249,10 +253,18 @@ function ViolationDetail(props) {
     } catch (e) {}
   };
 
+  const getHistory = async () => {
+    try {
+      const { data } = await getBagIdHistory(props.id);
+      setHistoryData(data);
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getData();
     getRecentData();
     getSupervisor();
+    getHistory();
     return () => {
       setReason("");
       setReason1("");
@@ -294,7 +306,9 @@ function ViolationDetail(props) {
         false,
         "",
         data?.actualSupervisor,
-        reassigned
+        reassigned,
+        data?.bagId,
+        data?.defectName
       );
       console.log(x);
       setMsg(x.msg);
@@ -326,7 +340,11 @@ function ViolationDetail(props) {
         "",
         false,
         true,
-        inc
+        inc,
+        data?.actualSupervisor,
+        reassigned,
+        data?.bagId,
+        data?.defectName
       );
       console.log(x);
       setMsg(x.msg);
@@ -809,6 +827,49 @@ function ViolationDetail(props) {
                 )}
               </Grid>
             </Grid>
+            {historyData?.length > 0 && (
+              <Grid container item xs={12} style={{ padding: "12px" }}>
+                <Grid item xs={12}>
+                  <h3 style={{ color: "black", marginBottom: "8px" }}>
+                    BAG HISTORY
+                  </h3>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="TableContainer">
+                    <table>
+                      <thead>
+                        <tr>
+                          {["Date", "Time", "Status", "Defect"].map(
+                            (item, index) => (
+                              <th key={index}>{item}</th>
+                            )
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {historyData.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              {new Date(item.timestamp).toLocaleDateString()}
+                            </td>
+                            <td>
+                              {new Date(item.timestamp).toLocaleTimeString()}
+                            </td>
+                            <td
+                              className={returnClassName(item?.status)}
+                              style={{ margin: "4px", display: "block" }}
+                            >
+                              {item?.status}
+                            </td>
+                            <td>{item?.defectName}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </Grid>
+              </Grid>
+            )}
           </Grid>
           <Grid
             container

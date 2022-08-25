@@ -231,3 +231,17 @@ export const addSATquestions = async (body) => {
 export const getSATquestions = async () => {
   return await callBackendV2("GET", "routes/sat/getQuestions");
 };
+
+export const getLibeTableStatus = async (wing) => {
+  return await callBackendV2(
+    "GET",
+    `routes/checking/KPI/liveTableStatus/${wing}`
+  );
+};
+
+export const getBagIdHistory = async (id) => {
+  return await callBackendV2(
+    "GET",
+    `routes/checking/KPI/violation/bagIdHistory/${id}`
+  );
+};

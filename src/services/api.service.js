@@ -316,7 +316,9 @@ const violationCommentChecking = async (
   isIncorrect,
   incorrect,
   actual,
-  reassigned
+  reassigned,
+  bagId = "",
+  defectId = ""
 ) => {
   console.log(
     id,
@@ -326,7 +328,9 @@ const violationCommentChecking = async (
     isIncorrect,
     incorrect,
     actual,
-    reassigned
+    reassigned,
+    bagId,
+    defectId
   );
   return await callBackend(
     "POST",
@@ -341,6 +345,8 @@ const violationCommentChecking = async (
       incorrectViolationReason: incorrect,
       actualSupervisor: actual,
       reassignedSupervisor: reassigned,
+      bagId,
+      defectId,
     }
   );
 };
