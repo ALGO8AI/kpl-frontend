@@ -52,9 +52,9 @@ function SATconfiguration() {
       ];
       let correctAnswer = optionsArr.indexOf(newQuestion.correct);
       let formData = {
-        type: newQuestion.type,
+        type: "objective",
         question: newQuestion.question,
-        optionType: newQuestion.optionType,
+        optionType: "text",
         optionsArr,
         correctAnswer,
         subjectiveAnswer: null,
@@ -208,7 +208,7 @@ function SATconfiguration() {
           >
             Configure
           </Typography>
-          <Grid item xs={12} style={{ marginBottom: "12px" }}>
+          {/* <Grid item xs={12} style={{ marginBottom: "12px" }}>
             {["objective", "subjective"].map((type, index) => (
               <Button
                 style={{
@@ -223,7 +223,7 @@ function SATconfiguration() {
                 {type}
               </Button>
             ))}
-          </Grid>
+          </Grid> */}
           <Grid container item xs={12} style={{ marginBottom: "12px" }}>
             <Grid container item xs={10} style={{ paddingRight: "8px" }}>
               <TextField
@@ -252,10 +252,9 @@ function SATconfiguration() {
               />
             </Grid>
           </Grid>
-
           {newQuestion.type === "objective" && (
             <Grid container item xs={12}>
-              <Grid
+              {/* <Grid
                 container
                 item
                 xs={12}
@@ -288,7 +287,7 @@ function SATconfiguration() {
                     {type}
                   </Button>
                 ))}
-              </Grid>
+              </Grid> */}
               {newQuestion?.optionType === "text" &&
                 ["A", "B", "C", "D"].map((item, index) => (
                   <Grid
@@ -479,7 +478,7 @@ function ObjectiveQuestion({ question, index, deleteQuestion }) {
           Marks : <span>{question?.marks}</span>
         </p>
       </Grid>
-      <Grid
+      {/* <Grid
         xs={3}
         style={{
           display: "flex",
@@ -492,7 +491,7 @@ function ObjectiveQuestion({ question, index, deleteQuestion }) {
         <Button onClick={deleteQuestion}>
           <DeleteIcon />
         </Button>
-      </Grid>
+      </Grid> */}
       {question?.options?.map((option, index) => (
         <Grid xs={12}>
           {question?.optionType === "text" ? (
@@ -598,7 +597,7 @@ function SubjectiveQuestion({ question, index, deleteQuestion }) {
           Marks : <span>{question?.marks}</span>
         </p>
       </Grid>
-      <Grid
+      {/* <Grid
         xs={3}
         style={{
           display: "flex",
@@ -611,7 +610,7 @@ function SubjectiveQuestion({ question, index, deleteQuestion }) {
         <Button onClick={deleteQuestion}>
           <DeleteIcon />
         </Button>
-      </Grid>
+      </Grid> */}
       <Grid
         xs={12}
         style={{
