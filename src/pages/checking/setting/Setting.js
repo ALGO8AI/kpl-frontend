@@ -11,6 +11,7 @@ import AlertAndNotification from "./AlertAndNotification";
 import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
 import SATconfiguration from "../../../components/SATconfiguration/SATconfiguration";
+import SatReport from "./SatReport";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,6 +68,7 @@ function Setting() {
           <Tab label=" Manage Roles" {...a11yProps(0)} />
           <Tab label="Alert and Notification" {...a11yProps(1)} />
           <Tab label="SAT Configuration" {...a11yProps(2)} />
+          <Tab label="SAT Report" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={1}>
@@ -81,6 +83,9 @@ function Setting() {
         {/* <div className="overlay">
           <Typography variant="h2">Coming Soon</Typography>
         </div> */}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <SatReport />
       </TabPanel>
     </Grid>
   );
