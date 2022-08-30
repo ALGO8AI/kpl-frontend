@@ -226,6 +226,7 @@ export default function HomeV2() {
         Boolean(selectedWing) ? selectedWing : localStorage.getItem("kpl_wing")
       )
     );
+    Dispatch(wingwiseSummaryV3(state.from, state.to));
     Dispatch(
       homeDefectChartV3(
         state.from,

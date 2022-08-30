@@ -209,11 +209,18 @@ export const top3DefectesV3 = () => async (dispatch) => {
   } catch (e) {}
 };
 
-export const wingwiseSummaryV3 = () => async (dispatch) => {
+export const wingwiseSummaryV3 = (
+  filterDateFrom = new Date().toISOString().slice(0, 10),
+  filterDateTo = new Date().toISOString().slice(0, 10)
+) => async (dispatch) => {
   try {
     const resp = await callBackendV2(
-      "GET",
-      "routes/checking/KPI/home/wingWiseSummary"
+      "POST",
+      "routes/checking/KPI/home/wingWiseSummary",
+      {
+        filterDateFrom,
+        filterDateTo,
+      }
     );
     resp &&
       dispatch({
