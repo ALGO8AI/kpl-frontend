@@ -37,12 +37,13 @@ function AlertSummary() {
         }}
         // rows={data}
         rows={response?.map((row, i) => {
-          const { date, ...rest } = row;
+          const { date, defect, ...rest } = row;
           return {
             id: i,
             date: moment(new Date(date))
               .format("DD/MM/YYYY")
               .toString(),
+            defect: `${defect?.split("-")[1]}-${defect?.split("-")[2]}`,
             ...rest,
           };
         })}

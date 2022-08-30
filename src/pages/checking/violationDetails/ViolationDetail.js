@@ -253,12 +253,17 @@ function ViolationDetail(props) {
     } catch (e) {}
   };
 
-  const getHistory = async () => {
+  const getHistory = async (id) => {
     try {
-      const { data } = await getBagIdHistory(props.id);
+      const { data } = await getBagIdHistory(id);
+      console.log("HISTORY", data);
       setHistoryData(data);
     } catch (e) {}
   };
+
+  useEffect(() => {
+    getHistory(data?.bagId);
+  }, [data?.bagId]);
 
   useEffect(() => {
     getData();
