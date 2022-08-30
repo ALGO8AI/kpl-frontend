@@ -12,6 +12,7 @@ import { Grid } from "@material-ui/core";
 import ManageRoles from "./ManageRoles";
 import SATconfiguration from "../../../components/SATconfiguration/SATconfiguration";
 import SatReport from "./SatReport";
+import AlertAndNotificationV4 from "./AlertAndNotificationV4";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,7 +73,7 @@ function Setting() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={1}>
-        <AlertAndNotification />
+        <AlertAndNotificationV4 />
       </TabPanel>
       <TabPanel value={value} index={0}>
         <ManageRoles />
