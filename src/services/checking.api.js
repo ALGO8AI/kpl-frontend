@@ -245,3 +245,10 @@ export const getBagIdHistory = async (id) => {
     `routes/checking/KPI/violation/bagIdHistory/${id}`
   );
 };
+
+export const getAlertSummary = async (wing) => {
+  return await callBackendV2(
+    "GET",
+    `routes/alert/superCheckerAlertSummary/${wing}`
+  );
+};

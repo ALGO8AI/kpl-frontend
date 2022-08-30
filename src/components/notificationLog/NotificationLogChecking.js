@@ -28,6 +28,7 @@ import {
   openSnackbar_TO,
 } from "../../redux/CommonReducer/CommonAction";
 import { notificationLogsV3 } from "../../redux/CheckingReducer/CheckingV3Action";
+import AlertSummary from "../AlertSummary/AlertSummary";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -261,6 +262,7 @@ function NotificationLogChecking() {
             {/* <Tab label="Crowd Data" {...a11yProps(0)} />
             <Tab label="Worker Data" {...a11yProps(1)} /> */}
             <Tab label="Defect Data" {...a11yProps(0)} />
+            <Tab label="Alert Summary" {...a11yProps(0)} />
             {/* <Tab label="Checker Details" {...a11yProps(1)} /> */}
 
             {/* <Tab label="Worker Data" {...a11yProps(2)} />
@@ -828,6 +830,9 @@ function NotificationLogChecking() {
               />
             </Grid>
           )}
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <AlertSummary />
         </TabPanel>
         {/* <TabPanel value={value} index={1}>
           {workerLog?.length > 0 && (
