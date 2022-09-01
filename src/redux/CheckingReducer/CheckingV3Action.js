@@ -217,6 +217,7 @@ export const wingwiseSummaryV3 = (
     const resp = await callBackendV2(
       "POST",
       "routes/checking/KPI/home/wingWiseSummary",
+      true,
       {
         filterDateFrom,
         filterDateTo,
