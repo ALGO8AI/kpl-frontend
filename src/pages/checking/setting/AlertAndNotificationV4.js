@@ -1,8 +1,12 @@
 import {
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
@@ -20,6 +24,18 @@ function AlertAndNotificationV4() {
     pdi: false,
   });
 
+  const [roles, setRoles] = useState([]);
+
+  const fetchRoles = async () => {
+    try {
+      const { data } = await callBackendV2(
+        "GET",
+        "routes/alert/departmentWiseRoles"
+      );
+      setRoles(data);
+    } catch (e) {}
+  };
+
   let [management, setManagement] = useState({
     defectCategory: "checkerDefect",
     department: "",
@@ -27,6 +43,7 @@ function AlertAndNotificationV4() {
     timePeriod: "",
     topDefectCountChecker: "",
     topDefectCountPDI: "",
+    roles: [],
   });
 
   let [fibc, setFibc] = useState({
@@ -36,6 +53,7 @@ function AlertAndNotificationV4() {
     timePeriod: "",
     topDefectCountChecker: "",
     topDefectCountPDI: "",
+    roles: [],
   });
 
   let [quality, setQuality] = useState({
@@ -45,6 +63,7 @@ function AlertAndNotificationV4() {
     timePeriod: "",
     topDefectCountChecker: "",
     topDefectCountPDI: "",
+    roles: [],
   });
 
   let [improvement, setImprovement] = useState({
@@ -54,6 +73,7 @@ function AlertAndNotificationV4() {
     timePeriod: "",
     topDefectCountChecker: "",
     topDefectCountPDI: "",
+    roles: [],
   });
 
   let [plan, setPlan] = useState({
@@ -63,6 +83,7 @@ function AlertAndNotificationV4() {
     timePeriod: "",
     topDefectCountChecker: "",
     topDefectCountPDI: "",
+    roles: [],
   });
 
   const saveCheckerDefects = async (data) => {
@@ -78,6 +99,7 @@ function AlertAndNotificationV4() {
             : data?.notificationMode.join(","),
         topDefectCount: data?.topDefectCountChecker,
         timePeriod: data?.timePeriod,
+        roles: data?.roles?.length === 0 ? "" : data?.roles?.join(","),
       };
 
       const resp = await callBackendV2(
@@ -103,6 +125,7 @@ function AlertAndNotificationV4() {
         notificationMode: data[0]?.notificationMode?.split(","),
         timePeriod: data[0]?.timePeriod,
         topDefectCountChecker: data[0]?.topDefectCount,
+        roles: data[0]?.roles ? data[0]?.roles?.split(",") : [],
       });
 
       setFibc({
@@ -111,6 +134,7 @@ function AlertAndNotificationV4() {
         notificationMode: data[1]?.notificationMode?.split(","),
         timePeriod: data[1]?.timePeriod,
         topDefectCountChecker: data[1]?.topDefectCount,
+        roles: data[1]?.roles ? data[1]?.roles?.split(",") : [],
       });
 
       setQuality({
@@ -119,6 +143,7 @@ function AlertAndNotificationV4() {
         notificationMode: data[2]?.notificationMode?.split(","),
         timePeriod: data[2]?.timePeriod,
         topDefectCountChecker: data[2]?.topDefectCount,
+        roles: data[2]?.roles ? data[2]?.roles?.split(",") : [],
       });
 
       setImprovement({
@@ -127,6 +152,7 @@ function AlertAndNotificationV4() {
         notificationMode: data[3]?.notificationMode?.split(","),
         timePeriod: data[3]?.timePeriod,
         topDefectCountChecker: data[3]?.topDefectCount,
+        roles: data[3]?.roles ? data[3]?.roles?.split(",") : [],
       });
 
       setPlan({
@@ -135,10 +161,12 @@ function AlertAndNotificationV4() {
         notificationMode: data[4]?.notificationMode?.split(","),
         timePeriod: data[4]?.timePeriod,
         topDefectCountChecker: data[4]?.topDefectCount,
+        roles: data[4]?.roles ? data[4]?.roles?.split(",") : [],
       });
     } catch (e) {}
   };
   useEffect(() => {
+    fetchRoles();
     getCheckerDefects();
   }, []);
 
@@ -255,6 +283,32 @@ function AlertAndNotificationV4() {
               </span>
             </label>
           </Grid>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{
+              marginBottom: "0.5rem",
+            }}
+          >
+            <InputLabel htmlFor="outlined-age-native-simple">Roles</InputLabel>
+            <Select
+              value={management.roles}
+              onChange={(e) =>
+                setManagement({
+                  ...management,
+                  roles: e.target.value,
+                })
+              }
+              label="Roles"
+              multiple
+            >
+              {roles
+                .filter((item) => item.department == "Management")
+                .map((item, index) => (
+                  <MenuItem value={item?.roles}>{item?.roles}</MenuItem>
+                ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Top Defect (Count)"
             variant="outlined"
@@ -366,6 +420,32 @@ function AlertAndNotificationV4() {
               </span>
             </label>
           </Grid>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{
+              marginBottom: "0.5rem",
+            }}
+          >
+            <InputLabel htmlFor="outlined-age-native-simple">Roles</InputLabel>
+            <Select
+              value={fibc.roles}
+              onChange={(e) =>
+                setFibc({
+                  ...fibc,
+                  roles: e.target.value,
+                })
+              }
+              label="Roles"
+              multiple
+            >
+              {roles
+                .filter((item) => item.department == "FIBC")
+                .map((item, index) => (
+                  <MenuItem value={item?.roles}>{item?.roles}</MenuItem>
+                ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Top Defect (Count)"
             variant="outlined"
@@ -474,6 +554,32 @@ function AlertAndNotificationV4() {
               </span>
             </label>
           </Grid>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{
+              marginBottom: "0.5rem",
+            }}
+          >
+            <InputLabel htmlFor="outlined-age-native-simple">Roles</InputLabel>
+            <Select
+              value={quality.roles}
+              onChange={(e) =>
+                setQuality({
+                  ...quality,
+                  roles: e.target.value,
+                })
+              }
+              label="Roles"
+              multiple
+            >
+              {roles
+                .filter((item) => item.department == "Quality")
+                .map((item, index) => (
+                  <MenuItem value={item?.roles}>{item?.roles}</MenuItem>
+                ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Top Defect (Count)"
             variant="outlined"
@@ -591,6 +697,32 @@ function AlertAndNotificationV4() {
               </span>
             </label>
           </Grid>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{
+              marginBottom: "0.5rem",
+            }}
+          >
+            <InputLabel htmlFor="outlined-age-native-simple">Roles</InputLabel>
+            <Select
+              value={improvement.roles}
+              onChange={(e) =>
+                setImprovement({
+                  ...improvement,
+                  roles: e.target.value,
+                })
+              }
+              label="Roles"
+              multiple
+            >
+              {roles
+                .filter((item) => item.department == "Improvement Office")
+                .map((item, index) => (
+                  <MenuItem value={item?.roles}>{item?.roles}</MenuItem>
+                ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Top Defect (Count)"
             variant="outlined"
@@ -702,6 +834,32 @@ function AlertAndNotificationV4() {
               </span>
             </label>
           </Grid>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{
+              marginBottom: "0.5rem",
+            }}
+          >
+            <InputLabel htmlFor="outlined-age-native-simple">Roles</InputLabel>
+            <Select
+              value={plan.roles}
+              onChange={(e) =>
+                setPlan({
+                  ...plan,
+                  roles: e.target.value,
+                })
+              }
+              label="Roles"
+              multiple
+            >
+              {roles
+                .filter((item) => item.department == "Planning")
+                .map((item, index) => (
+                  <MenuItem value={item?.roles}>{item?.roles}</MenuItem>
+                ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Top Defect (Count)"
             variant="outlined"

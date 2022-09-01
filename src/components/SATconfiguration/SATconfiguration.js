@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../redux/CommonReducer/CommonAction";
 import { convertToBase64 } from "../../Utility/Utility";
 import { addSATquestions, getSATquestions } from "../../services/checking.api";
+import { callBackendV2 } from "../../services/http.servicev2";
 const alphabeticalIndex = {
   0: "A",
   1: "B",
@@ -150,6 +151,18 @@ function SATconfiguration() {
     } catch (e) {}
   };
 
+  const deleteQuestion = async (id) => {
+    try {
+      const resp = await callBackendV2(
+        "GET",
+        `routes/sat/questionDelete/${id}`
+      );
+      resp?.msg && dispatch(openSnackbar(true, "success", resp?.msg));
+      console.log(resp);
+      fetchData();
+    } catch (e) {}
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -179,18 +192,14 @@ function SATconfiguration() {
                 question={item}
                 key={index}
                 index={index + 1}
-                deleteQuestion={() =>
-                  setQuestions(questions.filter((q) => q.id !== item.id))
-                }
+                deleteQuestion={(id) => deleteQuestion(id)}
               />
             ) : (
               <SubjectiveQuestion
                 question={item}
                 key={index}
                 index={index + 1}
-                deleteQuestion={() =>
-                  setQuestions(questions.filter((q) => q.id !== item.id))
-                }
+                deleteQuestion={(id) => deleteQuestion(id)}
               />
             )
           )}
@@ -478,20 +487,20 @@ function ObjectiveQuestion({ question, index, deleteQuestion }) {
           Marks : <span>{question?.marks}</span>
         </p>
       </Grid>
-      {/* <Grid
+      <Grid
         xs={3}
         style={{
           display: "flex",
           justifyContent: "flex-end",
         }}
       >
-        <Button style={{ marginRight: "12px" }}>
+        {/* <Button style={{ marginRight: "12px" }}>
           <CreateIcon />
-        </Button>
-        <Button onClick={deleteQuestion}>
+        </Button> */}
+        <Button onClick={() => deleteQuestion(question.id)}>
           <DeleteIcon />
         </Button>
-      </Grid> */}
+      </Grid>
       {question?.options?.map((option, index) => (
         <Grid xs={12}>
           {question?.optionType === "text" ? (
@@ -599,20 +608,20 @@ function SubjectiveQuestion({ question, index, deleteQuestion }) {
           Marks : <span>{question?.marks}</span>
         </p>
       </Grid>
-      {/* <Grid
+      <Grid
         xs={3}
         style={{
           display: "flex",
           justifyContent: "flex-end",
         }}
       >
-        <Button style={{ marginRight: "12px" }}>
+        {/* <Button style={{ marginRight: "12px" }}>
           <CreateIcon />
-        </Button>
-        <Button onClick={deleteQuestion}>
+        </Button> */}
+        <Button onClick={() => deleteQuestion(question.id)}>
           <DeleteIcon />
         </Button>
-      </Grid> */}
+      </Grid>
       <Grid
         xs={12}
         style={{

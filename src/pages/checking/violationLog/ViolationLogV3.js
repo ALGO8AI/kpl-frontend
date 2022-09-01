@@ -367,7 +367,7 @@ function ViolationLogV3() {
     return () => {
       clearInterval(interval);
     };
-  }, [filterEnable, selectedWing]);
+  }, [filterEnable]);
 
   useEffect(() => {
     Dispatch(
