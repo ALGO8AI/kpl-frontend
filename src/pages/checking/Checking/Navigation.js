@@ -257,7 +257,7 @@ export default function Navigation() {
           </NavLink>
         </ListItem>
         <Divider />
-        <ListItem button>
+        {/* <ListItem button>
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
@@ -268,7 +268,7 @@ export default function Navigation() {
             Layout View
           </NavLink>
         </ListItem>
-        <Divider />
+        <Divider /> */}
         <ListItem button>
           <NavLink
             activeClassName={classes.active}
@@ -305,7 +305,7 @@ export default function Navigation() {
           </NavLink>
         </ListItem>
         <Divider />
-        <ListItem button>
+        {/* <ListItem button>
           <NavLink
             activeClassName={classes.active}
             className={classes.link}
@@ -316,7 +316,7 @@ export default function Navigation() {
             Feedback
           </NavLink>
         </ListItem>
-        <Divider />
+        <Divider /> */}
       </List>
     </div>
   );

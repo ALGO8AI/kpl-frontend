@@ -15,6 +15,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
   Typography,
   withStyles,
@@ -196,6 +197,7 @@ function ManageRoles() {
       crowding: data.crowding ? 1 : 0,
       checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
       machineViolation: data.machineViolation ? 1 : 0,
+      isSuperChecker: data?.isSuperChecker,
     };
     console.log(DATA);
     try {
@@ -1317,7 +1319,24 @@ function ManageRoles() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-            ></Grid>
+            >
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={data?.isSuperChecker === 1 ? true : false}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        isSuperChecker: e.target.checked ? 1 : 0,
+                      })
+                    }
+                    name="Is super checker"
+                    color="primary"
+                  />
+                }
+                label="Is super checker"
+              />
+            </Grid>
             <Grid
               item
               xs={12}

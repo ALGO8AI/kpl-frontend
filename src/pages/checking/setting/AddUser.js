@@ -16,6 +16,7 @@ import {
   TextField,
   Typography,
   Divider,
+  Switch,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { AddNewUser } from "../../../services/api.service";
@@ -59,6 +60,7 @@ function AddUser({ loadData }) {
     workerNotAvailable: false,
     crowding: false,
     checkerActiveMonitoring: false,
+    isSuperChecker: false,
   });
 
   const [lineList, setLineList] = useState([]);
@@ -197,6 +199,7 @@ function AddUser({ loadData }) {
       crowding: data.crowding ? 1 : 0,
       machineViolation: data.machineViolation ? 1 : 0,
       checkerActiveMonitoring: data.checkerActiveMonitoring ? 1 : 0,
+      isSuperChecker: data?.isSuperChecker ? 1 : 0,
     };
     try {
       // var txt = window.confirm("User will be added, continue?");
@@ -230,6 +233,7 @@ function AddUser({ loadData }) {
           workerNotAvailable: false,
           crowding: false,
           checkerActiveMonitoring: false,
+          isSuperChecker: false,
         });
         handleClose();
         setOpenCOnfirm(false);
@@ -782,7 +786,24 @@ function AddUser({ loadData }) {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-            ></Grid>
+            >
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={data?.isSuperChecker}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        isSuperChecker: e.target.checked,
+                      })
+                    }
+                    name="Is super checker"
+                    color="primary"
+                  />
+                }
+                label="Is super checker"
+              />
+            </Grid>
             <Grid
               item
               xs={12}
