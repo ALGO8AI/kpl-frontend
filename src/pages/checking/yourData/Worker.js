@@ -114,6 +114,8 @@ function WorkerChecking(props) {
                 name: x.workerName,
                 workerId: x.workerId,
                 workerImage: x.image,
+                wing: x.wing,
+                wingId: x.wingId,
               });
             } else {
               dispatch(
