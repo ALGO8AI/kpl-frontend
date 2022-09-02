@@ -1484,6 +1484,10 @@ function ViolationLogV3() {
                       field: "unavailableDuration",
                     },
                     {
+                      title: "Entry Reason",
+                      field: "entryReason",
+                    },
+                    {
                       title: "Start Time",
                       field: "startTime",
                     },

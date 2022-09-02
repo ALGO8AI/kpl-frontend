@@ -84,12 +84,12 @@ export default function VideoWall() {
           scrollButtons="auto"
         >
           <Tab label="Table Status" {...a11yProps(0)} />
-          <Tab label="Video Wall" {...a11yProps(1)} />
+          {/* <Tab label="Video Wall" {...a11yProps(1)} /> */}
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={1}>
+      {/* <TabPanel value={value} index={1}>
         <LiveVideo />
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel value={value} index={0}>
         <TableStatus />
       </TabPanel>
