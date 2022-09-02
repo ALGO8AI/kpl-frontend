@@ -84,6 +84,8 @@ function Tailor(props) {
     //   ),
     // },
     { title: "Tailor Name", field: "tailorName" },
+    { title: "Wing", field: "wing" },
+    { title: "Wing ID", field: "wingId" },
     {
       title: "Edit",
       render: (x) => (
@@ -108,6 +110,7 @@ function Tailor(props) {
                 workerImage: x.image,
                 wing: x.wing,
                 id: x.id,
+                wingid: x.wingId,
               });
             } else {
               dispatch(
@@ -127,6 +130,7 @@ function Tailor(props) {
     workerImage: "",
     id: "",
     wing: "",
+    wingid: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -239,6 +243,15 @@ function Tailor(props) {
           onChange={(e) =>
             setUserData({ ...userdata, workerId: e.target.value })
           }
+        />
+        <TextField
+          id="outlined-basic"
+          label="Wing ID"
+          variant="outlined"
+          style={{ marginBottom: "12px" }}
+          value={userdata.wingid}
+          fullWidth
+          onChange={(e) => setUserData({ ...userdata, wingid: e.target.value })}
         />
         <FormControl
           variant="outlined"
