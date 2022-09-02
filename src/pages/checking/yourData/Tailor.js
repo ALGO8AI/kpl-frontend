@@ -110,7 +110,7 @@ function Tailor(props) {
                 workerImage: x.image,
                 wing: x.wing,
                 id: x.id,
-                wingid: x.wingId,
+                wingId: x.wingId,
               });
             } else {
               dispatch(
@@ -256,9 +256,9 @@ function Tailor(props) {
           label="Wing ID"
           variant="outlined"
           style={{ marginBottom: "12px" }}
-          value={userdata.wingid}
+          value={userdata.wingId}
           fullWidth
-          onChange={(e) => setUserData({ ...userdata, wingid: e.target.value })}
+          onChange={(e) => setUserData({ ...userdata, wingId: e.target.value })}
         />
         <FormControl
           variant="outlined"
