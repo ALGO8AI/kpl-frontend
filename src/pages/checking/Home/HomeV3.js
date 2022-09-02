@@ -410,7 +410,7 @@ export default function HomeV2() {
     //     payload: "",
     //   });
     // };
-  }, []);
+  }, [selectedWing]);
 
   return (
     <Grid
@@ -734,6 +734,7 @@ export default function HomeV2() {
               data={defectedbags}
               loading={loading}
               localFilter={localFilter}
+              data2={repairedbags}
             />
           )}
         </Grid>
@@ -931,7 +932,8 @@ function RepairedBagDonut({ data, loading, defectedbags, localFilter }) {
         Repaired Bags %{" "}
         {data &&
           (
-            ((data[0]?.noo + data[1]?.noo + data[2]?.noo) / data[3]?.noo) *
+            ((data[0]?.noo + data[1]?.noo + data[2]?.noo) /
+              (data[0]?.noo + data[1]?.noo + data[2]?.noo + data[3]?.noo)) *
             100
           ).toFixed(2)}
       </h3>
@@ -940,7 +942,7 @@ function RepairedBagDonut({ data, loading, defectedbags, localFilter }) {
 }
 
 // chart 2
-function DefectPercentageDonut({ data, loading, localFilter }) {
+function DefectPercentageDonut({ data, loading, localFilter, data2 }) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -952,7 +954,7 @@ function DefectPercentageDonut({ data, loading, localFilter }) {
     chart: {
       type: "donut",
     },
-    labels: ["Total Bags Checked", "Defective", "Okay Bags"],
+    labels: ["Okay Bags", "Defective", "Total Bags Checked"],
   };
   return (
     <div className={Styles.Card}>
@@ -969,8 +971,10 @@ function DefectPercentageDonut({ data, loading, localFilter }) {
               Boolean(data) ? Number(data[1][0]["Total Bags"]) : 0,
               Boolean(data) ? Number(data[0][0]["Total Defects"]) : 0,
               Boolean(data)
-                ? Number(data[1][0]["Total Bags"]) -
-                  Number(data[0][0]["Total Defects"])
+                ? Number(data[1][0]["Total Bags"]) +
+                  Number(data2[0]?.noo) +
+                  Number(data2[1]?.noo) +
+                  Number(data2[2]?.noo)
                 : 0,
 
               // Boolean(props.data?.totalBagsChecked)
@@ -1000,7 +1004,7 @@ function DefectPercentageDonut({ data, loading, localFilter }) {
                 backgroundColor: "#094573",
               }}
             ></div>
-            <p style={{ color: "#094573" }}>Total Bags</p>
+            <p style={{ color: "#094573" }}>Okay Bags</p>
             <p style={{ color: "#094573" }}>
               {data && data[1][0]["Total Bags"]}
             </p>
@@ -1024,9 +1028,14 @@ function DefectPercentageDonut({ data, loading, localFilter }) {
                 backgroundColor: "#ffa643",
               }}
             ></div>
-            <p style={{ color: "#ffa643" }}>Okay Bags</p>
+            <p style={{ color: "#ffa643" }}>Total Bags</p>
             <p style={{ color: "#ffa643" }}>
-              {data && data[1][0]["Total Bags"] - data[0][0]["Total Defects"]}
+              {data &&
+                data2 &&
+                parseInt(data[1][0]["Total Bags"]) +
+                  data2[0]?.noo +
+                  data2[1]?.noo +
+                  data2[2]?.noo}
             </p>
           </div>
         </div>

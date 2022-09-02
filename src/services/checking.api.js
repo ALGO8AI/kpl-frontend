@@ -33,9 +33,7 @@ export const getCheckingViolationDetailDataV3 = async (id) => {
   );
 };
 
-export const getCheckingWorkerDataV3 = async (
-  wing = localStorage.getItem("kpl_wing")
-) => {
+export const getCheckingWorkerDataV3 = async (wing) => {
   return await callBackendV2("GET", `routes/checking/worker/all/${wing}`);
 };
 

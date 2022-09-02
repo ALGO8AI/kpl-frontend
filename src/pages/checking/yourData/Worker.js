@@ -67,9 +67,9 @@ function WorkerChecking(props) {
   const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
   const dispatch = useDispatch();
 
-  const loadData = async (selectedWing) => {
+  const loadData = async (wing) => {
     try {
-      const x = await getCheckingWorkerDataV3(selectedWing);
+      const x = await getCheckingWorkerDataV3(wing);
       console.log(x);
       setWorkerData(x.data);
     } catch (err) {}
@@ -90,6 +90,8 @@ function WorkerChecking(props) {
     //   ),
     // },
     { title: "Worker Name", field: "workerName" },
+    { title: "Wing", field: "wing" },
+    { title: "Wing ID", field: "wingId" },
     {
       title: "Edit",
       render: (x) => (
@@ -130,6 +132,7 @@ function WorkerChecking(props) {
     workerId: "",
     workerImage: "",
     wing: "",
+    wingId: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -158,7 +161,12 @@ function WorkerChecking(props) {
   const submitImageDetails = async () => {
     if (isEnable) {
       try {
-        if (!userdata.name || !userdata.workerId || !userdata.wing) {
+        if (
+          !userdata.name ||
+          !userdata.workerId ||
+          !userdata.wing ||
+          !userdata.wingId
+        ) {
           return dispatch(
             openSnackbar(true, "error", "Please Fill All Fields")
           );
@@ -168,7 +176,13 @@ function WorkerChecking(props) {
         setMsg(resp.msg);
         setOpen(true);
         loadData(selectedWing);
-        setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
+        setUserData({
+          name: "",
+          workerId: "",
+          workerImage: "",
+          wing: "",
+          wingId: "",
+        });
       } catch (e) {
         // console.log(e.message);
       }
@@ -229,6 +243,16 @@ function WorkerChecking(props) {
           onChange={(e) =>
             setUserData({ ...userdata, workerId: e.target.value })
           }
+        />
+
+        <TextField
+          id="outlined-basic"
+          label="Wing ID"
+          variant="outlined"
+          style={{ marginBottom: "12px" }}
+          value={userdata.wingId}
+          fullWidth
+          onChange={(e) => setUserData({ ...userdata, wingId: e.target.value })}
         />
 
         <FormControl
