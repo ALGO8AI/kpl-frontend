@@ -14,10 +14,13 @@ import EmailIcon from "@material-ui/icons/Email";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import StayPrimaryPortraitIcon from "@material-ui/icons/StayPrimaryPortrait";
 import { callBackendV2 } from "../../../services/http.servicev2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function AlertAndNotificationV4() {
+  const { role } = useSelector((state) => state.Common);
+  let isDisabled = role !== "Admin";
+
   const dispatch = useDispatch();
   let [alertActive, setAlertActive] = useState({
     checker: true,
@@ -201,6 +204,7 @@ function AlertAndNotificationV4() {
                     checker: e.target.checked,
                   })
                 }
+                disabled={isDisabled}
               />
             }
             label="Checker Defects"
@@ -226,7 +230,7 @@ function AlertAndNotificationV4() {
           >
             <label className="NotificationBadge">
               <input
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 type="checkbox"
                 value={management.notificationMode.includes("mail")}
                 checked={management.notificationMode.includes("mail")}
@@ -256,7 +260,7 @@ function AlertAndNotificationV4() {
             <label className="NotificationBadge">
               <input
                 type="checkbox"
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 value={management.notificationMode.includes("push")}
                 checked={management.notificationMode.includes("push")}
                 onChange={(e) => {
@@ -301,6 +305,7 @@ function AlertAndNotificationV4() {
               }
               label="Roles"
               multiple
+              disabled={isDisabled}
             >
               {roles
                 .filter((item) => item.department == "Management")
@@ -313,7 +318,7 @@ function AlertAndNotificationV4() {
             label="Top Defect (Count)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -330,7 +335,7 @@ function AlertAndNotificationV4() {
             label="Time Period (Hours)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -343,12 +348,14 @@ function AlertAndNotificationV4() {
             }}
             fullWidth
           />
-          <Button
-            variant="contained"
-            onClick={() => saveCheckerDefects(management)}
-          >
-            SAVE
-          </Button>
+          {!isDisabled && (
+            <Button
+              variant="contained"
+              onClick={() => saveCheckerDefects(management)}
+            >
+              SAVE
+            </Button>
+          )}
         </Grid>
         <Grid item xs={2} style={{ padding: "0.5rem" }}>
           <h3
@@ -369,7 +376,7 @@ function AlertAndNotificationV4() {
           >
             <label className="NotificationBadge">
               <input
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 type="checkbox"
                 value={fibc.notificationMode.includes("mail")}
                 checked={fibc.notificationMode.includes("mail")}
@@ -396,7 +403,7 @@ function AlertAndNotificationV4() {
             <label className="NotificationBadge">
               <input
                 type="checkbox"
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 value={fibc.notificationMode.includes("push")}
                 checked={fibc.notificationMode.includes("push")}
                 onChange={(e) => {
@@ -438,6 +445,7 @@ function AlertAndNotificationV4() {
               }
               label="Roles"
               multiple
+              disabled={isDisabled}
             >
               {roles
                 .filter((item) => item.department == "FIBC")
@@ -450,7 +458,7 @@ function AlertAndNotificationV4() {
             label="Top Defect (Count)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -467,7 +475,7 @@ function AlertAndNotificationV4() {
             label="Time Period (Hours)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -480,9 +488,14 @@ function AlertAndNotificationV4() {
             }}
             fullWidth
           />
-          <Button variant="contained" onClick={() => saveCheckerDefects(fibc)}>
-            SAVE
-          </Button>
+          {!isDisabled && (
+            <Button
+              variant="contained"
+              onClick={() => saveCheckerDefects(fibc)}
+            >
+              SAVE
+            </Button>
+          )}
         </Grid>
         <Grid item xs={2} style={{ padding: "0.5rem" }}>
           <h3
@@ -503,7 +516,7 @@ function AlertAndNotificationV4() {
           >
             <label className="NotificationBadge">
               <input
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 type="checkbox"
                 value={quality.notificationMode.includes("mail")}
                 checked={quality.notificationMode.includes("mail")}
@@ -530,7 +543,7 @@ function AlertAndNotificationV4() {
             <label className="NotificationBadge">
               <input
                 type="checkbox"
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 value={quality.notificationMode.includes("push")}
                 checked={quality.notificationMode.includes("push")}
                 onChange={(e) => {
@@ -572,6 +585,7 @@ function AlertAndNotificationV4() {
               }
               label="Roles"
               multiple
+              disabled={isDisabled}
             >
               {roles
                 .filter((item) => item.department == "Quality")
@@ -584,7 +598,7 @@ function AlertAndNotificationV4() {
             label="Top Defect (Count)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -601,7 +615,7 @@ function AlertAndNotificationV4() {
             label="Time Period (Hours)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -614,12 +628,14 @@ function AlertAndNotificationV4() {
             }}
             fullWidth
           />
-          <Button
-            variant="contained"
-            onClick={() => saveCheckerDefects(quality)}
-          >
-            SAVE
-          </Button>
+          {!isDisabled && (
+            <Button
+              variant="contained"
+              onClick={() => saveCheckerDefects(quality)}
+            >
+              SAVE
+            </Button>
+          )}
         </Grid>
         <Grid item xs={2} style={{ padding: "0.5rem" }}>
           <h3
@@ -640,7 +656,7 @@ function AlertAndNotificationV4() {
           >
             <label className="NotificationBadge">
               <input
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 type="checkbox"
                 value={improvement.notificationMode.includes("mail")}
                 checked={improvement.notificationMode.includes("mail")}
@@ -670,7 +686,7 @@ function AlertAndNotificationV4() {
             <label className="NotificationBadge">
               <input
                 type="checkbox"
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 value={improvement.notificationMode.includes("push")}
                 checked={improvement.notificationMode.includes("push")}
                 onChange={(e) => {
@@ -715,6 +731,7 @@ function AlertAndNotificationV4() {
               }
               label="Roles"
               multiple
+              disabled={isDisabled}
             >
               {roles
                 .filter((item) => item.department == "Improvement Office")
@@ -727,7 +744,7 @@ function AlertAndNotificationV4() {
             label="Top Defect (Count)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -744,7 +761,7 @@ function AlertAndNotificationV4() {
             label="Time Period (Hours)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -757,12 +774,14 @@ function AlertAndNotificationV4() {
             }}
             fullWidth
           />
-          <Button
-            variant="contained"
-            onClick={() => saveCheckerDefects(improvement)}
-          >
-            SAVE
-          </Button>
+          {!isDisabled && (
+            <Button
+              variant="contained"
+              onClick={() => saveCheckerDefects(improvement)}
+            >
+              SAVE
+            </Button>
+          )}
         </Grid>
         <Grid item xs={2} style={{ padding: "0.5rem" }}>
           <h3
@@ -783,7 +802,7 @@ function AlertAndNotificationV4() {
           >
             <label className="NotificationBadge">
               <input
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 type="checkbox"
                 value={plan.notificationMode.includes("mail")}
                 checked={plan.notificationMode.includes("mail")}
@@ -810,7 +829,7 @@ function AlertAndNotificationV4() {
             <label className="NotificationBadge">
               <input
                 type="checkbox"
-                disabled={!alertActive.checker}
+                disabled={!alertActive.checker || isDisabled}
                 value={plan.notificationMode.includes("push")}
                 checked={plan.notificationMode.includes("push")}
                 onChange={(e) => {
@@ -852,6 +871,7 @@ function AlertAndNotificationV4() {
               }
               label="Roles"
               multiple
+              disabled={isDisabled}
             >
               {roles
                 .filter((item) => item.department == "Planning")
@@ -864,7 +884,7 @@ function AlertAndNotificationV4() {
             label="Top Defect (Count)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -881,7 +901,7 @@ function AlertAndNotificationV4() {
             label="Time Period (Hours)"
             variant="outlined"
             type="number"
-            disabled={!alertActive.checker}
+            disabled={!alertActive.checker || isDisabled}
             style={{
               marginBottom: "0.5rem",
             }}
@@ -894,9 +914,14 @@ function AlertAndNotificationV4() {
             }}
             fullWidth
           />
-          <Button variant="contained" onClick={() => saveCheckerDefects(plan)}>
-            SAVE
-          </Button>
+          {!isDisabled && (
+            <Button
+              variant="contained"
+              onClick={() => saveCheckerDefects(plan)}
+            >
+              SAVE
+            </Button>
+          )}
         </Grid>
       </Grid>
     </Grid>

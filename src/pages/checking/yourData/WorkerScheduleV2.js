@@ -44,6 +44,7 @@ import {
   saveWorkerScheduleV3,
   wingWiseLine,
 } from "../../../services/checking.api";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,6 +96,9 @@ function WorkerScheduleV2() {
   const { selectedWing } = useSelector((state) => state?.CheckV3);
 
   const [wingWiseShift, setWingWiseShift] = useState({});
+
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "admin" || role === "Admin";
 
   const getLineDynamic = async (wing) => {
     try {
@@ -174,57 +178,61 @@ function WorkerScheduleV2() {
   };
 
   const saveTable = async (id) => {
-    try {
-      let userData = scheduleData?.filter((item) => item?.id === id)[0];
-      console.log(userData);
-      let date = new Date(userData?.dateTime);
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      const formData = {
-        date: `${year}-${month}-${day}`,
-        workerId: userData?.workerId,
-        workerName: userData?.workerName,
-        shift: userData?.shift,
-        wing: userData?.wing,
-        tableId: userData?.tableId,
-        tableOnOff: scheduleData?.filter((item) => item?.id === id)[0]
-          ?.tableOnOff
-          ? "1"
-          : "0",
-        ctr: userData?.ctr,
-        clpctr: userData?.clpctr,
-        ...CTR[id],
-      };
-      console.log(formData);
-      if (!formData?.workerId) {
-        setSeverity("error");
-        setMsg("Please select worker");
+    if (isEnable) {
+      try {
+        let userData = scheduleData?.filter((item) => item?.id === id)[0];
+        console.log(userData);
+        let date = new Date(userData?.dateTime);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        const formData = {
+          date: `${year}-${month}-${day}`,
+          workerId: userData?.workerId,
+          workerName: userData?.workerName,
+          shift: userData?.shift,
+          wing: userData?.wing,
+          tableId: userData?.tableId,
+          tableOnOff: scheduleData?.filter((item) => item?.id === id)[0]
+            ?.tableOnOff
+            ? "1"
+            : "0",
+          ctr: userData?.ctr,
+          clpctr: userData?.clpctr,
+          ...CTR[id],
+        };
+        console.log(formData);
+        if (!formData?.workerId) {
+          setSeverity("error");
+          setMsg("Please select worker");
+          setOpen(true);
+          return;
+        } else if (
+          !formData?.ctr ||
+          formData?.ctr === "" ||
+          formData?.ctr === undefined ||
+          formData?.ctr === "undefined" ||
+          formData?.ctr === null
+        ) {
+          setSeverity("error");
+          setMsg("Please select ctr");
+          setOpen(true);
+          return;
+        }
+        const resp = await saveWorkerScheduleV3(formData);
+        setMsg(resp.message);
+        setSeverity("success");
         setOpen(true);
-        return;
-      } else if (
-        !formData?.ctr ||
-        formData?.ctr === "" ||
-        formData?.ctr === undefined ||
-        formData?.ctr === "undefined" ||
-        formData?.ctr === null
-      ) {
+        loadData();
+      } catch (e) {
+        console.log(e);
+        setMsg(e.message);
         setSeverity("error");
-        setMsg("Please select ctr");
         setOpen(true);
-        return;
+        loadData();
       }
-      const resp = await saveWorkerScheduleV3(formData);
-      setMsg(resp.message);
-      setSeverity("success");
-      setOpen(true);
-      loadData();
-    } catch (e) {
-      console.log(e);
-      setMsg(e.message);
-      setSeverity("error");
-      setOpen(true);
-      loadData();
+    } else {
+      Dispatch(openSnackbar(true, "error", `Access denied for ${role}`));
     }
   };
   const handleClose = (event, reason) => {
@@ -232,15 +240,19 @@ function WorkerScheduleV2() {
   };
 
   const copySchedule = async () => {
-    try {
-      const resp = await copyWorkerScheduleV3();
-      console.log(resp);
-      setMsg(resp?.msg);
-      setSeverity("success");
-      setOpen(true);
-      loadData();
-      // console.log(wingWiseShift);
-    } catch (e) {}
+    if (isEnable) {
+      try {
+        const resp = await copyWorkerScheduleV3();
+        console.log(resp);
+        setMsg(resp?.msg);
+        setSeverity("success");
+        setOpen(true);
+        loadData();
+        // console.log(wingWiseShift);
+      } catch (e) {}
+    } else {
+      Dispatch(openSnackbar(true, "error", `Access denied for ${role}`));
+    }
   };
 
   const setNewCtr = (e, t, id) => {
@@ -415,6 +427,7 @@ function WorkerScheduleV2() {
                                           )
                                         }
                                         label=""
+                                        disabled={!isEnable}
                                         // multiple
                                       >
                                         {workerList?.length > 0 &&
@@ -525,6 +538,7 @@ function WorkerScheduleV2() {
                                           }
                                           name="machineOnOffStatus"
                                           color="primary"
+                                          disabled={!isEnable}
                                         />
                                       }
                                       label="Table Status"
@@ -557,6 +571,7 @@ function WorkerScheduleV2() {
                                         `${option.Clp}-${option.CtrNo}`
                                       }
                                       style={{ width: 150 }}
+                                      disabled={!isEnable}
                                       renderInput={(params) => (
                                         <TextField
                                           {...params}

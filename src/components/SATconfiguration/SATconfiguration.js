@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { theme } from "../../Utility/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../redux/CommonReducer/CommonAction";
 import { convertToBase64 } from "../../Utility/Utility";
 import { addSATquestions, getSATquestions } from "../../services/checking.api";
@@ -26,6 +26,9 @@ const alphabeticalIndex = {
   3: "D",
 };
 function SATconfiguration() {
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "Admin" || role === "admin";
+
   // dispatch
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
@@ -127,7 +130,7 @@ function SATconfiguration() {
       console.log("DATA", data);
       console.log(
         "SAT Ques",
-        data.map((item, index) => ({
+        data?.reverse()?.map((item, index) => ({
           id: item?.id,
           question: item?.question,
           type: item?.types,
@@ -205,19 +208,20 @@ function SATconfiguration() {
           )}
         </Grid>
       </Grid>
-      <Grid container item xs={12} md={6} style={{ padding: "12px" }}>
-        <Grid item xs={12}>
-          <Typography
-            variant="h6"
-            style={{
-              borderBottom: "1px solid grey",
-              marginBottom: "1rem",
-              padbingBottom: "1rem",
-            }}
-          >
-            Configure
-          </Typography>
-          {/* <Grid item xs={12} style={{ marginBottom: "12px" }}>
+      {isEnable && (
+        <Grid container item xs={12} md={6} style={{ padding: "12px" }}>
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              style={{
+                borderBottom: "1px solid grey",
+                marginBottom: "1rem",
+                padbingBottom: "1rem",
+              }}
+            >
+              Configure
+            </Typography>
+            {/* <Grid item xs={12} style={{ marginBottom: "12px" }}>
             {["objective", "subjective"].map((type, index) => (
               <Button
                 style={{
@@ -233,123 +237,130 @@ function SATconfiguration() {
               </Button>
             ))}
           </Grid> */}
-          <Grid container item xs={12} style={{ marginBottom: "12px" }}>
-            <Grid container item xs={10} style={{ paddingRight: "8px" }}>
-              <TextField
-                label="Question"
-                fullWidth
-                value={newQuestion.question}
-                onChange={(e) =>
-                  setNewQuestion({
-                    ...newQuestion,
-                    question: e.target.value,
-                  })
-                }
-              />
+            <Grid container item xs={12} style={{ marginBottom: "12px" }}>
+              <Grid container item xs={10} style={{ paddingRight: "8px" }}>
+                <TextField
+                  label="Question"
+                  fullWidth
+                  value={newQuestion.question}
+                  onChange={(e) =>
+                    setNewQuestion({
+                      ...newQuestion,
+                      question: e.target.value,
+                    })
+                  }
+                />
+              </Grid>
+              <Grid container item xs={2} style={{ paddingLeft: "8px" }}>
+                <TextField
+                  label="Marks"
+                  fullWidth
+                  value={newQuestion.marks}
+                  onChange={(e) =>
+                    setNewQuestion({
+                      ...newQuestion,
+                      marks: e.target.value,
+                    })
+                  }
+                />
+              </Grid>
             </Grid>
-            <Grid container item xs={2} style={{ paddingLeft: "8px" }}>
-              <TextField
-                label="Marks"
-                fullWidth
-                value={newQuestion.marks}
-                onChange={(e) =>
-                  setNewQuestion({
-                    ...newQuestion,
-                    marks: e.target.value,
-                  })
-                }
-              />
-            </Grid>
-          </Grid>
-          {newQuestion.type === "objective" && (
-            <Grid container item xs={12}>
-              <Grid
-                container
-                item
-                xs={12}
-                style={{
-                  alignItems: "center",
-                  marginBottom: "12px",
-                }}
-              >
-                <p
+            {newQuestion.type === "objective" && (
+              <Grid container item xs={12}>
+                <Grid
+                  container
+                  item
+                  xs={12}
                   style={{
-                    marginRight: "1rem",
+                    alignItems: "center",
+                    marginBottom: "12px",
                   }}
                 >
-                  Option Type
-                </p>
-                {["text", "image"].map((type, index) => (
-                  <Button
+                  <p
                     style={{
-                      border: `1px solid ${theme.BLUE}`,
-                      borderRadius: 0,
-                      backgroundColor:
-                        type === newQuestion.optionType ? theme.BLUE : "white",
-                      color:
-                        type === newQuestion.optionType ? "white" : theme.BLUE,
+                      marginRight: "1rem",
                     }}
-                    onClick={() =>
-                      setNewQuestion({ ...newQuestion, optionType: type })
-                    }
                   >
-                    {type}
-                  </Button>
-                ))}
-              </Grid>
-              {newQuestion?.optionType === "text" &&
-                ["A", "B", "C", "D"].map((item, index) => (
-                  <Grid
-                    container
-                    item
-                    xs={12}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginBottom: "8px",
-                    }}
-                    value={newQuestion[item]}
-                  >
-                    <TextField
-                      label={`Option ${index + 1}`}
-                      fullWidth
-                      onChange={(e) =>
-                        setNewQuestion({
-                          ...newQuestion,
-                          [item]: e.target.value,
-                        })
+                    Option Type
+                  </p>
+                  {["text", "image"].map((type, index) => (
+                    <Button
+                      style={{
+                        border: `1px solid ${theme.BLUE}`,
+                        borderRadius: 0,
+                        backgroundColor:
+                          type === newQuestion.optionType
+                            ? theme.BLUE
+                            : "white",
+                        color:
+                          type === newQuestion.optionType
+                            ? "white"
+                            : theme.BLUE,
+                      }}
+                      onClick={() =>
+                        setNewQuestion({ ...newQuestion, optionType: type })
                       }
+                    >
+                      {type}
+                    </Button>
+                  ))}
+                </Grid>
+                {newQuestion?.optionType === "text" &&
+                  ["A", "B", "C", "D"].map((item, index) => (
+                    <Grid
+                      container
+                      item
+                      xs={12}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginBottom: "8px",
+                      }}
                       value={newQuestion[item]}
-                    />
-                  </Grid>
-                ))}
-
-              {newQuestion?.optionType === "image" &&
-                ["A", "B", "C", "D"].map((item, index) => (
-                  <Grid
-                    container
-                    item
-                    xs={12}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginBottom: "8px",
-                    }}
-                    value={newQuestion[item]}
-                  >
-                    <Input type="file" onChange={(e) => fileHandler(item, e)} />
-                    {newQuestion[item] && (
-                      <img
-                        src={newQuestion[item]}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          marginLeft: "1rem",
-                        }}
-                        alt={item}
+                    >
+                      <TextField
+                        label={`Option ${index + 1}`}
+                        fullWidth
+                        onChange={(e) =>
+                          setNewQuestion({
+                            ...newQuestion,
+                            [item]: e.target.value,
+                          })
+                        }
+                        value={newQuestion[item]}
                       />
-                    )}
-                    {/* <TextField
+                    </Grid>
+                  ))}
+
+                {newQuestion?.optionType === "image" &&
+                  ["A", "B", "C", "D"].map((item, index) => (
+                    <Grid
+                      container
+                      item
+                      xs={12}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginBottom: "8px",
+                      }}
+                      value={newQuestion[item]}
+                    >
+                      <Input
+                        type="file"
+                        onChange={(e) => fileHandler(item, e)}
+                      />
+                      {newQuestion[item] && (
+                        <img
+                          src={newQuestion[item]}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            marginLeft: "1rem",
+                          }}
+                          alt={item}
+                        />
+                      )}
+                      {/* <TextField
                       label={`Option ${index + 1}`}
                       fullWidth
                       onChange={(e) =>
@@ -360,98 +371,99 @@ function SATconfiguration() {
                       }
                       value={newQuestion[item]}
                     /> */}
-                  </Grid>
-                ))}
-              <Grid
-                xs={12}
-                style={{
-                  marginBottom: "12px",
-                  marginTop: "8px",
-                }}
-              >
-                <FormControl fullWidth variant="filled">
-                  <InputLabel>Correct Answer</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={newQuestion?.correct}
-                    label="Correct Answer"
-                    onChange={(e) =>
-                      setNewQuestion({
-                        ...newQuestion,
-                        correct: e.target.value,
-                      })
-                    }
-                  >
-                    {[
-                      newQuestion?.A,
-                      newQuestion?.B,
-                      newQuestion?.C,
-                      newQuestion?.D,
-                    ].map((item, index) => (
-                      <MenuItem value={item}>{item}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                    </Grid>
+                  ))}
+                <Grid
+                  xs={12}
+                  style={{
+                    marginBottom: "12px",
+                    marginTop: "8px",
+                  }}
+                >
+                  <FormControl fullWidth variant="filled">
+                    <InputLabel>Correct Answer</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={newQuestion?.correct}
+                      label="Correct Answer"
+                      onChange={(e) =>
+                        setNewQuestion({
+                          ...newQuestion,
+                          correct: e.target.value,
+                        })
+                      }
+                    >
+                      {[
+                        newQuestion?.A,
+                        newQuestion?.B,
+                        newQuestion?.C,
+                        newQuestion?.D,
+                      ].map((item, index) => (
+                        <MenuItem value={item}>{item}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-          )}
-          <Grid
-            xs={12}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Button
-              variant="contained"
+            )}
+            <Grid
+              xs={12}
               style={{
-                backgroundColor: "#fff",
-                color: "#0e4a7b",
-                whiteSpace: "nowrap",
-                height: "fit-content",
-                border: "1px solid #0e4a7b",
-                marginRight: "12px",
-                padding: "12px 16px",
-                width: "150px",
+                display: "flex",
+                justifyContent: "flex-end",
               }}
-              onClick={() =>
-                setNewQuestion({
-                  id: Math.floor(Math.random() * 1111),
-                  question: "",
-                  type: "objective",
-                  optionType: "text",
-                  A: "",
-                  B: "",
-                  C: "",
-                  D: "",
-                  correct: "",
-                  marks: "",
-                })
-              }
             >
-              CANCEL
-            </Button>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#fff",
+                  color: "#0e4a7b",
+                  whiteSpace: "nowrap",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                  marginRight: "12px",
+                  padding: "12px 16px",
+                  width: "150px",
+                }}
+                onClick={() =>
+                  setNewQuestion({
+                    id: Math.floor(Math.random() * 1111),
+                    question: "",
+                    type: "objective",
+                    optionType: "text",
+                    A: "",
+                    B: "",
+                    C: "",
+                    D: "",
+                    correct: "",
+                    marks: "",
+                  })
+                }
+              >
+                CANCEL
+              </Button>
 
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#0e4a7b",
-                color: "#FFF",
-                whiteSpace: "nowrap",
-                height: "fit-content",
-                border: "1px solid #0e4a7b",
-                marginLeft: "12px",
-                padding: "12px 16px",
-                width: "150px",
-              }}
-              onClick={addNewQuestion}
-            >
-              ADD
-            </Button>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#0e4a7b",
+                  color: "#FFF",
+                  whiteSpace: "nowrap",
+                  height: "fit-content",
+                  border: "1px solid #0e4a7b",
+                  marginLeft: "12px",
+                  padding: "12px 16px",
+                  width: "150px",
+                }}
+                onClick={addNewQuestion}
+              >
+                ADD
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </Grid>
   );
 }
@@ -459,6 +471,8 @@ function SATconfiguration() {
 export default SATconfiguration;
 
 function ObjectiveQuestion({ question, index, deleteQuestion }) {
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "Admin" || role === "admin";
   return (
     <Grid
       container
@@ -497,9 +511,11 @@ function ObjectiveQuestion({ question, index, deleteQuestion }) {
         {/* <Button style={{ marginRight: "12px" }}>
           <CreateIcon />
         </Button> */}
-        <Button onClick={() => deleteQuestion(question.id)}>
-          <DeleteIcon />
-        </Button>
+        {isEnable && (
+          <Button onClick={() => deleteQuestion(question.id)}>
+            <DeleteIcon />
+          </Button>
+        )}
       </Grid>
       {question?.options?.map((option, index) => (
         <Grid xs={12}>
@@ -580,6 +596,8 @@ function ObjectiveQuestion({ question, index, deleteQuestion }) {
 }
 
 function SubjectiveQuestion({ question, index, deleteQuestion }) {
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "Admin" || role === "admin";
   return (
     <Grid
       container
@@ -618,9 +636,11 @@ function SubjectiveQuestion({ question, index, deleteQuestion }) {
         {/* <Button style={{ marginRight: "12px" }}>
           <CreateIcon />
         </Button> */}
-        <Button onClick={() => deleteQuestion(question.id)}>
-          <DeleteIcon />
-        </Button>
+        {isEnable && (
+          <Button onClick={() => deleteQuestion(question.id)}>
+            <DeleteIcon />
+          </Button>
+        )}
       </Grid>
       <Grid
         xs={12}

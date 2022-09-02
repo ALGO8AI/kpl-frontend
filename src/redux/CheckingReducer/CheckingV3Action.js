@@ -460,15 +460,17 @@ export const productionLogsV3 = (
   } catch (e) {}
 };
 
-export const notificationLogsV3 = (filterDateFrom, filterDateTo) => async (
-  dispatch
-) => {
+export const notificationLogsV3 = (
+  filterDateFrom,
+  filterDateTo,
+  wing
+) => async (dispatch) => {
   try {
     const formField = {
       filterDateFrom,
       filterDateTo,
       username: localStorage.getItem("kpl_username"),
-      wing: localStorage.getItem("kpl_wing"),
+      wing,
     };
     const resp = await callBackendV2(
       "POST",

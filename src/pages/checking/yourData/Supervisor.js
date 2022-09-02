@@ -78,6 +78,8 @@ TabPanel.propTypes = {
 // }));
 
 function Supervisor(props) {
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "admin" || role === "Admin";
   // React Selector
   const { wingList } = useSelector((state) => state?.CheckV3);
   // Redux Dispatch
@@ -185,19 +187,25 @@ function Supervisor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            setEdit(true);
-            setUserData({
-              ...userdata,
-              id: x.id,
-              supervisorName: x.supervisorName,
-              supervisorId: x.supervisorId,
-              date: new Date(x.date).toISOString().slice(0, 10),
-              shift: x.shift,
-              wing: x.wing,
-              line: x.line,
-              kitSupervisor: x.kitSupervisor === "true" ? true : false,
-              lineSupervisor: x.lineSupervisor === "true" ? true : false,
-            });
+            if (isEnable) {
+              setEdit(true);
+              setUserData({
+                ...userdata,
+                id: x.id,
+                supervisorName: x.supervisorName,
+                supervisorId: x.supervisorId,
+                date: new Date(x.date).toISOString().slice(0, 10),
+                shift: x.shift,
+                wing: x.wing,
+                line: x.line,
+                kitSupervisor: x.kitSupervisor === "true" ? true : false,
+                lineSupervisor: x.lineSupervisor === "true" ? true : false,
+              });
+            } else {
+              Dispatch(
+                openSnackbar(true, "error", `Access denied for ${role}`)
+              );
+            }
           }}
         >
           EDIT
@@ -287,45 +295,55 @@ function Supervisor(props) {
   //   };
 
   const copy = async () => {
-    try {
-      const resp = await getCheckingSupervisorCopyV3();
-      // console.log(resp);
-      setMsg(resp.msg);
-      setOpen(true);
-      loadData();
-    } catch (e) {
-      console.log(e);
+    if (isEnable) {
+      try {
+        const resp = await getCheckingSupervisorCopyV3();
+        // console.log(resp);
+        setMsg(resp.msg);
+        setOpen(true);
+        loadData();
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      Dispatch(openSnackbar(true, "error", `Access denied for ${role}`));
     }
   };
 
   const addSupervisor = async () => {
-    try {
-      if (
-        !userdata.supervisorName ||
-        !userdata.supervisorId ||
-        !userdata.date ||
-        !userdata.wing ||
-        !userdata.line ||
-        !userdata?.shift
-      ) {
-        return Dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
-      }
-      const resp = await addCheckingSupervisorSingleV3(userdata);
-      setMsg(resp.msg);
-      setOpen(true);
-      loadData();
-      setUserData({
-        id: "",
-        supervisorName: "",
-        supervisorId: "",
-        date: "",
-        shift: "",
-        wing: "",
-        line: "",
-        kitSupervisor: false,
-        lineSupervisor: false,
-      });
-    } catch (err) {}
+    if (isEnable) {
+      try {
+        if (
+          !userdata.supervisorName ||
+          !userdata.supervisorId ||
+          !userdata.date ||
+          !userdata.wing ||
+          !userdata.line ||
+          !userdata?.shift
+        ) {
+          return Dispatch(
+            openSnackbar(true, "error", "Please Fill All Fields")
+          );
+        }
+        const resp = await addCheckingSupervisorSingleV3(userdata);
+        setMsg(resp.msg);
+        setOpen(true);
+        loadData();
+        setUserData({
+          id: "",
+          supervisorName: "",
+          supervisorId: "",
+          date: "",
+          shift: "",
+          wing: "",
+          line: "",
+          kitSupervisor: false,
+          lineSupervisor: false,
+        });
+      } catch (err) {}
+    } else {
+      Dispatch(openSnackbar(true, "error", `Access denied for ${role}`));
+    }
   };
 
   const updateSupervisor = async (data) => {

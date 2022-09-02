@@ -58,6 +58,8 @@ function Tailor(props) {
   const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "admin" || role === "Admin";
 
   const loadData = async (Wing) => {
     try {
@@ -97,15 +99,21 @@ function Tailor(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            setEdit(true);
-            setUserData({
-              ...userdata,
-              name: x.tailorName,
-              workerId: x.tailorId,
-              workerImage: x.image,
-              wing: x.wing,
-              id: x.id,
-            });
+            if (isEnable) {
+              setEdit(true);
+              setUserData({
+                ...userdata,
+                name: x.tailorName,
+                workerId: x.tailorId,
+                workerImage: x.image,
+                wing: x.wing,
+                id: x.id,
+              });
+            } else {
+              dispatch(
+                openSnackbar(true, "error", `Access denied for ${role}`)
+              );
+            }
           }}
         >
           EDIT
@@ -130,28 +138,34 @@ function Tailor(props) {
   // };
 
   const submitImageDetails = async () => {
-    try {
-      if (!userdata.name || !userdata.workerId || !userdata.wing) {
-        return dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+    if (isEnable) {
+      try {
+        if (!userdata.name || !userdata.workerId || !userdata.wing) {
+          return dispatch(
+            openSnackbar(true, "error", "Please Fill All Fields")
+          );
+        }
+        const resp = await addTailorV3(
+          userdata.name,
+          userdata.workerId,
+          userdata.wing
+        );
+        // console.log(resp);
+        setMsg(resp.msg);
+        setOpen(true);
+        loadData(selectedWing || localStorage.getItem("kpl_wing"));
+        setUserData({
+          name: "",
+          workerId: "",
+          workerImage: "",
+          id: "",
+          wing: "",
+        });
+      } catch (e) {
+        // console.log(e.message);
       }
-      const resp = await addTailorV3(
-        userdata.name,
-        userdata.workerId,
-        userdata.wing
-      );
-      // console.log(resp);
-      setMsg(resp.msg);
-      setOpen(true);
-      loadData(selectedWing || localStorage.getItem("kpl_wing"));
-      setUserData({
-        name: "",
-        workerId: "",
-        workerImage: "",
-        id: "",
-        wing: "",
-      });
-    } catch (e) {
-      // console.log(e.message);
+    } else {
+      dispatch(openSnackbar(true, "error", `Access denied for ${role}`));
     }
   };
 

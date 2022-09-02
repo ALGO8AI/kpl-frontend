@@ -65,6 +65,8 @@ function a11yProps(index) {
 }
 
 function NotificationLogChecking() {
+  const { selectedWing } = useSelector((state) => state?.CheckV3);
+
   // redux dispatch
   const Dispatch = useDispatch();
   const [value, setValue] = useState(0);
@@ -110,19 +112,23 @@ function NotificationLogChecking() {
     }
   };
 
-  const getLogs = async () => {
+  const getLogs = async (wing) => {
     try {
-      Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1]));
+      Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1], wing));
     } catch (err) {
       // console.log(err);
     }
   };
 
   useEffect(() => {
-    getLogs();
     setFilterDateFrom(weekRange()[1]);
     setFilterDateTo(weekRange()[1]);
   }, []);
+
+  useEffect(() => {
+    getLogs(selectedWing || localStorage.getItem("kpl_wing"));
+  }, [selectedWing]);
+
   const filterLogs = async () => {
     try {
       Dispatch(notificationLogsV3(filterDateFrom, filterDateTo));

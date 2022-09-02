@@ -59,6 +59,9 @@ TabPanel.propTypes = {
 };
 
 function WorkerChecking(props) {
+  const { role } = useSelector((state) => state.Common);
+  const isEnable = role === "admin" || role === "Admin";
+
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);
   const { selectedWing, wingList } = useSelector((state) => state?.CheckV3);
@@ -102,13 +105,19 @@ function WorkerChecking(props) {
             fontSize: "1rem",
           }}
           onClick={() => {
-            setEdit(true);
-            setUserData({
-              ...userdata,
-              name: x.workerName,
-              workerId: x.workerId,
-              workerImage: x.image,
-            });
+            if (isEnable) {
+              setEdit(true);
+              setUserData({
+                ...userdata,
+                name: x.workerName,
+                workerId: x.workerId,
+                workerImage: x.image,
+              });
+            } else {
+              dispatch(
+                openSnackbar(true, "error", `Access denied for ${role}`)
+              );
+            }
           }}
         >
           EDIT
@@ -147,18 +156,24 @@ function WorkerChecking(props) {
   };
 
   const submitImageDetails = async () => {
-    try {
-      if (!userdata.name || !userdata.workerId || !userdata.wing) {
-        return dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+    if (isEnable) {
+      try {
+        if (!userdata.name || !userdata.workerId || !userdata.wing) {
+          return dispatch(
+            openSnackbar(true, "error", "Please Fill All Fields")
+          );
+        }
+        const resp = await AddWorkerCheckingV3(userdata);
+        // console.log(resp);
+        setMsg(resp.msg);
+        setOpen(true);
+        loadData(selectedWing);
+        setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
+      } catch (e) {
+        // console.log(e.message);
       }
-      const resp = await AddWorkerCheckingV3(userdata);
-      // console.log(resp);
-      setMsg(resp.msg);
-      setOpen(true);
-      loadData(selectedWing);
-      setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
-    } catch (e) {
-      // console.log(e.message);
+    } else {
+      dispatch(openSnackbar(true, "error", `Access denied for ${role}`));
     }
   };
 
