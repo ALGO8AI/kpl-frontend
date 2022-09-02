@@ -66,12 +66,13 @@ export const getTailorDetailsV3 = async (wing) => {
   return await callBackendV2("GET", `routes/checking/tailor/${wing}`);
 };
 
-export const addTailorV3 = async (name, id, wing) => {
+export const addTailorV3 = async (name, id, wing, wingId) => {
   const data = {
     tailorName: name,
     tailorId: id,
     wing,
     img: "",
+    wingId,
   };
   return await callBackendV2("POST", "routes/checking/tailor/add", true, data);
 };

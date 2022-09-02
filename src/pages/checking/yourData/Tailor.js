@@ -130,7 +130,7 @@ function Tailor(props) {
     workerImage: "",
     id: "",
     wing: "",
-    wingid: "",
+    wingId: "",
   });
   const [msg, setMsg] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -144,7 +144,12 @@ function Tailor(props) {
   const submitImageDetails = async () => {
     if (isEnable) {
       try {
-        if (!userdata.name || !userdata.workerId || !userdata.wing) {
+        if (
+          !userdata.name ||
+          !userdata.workerId ||
+          !userdata.wing ||
+          !userdata?.wingId
+        ) {
           return dispatch(
             openSnackbar(true, "error", "Please Fill All Fields")
           );
@@ -152,7 +157,8 @@ function Tailor(props) {
         const resp = await addTailorV3(
           userdata.name,
           userdata.workerId,
-          userdata.wing
+          userdata.wing,
+          userdata?.wingId
         );
         // console.log(resp);
         setMsg(resp.msg);
@@ -164,6 +170,7 @@ function Tailor(props) {
           workerImage: "",
           id: "",
           wing: "",
+          wingId: "",
         });
       } catch (e) {
         // console.log(e.message);
