@@ -142,6 +142,26 @@ function BarcodeDetails() {
     }
   };
 
+  const deleteAllBarCodes = async () => {
+    try {
+      const resp = await deleteBarCode(
+        state?.bagData?.data?.filter((data) =>
+          data?.assigned?.toString().includes(tempFilter)
+        )
+      );
+      console.log(resp);
+      if (resp?.msg === "BagId successfully Deleted") {
+        Dispatch(openSnackbar(true, "success", resp.msg));
+        // setOpen(true);
+        // setMsg(resp?.msg);
+        setSelectedBarcode([]);
+        fetchBagIds();
+      }
+    } catch (e) {
+      // console.log(e);
+    }
+  };
+
   const getTableDynamic = async () => {
     console.log("DYNAMIC MACHINE FILTER CALL");
     const body = {
@@ -347,25 +367,46 @@ function BarcodeDetails() {
             </Button>
           </Grid>
           {tempFilter !== 1 && (
-            <Grid container item xs={6} style={{ marginBottom: "1rem" }}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#0e4a7b",
-                  color: "#FFF",
-                  whiteSpace: "nowrap",
-                  width: "100%",
-                  height: "fit-content",
-                  border: "1px solid #0e4a7b",
-                  //   marginBottom: "6px",
-                  marginLeft: "12px",
-                  padding: "12px",
-                }}
-                onClick={deleteBarCodes}
-              >
-                DELETE
-              </Button>
-            </Grid>
+            <>
+              <Grid container item xs={6} style={{ marginBottom: "1rem" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#0e4a7b",
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    height: "fit-content",
+                    border: "1px solid #0e4a7b",
+                    //   marginBottom: "6px",
+                    marginLeft: "12px",
+                    padding: "12px",
+                  }}
+                  onClick={deleteBarCodes}
+                >
+                  DELETE SELECTED
+                </Button>
+              </Grid>
+              <Grid container item xs={12} style={{ marginBottom: "1rem" }}>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#0e4a7b",
+                    color: "#FFF",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    height: "fit-content",
+                    border: "1px solid #0e4a7b",
+                    //   marginBottom: "6px",
+                    // marginLeft: "12px",
+                    padding: "12px",
+                  }}
+                  onClick={deleteAllBarCodes}
+                >
+                  DELETE ALL
+                </Button>
+              </Grid>
+            </>
           )}
         </Grid>
         <Grid container item xs={12} md={8} sm={8} style={{ padding: "12px" }}>
