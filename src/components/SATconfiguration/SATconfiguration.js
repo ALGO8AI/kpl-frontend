@@ -533,10 +533,10 @@ function ObjectiveQuestion({ question, index, deleteQuestion }) {
             <>
               {alphabeticalIndex[index] + " . "}
               <img
-                src={`http://3.134.111.24:5000/questionImages/${option}`}
+                src={`http://120.120.120.147:7005/questionImages/${option}`}
                 style={{ width: "50px", height: "50px", marginBottom: "12px" }}
                 alt={
-                  `http://3.134.111.24:5000/questionImages/${option}`.split()[0]
+                  `http://120.120.120.147:7005/questionImages/${option}`.split()[0]
                 }
               />
             </>
