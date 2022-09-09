@@ -89,7 +89,7 @@ function AddUser({ loadData }) {
       );
     } else if (!data?.password) {
       return Dispatch(openSnackbar(true, "error", "Password required."));
-    } else if (!data?.email) {
+    } else if (!data?.email && !data?.isSuperChecker) {
       return Dispatch(openSnackbar(true, "error", "Email required."));
     } else if (
       !Boolean(
@@ -98,7 +98,8 @@ function AddUser({ loadData }) {
           .match(
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
           )
-      )
+      ) &&
+      !data?.isSuperChecker
     ) {
       return Dispatch(openSnackbar(true, "error", "Enter valid email."));
     } else if (!data?.designation) {
@@ -125,51 +126,94 @@ function AddUser({ loadData }) {
     } else setOpenCOnfirm(true);
   };
 
-  const submitUserForm = async () => {
-    if (!data?.workerID) {
-      return Dispatch(openSnackbar(true, "error", "Worker ID required."));
-    } else if (!data?.username) {
-      return Dispatch(openSnackbar(true, "error", "Username required."));
-    } else if (/\d/.test(data?.username)) {
-      return Dispatch(
-        openSnackbar(true, "error", "Username can't contains numbers.")
-      );
-    } else if (!data?.password) {
-      return Dispatch(openSnackbar(true, "error", "Password required."));
-    } else if (!data?.email) {
-      return Dispatch(openSnackbar(true, "error", "Email required."));
-    } else if (
-      !Boolean(
-        data.email
-          .toLowerCase()
-          .match(
-            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-          )
-      )
-    ) {
-      return Dispatch(openSnackbar(true, "error", "Enter valid email."));
-    } else if (!data?.designation) {
-      return Dispatch(openSnackbar(true, "error", "Designation required."));
-    } else if (!data?.department) {
-      return Dispatch(openSnackbar(true, "error", "Department required."));
-    } else if (!data?.role) {
-      return Dispatch(openSnackbar(true, "error", "Role required."));
-    } else if (!data?.zone) {
-      return Dispatch(openSnackbar(true, "error", "Line required."));
-    } else if (!data?.wing) {
-      return Dispatch(openSnackbar(true, "error", "Wing required."));
-    } else if (!data?.shiftA && !data?.shiftB) {
-      return Dispatch(openSnackbar(true, "error", "Shift required."));
-    } else if (
-      !data?.machineBreakdown &&
-      !data?.feedUnavailability &&
-      !data?.workerNotAvailable &&
-      !data?.machineViolation &&
-      !data?.crowding &&
-      !data?.checkerActiveMonitoring
-    ) {
-      return Dispatch(openSnackbar(true, "error", "Responsibility required."));
+  const validateForm = () => {
+    if (data?.isSuperChecker) {
+      if (!data?.workerID) {
+        return Dispatch(openSnackbar(true, "error", "Worker ID required."));
+      } else if (!data?.username) {
+        return Dispatch(openSnackbar(true, "error", "Username required."));
+      } else if (/\d/.test(data?.username)) {
+        return Dispatch(
+          openSnackbar(true, "error", "Username can't contains numbers.")
+        );
+      } else if (!data?.password) {
+        return Dispatch(openSnackbar(true, "error", "Password required."));
+      } else if (!data?.designation) {
+        return Dispatch(openSnackbar(true, "error", "Designation required."));
+      } else if (!data?.department) {
+        return Dispatch(openSnackbar(true, "error", "Department required."));
+      } else if (!data?.role) {
+        return Dispatch(openSnackbar(true, "error", "Role required."));
+      } else if (!data?.zone) {
+        return Dispatch(openSnackbar(true, "error", "Line required."));
+      } else if (!data?.wing) {
+        return Dispatch(openSnackbar(true, "error", "Wing required."));
+      } else if (!data?.shiftA && !data?.shiftB) {
+        return Dispatch(openSnackbar(true, "error", "Shift required."));
+      } else if (
+        !data?.machineBreakdown &&
+        !data?.feedUnavailability &&
+        !data?.workerNotAvailable &&
+        !data?.machineViolation &&
+        !data?.crowding &&
+        !data?.checkerActiveMonitoring
+      ) {
+        return Dispatch(
+          openSnackbar(true, "error", "Responsibility required.")
+        );
+      }
+    } else {
+      if (!data?.workerID) {
+        return Dispatch(openSnackbar(true, "error", "Worker ID required."));
+      } else if (!data?.username) {
+        return Dispatch(openSnackbar(true, "error", "Username required."));
+      } else if (/\d/.test(data?.username)) {
+        return Dispatch(
+          openSnackbar(true, "error", "Username can't contains numbers.")
+        );
+      } else if (!data?.password) {
+        return Dispatch(openSnackbar(true, "error", "Password required."));
+      } else if (!data?.email) {
+        return Dispatch(openSnackbar(true, "error", "Email required."));
+      } else if (
+        !Boolean(
+          data.email
+            .toLowerCase()
+            .match(
+              /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+            )
+        )
+      ) {
+        return Dispatch(openSnackbar(true, "error", "Enter valid email."));
+      } else if (!data?.designation) {
+        return Dispatch(openSnackbar(true, "error", "Designation required."));
+      } else if (!data?.department) {
+        return Dispatch(openSnackbar(true, "error", "Department required."));
+      } else if (!data?.role) {
+        return Dispatch(openSnackbar(true, "error", "Role required."));
+      } else if (!data?.zone) {
+        return Dispatch(openSnackbar(true, "error", "Line required."));
+      } else if (!data?.wing) {
+        return Dispatch(openSnackbar(true, "error", "Wing required."));
+      } else if (!data?.shiftA && !data?.shiftB) {
+        return Dispatch(openSnackbar(true, "error", "Shift required."));
+      } else if (
+        !data?.machineBreakdown &&
+        !data?.feedUnavailability &&
+        !data?.workerNotAvailable &&
+        !data?.machineViolation &&
+        !data?.crowding &&
+        !data?.checkerActiveMonitoring
+      ) {
+        return Dispatch(
+          openSnackbar(true, "error", "Responsibility required.")
+        );
+      }
     }
+  };
+
+  const submitUserForm = async () => {
+    // validateForm();
     const DATA = {
       username: data.username,
       password: data.password,
@@ -410,6 +454,7 @@ function AddUser({ loadData }) {
             >
               <TextField
                 error={
+                  !data?.isSuperChecker &&
                   !Boolean(
                     String(data.email)
                       .toLowerCase()
@@ -419,6 +464,7 @@ function AddUser({ loadData }) {
                   )
                 }
                 helperText={
+                  !data?.isSuperChecker &&
                   Boolean(
                     String(data.email)
                       .toLowerCase()
