@@ -107,7 +107,7 @@ function SatReport() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {satData.map((item, index) => (
+            {satData?.map((item, index) => (
               <TableRow key={index}>
                 <StyledTableDataCell>{item.workerId}</StyledTableDataCell>
                 <StyledTableDataCell>{item.workerName}</StyledTableDataCell>

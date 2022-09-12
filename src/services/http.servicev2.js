@@ -2,14 +2,15 @@
 const axios = require("axios");
 
 // const localUrl = "http://localhost:5000";
-const cloudUrl = "http://120.120.120.147:7005"; //dev
-// const cloudUrl = "http://3.17.151.86:5000";
-const cloudUrlVPN_TEMP = "http://120.120.120.147:5009"; //VPN
+// const cloudUrl = "http://120.120.120.147:7005"; //dev
+const cloudUrl = "http://3.134.111.24:5000";
+const cloudUrlVPN_TEMP = "http://120.120.120.147:7005"; //VPN
+//VPN
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://kpl.algo8apps.com";
 
-const baseUrl = cloudUrl;
+const baseUrl = cloudUrlVPN_TEMP;
 // const baseUrl = cloudUrlVPN_TEMP;
 // const baseUrl = "http://kpl.algo8apps.com:5006";
 
