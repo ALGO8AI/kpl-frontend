@@ -32,3 +32,39 @@ export const convertToBase64 = async (file) => {
     };
   });
 };
+
+export const returnStatusDefect = (type) => {
+  switch (type) {
+    case "incorrect violation":
+      return "Rejected";
+    case "not known":
+      return "Not Repaired";
+    case "open":
+      return "Not Repaired";
+    case "okay bag":
+      return "Okay Bag";
+    case "closed":
+      return "Repaired";
+    default:
+      return "Not Repaired";
+  }
+};
+
+export const returnClassNameDefect = (type) => {
+  switch (type) {
+    case "incorrect violation":
+      return "Link-btn-red";
+    case "okay bag":
+      return "Link-btn-yellow";
+    case "rejected":
+      return "Link-btn-red";
+    case "not-repaired":
+      return "Link-btn-orange";
+    case "repaired":
+      return "Link-btn-green";
+    case "closed":
+      return "Link-btn-blue";
+    default:
+      return "Link-btn-orange";
+  }
+};

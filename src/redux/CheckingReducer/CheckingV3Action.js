@@ -1,5 +1,6 @@
 import { clpCtrCountV3 } from "../../services/checking.api";
 import { callBackendV2 } from "../../services/http.servicev2";
+import { returnStatusDefect } from "../../Utility/Utility";
 
 export const homeDefectChartV3 = (
   filterDateFrom = new Date().toISOString().slice(0, 10),
@@ -381,11 +382,19 @@ export const defectsLogsV3 = (
       true,
       formField
     );
+
+    const modifiedData = resp?.data?.map((item) => {
+      return {
+        ...item,
+        actionStatusV3: returnStatusDefect(item?.actionStatus?.toLowerCase()),
+      };
+    });
+
     dispatch({
       type: "SET_CHECKING_V3",
       payload: {
         key: "defectsLogs",
-        value: resp?.data,
+        value: modifiedData,
       },
     });
   } catch (e) {}
@@ -450,11 +459,21 @@ export const productionLogsV3 = (
       true,
       formField
     );
+
+    const modifiedData = resp?.data?.map((item) => {
+      return {
+        ...item,
+        actionStatusV3: item?.defectName
+          ? returnStatusDefect(item?.actionStatus?.toLowerCase())
+          : "Okay Bag",
+      };
+    });
+
     dispatch({
       type: "SET_CHECKING_V3",
       payload: {
         key: "productionLogs",
-        value: resp?.data,
+        value: modifiedData,
       },
     });
   } catch (e) {}

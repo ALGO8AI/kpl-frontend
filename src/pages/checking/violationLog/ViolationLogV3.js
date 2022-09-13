@@ -50,7 +50,11 @@ import {
   openSnackbar_TO,
 } from "../../../redux/CommonReducer/CommonAction";
 import { weekRange } from "../../../Utility/DateRange";
-import { modifyPrevDate } from "../../../Utility/Utility";
+import {
+  modifyPrevDate,
+  returnClassNameDefect,
+  returnStatusDefect,
+} from "../../../Utility/Utility";
 import { shifts, stitchingLines } from "../../../Utility/constants";
 import { Autocomplete } from "@material-ui/lab";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
@@ -419,66 +423,31 @@ function ViolationLogV3() {
     }
   };
 
-  const returnClassName = (type) => {
-    switch (type) {
-      case "INCORRECT VIOLATION":
-        return "Link-btn-grey";
-      case "OPEN":
-        return "Link-btn-red";
-      case "CLOSED":
-        return "Link-btn-green";
-      default:
-        return "Link-btn-red";
-    }
-  };
+  // const returnClassName = (type) => {
+  //   switch (type) {
+  //     case "INCORRECT VIOLATION":
+  //       return "Link-btn-grey";
+  //     case "OPEN":
+  //       return "Link-btn-red";
+  //     case "CLOSED":
+  //       return "Link-btn-green";
+  //     default:
+  //       return "Link-btn-red";
+  //   }
+  // };
 
-  const returnStatus = (type) => {
-    switch (type) {
-      case "INCORRECT VIOLATION":
-        return "Incorrect";
-      case "OPEN":
-        return "Unresolved";
-      case "CLOSED":
-        return "Resolved";
-      default:
-        return "Unresolved";
-    }
-  };
-  const returnStatusDefect = (type) => {
-    switch (type) {
-      case "incorrect violation":
-        return "Rejected";
-      case "not known":
-        return "Not Repaired";
-      case "open":
-        return "Not Repaired";
-      case "okay bag":
-        return "Okay Bag";
-      case "closed":
-        return "Repaired";
-      default:
-        return "Not Repaired";
-    }
-  };
-
-  const returnClassNameDefect = (type) => {
-    switch (type) {
-      case "incorrect violation":
-        return "Link-btn-red";
-      case "okay bag":
-        return "Link-btn-yellow";
-      case "rejected":
-        return "Link-btn-red";
-      case "not-repaired":
-        return "Link-btn-orange";
-      case "repaired":
-        return "Link-btn-green";
-      case "closed":
-        return "Link-btn-blue";
-      default:
-        return "Link-btn-orange";
-    }
-  };
+  // const returnStatus = (type) => {
+  //   switch (type) {
+  //     case "INCORRECT VIOLATION":
+  //       return "Incorrect";
+  //     case "OPEN":
+  //       return "Unresolved";
+  //     case "CLOSED":
+  //       return "Resolved";
+  //     default:
+  //       return "Unresolved";
+  //   }
+  // };
 
   const getTableDynamic = async () => {
     console.log("DYNAMIC MACHINE FILTER CALL");
@@ -882,7 +851,7 @@ function ViolationLogV3() {
                   loading={loader}
                   columns={[
                     {
-                      field: "actionStatus",
+                      field: "actionStatusV3",
                       title: "Details",
                       render: (rowData) => (
                         <Link
@@ -1043,7 +1012,7 @@ function ViolationLogV3() {
                   loading={loader}
                   columns={[
                     {
-                      field: "actionStatus",
+                      field: "actionStatusV3",
                       title: "Details",
                       render: (rowData) =>
                         rowData?.defectName ? (
