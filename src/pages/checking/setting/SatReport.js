@@ -66,7 +66,7 @@ function SatReport() {
     try {
       const { data } = await callBackendV2(
         "GET",
-        `routes/sat/latestReportCard/Test/${localStorage.getItem("kpl_wing")}`
+        `routes/sat/latestReportCard/${localStorage.getItem("kpl_wing")}`
       );
       console.log(data);
 
