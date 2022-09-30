@@ -60,7 +60,7 @@ TabPanel.propTypes = {
 
 function WorkerChecking(props) {
   const { role } = useSelector((state) => state.Common);
-  const isEnable = role === "admin" || role === "Admin";
+  const isEnable = role === "admin" || role === "Admin" || role === "user";
 
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);

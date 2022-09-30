@@ -98,7 +98,7 @@ function WorkerScheduleV2() {
   const [wingWiseShift, setWingWiseShift] = useState({});
 
   const { role } = useSelector((state) => state.Common);
-  const isEnable = role === "admin" || role === "Admin";
+  const isEnable = role === "admin" || role === "Admin" || role === "user";
 
   const getLineDynamic = async (wing) => {
     try {

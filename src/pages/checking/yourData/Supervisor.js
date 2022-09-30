@@ -79,7 +79,7 @@ TabPanel.propTypes = {
 
 function Supervisor(props) {
   const { role } = useSelector((state) => state.Common);
-  const isEnable = role === "admin" || role === "Admin";
+  const isEnable = role === "admin" || role === "Admin" || role === "user";
   // React Selector
   const { wingList } = useSelector((state) => state?.CheckV3);
   // Redux Dispatch
