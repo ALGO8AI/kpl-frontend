@@ -158,7 +158,11 @@ function WorkerChecking(props) {
   const submitImageDetails = async () => {
     if (isEnable) {
       try {
-        if (!userdata.name || !userdata.workerId || !userdata.wing) {
+        if (
+          !userdata.name?.trim() ||
+          !userdata.workerId?.trim() ||
+          !userdata.wing?.trim()
+        ) {
           return dispatch(
             openSnackbar(true, "error", "Please Fill All Fields")
           );
@@ -167,7 +171,7 @@ function WorkerChecking(props) {
         // console.log(resp);
         setMsg(resp.msg);
         setOpen(true);
-        loadData(selectedWing);
+        loadData(selectedWing || localStorage.getItem("kpl_wing"));
         setUserData({ name: "", workerId: "", workerImage: "", wing: "" });
       } catch (e) {
         // console.log(e.message);
