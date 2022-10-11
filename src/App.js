@@ -23,7 +23,6 @@ import UsedUnusedPrint from "./pages/checking/BagID/UsedUnusedPrint";
 import Cutting from "./pages/cutting/Cutting/Cutting";
 import { useDispatch } from "react-redux";
 
-
 function App(props) {
   // console.log(props);
   const Dispatch = useDispatch();
@@ -36,32 +35,13 @@ function App(props) {
   //   });
   // }, []);
   useEffect(() => {
-    // document.html.style.zoom = "75%";
     const ROLE = localStorage.getItem("ROLE");
     ROLE && dispatch({ type: "ADD_ROLE", payload: ROLE });
     ROLE && Dispatch({ type: "ADD_ROLE", payload: ROLE });
-
     const DESIGNATION = localStorage.getItem("DESIGNATION");
     DESIGNATION && dispatch({ type: "ADD_DESIGNATION", payload: DESIGNATION });
-
     const PROFILE = localStorage.getItem("PROFILE");
     PROFILE && dispatch({ type: "ADD_PROFILE", payload: JSON.parse(PROFILE) });
-
-    // socket
-    // socket.on("realTime-notification", (resp) => {
-    //   console.log("Socket On");
-    //   console.log(resp);
-    //   if (window.Notification) {
-    //     Notification.requestPermission(() => {
-    //       if (Notification.permission === "granted") {
-    //         const swUrl = `${process.env.PUBLIC_URL}/serviceWorker.js`;
-    //         navigator.serviceWorker.register(swUrl).then(async (worker) => {
-    //           worker.showNotification(resp.Message);
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
   }, []);
 
   // if (window.Notification) {
