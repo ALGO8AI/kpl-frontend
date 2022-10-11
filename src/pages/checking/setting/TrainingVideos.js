@@ -17,11 +17,99 @@ function TrainingVideos() {
         container
         item
         xs={12}
-        md={6}
+        md={12}
         style={{
           padding: "0.5rem",
         }}
       >
+        <Grid
+          // container
+          item
+          xs={12}
+          component={Paper}
+          elevation={3}
+          style={{ padding: "0.5rem", marginBottom: "1rem" }}
+        >
+          <Typography
+            variant="h5"
+            style={{
+              marginBottom: "1rem",
+            }}
+          >
+            Upload Videos
+          </Typography>
+
+          <Grid container item xs={12}>
+            <Grid
+              container
+              item
+              xs={3}
+              style={{ padding: "0.5rem" }}
+              component={Paper}
+              elevation={3}
+            >
+              <label
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  padding: "2rem 1rem",
+                }}
+              >
+                <PublishIcon style={{ color: theme.BLUE }} />
+                <h4
+                  style={{
+                    color: theme.ORANGE,
+                    fontSize: "24px",
+                    fontWeight: "400",
+                  }}
+                >
+                  Upload Video
+                </h4>
+
+                <input
+                  onChange={(e) => {
+                    console.log(e.target.files);
+                    setSelectFile(e.target.files[0]);
+                  }}
+                  type="file"
+                  style={{ display: "none" }}
+                />
+              </label>
+              {selectFile?.name && (
+                <p
+                  style={{
+                    marginTop: "1rem",
+                    textAlign: "center",
+                    color: theme.BLUE,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  {selectFile?.name}
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      outline: "none",
+                      cursor: "pointer",
+                      color: theme.BLUE,
+                    }}
+                    onClick={() => {
+                      setSelectFile(null);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </button>
+                </p>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
         <Grid
           container
           item
@@ -40,8 +128,8 @@ function TrainingVideos() {
           </Typography>
 
           <Grid container item xs={12}>
-            {[1, 2, 3, 4].map((item, index) => (
-              <Grid container item xs={12} md={6} style={{ padding: "0.5rem" }}>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
+              <Grid container item xs={12} md={3} style={{ padding: "0.5rem" }}>
                 <video
                   src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
                   controls
@@ -81,94 +169,6 @@ function TrainingVideos() {
                 </Button>
               </Grid>
             ))}
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid
-        // container
-        item
-        xs={6}
-        component={Paper}
-        elevation={3}
-        style={{ padding: "0.5rem" }}
-      >
-        <Typography
-          variant="h5"
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
-          Upload Videos
-        </Typography>
-
-        <Grid container item xs={12}>
-          <Grid
-            container
-            item
-            xs={6}
-            style={{ padding: "0.5rem" }}
-            component={Paper}
-            elevation={3}
-          >
-            <label
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-                padding: "2rem 1rem",
-              }}
-            >
-              <PublishIcon style={{ color: theme.BLUE }} />
-              <h4
-                style={{
-                  color: theme.ORANGE,
-                  fontSize: "24px",
-                  fontWeight: "400",
-                }}
-              >
-                Upload Video
-              </h4>
-
-              <input
-                onChange={(e) => {
-                  console.log(e.target.files);
-                  setSelectFile(e.target.files[0]);
-                }}
-                type="file"
-                style={{ display: "none" }}
-              />
-            </label>
-            {selectFile?.name && (
-              <p
-                style={{
-                  marginTop: "1rem",
-                  textAlign: "center",
-                  color: theme.BLUE,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                {selectFile?.name}
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    outline: "none",
-                    cursor: "pointer",
-                    color: theme.BLUE,
-                  }}
-                  onClick={() => {
-                    setSelectFile(null);
-                  }}
-                >
-                  <DeleteIcon />
-                </button>
-              </p>
-            )}
           </Grid>
         </Grid>
       </Grid>
