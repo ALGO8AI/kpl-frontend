@@ -195,7 +195,7 @@ function ViolationDetail(props) {
       const x = await getCheckingViolationDetailDataV3(props.id);
       console.log(x);
       setData(x.volIdData[0]);
-      setNewSupervisor(x.volIdData[0].supervisor);
+      setNewSupervisor(x.volIdData[0].supervisorName);
       setClosedBy(x.volIdData[0].closingSupervisor);
       setLink(x.volIdData[0]?.video);
       if (x.volIdData[0].violationReason) {
@@ -318,9 +318,9 @@ function ViolationDetail(props) {
       console.log(x);
       setMsg(x.msg);
       setOpen1(true);
-      // setTimeout(() => {
-      //   history.push("/checking/logs");
-      // }, 2000);
+      setTimeout(() => {
+        history.push("/checking/logs");
+      }, 2000);
     } catch (e) {
       console.log(e);
     }
@@ -355,9 +355,9 @@ function ViolationDetail(props) {
       setMsg(x.msg);
       setOpen1(true);
       setOpen(false);
-      // setTimeout(() => {
-      //   history.push("/checking/logs");
-      // }, 2000);
+      setTimeout(() => {
+        history.push("/checking/logs");
+      }, 2000);
       // } else {
       //   setOpen(false);
       // }
