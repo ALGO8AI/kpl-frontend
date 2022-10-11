@@ -13,6 +13,7 @@ import ManageRoles from "./ManageRoles";
 import SATconfiguration from "../../../components/SATconfiguration/SATconfiguration";
 import SatReport from "./SatReport";
 import AlertAndNotificationV4 from "./AlertAndNotificationV4";
+import TrainingVideos from "./TrainingVideos";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,7 +70,8 @@ function Setting() {
           <Tab label=" Manage Roles" {...a11yProps(0)} />
           <Tab label="Alert and Notification" {...a11yProps(1)} />
           <Tab label="SAT Configuration" {...a11yProps(2)} />
-          <Tab label="SAT Report" {...a11yProps(2)} />
+          <Tab label="SAT Report" {...a11yProps(3)} />
+          <Tab label="Training Videos" {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={1}>
@@ -87,6 +89,9 @@ function Setting() {
       </TabPanel>
       <TabPanel value={value} index={3}>
         <SatReport />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <TrainingVideos />
       </TabPanel>
     </Grid>
   );
