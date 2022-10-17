@@ -1,5 +1,6 @@
+import axios from "axios";
 import { clpCtrCountV3 } from "../../services/checking.api";
-import { callBackendV2 } from "../../services/http.servicev2";
+import { callBackendV2, trainingVideos } from "../../services/http.servicev2";
 import { returnStatusDefect } from "../../Utility/Utility";
 
 export const homeDefectChartV3 = (
@@ -674,4 +675,51 @@ export const getCurrentCTRV3 = (wing, line) => async (dispatch) => {
       payload: resp?.data[0]?.ctr,
     });
   } catch (e) {}
+};
+
+export const getTrainigVideos = () => async (dispatch) => {
+  try {
+    let data = await callBackendV2(
+      "GET",
+      "routes/checking/trainingVideos/videos"
+    );
+    dispatch({
+      type: "SET_TRAINING_VIDEOS",
+      payload: data?.files,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const uploadVideo = (file) => async (dispatch) => {
+  try {
+    let data = await callBackendV2(
+      "POST",
+      "routes/checking/trainingVideos/upload",
+      true,
+      file
+    );
+    if (data) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteVideo = (file) => async (dispatch) => {
+  try {
+    let resp = await callBackendV2(
+      "POST",
+      "routes/checking/trainingVideos/delete",
+      true,
+      file
+    );
+    return resp;
+  } catch (e) {
+    console.log(e);
+  }
 };

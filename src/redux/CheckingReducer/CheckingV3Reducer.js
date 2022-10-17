@@ -21,6 +21,7 @@ const initStore = {
   currentCTR: "",
   tailorSummary: [],
   checkerAvailability: [],
+  trainingVideos: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -80,6 +81,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         checkerAvailability: action.payload,
+      };
+    case "SET_TRAINING_VIDEOS":
+      return {
+        ...state,
+        trainingVideos: action.payload,
       };
     default:
       return state;

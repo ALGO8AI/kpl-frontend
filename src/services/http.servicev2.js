@@ -9,6 +9,7 @@ const cloudUrlVPN_TEMP = "http://120.120.120.147:7005"; //VPN
 
 // const cloudUrl = "http://13.232.228.72:3000"; //prod
 const videoWall = "http://kpl.algo8apps.com";
+const trainingVideos = "http://120.120.120.147:3008";
 
 const baseUrl = cloudUrlVPN_TEMP;
 // const baseUrl = cloudUrlVPN_TEMP;
@@ -60,4 +61,4 @@ const callBackendV2 = async (
   }
 };
 
-export { callBackendV2, videoWall };
+export { callBackendV2, videoWall, trainingVideos };

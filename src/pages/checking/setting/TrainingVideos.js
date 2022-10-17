@@ -1,11 +1,65 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Grid, Paper, Typography } from "@material-ui/core";
 import React from "react";
 import PublishIcon from "@material-ui/icons/Publish";
 import { theme } from "../../../Utility/constants";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+  deleteVideo,
+  getTrainigVideos,
+  uploadVideo,
+} from "../../../redux/CheckingReducer/CheckingV3Action";
+import { useState } from "react";
+import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
+import Loader from "../../../components/loader/Loader";
 
 function TrainingVideos() {
   const [selectFile, setSelectFile] = React.useState(null);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const { trainingVideos } = useSelector((state) => state.CheckV3);
+
+  useEffect(() => {
+    dispatch(getTrainigVideos());
+  }, []);
+
+  const uploadFile = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("uploadFile", selectFile);
+    let resp = await dispatch(uploadVideo(formData));
+    if (resp) {
+      setLoading(false);
+      dispatch(openSnackbar(true, "success", "Video Uploaded Successfully"));
+      dispatch(getTrainigVideos());
+      setSelectFile(null);
+    } else {
+      dispatch(openSnackbar(true, "error", "Something went wrong. Try again"));
+    }
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   dispatch(openSnackbar(true, "success", "Video Uploaded Successfully"));
+    //   dispatch(getTrainigVideos());
+    // }, 3000);
+  };
+
+  const deleteVid = async (id) => {
+    let prompt = window.confirm("Are you sure you want to delete this video?");
+    if (prompt) {
+      let resp = await dispatch(deleteVideo({ filePath: id }));
+      if (resp?.message) {
+        dispatch(openSnackbar(true, "success", "Video Deleted Successfully"));
+        dispatch(getTrainigVideos());
+      } else {
+        dispatch(
+          openSnackbar(true, "error", "Something went wrong. Try again")
+        );
+      }
+    }
+  };
+
   return (
     <Grid
       container
@@ -76,36 +130,59 @@ function TrainingVideos() {
                   }}
                   type="file"
                   style={{ display: "none" }}
+                  accept="video/*"
                 />
               </label>
               {selectFile?.name && (
-                <p
-                  style={{
-                    marginTop: "1rem",
-                    textAlign: "center",
-                    color: theme.BLUE,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  {selectFile?.name}
-                  <button
+                <>
+                  <p
                     style={{
-                      background: "none",
-                      border: "none",
-                      outline: "none",
-                      cursor: "pointer",
+                      marginTop: "1rem",
+                      textAlign: "center",
                       color: theme.BLUE,
-                    }}
-                    onClick={() => {
-                      setSelectFile(null);
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      width: "100%",
                     }}
                   >
-                    <DeleteIcon />
-                  </button>
-                </p>
+                    {selectFile?.name}
+                    <button
+                      style={{
+                        background: "none",
+                        border: "none",
+                        outline: "none",
+                        cursor: "pointer",
+                        color: theme.BLUE,
+                      }}
+                      onClick={() => {
+                        setSelectFile(null);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </button>
+                  </p>
+                  <Button
+                    onClick={uploadFile}
+                    style={{
+                      backgroundColor: theme.BLUE,
+                      color: "white",
+                    }}
+                    variant="contained"
+                    fullWidth
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Loader
+                        style={{
+                          color: "white",
+                        }}
+                      />
+                    ) : (
+                      "Upload"
+                    )}
+                  </Button>
+                </>
               )}
             </Grid>
           </Grid>
@@ -126,16 +203,23 @@ function TrainingVideos() {
           >
             All Videos
           </Typography>
-
           <Grid container item xs={12}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
-              <Grid container item xs={12} md={3} style={{ padding: "0.5rem" }}>
+            {trainingVideos?.map((item, index) => (
+              <Grid
+                container
+                item
+                xs={12}
+                md={3}
+                style={{ padding: "0.5rem" }}
+                key={index}
+              >
                 <video
-                  src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+                  src={`http://120.120.120.147:3008/${item}`}
                   controls
                   style={{
                     width: "100%",
                     marginBottom: "0.5rem",
+                    aspectRatio: "16/9",
                   }}
                 />
 
@@ -147,7 +231,7 @@ function TrainingVideos() {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    Title {Math.floor(Math.random() * 999)}
+                    {item}
                     <span
                       style={{
                         fontSize: "16px",
@@ -164,6 +248,7 @@ function TrainingVideos() {
                     display: "block",
                   }}
                   variant="contained"
+                  onClick={() => deleteVid(item)}
                 >
                   DELETE
                 </Button>
