@@ -22,6 +22,7 @@ import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Loader from "../../../components/loader/Loader";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 import { generateBagIds } from "../../../services/api.service";
@@ -52,6 +53,9 @@ function GenerateBarcode() {
   const [config, setConfig] = useState(0);
   const [lineList, setLineList] = useState([]);
   const [inputLINE, setInputLINE] = useState([]);
+  const [loadingFilter, setLoadingFilter] = useState(false);
+  const [loadingSaveConfig, setLoadingSaveConfig] = useState(false);
+  const [loadingGenerate, setLoadingGenerate] = useState(false);
 
   const getLineDynamic = async (wing) => {
     try {
@@ -68,6 +72,7 @@ function GenerateBarcode() {
   }, [selectedWing]);
 
   const saveBagID = async () => {
+    setLoadingGenerate(true);
     try {
       // old code
       // const resp = await generateBagIds(bagData.lotSize, bagData.tableNo);
@@ -96,9 +101,11 @@ function GenerateBarcode() {
     } catch (err) {
       console.log(err.message);
     }
+    setLoadingGenerate(false);
   };
 
   const loadData = async () => {
+    setLoadingFilter(true);
     try {
       const resp = await bagCount({
         wing: Boolean(selectedWing)
@@ -114,9 +121,11 @@ function GenerateBarcode() {
     } catch (e) {
       console.log(e.message);
     }
+    setLoadingFilter(false);
   };
 
   const saveConfig = async () => {
+    setLoadingSaveConfig(true);
     try {
       const resp = await saveBagIDconfigV3(config);
       Dispatch(openSnackbar(true, "success", resp.message));
@@ -124,6 +133,7 @@ function GenerateBarcode() {
       console.log(resp2?.data);
       setTableWiseData(resp2?.data);
     } catch (e) {}
+    setLoadingSaveConfig(false);
   };
 
   useEffect(() => {
@@ -173,8 +183,16 @@ function GenerateBarcode() {
           </Grid>
           <Grid item xs={4}></Grid>
           <Grid item xs={4}>
-            <Button variant="contained" onClick={saveConfig}>
-              SAVE CONFIG
+            <Button
+              variant="contained"
+              onClick={saveConfig}
+              disabled={loadingSaveConfig}
+              fullWidth
+              style={{
+                padding: "1rem",
+              }}
+            >
+              {loadingSaveConfig ? <Loader /> : "SAVE CONFIG"}
             </Button>
           </Grid>
           <Grid container item xs={12} sm={12} style={{ margin: "12px 0" }}>
@@ -210,7 +228,7 @@ function GenerateBarcode() {
               autoFocus
               variant="contained"
               style={{
-                backgroundColor: "#0e4a7b",
+                backgroundColor: loadingFilter ? "grey" : "#0e4a7b",
                 color: "#FFF",
                 whiteSpace: "nowrap",
                 width: "100%",
@@ -219,8 +237,17 @@ function GenerateBarcode() {
                 padding: "12px",
                 martinTop: "12px",
               }}
+              disabled={loadingFilter}
             >
-              FILTER
+              {loadingFilter ? (
+                <Loader
+                  style={{
+                    color: "white",
+                  }}
+                />
+              ) : (
+                "FILTER"
+              )}
             </Button>
           </Grid>
         </Grid>
@@ -304,7 +331,7 @@ function GenerateBarcode() {
           autoFocus
           variant="contained"
           style={{
-            backgroundColor: "#0e4a7b",
+            backgroundColor: loadingGenerate ? "grey" : "#0e4a7b",
             color: "#FFF",
             whiteSpace: "nowrap",
             width: "100%",
@@ -313,8 +340,13 @@ function GenerateBarcode() {
             padding: "12px",
             martinTop: "12px",
           }}
+          disabled={loadingGenerate}
         >
-          GENERATE REMAINING BARCODE
+          {loadingGenerate ? (
+            <Loader style={{}} />
+          ) : (
+            "GENERATE REMAINING BARCODE"
+          )}
         </Button>
         {/* <TextField
           variant="outlined"

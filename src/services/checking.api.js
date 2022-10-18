@@ -251,3 +251,12 @@ export const getAlertSummary = async (wing) => {
     `routes/alert/superCheckerAlertSummary/${wing}`
   );
 };
+
+export const getTableIdBarcode = async (formData) => {
+  return await callBackendV2(
+    "POST",
+    "routes/checking/KPI/home/lineWiseTableId",
+    true,
+    formData
+  );
+};

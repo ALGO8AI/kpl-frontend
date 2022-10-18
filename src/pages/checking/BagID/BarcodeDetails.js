@@ -17,6 +17,7 @@ import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Loader from "../../../components/loader/Loader";
 import { CheckingContext } from "../../../context/CheckingContext";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 import {
@@ -25,10 +26,16 @@ import {
   getBagData,
   getDynamicTableList,
 } from "../../../services/api.service";
-import { wingWiseLine } from "../../../services/checking.api";
+import {
+  getTableIdBarcode,
+  wingWiseLine,
+} from "../../../services/checking.api";
 
 function BarcodeDetails() {
   const { selectedWing } = useSelector((state) => state?.CheckV3);
+  const [loadingGetData, setLoadingGetData] = useState(false);
+  const [loadingDeleteSelected, setLoadingDeleteSelected] = useState(false);
+  const [loadingDeleteAll, setLoadingDeleteAll] = useState(false);
 
   // DISPATCH
   const Dispatch = useDispatch();
@@ -101,6 +108,7 @@ function BarcodeDetails() {
   };
   const dateFilter = async () => {
     try {
+      setLoadingGetData(true);
       const resp = await getBagData(
         state.bagIdFrom,
         state.bagIdTo,
@@ -118,6 +126,7 @@ function BarcodeDetails() {
           loading: true,
         },
       });
+      setLoadingGetData(false);
     } catch (err) {
       // console.log(err.message);
     }
@@ -127,6 +136,7 @@ function BarcodeDetails() {
   }, [selectedWing]);
 
   const deleteBarCodes = async () => {
+    setLoadingDeleteSelected(true);
     try {
       const resp = await deleteBarCode(selectedBarcode);
       console.log(resp);
@@ -140,9 +150,11 @@ function BarcodeDetails() {
     } catch (e) {
       // console.log(e);
     }
+    setLoadingDeleteSelected(false);
   };
 
   const deleteAllBarCodes = async () => {
+    setLoadingDeleteAll(true);
     try {
       const resp = await deleteBarCode(
         state?.bagData?.data?.filter((data) =>
@@ -160,20 +172,19 @@ function BarcodeDetails() {
     } catch (e) {
       // console.log(e);
     }
+    setLoadingDeleteAll(false);
   };
 
   const getTableDynamic = async () => {
     console.log("DYNAMIC MACHINE FILTER CALL");
     const body = {
-      filterDateFrom: state.bagIdFrom,
-      filterDateTo: state.bagIdTo,
-      shift: ["A", "B", "C"],
+      wing: selectedWing || localStorage.getItem("kpl_wing"),
       line: inputLINE,
     };
 
     try {
-      const resp = await getDynamicTableList(body);
-      setMachineID(resp?.allMachines);
+      const resp = await getTableIdBarcode(body);
+      setMachineID(resp?.data);
     } catch (e) {}
   };
 
@@ -312,7 +323,7 @@ function BarcodeDetails() {
             <Button
               variant="contained"
               style={{
-                backgroundColor: "#0e4a7b",
+                backgroundColor: loadingGetData ? "grey" : "#0e4a7b",
                 color: "#FFF",
                 whiteSpace: "nowrap",
                 width: "100%",
@@ -323,8 +334,19 @@ function BarcodeDetails() {
                 padding: "12px",
               }}
               onClick={dateFilter}
+              disabled={loadingGetData}
             >
-              GET DATA
+              {loadingGetData ? (
+                <Loader
+                  style={{
+                    color: "white",
+                  }}
+                  size={20}
+                  color="inherit"
+                />
+              ) : (
+                " GET DATA"
+              )}
             </Button>
           </Grid>
           <Grid container item xs={12} style={{ marginBottom: "1rem" }}>
@@ -372,7 +394,7 @@ function BarcodeDetails() {
                 <Button
                   variant="contained"
                   style={{
-                    backgroundColor: "#0e4a7b",
+                    backgroundColor: loadingDeleteSelected ? "grey" : "#0e4a7b",
                     color: "#FFF",
                     whiteSpace: "nowrap",
                     width: "100%",
@@ -383,15 +405,24 @@ function BarcodeDetails() {
                     padding: "12px",
                   }}
                   onClick={deleteBarCodes}
+                  disabled={loadingDeleteSelected}
                 >
-                  DELETE SELECTED
+                  {loadingDeleteSelected ? (
+                    <Loader
+                      style={{
+                        color: "white",
+                      }}
+                    />
+                  ) : (
+                    "                  DELETE SELECTED"
+                  )}
                 </Button>
               </Grid>
               <Grid container item xs={12} style={{ marginBottom: "1rem" }}>
                 <Button
                   variant="contained"
                   style={{
-                    backgroundColor: "#0e4a7b",
+                    backgroundColor: loadingDeleteAll ? "grey" : "#0e4a7b",
                     color: "#FFF",
                     whiteSpace: "nowrap",
                     width: "100%",
@@ -401,8 +432,14 @@ function BarcodeDetails() {
                     // marginLeft: "12px",
                     padding: "12px",
                   }}
+                  disabled={loadingDeleteAll}
                   onClick={deleteAllBarCodes}
                 >
+                  {loadingDeleteAll ? (
+                    <Loader style={{ color: "white" }} />
+                  ) : (
+                    "DELETE ALL"
+                  )}
                   DELETE ALL
                 </Button>
               </Grid>
