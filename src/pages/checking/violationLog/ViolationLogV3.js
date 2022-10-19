@@ -1178,6 +1178,14 @@ function ViolationLogV3() {
                       field: "checkerName",
                     },
                     {
+                      title: "Checker Efficiency",
+                      field: "checkerEfficiency",
+                    },
+                    {
+                      title: "Checker Performance",
+                      field: "checkerPerformance",
+                    },
+                    {
                       title: "Table ID",
                       field: "tableId",
                     },
