@@ -66,6 +66,7 @@ function BarcodeDetails() {
   }, [selectedWing]);
   const history = useHistory();
   const fetchBagIds = async () => {
+    setLoadingGetData(true);
     try {
       var curr = new Date(); // get current date
       // console.log(new Date().toISOString().slice(0, 10));
@@ -105,6 +106,7 @@ function BarcodeDetails() {
     } catch (e) {
       console.log(e.message);
     }
+    setLoadingGetData(false);
   };
   const dateFilter = async () => {
     try {
@@ -304,7 +306,7 @@ function BarcodeDetails() {
             <Button
               variant="contained"
               style={{
-                backgroundColor: "#fff",
+                backgroundColor: loadingGetData ? "grey" : "#fff",
                 color: "#0e4a7b",
                 whiteSpace: "nowrap",
                 width: "100%",
@@ -313,10 +315,21 @@ function BarcodeDetails() {
                 marginRight: "12px",
                 padding: "12px",
               }}
+              disabled={loadingGetData}
               onClick={() => history.push("/printUsedUnused")}
             >
               {/* <FilterListIcon /> */}
-              PRINT
+              {loadingGetData ? (
+                <Loader
+                  style={{
+                    color: "white",
+                  }}
+                  size={20}
+                  color="inherit"
+                />
+              ) : (
+                " PRINT"
+              )}
             </Button>
           </Grid>
           <Grid container item xs={6} style={{ marginBottom: "2rem" }}>

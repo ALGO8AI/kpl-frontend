@@ -78,8 +78,11 @@ function BarCodePrint() {
     }
   
     @page {
-  size: 10cm 5cm;
-  margin:0;
+  size: 10cm 3cm;
+  margin:4px;
+  border:1px solid black;
+  padding:4px;
+  background-color:black;
 }
 </style>
     `);
@@ -115,8 +118,9 @@ function BarCodePrint() {
     flexDirection: "column",
     textAlign: "center",
     margin: "20px",
-    padding: "20px",
+    padding: "24px",
     pageBreakAfter: "always",
+    border: "2px solid black",
     // width: "100%",
     // height: "100%",
   };
@@ -151,15 +155,14 @@ function BarCodePrint() {
               justifyContent: "center",
               width: "50%",
               height: "100%",
-              // margin: "auto",
               boxSizing: "border-box",
-              // border: "1px solid red",
+              border: "2px solid black",
               padding: "36px 16px",
             }}
             key={key}
           >
             <img
-              style={{ width: "90%" }}
+              style={{ width: "75%" }}
               key={item.bagId}
               src={item.barcode}
               alt={item.bagId}
@@ -175,9 +178,9 @@ function BarCodePrint() {
               }}
             >
               <div>
-                <p style={{ margin: 0, fontSize: "18px" }}>{item.tableId}</p>
+                <p style={{ margin: 0, fontSize: "14px" }}>{item.tableId}</p>
                 {/* <p style={{ margin: 0, fontSize: "12px" }}>{item.bagId}</p> */}
-                <p style={{ margin: 0, fontSize: "18px" }}>
+                <p style={{ margin: 0, fontSize: "14px" }}>
                   {moment(item.date).format("DD-MM-YYYY")}
                 </p>
                 {/* <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p> */}

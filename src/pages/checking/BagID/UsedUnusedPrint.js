@@ -219,9 +219,9 @@ function UsedUnusedPrint() {
     box-sizing: border-box;
     }
     @page {
-  size: 10cm 5cm;
+  size: 10cm 3cm;
   margin:0;
-
+  border:12px solid black;
 }
 </style>
     `);
@@ -256,8 +256,7 @@ function UsedUnusedPrint() {
     display: "flex",
     flexDirection: "column",
     textAlign: "center",
-    margin: "20px",
-    padding: "20px",
+    padding: "16px",
     pageBreakAfter: "always",
     // width: "100%",
     // height: "100%",
@@ -295,21 +294,21 @@ function UsedUnusedPrint() {
               height: "100%",
               // margin: "auto",
               boxSizing: "border-box",
-              // border: "1px solid red",
-              padding: "36px 16px",
+              border: "2px solid black",
+              padding: "36px 24px",
             }}
             key={key}
           >
             <img
-              style={{ width: "90%" }}
+              style={{ width: "80%" }}
               key={item.bagId}
               src={item.barcode}
               alt={item.bagId}
             />
             <div
               style={{
-                width: "90%",
-                height: "100%",
+                width: "100%",
+                // height: "100%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -317,11 +316,13 @@ function UsedUnusedPrint() {
               }}
             >
               <div>
-                <p style={{ margin: 0, fontSize: "18px" }}>{item.tableId}</p>
+                <p style={{ margin: 0, fontSize: "14px !important" }}>
+                  {item.tableId}
+                </p>
                 {/* <p style={{ margin: 0, fontSize: "12px" }}>
                   Bag Id {item.bagId}
                 </p> */}
-                <p style={{ margin: 0, fontSize: "18px" }}>
+                <p style={{ margin: 0, fontSize: "14px !important" }}>
                   {moment(item.date).format("DD-MM-YYYY")}
                 </p>
                 {/* <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p> */}
