@@ -140,12 +140,11 @@ function BarcodeDetails() {
   const deleteBarCodes = async () => {
     setLoadingDeleteSelected(true);
     try {
+      // console.log(selectedBarcode);
       const resp = await deleteBarCode(selectedBarcode);
-      console.log(resp);
       if (resp?.msg === "BagId successfully Deleted") {
+        console.log(resp);
         Dispatch(openSnackbar(true, "success", resp.msg));
-        // setOpen(true);
-        // setMsg(resp?.msg);
         setSelectedBarcode([]);
         fetchBagIds();
       }
@@ -158,16 +157,19 @@ function BarcodeDetails() {
   const deleteAllBarCodes = async () => {
     setLoadingDeleteAll(true);
     try {
+      // console.log(
+      //   state?.bagData?.data
+      //     ?.filter((data) => data?.assigned?.toString().includes(tempFilter))
+      //     ?.map((item) => item?.bagId)
+      // );
       const resp = await deleteBarCode(
-        state?.bagData?.data?.filter((data) =>
-          data?.assigned?.toString().includes(tempFilter)
-        )
+        state?.bagData?.data
+          ?.filter((data) => data?.assigned?.toString().includes(tempFilter))
+          ?.map((item) => item?.bagId)
       );
       console.log(resp);
       if (resp?.msg === "BagId successfully Deleted") {
         Dispatch(openSnackbar(true, "success", resp.msg));
-        // setOpen(true);
-        // setMsg(resp?.msg);
         setSelectedBarcode([]);
         fetchBagIds();
       }
@@ -453,7 +455,7 @@ function BarcodeDetails() {
                   ) : (
                     "DELETE ALL"
                   )}
-                  DELETE ALL
+                  {/* DELETE ALL */}
                 </Button>
               </Grid>
             </>
