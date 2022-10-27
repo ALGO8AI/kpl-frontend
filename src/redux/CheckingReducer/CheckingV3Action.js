@@ -604,62 +604,33 @@ export const tailorSummaryV3 = (
       formField
     );
     const def = response?.defectCols?.map((item) => item.defectName);
-    const resp = response?.tailorSummary?.map((item, i) => {
-      let error = {};
-      const errs = def.map((item2) => {
-        return item.defectName === item2
-          ? {
-              ...error,
-              [item2]: item.defectCount,
-            }
-          : { ...error, [item2]: 0 };
-      });
-      return {
-        ...errs[0],
-        ...errs[1],
-        ...errs[2],
-        ...errs[3],
-        ...errs[4],
-        ...errs[5],
-        ...errs[6],
-        ...errs[7],
-        ...errs[8],
-        ...errs[9],
-        ...errs[10],
-        ...errs[11],
-        ...errs[12],
-        ...errs[13],
-        ...errs[14],
-        ...errs[15],
-        ...errs[16],
-        ...errs[17],
-        ...errs[18],
-        ...errs[19],
-        ...errs[20],
-        ...errs[21],
-        ...errs[22],
-        ...errs[23],
-        ...errs[24],
-        ...errs[25],
-        ...errs[26],
-        ...errs[27],
-        ...errs[28],
-        ...errs[29],
-        ...errs[30],
-        ...errs[31],
-        ...errs[32],
-        ...errs[33],
-        ...errs[34],
-        ...errs[35],
-        ...errs[36],
-        ...item,
-      };
+    const tailorSummary = response?.tailorSummary;
+
+    let resp = [];
+
+    for (let i = 0; i < tailorSummary.length; i++) {
+      if (
+        resp
+          ?.map((item) => item.tailorName)
+          ?.includes(tailorSummary[i].tailorName)
+      ) {
+        resp[
+          resp
+            ?.map((item) => item.tailorName)
+            .indexOf(tailorSummary[i].tailorName)
+        ][tailorSummary[i].defectName] = tailorSummary[i].defectCount;
+      } else {
+        resp.push({
+          ...tailorSummary[i],
+          [tailorSummary[i].defectName]: tailorSummary[i].defectCount,
+        });
+      }
+    }
+
+    dispatch({
+      type: "SET_TAILOR_SUMMARY",
+      payload: resp,
     });
-    resp &&
-      dispatch({
-        type: "SET_TAILOR_SUMMARY",
-        payload: resp,
-      });
   } catch (e) {}
 };
 
