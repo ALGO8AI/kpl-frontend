@@ -3,6 +3,7 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Analytics from "../Analytics/Analytics";
 // import BagID from "../BagID/BagID";
 import BagID2 from "../BagID/BagID2";
 import Feedback from "../feedback/Feedback";
@@ -29,6 +30,7 @@ function Checking(props) {
     violationDetails: <ViolationDetail id={props.match.params.id} />,
     bagID: <BagID2 />,
     feedback: <Feedback />,
+    analytics: <Analytics />,
     // print: <BarCodePrint />,
   };
 
