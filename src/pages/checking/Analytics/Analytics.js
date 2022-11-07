@@ -92,6 +92,18 @@ function Analytics() {
           title="CLP-CTR Defects"
         />
       </TabPanel>
+      <TabPanel value={value} index={8}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/75028edb-4a16-4383-91da-f3ac7818613a"
+          title="Checker wise Defect"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={9}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/be345264-7e3e-4742-afcd-69e9b6c63ffa"
+          title="Tailor wise Defect"
+        />
+      </TabPanel>
     </Grid>
   );
 }
