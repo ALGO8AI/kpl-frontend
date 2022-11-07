@@ -86,6 +86,12 @@ function Analytics() {
           title="Target Acheived"
         />
       </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/9b6153ac-13ce-49a2-88b1-f2fed9a4efde"
+          title="Checker Rework"
+        />
+      </TabPanel>
       <TabPanel value={value} index={7}>
         <Iframe
           src="http://120.120.120.147:3000/public/dashboard/fc11c8ee-73c0-44b4-aaee-6c6e80fd4fa2"
