@@ -92,6 +92,12 @@ function Analytics() {
           title="Checker Rework"
         />
       </TabPanel>
+      <TabPanel value={value} index={5}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/e55034fa-b3bb-4697-82fb-40fb563b5f46"
+          title="Late Start Early End"
+        />
+      </TabPanel>
       <TabPanel value={value} index={7}>
         <Iframe
           src="http://120.120.120.147:3000/public/dashboard/fc11c8ee-73c0-44b4-aaee-6c6e80fd4fa2"
