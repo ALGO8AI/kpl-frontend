@@ -98,6 +98,12 @@ function Analytics() {
           title="Late Start Early End"
         />
       </TabPanel>
+      <TabPanel value={value} index={6}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/463aa43f-ea0d-4176-a0c0-5e38420decbc"
+          title="Checker Heartbeat"
+        />
+      </TabPanel>
       <TabPanel value={value} index={7}>
         <Iframe
           src="http://120.120.120.147:3000/public/dashboard/fc11c8ee-73c0-44b4-aaee-6c6e80fd4fa2"
