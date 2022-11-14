@@ -92,6 +92,12 @@ function Analytics() {
           title="Checker Rework"
         />
       </TabPanel>
+      <TabPanel value={value} index={4}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/2113c900-c07f-4863-8d25-98a5a5b84603"
+          title="CMS Table"
+        />
+      </TabPanel>
       <TabPanel value={value} index={5}>
         <Iframe
           src="http://120.120.120.147:3000/public/dashboard/e55034fa-b3bb-4697-82fb-40fb563b5f46"
