@@ -70,6 +70,66 @@ function Analytics() {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY1fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NDg2MDI2fQ.pq4BOqEd803PGbsuuzc8Zp6PegL0jgxsXEjvbfNSJ6M?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Individual"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY2fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NDg2MDY3fQ.ZRoNGxdsqv8sHVhEwI6unx9H3Gvir1X2mScblIz9oAc?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Overall"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY3fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwMzY0fQ.MvMl8JdlKb1E8V18DdjDLw_VK9rBtxFzI9LiAIejYZU?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Target Acheived"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY5fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNDQ5fQ.KF-UmS7u1t8fmilpf37q73sMiom0L2ymsLl2uBZIx6k?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Checker Rework"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjc0fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNDkxfQ.ES0JUarAN2np-o08Xn3yyUzmjMwuanF0jMHx6F_E7Xk?wing=FG2&line=U%2B2&shift=A&checker_name=Deepesh%20Shukla#bordered&titled"
+          title="CMS Table"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcyfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNTMwfQ.5_fXFsbiqI3qnwgEYznFTUs-CdvMGL-arXIKrByr0UI?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Late Start Early End"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={6}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjczfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNTY0fQ.YMWcaGZWQfZn575HDhG_pWHhTdlnH8GpUuB2qzyKj1g?wing=FG2&line=U%2B2&shift=A&checker__name=Deepesh%20Shukla#bordered&titled"
+          title="Checker Heartbeat"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={7}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY4fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNjAxfQ.QKNjMU3Y7tqt2I5kf6tJprsSkSmP-9nACzMZyjnCDJE?date_filter=thisday#bordered&titled"
+          title="CLP-CTR Defects"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={8}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcwfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwODcyfQ.zrref2o3kfGRTaU01KAbYPGxUmwaDbanUF2-s-Pmsvs?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Checker wise Defect"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={9}>
+        <Iframe
+          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcxfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwOTU4fQ.__VZLkCHS8Jo7D6xNQFSdaq9Vlp2PzJlkkTtufjpqPU?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          title="Tailor wise Defect"
+        />
+      </TabPanel>
+      {/* <TabPanel value={value} index={0}>
+        <Iframe
           src="http://120.120.120.147:3000/public/dashboard/f9515c1f-6fda-4df0-8ed9-099ef944f462"
           title="Individual"
         />
@@ -127,7 +187,7 @@ function Analytics() {
           src="http://120.120.120.147:3000/public/dashboard/be345264-7e3e-4742-afcd-69e9b6c63ffa"
           title="Tailor wise Defect"
         />
-      </TabPanel>
+      </TabPanel> */}
     </Grid>
   );
 }
