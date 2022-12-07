@@ -94,7 +94,11 @@ function Supervisor(props) {
       const x = await getCheckingSupervisorScheduleV3({
         wing: selectedWing || localStorage.getItem("kpl_wing"),
       });
-      setWorkerData(x.data);
+      setWorkerData(
+        x.data?.filter(
+          (item) => item?.wing === localStorage.getItem("kpl_wing")
+        )
+      );
       const supData = await getAllSupervisorListV3();
       setSupervisorList(supData);
     } catch (err) {}

@@ -183,10 +183,19 @@ function Tailor(props) {
 
   const updateImageDetails = async () => {
     try {
+      if (
+        !userdata.name ||
+        !userdata.workerId ||
+        !userdata.wing ||
+        !userdata?.wingId
+      ) {
+        return dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+      }
       const resp = await updateTailorV3(
         userdata.name,
         userdata.workerId,
-        userdata.wing
+        userdata.wing,
+        userdata?.wingId
       );
       // console.log(resp);
       setMsg(resp.msg);
@@ -198,6 +207,7 @@ function Tailor(props) {
         workerImage: "",
         id: "",
         wing: "",
+        wingId: "",
       });
       setEdit(false);
     } catch (e) {

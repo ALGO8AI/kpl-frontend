@@ -185,6 +185,13 @@ function WorkerChecking(props) {
 
   const updateImageDetails = async () => {
     try {
+      if (
+        !userdata.name?.trim() ||
+        !userdata.workerId?.trim() ||
+        !userdata.wing?.trim()
+      ) {
+        return dispatch(openSnackbar(true, "error", "Please Fill All Fields"));
+      }
       const resp = await workerUpdateCheckingV3(userdata);
       // console.log(resp);
       setMsg(resp.msg);
