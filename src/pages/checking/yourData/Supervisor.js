@@ -82,7 +82,7 @@ function Supervisor(props) {
   const isEnable =
     role === "admin" || role === "Admin" || role === "user" || role === "User";
   // React Selector
-  const { wingList } = useSelector((state) => state?.CheckV3);
+  const { wingList, selectedWing } = useSelector((state) => state?.CheckV3);
   // Redux Dispatch
   const Dispatch = useDispatch();
   const [workerData, setWorkerData] = useState();
@@ -91,7 +91,9 @@ function Supervisor(props) {
 
   const loadData = async () => {
     try {
-      const x = await getCheckingSupervisorScheduleV3();
+      const x = await getCheckingSupervisorScheduleV3({
+        wing: selectedWing || localStorage.getItem("kpl_wing"),
+      });
       setWorkerData(x.data);
       const supData = await getAllSupervisorListV3();
       setSupervisorList(supData);
@@ -104,11 +106,17 @@ function Supervisor(props) {
         setMsg("Please include start date and end date");
         setOpen(true);
       } else if (inputData.filterDateFrom === inputData.filterDateTo) {
-        const x = await getCheckingSupervisorScheduleV3(inputData);
+        const x = await getCheckingSupervisorScheduleV3({
+          ...inputData,
+          wing: selectedWing || localStorage.getItem("kpl_wing"),
+        });
         // console.log(x);
         setWorkerData(x.data);
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
-        const x = await getCheckingSupervisorScheduleV3(inputData);
+        const x = await getCheckingSupervisorScheduleV3({
+          ...inputData,
+          wing: selectedWing || localStorage.getItem("kpl_wing"),
+        });
         // console.log(x);
         setWorkerData(x.data);
       } else {
@@ -121,7 +129,7 @@ function Supervisor(props) {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [selectedWing]);
   const columns = [
     {
       title: "Date",

@@ -91,6 +91,7 @@ function WorkerChecking(props) {
     //   ),
     // },
     { title: "Worker Name", field: "workerName" },
+    { title: "Wing", field: "wing" },
     {
       title: "Edit",
       render: (x) => (
