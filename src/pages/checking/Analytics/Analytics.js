@@ -63,6 +63,7 @@ function Analytics() {
             "CLP-CTR Defects",
             "Checker wise Defect",
             "Tailor wise defect",
+            "Rework",
           ]?.map((item, index) => (
             <Tab label={item} {...a11yProps(index)} />
           ))}
@@ -76,13 +77,13 @@ function Analytics() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY2fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NDg2MDY3fQ.ZRoNGxdsqv8sHVhEwI6unx9H3Gvir1X2mScblIz9oAc?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          src="http://120.120.120.147:3000/public/dashboard/a7fdd96d-a4a2-4366-abfa-8f26d7510ffe?date=past1months"
           title="Overall"
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY3fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwMzY0fQ.MvMl8JdlKb1E8V18DdjDLw_VK9rBtxFzI9LiAIejYZU?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          src="http://120.120.120.147:3000/public/dashboard/4b0dab48-2a9c-477d-9991-d72d95664793?date=past7days"
           title="Target Acheived"
         />
       </TabPanel>
@@ -94,7 +95,7 @@ function Analytics() {
       </TabPanel>
       <TabPanel value={value} index={4}>
         <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjc0fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNDkxfQ.ES0JUarAN2np-o08Xn3yyUzmjMwuanF0jMHx6F_E7Xk?wing=FG2&line=U%2B2&shift=A&checker_name=Deepesh%20Shukla#bordered&titled"
+          src="http://120.120.120.147:3000/public/dashboard/2113c900-c07f-4863-8d25-98a5a5b84603?date=past1weeks"
           title="CMS Table"
         />
       </TabPanel>
@@ -112,20 +113,26 @@ function Analytics() {
       </TabPanel>
       <TabPanel value={value} index={7}>
         <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY4fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNjAxfQ.QKNjMU3Y7tqt2I5kf6tJprsSkSmP-9nACzMZyjnCDJE?date_filter=thisday#bordered&titled"
+          src="http://120.120.120.147:3000/public/dashboard/fc11c8ee-73c0-44b4-aaee-6c6e80fd4fa2?date_filter=past7days"
           title="CLP-CTR Defects"
         />
       </TabPanel>
       <TabPanel value={value} index={8}>
         <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcwfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwODcyfQ.zrref2o3kfGRTaU01KAbYPGxUmwaDbanUF2-s-Pmsvs?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          src="http://120.120.120.147:3000/public/dashboard/75028edb-4a16-4383-91da-f3ac7818613a?date=past1months"
           title="Checker wise Defect"
         />
       </TabPanel>
       <TabPanel value={value} index={9}>
         <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcxfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwOTU4fQ.__VZLkCHS8Jo7D6xNQFSdaq9Vlp2PzJlkkTtufjpqPU?wing=FG2&line=U%2B2&shift=A#bordered&titled"
+          src="http://120.120.120.147:3000/public/dashboard/be345264-7e3e-4742-afcd-69e9b6c63ffa?date=past1months"
           title="Tailor wise Defect"
+        />
+      </TabPanel>
+      <TabPanel value={value} index={10}>
+        <Iframe
+          src="http://120.120.120.147:3000/public/dashboard/9b6153ac-13ce-49a2-88b1-f2fed9a4efde?date=past1months"
+          title="Rework"
         />
       </TabPanel>
       {/* <TabPanel value={value} index={0}>
