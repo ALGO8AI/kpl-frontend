@@ -182,6 +182,20 @@ function Supervisor(props) {
           </p>
         ),
     },
+    {
+      title: "Final Supervisor",
+      field: "finalSupervisor",
+      render: (x) =>
+        x.finalSupervisor === "true" ? (
+          <p style={{ color: "rgb(74, 170, 22)" }}>
+            <i class="fa fa-check" aria-hidden="true"></i>
+          </p>
+        ) : (
+          <p style={{ color: "rgb(249, 54, 54)" }}>
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </p>
+        ),
+    },
     { title: "Line", field: "line" },
     { title: "Wing", field: "wing" },
     { title: "Shift", field: "shift" },
@@ -213,6 +227,7 @@ function Supervisor(props) {
                 line: x.line,
                 kitSupervisor: x.kitSupervisor === "true" ? true : false,
                 lineSupervisor: x.lineSupervisor === "true" ? true : false,
+                finalSupervisor: x.finalSupervisor === "true" ? true : false,
               });
             } else {
               Dispatch(
@@ -236,6 +251,7 @@ function Supervisor(props) {
     line: "",
     kitSupervisor: false,
     lineSupervisor: false,
+    finalSupervisor: false,
   });
 
   const [inputData, setInputData] = React.useState({
@@ -352,6 +368,7 @@ function Supervisor(props) {
           line: "",
           kitSupervisor: false,
           lineSupervisor: false,
+          finalSupervisor: false,
         });
       } catch (err) {}
     } else {
@@ -375,6 +392,7 @@ function Supervisor(props) {
         line: "",
         kitSupervisor: false,
         lineSupervisor: false,
+        finalSupervisor: false,
       });
       setEdit(false);
     } catch (err) {}
@@ -402,6 +420,7 @@ function Supervisor(props) {
             line: "",
             kitSupervisor: false,
             lineSupervisor: false,
+            finalSupervisor: false,
           });
           setEdit(false);
           loadData();
@@ -586,6 +605,27 @@ function Supervisor(props) {
           label="Line Supervisor"
         />
 
+        <FormControlLabel
+          style={{ marginBottom: "12px" }}
+          fullWidth
+          control={
+            <Switch
+              value={userdata.finalSupervisor}
+              checked={userdata.finalSupervisor}
+              onChange={(e) =>
+                setUserData({
+                  ...userdata,
+                  finalSupervisor: e.target.checked,
+                })
+              }
+              name="checkedB"
+              color="primary"
+              fullWidth
+            />
+          }
+          label="Final Supervisor"
+        />
+
         <TextField
           key="from"
           label="Date"
@@ -721,6 +761,7 @@ function Supervisor(props) {
                     line: "",
                     kitSupervisor: false,
                     lineSupervisor: false,
+                    finalSupervisor: false,
                   });
                 }}
               >
