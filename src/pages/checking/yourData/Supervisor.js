@@ -184,9 +184,9 @@ function Supervisor(props) {
     },
     {
       title: "Final Supervisor",
-      field: "finalSupervisor",
+      field: "finalAreaSupervisor",
       render: (x) =>
-        x.finalSupervisor === "true" ? (
+        x.finalAreaSupervisor === "true" ? (
           <p style={{ color: "rgb(74, 170, 22)" }}>
             <i class="fa fa-check" aria-hidden="true"></i>
           </p>
@@ -227,7 +227,8 @@ function Supervisor(props) {
                 line: x.line,
                 kitSupervisor: x.kitSupervisor === "true" ? true : false,
                 lineSupervisor: x.lineSupervisor === "true" ? true : false,
-                finalSupervisor: x.finalSupervisor === "true" ? true : false,
+                finalAreaSupervisor:
+                  x.finalAreaSupervisor === "true" ? true : false,
               });
             } else {
               Dispatch(
@@ -251,7 +252,7 @@ function Supervisor(props) {
     line: "",
     kitSupervisor: false,
     lineSupervisor: false,
-    finalSupervisor: false,
+    finalAreaSupervisor: false,
   });
 
   const [inputData, setInputData] = React.useState({
@@ -368,7 +369,7 @@ function Supervisor(props) {
           line: "",
           kitSupervisor: false,
           lineSupervisor: false,
-          finalSupervisor: false,
+          finalAreaSupervisor: false,
         });
       } catch (err) {}
     } else {
@@ -392,7 +393,7 @@ function Supervisor(props) {
         line: "",
         kitSupervisor: false,
         lineSupervisor: false,
-        finalSupervisor: false,
+        finalAreaSupervisor: false,
       });
       setEdit(false);
     } catch (err) {}
@@ -420,7 +421,7 @@ function Supervisor(props) {
             line: "",
             kitSupervisor: false,
             lineSupervisor: false,
-            finalSupervisor: false,
+            finalAreaSupervisor: false,
           });
           setEdit(false);
           loadData();
@@ -610,12 +611,12 @@ function Supervisor(props) {
           fullWidth
           control={
             <Switch
-              value={userdata.finalSupervisor}
-              checked={userdata.finalSupervisor}
+              value={userdata.finalAreaSupervisor}
+              checked={userdata.finalAreaSupervisor}
               onChange={(e) =>
                 setUserData({
                   ...userdata,
-                  finalSupervisor: e.target.checked,
+                  finalAreaSupervisor: e.target.checked,
                 })
               }
               name="checkedB"
@@ -761,7 +762,7 @@ function Supervisor(props) {
                     line: "",
                     kitSupervisor: false,
                     lineSupervisor: false,
-                    finalSupervisor: false,
+                    finalAreaSupervisor: false,
                   });
                 }}
               >
