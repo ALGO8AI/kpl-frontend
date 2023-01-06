@@ -53,88 +53,78 @@ function Analytics() {
           scrollButtons="auto"
         >
           {[
-            "Individual Checker Efficiency",
-            "Overall Checker Efficiency",
-            "Target Achieved",
-            "Checker Rework",
-            "CMS Table",
-            "Late Start Early End",
-            "Checker Heartbeat",
-            "CLP-CTR Defects",
-            "Checker wise Defect",
-            "Tailor wise defect",
-            "Rework",
+            "Overall",
+            "By clp-ctr",
+            "Checker heartbeat",
+            "Target achieved",
+            "Checker wise defects",
+            "Checker rework",
+            "CMS table",
+            "Tailor wise defects",
+            "Late start Early end",
+            "Individual checker efficiency",
           ]?.map((item, index) => (
             <Tab label={item} {...a11yProps(index)} />
           ))}
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY1fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NDg2MDI2fQ.pq4BOqEd803PGbsuuzc8Zp6PegL0jgxsXEjvbfNSJ6M?wing=FG2&line=U%2B2&shift=A#bordered&titled"
-          title="Individual"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/a7fdd96d-a4a2-4366-abfa-8f26d7510ffe?date=past1months"
-          title="Overall"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/4b0dab48-2a9c-477d-9991-d72d95664793?date=past7days"
-          title="Target Acheived"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY5fSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNDQ5fQ.KF-UmS7u1t8fmilpf37q73sMiom0L2ymsLl2uBZIx6k?wing=FG2&line=U%2B2&shift=A#bordered&titled"
-          title="Checker Rework"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/2113c900-c07f-4863-8d25-98a5a5b84603?date=past1weeks"
-          title="CMS Table"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcyfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNTMwfQ.5_fXFsbiqI3qnwgEYznFTUs-CdvMGL-arXIKrByr0UI?wing=FG2&line=U%2B2&shift=A#bordered&titled"
-          title="Late Start Early End"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        <Iframe
-          src="http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjczfSwicGFyYW1zIjp7fSwiaWF0IjoxNjY4NTEwNTY0fQ.YMWcaGZWQfZn575HDhG_pWHhTdlnH8GpUuB2qzyKj1g?wing=FG2&line=U%2B2&shift=A&checker__name=Deepesh%20Shukla#bordered&titled"
-          title="Checker Heartbeat"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={7}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/fc11c8ee-73c0-44b4-aaee-6c6e80fd4fa2?date_filter=past7days"
-          title="CLP-CTR Defects"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={8}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/75028edb-4a16-4383-91da-f3ac7818613a?date=past1months"
-          title="Checker wise Defect"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={9}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/be345264-7e3e-4742-afcd-69e9b6c63ffa?date=past1months"
-          title="Tailor wise Defect"
-        />
-      </TabPanel>
-      <TabPanel value={value} index={10}>
-        <Iframe
-          src="http://120.120.120.147:3000/public/dashboard/9b6153ac-13ce-49a2-88b1-f2fed9a4efde?date=past1months"
-          title="Rework"
-        />
-      </TabPanel>
+      {[
+        {
+          title: "Overall",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY2fSwicGFyYW1zIjp7fX0.tQu3HIIgkmHGOg6PutO5ZV-A0N-KOVG8PlLBgZlV79o#bordered=true&titled=true",
+        },
+        {
+          title: "By clp-ctr",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY4fSwicGFyYW1zIjp7fX0.y7yOgTquvI0Lyi_4PTqhuIKsdg3FKm8EQYOTY6L0F_8#bordered=true&titled=true",
+        },
+        {
+          title: "Checker heartbeat",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjczfSwicGFyYW1zIjp7fX0.PR1ub8WNyPWuTmjW011GPcvW1Dip3HGVFn3sJtMYkuE#bordered=true&titled=true",
+        },
+        {
+          title: "Target achieved",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY3fSwicGFyYW1zIjp7fX0.KNBRYalrx2LMSn90K2bXIc-57dExwvsEVKq9JL6S7oY#bordered=true&titled=true",
+        },
+        {
+          title: "Checker wise defects",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcwfSwicGFyYW1zIjp7fX0.yoZoO6mTTZtuzLCffH0qwKK52lYVtYKWRRgSm5fePK0#bordered=true&titled=true",
+        },
+        {
+          title: "Checker rework",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY5fSwicGFyYW1zIjp7fX0.VpnaueozPJkd45C4noBZw-zEfQAd8OlgmMoru7_5ybs#bordered=true&titled=true",
+        },
+        {
+          title: "CMS table",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjc0fSwicGFyYW1zIjp7fX0.0QCcogCr0aZye-Aa5UclrEXp4g1BadcIVd92NDNaI8w#bordered=true&titled=true",
+        },
+        {
+          title: "Tailor wise defects",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcxfSwicGFyYW1zIjp7fX0.T9UR18f4_I7hznjVgvzpKbKt4O0MqgPggkXtOKIO5HE#bordered=true&titled=true",
+        },
+        {
+          title: "Late start and early end",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjcyfSwicGFyYW1zIjp7fX0.qDYw20-5MsWgvI4r9D-cvOwaMp3xpZxVdZlOhzlGwuM#bordered=true&titled=true",
+        },
+        {
+          title: "Individual checker eficiency",
+          src:
+            "http://120.120.120.147:3000/embed/dashboard/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjY1fSwicGFyYW1zIjp7fX0.AZGTD-Wu3wpQ9F06HtPIfSeVVWA8W4apnvB0ToIAepw#bordered=true&titled=true",
+        },
+      ].map((item, index) => (
+        <TabPanel value={value} index={index}>
+          <Iframe src={item.src} title={item.title} />
+        </TabPanel>
+      ))}
+
       {/* <TabPanel value={value} index={0}>
         <Iframe
           src="http://120.120.120.147:3000/public/dashboard/f9515c1f-6fda-4df0-8ed9-099ef944f462"
