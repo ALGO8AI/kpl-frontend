@@ -133,9 +133,9 @@ function BarcodeDetails() {
       // console.log(err.message);
     }
   };
-  React.useEffect(() => {
-    fetchBagIds();
-  }, [selectedWing]);
+  // React.useEffect(() => {
+  //   fetchBagIds();
+  // }, [selectedWing]);
 
   const deleteBarCodes = async () => {
     setLoadingDeleteSelected(true);
