@@ -508,6 +508,16 @@ export const notificationLogsV3 = (
   } catch (e) {}
 };
 
+export const getSuperCheckerLogs = () => async (dispatch) => {
+  try {
+    const { data } = await callBackendV2("GET", "routes/super/alerts");
+    dispatch({
+      type: "SET_SUPER_CHECKER_LOGS",
+      payload: data,
+    });
+  } catch {}
+};
+
 export const workerLogsV3 = (
   filterDateFrom = new Date().toISOString().slice(0, 10),
   filterDateTo = new Date().toISOString().slice(0, 10),
