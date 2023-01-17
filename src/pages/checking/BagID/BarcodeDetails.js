@@ -196,6 +196,17 @@ function BarcodeDetails() {
     getTableDynamic();
   }, [state.bagIdFrom, state.bagIdTo, inputLINE]);
 
+  useEffect(() => {
+    dispatch({
+      type: "BAG-DATA",
+      payload: {
+        // data: resp.unUsedIds,
+        data: [],
+        loading: true,
+      },
+    });
+  }, [selectedWing, localStorage.getItem("kpl_wing")]);
+
   // useEffect(() => {
   //   return () => {
   //     Dispatch({
