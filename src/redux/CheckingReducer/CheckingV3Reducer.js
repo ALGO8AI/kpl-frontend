@@ -22,6 +22,7 @@ const initStore = {
   tailorSummary: [],
   checkerAvailability: [],
   trainingVideos: [],
+  superCheckerLogs: [],
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -87,6 +88,12 @@ const CheckingV3Reducer = (state = initStore, action) => {
         ...state,
         trainingVideos: action.payload,
       };
+    case "SET_SUPER_CHECKER_LOGS":
+      return {
+        ...state,
+        superCheckerLogs: action.payload,
+      };
+
     default:
       return state;
   }

@@ -27,7 +27,10 @@ import {
   openSnackbar_FROM,
   openSnackbar_TO,
 } from "../../redux/CommonReducer/CommonAction";
-import { notificationLogsV3 } from "../../redux/CheckingReducer/CheckingV3Action";
+import {
+  notificationLogsV3,
+  getSuperCheckerLogs,
+} from "../../redux/CheckingReducer/CheckingV3Action";
 import AlertSummary from "../AlertSummary/AlertSummary";
 
 function TabPanel(props) {
@@ -81,7 +84,7 @@ function NotificationLogChecking() {
 
   // selector
   // React Selector
-  const { notificationLogs, workerLog } = useSelector(
+  const { notificationLogs, workerLog, superCheckerLogs } = useSelector(
     (state) => state?.CheckV3
   );
 
@@ -115,6 +118,7 @@ function NotificationLogChecking() {
   const getLogs = async (wing) => {
     try {
       Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1], wing));
+      Dispatch(getSuperCheckerLogs());
     } catch (err) {
       // console.log(err);
     }
@@ -136,6 +140,7 @@ function NotificationLogChecking() {
       // console.log(err);
     }
   };
+
   return (
     <Grid container>
       <Grid container item xs={12}>
@@ -268,7 +273,8 @@ function NotificationLogChecking() {
             {/* <Tab label="Crowd Data" {...a11yProps(0)} />
             <Tab label="Worker Data" {...a11yProps(1)} /> */}
             <Tab label="Defect Data" {...a11yProps(0)} />
-            <Tab label="Alert Summary" {...a11yProps(0)} />
+            <Tab label="Alert Summary" {...a11yProps(1)} />
+            <Tab label="Superchecker Alert Summary" {...a11yProps(2)} />
             {/* <Tab label="Checker Details" {...a11yProps(1)} /> */}
 
             {/* <Tab label="Worker Data" {...a11yProps(2)} />
@@ -839,6 +845,111 @@ function NotificationLogChecking() {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <AlertSummary />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          {superCheckerLogs?.length > 0 && (
+            <Grid
+              container
+              item
+              xs={12}
+              style={{
+                height: "700px",
+                width: "100%",
+              }}
+            >
+              <DataGrid
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+                // rows={data}
+                rows={superCheckerLogs?.map((row, i) => {
+                  const { date, isCritical, ...rest } = row;
+                  return {
+                    id: i,
+                    date: moment(new Date(date))
+                      .format("DD/MM/YYYY")
+                      .toString(),
+                    isCritical: Boolean(isCritical) ? "Yes" : "No",
+                    ...rest,
+                  };
+                })}
+                columns={[
+                  {
+                    field: "id",
+                    headerName: "ID",
+                    width: 80,
+                  },
+                  {
+                    field: "date",
+                    headerName: "Date",
+                    width: 150,
+                  },
+                  {
+                    field: "time",
+                    headerName: "Time",
+                    width: 150,
+                  },
+                  {
+                    field: "Checker",
+                    headerName: "Checker",
+                    width: 240,
+                  },
+                  {
+                    field: "defect",
+                    headerName: "Defect",
+                    width: 240,
+                  },
+                  {
+                    field: "defectG",
+                    headerName: "Defect Group",
+                    width: 240,
+                  },
+                  {
+                    field: "noOfDefectiveBags",
+                    headerName: "No. Of Defective Bags",
+                    width: 240,
+                  },
+                  {
+                    field: "remark",
+                    headerName: "Remark",
+                    width: 300,
+                  },
+                  {
+                    field: "ctrNo",
+                    headerName: "CTR",
+                    width: 240,
+                  },
+                  {
+                    field: "supervisor",
+                    headerName: "Supervisor",
+                    width: 240,
+                  },
+
+                  {
+                    field: "wing",
+                    headerName: "Wing",
+                    width: 240,
+                  },
+                  {
+                    field: "shift",
+                    headerName: "Shift",
+                    width: 240,
+                  },
+                  {
+                    field: "area",
+                    headerName: "Area",
+                    width: 240,
+                  },
+                  {
+                    field: "isCritical",
+                    headerName: "Critical",
+                    width: 150,
+                  },
+                ]}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+          )}
         </TabPanel>
         {/* <TabPanel value={value} index={1}>
           {workerLog?.length > 0 && (
