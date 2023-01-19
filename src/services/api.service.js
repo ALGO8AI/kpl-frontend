@@ -285,7 +285,8 @@ const violationComment = async (
   isIncorrect,
   incorrect,
   actual,
-  reassigned
+  reassigned,
+  checkerId
 ) => {
   console.log(
     id,
@@ -306,6 +307,7 @@ const violationComment = async (
     incorrectViolationReason: incorrect,
     actualSupervisor: actual,
     reassignedSupervisor: reassigned,
+    checkerId,
   });
 };
 const violationCommentChecking = async (
@@ -318,20 +320,9 @@ const violationCommentChecking = async (
   actual,
   reassigned,
   bagId = "",
-  defectId = ""
+  defectId = "",
+  checkerId = ""
 ) => {
-  console.log(
-    id,
-    reason,
-    action,
-    isCorrect,
-    isIncorrect,
-    incorrect,
-    actual,
-    reassigned,
-    bagId,
-    defectId
-  );
   return await callBackend(
     "POST",
     "routes/checking/KPI/violation/addComment",
@@ -347,6 +338,7 @@ const violationCommentChecking = async (
       reassignedSupervisor: reassigned,
       bagId,
       defectId,
+      checkerId,
     }
   );
 };

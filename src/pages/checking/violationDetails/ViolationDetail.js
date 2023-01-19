@@ -313,7 +313,8 @@ function ViolationDetail(props) {
         data?.actualSupervisor,
         reassigned,
         data?.bagId,
-        data?.defectName
+        data?.defectName,
+        data.CheckerId
       );
       console.log(x);
       setMsg(x.msg);
@@ -349,7 +350,8 @@ function ViolationDetail(props) {
         data?.actualSupervisor,
         reassigned,
         data?.bagId,
-        data?.defectName
+        data?.defectName,
+        data.CheckerId
       );
       console.log(x);
       setMsg(x.msg);

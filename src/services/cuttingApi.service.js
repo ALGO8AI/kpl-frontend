@@ -175,7 +175,8 @@ export const violationCommentCutting = async (
   isIncorrect,
   incorrect,
   actual,
-  reassigned
+  reassigned,
+  checkerId
 ) => {
   return await callBackend(
     "POST",
@@ -190,6 +191,7 @@ export const violationCommentCutting = async (
       incorrectViolationReason: incorrect,
       actualSupervisor: actual,
       reassignedSupervisor: reassigned,
+      checkerId,
     }
   );
 };
