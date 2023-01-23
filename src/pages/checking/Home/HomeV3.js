@@ -165,9 +165,9 @@ export default function HomeV2() {
       payload: weekRange()[1],
     });
     loadData();
-    setTimeout(() => {
-      setLocalFilter(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setLocalFilter(false);
+    // }, 3000);
   };
 
   // load ctr filter dropdown data
@@ -338,10 +338,10 @@ export default function HomeV2() {
       !filterEnable && callAPI();
     }
     getAlerts();
-    const interval = setInterval(() => getAlerts(), 60000);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(() => getAlerts(), 60000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, [filterEnable]);
 
   const getTableDynamic = async () => {
