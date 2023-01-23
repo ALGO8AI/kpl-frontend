@@ -613,7 +613,6 @@ export const tailorSummaryV3 = (
       true,
       formField
     );
-    const def = response?.defectCols?.map((item) => item.defectName);
     const tailorSummary = response?.tailorSummary;
 
     let resp = [];
@@ -636,6 +635,19 @@ export const tailorSummaryV3 = (
         });
       }
     }
+
+    resp.forEach((item) => {
+      let keys = Object.keys(item);
+      for (let i = 0; i < keys.length; i++) {
+        if (typeof item[keys[i]] === "number") {
+          item["Total"] = item["Total"]
+            ? item["Total"] + item[keys[i]]
+            : item[keys[i]];
+        }
+      }
+    });
+
+    console.log("RESP", resp);
 
     dispatch({
       type: "SET_TAILOR_SUMMARY",

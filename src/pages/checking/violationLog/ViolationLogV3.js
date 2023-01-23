@@ -1255,6 +1255,10 @@ function ViolationLogV3() {
                       field: "shift",
                     },
                     {
+                      title: "Total Defects Count",
+                      field: "Total",
+                    },
+                    {
                       title: "Herackle -3 Layer",
                       field: "Herackle -3 Layer",
                     },
