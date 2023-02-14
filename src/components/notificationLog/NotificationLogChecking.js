@@ -880,7 +880,7 @@ function NotificationLogChecking() {
                     width: 80,
                   },
                   {
-                    field: "date",
+                    field: "parsedDate",
                     headerName: "Date",
                     width: 150,
                   },
@@ -905,6 +905,11 @@ function NotificationLogChecking() {
                     width: 240,
                   },
                   {
+                    field: "subC",
+                    headerName: "Sub Category",
+                    width: 240,
+                  },
+                  {
                     field: "noOfDefectiveBags",
                     headerName: "No. Of Defective Bags",
                     width: 240,
@@ -922,6 +927,11 @@ function NotificationLogChecking() {
                   {
                     field: "supervisor",
                     headerName: "Supervisor",
+                    width: 240,
+                  },
+                  {
+                    field: "tailor",
+                    headerName: "Tailor",
                     width: 240,
                   },
 

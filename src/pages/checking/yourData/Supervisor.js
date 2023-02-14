@@ -115,14 +115,22 @@ function Supervisor(props) {
           wing: selectedWing || localStorage.getItem("kpl_wing"),
         });
         // console.log(x);
-        setWorkerData(x.data);
+        setWorkerData(
+          x.data?.filter(
+            (item) => item?.wing === localStorage.getItem("kpl_wing")
+          )
+        );
       } else if (inputData.filterDateFrom < inputData.filterDateTo) {
         const x = await getCheckingSupervisorScheduleV3({
           ...inputData,
           wing: selectedWing || localStorage.getItem("kpl_wing"),
         });
         // console.log(x);
-        setWorkerData(x.data);
+        setWorkerData(
+          x.data?.filter(
+            (item) => item?.wing === localStorage.getItem("kpl_wing")
+          )
+        );
       } else {
         setMsg("Wrong Date Range Selected");
         //  setSeverity("error");
@@ -926,7 +934,7 @@ function Supervisor(props) {
           }}
           onClick={copy}
         >
-          COPY TABLE
+          SAVE TABLE
         </Button>
         <MaterialTable
           title="Workers Information"

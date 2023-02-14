@@ -61,10 +61,13 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
             onRowClick={rowClick}
           />
         ) : (
-          <div className={classes.root}>
-            <Typography variant="h6" align="center">
-              No Data Available.
-            </Typography>
+          // <div className={classes.root}>
+          //   <Typography variant="h6" align="center">
+          //     No Data Available.
+          //   </Typography>
+          // </div>
+          <div className={classes.loadingTable}>
+            <CircularProgress />
           </div>
         )
       ) : (
