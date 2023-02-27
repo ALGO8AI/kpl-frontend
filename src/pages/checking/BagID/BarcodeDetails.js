@@ -10,15 +10,27 @@ import {
   Select,
   TextField,
   FormControlLabel,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableFooter,
+  TableContainer,
+  Paper,
+  TablePagination,
+  Modal,
   // Snackbar,
 } from "@material-ui/core";
 // import { Alert } from "@material-ui/lab";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
 import { CheckingContext } from "../../../context/CheckingContext";
+import { PrintContext } from "../../../context/PrintContext";
 import { openSnackbar } from "../../../redux/CommonReducer/CommonAction";
 import {
   deleteBarCode,
@@ -30,6 +42,7 @@ import {
   getTableIdBarcode,
   wingWiseLine,
 } from "../../../services/checking.api";
+import UsedUnusedPrint from "./UsedUnusedPrint";
 
 function BarcodeDetails() {
   const { selectedWing } = useSelector((state) => state?.CheckV3);
@@ -45,7 +58,6 @@ function BarcodeDetails() {
 
   const [machineID, setMachineID] = useState([]);
   const [inputMACHINEid, setInputMACHINEid] = useState([]);
-  const [selectedBarcode, setSelectedBarcode] = useState([]);
   const [lineList, setLineList] = useState([]);
   const [inputLINE, setInputLINE] = useState([]);
   // const [open, setOpen] = useState(false);
@@ -216,9 +228,37 @@ function BarcodeDetails() {
   //   };
   // }, []);
 
+  const {
+    page,
+    setPage,
+    rowsPerPage,
+    setRowsPerPage,
+    selectedBarcode,
+    setSelectedBarcode,
+    handleChangePage,
+    handleChangeRowsPerPage,
+  } = useContext(PrintContext);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <Grid container>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{
+            backgroundColor: "white",
+            width: "80%",
+            overflowY: "scroll",
+          }}
+        >
+          <UsedUnusedPrint onClose={handleClose} />
+        </Modal>
         <Grid
           container
           item
@@ -329,7 +369,7 @@ function BarcodeDetails() {
                 padding: "12px",
               }}
               disabled={loadingGetData}
-              onClick={() => history.push("/printUsedUnused")}
+              onClick={() => handleOpen()}
             >
               {/* <FilterListIcon /> */}
               {loadingGetData ? (
@@ -520,86 +560,145 @@ function BarcodeDetails() {
           )} */}
 
           {state.bagData.loading && (
-            <MaterialTable
-              title={`BARCODE DETAILS ${
-                tempFilter === ""
-                  ? ""
-                  : tempFilter !== 1
-                  ? "(Unused)"
-                  : "(Used)"
-              }`}
-              columns={
-                tempFilter !== 1
-                  ? [
-                      {
-                        title: "",
-                        render: (rowData) =>
-                          rowData.assigned === 0 && (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={selectedBarcode.includes(
-                                    rowData.bagId
-                                  )}
-                                  onChange={(e) =>
-                                    selectedBarcode.includes(rowData.bagId)
-                                      ? setSelectedBarcode(
-                                          selectedBarcode.filter(
-                                            (data) => data !== rowData.bagId
-                                          )
-                                        )
-                                      : setSelectedBarcode([
-                                          rowData?.bagId,
-                                          ...selectedBarcode,
-                                        ])
+            // <MaterialTable
+            //   title={`BARCODE DETAILS ${
+            //     tempFilter === ""
+            //       ? ""
+            //       : tempFilter !== 1
+            //       ? "(Unused)"
+            //       : "(Used)"
+            //   }`}
+            //   columns={
+            //     tempFilter !== 1
+            //       ? [
+            //           {
+            //             title: "",
+            //             render: (rowData) =>
+            //               rowData.assigned === 0 && (
+            // <FormControlLabel
+            //   control={
+            //     <Checkbox
+            // checked={selectedBarcode.includes(
+            //   rowData.bagId
+            // )}
+            //       onChange={(e) =>
+            //         selectedBarcode.includes(rowData.bagId)
+            //           ? setSelectedBarcode(
+            //               selectedBarcode.filter(
+            //                 (data) => data !== rowData.bagId
+            //               )
+            //             )
+            //           : setSelectedBarcode([
+            //               rowData?.bagId,
+            //               ...selectedBarcode,
+            //             ])
+            //       }
+            //       name="checkedB"
+            //       color="primary"
+            //     />
+            //   }
+            // />
+            //               ),
+            //           },
+            //           { title: "Bag ID", field: "bagId" },
+            //           {
+            //             field: "view",
+            //             title: "barcode",
+            //             render: (rowData) => (
+            //               <img src={rowData.barcode} alt={rowData.bagId} />
+            //             ),
+            //           },
+            //           { title: "Date", field: "date" },
+            //         ]
+            //       : [
+            //           { title: "Bag ID", field: "bagId" },
+            //           {
+            //             field: "view",
+            //             title: "barcode",
+            //             render: (rowData) => (
+            //               <img src={rowData.barcode} alt={rowData.bagId} />
+            //             ),
+            //           },
+            //           { title: "Date", field: "date" },
+            //         ]
+            //   }
+            //   data={state?.bagData?.data?.filter((data) =>
+            //     data?.assigned?.toString().includes(tempFilter)
+            //   )}
+            //   options={{
+            //     exportButton: true,
+            //     pageSizeOptions: [20, 50, 100, 200],
+            //     pageSize: 50,
+            //   }}
+            // />
+
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Select</TableCell>
+                    <TableCell>Bag ID</TableCell>
+                    <TableCell>Barcode</TableCell>
+                    <TableCell>Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {state?.bagData?.data
+                    ?.filter((data) =>
+                      data?.assigned?.toString().includes(tempFilter)
+                    )
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item) => (
+                      <TableRow>
+                        <TableCell>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={selectedBarcode.includes(item.bagId)}
+                                onChange={(e) => {
+                                  console.log(item?.bagId);
+                                  if (selectedBarcode.includes(item?.bagId)) {
+                                    setSelectedBarcode(
+                                      selectedBarcode.filter(
+                                        (data) => data !== item?.bagId
+                                      )
+                                    );
+                                  } else {
+                                    setSelectedBarcode([
+                                      ...selectedBarcode,
+                                      item?.bagId,
+                                    ]);
                                   }
-                                  name="checkedB"
-                                  color="primary"
-                                />
-                              }
-                            />
-                          ),
-                      },
-                      { title: "Bag ID", field: "bagId" },
-                      {
-                        field: "view",
-                        title: "barcode",
-                        render: (rowData) => (
-                          <img src={rowData.barcode} alt={rowData.bagId} />
-                        ),
-                      },
-                      { title: "Date", field: "date" },
-                    ]
-                  : [
-                      { title: "Bag ID", field: "bagId" },
-                      {
-                        field: "view",
-                        title: "barcode",
-                        render: (rowData) => (
-                          <img src={rowData.barcode} alt={rowData.bagId} />
-                        ),
-                      },
-                      { title: "Date", field: "date" },
-                    ]
-              }
-              data={state?.bagData?.data?.filter((data) =>
-                data?.assigned?.toString().includes(tempFilter)
-              )}
-              options={{
-                exportButton: true,
-                pageSizeOptions: [20, 50, 100, 200],
-                pageSize: 50,
-              }}
-              // actions={[
-              //   {
-              //     icon: "save",
-              //     tooltip: "Save User",
-              //     onClick: (event, rowData) => {
-              //       // Do save operation
-              //     },
-              //   },
-              // ]}
-            />
+                                }}
+                                name="checkedB"
+                                color="primary"
+                              />
+                            }
+                          />
+                        </TableCell>
+                        <TableCell>{item.bagId}</TableCell>
+                        <TableCell>
+                          <img src={item.barcode} alt={item.bagId} />
+                        </TableCell>
+                        <TableCell>{item.date}</TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <TablePagination
+                  rowsPerPageOptions={[50, 100]}
+                  component="div"
+                  count={
+                    state?.bagData?.data?.filter((data) =>
+                      data?.assigned?.toString().includes(tempFilter)
+                    )?.length
+                  }
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Table>
+            </TableContainer>
           )}
         </Grid>
       </Grid>

@@ -200,10 +200,12 @@
 import { Button } from "@material-ui/core";
 import moment from "moment";
 import React from "react";
+import { useContext } from "react";
 import { CheckingContext } from "../../../context/CheckingContext";
+import { PrintContext } from "../../../context/PrintContext";
 import "./BarCode.scss";
 
-function UsedUnusedPrint() {
+function UsedUnusedPrint({ onClose }) {
   const { state } = React.useContext(CheckingContext);
 
   const printDiv = (divName) => {
@@ -239,10 +241,12 @@ function UsedUnusedPrint() {
     setTimeout(function() {
       printWindow.print();
       // printWindow.close();
-    }, 500);
+    }, 2500);
 
     return false;
   };
+
+  const { page, rowsPerPage } = useContext(PrintContext);
 
   const btn_style = {
     backgroundColor: "#0e4a7b",
@@ -263,15 +267,30 @@ function UsedUnusedPrint() {
   };
 
   return (
-    <div className="print_page">
-      <Button
-        id="no-print"
-        variant="contained"
-        style={btn_style}
-        onClick={() => printDiv("printBarCode")}
-      >
-        PRINT
-      </Button>
+    <div
+      className="print_page"
+      style={{
+        backgroundColor: "#fff",
+      }}
+    >
+      <div>
+        <Button
+          id="no-print"
+          variant="contained"
+          style={btn_style}
+          onClick={() => printDiv("printBarCode")}
+        >
+          PRINT
+        </Button>
+        <Button
+          id="no-print"
+          variant="contained"
+          style={btn_style}
+          onClick={onClose}
+        >
+          CLOSE
+        </Button>
+      </div>
       <div
         container
         item
@@ -280,56 +299,58 @@ function UsedUnusedPrint() {
         style={BarCodeStyle}
         // style={{ width: "auto", height: "auto" }}
       >
-        {state.bagData.data.map((item, key) => (
-          <div
-            // style={{ }}
-            // className="page_printBreack"
-            style={{
-              pageBreakAfter: key % 2 === 0 ? "auto" : "always",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "50%",
-              height: "100%",
-              // margin: "auto",
-              boxSizing: "border-box",
-              border: "2px solid black",
-              padding: "36px 24px",
-            }}
-            key={key}
-          >
-            <img
-              style={{ width: "80%" }}
-              key={item.bagId}
-              src={item.barcode}
-              alt={item.bagId}
-            />
+        {state.bagData.data
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((item, key) => (
             <div
+              // style={{ }}
+              // className="page_printBreack"
               style={{
-                width: "100%",
-                // height: "100%",
+                pageBreakAfter: key % 2 === 0 ? "auto" : "always",
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                flexDirection: "column",
+                width: "50%",
+                height: "100%",
+                // margin: "auto",
+                boxSizing: "border-box",
+                border: "2px solid black",
+                padding: "36px 24px",
               }}
+              key={key}
             >
-              <div>
-                <p style={{ margin: 0, fontSize: "14px !important" }}>
-                  {item.tableId}
-                </p>
-                {/* <p style={{ margin: 0, fontSize: "12px" }}>
+              <img
+                style={{ width: "80%" }}
+                key={item.bagId}
+                src={item.barcode}
+                alt={item.bagId}
+              />
+              <div
+                style={{
+                  width: "100%",
+                  // height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <div>
+                  <p style={{ margin: 0, fontSize: "14px !important" }}>
+                    {item.tableId}
+                  </p>
+                  {/* <p style={{ margin: 0, fontSize: "12px" }}>
                   Bag Id {item.bagId}
                 </p> */}
-                <p style={{ margin: 0, fontSize: "14px !important" }}>
-                  {moment(item.date).format("DD-MM-YYYY")}
-                </p>
-                {/* <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p> */}
+                  <p style={{ margin: 0, fontSize: "14px !important" }}>
+                    {moment(item.date).format("DD-MM-YYYY")}
+                  </p>
+                  {/* <p style={{ margin: 0, fontSize: "12px" }}>Time {item.time}</p> */}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
