@@ -890,15 +890,15 @@ function NotificationLogChecking() {
                     width: 150,
                   },
                   {
-                    field: "Checker",
+                    field: "checker",
                     headerName: "Checker",
                     width: 240,
                   },
-                  {
-                    field: "defect",
-                    headerName: "Defect",
-                    width: 240,
-                  },
+                  // {
+                  //   field: "defect",
+                  //   headerName: "Defect",
+                  //   width: 240,
+                  // },
                   {
                     field: "defectG",
                     headerName: "Defect Group",

@@ -232,7 +232,7 @@ function Supervisor(props) {
                 date: new Date(x.date).toISOString().slice(0, 10),
                 shift: x.shift,
                 wing: x.wing,
-                line: x.line,
+                line: x.line?.split(","),
                 kitSupervisor: x.kitSupervisor === "true" ? true : false,
                 lineSupervisor: x.lineSupervisor === "true" ? true : false,
                 finalAreaSupervisor:
@@ -257,7 +257,7 @@ function Supervisor(props) {
     date: "",
     shift: "",
     wing: "",
-    line: "",
+    line: [],
     kitSupervisor: false,
     lineSupervisor: false,
     finalAreaSupervisor: false,
@@ -374,7 +374,7 @@ function Supervisor(props) {
           date: "",
           shift: "",
           wing: "",
-          line: "",
+          line: [],
           kitSupervisor: false,
           lineSupervisor: false,
           finalAreaSupervisor: false,
@@ -398,7 +398,7 @@ function Supervisor(props) {
         date: "",
         shift: "",
         wing: "",
-        line: "",
+        line: [],
         kitSupervisor: false,
         lineSupervisor: false,
         finalAreaSupervisor: false,
@@ -426,7 +426,7 @@ function Supervisor(props) {
             date: "",
             shift: "",
             wing: "",
-            line: "",
+            line: [],
             kitSupervisor: false,
             lineSupervisor: false,
             finalAreaSupervisor: false,
@@ -687,7 +687,7 @@ function Supervisor(props) {
             name="line"
             onChange={onInputChange}
             label="Line"
-            // multiple
+            multiple
           >
             {lineList?.length !== 0 &&
               lineList?.map((item, index) => (
@@ -767,7 +767,7 @@ function Supervisor(props) {
                     date: "",
                     shift: "",
                     wing: "",
-                    line: "",
+                    line: [],
                     kitSupervisor: false,
                     lineSupervisor: false,
                     finalAreaSupervisor: false,
