@@ -75,6 +75,7 @@ function BarcodeDetails() {
   useEffect(() => {
     getLineDynamic(selectedWing);
     setInputLINE([]);
+    setInputMACHINEid([]);
   }, [selectedWing]);
   const history = useHistory();
   const fetchBagIds = async () => {
