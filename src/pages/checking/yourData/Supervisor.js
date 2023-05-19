@@ -88,6 +88,7 @@ function Supervisor(props) {
   const [workerData, setWorkerData] = useState();
   const [edit, setEdit] = useState(false);
   const [supervisorList, setSupervisorList] = useState([]);
+  const [scheduleList, setScheduleList] = useState([]);
 
   const loadData = async () => {
     try {
@@ -99,6 +100,7 @@ function Supervisor(props) {
           (item) => item?.wing === localStorage.getItem("kpl_wing")
         )
       );
+      setScheduleList(x.data);
       const supData = await getAllSupervisorListV3();
       setSupervisorList(supData);
     } catch (err) {}
@@ -925,14 +927,19 @@ function Supervisor(props) {
         <Button
           variant="contained"
           style={{
-            backgroundColor: "#0e4a7b",
+            backgroundColor: scheduleList?.length >= 1 ? "grey" : "#0e4a7b",
             color: "#FFF",
             whiteSpace: "nowrap",
             width: "100%",
             height: "fit-content",
             border: "1px solid #0e4a7b",
+            cursor:
+              scheduleList?.length >= 1
+                ? "not-allowed !important"
+                : "pointer !important",
           }}
           onClick={copy}
+          disabled={scheduleList?.length >= 1}
         >
           SAVE TABLE
         </Button>

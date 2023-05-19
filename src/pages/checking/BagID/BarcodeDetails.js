@@ -77,6 +77,10 @@ function BarcodeDetails() {
     setInputLINE([]);
     setInputMACHINEid([]);
   }, [selectedWing]);
+
+  useEffect(() => {
+    setInputMACHINEid([]);
+  }, [inputLINE.length]);
   const history = useHistory();
   const fetchBagIds = async () => {
     setLoadingGetData(true);
