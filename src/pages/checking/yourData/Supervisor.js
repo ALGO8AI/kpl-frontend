@@ -234,7 +234,7 @@ function Supervisor(props) {
                 date: new Date(x.date).toISOString().slice(0, 10),
                 shift: x.shift,
                 wing: x.wing,
-                line: x.line?.split(","),
+                updateLine: x.line,
                 kitSupervisor: x.kitSupervisor === "true" ? true : false,
                 lineSupervisor: x.lineSupervisor === "true" ? true : false,
                 finalAreaSupervisor:
@@ -256,13 +256,14 @@ function Supervisor(props) {
     id: "",
     supervisorName: "",
     supervisorId: "",
-    date: "",
+    date: new Date().toISOString().slice(0, 10),
     shift: "",
     wing: "",
     line: [],
     kitSupervisor: false,
     lineSupervisor: false,
     finalAreaSupervisor: false,
+    updateLine: "",
   });
 
   const [inputData, setInputData] = React.useState({
@@ -380,6 +381,7 @@ function Supervisor(props) {
           kitSupervisor: false,
           lineSupervisor: false,
           finalAreaSupervisor: false,
+          updateLine: "",
         });
       } catch (err) {}
     } else {
@@ -389,7 +391,19 @@ function Supervisor(props) {
 
   const updateSupervisor = async (data) => {
     try {
-      const resp = await updateCheckingSupervisorSingleV3(data);
+      const BODY = {
+        id: data.id,
+        supervisorName: data.supervisorName,
+        supervisorId: data.supervisorId,
+        date: data.date,
+        shift: data.shift,
+        wing: data.wing,
+        line: data?.updateLine,
+        kitSupervisor: data.kitSupervisor,
+        lineSupervisor: data.lineSupervisor,
+        finalAreaSupervisor: data.finalAreaSupervisor,
+      };
+      const resp = await updateCheckingSupervisorSingleV3(BODY);
       setMsg(resp.msg);
       setOpen(true);
       loadData();
@@ -404,6 +418,7 @@ function Supervisor(props) {
         kitSupervisor: false,
         lineSupervisor: false,
         finalAreaSupervisor: false,
+        updateLine: "",
       });
       setEdit(false);
     } catch (err) {}
@@ -432,6 +447,7 @@ function Supervisor(props) {
             kitSupervisor: false,
             lineSupervisor: false,
             finalAreaSupervisor: false,
+            updateLine: "",
           });
           setEdit(false);
           loadData();
@@ -676,7 +692,56 @@ function Supervisor(props) {
           </Select>
         </FormControl>
 
-        <FormControl
+        {edit ? (
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={userdata.updateLine}
+              name="updateLine"
+              onChange={onInputChange}
+              label="Line"
+            >
+              {lineList?.length !== 0 &&
+                lineList?.map((item, index) => (
+                  <MenuItem value={item?.line} key={index}>
+                    {item?.line}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        ) : (
+          <FormControl
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: "12px" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">Line</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={userdata.line}
+              name="line"
+              onChange={onInputChange}
+              label="Line"
+              multiple
+            >
+              {lineList?.length !== 0 &&
+                lineList?.map((item, index) => (
+                  <MenuItem value={item?.line} key={index}>
+                    {item?.line}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        )}
+
+        {/* <FormControl
           variant="outlined"
           fullWidth
           style={{ marginBottom: "12px" }}
@@ -698,7 +763,7 @@ function Supervisor(props) {
                 </MenuItem>
               ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <FormControl
           variant="outlined"

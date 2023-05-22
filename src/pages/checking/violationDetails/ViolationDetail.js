@@ -262,14 +262,14 @@ function ViolationDetail(props) {
   };
 
   useEffect(() => {
-    getHistory(data?.bagId);
+    data?.bagId && getHistory(data?.bagId);
   }, [data?.bagId]);
 
   useEffect(() => {
     getData();
     getRecentData();
     getSupervisor();
-    getHistory();
+    // getHistory();
     return () => {
       setReason("");
       setReason1("");
