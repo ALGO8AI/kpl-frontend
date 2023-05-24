@@ -276,11 +276,17 @@ function GenerateBarcode() {
                       <Checkbox
                         color="primary"
                         checked={
-                          selectedTable?.length === tableWiseData?.length
+                          selectedTable?.length ===
+                          tableWiseData?.filter((i) => i?.remainingBagCount > 0)
+                            ?.length
                         }
                         onChange={(e) => {
                           e.target.checked
-                            ? setSelectedTable(tableWiseData)
+                            ? setSelectedTable(
+                                tableWiseData?.filter(
+                                  (i) => i?.remainingBagCount > 0
+                                )
+                              )
                             : setSelectedTable([]);
                         }}
                       />
@@ -301,6 +307,7 @@ function GenerateBarcode() {
                       <FormControlLabel
                         control={
                           <Checkbox
+                            disabled={item?.remainingBagCount <= 0}
                             color="primary"
                             checked={selectedTable
                               ?.map((x) => x?.tableId)

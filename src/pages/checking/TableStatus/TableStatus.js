@@ -39,7 +39,10 @@ export default function TableStatus() {
         }}
       >
         <Typography variant="h6">Live View</Typography>
-        <Button style={{ backgroundColor: theme.BLUE, color: "whitesmoke" }}>
+        <Button
+          style={{ backgroundColor: theme.BLUE, color: "whitesmoke" }}
+          onClick={getData}
+        >
           <RefreshIcon />
         </Button>
       </Grid>

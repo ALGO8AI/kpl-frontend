@@ -76,6 +76,10 @@ function BarcodeDetails() {
     getLineDynamic(selectedWing);
     setInputLINE([]);
     setInputMACHINEid([]);
+    dispatch({
+      type: "BAG_TO",
+      payload: new Date().toISOString().slice(0, 10),
+    });
   }, [selectedWing]);
 
   useEffect(() => {

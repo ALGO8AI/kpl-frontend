@@ -34,7 +34,7 @@ const initialState = {
   violationFrom: null,
   violationTo: null,
   bagIdFrom: null,
-  bagIdTo: null,
+  bagIdTo: new Date()?.toISOString().slice(0, 10),
 
   bagData: {
     data: "",
