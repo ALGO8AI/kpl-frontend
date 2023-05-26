@@ -135,7 +135,9 @@ function BarcodeDetails() {
       const resp = await getBagData(
         state.bagIdFrom,
         state.bagIdTo,
-        inputMACHINEid,
+        inputMACHINEid?.length > 0
+          ? inputMACHINEid
+          : machineID?.map((item) => item?.tableId),
         selectedWing || localStorage.getItem("kpl_wing")
       );
 
