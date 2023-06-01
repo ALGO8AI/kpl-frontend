@@ -846,7 +846,7 @@ function ViolationDetail(props) {
                     <table>
                       <thead>
                         <tr>
-                          {["Date", "Time", "Status", "Defect"].map(
+                          {["Date", "Time", "Status", "Defect", "Checker"].map(
                             (item, index) => (
                               <th key={index}>{item}</th>
                             )
@@ -869,6 +869,7 @@ function ViolationDetail(props) {
                               {item?.status}
                             </td>
                             <td>{item?.defectName}</td>
+                            <td>{item?.checkerName}</td>
                           </tr>
                         ))}
                       </tbody>
