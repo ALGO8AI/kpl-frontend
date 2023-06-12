@@ -936,6 +936,11 @@ function ViolationLogV3() {
                     {
                       title: "Updated Date",
                       field: "productionDate",
+                      render: (rowData) => {
+                        return moment(rowData.productionDate)?.format(
+                          "DD-MM-YYYY"
+                        );
+                      },
                     },
                     {
                       title: "CTR No.",
@@ -1087,6 +1092,11 @@ function ViolationLogV3() {
                     {
                       title: "Updated Date",
                       field: "productionDate",
+                      render: (rowData) => {
+                        return moment(rowData.productionDate)?.format(
+                          "DD-MM-YYYY"
+                        );
+                      },
                     },
                     {
                       title: "CTR No.",
