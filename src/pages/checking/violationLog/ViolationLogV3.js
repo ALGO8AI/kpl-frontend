@@ -934,6 +934,10 @@ function ViolationLogV3() {
                       },
                     },
                     {
+                      title: "Updated Date",
+                      field: "productionDate",
+                    },
+                    {
                       title: "CTR No.",
                       field: "ctr_no",
                     },
@@ -1079,6 +1083,10 @@ function ViolationLogV3() {
                       render: (rowData) => {
                         return modifyPrevDate(rowData.dateTime);
                       },
+                    },
+                    {
+                      title: "Updated Date",
+                      field: "productionDate",
                     },
                     {
                       title: "CTR No.",

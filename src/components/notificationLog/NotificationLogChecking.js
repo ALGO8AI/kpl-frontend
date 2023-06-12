@@ -894,6 +894,11 @@ function NotificationLogChecking() {
                     headerName: "Checker",
                     width: 240,
                   },
+                  {
+                    field: "helper",
+                    headerName: "Helper",
+                    width: 240,
+                  },
                   // {
                   //   field: "defect",
                   //   headerName: "Defect",

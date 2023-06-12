@@ -1730,6 +1730,10 @@ function ViolationLog1() {
                     },
                   },
                   {
+                    title: "Updated Date",
+                    field: "productionDate",
+                  },
+                  {
                     title: "CTR No.",
                     field: "ctr_no",
                   },
