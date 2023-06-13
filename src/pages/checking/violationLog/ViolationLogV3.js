@@ -934,7 +934,7 @@ function ViolationLogV3() {
                       },
                     },
                     {
-                      title: "Updated Date",
+                      title: "Shift Date",
                       field: "productionDate",
                       render: (rowData) => {
                         return moment(rowData.productionDate)?.format(
@@ -1090,7 +1090,7 @@ function ViolationLogV3() {
                       },
                     },
                     {
-                      title: "Updated Date",
+                      title: "Shift Date",
                       field: "productionDate",
                       render: (rowData) => {
                         return moment(rowData.productionDate)?.format(
