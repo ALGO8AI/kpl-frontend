@@ -47,7 +47,11 @@ function ViolationTable({ data, columns, rowClick, selectedRow, loading }) {
               })
             }
             options={{
-              exportButton: true,
+              // exportButton: true,
+              exportButton: {
+                csv: true,
+                pdf: false,
+              },
               pageSizeOptions: [20, 50, 100, 200, 300, 400, 500, data.length],
               initialPage: state?.tableCurrentPage,
               pageSize: 50,
