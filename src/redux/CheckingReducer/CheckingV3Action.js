@@ -153,6 +153,10 @@ export const top5DefectesV3 = (
           value: resp?.data,
         },
       });
+    dispatch({
+      type: "TOTAL_DEFECT_%",
+      payload: resp?.totalDefectPercentage,
+    });
   } catch (e) {}
 };
 

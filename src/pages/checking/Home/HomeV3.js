@@ -91,6 +91,7 @@ export default function HomeV2() {
     checkerPerformance,
     wingWiseSummary,
     selectedWing,
+    totalDefectPercentage,
   } = useSelector((state) => state?.CheckV3);
 
   // Functions
@@ -735,6 +736,7 @@ export default function HomeV2() {
               loading={loading}
               localFilter={localFilter}
               data2={repairedbags}
+              totalDefectPercentage={totalDefectPercentage}
             />
           )}
         </Grid>
@@ -942,7 +944,13 @@ function RepairedBagDonut({ data, loading, defectedbags, localFilter }) {
 }
 
 // chart 2
-function DefectPercentageDonut({ data, loading, localFilter, data2 }) {
+function DefectPercentageDonut({
+  data,
+  loading,
+  localFilter,
+  data2,
+  totalDefectPercentage,
+}) {
   const options = {
     colors: ["#094573", "#ffce38", "#ffa643"],
     dataLabels: {
@@ -1046,12 +1054,7 @@ function DefectPercentageDonut({ data, loading, localFilter, data2 }) {
           fontWeight: "bold",
         }}
       >
-        Defects %{" "}
-        {data &&
-          (
-            (data[0][0]["Total Defects"] / data[1][0]["Total Bags"]) *
-            100
-          ).toFixed(2)}
+        Defects % {totalDefectPercentage}
       </h3>
     </div>
   );

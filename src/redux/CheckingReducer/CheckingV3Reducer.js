@@ -23,6 +23,7 @@ const initStore = {
   checkerAvailability: [],
   trainingVideos: [],
   superCheckerLogs: [],
+  totalDefectPercentage: "",
 };
 
 const CheckingV3Reducer = (state = initStore, action) => {
@@ -92,6 +93,11 @@ const CheckingV3Reducer = (state = initStore, action) => {
       return {
         ...state,
         superCheckerLogs: action.payload,
+      };
+    case "TOTAL_DEFECT_%":
+      return {
+        ...state,
+        totalDefectPercentage: action.payload,
       };
 
     default:
