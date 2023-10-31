@@ -118,7 +118,7 @@ function NotificationLogChecking() {
   const getLogs = async (wing) => {
     try {
       Dispatch(notificationLogsV3(weekRange()[1], weekRange()[1], wing));
-      Dispatch(getSuperCheckerLogs());
+      Dispatch(getSuperCheckerLogs(weekRange()[1], weekRange()[1], wing));
     } catch (err) {
       // console.log(err);
     }
@@ -136,6 +136,7 @@ function NotificationLogChecking() {
   const filterLogs = async () => {
     try {
       Dispatch(notificationLogsV3(filterDateFrom, filterDateTo));
+      Dispatch(getSuperCheckerLogs(filterDateFrom, filterDateTo));
     } catch (err) {
       // console.log(err);
     }
@@ -877,7 +878,7 @@ function NotificationLogChecking() {
                   {
                     field: "id",
                     headerName: "ID",
-                    width: 80,
+                    width: 120,
                   },
                   {
                     field: "parsedDate",
@@ -888,6 +889,16 @@ function NotificationLogChecking() {
                     field: "time",
                     headerName: "Time",
                     width: 150,
+                  },
+                  {
+                    field: "superCheckerId",
+                    headerName: "Superchecker ID",
+                    width: 240,
+                  },
+                  {
+                    field: "superCheckerName",
+                    headerName: "Superchecker",
+                    width: 240,
                   },
                   {
                     field: "checker",

@@ -512,9 +512,24 @@ export const notificationLogsV3 = (
   } catch (e) {}
 };
 
-export const getSuperCheckerLogs = () => async (dispatch) => {
+export const getSuperCheckerLogs = (
+  filterDateFrom,
+  filterDateTo,
+  wing = ""
+) => async (dispatch) => {
   try {
-    const { data } = await callBackendV2("GET", "routes/super/alerts");
+    const formField = {
+      filterDateFrom,
+      filterDateTo,
+      username: localStorage.getItem("kpl_username"),
+      wing,
+    };
+    const { data } = await callBackendV2(
+      "POST",
+      "routes/super/alerts",
+      true,
+      formField
+    );
     dispatch({
       type: "SET_SUPER_CHECKER_LOGS",
       payload: data,
